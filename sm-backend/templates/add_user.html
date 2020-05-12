@@ -1,0 +1,45 @@
+{%extends 'layout.html'%}
+{%block content%}
+
+{%if worker%}
+    <h1>Edit Worker</h1>
+    <a href="{{url_for('edit_availability', user = user) }}">Add/Edit Availability</a>
+{%else%}
+    <h1>Add User</h1>
+{%endif%}
+
+
+
+<form action='' method="post">
+	{{form.hidden_tag()}}
+    <p>
+        {{form.username.label}}<br>
+        {{form.username(size=32)}}
+        {% for error in form.username.errors %}
+            <span class="error"> [{{error}}]</span>
+        {% endfor %}
+    </p>
+	<p>
+		{{form.first_name.label}}<br>
+    	{{form.first_name(size=32)}}
+        {% for error in form.first_name.errors %}
+            <span class="error"> [{{error}}]</span>
+        {% endfor %}
+	</p>
+	<p>
+		{{form.last_name.label}}<br>
+    	{{form.last_name(size=32)}}
+        {% for error in form.last_name.errors %}
+            <span class="error"> [{{error}}]</span>
+        {% endfor %}
+	</p>
+	<p>
+		{{form.position.label}}<br>
+    	{{form.position(size=32)}}
+        {% for error in form.position.errors %}
+            <span class="error"> [{{error}}]</span>
+        {% endfor %}
+	</p>
+	<p>{{form.submit()}}</p>
+</form>
+{%endblock content%}

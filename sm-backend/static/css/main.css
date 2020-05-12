@@ -1,0 +1,64 @@
+.error {
+  color: red;
+}
+
+.list {
+  color: orange;
+}
+
+.boxed {
+  border: 1px green;
+}
+
+h2 {
+  color: green;
+}
+
+.skull {
+  width: 20px;
+}
+
+.scrollmenu {
+  min-width: 100%;
+  min-height: 200px;
+  display: flex;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.scrollmenu li {
+  color: white;
+  min-width: 200px;
+  margin: 5px;
+  display: inline-block;
+  text-align: center;
+}
+
+.navbar {
+  position: relative;
+  float: right;
+}
+
+h1 {
+  margin: 10px;
+}
+
+.border {
+  margin: 10px;
+  padding: 10px;
+}
+.thumbnail h3 {
+  color: black;
+}
+.thumbnail h1 {
+  font-size: 200px;
+  text-align: center;
+}
+
+.logo {
+  margin: 10px;
+}
+
+.btn-block {
+  background-color: red;
+}
