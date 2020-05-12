@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import NavBar from "./components/NavBar";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    current_user: {
+      first_name: "jordan",
+      last_name: "giles",
+      username: "Trunks159",
+      position: "manager",
+      anonymous: false,
+    },
+  };
+  render() {
+    return (
+      <div className="App">
+        <NavBar current_user={this.state.current_user} />
+      </div>
+    );
+  }
 }
 
 export default App;
