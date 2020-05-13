@@ -7,11 +7,20 @@ from flask_login import current_user, login_user, login_required, logout_user
 
 
 @app.route('/')
-@app.route('/home')
-def home():
+@app.route('/users')
+def users():
     # homes screen lists all user's names and avatars
-    users = User.query.all()
-    return render_template('index.html', users=users)
+    users_list = User.query.all()
+    users = []
+    for user in users_list:
+        users.append(user.to_json())
+    if current_user.is_anonymous:
+        user = {'is_anonymous': True}
+    else:
+        user = current_user.to_json()
+    return jsonify({"users": users, 'current_user': user})
+
+    # return render_template('index.html', users=users)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -63,26 +72,10 @@ def user(username):
     return render_template('user.html', user=user)
 
 
-'''in progress this next view'''
-@app.route('/users')
-def users():
-    users_list = User.query.all()
-    users = []
-    for user in users_list:
-        users.append(user.to_json())
-    return jsonify({"users": users, 'current_user': current_user.to_json()})
-
-
-@app.route('/getUrl')
-def getUrl(x):
-    return jsonify({'url': url_for(x)})
-
-
-'''
-@app.route('/edit_availability/<username>', methods = ['GET', 'POST'])
+@app.route('/edit_availability/<username>', methods=['GET', 'POST'])
 def edit_availability(username):
     form = EditAvailability()
-    user = User.query.filter_by(username = username).first_or_404()
+    user = User.query.filter_by(username=username).first_or_404()
     if form.validate_on_submit():
         current_availability.monday = form.monday.data
         current_availability.tuesday = form.tuesday.data
@@ -102,11 +95,9 @@ def edit_availability(username):
     form.friday.data = current_availability[4]
     form.saturday.data = current_availability[5]
     form.sunday.data = current_availability[6]
-    return render_template('edit_availability.html', form = form, user = user)
-'''
-'''
-THIS IS ALL GM STUFF BELOW
-'''
+    return render_template('edit_availability.html', form=form, user=user)
+
+
 @app.route('/edit_worker', methods=['GET', 'POST'])
 @login_required
 # if you're a gm this basically gives you a list of the workers and

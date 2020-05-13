@@ -8,7 +8,7 @@ class NavBar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" href="#">
+        <a className="navbar-brand" href="/">
           Navbar
         </a>
         <button
@@ -24,45 +24,45 @@ class NavBar extends Component {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-              <a className="nav-link" href="#">
+            <li className="nav-item active" key="nav-home">
+              <a className="nav-link" href="/">
                 Home <span className="sr-only">(current)</span>
               </a>
             </li>
             {this.state.current_user.anonymous || (
-              <li className="nav-item">
-                <a className="nav-link" href="#">
+              <li className="nav-item" key="nav-profile">
+                <a className="nav-link" href="/">
                   {this.state.current_user.username}
                 </a>
               </li>
             )}
             {this.state.current_user.anonymous || (
-              <li className="nav-item">
-                <a className="nav-link" href="#">
+              <li className="nav-item" key="nav-logout">
+                <a className="nav-link" href="/">
                   Logout
                 </a>
               </li>
             )}
             {this.state.current_user.anonymous && (
-              <li className="nav-item">
-                <a className="nav-link" href="#">
+              <li className="nav-item" key="nav-login">
+                <a className="nav-link" href="/">
                   Login
                 </a>
               </li>
             )}
 
             {this.state.current_user.anonymous && (
-              <li className="nav-item">
-                <a className="nav-link" href="#">
+              <li className="nav-item" key="nav-register">
+                <a className="nav-link" href="/">
                   Register
                 </a>
               </li>
             )}
             {this.state.current_user.position && (
-              <li className="nav-item dropdown">
+              <li className="nav-item dropdown" key="nav-schedule">
                 <a
                   className="nav-link dropdown-toggle"
-                  href="#"
+                  href="/"
                   id="navbarDropdown"
                   role="button"
                   data-toggle="dropdown"
@@ -72,10 +72,10 @@ class NavBar extends Component {
                   Schedule
                 </a>
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a className="dropdown-item" href="#">
+                  <a className="dropdown-item" href="/">
                     Edit Schedule
                   </a>
-                  <a className="dropdown-item" href="#">
+                  <a className="dropdown-item" href="/">
                     Add Schedule
                   </a>
                 </div>

@@ -31,6 +31,7 @@ class User(UserMixin, db.Model):
             'last_name': self.last_name,
             'position': self.position,
             'color': self.color,
+            'id': self.id,
             'slug': self.slug,
         }
 
