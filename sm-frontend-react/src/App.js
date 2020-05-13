@@ -1,0 +1,68 @@
+import React, { Component } from "react";
+import "./App.css";
+import NavBar from "./components/NavBar";
+import Users from "./components/Users";
+
+class App extends Component {
+  state = {
+    users:[
+      {
+        first_name: "jordan",
+        last_name: "giles",
+        username: "Trunks159",
+        position: "manager",
+        color: '#00FFFF',
+        anonymous: false,
+      },
+      {
+        first_name: "eric",
+        last_name: "brown",
+        username: "ebrown",
+        position: "",
+        color: '#FFA500',
+        anonymous: false,
+      },
+      {
+        first_name: "william",
+        last_name: "mcaden",
+        username: "wmcaden",
+        color: '#FF6347',
+        position: "",
+        anonymous: false,
+      },
+      {
+        first_name: "abeil",
+        last_name: "adilo",
+        username: "aadilo",
+        color: '#FF6347',
+        position: "",
+        anonymous: false,
+      },
+      {
+        first_name: "josh",
+        last_name: "cress",
+        username: "jcress",
+        color: '#FF6347',
+        position: "",
+        anonymous: false,
+      },
+    ],
+    current_user: {
+      first_name: "jordan",
+      last_name: "giles",
+      username: "Trunks159",
+      position: "manager",
+      anonymous: false,
+    },
+  };
+  render() {
+    return (
+      <div className="App">
+        <NavBar current_user={this.state.current_user} />
+        <Users users = {this.state.users} />
+      </div>
+    );
+  }
+}
+
+export default App;

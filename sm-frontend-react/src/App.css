@@ -1,0 +1,27 @@
+.App {
+  text-align: center;
+}
+
+.scrollmenu {
+  min-width: 100%;
+  min-height: 200px;
+  display: flex;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.scrollmenu li {
+  color: white;
+  min-width: 200px;
+  margin: 5px;
+  display: inline-block;
+  text-align: center;
+}
+
+.thumbnail h3 {
+  color: black;
+}
+.thumbnail h1 {
+  font-size: 200px;
+  text-align: center;
+}
