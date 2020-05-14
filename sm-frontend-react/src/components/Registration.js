@@ -8,25 +8,40 @@ class Registration extends Component {
     registrationErrors: "",
   };
 
-  handleSubmit(e) {
-    console.log("form submitted!");
-    e.preventDefault();
-  }
-  handleChange(e) {
-    console.log("handle change", e);
-  }
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
 
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form
+          onSubmit={async () => {
+            const user = {
+              username: this.state.username,
+              password: this.state.password,
+            };
+            const response = await fetch("/register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application.json",
+              },
+              body: JSON.stringify(user),
+            });
+
+            if (response.ok) {
+              console.log("response worked!");
+            }
+          }}
+        >
           <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={this.state.email}
+            type="username"
+            name="username"
+            placeholder="Username"
+            value={this.state.username}
             onChange={this.handleChange}
-            required
           />
           <input
             type="password"

@@ -25,6 +25,9 @@ def users():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    print(request.args.get('next'))
+    return ''
+    '''
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = RegistrationForm()
@@ -39,6 +42,7 @@ def register():
         flash('Congrats your registration was successful')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+'''
 
 
 @app.route('/login', methods=['GET', 'POST'])
