@@ -3,6 +3,7 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import Users from "./components/Users";
 import Registration from "./components/Registration";
+import Test from "./components/h1n1/Test";
 
 class App extends Component {
   state = {
@@ -71,6 +72,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Test />
         <NavBar current_user={this.state.current_user} />
         <Users users={this.state.users} />
         <Registration />

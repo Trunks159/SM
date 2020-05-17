@@ -1,40 +1,51 @@
 from flask import render_template, flash, redirect, url_for, request, jsonify
 from config import app, db
 from werkzeug.urls import url_parse
-from forms import EditAvailability, RegistrationForm, LoginForm
+from forms import EditAvailability, RegistrationForm, LoginForm, AddUserForm
 from models import User
 from flask_login import current_user, login_user, login_required, logout_user
 
 
 @app.route('/')
-@app.route('/users')
-def users():
+@app.route('/home')
+def home():
     # homes screen lists all user's names and avatars
-    users_list = User.query.all()
-    users = []
-    for user in users_list:
-        users.append(user.to_json())
-    if current_user.is_anonymous:
-        user = {'is_anonymous': True}
-    else:
-        user = current_user.to_json()
-    return jsonify({"users": users, 'current_user': user})
+    users = User.query.all()
+    return render_template('home.html', users=users)
 
-    # return render_template('index.html', users=users)
+
+@app.route('/test')
+def test():
+    return render_template('index.html')
+
+
+@login_required
+@app.route('/add_user', methods=['GET', 'POST'])
+def add_user():
+    if current_user.position < 1:
+        flash('Only managers can access this page')
+        return redirect(url_for('home'))
+    form = AddUserForm()
+    if form.validate_on_submit():
+        u = User(first_name=form.first_name.data.lower(),
+                 last_name=form.last_name.data.lower())
+        u.set_position(form.position.data)
+        u.username = (
+            form.first_name.data[0].lower() + form.last_name.data.lower())
+        db.session.add(u)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('add_user.html', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    print(request.args.get('next'))
-    return ''
-    '''
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         u = User(username=form.username.data, first_name=form.first_name.data,
                  last_name=form.last_name.data)
-        positions = {'manager': 1, 'crew': 0}
         u.position = 0 if form.position.data.lower() == 'crew' else 1
         u.set_password(form.password.data)
         db.session.add(u)
@@ -42,7 +53,6 @@ def register():
         flash('Congrats your registration was successful')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
-'''
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -73,6 +83,7 @@ def logout():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
+    print(user.username)
     return render_template('user.html', user=user)
 
 

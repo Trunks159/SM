@@ -13,24 +13,7 @@
   </tr>
 </table>
 
-{%for day in user.availability%}
-<div>
-  <h1>{{day.get_weekday().title()}}</h1>
-  <p>
-    {{day.start_time}}:{{day.end_time}}
-  </p>
-</div>
-
-{%endfor%} {%if current_user.position%}
-<button type="button" class="btn btn-info btn-block">Delete User</button>
-
-{%endif%}
-<div class="alert">
-  <span class="closebtn" onclick="this.parentElement.style.display='none';"
-    >&times;</span
-  >
-  This is an alert box.
-</div>
-
-<a href="#">Edit Availability</a>
-{%endblock content%}
+{%if current_user == user or current_user.position %}
+<button type="button" class="btn btn-info btn-block">Edit User Info</button>
+<button type="button" class="btn btn-info btn-block">Edit Availability</button>
+{%endif%} {%endblock content%}

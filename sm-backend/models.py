@@ -35,6 +35,12 @@ class User(UserMixin, db.Model):
             'slug': self.slug,
         }
 
+    def set_position(self, x):
+        if x == 'crew':
+            self.position = 0
+        else:
+            self.position = 1
+
     def __repr__(self):
         return 'User {}'.format(self.username)
 
