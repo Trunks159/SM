@@ -5,11 +5,6 @@
 .list {
   color: orange;
 }
-
-.boxed {
-  border: 1px green;
-}
-
 h2 {
   color: green;
 }
@@ -34,19 +29,6 @@ h2 {
   text-align: center;
 }
 
-.navbar {
-  position: relative;
-  float: right;
-}
-
-h1 {
-  margin: 10px;
-}
-
-.border {
-  margin: 10px;
-  padding: 10px;
-}
 .thumbnail h3 {
   color: black;
 }

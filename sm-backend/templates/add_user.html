@@ -1,5 +1,4 @@
 {%extends 'layout.html'%} {%block content%}
-
 <form method="Post">
   {{form.hidden_tag()}}
   <p>
@@ -20,6 +19,26 @@
     <span class="error"> [{{error}}]</span>
     {% endfor %}
   </p>
+  {%if current_user.is_anonymous%}
+  <p>
+    {{form.username.label}}<br />
+    {{form.username(size=32)}} {% for error in form.username.errors %}
+    <span class="error"> [{{error}}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{form.password.label}}<br />
+    {{form.password(size=32)}} {% for error in form.password.errors %}
+    <span class="error"> [{{error}}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{form.password2.label}}<br />
+    {{form.password2(size=32)}} {% for error in form.password2.errors %}
+    <span class="error"> [{{error}}]</span>
+    {% endfor %}
+  </p>
+  {%endif%}
   <p>{{form.submit()}}</p>
 </form>
 

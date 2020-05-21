@@ -3,7 +3,17 @@
 <table>
   <tr valign="top">
     <td>
-      {%include 'components/_user_thumbnail.html'%} >
+      <div class="border border-dark">
+        <a
+          href="{{url_for('user', username = user.username)}}"
+          class="thumbnail"
+        >
+          <h3>{{user.first_name.title()}} {{user.last_name.title()}}</h3>
+          <h1 class="avatar" style="color: {{user.color}};">
+            {{user.first_name[0].title()}}
+          </h1>
+        </a>
+      </div>
     </td>
     <td>
       <h1>{{user.username}}</h1>

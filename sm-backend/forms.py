@@ -4,17 +4,6 @@ from wtforms.validators import DataRequired, EqualTo, ValidationError, AnyOf
 from models import User
 
 
-class EditAvailability(FlaskForm):
-    monday = StringField('Monday', validators=[DataRequired()])
-    tuesday = StringField('Tuesday', validators=[DataRequired()])
-    wednesday = StringField('Wednesday', validators=[DataRequired()])
-    thursday = StringField('Thursday', validators=[DataRequired()])
-    friday = StringField('Friday', validators=[DataRequired()])
-    saturday = StringField('Saturday', validators=[DataRequired()])
-    sunday = StringField('Sunday', validators=[DataRequired()])
-    submit = SubmitField('Submit')
-
-
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -22,37 +11,24 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 
-class RegistrationForm(FlaskForm):
-    first_name = StringField('First Name', validators=[
-                             DataRequired()])
+class AddUserForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
     position = StringField('Position', validators=[
-                           DataRequired(), AnyOf('crew', 'manager')])
+                           DataRequired(), AnyOf(['crew', 'manager'], message='Must be one of these options: crew, manager')])
+    submit = SubmitField('Register')
+
+
+class RegistrationForm(AddUserForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Confirm Password', validators=[
-                              DataRequired(), EqualTo('password')])
-    submit = SubmitField('Register')
+                              DataRequired(), EqualTo('password', message='Passwords must match')])
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError("Please use a different Username")
 
-    def to_json(self):
-        return(
-            {
-                'first_name': self.first_name,
-
-            }
-        )
-
-
-class AddUserForm(FlaskForm):
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
-    position = StringField('Position', validators=[
-                           DataRequired(), AnyOf('crew', 'manager')])
-    submit = SubmitField('Register')
 
 # May want to add functionality that restricts multiple users with the same name
