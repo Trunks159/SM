@@ -53,9 +53,9 @@ class NavBar extends Component {
 
             {this.state.current_user.anonymous && (
               <li className="nav-item" key="nav-register">
-                <a className="nav-link" href="/">
+                <Link to="/registration" className="nav-link" href="/">
                   Register
-                </a>
+                </Link>
               </li>
             )}
             {this.state.current_user.position && (

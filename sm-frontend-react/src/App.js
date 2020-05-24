@@ -3,7 +3,7 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import Users from "./components/Users";
 import Registration from "./components/Registration";
-import Test from "./components/h1n1/Test";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 class App extends Component {
   state = {
@@ -63,7 +63,7 @@ class App extends Component {
     },
   };
   componentDidMount() {
-    fetch("/users").then((response) =>
+    fetch("/home").then((response) =>
       response.json().then((data) => {
         this.setState({ users: data.users });
       })
@@ -71,12 +71,14 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <Test />
-        <NavBar current_user={this.state.current_user} />
-        <Users users={this.state.users} />
-        <Registration />
-      </div>
+      <Router>
+        <div className="App">
+          <NavBar current_user={this.state.current_user} />
+          <Users users={this.state.users} />
+          <Route />
+          <Registration />
+        </div>
+      </Router>
     );
   }
 }

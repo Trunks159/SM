@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request, jsonify, bad_request
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from config import app, db
 from werkzeug.urls import url_parse
 from forms import RegistrationForm, LoginForm, AddUserForm
@@ -10,6 +10,8 @@ from flask_login import current_user, login_user, login_required, logout_user
 @app.route('/home')
 def home():
     users = User.query.all()
+    #json_users = [user.to_json() for user in users]
+    # return jsonify({'users': json_users})
     return render_template('home.html', users=users)
 
 
@@ -36,6 +38,7 @@ def add_user():
     return render_template('add_user.html', form=form)
 
 
+'''
 @app.route('/users/<int:id>', methods=['GET', 'POST'])
 def edit_user(id):
     user = User.query.get_or_404(id)
@@ -45,6 +48,7 @@ def edit_user(id):
         return bad_request('please use a different username')
 
     return render_template('edit_user.html', user)
+'''
 
 
 @app.route('/register', methods=['GET', 'POST'])
