@@ -8,6 +8,19 @@ from calendar import month_name, day_name
 from datetime import date
 
 app.jinja_env.globals.update(month_name=month_name, day_name=day_name)
+current_day = ''
+
+
+class Date(date):
+    def string_date(self):
+        return str(self.year) + '#' + str(self.month) + '#'+str(self.day)
+
+    def to_json(self):
+        return {
+            'month': self.month,
+            'day': self.day,
+            'year': self.year
+        }
 
 
 @app.route('/')
@@ -19,12 +32,21 @@ def home():
     return render_template('home.html', users=users)
 
 
-@app.route('/add_schedule', methods=['GET', 'POST'])
+@app.route('/add_schedule')
 def add_schedule():
+
     week = []
     for i in range(1, 8):
-        week.append(date(2020, 3, i))
+        week.append(Date(2020, 3, i))
     return render_template('add_schedule.html', week=week)
+
+
+@app.route('/schedule/<string_date>')
+def schedule(string_date):
+    d = string_date.split('#')
+    day = Date(int(d[0]), int(d[1]), int(d[2]))
+    current_day = jsonify(day.to_json())
+    return redirect(url_for('schedule_data'))
 
 
 @login_required

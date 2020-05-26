@@ -63,7 +63,7 @@ class App extends Component {
     },
   };
   componentDidMount() {
-    fetch("/home").then((response) =>
+    fetch("/schedule").then((response) =>
       response.json().then((data) => {
         this.setState({ users: data.users });
       })
@@ -71,14 +71,11 @@ class App extends Component {
   }
   render() {
     return (
-      <Router>
-        <div className="App">
-          <NavBar current_user={this.state.current_user} />
-          <Users users={this.state.users} />
-          <Route />
-          <Registration />
-        </div>
-      </Router>
+      <div className="App">
+        <NavBar current_user={this.state.current_user} />
+
+        {/*<Registration />*/}
+      </div>
     );
   }
 }
