@@ -5,9 +5,6 @@
 .list {
   color: orange;
 }
-h2 {
-  color: green;
-}
 
 .skull {
   width: 20px;
@@ -43,4 +40,25 @@ h2 {
 
 .btn-block {
   background-color: red;
+}
+
+.day-thumbnail {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 150px;
+}
+
+.circle {
+  background-color: red;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  margin: 20px;
+  color: white;
+}
+
+.week {
+  margin: 50px;
+  background-color: rgb(241, 241, 241);
 }

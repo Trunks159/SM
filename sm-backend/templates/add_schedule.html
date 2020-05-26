@@ -1,0 +1,7 @@
+{%extends 'layout.html'%} {%block content%}
+
+<div class="week">
+  {%for day in week%} {% include 'components/_day_thumbnail.html' %} {%endfor%}
+</div>
+
+{%endblock content%}
