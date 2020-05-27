@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
-import Users from "./components/Users";
-import Registration from "./components/Registration";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+//import Users from "./components/Users";
+//import Registration from "./components/Registration";
+import MyBarChart from './components/MyBarChart';
+import data from './data.json'
 
 class App extends Component {
   state = {
@@ -72,8 +73,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <NavBar current_user={this.state.current_user} />
-
+        <NavBar current_user={this.state.current_user} /> 
+        <MyBarChart data = {data}/>
         {/*<Registration />*/}
       </div>
     );
