@@ -3,7 +3,8 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 //import Users from "./components/Users";
 //import Registration from "./components/Registration";
-import MyBarChart from "./components/MyBarChart2";
+//import MyBarChart from "./components/MyBarChart2";
+import Test from "./components/Test";
 import data from "./range-data.json";
 
 class App extends Component {
@@ -74,7 +75,8 @@ class App extends Component {
     return (
       <div className="App">
         <NavBar current_user={this.state.current_user} />
-        <MyBarChart data={data} />
+        <Test users={this.state.users} />
+        {/*<MyBarChart data={data} />*/}
         {/*<Registration />*/}
       </div>
     );

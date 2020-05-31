@@ -25,3 +25,16 @@
   font-size: 200px;
   text-align: center;
 }
+
+line {
+  stroke: rgb(255, 0, 0);
+  stroke-width: 2;
+}
+
+svg {
+  border: 2px solid blue;
+}
+
+.main {
+  display: inline;
+}
