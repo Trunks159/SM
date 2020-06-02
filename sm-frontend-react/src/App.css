@@ -38,3 +38,7 @@ svg {
 .main {
   display: inline;
 }
+#di {
+  display: inline-block;
+  margin: 20px;
+}

@@ -4,8 +4,9 @@ import NavBar from "./components/NavBar";
 //import Users from "./components/Users";
 //import Registration from "./components/Registration";
 //import MyBarChart from "./components/MyBarChart2";
-import Test from "./components/Test";
-import data from "./range-data.json";
+//import Test from "./components/Test";
+import VerticleSlider from "./components/VerticleSlider";
+//import data from "./range-data.json";
 
 class App extends Component {
   state = {
@@ -75,7 +76,15 @@ class App extends Component {
     return (
       <div className="App">
         <NavBar current_user={this.state.current_user} />
-        <Test users={this.state.users} />
+        <VerticleSlider />
+        <VerticleSlider />
+        <VerticleSlider />
+        <VerticleSlider />
+        <VerticleSlider />
+        <VerticleSlider />
+        <VerticleSlider />
+        <VerticleSlider />
+        {/*<Test users={this.state.users} />*/}
         {/*<MyBarChart data={data} />*/}
         {/*<Registration />*/}
       </div>
