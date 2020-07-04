@@ -8,7 +8,6 @@ from calendar import month_name, day_name
 from datetime import date
 
 app.jinja_env.globals.update(month_name=month_name, day_name=day_name)
-current_day = ''
 
 
 class Date(date):
@@ -34,7 +33,6 @@ def home():
 
 @app.route('/add_schedule')
 def add_schedule():
-
     week = []
     for i in range(1, 8):
         week.append(Date(2020, 3, i))

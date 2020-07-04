@@ -24,4 +24,18 @@ const Test = ({ users }) => (
   </div>
 );
 
+const f = (x) => {
+  x = x * 0.01;
+  const range = [7, 23];
+  const time_range = range[1] - range[0];
+  let hours = time_range * x;
+  const time = range[0] + hours;
+  if (time < 12) {
+    hours = Math.floor(time);
+    const new_time =
+      hours.toString() + Math.round(60 * (time - hours)).toString() + "AM";
+    return new_time;
+  }
+};
+
 export default Test;

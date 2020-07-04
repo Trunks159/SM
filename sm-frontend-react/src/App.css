@@ -42,3 +42,46 @@ svg {
   display: inline-block;
   margin: 20px;
 }
+
+.MuiSlider-valueLabel {
+  color: red;
+}
+
+.MuiSlider-thumb {
+  color: black;
+}
+.MuiSlider-rail {
+  color: rgb(160, 154, 154);
+}
+.MuiSlider-track {
+  color: red;
+}
+.MuiSlider-mark {
+  color: black;
+}
+
+.float-container {
+  float: left;
+  width: 100%;
+}
+.float-child1 {
+  float: left;
+  width: 15%;
+  padding: 20px;
+  margin-top: 10px;
+}
+.float-child2 {
+  float: left;
+  width: 85%;
+  padding: 20px;
+}
+
+.list {
+  list-style-type: none;
+  padding: 10px;
+  margin: 10px;
+}
+
+.item {
+  margin: 7px;
+}

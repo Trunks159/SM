@@ -1,9 +1,0 @@
-<div class="day-thumbnail">
-  <h2>{{day_name[day.weekday()]}}</h2>
-  <a
-    class="circle"
-    href="{{url_for('schedule', string_date = day.string_date())}}"
-  >
-    {{month_name[day.month]}} {{day.day}}
-  </a>
-</div>
