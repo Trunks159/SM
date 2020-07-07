@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
-import NavBar from "./components/NavBar";
-//import Users from "./components/Users";
-//import Registration from "./components/Registration";
-//import MyBarChart from "./components/MyBarChart2";
-//import Test from "./components/Test";
-
-import VerticleSlider from "./components/VerticleSlider";
+import Sliders from "./components/Sliders";
+import Times from "./components/Times";
+import Week from "./components/Week";
 //import data from "./range-data.json";
 
 class App extends Component {
@@ -76,47 +72,25 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <NavBar current_user={this.state.current_user} />
         <div className="float-container">
-          <div className="float-child1">
-            <ul className="list">
-              {[
-                "7:00AM",
-                "8:00AM",
-                "9:00AM",
-                "10:00AM",
-                "11:00AM",
-                "12:00PM",
-                "1:00PM",
-                "2:00PM",
-                "3:00PM",
-                "4:00PM",
-                "5:00PM",
-                "6:00PM",
-                "7:00PM",
-                "8:00PM",
-                "9:00PM",
-                "10:00PM",
-                "11:00PM",
-              ]
-                .slice(0)
-                .reverse()
-                .map((x) => (
-                  <li className="item">{x}</li>
-                ))}
-            </ul>
-          </div>
-          <div float="left" className="float-child2">
-            <VerticleSlider name="Jordan" />
-            <VerticleSlider name="Nova" />
-            <VerticleSlider name="Elsa" />
-            <VerticleSlider name="Jeff" />
-            <VerticleSlider name="Joe" />
-            <VerticleSlider name="Ryan" />
-            <VerticleSlider name="Sarah" />
-            <VerticleSlider name="Alphonso" />
-            <VerticleSlider name="Bob" />
-          </div>
+          <Week
+            week={[
+              {
+                weekday: "Monday",
+                date: "November 3",
+              },
+              {
+                weekday: "Tuesday",
+                date: "November 4",
+              },
+              {
+                weekday: "Wednesday",
+                date: "November 5",
+              },
+            ]}
+          />
+          <Times />
+          <Sliders />
         </div>
         {/*<Test users={this.state.users} />*/}
         {/*<MyBarChart data={data} />*/}

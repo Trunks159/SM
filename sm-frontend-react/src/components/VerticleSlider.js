@@ -45,7 +45,6 @@ function valuetext(value) {
 }
 
 const marks = [];
-let times = [];
 for (let time = 700; time <= 2300; time += 50) {
   marks.push({
     value: timetoValue(time),
