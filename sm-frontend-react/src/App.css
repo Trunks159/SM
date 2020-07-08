@@ -90,11 +90,27 @@ svg {
   color: white;
   background-color: red;
   border-radius: 50%;
-  height: 100px;
-  width: 100px;
+  height: 4vw;
+  width: 4vw;
 }
 
 p {
-  margin: 10px;
-  font-size: smaller;
+  font-size: 2vw;
+}
+h6 {
+  font-size: 1vw;
+}
+
+.main-flex {
+  display: flex;
+  /*
+  margin-left: 170px;
+  margin-right: 170px;
+  margin-top: 20px;
+  */
+  justify-content: center;
+}
+
+.day {
+  margin: 2px;
 }

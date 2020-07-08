@@ -76,16 +76,32 @@ class App extends Component {
           <Week
             week={[
               {
-                weekday: "Monday",
-                date: "November 3",
+                weekday: "Mon.",
+                date: "Nov 3",
               },
               {
-                weekday: "Tuesday",
-                date: "November 4",
+                weekday: "Tues.",
+                date: "Nov 4",
               },
               {
-                weekday: "Wednesday",
-                date: "November 5",
+                weekday: "Wed.",
+                date: "Nov 5",
+              },
+              {
+                weekday: "Thurs.",
+                date: "Nov 6",
+              },
+              {
+                weekday: "Fri.",
+                date: "Nov 7",
+              },
+              {
+                weekday: "Sat.",
+                date: "Nov 8",
+              },
+              {
+                weekday: "Sun.",
+                date: "Nov 9",
               },
             ]}
           />
