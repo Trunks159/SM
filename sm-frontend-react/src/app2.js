@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import "./App.css";
-import NavBar from "./components/NavBar";
-import Day from "./components/Day";
+import Sliders from "./components/Sliders";
+import Times from "./components/Times";
 import Week from "./components/Week";
+import Workers from "./components/Workers";
 //import data from "./range-data.json";
 
 class App extends Component {
@@ -63,15 +64,27 @@ class App extends Component {
       anonymous: false,
     },
   };
+  componentDidMount() {
+    fetch("/logo").then((response) =>
+      response.json().then((data) => {
+        this.setState({ img: data.img });
+        console.log(this.state.img);
+      })
+    );
+  }
   render() {
     return (
       <div className="App">
-        <div className="wrapper">
-          <NavBar users={this.state.users} />
-          <Day />
-          <div className="box3">Box 3</div>
+        <div className="float-container">
+          <Workers workers={this.state.users} />
+
+          {/*
           <Week
             week={[
+              {
+                weekday: "Mon.",
+                date: "Nov 3",
+              },
               {
                 weekday: "Tues.",
                 date: "Nov 4",
@@ -98,7 +111,15 @@ class App extends Component {
               },
             ]}
           />
+          <div className="container-2">
+            <Times />
+            <Sliders />
+          </div>
+          */}
         </div>
+        {/*<Test users={this.state.users} />*/}
+        {/*<MyBarChart data={data} />*/}
+        {/*<Registration />*/}
       </div>
     );
   }

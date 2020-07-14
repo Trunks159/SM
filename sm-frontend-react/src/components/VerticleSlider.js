@@ -63,7 +63,7 @@ const VerticalSlider = ({ name }) => {
         valueLabelDisplay="auto"
         valueLabelFormat={(x) => valueToTime(x)}
         orientation="vertical"
-        defaultValue={[20, 37]}
+        defaultValue={[timetoValue(800), timetoValue(1600)]}
         aria-labelledby="vertical-slider"
         getAriaValueText={valuetext}
         marks={marks}

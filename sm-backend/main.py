@@ -6,6 +6,7 @@ from models import User
 from flask_login import current_user, login_user, login_required, logout_user
 from calendar import month_name, day_name
 from datetime import date
+import os
 
 app.jinja_env.globals.update(month_name=month_name, day_name=day_name)
 
@@ -26,9 +27,11 @@ class Date(date):
 @app.route('/home')
 def home():
     users = User.query.all()
+    img = os.path.abspath('static/images/Logo.png').replace("\\",
+                                                            '/').lower().replace('c:', 'http://localhost')
     #json_users = [user.to_json() for user in users]
     # return jsonify({'users': json_users})
-    return render_template('home.html', users=users)
+    return render_template('home.html', users=users, img=img)
 
 
 @app.route('/add_schedule')
@@ -45,6 +48,12 @@ def schedule(string_date):
     day = Date(int(d[0]), int(d[1]), int(d[2]))
     current_day = jsonify(day.to_json())
     return redirect(url_for('schedule_data'))
+
+
+@app.route('/logo')
+def logo():
+    img = os.path.abspath('static/images/Logo.png')
+    return jsonify({'img': img})
 
 
 @login_required

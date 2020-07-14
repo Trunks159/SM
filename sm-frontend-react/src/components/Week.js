@@ -1,11 +1,11 @@
 import React from "react";
 
 const Week = ({ week }) => (
-  <div className="main-flex">
+  <div className="box-4">
     {week.map((day) => (
       <div className="day">
         <p>{day.weekday}</p>
-        <button className="btn">
+        <button id="but" className="btn">
           <h6>{day.date}</h6>
         </button>
       </div>

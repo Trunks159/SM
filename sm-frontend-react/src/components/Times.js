@@ -1,7 +1,7 @@
 import React from "react";
 
 const Times = () => (
-  <div className="float-child1">
+  <div className="box-3">
     <ul className="list">
       {[
         "7:00AM",
