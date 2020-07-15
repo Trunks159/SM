@@ -31,24 +31,28 @@ const NavBar = ({ users }) => (
       </div>
     </div>
     */}
-    <img
-      className="logo"
-      src="http://localhost:5000/static/images/logo.png"
-      alt="test"
-    />
-    <hr />
-    <p>
-      <strong>Workers</strong>
-    </p>
-    <hr />
-    {users.map((user) => (
-      <div className="worker">
-        <p className="w-name">{user.first_name}</p>
-        <button className="plus-btn">
-          <p className="plus">+</p>
-        </button>
-      </div>
-    ))}
+    <a href="/" className="a1">
+      <img
+        className="logo"
+        src="http://localhost:5000/static/images/logo.png"
+        alt="test"
+      />
+    </a>
+    <div className="a2">
+      <hr />
+      <p style={{ textAlign: "center" }}>
+        <strong>Workers</strong>
+      </p>
+      <hr />
+      {users.map((user) => (
+        <div className="worker">
+          <p className="w-name">{user.first_name}</p>
+          <button className="plus-btn">
+            <p className="plus"> +</p>
+          </button>
+        </div>
+      ))}
+    </div>
   </div>
 );
 export default NavBar;

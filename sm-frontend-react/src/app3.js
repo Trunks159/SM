@@ -3,8 +3,6 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import Day from "./components/Day";
 import Week from "./components/Week";
-import Times from "./components/Times";
-import Sliders from "./components/Sliders";
 //import data from "./range-data.json";
 
 class App extends Component {
@@ -71,10 +69,7 @@ class App extends Component {
         <div className="wrapper">
           <NavBar users={this.state.users} />
           <Day />
-          <div className="box-3">
-            <Times />
-            <Sliders />
-          </div>
+          <div className="box3">Box 3</div>
           <Week
             week={[
               {

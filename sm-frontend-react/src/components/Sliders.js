@@ -2,7 +2,7 @@ import React from "react";
 import VerticleSlider from "./VerticleSlider";
 
 const Sliders = () => (
-  <div float="left" className="box-4">
+  <div className="sliders">
     <VerticleSlider name="Jordan" />
     <VerticleSlider name="Nova" />
     <VerticleSlider name="Elsa" />

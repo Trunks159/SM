@@ -1,44 +1,9 @@
-.App {
-  text-align: center;
-  display: flex;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-.scrollmenu {
-  min-width: 100%;
-  min-height: 200px;
-  display: flex;
-  overflow: auto;
-  white-space: nowrap;
-}
-
-.scrollmenu li {
-  color: white;
-  min-width: 200px;
-  margin: 5px;
-  display: inline-block;
-  text-align: center;
-}
-
-.thumbnail h3 {
-  color: black;
-}
-.thumbnail h1 {
-  font-size: 200px;
-  text-align: center;
-}
-
-line {
-  stroke: rgb(255, 0, 0);
-  stroke-width: 2;
-}
-
-svg {
-  border: 2px solid blue;
-}
-
-.main {
-  display: inline;
-}
 #di {
   display: inline-block;
   margin: 10px;
@@ -90,14 +55,14 @@ svg {
 #but {
   color: white;
   background-color: red;
-  height: 4vw;
-  width: 4vw;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
 }
 
 h6 {
-  font-size: 1vw;
+  font-size: 10px;
 }
 
 .container-2 {
@@ -130,7 +95,7 @@ h6 {
 }
 
 .logo {
-  width: 30px;
+  width: 45px;
 }
 
 .worker {
@@ -140,6 +105,7 @@ h6 {
   padding: 10px;
   padding-bottom: 1px;
   margin: 10px;
+  background-color: white;
 }
 .w-name {
 }
@@ -151,22 +117,32 @@ h6 {
 
 .plus-btn {
   padding: 0px;
-  background-color: white;
+  background-color: transparent;
   border: none;
 }
 
 .wrapper {
   display: grid;
-  grid-template-columns: 0.5fr 0.5fr 3fr 1fr;
+  grid-template-columns: 0.5fr 0.5fr 2.5fr 0.5fr;
   grid-auto-rows: 100vh;
 }
 
 .wrapper > div {
-  padding: 1em;
   border-right: 0.5px solid grey;
 }
 .box-1 {
+  display: grid;
+  justify-content: center;
+  grid-template-rows: 0.25fr 2.5fr;
 }
+
+.a1 {
+  text-align: center;
+}
+
+.a2 {
+}
+
 .box-2 > h1 {
   color: white;
   writing-mode: vertical-lr;
@@ -175,17 +151,40 @@ h6 {
 }
 .box-2 {
   display: grid;
+  justify-content: center;
+  align-items: center;
   background-color: red;
 }
 
-sub {
-  font-size: 10px;
+.box-3 {
+  display: grid;
+  grid-template-columns: 0.25fr 1.75fr;
 }
 
-.testing {
+.box-4 {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  border: 1px solid orange;
-  grid-auto-rows: minmax(1000px, auto);
-  align-items: center;
+  justify-content: center;
+}
+
+.sliders {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: blue orange;
+}
+
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+*::-webkit-scrollbar-track {
+  background: lightgray;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: red;
+  border-radius: 20px;
+  border: 3px solid red;
 }
