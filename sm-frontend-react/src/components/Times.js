@@ -2,7 +2,7 @@ import React from "react";
 
 const Times = () => (
   <div className="box-3">
-    <ul className="list">
+    <ul className="times">
       {[
         "7:00AM",
         "8:00AM",
@@ -25,7 +25,7 @@ const Times = () => (
         .slice(0)
         .reverse()
         .map((x) => (
-          <li className="item">{x}</li>
+          <li className="time">{x}</li>
         ))}
     </ul>
   </div>

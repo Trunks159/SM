@@ -51,13 +51,15 @@ for (let time = 700; time <= 2300; time += 50) {
   });
 }
 
-const VerticalSlider = ({ name }) => {
+const VerticalSlider = (props) => {
   const classes = useStyles();
 
   return (
     <div id="di" className={classes.root}>
       <Typography id="range-slider" gutterBottom>
-        {name}
+        <button className="btn" onClick={() => props.handler(props.user)}>
+          {props.user.first_name}
+        </button>
       </Typography>
       <Slider
         valueLabelDisplay="auto"
@@ -73,31 +75,3 @@ const VerticalSlider = ({ name }) => {
   );
 };
 export default VerticalSlider;
-
-/*
-const times = [
-  "7:00AM",
-  "8:00AM",
-  "9:00AM",
-  "10:00AM",
-  "11:00AM",
-  "12:00PM",
-  "1:00PM",
-  "2:00PM",
-  "3:00PM",
-  "4:00PM",
-  "5:00PM",
-  "6:00PM",
-  "7:00PM",
-  "8:00PM",
-  "9:00PM",
-  "10:00PM",
-  "11:00PM",
-];
-
-let c = 0;
-for (let i = 700; i <= 2300; i += 100) {
-  marks.push({ value: i, label: times[c] });
-  c++;
-}
-*/

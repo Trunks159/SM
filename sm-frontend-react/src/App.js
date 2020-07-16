@@ -5,7 +5,6 @@ import Day from "./components/Day";
 import Week from "./components/Week";
 import Times from "./components/Times";
 import Sliders from "./components/Sliders";
-//import data from "./range-data.json";
 
 class App extends Component {
   state = {
@@ -65,6 +64,14 @@ class App extends Component {
       anonymous: false,
     },
   };
+  componentDidMount() {
+    fetch("/users").then((response) =>
+      response.json().then((data) => {
+        this.setState({ users: data.users });
+      })
+    );
+  }
+
   render() {
     return (
       <div className="App">
@@ -73,7 +80,7 @@ class App extends Component {
           <Day />
           <div className="box-3">
             <Times />
-            <Sliders />
+            <Sliders users={this.state.users} />
           </div>
           <Week
             week={[

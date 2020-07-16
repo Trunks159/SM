@@ -1,8 +1,6 @@
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
+/* || Nav Bar*/
+
+/* || Sliders  */
 
 #di {
   display: inline-block;
@@ -26,31 +24,17 @@
   color: black;
 }
 
-.float-container {
-  float: left;
-  width: 100%;
-}
-.float-child1 {
-  float: left;
-  width: 15%;
-  padding: 20px;
-  margin-top: 10px;
-}
-.float-child2 {
-  float: left;
-  width: 85%;
-  padding: 20px;
-}
-
-.list {
+.times {
   list-style-type: none;
   padding: 10px;
   margin: 10px;
 }
 
-.item {
+.time {
   margin: 7px;
 }
+
+/* || Week  */
 
 #but {
   color: white;
@@ -58,40 +42,19 @@
   height: 40px;
   width: 40px;
   border-radius: 50%;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 8px 15px rgba(1, 0, 0, 0.5);
+}
+#but:hover {
+  background-color: orange;
+  box-shadow: 0px 8px 15 px orange;
+  transform: translateY(-3px);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  color: white;
 }
 
 h6 {
   font-size: 10px;
-}
-
-.container-2 {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.test {
-  width: 140px;
-  height: 45px;
-  font-family: "Roboto", sans-serif;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-weight: 500;
-  color: white;
-  background-color: red;
-  border: none;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.6);
-  transition: all 0.3s ease 0s;
-  cursor: pointer;
-  outline: none;
-}
-
-.test:hover {
-  background-color: #2ee59d;
-  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
-  color: #fff;
-  transform: translateY(-7px);
 }
 
 .logo {
@@ -107,6 +70,11 @@ h6 {
   margin: 10px;
   background-color: white;
 }
+
+.worker:hover {
+  border: 2px solid green;
+}
+
 .w-name {
 }
 
@@ -125,6 +93,7 @@ h6 {
   display: grid;
   grid-template-columns: 0.5fr 0.5fr 2.5fr 0.5fr;
   grid-auto-rows: 100vh;
+  grid-gap: 3px;
 }
 
 .wrapper > div {
@@ -141,6 +110,8 @@ h6 {
 }
 
 .a2 {
+  overflow-y: auto;
+  white-space: nowrap;
 }
 
 .box-2 > h1 {
@@ -159,6 +130,13 @@ h6 {
 .box-3 {
   display: grid;
   grid-template-columns: 0.25fr 1.75fr;
+}
+
+.btn {
+  background-color: grey;
+}
+.btn:hover {
+  background-color: red;
 }
 
 .box-4 {

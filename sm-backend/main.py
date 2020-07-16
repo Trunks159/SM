@@ -29,9 +29,15 @@ def home():
     users = User.query.all()
     img = os.path.abspath('static/images/Logo.png').replace("\\",
                                                             '/').lower().replace('c:', 'http://localhost')
-    #json_users = [user.to_json() for user in users]
+    # json_users = [user.to_json() for user in users]
     # return jsonify({'users': json_users})
     return render_template('home.html', users=users, img=img)
+
+
+@app.route('/users')
+def users():
+    users = [user.to_json() for user in User.query.all()]
+    return jsonify({'users': users})
 
 
 @app.route('/add_schedule')
