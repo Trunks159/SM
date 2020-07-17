@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
@@ -34,12 +34,6 @@ const timetoValue = (time) => {
 
 const valueToTime = (value) => y(f(value) * 3600);
 
-const useStyles = makeStyles({
-  root: {
-    height: 500,
-  },
-});
-
 function valuetext(value) {
   return `${value}°C`;
 }
@@ -51,27 +45,31 @@ for (let time = 700; time <= 2300; time += 50) {
   });
 }
 
-const VerticalSlider = ({ handler, user }) => {
-  const classes = useStyles();
+class VerticalSlider extends Component {
+  state = {};
 
-  return (
-    <div id="di" className={classes.root}>
-      <Typography id="range-slider" gutterBottom>
-        <button className="btn" onClick={() => handler(user)}>
-          {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
-        </button>
-      </Typography>
-      <Slider
-        valueLabelDisplay="auto"
-        valueLabelFormat={(x) => valueToTime(x)}
-        orientation="vertical"
-        defaultValue={[timetoValue(800), timetoValue(1600)]}
-        aria-labelledby="vertical-slider"
-        getAriaValueText={valuetext}
-        marks={marks}
-        step={null}
-      />
-    </div>
-  );
-};
+  render() {
+    const { handler, user } = this.props;
+    return (
+      <div id="di" className="slider">
+        <Typography id="range-slider" gutterBottom>
+          <button className="btn" onClick={() => handler(user)}>
+            {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
+          </button>
+        </Typography>
+        <Slider
+          valueLabelDisplay="auto"
+          valueLabelFormat={(x) => valueToTime(x)}
+          orientation="vertical"
+          defaultValue={[timetoValue(800), timetoValue(1600)]}
+          aria-labelledby="vertical-slider"
+          getAriaValueText={valuetext}
+          marks={marks}
+          step={null}
+          name={user.first_name}
+        />
+      </div>
+    );
+  }
+}
 export default VerticalSlider;

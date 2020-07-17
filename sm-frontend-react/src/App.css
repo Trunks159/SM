@@ -146,6 +146,10 @@ h6 {
   white-space: nowrap;
 }
 
+.slider {
+  height: 500px;
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: blue orange;
