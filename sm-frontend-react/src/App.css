@@ -78,12 +78,9 @@ h6 {
 .w-name {
 }
 
-.plus {
+.plus-btn {
   color: hsl(120, 100%, 39%);
   font-weight: 1000;
-}
-
-.plus-btn {
   padding: 0px;
   background-color: transparent;
   border: none;

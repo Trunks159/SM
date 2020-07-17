@@ -9,53 +9,8 @@ import Sliders from "./components/Sliders";
 class App extends Component {
   state = {
     img: "",
-    users: [
-      {
-        first_name: "jordan",
-        last_name: "giles",
-        username: "Trunks159",
-        position: "manager",
-        color: "#00FFFF",
-        anonymous: false,
-        id: 1,
-      },
-      {
-        first_name: "eric",
-        last_name: "brown",
-        username: "ebrown",
-        position: "",
-        color: "#FFA500",
-        anonymous: false,
-        id: 2,
-      },
-      {
-        first_name: "william",
-        last_name: "mcaden",
-        username: "wmcaden",
-        color: "#FF6347",
-        position: "",
-        anonymous: false,
-        id: 3,
-      },
-      {
-        first_name: "abeil",
-        last_name: "adilo",
-        username: "aadilo",
-        color: "#FF6347",
-        position: "",
-        anonymous: false,
-        id: 4,
-      },
-      {
-        first_name: "josh",
-        last_name: "cress",
-        username: "jcress",
-        color: "#FF6347",
-        position: "",
-        anonymous: false,
-        id: 5,
-      },
-    ],
+    active_users: [],
+    inactive_users: [],
     current_user: {
       first_name: "jordan",
       last_name: "giles",
@@ -67,20 +22,43 @@ class App extends Component {
   componentDidMount() {
     fetch("/users").then((response) =>
       response.json().then((data) => {
-        this.setState({ users: data.users });
+        this.setState({ inactive_users: data.users });
       })
     );
   }
+
+  makeSlider = (user) => {
+    let inactive_users = this.state.inactive_users;
+    const index = this.state.inactive_users.indexOf(user);
+    inactive_users.splice(index, 1);
+    this.setState({ inactive_users: inactive_users });
+    let active_users = this.state.active_users;
+    active_users.push(user);
+    this.setState({ active_users: active_users });
+  };
+
+  removeSlider = (user) => {
+    let active_users = this.state.active_users;
+    const index = this.state.active_users.indexOf(user);
+    active_users.splice(index, 1);
+    this.setState({ active_users: active_users });
+    let inactive_users = this.state.inactive_users;
+    inactive_users.push(user);
+    this.setState({ inactive_users: inactive_users });
+  };
 
   render() {
     return (
       <div className="App">
         <div className="wrapper">
-          <NavBar users={this.state.users} />
+          <NavBar handler={this.makeSlider} users={this.state.inactive_users} />
           <Day />
           <div className="box-3">
             <Times />
-            <Sliders users={this.state.users} />
+            <Sliders
+              handler={this.removeSlider}
+              users={this.state.active_users}
+            />
           </div>
           <Week
             week={[

@@ -1,14 +1,6 @@
 import React, { Component } from "react";
 
 class NavBar extends Component {
-  state = {
-    users: this.props.users,
-  };
-
-  handleClick = (e) => {
-    e.preventDefault();
-    console.log(1);
-  };
   render() {
     return (
       <div className="box-1">
@@ -25,14 +17,18 @@ class NavBar extends Component {
             <strong>Workers</strong>
           </p>
           <hr />
-          {this.state.users.map((user) => (
-            <div className="worker">
-              <p className="w-name">{user.first_name}</p>
-              <button className="plus-btn" onClick={() => this.handleClick}>
-                <p className="plus"> +</p>
-              </button>
-            </div>
-          ))}
+          {this.props.users &&
+            this.props.users.map((user) => (
+              <div className="worker">
+                <p className="w-name">{user.first_name}</p>
+                <button
+                  className="plus-btn"
+                  onClick={() => this.props.handler(user)}
+                >
+                  +
+                </button>
+              </div>
+            ))}
         </div>
       </div>
     );
