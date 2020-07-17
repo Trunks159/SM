@@ -1,16 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 import VerticleSlider from "./VerticleSlider";
 
-class Sliders extends Component {
-  render() {
-    return (
-      <div className="sliders">
-        {this.props.users.map((user) => (
-          <VerticleSlider handler={this.props.handler} user={user} />
-        ))}
-      </div>
-    );
-  }
-}
+const Sliders = ({ handler, users }) => (
+  <div className="sliders">
+    {users.length > 0 ? (
+      users.map((user) => <VerticleSlider handler={handler} user={user} />)
+    ) : (
+      <h1>You Gotta Add Some Workers</h1>
+    )}
+  </div>
+);
 
 export default Sliders;
