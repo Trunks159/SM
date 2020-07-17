@@ -51,14 +51,14 @@ for (let time = 700; time <= 2300; time += 50) {
   });
 }
 
-const VerticalSlider = (props) => {
+const VerticalSlider = ({ handler, user }) => {
   const classes = useStyles();
 
   return (
     <div id="di" className={classes.root}>
       <Typography id="range-slider" gutterBottom>
-        <button className="btn" onClick={() => props.handler(props.user)}>
-          {props.user.first_name}
+        <button className="btn" onClick={() => handler(user)}>
+          {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
         </button>
       </Typography>
       <Slider
