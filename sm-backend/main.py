@@ -76,7 +76,7 @@ def add_user():
     if form.validate_on_submit():
         u = User(first_name=form.first_name.data.lower(),
                  last_name=form.last_name.data.lower())
-        u.set_position(form.position.data)
+        u.set_position(form.position.data.lower())
         u.username = (
             form.first_name.data[0].lower() + form.last_name.data.lower())
         db.session.add(u)

@@ -47,19 +47,24 @@ class App extends Component {
     this.setState({ inactive_users: inactive_users });
   };
 
+  handleForm = (e) => {};
+
   render() {
     return (
       <div className="App">
         <div className="wrapper">
           <NavBar handler={this.makeSlider} users={this.state.inactive_users} />
           <Day />
-          <div className="box-3">
+          <form onSubmit={this.handleForm} className="box-3">
             <Times />
             <Sliders
               handler={this.removeSlider}
               users={this.state.active_users}
             />
-          </div>
+            <button className="btn" type="submit" onClick={this.saveChanges}>
+              Save Changes
+            </button>
+          </form>
           <Week
             week={[
               {

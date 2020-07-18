@@ -46,10 +46,17 @@ for (let time = 700; time <= 2300; time += 50) {
 }
 
 class VerticalSlider extends Component {
-  state = {};
+  state = { value: null };
 
+  /*handleChange = (event, new_values, id) => {
+     this.setState({ value: new_values.map((v) => valueToTime(v)) });
+    console.log(new_values.map((v) => valueToTime(v)));
+    console.log(new_values);
+  };*/
+
+  getValue = () => this.state.value;
   render() {
-    const { handler, user } = this.props;
+    const { handler, user, handleChange } = this.props;
     return (
       <div id="di" className="slider">
         <Typography id="range-slider" gutterBottom>
@@ -67,6 +74,10 @@ class VerticalSlider extends Component {
           marks={marks}
           step={null}
           name={user.first_name}
+          onChangeCommitted={(event, new_value) =>
+            handleChange(event, new_value, user.id)
+          }
+          id={user.id}
         />
       </div>
     );

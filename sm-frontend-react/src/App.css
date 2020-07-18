@@ -129,9 +129,6 @@ h6 {
   grid-template-columns: 0.25fr 1.75fr;
 }
 
-.btn {
-  background-color: grey;
-}
 .btn:hover {
   background-color: red;
 }
