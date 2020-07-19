@@ -40,6 +40,14 @@ def users():
     return jsonify({'users': users})
 
 
+@app.route('/receive_data', methods=['POST'])
+def receive_data():
+    data = request.get_json()
+    for item in data:
+        print('Item: ', item)
+    return jsonify({'data': data})
+
+
 @app.route('/add_schedule')
 def add_schedule():
     week = []

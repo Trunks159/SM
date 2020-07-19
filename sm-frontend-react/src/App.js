@@ -18,7 +18,23 @@ class App extends Component {
       position: "manager",
       anonymous: false,
     },
+    sliders: [],
   };
+
+  async firstAsync() {
+    const rawResponse = await fetch("/receive_data", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(this.state.sliders),
+    });
+    const content = await rawResponse.json();
+
+    console.log(content);
+  }
+
   componentDidMount() {
     fetch("/users").then((response) =>
       response.json().then((data) => {
@@ -27,27 +43,48 @@ class App extends Component {
     );
   }
 
-  makeSlider = (user) => {
-    let inactive_users = this.state.inactive_users;
+  saveChanges = (e) => {
+    this.firstAsync();
+  };
+
+  weSliding = (e, new_value, id) => {
+    let sliders = [...this.state.sliders];
+    let i = 0;
+    for (let slider of sliders) {
+      if (id === slider.id) {
+        sliders.splice(i, 1);
+        this.setState({ sliders: [...sliders, { id: id, value: new_value }] });
+        break;
+      }
+      i++;
+    }
+  };
+
+  makeSlider = (e, user) => {
+    let inactive_users = [...this.state.inactive_users];
     const index = this.state.inactive_users.indexOf(user);
     inactive_users.splice(index, 1);
     this.setState({ inactive_users: inactive_users });
-    let active_users = this.state.active_users;
+    let active_users = [...this.state.active_users];
     active_users.push(user);
+    this.setState((prevState) => ({
+      sliders: [
+        ...prevState.sliders,
+        { id: user.id, value: ["8:00", "16:00"] },
+      ],
+    }));
     this.setState({ active_users: active_users });
   };
 
   removeSlider = (user) => {
-    let active_users = this.state.active_users;
+    let active_users = [...this.state.active_users];
     const index = this.state.active_users.indexOf(user);
     active_users.splice(index, 1);
     this.setState({ active_users: active_users });
-    let inactive_users = this.state.inactive_users;
+    let inactive_users = [...this.state.inactive_users];
     inactive_users.push(user);
     this.setState({ inactive_users: inactive_users });
   };
-
-  handleForm = (e) => {};
 
   render() {
     return (
@@ -55,16 +92,17 @@ class App extends Component {
         <div className="wrapper">
           <NavBar handler={this.makeSlider} users={this.state.inactive_users} />
           <Day />
-          <form onSubmit={this.handleForm} className="box-3">
+          <div className="box-3">
             <Times />
             <Sliders
               handler={this.removeSlider}
               users={this.state.active_users}
+              weSliding={this.weSliding}
             />
-            <button className="btn" type="submit" onClick={this.saveChanges}>
+            <button className="btn" onClick={this.saveChanges}>
               Save Changes
             </button>
-          </form>
+          </div>
           <Week
             week={[
               {

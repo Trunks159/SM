@@ -56,7 +56,7 @@ class VerticalSlider extends Component {
 
   getValue = () => this.state.value;
   render() {
-    const { handler, user, handleChange } = this.props;
+    const { handler, user, weSliding } = this.props;
     return (
       <div id="di" className="slider">
         <Typography id="range-slider" gutterBottom>
@@ -74,10 +74,13 @@ class VerticalSlider extends Component {
           marks={marks}
           step={null}
           name={user.first_name}
-          onChangeCommitted={(event, new_value) =>
-            handleChange(event, new_value, user.id)
+          onChangeCommitted={(e, new_value) =>
+            weSliding(
+              e,
+              new_value.map((value) => valueToTime(value)),
+              user.id
+            )
           }
-          id={user.id}
         />
       </div>
     );

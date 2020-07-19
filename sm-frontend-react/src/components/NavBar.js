@@ -15,17 +15,18 @@ const NavBar = ({ handler, users }) => (
         <strong>Workers</strong>
       </p>
       <hr />
-      {users &&
-        users.map((user) => (
-          <div className="worker">
-            <p className="w-name">
-              {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
-            </p>
-            <button className="plus-btn" onClick={() => handler(user)}>
-              +
-            </button>
-          </div>
-        ))}
+      {users.length > 0
+        ? users.map((user) => (
+            <div className="worker">
+              <p className="w-name">
+                {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
+              </p>
+              <button className="plus-btn" onClick={(e) => handler(e, user)}>
+                +
+              </button>
+            </div>
+          ))
+        : null}
     </div>
   </div>
 );
