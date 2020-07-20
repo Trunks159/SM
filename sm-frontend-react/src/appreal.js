@@ -18,6 +18,7 @@ class App extends Component {
       position: "manager",
       anonymous: false,
     },
+    sliders: [],
   };
 
   async firstAsync() {
@@ -27,7 +28,7 @@ class App extends Component {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(this.state.active_users),
+      body: JSON.stringify(this.state.sliders),
     });
     const content = await rawResponse.json();
 
@@ -37,10 +38,6 @@ class App extends Component {
   componentDidMount() {
     fetch("/users").then((response) =>
       response.json().then((data) => {
-        let users = data.users.map((user) => {
-          user["value"] = ["08:00", "16:00"];
-          return user;
-        });
         this.setState({ inactive_users: data.users });
       })
     );
@@ -50,25 +47,46 @@ class App extends Component {
     this.firstAsync();
   };
 
-  weSliding = (e, new_value, user) => {
-    let users = [...this.state.active_users];
-    users.splice(users.indexOf(user), 1);
-    user.value = new_value;
-    users.push(user);
-    this.setState({ active_users: users });
+  weSliding = (e, new_value, id) => {
+    let sliders = [...this.state.sliders];
+    let i = 0;
+    for (let slider of sliders) {
+      if (id === slider.id) {
+        sliders.splice(i, 1);
+        this.setState({ sliders: [...sliders, { id: id, value: new_value }] });
+        break;
+      }
+      i++;
+    }
   };
 
-  makeSlider = (user) => {
+  makeSlider = (e, user) => {
     let inactive_users = [...this.state.inactive_users];
     const index = this.state.inactive_users.indexOf(user);
     inactive_users.splice(index, 1);
     this.setState({ inactive_users: inactive_users });
     let active_users = [...this.state.active_users];
     active_users.push(user);
+    this.setState((prevState) => ({
+      sliders: [
+        ...prevState.sliders,
+        { id: user.id, value: ["8:00", "16:00"] },
+      ],
+    }));
     this.setState({ active_users: active_users });
   };
 
   removeSlider = (user) => {
+    let sliders = [...this.state.sliders];
+    let i = 0;
+    for (let slider of sliders) {
+      if (slider.id === user.id) {
+        sliders.splice(i, 1);
+        break;
+      }
+      i++;
+    }
+    this.setState({ sliders: sliders });
     let active_users = [...this.state.active_users];
     const index = this.state.active_users.indexOf(user);
     active_users.splice(index, 1);

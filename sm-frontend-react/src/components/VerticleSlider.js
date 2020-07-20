@@ -8,6 +8,7 @@ const f = (x) => {
   const range = [7, 23];
   const time_range = range[1] - range[0];
   let hours = time_range * x;
+  console.log("What f returns: ", hours + range[0]);
   return hours + range[0];
 };
 
@@ -61,7 +62,8 @@ class VerticalSlider extends Component {
       <div id="di" className="slider">
         <Typography id="range-slider" gutterBottom>
           <button className="btn" onClick={() => handler(user)}>
-            {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
+            {user.first_name[0].toUpperCase() + user.first_name.slice(1)}{" "}
+            {user.id}
           </button>
         </Typography>
         <Slider
@@ -73,12 +75,11 @@ class VerticalSlider extends Component {
           getAriaValueText={valuetext}
           marks={marks}
           step={null}
-          name={user.first_name}
           onChangeCommitted={(e, new_value) =>
             weSliding(
               e,
               new_value.map((value) => valueToTime(value)),
-              user.id
+              user
             )
           }
         />
