@@ -1,104 +1,43 @@
 import React, { Component } from "react";
 import "./App.css";
-import NavBar from "./components/NavBar";
-import Day from "./components/Day";
-import Week from "./components/Week";
-//import data from "./range-data.json";
+import Slider from "@material-ui/core/Slider";
+import Typography from "@material-ui/core/Typography";
 
 class App extends Component {
   state = {
-    img: "",
-    users: [
-      {
-        first_name: "jordan",
-        last_name: "giles",
-        username: "Trunks159",
-        position: "manager",
-        color: "#00FFFF",
-        anonymous: false,
-        id: 1,
-      },
-      {
-        first_name: "eric",
-        last_name: "brown",
-        username: "ebrown",
-        position: "",
-        color: "#FFA500",
-        anonymous: false,
-        id: 2,
-      },
-      {
-        first_name: "william",
-        last_name: "mcaden",
-        username: "wmcaden",
-        color: "#FF6347",
-        position: "",
-        anonymous: false,
-        id: 3,
-      },
-      {
-        first_name: "abeil",
-        last_name: "adilo",
-        username: "aadilo",
-        color: "#FF6347",
-        position: "",
-        anonymous: false,
-        id: 4,
-      },
-      {
-        first_name: "josh",
-        last_name: "cress",
-        username: "jcress",
-        color: "#FF6347",
-        position: "",
-        anonymous: false,
-        id: 5,
-      },
-    ],
-    current_user: {
-      first_name: "jordan",
-      last_name: "giles",
-      username: "Trunks159",
-      position: "manager",
-      anonymous: false,
-    },
+    users: [],
   };
+
+  componentDidMount() {
+    fetch("/users").then((response) =>
+      response.json().then((data) => {
+        this.setState({ users: data.users });
+      })
+    );
+  }
+  removeSlider(user) {
+    const users = [...this.state.users];
+    users.splice(users.indexOf(user), 1);
+    this.setState({ users: users });
+  }
+
   render() {
     return (
       <div className="App">
-        <div className="wrapper">
-          <NavBar users={this.state.users} />
-          <Day />
-          <div className="box3">Box 3</div>
-          <Week
-            week={[
-              {
-                weekday: "Tues.",
-                date: "Nov 4",
-              },
-              {
-                weekday: "Wed.",
-                date: "Nov 5",
-              },
-              {
-                weekday: "Thurs.",
-                date: "Nov 6",
-              },
-              {
-                weekday: "Fri.",
-                date: "Nov 7",
-              },
-              {
-                weekday: "Sat.",
-                date: "Nov 8",
-              },
-              {
-                weekday: "Sun.",
-                date: "Nov 9",
-              },
-            ]}
-          />
-        </div>
+        {this.state.users.map((user) => (
+          <div className="slider" id="di">
+            <Typography id="range-slider" gutterBottom>
+              <button className="btn" onClick={() => this.removeSlider(user)}>
+                {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
+              </button>
+            </Typography>
+            <Slider
+              orientation="vertical"
+              defaultValue={[0, 50]}
+              aria-labelledby="vertical-slider"
+            />
+          </div>
+        ))}
       </div>
     );
   }

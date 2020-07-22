@@ -3,7 +3,7 @@ import React from "react";
 const Week = ({ week }) => (
   <div className="box-4">
     {week.map((day) => (
-      <div className="day">
+      <div className="day" key={day.date}>
         <p>{day.weekday}</p>
         <button id="but" className="btn">
           <h6>{day.date}</h6>

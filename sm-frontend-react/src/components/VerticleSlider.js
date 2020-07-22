@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
 
@@ -67,6 +67,7 @@ class VerticalSlider extends Component {
           </button>
         </Typography>
         <Slider
+          valueLabel={{ color: user.color }}
           valueLabelDisplay="auto"
           valueLabelFormat={(x) => valueToTime(x)}
           orientation="vertical"

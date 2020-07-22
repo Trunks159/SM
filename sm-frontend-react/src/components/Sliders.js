@@ -15,6 +15,7 @@ class Sliders extends Component {
                 weSliding={weSliding}
                 handler={handler}
                 user={user}
+                key={user.id}
               />
             );
           })

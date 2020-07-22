@@ -1,61 +1,16 @@
 import React, { Component } from "react";
 import "./App.css";
-import Sliders from "./components/Sliders";
-import Times from "./components/Times";
+import NavBar from "./components/NavBar";
+import Day from "./components/Day";
 import Week from "./components/Week";
-import Workers from "./components/Workers";
-//import data from "./range-data.json";
+import Times from "./components/Times";
+import Sliders from "./components/Sliders";
 
 class App extends Component {
   state = {
     img: "",
-    users: [
-      {
-        first_name: "jordan",
-        last_name: "giles",
-        username: "Trunks159",
-        position: "manager",
-        color: "#00FFFF",
-        anonymous: false,
-        id: 1,
-      },
-      {
-        first_name: "eric",
-        last_name: "brown",
-        username: "ebrown",
-        position: "",
-        color: "#FFA500",
-        anonymous: false,
-        id: 2,
-      },
-      {
-        first_name: "william",
-        last_name: "mcaden",
-        username: "wmcaden",
-        color: "#FF6347",
-        position: "",
-        anonymous: false,
-        id: 3,
-      },
-      {
-        first_name: "abeil",
-        last_name: "adilo",
-        username: "aadilo",
-        color: "#FF6347",
-        position: "",
-        anonymous: false,
-        id: 4,
-      },
-      {
-        first_name: "josh",
-        last_name: "cress",
-        username: "jcress",
-        color: "#FF6347",
-        position: "",
-        anonymous: false,
-        id: 5,
-      },
-    ],
+    active_users: [],
+    inactive_users: [],
     current_user: {
       first_name: "jordan",
       last_name: "giles",
@@ -64,27 +19,84 @@ class App extends Component {
       anonymous: false,
     },
   };
+
+  async firstAsync() {
+    const rawResponse = await fetch("/receive_data", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(this.state.active_users),
+    });
+    const content = await rawResponse.json();
+
+    console.log(content);
+  }
+
   componentDidMount() {
-    fetch("/logo").then((response) =>
+    fetch("/users").then((response) =>
       response.json().then((data) => {
-        this.setState({ img: data.img });
-        console.log(this.state.img);
+        let users = data.users.map((user) => {
+          user["value"] = ["08:00", "16:00"];
+          return user;
+        });
+        this.setState({ inactive_users: data.users });
       })
     );
   }
+
+  saveChanges = (e) => {
+    this.firstAsync();
+  };
+
+  weSliding = (e, new_value, user) => {
+    let users = [...this.state.active_users];
+    users.splice(users.indexOf(user), 1);
+    user.value = new_value;
+    users.push(user);
+    this.setState({ active_users: users });
+  };
+
+  makeSlider = (user) => {
+    let inactive_users = [...this.state.inactive_users];
+    const index = this.state.inactive_users.indexOf(user);
+    inactive_users.splice(index, 1);
+    this.setState({ inactive_users: inactive_users });
+    let active_users = [...this.state.active_users];
+    active_users.push(user);
+    this.setState({ active_users: active_users });
+  };
+
+  removeSlider = (user) => {
+    let active_users = [...this.state.active_users];
+    const index = this.state.active_users.indexOf(user);
+    active_users.splice(index, 1);
+    this.setState({ active_users: active_users });
+    let inactive_users = [...this.state.inactive_users];
+    inactive_users.push(user);
+    this.setState({ inactive_users: inactive_users });
+  };
+
   render() {
     return (
       <div className="App">
-        <div className="float-container">
-          <Workers workers={this.state.users} />
-
-          {/*
+        <div className="wrapper">
+          <NavBar handler={this.makeSlider} users={this.state.inactive_users} />
+          <Day />
+          <div className="box-3">
+            <Times />
+            <Sliders
+              handler={this.removeSlider}
+              users={this.state.active_users}
+              weSliding={this.weSliding}
+            />
+            <button className="btn" onClick={this.saveChanges}>
+              Save Changes
+            </button>
+          </div>
           <Week
             week={[
-              {
-                weekday: "Mon.",
-                date: "Nov 3",
-              },
               {
                 weekday: "Tues.",
                 date: "Nov 4",
@@ -111,15 +123,7 @@ class App extends Component {
               },
             ]}
           />
-          <div className="container-2">
-            <Times />
-            <Sliders />
-          </div>
-          */}
         </div>
-        {/*<Test users={this.state.users} />*/}
-        {/*<MyBarChart data={data} />*/}
-        {/*<Registration />*/}
       </div>
     );
   }

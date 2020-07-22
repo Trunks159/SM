@@ -1,4 +1,5 @@
 from config import db, login
+import datetime
 import matplotlib
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin
@@ -19,6 +20,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     color = db.Column(db.String(20), index=True, unique=True)
     slug = db.Column(db.String(20), index=True, unique=True)
+    workblocks = db.relationship('WorkBlock', backref='user', lazy=True)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -84,12 +86,32 @@ class AvailRestriction(db.Model):
 class OffDays(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
     day = db.Column(db.Integer, index=True)
     month = db.Column(db.Integer, index=True)
     year = db.Column(db.Integer, index=True)
 
     def __repr__(self):
         return 'Request Off {}/{}/{}'.format(self.month, self.day, self.year)
+
+
+class Day(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    year = db.Column(db.Integer, index=True)
+    month = db.Column(db.Integer, index=True)
+    day = db.Column(db.Integer, index=True)
+    workblocks = db.relationship('WorkBlock', backref='day', lazy=True)
+
+    def weekday(self):
+        return datetime.date(self.year, self.month, self.day).weekday()
+
+
+class WorkBlock(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    worker_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    start_time = db.Column(db.Integer, index=True)
+    end_time = db.Column(db.Integer, index=True)
+    day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
 
 
 @login.user_loader

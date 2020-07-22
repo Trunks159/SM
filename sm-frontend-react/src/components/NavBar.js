@@ -17,7 +17,7 @@ const NavBar = ({ handler, users }) => (
       <hr />
       {users.length > 0
         ? users.map((user) => (
-            <div className="worker">
+            <div className="worker" key={user.id}>
               <p className="w-name">
                 {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
               </p>

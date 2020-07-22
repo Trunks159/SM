@@ -8,6 +8,7 @@ import Sliders from "./components/Sliders";
 
 class App extends Component {
   state = {
+    date: [2020, 11, 3],
     img: "",
     active_users: [],
     inactive_users: [],
@@ -21,13 +22,17 @@ class App extends Component {
   };
 
   async firstAsync() {
+    const values = this.state.active_users.map((user) => ({
+      id: user.id,
+      value: user.value,
+    }));
     const rawResponse = await fetch("/receive_data", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(this.state.active_users),
+      body: JSON.stringify({ date: this.state.date, values: values }),
     });
     const content = await rawResponse.json();
 
@@ -41,7 +46,7 @@ class App extends Component {
           user["value"] = ["08:00", "16:00"];
           return user;
         });
-        this.setState({ inactive_users: data.users });
+        this.setState({ inactive_users: users });
       })
     );
   }
@@ -52,9 +57,10 @@ class App extends Component {
 
   weSliding = (e, new_value, user) => {
     let users = [...this.state.active_users];
-    users.splice(users.indexOf(user), 1);
+    const index = users.indexOf(user);
+    users.splice(index, 1);
     user.value = new_value;
-    users.push(user);
+    users.splice(index, 0, user);
     this.setState({ active_users: users });
   };
 

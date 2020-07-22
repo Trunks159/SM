@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request, jsonify
 from config import app, db
 from werkzeug.urls import url_parse
 from forms import RegistrationForm, LoginForm, AddUserForm
-from models import User
+from models import User, Day, WorkBlock
 from flask_login import current_user, login_user, login_required, logout_user
 from calendar import month_name, day_name
 from datetime import date
@@ -42,9 +42,19 @@ def users():
 
 @app.route('/receive_data', methods=['POST'])
 def receive_data():
+    users = User.query
     data = request.get_json()
-    for item in data:
-        print('Item: ', item)
+    date = data['date']
+    values = data['values']
+    day = Day(year=date[0], month=date[1], day=date[2])
+
+    for value in values:
+        user = users.filter_by(id=value['id']).first()
+        w = WorkBlock(
+            user=user, start_time=value['value'][0], end_time=value['value'][1], day=day)
+        print(w.start_time)
+    # for item in data:
+    #   print('Item: ', item)
     return jsonify({'data': data})
 
 
