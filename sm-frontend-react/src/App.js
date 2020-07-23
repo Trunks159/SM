@@ -5,9 +5,11 @@ import Day from "./components/Day";
 import Week from "./components/Week";
 import Times from "./components/Times";
 import Sliders from "./components/Sliders";
+import Message from "./components/Message";
 
 class App extends Component {
   state = {
+    message: null,
     date: [2020, 11, 3],
     img: "",
     active_users: [],
@@ -52,6 +54,12 @@ class App extends Component {
   }
 
   saveChanges = (e) => {
+    this.setState({
+      message: "saved",
+    });
+    setTimeout(() => {
+      this.setState({ message: null });
+    }, 1600);
     this.firstAsync();
   };
 
@@ -88,6 +96,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="wrapper">
+          {this.state.message && <Message type={this.state.message} />}
           <NavBar handler={this.makeSlider} users={this.state.inactive_users} />
           <Day />
           <div className="box-3">

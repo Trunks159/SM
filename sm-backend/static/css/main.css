@@ -1,15 +1,6 @@
 .error {
   color: red;
 }
-
-.list {
-  color: orange;
-}
-
-.skull {
-  width: 20px;
-}
-
 .scrollmenu {
   min-width: 100%;
   min-height: 200px;
@@ -36,26 +27,40 @@
 
 .logo {
   margin: 10px;
+  width: 35px;
 }
 
-.btn-block {
-  background-color: red;
+#blue {
+  background-color: teal;
 }
-
-.day-thumbnail {
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  line-height: 150px;
+#green {
+  background-color: green;
 }
 
 .circle {
   background-color: red;
   border-radius: 50%;
-  width: 150px;
-  height: 150px;
+  width: 50px;
+  height: 50px;
   margin: 20px;
   color: white;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.circle:hover {
+  box-shadow: 0px 8px 15 px red;
+  transform: translateY(-3px);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+}
+
+.weeks {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
 }
 
 .week {

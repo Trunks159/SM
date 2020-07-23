@@ -97,10 +97,11 @@ class OffDays(db.Model):
 
 class Day(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    year = db.Column(db.Integer, index=True)
-    month = db.Column(db.Integer, index=True)
-    day = db.Column(db.Integer, index=True)
+    year = db.Column(db.Integer)
+    month = db.Column(db.Integer)
+    day = db.Column(db.Integer)
     workblocks = db.relationship('WorkBlock', backref='day', lazy=True)
+    schedule_id = db.Column(db.Integer, db.ForeignKey('schedule.id'))
 
     def weekday(self):
         return datetime.date(self.year, self.month, self.day).weekday()
@@ -109,9 +110,14 @@ class Day(db.Model):
 class WorkBlock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     worker_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    start_time = db.Column(db.Integer, index=True)
-    end_time = db.Column(db.Integer, index=True)
+    start_time = db.Column(db.Integer)
+    end_time = db.Column(db.Integer)
     day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
+
+
+class Schedule(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    days = db.relationship('Day', backref='week', lazy=True)
 
 
 @login.user_loader

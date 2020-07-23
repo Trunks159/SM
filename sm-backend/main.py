@@ -2,31 +2,20 @@ from flask import render_template, flash, redirect, url_for, request, jsonify
 from config import app, db
 from werkzeug.urls import url_parse
 from forms import RegistrationForm, LoginForm, AddUserForm
-from models import User, Day, WorkBlock
+from models import User, Day, WorkBlock, Schedule
 from flask_login import current_user, login_user, login_required, logout_user
 from calendar import month_name, day_name
-from datetime import date
+from dates import Date
 import os
 
 app.jinja_env.globals.update(month_name=month_name, day_name=day_name)
-
-
-class Date(date):
-    def string_date(self):
-        return str(self.year) + '#' + str(self.month) + '#'+str(self.day)
-
-    def to_json(self):
-        return {
-            'month': self.month,
-            'day': self.day,
-            'year': self.year
-        }
 
 
 @app.route('/')
 @app.route('/home')
 def home():
     users = User.query.all()
+
     img = os.path.abspath('static/images/Logo.png').replace("\\",
                                                             '/').lower().replace('c:', 'http://localhost')
     # json_users = [user.to_json() for user in users]
@@ -46,16 +35,23 @@ def receive_data():
     data = request.get_json()
     date = data['date']
     values = data['values']
-    day = Day(year=date[0], month=date[1], day=date[2])
-
-    for value in values:
-        user = users.filter_by(id=value['id']).first()
-        w = WorkBlock(
-            user=user, start_time=value['value'][0], end_time=value['value'][1], day=day)
-        print(w.start_time)
+    if Day.query.filter_by(year=date[0], month=date[1], day=date[2]).first() == None:
+        day = Day(year=date[0], month=date[1], day=date[2])
+        for value in values:
+            user = users.filter_by(id=value['id']).first()
+            w = WorkBlock(
+                user=user, start_time=value['value'][0], end_time=value['value'][1], day=day)
+            print(w.start_time)
     # for item in data:
     #   print('Item: ', item)
     return jsonify({'data': data})
+
+
+@app.route('/scheduletron5000')
+def scheduletron5000():
+    d = Date(year=2020, month=2, day=22)
+    weeks = d.weeks()
+    return render_template('scheduletron5000.html', weeks=weeks)
 
 
 @app.route('/add_schedule')
