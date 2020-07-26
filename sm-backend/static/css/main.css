@@ -36,6 +36,12 @@
 #green {
   background-color: green;
 }
+#red {
+  background-color: red;
+}
+#gray {
+  background-color: gray;
+}
 
 .circle {
   background-color: red;

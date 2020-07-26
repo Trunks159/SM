@@ -1,12 +1,7 @@
 {% extends 'layout.html' %} {% block content %}
 <div class="weeks">
   {% for day in weeks %}
-  <a
-    href="#"
-    class="circle"
-    id="{{'blue' if day.state == 'available' else 'green'}}"
-    >{{day.day}}</a
-  >
+  <a href="#" class="circle" id="{{day.color()}}">{{day.day}}</a>
   {% endfor %}
 </div>
 {% endblock content%}

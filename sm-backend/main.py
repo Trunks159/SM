@@ -5,7 +5,7 @@ from forms import RegistrationForm, LoginForm, AddUserForm
 from models import User, Day, WorkBlock, Schedule
 from flask_login import current_user, login_user, login_required, logout_user
 from calendar import month_name, day_name
-from dates import Date
+from dates import Date, date
 import os
 
 app.jinja_env.globals.update(month_name=month_name, day_name=day_name)
@@ -49,8 +49,13 @@ def receive_data():
 
 @app.route('/scheduletron5000')
 def scheduletron5000():
-    d = Date(year=2020, month=2, day=22)
+
+    d = Date.today()
     weeks = d.weeks()
+    for day in weeks:
+        x = day - d
+        if x.days <= 0:
+            day.state = 'inactive'
     return render_template('scheduletron5000.html', weeks=weeks)
 
 
