@@ -42,8 +42,6 @@ def receive_data():
             w = WorkBlock(
                 user=user, start_time=value['value'][0], end_time=value['value'][1], day=day)
             print(w.start_time)
-    # for item in data:
-    #   print('Item: ', item)
     return jsonify({'data': data})
 
 
@@ -56,7 +54,15 @@ def scheduletron5000():
         x = day - d
         if x.days <= 0:
             day.state = 'inactive'
-    return render_template('scheduletron5000.html', weeks=weeks)
+    days = [day.to_json() for day in weeks]
+
+    return jsonify({'days': days})
+
+
+@app.route('/idkwattocallit/<string_date>')
+def idkwattocallit(string_date):
+    print(string_date)
+    return redirect(url_for('home'))
 
 
 @app.route('/add_schedule')

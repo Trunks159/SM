@@ -10,23 +10,22 @@ const NavBar = ({ handler, users }) => (
       />
     </a>
     <div className="a2">
-      <hr />
-      <p style={{ textAlign: "center" }}>
+      <p>
         <strong>Workers</strong>
       </p>
-      <hr />
-      {users.length > 0
-        ? users.map((user) => (
-            <div className="worker" key={user.id}>
-              <p className="w-name">
+      <div class="vertical-menu">
+        {users.length > 0
+          ? users.map((user) => (
+              <button
+                className="btn"
+                onClick={() => handler(user)}
+                key={user.id}
+              >
                 {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
-              </p>
-              <button className="plus-btn" onClick={() => handler(user)}>
-                +
               </button>
-            </div>
-          ))
-        : null}
+            ))
+          : null}
+      </div>
     </div>
   </div>
 );

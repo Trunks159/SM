@@ -6,9 +6,12 @@ import Week from "./components/Week";
 import Times from "./components/Times";
 import Sliders from "./components/Sliders";
 import Message from "./components/Message";
+import Days from "./components/Days";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 class App extends Component {
   state = {
+    days: [],
     message: null,
     date: [2020, 11, 3],
     img: "",
@@ -49,6 +52,13 @@ class App extends Component {
           return user;
         });
         this.setState({ inactive_users: users });
+        console.log("inactive users: ", this.state.inactive_users);
+      })
+    );
+    fetch("/scheduletron5000").then((response) =>
+      response.json().then((data) => {
+        this.setState({ days: data.days });
+        console.log("days: ", this.state.days);
       })
     );
   }
@@ -94,52 +104,75 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="wrapper">
-          {this.state.message && <Message type={this.state.message} />}
-          <NavBar handler={this.makeSlider} users={this.state.inactive_users} />
-          <Day />
-          <div className="box-3">
-            <Times />
-            <Sliders
-              handler={this.removeSlider}
-              users={this.state.active_users}
-              weSliding={this.weSliding}
+      <Router>
+        <div className="App">
+          <div className="tes">
+            <NavBar
+              handler={this.makeSlider}
+              users={this.state.inactive_users}
             />
-            <button className="btn" onClick={this.saveChanges}>
-              Save Changes
-            </button>
+            <Route
+              exact
+              path="/"
+              render={() => <Days days={this.state.days} />}
+            ></Route>
+            <Switch>
+              <Route
+                exact
+                path="/other"
+                render={() => (
+                  <div className="wrapper">
+                    {this.state.message && (
+                      <Message type={this.state.message} />
+                    )}
+
+                    <Day />
+                    <div className="box-3">
+                      <Times />
+                      <Sliders
+                        handler={this.removeSlider}
+                        users={this.state.active_users}
+                        weSliding={this.weSliding}
+                      />
+                      <button className="btn" onClick={this.saveChanges}>
+                        Save Changes
+                      </button>
+                    </div>
+                    <Week
+                      week={[
+                        {
+                          weekday: "Tues.",
+                          date: "Nov 4",
+                        },
+                        {
+                          weekday: "Wed.",
+                          date: "Nov 5",
+                        },
+                        {
+                          weekday: "Thurs.",
+                          date: "Nov 6",
+                        },
+                        {
+                          weekday: "Fri.",
+                          date: "Nov 7",
+                        },
+                        {
+                          weekday: "Sat.",
+                          date: "Nov 8",
+                        },
+                        {
+                          weekday: "Sun.",
+                          date: "Nov 9",
+                        },
+                      ]}
+                    />
+                  </div>
+                )}
+              ></Route>
+            </Switch>
           </div>
-          <Week
-            week={[
-              {
-                weekday: "Tues.",
-                date: "Nov 4",
-              },
-              {
-                weekday: "Wed.",
-                date: "Nov 5",
-              },
-              {
-                weekday: "Thurs.",
-                date: "Nov 6",
-              },
-              {
-                weekday: "Fri.",
-                date: "Nov 7",
-              },
-              {
-                weekday: "Sat.",
-                date: "Nov 8",
-              },
-              {
-                weekday: "Sun.",
-                date: "Nov 9",
-              },
-            ]}
-          />
         </div>
-      </div>
+      </Router>
     );
   }
 }

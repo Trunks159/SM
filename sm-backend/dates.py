@@ -1,26 +1,24 @@
 from datetime import date, timedelta
 
-'''
-class A():
-    a = 'bob'
-
-
-class B(A):
-    def __init__(self, doobie, **kwargs):
-        super(B, self).__init__(**kwargs)
-        self.b = doobie.year
-
-
-x = B(date(month=2, day=22, year=1996))
-
-
-'''
-
 
 class Date(date):
     state = 'available'
     colors = {'available': 'blue', 'complete': 'green',
-              'incomplete': 'red', 'inactive': 'gray'}
+              'incomplete': 'red', 'inactive': 'gray', '': 'orange'}
+
+    def string_date(self):
+        return str(self.year) + '-' + str(self.month) + '-' + str(self.day)
+
+    def to_json(self):
+        return{
+            'id': self.string_date(),
+            'color': self.color(),
+            'state': self.state,
+            'year': self.year,
+            'month': self.month,
+            'day': self.day,
+            'weekday': self.weekday()
+        }
 
     def color(self):
         return self.colors[self.state]
@@ -43,7 +41,7 @@ class Date(date):
                     Date(year=new_date.year, month=new_date.month, day=new_date.day))
 
         last_day = weeks[len(weeks)-1]
-        for i in range(14):
+        for i in range(1, 15):
             new_date = last_day + timedelta(days=i)
             weeks.append(
                 Date(year=new_date.year, month=new_date.month, day=new_date.day))

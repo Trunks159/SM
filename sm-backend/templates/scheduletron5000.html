@@ -1,7 +1,15 @@
 {% extends 'layout.html' %} {% block content %}
+
 <div class="weeks">
   {% for day in weeks %}
-  <a href="#" class="circle" id="{{day.color()}}">{{day.day}}</a>
+  <a
+    href="{{url_for('idkwattocallit', string_date = day.string_date())}}"
+    class="circle"
+    id="{{day.color()}}"
+  >
+    {{day.day}}
+  </a>
   {% endfor %}
 </div>
+
 {% endblock content%}
