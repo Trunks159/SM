@@ -104,8 +104,6 @@ h6 {
 }
 
 p {
-  border-top: 1px solid lightgray;
-  border-bottom: 1px solid lightgray;
   text-align: center;
 }
 
@@ -127,17 +125,23 @@ p {
   transition: all 0.5s ease 0s;
 }
 
-.plus-btn {
-  color: hsl(120, 100%, 39%);
-  font-weight: 1000;
-  padding: 0px;
-  background-color: transparent;
-  border: none;
+.user-thumbnail {
+  text-align: center;
+}
+
+.nav-items {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+li a {
+  padding: 5px;
+  display: block;
 }
 
 .wrapper {
   display: grid;
-  grid-template-columns: 0.5fr 0.5fr 2.5fr 0.5fr;
+  grid-template-columns: 0.5fr 2.5fr 0.5fr;
   grid-auto-rows: 100vh;
   grid-gap: 3px;
 }

@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import "./App.css";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import NavBar from "./components/NavBar";
 import Day from "./components/Day";
 import Week from "./components/Week";
 import Times from "./components/Times";
 import Sliders from "./components/Sliders";
-import Message from "./components/Message";
 import Days from "./components/Days";
+import Thumbnail from "./components/Thumbnail";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 class App extends Component {
@@ -23,6 +24,7 @@ class App extends Component {
       username: "Trunks159",
       position: "manager",
       anonymous: false,
+      is_authenticated: true,
     },
   };
 
@@ -42,6 +44,16 @@ class App extends Component {
     const content = await rawResponse.json();
 
     console.log(content);
+  }
+
+  logoutUser(e) {
+    e.prevent_default();
+    fetch("/logout").then((response) =>
+      response.json().then((data) => {
+        this.setState({ current_user: data.current_user });
+        console.log("User was logged out");
+      })
+    );
   }
 
   componentDidMount() {
@@ -65,7 +77,7 @@ class App extends Component {
 
   saveChanges = (e) => {
     this.setState({
-      message: "saved",
+      message: "This day's schedule has been saved!",
     });
     setTimeout(() => {
       this.setState({ message: null });
@@ -108,8 +120,11 @@ class App extends Component {
         <div className="App">
           <div className="tes">
             <NavBar
+              current_user={this.state.current_user}
               handler={this.makeSlider}
               users={this.state.inactive_users}
+              Thumbnail={Thumbnail}
+              logoutUser={this.logoutUser}
             />
             <Route
               exact
@@ -121,51 +136,55 @@ class App extends Component {
                 exact
                 path="/other"
                 render={() => (
-                  <div className="wrapper">
+                  <div>
                     {this.state.message && (
-                      <Message type={this.state.message} />
+                      <Alert severity="success">
+                        <AlertTitle>Success</AlertTitle>
+                        {this.state.message}
+                      </Alert>
                     )}
-
-                    <Day />
-                    <div className="box-3">
-                      <Times />
-                      <Sliders
-                        handler={this.removeSlider}
-                        users={this.state.active_users}
-                        weSliding={this.weSliding}
+                    <div className="wrapper">
+                      <Day />
+                      <div className="box-3">
+                        <Times />
+                        <Sliders
+                          handler={this.removeSlider}
+                          users={this.state.active_users}
+                          weSliding={this.weSliding}
+                        />
+                        <button className="btn" onClick={this.saveChanges}>
+                          Save Changes
+                        </button>
+                      </div>
+                      <Week
+                        week={[
+                          {
+                            weekday: "Tues.",
+                            date: "Nov 4",
+                          },
+                          {
+                            weekday: "Wed.",
+                            date: "Nov 5",
+                          },
+                          {
+                            weekday: "Thurs.",
+                            date: "Nov 6",
+                          },
+                          {
+                            weekday: "Fri.",
+                            date: "Nov 7",
+                          },
+                          {
+                            weekday: "Sat.",
+                            date: "Nov 8",
+                          },
+                          {
+                            weekday: "Sun.",
+                            date: "Nov 9",
+                          },
+                        ]}
                       />
-                      <button className="btn" onClick={this.saveChanges}>
-                        Save Changes
-                      </button>
                     </div>
-                    <Week
-                      week={[
-                        {
-                          weekday: "Tues.",
-                          date: "Nov 4",
-                        },
-                        {
-                          weekday: "Wed.",
-                          date: "Nov 5",
-                        },
-                        {
-                          weekday: "Thurs.",
-                          date: "Nov 6",
-                        },
-                        {
-                          weekday: "Fri.",
-                          date: "Nov 7",
-                        },
-                        {
-                          weekday: "Sat.",
-                          date: "Nov 8",
-                        },
-                        {
-                          weekday: "Sun.",
-                          date: "Nov 9",
-                        },
-                      ]}
-                    />
                   </div>
                 )}
               ></Route>

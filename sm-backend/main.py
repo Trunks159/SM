@@ -172,7 +172,8 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    print('test')
+    return current_user
 
 
 @app.route('/user/<username>')
