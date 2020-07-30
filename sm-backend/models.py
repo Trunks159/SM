@@ -35,6 +35,7 @@ class User(UserMixin, db.Model):
             'color': self.color,
             'id': self.id,
             'slug': self.slug,
+            'is_authenticated': True
         }
 
     def set_position(self, x):

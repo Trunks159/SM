@@ -8,7 +8,9 @@ import Times from "./components/Times";
 import Sliders from "./components/Sliders";
 import Days from "./components/Days";
 import Thumbnail from "./components/Thumbnail";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Login from "./components/Login";
+
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 class App extends Component {
   state = {
@@ -18,14 +20,7 @@ class App extends Component {
     img: "",
     active_users: [],
     inactive_users: [],
-    current_user: {
-      first_name: "jordan",
-      last_name: "giles",
-      username: "Trunks159",
-      position: "manager",
-      anonymous: false,
-      is_authenticated: true,
-    },
+    current_user: {},
   };
 
   async firstAsync() {
@@ -46,15 +41,13 @@ class App extends Component {
     console.log(content);
   }
 
-  logoutUser(e) {
-    e.prevent_default();
+  logoutUser = () => {
     fetch("/logout").then((response) =>
       response.json().then((data) => {
         this.setState({ current_user: data.current_user });
-        console.log("User was logged out");
       })
     );
-  }
+  };
 
   componentDidMount() {
     fetch("/users").then((response) =>
@@ -63,14 +56,15 @@ class App extends Component {
           user["value"] = ["08:00", "16:00"];
           return user;
         });
-        this.setState({ inactive_users: users });
-        console.log("inactive users: ", this.state.inactive_users);
+        this.setState({
+          inactive_users: users,
+          current_user: data.current_user,
+        });
       })
     );
     fetch("/scheduletron5000").then((response) =>
       response.json().then((data) => {
         this.setState({ days: data.days });
-        console.log("days: ", this.state.days);
       })
     );
   }
@@ -187,7 +181,8 @@ class App extends Component {
                     </div>
                   </div>
                 )}
-              ></Route>
+              />
+              <Route exact path="/login" render={() => <Login />} />
             </Switch>
           </div>
         </div>

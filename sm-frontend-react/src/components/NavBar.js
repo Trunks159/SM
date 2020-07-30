@@ -5,7 +5,7 @@ class NavBar extends Component {
     return (
       <div>
         <li>
-          <button onClick={(e) => this.logoutUser(e)}>Logout</button>
+          <button onClick={logoutUser}>Logout</button>
         </li>
         <li>
           <a href="/">
@@ -21,7 +21,7 @@ class NavBar extends Component {
     if (user.position) {
       return (
         <li>
-          <a href="#">Add User</a>
+          <a href="/">Add User</a>
         </li>
       );
     }
@@ -45,10 +45,10 @@ class NavBar extends Component {
             ) : (
               <div>
                 <li>
-                  <a href="#">Login</a>
+                  <a href="/login">Login</a>
                 </li>
                 <li>
-                  <a href="#">Register</a>
+                  <a href="/">Register</a>
                 </li>
               </div>
             )}
@@ -57,7 +57,7 @@ class NavBar extends Component {
           <p>
             <strong>Workers</strong>
           </p>
-          <div class="vertical-menu">
+          <div className="vertical-menu">
             {users.length > 0
               ? users.map((user) => (
                   <button

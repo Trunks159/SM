@@ -26,7 +26,15 @@ def home():
 @app.route('/users')
 def users():
     users = [user.to_json() for user in User.query.all()]
-    return jsonify({'users': users})
+    user = current_user
+    print(isinstance(user, User))
+    if user.is_authenticated:
+        user = user.to_json()
+        print(user)
+    else:
+        user = {'is_authenticated': False}
+
+    return jsonify({'users': users, 'current_user': user})
 
 
 @app.route('/receive_data', methods=['POST'])
@@ -146,15 +154,17 @@ def register():
     return render_template('add_user.html', form=form)
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
+@app.route('/user_login', methods=['GET', 'POST'])
+def user_login():
     # Can't be logged in to access, the program searches for
     # the user with the username and question and if it can't find one
     # it just redirects and shows an error message
 
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = LoginForm()
+        user = User.query.filter_by(
+            username=current_user.username).first().to_json()
+        return jsonify({'current_user': user})
+    '''form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
@@ -166,14 +176,27 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('home')
         return redirect(next_page)
-    return render_template('login.html', form=form)
+        '''
+    data = request.get_json()
+    username = data['username']
+    password = data['password']
+    remember = data['remember']
+    user = User.query.filter_by(username=username).first()
+    if user is None or not user.check_password(password):
+        user = {'is_authenticated': current_user.is_authenticated}
+        return jsonify({'current_user': user})
+    login_user(user=user, remember=remember)
+    return jsonify({'current_user': user.to_json()})
+    # return render_template('login.html', form=form)
 
 
+@login_required
 @app.route('/logout')
 def logout():
     logout_user()
-    print('test')
-    return current_user
+    user = {'is_authenticated': current_user.is_authenticated}
+    print(user)
+    return jsonify({'current_user': user})
 
 
 @app.route('/user/<username>')
