@@ -1,10 +1,54 @@
+/* || All */
+
+.current-day {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: red;
+  width: 160px;
+}
+.current-day h1 {
+  color: white;
+  writing-mode: vertical-lr;
+  transform: rotate(-180deg);
+  font-size: 60px;
+}
+
 /* || Nav Bar*/
+
+.nav-bar {
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  text-align: center;
+  height: 100vh;
+  overflow-y: auto;
+}
+form {
+  width: auto;
+}
+
+.logo {
+  align-self: center;
+  margin-top: 35px;
+}
+
+.vertical-menu p {
+  background-color: #bcbcbc;
+  padding: 20px;
+}
 
 /* || Sliders  */
 
-#di {
-  display: inline-block;
-  margin: 10px;
+.flex-box {
+  display: flex;
+  gap: 5px;
+  background-color: springgreen;
+}
+
+.login-btn {
+  color: white;
+  background-color: red;
 }
 
 .MuiSlider-valueLabel {
@@ -30,7 +74,7 @@
   margin: 10px;
 }
 
-.time {
+.times li {
   margin: 7px;
 }
 
@@ -94,32 +138,38 @@ h6 {
   background-color: gray;
 }
 
-.logo {
-  width: 45px;
-}
-
-.tes {
-  display: grid;
-  grid-template-columns: 0.1fr 0.9fr;
-}
-
 p {
   text-align: center;
+  margin: 0px;
 }
 
 .vertical-menu {
+  display: flex;
+  flex-direction: column;
+  /*
   display: grid;
-  justify-content: stretch;
+  overflow-y: auto;
+  max-height: 320px;*/
 }
 .vertical-menu .btn {
-  background-color: #eee;
   color: black;
-  display: block;
   padding: 12px;
   text-align: center;
 }
+#darker {
+  background-color: #eeebeb;
+}
+#lighter {
+  background-color: #f5f5f5;
+}
 
-.vertical-menu .btn:hover {
+#darker:hover {
+  background-color: #17fc03;
+  color: black;
+  transition: all 0.5s ease 0s;
+}
+
+#lighter:hover {
   background-color: #17fc03;
   color: black;
   transition: all 0.5s ease 0s;
@@ -139,52 +189,16 @@ li a {
   display: block;
 }
 
-.wrapper {
-  display: grid;
-  grid-template-columns: 0.5fr 2.5fr 0.5fr;
-  grid-auto-rows: 100vh;
-  grid-gap: 3px;
-}
-
-.wrapper > div {
-  border-right: 0.5px solid grey;
-}
-.box-1 {
-  display: grid;
-  justify-content: center;
-  grid-template-rows: 0.25fr 2.5fr;
-}
-
-.a1 {
-  text-align: center;
-}
-
-.a2 {
-  overflow-y: auto;
-  white-space: nowrap;
-}
-
-.box-2 > h1 {
-  color: white;
-  writing-mode: vertical-lr;
-  transform: rotate(-180deg);
-  font-size: 60px;
-}
-.box-2 {
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  background-color: red;
-}
-
 .box-3 {
   display: grid;
   grid-template-columns: 0.25fr 1.75fr;
 }
 
 .box-4 {
-  display: grid;
-  justify-content: center;
+  display: flex;
+  justify-self: flex-end;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .sliders {

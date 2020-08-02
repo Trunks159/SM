@@ -6,7 +6,7 @@ const Days = ({ days }) => (
     <p>Select Which Day To Edit</p>
     <div className="days">
       {days.map((day) => (
-        <Link className="circle" key={day.day} id={day.color}>
+        <Link to="/" className="circle" key={day.day} id={day.color}>
           {day.day}
         </Link>
       ))}

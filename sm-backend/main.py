@@ -20,7 +20,7 @@ def home():
                                                             '/').lower().replace('c:', 'http://localhost')
     # json_users = [user.to_json() for user in users]
     # return jsonify({'users': json_users})
-    return render_template('home.html', users=users, img=img)
+    return 'Hello World'  # render_template('home.html', users=users, img=img)
 
 
 @app.route('/users')
@@ -184,7 +184,7 @@ def user_login():
     user = User.query.filter_by(username=username).first()
     if user is None or not user.check_password(password):
         user = {'is_authenticated': current_user.is_authenticated}
-        return jsonify({'current_user': user})
+        return 'success'  # jsonify({'current_user': user})
     login_user(user=user, remember=remember)
     return jsonify({'current_user': user.to_json()})
     # return render_template('login.html', form=form)

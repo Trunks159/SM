@@ -25,9 +25,7 @@ const Times = () => (
         .slice(0)
         .reverse()
         .map((x) => (
-          <li className="time" key={x}>
-            {x}
-          </li>
+          <li key={x}>{x}</li>
         ))}
     </ul>
   </div>

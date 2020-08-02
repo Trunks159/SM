@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class NavBar extends Component {
   isAuthenticated(user, Thumbnail, logoutUser) {
@@ -26,51 +27,54 @@ class NavBar extends Component {
       );
     }
   }
+
   render() {
     const { handler, users, current_user, Thumbnail, logoutUser } = this.props;
 
     return (
-      <div className="box-1">
-        <a href="/" className="a1">
+      <div className="nav-bar">
+        <Link to="/" className="logo">
           <img
-            className="logo"
             src="http://localhost:5000/static/images/logo.png"
             alt="test"
+            width="45px"
           />
-        </a>
-        <div className="a2">
-          <ul className="nav-items">
-            {current_user.is_authenticated ? (
-              this.isAuthenticated(current_user, Thumbnail, logoutUser)
-            ) : (
-              <div>
-                <li>
-                  <a href="/login">Login</a>
-                </li>
-                <li>
-                  <a href="/">Register</a>
-                </li>
-              </div>
-            )}
-          </ul>
-
+        </Link>
+        <ul className="nav-items">
+          {current_user.is_authenticated ? (
+            this.isAuthenticated(current_user, Thumbnail, logoutUser)
+          ) : (
+            <div>
+              <li>
+                <Link to="/scheduletron5000">Scheduletron5000</Link>
+              </li>
+              <li>
+                <Link className="login-btn" to="/login">
+                  Login
+                </Link>
+              </li>
+              <li>
+                <Link to="/register">Register</Link>
+              </li>
+            </div>
+          )}
+        </ul>
+        <div className="vertical-menu">
           <p>
             <strong>Workers</strong>
           </p>
-          <div className="vertical-menu">
-            {users.length > 0
-              ? users.map((user) => (
-                  <button
-                    className="btn"
-                    onClick={() => handler(user)}
-                    key={user.id}
-                  >
-                    {user.first_name[0].toUpperCase() +
-                      user.first_name.slice(1)}
-                  </button>
-                ))
-              : null}
-          </div>
+          {users.length > 0
+            ? users.map((user, index) => (
+                <button
+                  id={index % 2 === 0 ? "darker" : "lighter"}
+                  className="btn"
+                  onClick={() => handler(user)}
+                  key={user.id}
+                >
+                  {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
+                </button>
+              ))
+            : null}
         </div>
       </div>
     );
