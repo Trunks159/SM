@@ -5,6 +5,7 @@ class Login extends Component {
     username: "",
     password: "",
     remember: false,
+    redirect: null,
   };
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -15,7 +16,7 @@ class Login extends Component {
     });
   };
 
-  handleSubmit = async (e) => {
+  handleSubmit = async (e, loginUser) => {
     e.preventDefault();
     const { username, password, remember } = this.state;
     const rawResponse = await fetch("/user_login", {
@@ -31,52 +32,51 @@ class Login extends Component {
       }),
     });
     const content = await rawResponse.json();
-    this.setState({ current_user: content.current_user });
+    loginUser(content.current_user);
+    this.setState({ redirect: <Redirect to="/" /> });
   };
 
-  loginForm() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          <b>Username</b>
-        </label>
-        <input
-          onChange={this.handleChange}
-          type="text"
-          placeholder="Enter Username"
-          name="username"
-          required
-        />
-        <label htmlFor="psw">
-          <b>Password</b>
-        </label>
-        <input
-          onChange={this.handleChange}
-          type="password"
-          placeholder="Enter Password"
-          name="password"
-          required
-        />
-        <button type="submit">Login</button>
-        <label>
-          <input
-            onChange={this.handleCheckbox}
-            type="checkbox"
-            defaultChecked="checked"
-            name="remember"
-          />
-          Remember me
-        </label>
-
-        <span className="psw">
-          Forgot <a href="/">password?</a>
-        </span>
-      </form>
-    );
-  }
-
   render() {
-    return this.loginForm();
+    return (
+      this.state.redirect || (
+        <form onSubmit={(e) => this.handleSubmit(e, this.props.loginUser)}>
+          <label>
+            <b>Username</b>
+          </label>
+          <input
+            onChange={this.handleChange}
+            type="text"
+            placeholder="Enter Username"
+            name="username"
+            required
+          />
+          <label htmlFor="psw">
+            <b>Password</b>
+          </label>
+          <input
+            onChange={this.handleChange}
+            type="password"
+            placeholder="Enter Password"
+            name="password"
+            required
+          />
+          <button type="submit">Login</button>
+          <label>
+            <input
+              onChange={this.handleCheckbox}
+              type="checkbox"
+              defaultChecked="checked"
+              name="remember"
+            />
+            Remember me
+          </label>
+
+          <span className="psw">
+            Forgot <a href="/">password?</a>
+          </span>
+        </form>
+      )
+    );
   }
 }
 export default Login;

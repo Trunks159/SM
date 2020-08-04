@@ -1,0 +1,217 @@
+/* || All */
+
+.current-day {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: red;
+  width: 160px;
+}
+.current-day h1 {
+  color: white;
+  writing-mode: vertical-lr;
+  transform: rotate(-180deg);
+  font-size: 60px;
+}
+
+/* || Nav Bar*/
+
+.nav-bar {
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  text-align: center;
+  height: 100vh;
+  overflow-y: auto;
+}
+form {
+  width: auto;
+}
+
+.logo {
+  align-self: center;
+  margin-top: 35px;
+}
+
+.vertical-menu p {
+  background-color: #bcbcbc;
+  padding: 20px;
+}
+
+/* || Sliders  */
+
+.flex-box {
+  display: flex;
+  gap: 5px;
+  background-color: springgreen;
+}
+
+.login-btn {
+  color: white;
+  background-color: red;
+}
+
+.MuiSlider-valueLabel {
+  color: red;
+}
+
+.MuiSlider-thumb {
+  color: black;
+}
+.MuiSlider-rail {
+  color: rgb(160, 154, 154);
+}
+.MuiSlider-track {
+  color: red;
+}
+.MuiSlider-mark {
+  color: black;
+}
+
+.times {
+  list-style-type: none;
+  padding: 10px;
+  margin: 10px;
+}
+
+.times li {
+  margin: 7px;
+}
+
+/* || Week  */
+
+#but {
+  color: white;
+  background-color: red;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  box-shadow: 0px 8px 15px rgba(1, 0, 0, 0.5);
+}
+#but:hover {
+  background-color: orange;
+  box-shadow: 0px 8px 15 px orange;
+  transform: translateY(-3px);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  color: white;
+}
+
+h6 {
+  font-size: 10px;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.circle {
+  background-color: red;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin: 20px;
+  color: white;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.circle:hover {
+  box-shadow: 0px 8px 15 px red;
+  transform: translateY(-3px);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+}
+
+p {
+  text-align: center;
+  margin: 0px;
+}
+
+.vertical-menu {
+  display: flex;
+  flex-direction: column;
+  /*
+    display: grid;
+    overflow-y: auto;
+    max-height: 320px;*/
+}
+.vertical-menu .btn {
+  color: black;
+  padding: 12px;
+  text-align: center;
+}
+#darker {
+  background-color: #eeebeb;
+}
+#lighter {
+  background-color: #f5f5f5;
+}
+
+#darker:hover {
+  background-color: #17fc03;
+  color: black;
+  transition: all 0.5s ease 0s;
+}
+
+#lighter:hover {
+  background-color: #17fc03;
+  color: black;
+  transition: all 0.5s ease 0s;
+}
+
+.user-thumbnail {
+  text-align: center;
+}
+
+.nav-items {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+li a {
+  padding: 5px;
+  display: block;
+}
+
+.box-3 {
+  display: grid;
+  grid-template-columns: 0.25fr 1.75fr;
+}
+
+.box-4 {
+  display: flex;
+  justify-self: flex-end;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.sliders {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.slider {
+  height: 500px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: blue orange;
+}
+
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+*::-webkit-scrollbar-track {
+  background: lightgray;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: red;
+  border-radius: 20px;
+  border: 3px solid red;
+}

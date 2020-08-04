@@ -5,7 +5,6 @@ import NavBar from "./components/NavBar";
 import ScheduleTron5000 from "./components/scheduletron5000/Scheduletron5000";
 import Days from "./components/home/Days";
 import Week from "./components/Week";
-import Thumbnail from "./components/Thumbnail";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 
@@ -30,7 +29,7 @@ class App extends Component {
     );
   };
 
-  componentDidMount() {
+  getUsers = () => {
     fetch("/users").then((response) =>
       response.json().then((data) => {
         let users = data.users.map((user) => {
@@ -43,6 +42,10 @@ class App extends Component {
         });
       })
     );
+  };
+
+  componentDidMount() {
+    this.getUsers();
     fetch("/scheduletron5000").then((response) =>
       response.json().then((data) => {
         this.setState({ days: data.days });
@@ -60,26 +63,42 @@ class App extends Component {
     this.setState({ active_users: active_users });
   };
 
+  loginUser = (user) => {
+    this.setState({ current_user: user });
+  };
   render() {
     return (
       <Router>
         <div className="App">
-          <div className="flex-box">
+          <div className="main-flex">
             <NavBar
               current_user={this.state.current_user}
               handler={this.makeSlider}
               users={this.state.inactive_users}
-              Thumbnail={Thumbnail}
               logoutUser={this.logoutUser}
             />
-            <div className="current-day">
-              <h1>Monday</h1>
+            <p className="current-day">Monday</p>
+            <div className="content">
+              <Route
+                exact
+                path="/"
+                render={() => <Days days={this.state.days} />}
+              />
+
+              <Route
+                path="/login"
+                render={() => <Login loginUser={this.loginUser} />}
+              />
+
+              <Route
+                path="/register"
+                render={() => <Register getUsers={this.getUsers} />}
+              />
             </div>
-            <Route path="/login" render={() => <Login />} />
-            <Route path="/register" render={() => <Register />} />
             <Week />
           </div>
           {/*
+  
           
           
 

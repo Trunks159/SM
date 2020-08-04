@@ -133,11 +133,23 @@ def edit_user(id):
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    data = request.get_json()
+    username = data['username']
+    user = User.query.filter_by(username=username).first()
+    if user:
+        return jsonify({'error': 'User Already Exists'})
+    else:
+        u = User(username=username,
+                 first_name=data['first_name'], last_name=data['last_name'])
+        u.set_password(data['password'])
+        db.session.add(u)
+        db.session.commit()
+        return jsonify({'success': 'Successfully Created User'})
 
     # Renders the add_worker template
     # You can't be logged in to access, and when the form submits
     # the user gets made and you're redirected
-
+'''
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = RegistrationForm()
@@ -152,6 +164,7 @@ def register():
         flash('Congrats your registration was successful')
         return redirect(url_for('login'))
     return render_template('add_user.html', form=form)
+    '''
 
 
 @app.route('/user_login', methods=['GET', 'POST'])
