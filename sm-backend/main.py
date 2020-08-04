@@ -57,6 +57,7 @@ def receive_data():
 def scheduletron5000():
 
     d = Date.today()
+    d.is_current = True
     weeks = d.weeks()
     for day in weeks:
         x = day - d

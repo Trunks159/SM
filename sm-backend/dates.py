@@ -5,6 +5,7 @@ class Date(date):
     state = 'available'
     colors = {'available': 'blue', 'complete': 'green',
               'incomplete': 'red', 'inactive': 'gray', '': 'orange'}
+    is_current = False
 
     def string_date(self):
         return str(self.year) + '-' + str(self.month) + '-' + str(self.day)
@@ -17,7 +18,8 @@ class Date(date):
             'year': self.year,
             'month': self.month,
             'day': self.day,
-            'weekday': self.weekday()
+            'weekday': self.weekday(),
+            'is_current': self.is_current
         }
 
     def color(self):

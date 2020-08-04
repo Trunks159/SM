@@ -1,6 +1,7 @@
 .main-flex {
   display: flex;
   height: 100vh;
+  justify-content: space-between;
 }
 
 .current-day {
@@ -23,12 +24,16 @@
 }
 
 .week {
-  margin-left: auto;
-  padding-right: 30px;
   overflow-y: auto;
-  border-left: 3px solid lightgray;
+  border-left: 1px solid black;
   display: flex;
   flex-direction: column;
+  flex: 0 0 100px;
+  text-align: center;
+}
+
+.day {
+  margin: 3px;
 }
 
 /*   ||  Nav Bar */
@@ -45,8 +50,7 @@ a {
 }
 
 .nav-bar {
-  max-height: 100vh;
-  min-width: 180px;
+  flex: 0 0 150px;
   text-align: center;
   border-right: 1px solid lightgrey;
   overflow-y: auto;
@@ -125,7 +129,8 @@ a {
 /*   ||  Nav Bar */
 
 /*   ||  Week */
-.week {
+.week p {
+  margin: 0;
 }
 
 /*   ||  Week */
@@ -143,15 +148,10 @@ a {
   background-color: gray;
 }
 
-.test {
-  display: flex;
-  flex-direction: column;
-}
-
 .days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  justify-content: space-evenly;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgb(248, 248, 248);
 }
 
 .circle {

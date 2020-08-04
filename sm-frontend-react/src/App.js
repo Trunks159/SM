@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import "./App.css";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import NavBar from "./components/NavBar";
+import Thumbnail from "./components/Thumbnail";
 import ScheduleTron5000 from "./components/scheduletron5000/Scheduletron5000";
-import Days from "./components/home/Days";
+import PastDays from "./components/home/PastDays";
+import User from "./components/user/User";
 import Week from "./components/Week";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 class App extends Component {
   state = {
@@ -67,6 +69,16 @@ class App extends Component {
     this.setState({ current_user: user });
   };
   render() {
+    const dictionary = {
+      "0": "Monday",
+      "1": "Tuesday",
+      "2": "Wednesday",
+      "3": "Thursday",
+      "4": "Friday",
+      "5": "Saturday",
+      "6": "Sunday",
+    };
+
     return (
       <Router>
         <div className="App">
@@ -76,26 +88,42 @@ class App extends Component {
               handler={this.makeSlider}
               users={this.state.inactive_users}
               logoutUser={this.logoutUser}
+              Thumbnail={Thumbnail}
             />
-            <p className="current-day">Monday</p>
+            {this.state.days.length > 0 ? (
+              <p className="current-day">
+                {
+                  dictionary[
+                    this.state.days
+                      .filter((day) => day.is_current === true)[0]
+                      .weekday.toString()
+                  ]
+                }
+              </p>
+            ) : null}
             <div className="content">
-              <Route
-                exact
-                path="/"
-                render={() => <Days days={this.state.days} />}
-              />
+              <Route exact path="/" render={() => <PastDays />} />
 
+              <Route
+                path="/user/:username"
+                render={(props) => {
+                  const user = this.state.inactive_users.find(
+                    (user) => user.username === props.match.params.username
+                  );
+                  return <User Thumbnail={Thumbnail} user={user} />;
+                }}
+              />
               <Route
                 path="/login"
                 render={() => <Login loginUser={this.loginUser} />}
               />
-
               <Route
                 path="/register"
                 render={() => <Register getUsers={this.getUsers} />}
               />
+              <Route path="/scheduletron5000" component={ScheduleTron5000} />
             </div>
-            <Week />
+            <Week week={this.state.days} dictionary={dictionary} />
           </div>
           {/*
   

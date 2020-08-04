@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
 
-const Week = () => {
+const Week = ({ week, dictionary }) => {
+  /*
   const week = [
     {
       weekday: "Tues.",
@@ -26,19 +27,22 @@ const Week = () => {
       weekday: "Sun.",
       date: "Nov 9",
     },
-  ];
+  ];*/
+
   const circle = "45px";
+  console.log(week);
   return (
     <div className="week">
-      {week.map((day) => (
-        <div className="week" key={day.date}>
-          <p>{day.weekday}</p>
+      <h4>Edit Schedule</h4>
+      {week.map(({ day, weekday, color }) => (
+        <div key={day.date} className="day">
+          <p>{dictionary[weekday.toString()]}</p>
           <button
             id="but"
             className="circle"
-            style={{ height: circle, width: circle }}
+            style={{ height: circle, width: circle, backgroundColor: color }}
           >
-            {day.date}
+            {day}
           </button>
         </div>
       ))}

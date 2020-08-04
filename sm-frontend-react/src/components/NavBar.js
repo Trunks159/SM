@@ -9,20 +9,14 @@ class NavBar extends Component {
     redirect: null,
   };
 
-  isAuthenticated(user, logoutUser) {
+  isAuthenticated(user, logoutUser, Thumbnail) {
     return (
       <React.Fragment>
         <li className="nav-link">
-          <Link to="/">
-            <div className="user-thumbnail">
-              <p>
-                {user.first_name} {user.last_name}
-              </p>
-              <h5 style={{ color: user.color }}>
-                {user.first_name[0].toUpperCase()}
-              </h5>
-            </div>
-          </Link>
+          <Thumbnail user={user} />
+        </li>
+        <li className="nav-link">
+          <Link to="/scheduletron5000">S.T. 5000</Link>
         </li>
         <li id="logout">
           <button className="logout" onClick={logoutUser}>
@@ -45,7 +39,7 @@ class NavBar extends Component {
   }
 
   render() {
-    const { handler, users, current_user, logoutUser } = this.props;
+    const { handler, users, current_user, logoutUser, Thumbnail } = this.props;
     return (
       <ul className="nav-bar">
         <li>
@@ -57,12 +51,9 @@ class NavBar extends Component {
           </Link>
         </li>
         {current_user.is_authenticated ? (
-          this.isAuthenticated(current_user, logoutUser)
+          this.isAuthenticated(current_user, logoutUser, Thumbnail)
         ) : (
           <React.Fragment>
-            <li className="nav-link">
-              <Link to="/scheduletron5000">S.T. 5000</Link>
-            </li>
             <li className="nav-link">
               <Link to="/login">Login</Link>
             </li>
@@ -77,14 +68,12 @@ class NavBar extends Component {
             {users.length > 0
               ? users.map((user, index) => (
                   <li className="user" key={user.id}>
-                    <button
-                      id={index % 2 === 0 ? "darker" : "lighter"}
-                      onClick={() => handler(user)}
-                      key={user.id}
-                    >
-                      {user.first_name[0].toUpperCase() +
-                        user.first_name.slice(1)}
-                    </button>
+                    <Link to={`/user/${user.username}`}>
+                      <button key={user.id}>
+                        {user.first_name[0].toUpperCase() +
+                          user.first_name.slice(1)}
+                      </button>
+                    </Link>
                   </li>
                 ))
               : null}
