@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Week = ({ week, dictionary }) => {
   /*
@@ -34,16 +35,18 @@ const Week = ({ week, dictionary }) => {
   return (
     <div className="week">
       <h4>Edit Schedule</h4>
-      {week.map(({ day, weekday, color }) => (
-        <div key={day.date} className="day">
+      {week.map(({ day, month, year, weekday, color }) => (
+        <div key={day} className="day">
           <p>{dictionary[weekday.toString()]}</p>
-          <button
-            id="but"
-            className="circle"
-            style={{ height: circle, width: circle, backgroundColor: color }}
-          >
-            {day}
-          </button>
+          <Link to={`/day/${day.date}`}>
+            <button
+              id="but"
+              className="circle"
+              style={{ height: circle, width: circle, backgroundColor: color }}
+            >
+              {day}
+            </button>
+          </Link>
         </div>
       ))}
     </div>

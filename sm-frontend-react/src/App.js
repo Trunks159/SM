@@ -21,6 +21,7 @@ class App extends Component {
     active_users: [],
     inactive_users: [],
     current_user: {},
+    current_day: {},
   };
 
   logoutUser = () => {
@@ -38,9 +39,10 @@ class App extends Component {
           user["value"] = ["08:00", "16:00"];
           return user;
         });
+
         this.setState({
-          inactive_users: users,
           current_user: data.current_user,
+          inactive_users: users,
         });
       })
     );
@@ -50,7 +52,17 @@ class App extends Component {
     this.getUsers();
     fetch("/scheduletron5000").then((response) =>
       response.json().then((data) => {
-        this.setState({ days: data.days });
+        const days = data.days.map((day) => {
+          day.date = `${day.month}${day.day}${day.year}`;
+          return day;
+        });
+        const current_day = this.state.days
+          .find((day) => day.is_current === true)
+          .weekday.toString();
+        this.setState({
+          days: days,
+          current_day: current_day,
+        });
       })
     );
   }
@@ -79,6 +91,18 @@ class App extends Component {
       "6": "Sunday",
     };
 
+    const addDayToDb = async (day) => {
+      const rawResponse = await fetch("/create_day", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ day: day }),
+      });
+      const content = await rawResponse.json();
+    };
+
     return (
       <Router>
         <div className="App">
@@ -92,13 +116,7 @@ class App extends Component {
             />
             {this.state.days.length > 0 ? (
               <p className="current-day">
-                {
-                  dictionary[
-                    this.state.days
-                      .filter((day) => day.is_current === true)[0]
-                      .weekday.toString()
-                  ]
-                }
+                {dictionary[this.state.current_day]}
               </p>
             ) : null}
             <div className="content">
@@ -111,6 +129,17 @@ class App extends Component {
                     (user) => user.username === props.match.params.username
                   );
                   return <User Thumbnail={Thumbnail} user={user} />;
+                }}
+              />
+              <Route
+                path="day/:date"
+                render={(props) => {
+                  const day = this.state.days.find(
+                    (day) => day.date === props.match.params.date
+                  );
+                  this.addDayToDb(day);
+                  this.setState({ current_day: day });
+                  return <ScheduleTron5000 day={this.state.current_day} />;
                 }}
               />
               <Route

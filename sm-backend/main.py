@@ -37,6 +37,7 @@ def users():
     return jsonify({'users': users, 'current_user': user})
 
 
+@login_required
 @app.route('/receive_data', methods=['POST'])
 def receive_data():
     users = User.query
@@ -51,6 +52,21 @@ def receive_data():
                 user=user, start_time=value['value'][0], end_time=value['value'][1], day=day)
             print(w.start_time)
     return jsonify({'data': data})
+
+
+@login_required
+@app.route('/create_day', methods=['GET', 'POST'])
+def create_day():
+    day = request.get_json()['day']
+    db_day = Day.query.filter_by(
+        month=day['month'], day=day['day'], year=day['year']).first()
+    if db_day:
+        return jsonify({'day': db_day.json()})
+    else:
+        day = Day(month=day['month'], day=day['day'], year=day['year'])
+        db.session.add(day)
+        (db.session.commit())
+        return jsonify({'success': 'succefully creacted day'})
 
 
 @app.route('/scheduletron5000')
