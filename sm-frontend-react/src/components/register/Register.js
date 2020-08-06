@@ -23,7 +23,6 @@ class Register extends Component {
       first_name,
       last_name,
     } = this.state;
-    console.log(this.state);
     if (password != confirm_password) {
       this.setState({
         error: "Confirm Password and Password must be the same",

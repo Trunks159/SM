@@ -51,18 +51,15 @@ class App extends Component {
   componentDidMount() {
     this.getUsers();
     fetch("/scheduletron5000").then((response) =>
-      response.json().then((data) => {
-        const days = data.days.map((day) => {
-          day.date = `${day.month}${day.day}${day.year}`;
-          return day;
-        });
-        const current_day = this.state.days
+      response.json().then(({ days }) => {
+        const current_day = days
           .find((day) => day.is_current === true)
           .weekday.toString();
         this.setState({
           days: days,
           current_day: current_day,
         });
+        console.log("Days: ", this.state.days);
       })
     );
   }
@@ -80,6 +77,18 @@ class App extends Component {
   loginUser = (user) => {
     this.setState({ current_user: user });
   };
+  addDayToDb = async (day) => {
+    console.log("The day that is sent:", day);
+    const rawResponse = await fetch("/create_day", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ day: day }),
+    });
+    const content = await rawResponse.json();
+  };
   render() {
     const dictionary = {
       "0": "Monday",
@@ -89,18 +98,6 @@ class App extends Component {
       "4": "Friday",
       "5": "Saturday",
       "6": "Sunday",
-    };
-
-    const addDayToDb = async (day) => {
-      const rawResponse = await fetch("/create_day", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ day: day }),
-      });
-      const content = await rawResponse.json();
     };
 
     return (
@@ -132,11 +129,12 @@ class App extends Component {
                 }}
               />
               <Route
-                path="day/:date"
+                path="/day/:date"
                 render={(props) => {
                   const day = this.state.days.find(
                     (day) => day.date === props.match.params.date
                   );
+                  console.log("Props date:", props.match.params.date);
                   this.addDayToDb(day);
                   this.setState({ current_day: day });
                   return <ScheduleTron5000 day={this.state.current_day} />;

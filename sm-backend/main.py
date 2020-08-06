@@ -54,8 +54,7 @@ def receive_data():
     return jsonify({'data': data})
 
 
-@login_required
-@app.route('/create_day', methods=['GET', 'POST'])
+@app.route('/create_day', methods=['POST'])
 def create_day():
     day = request.get_json()['day']
     db_day = Day.query.filter_by(
@@ -145,6 +144,8 @@ def edit_user(id):
         return bad_request('please use a different username')
 
     return render_template('edit_user.html', user)
+
+
 '''
 
 
@@ -162,6 +163,7 @@ def register():
         db.session.add(u)
         db.session.commit()
         return jsonify({'success': 'Successfully Created User'})
+
 
     # Renders the add_worker template
     # You can't be logged in to access, and when the form submits

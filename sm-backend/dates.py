@@ -19,7 +19,8 @@ class Date(date):
             'month': self.month,
             'day': self.day,
             'weekday': self.weekday(),
-            'is_current': self.is_current
+            'is_current': self.is_current,
+            'date': '{}{}{}'.format(str(self.month), str(self.day), str(self.year))
         }
 
     def color(self):
