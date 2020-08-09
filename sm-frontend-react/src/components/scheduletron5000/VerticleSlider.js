@@ -61,7 +61,7 @@ class VerticalSlider extends Component {
     return (
       <div id="di" className="slider">
         <Typography id="range-slider" gutterBottom>
-          <button className="btn" onClick={() => handler(user)}>
+          <button className="active-user" onClick={() => handler(user)}>
             {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
           </button>
         </Typography>

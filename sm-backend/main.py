@@ -27,10 +27,8 @@ def home():
 def users():
     users = [user.to_json() for user in User.query.all()]
     user = current_user
-    print(isinstance(user, User))
     if user.is_authenticated:
         user = user.to_json()
-        print(user)
     else:
         user = {'is_authenticated': False}
 
@@ -50,65 +48,45 @@ def receive_data():
             user = users.filter_by(id=value['id']).first()
             w = WorkBlock(
                 user=user, start_time=value['value'][0], end_time=value['value'][1], day=day)
-            print(w.start_time)
     return jsonify({'data': data})
 
 
 @app.route('/create_day', methods=['POST'])
 def create_day():
-    day = request.get_json()['day']
+    print('REQUEST: ', request.get_json())
+    date = request.get_json()['date']
     db_day = Day.query.filter_by(
-        month=day['month'], day=day['day'], year=day['year']).first()
+        month=date['month'], day=date['day'], year=date['year']).first()
     if db_day:
         return jsonify({'day': db_day.json()})
     else:
-        day = Day(month=day['month'], day=day['day'], year=day['year'])
+        day = Day(month=date['month'], day=date['day'], year=date['year'])
         db.session.add(day)
-        (db.session.commit())
-        return jsonify({'success': 'succefully creacted day'})
+        # db.session.commit()
+        return jsonify({'day': day.to_json()})
 
 
 @app.route('/scheduletron5000')
 def scheduletron5000():
-
     d = Date.today()
-    d.is_current = True
+    data = Day.query
     weeks = d.weeks()
     for day in weeks:
         x = day - d
         if x.days <= 0:
             day.state = 'inactive'
+    for day in weeks:
+        days = data.filter_by(
+            day=day.day, month=day.month, year=day.year).first()
+        if days == None:
+            db.session.add(Day(day=day.day, month=day.month, year=day.year))
     days = [day.to_json() for day in weeks]
+    for day in days:
+        if day['day'] == current_day:
+            current_day = day
+            break
 
-    return jsonify({'days': days})
-
-
-@app.route('/idkwattocallit/<string_date>')
-def idkwattocallit(string_date):
-    print(string_date)
-    return redirect(url_for('home'))
-
-
-@app.route('/add_schedule')
-def add_schedule():
-    week = []
-    for i in range(1, 8):
-        week.append(Date(2020, 3, i))
-    return render_template('add_schedule.html', week=week)
-
-
-@app.route('/schedule/<string_date>')
-def schedule(string_date):
-    d = string_date.split('#')
-    day = Date(int(d[0]), int(d[1]), int(d[2]))
-    current_day = jsonify(day.to_json())
-    return redirect(url_for('schedule_data'))
-
-
-@app.route('/logo')
-def logo():
-    img = os.path.abspath('static/images/Logo.png')
-    return jsonify({'img': img})
+    return jsonify({'current_day': current_day, 'days': days})
 
 
 @login_required
@@ -227,7 +205,6 @@ def user_login():
 def logout():
     logout_user()
     user = {'is_authenticated': current_user.is_authenticated}
-    print(user)
     return jsonify({'current_user': user})
 
 

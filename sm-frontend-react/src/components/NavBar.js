@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import Button from "@material-ui/core/Button";
+
 class NavBar extends Component {
   state = {
     current_user: {
@@ -16,12 +18,14 @@ class NavBar extends Component {
           <Thumbnail user={user} />
         </li>
         <li className="nav-link">
-          <Link to="/scheduletron5000">S.T. 5000</Link>
+          <Link to="/schduletron5000">
+            <p>S.T. 5000</p>
+          </Link>
         </li>
-        <li id="logout">
-          <button className="logout" onClick={logoutUser}>
-            Logout
-          </button>
+        <li className="nav-link">
+          <Link to="/" className="logout" onClick={logoutUser}>
+            <p>Logout</p>
+          </Link>
         </li>
         {this.isManager(user)}
       </React.Fragment>
@@ -32,14 +36,16 @@ class NavBar extends Component {
     if (user.position) {
       return (
         <li className="nav-link">
-          <Link to="/">Add User</Link>
+          <Link to="/">
+            <p>Add User</p>
+          </Link>
         </li>
       );
     }
   }
 
   render() {
-    const { handler, users, current_user, logoutUser, Thumbnail } = this.props;
+    const { users, current_user, logoutUser, Thumbnail } = this.props;
     return (
       <ul className="nav-bar">
         <li>
@@ -55,10 +61,14 @@ class NavBar extends Component {
         ) : (
           <React.Fragment>
             <li className="nav-link">
-              <Link to="/login">Login</Link>
+              <Link className="nav-item" to="/login">
+                Login
+              </Link>
             </li>
             <li className="nav-link">
-              <Link to="/register">Register</Link>
+              <Link className="nav-item" to="/register">
+                Register
+              </Link>
             </li>
           </React.Fragment>
         )}

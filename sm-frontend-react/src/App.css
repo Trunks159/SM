@@ -60,16 +60,22 @@ a {
   display: block;
   margin-top: 3px;
   margin-bottom: 3px;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-item {
+  width: 100%;
+  height: 100%;
   padding: 10px;
 }
 
 .logout {
   background-color: red;
-  color: white;
   display: block;
+  color: white;
   height: 100%;
   width: 100%;
-  margin: 0;
   border: none;
   padding: 10px;
 }
@@ -174,6 +180,50 @@ a {
   cursor: pointer;
   text-decoration: none;
   color: white;
+}
+
+.scheduletron {
+}
+.timesliders {
+  display: flex;
+}
+
+.btn {
+  margin: 18px;
+}
+
+.timesliders ul {
+  padding-top: 30px;
+}
+
+.timesliders ul li {
+  padding: 5px;
+}
+
+.sliders {
+  overflow-x: auto;
+  display: flex;
+}
+
+.slider {
+  height: 503px;
+}
+
+.MuiSlider-valueLabel {
+  color: red;
+}
+
+.MuiSlider-thumb {
+  color: black;
+}
+.MuiSlider-rail {
+  color: rgb(160, 154, 154);
+}
+.MuiSlider-track {
+  color: red;
+}
+.MuiSlider-mark {
+  color: black;
 }
 
 *::-webkit-scrollbar {

@@ -3,28 +3,21 @@ from datetime import date, timedelta
 
 class Date(date):
     state = 'available'
-    colors = {'available': 'blue', 'complete': 'green',
-              'incomplete': 'red', 'inactive': 'gray', '': 'orange'}
-    is_current = False
-
-    def string_date(self):
-        return str(self.year) + '-' + str(self.month) + '-' + str(self.day)
 
     def to_json(self):
         return{
-            'id': self.string_date(),
             'color': self.color(),
             'state': self.state,
             'year': self.year,
             'month': self.month,
             'day': self.day,
             'weekday': self.weekday(),
-            'is_current': self.is_current,
-            'date': '{}{}{}'.format(str(self.month), str(self.day), str(self.year))
+            'date': {'month': self.month, 'day': self.day, 'year': self.year}
         }
 
     def color(self):
-        return self.colors[self.state]
+        return {'available': 'blue', 'complete': 'green',
+                'incomplete': 'red', 'inactive': 'gray', '': 'orange'}[self.state]
 
     def weeks(self):
         weekday = self.weekday()

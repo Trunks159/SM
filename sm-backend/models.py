@@ -13,10 +13,6 @@ class User(UserMixin, db.Model):
     first_name = db.Column(db.String(20), index=True)
     last_name = db.Column(db.String(20), index=True)
     position = db.Column(db.Integer, index=True)
-    avail_restriction = db.relationship(
-        'AvailRestriction', backref='user', lazy=True)
-    request_offs = db.relationship(
-        'OffDays', backref='user', lazy=True)
     password_hash = db.Column(db.String(128))
     color = db.Column(db.String(20), index=True, unique=True)
     slug = db.Column(db.String(20), index=True, unique=True)
@@ -73,39 +69,36 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
 
-class AvailRestriction(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    weekday = db.Column(db.Integer, index=True)
-    start_time = db.Column(db.Integer)
-    end_time = db.Column(db.Integer)
-
-    def __repr__(self):
-        return 'Cannot Work {}'.format(self.weekday)
-
-
-class OffDays(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    day = db.Column(db.Integer, index=True)
-    month = db.Column(db.Integer, index=True)
-    year = db.Column(db.Integer, index=True)
-
-    def __repr__(self):
-        return 'Request Off {}/{}/{}'.format(self.month, self.day, self.year)
-
-
 class Day(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     year = db.Column(db.Integer)
     month = db.Column(db.Integer)
     day = db.Column(db.Integer)
+    state = db.Column(db.String(25))
     workblocks = db.relationship('WorkBlock', backref='day', lazy=True)
     schedule_id = db.Column(db.Integer, db.ForeignKey('schedule.id'))
 
     def weekday(self):
         return datetime.date(self.year, self.month, self.day).weekday()
+
+    def color(self):
+        return {'available': 'blue', 'complete': 'green',
+                'incomplete': 'red', 'inactive': 'gray', '': 'orange'}[self.state]
+
+    def from_json(self, json):
+        for key in json:
+            setattr(self, key, json[key])
+
+    def to_json(self):
+        return{
+            'color': self.color(),
+            'state': self.state,
+            'year': self.year,
+            'month': self.month,
+            'day': self.day,
+            'weekday': self.weekday(),
+            'date': '{}{}{}'.format(str(self.month), str(self.day), str(self.year))
+        }
 
 
 class WorkBlock(db.Model):
