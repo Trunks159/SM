@@ -32,7 +32,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    console.log("render");
     fetch("/users").then((response) =>
       response.json().then((data) => {
         let users = data.users.map((user) => {
@@ -48,7 +47,6 @@ class App extends Component {
     );
     fetch("/scheduletron5000").then((response) =>
       response.json().then(({ current_day, days }) => {
-        console.log("Lets find out the date:", current_day.date);
         this.setState({
           days: days,
           current_day: current_day,
@@ -115,6 +113,7 @@ class App extends Component {
               <Route
                 path="/day/:month/:day/:year"
                 render={(props) => {
+                  console.log("Month: ", props.match.params.month);
                   return (
                     <ScheduleTron5000
                       date={{

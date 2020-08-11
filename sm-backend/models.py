@@ -1,5 +1,5 @@
 from config import db, login
-import datetime
+from datetime import date
 import matplotlib
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin
@@ -74,16 +74,29 @@ class Day(db.Model):
     year = db.Column(db.Integer)
     month = db.Column(db.Integer)
     day = db.Column(db.Integer)
-    state = db.Column(db.String(25))
+    state = db.Column(db.String(30))
     workblocks = db.relationship('WorkBlock', backref='day', lazy=True)
     schedule_id = db.Column(db.Integer, db.ForeignKey('schedule.id'))
 
+    def __repr__(self):
+        return 'Day {}/{}/{}'.format(self.month, self.day, self.year)
+
+    def check_state(self):
+        today = date.today()
+        print(self)
+        d = date(year=self.year, month=self.month, day=self.day)
+        if (today - d).days > 0:
+            self.state = 'inactive'
+        if self.state == None:
+            self.state = 'available'
+        return self.state
+
     def weekday(self):
-        return datetime.date(self.year, self.month, self.day).weekday()
+        return date(self.year, self.month, self.day).weekday()
 
     def color(self):
         return {'available': 'blue', 'complete': 'green',
-                'incomplete': 'red', 'inactive': 'gray', '': 'orange'}[self.state]
+                'incomplete': 'red', 'inactive': 'gray', '': 'orange'}[self.check_state()]
 
     def from_json(self, json):
         for key in json:
@@ -92,7 +105,7 @@ class Day(db.Model):
     def to_json(self):
         return{
             'color': self.color(),
-            'state': self.state,
+            'state': self.check_state(),
             'year': self.year,
             'month': self.month,
             'day': self.day,

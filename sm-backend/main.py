@@ -5,7 +5,8 @@ from forms import RegistrationForm, LoginForm, AddUserForm
 from models import User, Day, WorkBlock, Schedule
 from flask_login import current_user, login_user, login_required, logout_user
 from calendar import month_name, day_name
-from dates import Date, date
+from dates import viewable_days
+from datetime import date
 import os
 
 app.jinja_env.globals.update(month_name=month_name, day_name=day_name)
@@ -55,6 +56,8 @@ def receive_data():
 def create_day():
     print('REQUEST: ', request.get_json())
     date = request.get_json()['date']
+    date = {'month': int(date['month']), 'day': int(
+        date['day']), 'year': int(date['year'])}
     db_day = Day.query.filter_by(
         month=date['month'], day=date['day'], year=date['year']).first()
     if db_day:
@@ -68,21 +71,18 @@ def create_day():
 
 @app.route('/scheduletron5000')
 def scheduletron5000():
-    d = Date.today()
-    data = Day.query
-    weeks = d.weeks()
-    for day in weeks:
-        x = day - d
-        if x.days <= 0:
-            day.state = 'inactive'
-    for day in weeks:
-        days = data.filter_by(
+    today = date.today()
+    days = []
+    for day in viewable_days(today):
+        d = Day.query.filter_by(
             day=day.day, month=day.month, year=day.year).first()
-        if days == None:
-            db.session.add(Day(day=day.day, month=day.month, year=day.year))
-    days = [day.to_json() for day in weeks]
+        if d == None:
+            d = Day(day=day.day, month=day.month, year=day.year)
+            db.session.add(d)
+        days.append(d)
+    days = [day.to_json() for day in days]
     for day in days:
-        if day['day'] == current_day:
+        if day['day'] == today.day:
             current_day = day
             break
 

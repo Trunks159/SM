@@ -79,6 +79,7 @@ class Scheduletron5000 extends Component {
         }
       })
     );
+    console.log("date: ", this.props.date);
     this.checkDb(this.props.date);
     this.props.changeCurrentDay(this.state.day);
 
