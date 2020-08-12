@@ -32,48 +32,51 @@ class App extends Component {
   };
 
   componentDidMount() {
+    this.fetchDays();
+    this.fetchUsers();
+  }
+
+  fetchDays = () => {
+    fetch("/scheduletron5000").then((response) =>
+      response.json().then(({ days, current_day }) => {
+        this.setState({ days: days, current_day: current_day });
+      })
+    );
+  };
+  fetchUsers() {
     fetch("/users").then((response) =>
       response.json().then((data) => {
         let users = data.users.map((user) => {
           user["value"] = ["08:00", "16:00"];
           return user;
         });
-
-        this.setState({
-          current_user: data.current_user,
-          users: users,
-        });
-      })
-    );
-    fetch("/scheduletron5000").then((response) =>
-      response.json().then(({ current_day, days }) => {
-        this.setState({
-          days: days,
-          current_day: current_day,
-        });
+        this.setState({ users: users, current_user: data.current_user });
       })
     );
   }
-
-  addDayToDb = async (day) => {
-    console.log("The day that is sent:", day);
-    const rawResponse = await fetch("/create_day", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ day: day }),
-    });
-    const content = await rawResponse.json();
-  };
 
   loginUser = (user) => {
     this.setState({ current_user: user });
   };
 
   changeCurrentDay = (day) => {
+    const d = this.checkDb(day);
+    this.fetchDays();
+    console.log(this.state.days);
     this.setState({ current_day: day });
+  };
+
+  checkDb = async ({ day, month, year }) => {
+    const rawResponse = await fetch("/create_day", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ day: day, month: month, year: year }),
+    });
+    const content = await rawResponse.json();
+    console.log(content);
   };
 
   render() {

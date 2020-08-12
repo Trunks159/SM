@@ -55,15 +55,18 @@ def receive_data():
 @app.route('/create_day', methods=['POST'])
 def create_day():
     print('REQUEST: ', request.get_json())
-    date = request.get_json()['date']
+    date = request.get_json()
     date = {'month': int(date['month']), 'day': int(
         date['day']), 'year': int(date['year'])}
     db_day = Day.query.filter_by(
         month=date['month'], day=date['day'], year=date['year']).first()
     if db_day:
+        db_day.state = 'incomplete'
+        print('db day:', db_day)
         return jsonify({'day': db_day.json()})
     else:
         day = Day(month=date['month'], day=date['day'], year=date['year'])
+        day.state = 'incomplete'
         db.session.add(day)
         # db.session.commit()
         return jsonify({'day': day.to_json()})
@@ -141,7 +144,6 @@ def register():
         db.session.add(u)
         db.session.commit()
         return jsonify({'success': 'Successfully Created User'})
-
 
     # Renders the add_worker template
     # You can't be logged in to access, and when the form submits

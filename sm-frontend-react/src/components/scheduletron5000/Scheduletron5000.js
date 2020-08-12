@@ -62,36 +62,6 @@ class Scheduletron5000 extends Component {
     console.log(content);
   }
 
-  componentDidMount() {
-    console.log();
-    /*this.checkDb(this.props.date);*/
-    /*
-    console.log("props: ", this.props);
-    if (this.props.date) {
-      console.log("Found users!", this.props.users);
-      this.setState({
-        current_day: this.props.findDay(this.props.date),
-        inactive_users: this.props.users,
-      });
-    } else {
-      console.log("No users yet");
-    }*/
-  }
-  /*
-  checkDb = async (date) => {
-    console.log("The day that is sent:", date);
-    const rawResponse = await fetch("/create_day", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ date: date }),
-    });
-    const content = await rawResponse.json();
-    this.setState({ day: content.day });
-  };*/
-
   render() {
     return (
       <div className="scheduletron">

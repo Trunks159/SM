@@ -82,14 +82,17 @@ class Day(db.Model):
         return 'Day {}/{}/{}'.format(self.month, self.day, self.year)
 
     def check_state(self):
-        today = date.today()
-        print(self)
-        d = date(year=self.year, month=self.month, day=self.day)
-        if (today - d).days > 0:
-            self.state = 'inactive'
-        if self.state == None:
-            self.state = 'available'
-        return self.state
+        if self.state == 'incomplete':
+            return self.state
+        else:
+            today = date.today()
+            print(self)
+            d = date(year=self.year, month=self.month, day=self.day)
+            if (today - d).days > 0:
+                self.state = 'inactive'
+            if self.state == None:
+                self.state = 'available'
+            return self.state
 
     def weekday(self):
         return date(self.year, self.month, self.day).weekday()
