@@ -1,9 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Week = ({ week, dictionary }) => {
+const Week = ({ week, dictionary, changeCurrentDay }) => {
   const circle = "45px";
-  console.log("Week: ", week);
   return (
     <div className="week">
       <h4>Edit Schedule</h4>
@@ -18,6 +17,7 @@ const Week = ({ week, dictionary }) => {
               width: circle,
               backgroundColor: day.color,
             }}
+            onClick={() => changeCurrentDay(day)}
             to={`/day/${day.month}/${day.day}/${day.year}`}
           >
             {day.day}

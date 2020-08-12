@@ -56,33 +56,15 @@ class Scheduletron5000 extends Component {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ date: this.state.date, values: values }),
+      body: JSON.stringify({ day: this.state.day, values: values }),
     });
     const content = await rawResponse.json();
     console.log(content);
   }
 
   componentDidMount() {
-    fetch("/users").then((response) =>
-      response.json().then((data) => {
-        let users = data.users.map((user) => {
-          user["value"] = ["08:00", "16:00"];
-          return user;
-        });
-        if (data.current_user.is_authenticated === false) {
-          this.setState({ redirect: true });
-          console.log("Gotta Be Logged in My guy");
-        } else {
-          this.setState({
-            inactive_users: users,
-          });
-        }
-      })
-    );
-    console.log("date: ", this.props.date);
-    this.checkDb(this.props.date);
-    this.props.changeCurrentDay(this.state.day);
-
+    console.log();
+    /*this.checkDb(this.props.date);*/
     /*
     console.log("props: ", this.props);
     if (this.props.date) {
@@ -95,7 +77,7 @@ class Scheduletron5000 extends Component {
       console.log("No users yet");
     }*/
   }
-
+  /*
   checkDb = async (date) => {
     console.log("The day that is sent:", date);
     const rawResponse = await fetch("/create_day", {
@@ -108,7 +90,7 @@ class Scheduletron5000 extends Component {
     });
     const content = await rawResponse.json();
     this.setState({ day: content.day });
-  };
+  };*/
 
   render() {
     return (

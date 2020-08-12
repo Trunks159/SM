@@ -66,7 +66,6 @@ class App extends Component {
       body: JSON.stringify({ day: day }),
     });
     const content = await rawResponse.json();
-    console.log(content);
   };
 
   loginUser = (user) => {
@@ -113,17 +112,18 @@ class App extends Component {
               <Route
                 path="/day/:month/:day/:year"
                 render={(props) => {
-                  console.log("Month: ", props.match.params.month);
+                  const { month, day, year } = props.match.params;
+                  const the_day = this.state.days.find((d) => {
+                    let x = null;
+                    if (d.month === parseInt(month, 10)) {
+                      if (d.day == parseInt(day, 10)) {
+                        return d.year == parseInt(year, 10);
+                      }
+                    }
+                    return false;
+                  });
                   return (
-                    <ScheduleTron5000
-                      date={{
-                        month: props.match.params.month,
-                        day: props.match.params.day,
-                        year: props.match.params.year,
-                      }}
-                      changeCurrentDay={this.changeCurrentDay}
-                      users={this.state.users}
-                    />
+                    <ScheduleTron5000 day={the_day} users={this.state.users} />
                   );
                 }}
               />

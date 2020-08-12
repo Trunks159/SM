@@ -34,7 +34,6 @@ class Login extends Component {
   };
 
   render() {
-    console.log("TESTIng");
     return (
       <form onSubmit={(e) => this.handleSubmit(e, this.props.loginUser)}>
         <label>
