@@ -79,17 +79,16 @@ def scheduletron5000():
     for day in viewable_days(today):
         d = Day.query.filter_by(
             day=day.day, month=day.month, year=day.year).first()
+
+        print('This is the whole db: ', Day.query.all())
         if d == None:
+            print('Couldnt find any days like that')
             d = Day(day=day.day, month=day.month, year=day.year)
             db.session.add(d)
         days.append(d)
     days = [day.to_json() for day in days]
-    for day in days:
-        if day['day'] == today.day:
-            current_day = day
-            break
 
-    return jsonify({'current_day': current_day, 'days': days})
+    return jsonify({'days': days})
 
 
 @login_required

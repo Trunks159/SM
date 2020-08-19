@@ -9,6 +9,7 @@ import Week from "./components/Week";
 import CurrentDay from "./components/CurrentDay";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
@@ -37,9 +38,25 @@ class App extends Component {
   }
 
   fetchDays = () => {
+    let today = new Date();
+    const current_day = {
+      day: today.getDate(),
+      month: today.getMonth() + 1,
+      year: today.getFullYear(),
+    };
+
     fetch("/scheduletron5000").then((response) =>
-      response.json().then(({ days, current_day }) => {
-        this.setState({ days: days, current_day: current_day });
+      response.json().then(({ days }) => {
+        this.setState({
+          days: days,
+          current_day: days.find(
+            (day) =>
+              day.day === current_day.day &&
+              day.month === current_day.month &&
+              day.year === current_day.year
+          ),
+        });
+        console.log("Days: ", days);
       })
     );
   };
@@ -60,10 +77,17 @@ class App extends Component {
   };
 
   changeCurrentDay = (day) => {
-    const d = this.checkDb(day);
+    this.setState({ current_day: day });
+    if (day) {
+      const d = this.checkDb(day);
+    }
+    this.fetchDays();
+
+    /*
+    
     this.fetchDays();
     console.log(this.state.days);
-    this.setState({ current_day: day });
+    this.setState({ current_day: day });*/
   };
 
   checkDb = async ({ day, month, year }) => {
@@ -76,7 +100,7 @@ class App extends Component {
       body: JSON.stringify({ day: day, month: month, year: year }),
     });
     const content = await rawResponse.json();
-    console.log(content);
+    console.log("Checkdb input data: ", content);
   };
 
   render() {
@@ -102,7 +126,6 @@ class App extends Component {
             <CurrentDay day={this.state.current_day} dictionary={dictionary} />
             <div className="content">
               <Route exact path="/" render={() => <PastDays />} />
-
               <Route
                 path="/user/:username"
                 render={(props) => {
@@ -126,7 +149,11 @@ class App extends Component {
                     return false;
                   });
                   return (
-                    <ScheduleTron5000 day={the_day} users={this.state.users} />
+                    <ScheduleTron5000
+                      day={the_day}
+                      users={this.state.users}
+                      current_user={this.state.current_user}
+                    />
                   );
                 }}
               />
@@ -155,26 +182,6 @@ class App extends Component {
               changeCurrentDay={this.changeCurrentDay}
             />
           </div>
-          {/*
-  
-          
-          
-
-          {/*
-          <div className="main">
-
-            
-            <Route path="/" render={() => <Days days={this.state.days} />} />
-          
-          
-          <Route
-            exact
-            path="/scheduletron5000"
-            component={<ScheduleTron5000 />}
-          />
-        
-            
-            </div>*/}
         </div>
       </Router>
     );

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Sliders from "./Sliders";
 import Times from "./Times";
+import { Redirect } from "react-router-dom";
 
 class Scheduletron5000 extends Component {
   state = {
