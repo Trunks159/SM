@@ -23,40 +23,26 @@ class App extends Component {
     current_user: { is_authenticated: false },
     current_day: {},
   };
-
-  logoutUser = () => {
-    fetch("/logout").then((response) =>
-      response.json().then((data) => {
-        this.setState({ current_user: data.current_user });
-      })
-    );
-  };
-
-  componentDidMount() {
-    this.fetchDays();
-    this.fetchUsers();
-  }
-
   fetchDays = () => {
     let today = new Date();
-    const current_day = {
+    today = {
       day: today.getDate(),
       month: today.getMonth() + 1,
       year: today.getFullYear(),
     };
 
-    fetch("/scheduletron5000").then((response) =>
+    fetch("/get_days").then((response) =>
       response.json().then(({ days }) => {
+        console.log("Days: ", days);
         this.setState({
           days: days,
           current_day: days.find(
             (day) =>
-              day.day === current_day.day &&
-              day.month === current_day.month &&
-              day.year === current_day.year
+              day.day === today.day &&
+              day.month === today.month &&
+              day.year === today.year
           ),
         });
-        console.log("Days: ", days);
       })
     );
   };
@@ -72,26 +58,8 @@ class App extends Component {
     );
   }
 
-  loginUser = (user) => {
-    this.setState({ current_user: user });
-  };
-
-  changeCurrentDay = (day) => {
-    this.setState({ current_day: day });
-    if (day) {
-      const d = this.checkDb(day);
-    }
-    this.fetchDays();
-
-    /*
-    
-    this.fetchDays();
-    console.log(this.state.days);
-    this.setState({ current_day: day });*/
-  };
-
   checkDb = async ({ day, month, year }) => {
-    const rawResponse = await fetch("/create_day", {
+    const rawResponse = await fetch("/access_day", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -102,6 +70,31 @@ class App extends Component {
     const content = await rawResponse.json();
     console.log("Checkdb input data: ", content);
   };
+
+  changeCurrentDay = (day) => {
+    this.setState({ current_day: day });
+    if (day) {
+      const d = this.checkDb(day);
+    }
+    this.fetchDays();
+  };
+
+  logoutUser = () => {
+    fetch("/logout").then((response) =>
+      response.json().then((data) => {
+        this.setState({ current_user: data.current_user });
+      })
+    );
+  };
+
+  loginUser = (user) => {
+    this.setState({ current_user: user });
+  };
+
+  componentDidMount() {
+    this.fetchDays();
+    this.fetchUsers();
+  }
 
   render() {
     const dictionary = {
@@ -153,6 +146,7 @@ class App extends Component {
                       day={the_day}
                       users={this.state.users}
                       current_user={this.state.current_user}
+                      fetchDays={this.fetchDays}
                     />
                   );
                 }}

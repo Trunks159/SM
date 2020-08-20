@@ -55,7 +55,6 @@ class VerticalSlider extends Component {
     console.log(new_values);
   };*/
 
-  getValue = () => this.state.value;
   render() {
     const { handler, user, weSliding } = this.props;
     return (

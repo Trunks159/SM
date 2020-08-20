@@ -141,19 +141,6 @@ a {
 
 /*   ||  Week */
 
-#red {
-  background-color: red;
-}
-#blue {
-  background-color: blue;
-}
-#green {
-  background-color: #17fc03;
-}
-#gray {
-  background-color: gray;
-}
-
 .days {
   display: flex;
   flex-wrap: wrap;

@@ -41,51 +41,62 @@ def users():
 def receive_data():
     users = User.query
     data = request.get_json()
-    date = data['date']
+    date = data['day']
     values = data['values']
-    if Day.query.filter_by(year=date[0], month=date[1], day=date[2]).first() == None:
-        day = Day(year=date[0], month=date[1], day=date[2])
-        for value in values:
-            user = users.filter_by(id=value['id']).first()
-            w = WorkBlock(
-                user=user, start_time=value['value'][0], end_time=value['value'][1], day=day)
+    d = Day.query.filter_by(
+        year=date['year'], month=date['month'], day=date['day']).first()
+    if d == None:
+        d = Day(year=date['year'], month=date['month'], day=date['day'])
+    for wb in d.workblocks:
+        db.session.delete(wb)
+    for value in values:
+        user = users.filter_by(id=value['id']).first()
+        w = WorkBlock(
+            user=user, start_time=value['value'][0], end_time=value['value'][1], day=d)
+    db.session.commit()
+    print('Day Stuff: ', d.workblocks)
     return jsonify({'data': data})
 
 
-@app.route('/create_day', methods=['POST'])
-def create_day():
+@app.route('/access_day', methods=['POST'])
+def access_day():
     print('REQUEST: ', request.get_json())
     date = request.get_json()
     date = {'month': int(date['month']), 'day': int(
         date['day']), 'year': int(date['year'])}
     db_day = Day.query.filter_by(
         month=date['month'], day=date['day'], year=date['year']).first()
+    print('All the days we have in db: ', Day.query.all())
     if db_day:
         db_day.state = 'incomplete'
-        print('db day:', db_day)
-        return jsonify({'day': db_day.json()})
+        db.session.commit()
+        print('db day:', db_day.color())
+        return jsonify({'day': db_day.to_json()})
     else:
         day = Day(month=date['month'], day=date['day'], year=date['year'])
         day.state = 'incomplete'
+        db.session.commit()
         db.session.add(day)
         # db.session.commit()
         return jsonify({'day': day.to_json()})
 
 
-@app.route('/scheduletron5000')
-def scheduletron5000():
+@app.route('/get_days')
+def get_days():
+    # makes a today date, and goes and makes the days for the next two weeks
+    # for each day if its in the db, grab that day, else make the day and add it to the
+    # db, finally return all the days as jsons
     today = date.today()
     days = []
     for day in viewable_days(today):
         d = Day.query.filter_by(
             day=day.day, month=day.month, year=day.year).first()
-
-        print('This is the whole db: ', Day.query.all())
         if d == None:
             print('Couldnt find any days like that')
             d = Day(day=day.day, month=day.month, year=day.year)
             db.session.add(d)
         days.append(d)
+    db.session.commit()
     days = [day.to_json() for day in days]
 
     return jsonify({'days': days})
@@ -143,6 +154,7 @@ def register():
         db.session.add(u)
         db.session.commit()
         return jsonify({'success': 'Successfully Created User'})
+
 
     # Renders the add_worker template
     # You can't be logged in to access, and when the form submits

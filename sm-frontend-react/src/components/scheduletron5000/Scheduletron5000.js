@@ -39,13 +39,15 @@ class Scheduletron5000 extends Component {
     this.setState({ inactive_users: inactive_users });
   };
 
-  async saveChanges() {
+  saveChanges = async () => {
+    /*
     this.setState({
       message: "This day's schedule has been saved!",
     });
     setTimeout(() => {
       this.setState({ message: null });
     }, 1600);
+    */
 
     const values = this.state.active_users.map((user) => ({
       id: user.id,
@@ -61,8 +63,13 @@ class Scheduletron5000 extends Component {
     });
     const content = await rawResponse.json();
     console.log(content);
-  }
+    this.props.fetchDays();
+  };
 
+  componentDidMount() {
+    this.setState({ inactive_users: this.props.users, day: this.props.day });
+    console.log("Inactive Users: ", this.state.inactive_users);
+  }
   render() {
     return (
       <div className="scheduletron">
