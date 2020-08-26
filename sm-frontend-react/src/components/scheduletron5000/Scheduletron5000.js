@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Sliders from "./Sliders";
 import Times from "./Times";
-import { Redirect } from "react-router-dom";
+/*import { Redirect } from "react-router-dom";*/
 
 class Scheduletron5000 extends Component {
   state = {
@@ -67,8 +67,18 @@ class Scheduletron5000 extends Component {
   };
 
   componentDidMount() {
-    this.setState({ inactive_users: this.props.users, day: this.props.day });
-    console.log("Inactive Users: ", this.state.inactive_users);
+    const day = this.props.changeCurrentDay(this.props.day);
+    this.setState({ inactive_users: this.props.users, day: day });
+    console.log("Inactive Users: ", this.state.inactive_users, "day: ", day);
+    if (day) {
+      for (let workblock of day.workblocks) {
+        let user = this.state.inactive_users.find(
+          (user) => user.id === workblock.user_id
+        );
+        this.removeSlider(user);
+        this.makeSlider(user);
+      }
+    }
   }
   render() {
     return (

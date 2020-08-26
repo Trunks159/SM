@@ -114,8 +114,13 @@ class Day(db.Model):
             'month': self.month,
             'day': self.day,
             'weekday': self.weekday(),
-            'date': '{}{}{}'.format(str(self.month), str(self.day), str(self.year))
+            'date': '{}{}{}'.format(str(self.month), str(self.day), str(self.year)),
+            'workblocks': [workblock.to_json() for workblock in self.workblocks]
+
         }
+
+    def json_workblocks(self):
+        sliders = self.workblocks
 
 
 class WorkBlock(db.Model):
@@ -124,6 +129,16 @@ class WorkBlock(db.Model):
     start_time = db.Column(db.Integer)
     end_time = db.Column(db.Integer)
     day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
+
+    def to_json(self):
+        return{
+            'id': self.id,
+            'user_id': self.user.id,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
+            'day_id': self.day.id
+
+        }
 
 
 class Schedule(db.Model):

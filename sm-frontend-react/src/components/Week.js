@@ -5,7 +5,7 @@ const Week = ({ week, dictionary, changeCurrentDay }) => {
   const color_dictionary = {
     green: "#39FF14",
     red: "red",
-    blue: "blue",
+    blue: "#0d84a7",
     gray: "gray",
   };
   return (

@@ -9,7 +9,7 @@ import Week from "./components/Week";
 import CurrentDay from "./components/CurrentDay";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
-import { Alert, AlertTitle } from "@material-ui/lab";
+/*import { Alert, AlertTitle } from "@material-ui/lab";*/
 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
@@ -69,12 +69,14 @@ class App extends Component {
     });
     const content = await rawResponse.json();
     console.log("Checkdb input data: ", content);
+    this.setState({ current_day: content.day });
+    console.log("The current day now: ", this.state.current_day);
   };
 
   changeCurrentDay = (day) => {
-    this.setState({ current_day: day });
     if (day) {
-      const d = this.checkDb(day);
+      this.checkDb(day);
+      return this.state.current_day;
     }
     this.fetchDays();
   };
@@ -116,7 +118,7 @@ class App extends Component {
               logoutUser={this.logoutUser}
               Thumbnail={Thumbnail}
             />
-            <CurrentDay day={this.state.current_day} dictionary={dictionary} />
+
             <div className="content">
               <Route exact path="/" render={() => <PastDays />} />
               <Route
@@ -133,10 +135,9 @@ class App extends Component {
                 render={(props) => {
                   const { month, day, year } = props.match.params;
                   const the_day = this.state.days.find((d) => {
-                    let x = null;
                     if (d.month === parseInt(month, 10)) {
-                      if (d.day == parseInt(day, 10)) {
-                        return d.year == parseInt(year, 10);
+                      if (d.day === parseInt(day, 10)) {
+                        return d.year === parseInt(year, 10);
                       }
                     }
                     return false;
@@ -147,6 +148,7 @@ class App extends Component {
                       users={this.state.users}
                       current_user={this.state.current_user}
                       fetchDays={this.fetchDays}
+                      changeCurrentDay={this.changeCurrentDay}
                     />
                   );
                 }}
@@ -170,6 +172,7 @@ class App extends Component {
                 }}
               />
             </div>
+            <CurrentDay day={this.state.current_day} dictionary={dictionary} />
             <Week
               week={this.state.days}
               dictionary={dictionary}

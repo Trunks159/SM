@@ -9,7 +9,7 @@
   writing-mode: vertical-lr;
   transform: rotate(-180deg);
   font-size: 60px;
-  background-color: red;
+  background-color: #0d84a7;
   margin: 0;
   text-align: center;
   padding: 10px;
@@ -25,7 +25,6 @@
 
 .week {
   overflow-y: auto;
-  border-left: 1px solid black;
   display: flex;
   flex-direction: column;
   flex: 0 0 100px;
@@ -71,13 +70,14 @@ a {
 }
 
 .logout {
-  background-color: red;
+  background-color: #0d84a7;
   display: block;
-  color: white;
   height: 100%;
   width: 100%;
   border: none;
-  padding: 10px;
+}
+.logout-text {
+  color: white;
 }
 
 .nav-link:hover {
@@ -86,19 +86,19 @@ a {
 }
 
 .user-thumbnail {
-  background-color: #edecec;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .user-thumbnail p {
   font-size: larger;
   padding: 10px;
-  background-color: ;
+  padding-bottom: 0;
+  color: black;
   margin: 0;
 }
 
 .user-thumbnail h5 {
   font-size: 100px;
   background-color: ;
-  padding: 5px;
   margin: 0;
   font-weight: 400;
 }
@@ -128,8 +128,14 @@ a {
 }
 
 .logo img {
-  width: 50px;
-  margin-top: 30px;
+  margin-top: 8px;
+  width: 60px;
+}
+.top-thing {
+  background-color: #0d84a7;
+  display: block;
+  width: 100%;
+  height: 10px;
 }
 
 /*   ||  Nav Bar */
@@ -194,6 +200,8 @@ a {
 
 .slider {
   height: 503px;
+  width: 60px;
+  text-align: center;
 }
 
 .MuiSlider-valueLabel {

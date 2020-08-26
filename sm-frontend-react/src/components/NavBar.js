@@ -22,7 +22,7 @@ class NavBar extends Component {
         </li>
         <li className="nav-link">
           <Link to="/" className="logout" onClick={logoutUser}>
-            <p>Logout</p>
+            <p className="logout-text">Logout</p>
           </Link>
         </li>
         {this.isManager(user)}
@@ -46,6 +46,7 @@ class NavBar extends Component {
     const { users, current_user, logoutUser, Thumbnail } = this.props;
     return (
       <ul className="nav-bar">
+        <li className="top-thing"></li>
         <li>
           <Link to="/" className="logo">
             <img
@@ -60,7 +61,7 @@ class NavBar extends Component {
           <React.Fragment>
             <li className="nav-link">
               <Link className="nav-item" to="/login">
-                Login
+                <p>Login</p>
               </Link>
             </li>
             <li className="nav-link">
