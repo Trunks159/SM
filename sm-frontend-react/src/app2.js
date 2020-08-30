@@ -12,6 +12,33 @@ import Login from "./components/login/Login";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+
+<Route
+path="/day/:month/:day/:year"
+render={(props) => {
+  const { month, day, year } = props.match.params;
+  const the_day = this.state.days.find((d) => {
+    if (d.month === parseInt(month, 10)) {
+      if (d.day === parseInt(day, 10)) {
+        return d.year === parseInt(year, 10);
+      }
+    }
+    return false;
+  });
+  if (the_day) {
+    return (
+      <ScheduleTron5000
+        day={the_day}
+        users={this.state.users}
+        current_user={this.state.current_user}
+        fetchDays={this.fetchDays}
+        checkDb={this.checkDb}
+      />
+    );
+  }
+}}
+
+
 class App extends Component {
   state = {
     days: [],

@@ -6,13 +6,12 @@ class NavBar extends Component {
     current_user: {
       is_authenticated: false,
     },
-    redirect: null,
   };
 
   isAuthenticated(user, logoutUser, Thumbnail) {
     return (
       <React.Fragment>
-        <li className="nav-link">
+        <li className="">
           <Thumbnail user={user} />
         </li>
         <li className="nav-link">
@@ -46,7 +45,6 @@ class NavBar extends Component {
     const { users, current_user, logoutUser, Thumbnail } = this.props;
     return (
       <ul className="nav-bar">
-        <li className="top-thing"></li>
         <li>
           <Link to="/" className="logo">
             <img

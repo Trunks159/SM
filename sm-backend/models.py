@@ -108,6 +108,7 @@ class Day(db.Model):
 
     def to_json(self):
         return{
+            'id': self.id,
             'color': self.color(),
             'state': self.check_state(),
             'year': self.year,

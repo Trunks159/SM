@@ -41,20 +41,18 @@ def users():
 def receive_data():
     users = User.query
     data = request.get_json()
-    date = data['day']
-    values = data['values']
-    d = Day.query.filter_by(
-        year=date['year'], month=date['month'], day=date['day']).first()
-    if d == None:
-        d = Day(year=date['year'], month=date['month'], day=date['day'])
-    for wb in d.workblocks:
+    print('Data: ', data)
+    workblocks = data['workblocks']
+    day_id = data['day_id']
+    print('Workblocks: ', workblocks)
+    day = Day.query.filter_by(id=day_id).first()
+    for wb in day.workblocks:
         db.session.delete(wb)
-    for value in values:
-        user = users.filter_by(id=value['id']).first()
+    for workblock in workblocks:
+        user = users.filter_by(id=workblock['user_id']).first()
         w = WorkBlock(
-            user=user, start_time=value['value'][0], end_time=value['value'][1], day=d)
+            user=user, start_time=workblock['start_time'], end_time=workblock['end_time'], day=day)
     db.session.commit()
-    print('Day Stuff: ', d.workblocks)
     return jsonify({'data': data})
 
 
@@ -100,6 +98,16 @@ def get_days():
     days = [day.to_json() for day in days]
 
     return jsonify({'days': days})
+
+
+@app.route('/wipe_days')
+def wipe_days():
+    for day in Day.query.all():
+        db.session.delete(day)
+        # for workblock in day.workblocks:
+        #   db.session.delete(workblock)
+    db.session.commit()
+    return jsonify({'success': True})
 
 
 @login_required

@@ -14,28 +14,19 @@ class Login extends Component {
     });
   };
 
-  handleSubmit = async (e, loginUser) => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const { username, password, remember } = this.state;
-    const rawResponse = await fetch("/user_login", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-        remember: remember,
-      }),
+    this.props.postReq("/user_login", {
+      username: username,
+      password: password,
+      remember: remember,
     });
-    const content = await rawResponse.json();
-    loginUser(content.current_user);
   };
 
   render() {
     return (
-      <form onSubmit={(e) => this.handleSubmit(e, this.props.loginUser)}>
+      <form onSubmit={this.handleSubmit}>
         <label>
           <b>Username</b>
         </label>

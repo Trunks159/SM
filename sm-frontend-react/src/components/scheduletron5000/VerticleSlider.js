@@ -12,7 +12,8 @@ const f = (x) => {
   return hours + range[0];
 };
 
-const y = (x) => {
+/*CONVERTS SECONDS TO STRING TIME */
+const secondsToTime = (x) => {
   var sec_num = parseInt(x, 10); // don't forget the second param
   var hours = Math.floor(sec_num / 3600);
   var minutes = Math.floor((sec_num - hours * 3600) / 60);
@@ -26,6 +27,7 @@ const y = (x) => {
   return hours + ":" + minutes;
 };
 
+/*CONVERTS INTEGER TIME TO VALUE */
 const timetoValue = (time) => {
   const time_range = [700, 2300];
   const time_delta = time_range[1] - time_range[0];
@@ -33,7 +35,11 @@ const timetoValue = (time) => {
   return (x / time_delta) * 100;
 };
 
-const valueToTime = (value) => y(f(value) * 3600);
+const valueToTime = (value) => secondsToTime(f(value) * 3600);
+
+const valueToIntTime = (value) => {
+  return 16 * value + 700;
+};
 
 function valuetext(value) {
   return `${value}°C`;
@@ -56,11 +62,11 @@ class VerticalSlider extends Component {
   };*/
 
   render() {
-    const { handler, user, weSliding } = this.props;
+    const { removeSlider, user, weSliding } = this.props;
     return (
       <div id="di" className="slider">
         <Typography id="range-slider" gutterBottom>
-          <button className="active-user" onClick={() => handler(user)}>
+          <button className="active-user" onClick={() => removeSlider(user)}>
             {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
           </button>
         </Typography>
@@ -77,7 +83,7 @@ class VerticalSlider extends Component {
           onChangeCommitted={(e, new_value) =>
             weSliding(
               e,
-              new_value.map((value) => valueToTime(value)),
+              new_value.map((value) => valueToIntTime(value)),
               user
             )
           }
