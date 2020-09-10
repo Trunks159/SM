@@ -4,48 +4,17 @@
   justify-content: space-between;
 }
 
-.current-day {
-  color: white;
-  writing-mode: vertical-lr;
-  transform: rotate(-180deg);
-  font-size: 60px;
-  background-color: #0d84a7;
-  margin: 0;
-  text-align: center;
-  padding: 10px;
-  font-family: "Segoe UI";
-  font-size: 90px;
-  font-weight: 400;
-}
-
 .content {
   margin: 20px;
   width: 100%;
 }
 
-.week {
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 100px;
-  text-align: center;
-}
+/* || Nav Bar   */
 
-.day {
-  margin: 3px;
-}
-
-/*   ||  Nav Bar */
-
-ul {
+.nav-bar ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-}
-
-a {
-  text-decoration: none;
-  color: black;
 }
 
 .nav-bar {
@@ -53,20 +22,22 @@ a {
   text-align: center;
   border-right: 1px solid lightgrey;
   overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.nav-bar a {
+  text-decoration: none;
+  color: black;
 }
 
 .nav-link {
-  display: block;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  display: flex;
-  justify-content: center;
+  padding: 8px;
+  margin: 5px;
 }
 
-.nav-item {
-  width: 100%;
-  height: 100%;
-  padding: 10px;
+.nav-link:hover {
+  background-color: lightgrey;
+  transition: all 0.3s ease 0s;
 }
 
 .logout {
@@ -78,11 +49,6 @@ a {
 }
 .logout-text {
   color: white;
-}
-
-.nav-link:hover {
-  background-color: lightgrey;
-  transition: all 0.3s ease 0s;
 }
 
 .user-thumbnail {
@@ -103,48 +69,70 @@ a {
   font-weight: 400;
 }
 
-.nav-bar h4 {
-  background-color: #bcbcbc;
+.nav-users p {
+  color: white;
+  background-color: #0d84a7;
   padding: 15px;
   margin: 0;
 }
 
-.user {
-  display: block;
+.nav-users {
+  border: 3px solid #0d84a7;
 }
 
-.user button {
-  display: block;
-  margin-bottom: 2px;
-  margin-top: 0;
+.nav-users li button {
   padding: 10px;
   border: none;
-  width: max-content;
   width: 100%;
 }
 
-.user button:hover {
-  background-color: lime;
+.nav-users li button:hover {
+  background-color: white;
 }
 
-.logo img {
+.nav-header img {
   margin-top: 8px;
   width: 60px;
 }
 
-/*   ||  Nav Bar */
+/*   Nav Bar   || */
 
-/*   ||  Week */
-.week p {
+.current-day {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
+.current-day p {
+  color: white;
+  writing-mode: vertical-lr;
+  transform: rotate(-180deg);
+  font-size: 60px;
+  background-color: #0d84a7;
   margin: 0;
+  text-align: center;
+  font-family: "Segoe UI";
+  font-size: 90px;
+  font-weight: 400;
+  width: 100%;
+  height: 100%;
 }
 
 /*   ||  Week */
 
-.days {
+.week {
+  overflow-y: auto;
   display: flex;
-  flex-wrap: wrap;
-  background-color: rgb(248, 248, 248);
+  flex-direction: column;
+  flex: 0 0 100px;
+  text-align: center;
+}
+
+.week p {
+  margin: 0;
+}
+
+.day {
+  margin: 3px;
 }
 
 .circle {
@@ -169,10 +157,15 @@ a {
   color: white;
 }
 
+/*   Week  || */
+
+/*ScheduleTron5000*/
 .scheduletron {
+  background-color: #efefef;
 }
 .timesliders {
   display: flex;
+  height: 60vh;
 }
 
 .btn {
@@ -190,12 +183,96 @@ a {
 .sliders {
   overflow-x: auto;
   display: flex;
+  flex: 0 0 100%;
+  gap: 30px;
 }
 
 .slider {
-  height: 503px;
-  width: 60px;
+  height: 270px;
+  width: 70px;
   text-align: center;
+  margin-top: 16px;
+}
+
+.workers-bank {
+  background-color: lightgray;
+  margin-top: 10px;
+  padding: 5px;
+}
+.workers-bank h3 {
+  margin: 10px;
+}
+.workers-bank ul {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px;
+  gap: 4px;
+}
+
+.inactive-user {
+  display: flex;
+  align-items: center;
+  padding: none;
+}
+
+#inactive-user button {
+  padding: 3px;
+}
+
+.inactive-user .label {
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  background-color: #0d84a7;
+  color: white;
+  padding: 4px;
+}
+
+.inactive-user button {
+  background-color: #0a556b;
+  color: white;
+  font-weight: 500;
+  border: none;
+  padding: 4.7px;
+}
+
+.inactive-user button p {
+  font-size: 20px;
+  margin: 0;
+}
+
+.inactive-user button:hover {
+  background-color: #25f716;
+  transition: all 0.3s ease 0s;
+}
+
+.active-user {
+  display: flex;
+  align-items: center;
+}
+.active-user button {
+  border: none;
+  background-color: #5f470f;
+  padding: 3.5px;
+}
+#active-user button p {
+  transform: rotate(45deg);
+}
+#active-user button:hover {
+  background-color: orange;
+}
+
+.times {
+  font-size: 6.5px;
+  margin: 15px;
+}
+
+#range-slider {
+  width: 100%;
+}
+
+.#range-slider button {
+  width: 100%;
+  margin: 0;
 }
 
 .MuiSlider-valueLabel {
@@ -211,9 +288,8 @@ a {
 .MuiSlider-track {
   color: #0d84a7;
 }
-.MuiSlider-mark {
-  color: black;
-}
+
+/*ScheduleTron5000*/
 
 *::-webkit-scrollbar {
   width: 12px;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/NavBar/NavBar";
 import Message from "./components/Message";
 import Thumbnail from "./components/Thumbnail";
 import ScheduleTron5000 from "./components/scheduletron5000/Scheduletron5000";
@@ -10,48 +10,21 @@ import Week from "./components/Week";
 import CurrentDay from "./components/CurrentDay";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
-/*import { Alert, AlertTitle } from "@material-ui/lab";*/
-
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 class App extends Component {
   state = {
     days: [],
-    message: null,
-    date: [2020, 11, 3],
-    img: "",
     users: [],
     current_user: { is_authenticated: false },
     current_day: null,
-  };
-  postReq = async (url, content) => {
-    const rawResponse = await fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(content),
-    });
-    const result = await rawResponse.json();
-    this.fetchDays();
-    this.fetchUsers();
-    return result;
-  };
-
-  getReq = async (url) => {
-    const rawResponse = await fetch(url);
-    const result = await rawResponse.json();
-    this.fetchDays();
-    this.fetchUsers();
-    return result;
+    message: null,
   };
 
   fetchDays = async () => {
-    const rawResponse = await fetch("/get_days");
-    rawResponse.json().then(({ days }) => {
+    const x = await fetch("/get_days");
+    x.json().then(({ days }) => {
       if (days !== this.state.days) {
-        console.log("New Days: ", days);
         this.setState({
           days: days,
         });
@@ -60,8 +33,9 @@ class App extends Component {
   };
 
   fetchUsers = async () => {
-    const rawResponse = await fetch("/users");
-    rawResponse.json().then(({ users, current_user }) => {
+    const x = await fetch("/users");
+
+    x.json().then(({ users, current_user }) => {
       if (
         this.state.users !== users ||
         this.state.current_user !== current_user
@@ -71,7 +45,34 @@ class App extends Component {
     });
   };
 
-  checkDb = ({ day, month, year }) => {
+  /*Most POST Requests Go Through This
+    Fetches Users and Days After Each Reqeust*/
+  postReq = async (url, content) => {
+    const rawResponse = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(content),
+    });
+    this.fetchDays();
+    this.fetchUsers();
+    return rawResponse;
+  };
+
+  /*Most GET Requests Go Through This
+    Fetches Users and Days After Each Reqeust*/
+  getReq = async (url) => {
+    const rawResponse = await fetch(url);
+    this.fetchDays();
+    this.fetchUsers();
+    return rawResponse;
+  };
+
+  /*REQUESTS DAY FROM DB AND CHANGES CURRENTDAY IN STATE
+    CALLED FROM WEEK COMPONENT*/
+  reqDay = ({ day, month, year }) => {
     const result = this.postReq("/access_day", {
       day: day,
       month: month,
@@ -82,12 +83,17 @@ class App extends Component {
       this.setState({ current_day: day });
       console.log("The current day now: ", this.state.current_day);
     });
+
     return this.state.current_day;
   };
 
   wipeDays = () => {
     this.getReq("/wipe_days");
-    this.notifyUser("Days have been wiped");
+    this.notifyUser({
+      content: "Days have been wiped",
+      title: "Success",
+      severity: "success",
+    });
   };
 
   notifyUser(message) {
@@ -96,44 +102,29 @@ class App extends Component {
     });
     setTimeout(() => {
       this.setState({ message: null });
-    }, 1600);
+    }, 4000);
   }
 
-  componentDidMount() {
-    this.fetchDays();
-    this.fetchUsers();
-    if (this.state.current_day === null) {
-      let today = this.getToday();
-      today = this.state.days.find(
-        (day) =>
-          day.day === today.day &&
-          day.month === today.month &&
-          day.year === today.year
-      );
-      if (today) {
-        this.setState({ current_day: today });
-      } else {
-        console.log("Couldnt find the day :(", this.state.days);
+  /*Fetches Days and Users and Sets Current Day To Today */
+  componentDidMount = async () => {
+    await this.fetchUsers();
+    const x = await fetch("/get_days");
+    x.json().then(({ days }) => {
+      if (days !== this.state.days) {
+        let today = this.getToday();
+        today = days.find(
+          (d) =>
+            d.day === today.day &&
+            d.month === today.month &&
+            d.year === today.year
+        );
+        this.setState({
+          current_day: today,
+          days: days,
+        });
       }
-    } else {
-      console.log("Something went wrong: ", this.state.current_day);
-    }
-  }
-
-  /*
-    if (day) {
-      const new_day = this.checkDb(day);
-      if (new_day) {
-        for (let workblock of neW_day.workblocks) {
-          let user = this.state.users.find(
-            (user) => user.id === workblock.user_id
-          );
-          this.removeSlider(user);
-          this.makeSlider(user);
-        }
-      }
-    }
-*/
+    });
+  };
 
   getToday() {
     let today = new Date();
@@ -164,7 +155,6 @@ class App extends Component {
               logoutUser={() => this.getReq("/logout")}
               Thumbnail={Thumbnail}
             />
-
             <div className="content">
               <Message message={this.state.message} />
               <Route exact path="/" render={() => <PastDays />} />
@@ -178,6 +168,12 @@ class App extends Component {
                     return <User Thumbnail={Thumbnail} user={user} />;
                   } else {
                     console.log("Couldn't find user");
+                    this.notifyUser({
+                      content: "Couldn't find user...",
+                      severity: "error",
+                      title: "error",
+                    });
+                    return <Redirect to="/" />;
                   }
                 }}
               />
@@ -185,7 +181,7 @@ class App extends Component {
                 path="/day/:date"
                 render={(props) => {
                   const { date } = props.match.params;
-                  const the_day = this.state.days.find(
+                  let the_day = this.state.days.find(
                     (d) =>
                       d.month.toString() +
                         d.day.toString() +
@@ -194,10 +190,16 @@ class App extends Component {
                   );
 
                   if (the_day) {
+                    the_day.workblocks = the_day.workblocks.map((wb) => {
+                      wb.user = this.state.users.find(
+                        (user) => user.id === wb.user_id
+                      );
+                      return wb;
+                    });
                     const u = this.state.users.filter((user) => {
                       let users = the_day.workblocks.map((wb) => wb.user);
                       if (users.length > 0) {
-                        if (users.find((u) => u === user)) {
+                        if (users.includes(user)) {
                           return false;
                         }
                       }
@@ -210,8 +212,7 @@ class App extends Component {
                         users={u}
                         workblocks={the_day.workblocks}
                         current_user={this.state.current_user}
-                        fetchDays={this.fetchDays}
-                        checkDb={this.checkDb}
+                        postReq={this.postReq}
                       />
                     );
                   }
@@ -221,6 +222,11 @@ class App extends Component {
                 path="/login"
                 render={() => {
                   if (this.state.current_user.is_authenticated) {
+                    this.notifyUser({
+                      content: "You're Already Logged In",
+                      title: "Warning",
+                      severity: "warning",
+                    });
                     return <Redirect to="/" />;
                   }
                   return <Login postReq={this.postReq} />;
@@ -230,6 +236,11 @@ class App extends Component {
                 path="/register"
                 render={() => {
                   if (this.state.current_user.is_authenticated) {
+                    this.notifyUser({
+                      content: "You're Already Logged In",
+                      title: "Warning",
+                      severity: "warning",
+                    });
                     return <Redirect to="/" />;
                   }
                   return <Register getUsers={this.getUsers} />;
@@ -241,7 +252,7 @@ class App extends Component {
               days={this.state.days}
               dictionary={dictionary}
               wipeDays={this.wipeDays}
-              checkDb={this.checkDb}
+              reqDay={this.reqDay}
             />
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Week = ({ days, dictionary, checkDb, wipeDays }) => {
+const Week = ({ days, dictionary, reqDay, wipeDays }) => {
   const color_dictionary = {
     green: "#39FF14",
     red: "red",
@@ -23,7 +23,7 @@ const Week = ({ days, dictionary, checkDb, wipeDays }) => {
               width: "45px",
               backgroundColor: color_dictionary[day.color],
             }}
-            onClick={() => checkDb(day)}
+            onClick={() => reqDay(day)}
             to={`/day/${day.month}${day.day}${day.year}`}
           >
             {day.day}

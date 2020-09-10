@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import VerticleSlider from "./VerticleSlider";
 import Times from "./Times";
 /*import { Redirect } from "react-router-dom";*/
@@ -16,7 +17,8 @@ class Scheduletron5000 extends Component {
     let workblock = workblocks.find((workblock) => workblock.user === user);
     const index = workblocks.indexOf(workblock);
     workblocks.splice(index, 1);
-    workblock.times = new_value;
+    workblock.start_time = new_value[0];
+    workblock.end_time = new_value[1];
     workblocks.splice(index, 0, workblock);
     this.setState({ workblocks: workblocks });
   };
@@ -25,7 +27,8 @@ class Scheduletron5000 extends Component {
     /*I want to initiate a workblock here */
     const workblock = {
       user: user,
-      times: ["08:00", "16:00"],
+      start_time: 28800,
+      end_time: 57600,
       day: this.state.day,
     };
     let users = [...this.state.users];
@@ -58,24 +61,14 @@ class Scheduletron5000 extends Component {
   saveChanges = async () => {
     const workblocks = this.state.workblocks.map((workblock) => ({
       user_id: workblock.user.id,
-      start_time: workblock.times[0],
-      end_time: workblock.times[1],
+      start_time: workblock.start_time,
+      end_time: workblock.end_time,
     }));
     console.log("The day is apparently: ", this.state.day.id);
-    const rawResponse = await fetch("/receive_data", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        day_id: this.state.day.id,
-        workblocks: workblocks,
-      }),
+    this.props.postReq("/receive_data", {
+      day_id: this.state.day.id,
+      workblocks: workblocks,
     });
-    const content = await rawResponse.json();
-    console.log(content);
-    /*this.props.fetchDays();*/
 
     this.setState({
       message: "This day's schedule has been saved!",
@@ -126,8 +119,8 @@ class Scheduletron5000 extends Component {
                 <VerticleSlider
                   weSliding={this.weSliding}
                   removeSlider={this.removeSlider}
-                  user={workblock.user}
-                  key={workblock.user.id}
+                  workblock={workblock}
+                  key={workblock.id}
                 />
               ))
             ) : (
@@ -135,17 +128,32 @@ class Scheduletron5000 extends Component {
             )}
           </div>
         </div>
-        {this.state.users.length > 0
-          ? this.state.users.map((user) => (
-              <button
-                className="inactive-user"
-                key={user.id}
-                onClick={() => this.makeSlider(user)}
-              >
-                {user.first_name} {user.last_name[0]}.
-              </button>
-            ))
-          : null}
+        <div className="workers-bank">
+          <h3>Workers Bank</h3>
+          <hr></hr>
+          <ul>
+            {this.state.users.length > 0
+              ? this.state.users.map((user) => (
+                  <li
+                    className="inactive-user"
+                    id="inactive-user"
+                    key={user.id}
+                  >
+                    <button
+                      onClick={() => this.makeSlider(user)}
+                      className="test"
+                    >
+                      <p>+</p>
+                    </button>
+                    <p className="label">
+                      {user.first_name} {user.last_name[0]}.
+                    </p>
+                  </li>
+                ))
+              : null}
+          </ul>
+        </div>
+
         <button
           onClick={() => {
             console.log(this.state.day);

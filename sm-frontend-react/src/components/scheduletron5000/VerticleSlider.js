@@ -3,13 +3,14 @@ import React, { Component } from "react";
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
 
+/*CONVERTS VALUE OUT OF 100 TO SECONDS*/
 const f = (x) => {
-  x = x * 0.01;
+  x = 0.01 * x;
   const range = [7, 23];
   const time_range = range[1] - range[0];
   let hours = time_range * x;
-  console.log("What f returns: ", hours + range[0]);
-  return hours + range[0];
+  console.log("What f returns: ", hours + range[0] * 3600);
+  return (hours + range[0]) * 3600;
 };
 
 /*CONVERTS SECONDS TO STRING TIME */
@@ -24,21 +25,16 @@ const secondsToTime = (x) => {
   if (minutes < 10) {
     minutes = "0" + minutes;
   }
+  console.log("Seconds to time returns: ", x);
   return hours + ":" + minutes;
 };
 
-/*CONVERTS INTEGER TIME TO VALUE */
+/*CONVERTS SECONDS TO VALUE */
 const timetoValue = (time) => {
-  const time_range = [700, 2300];
+  const time_range = [25200, 82800];
   const time_delta = time_range[1] - time_range[0];
   const x = time - time_range[0];
   return (x / time_delta) * 100;
-};
-
-const valueToTime = (value) => secondsToTime(f(value) * 3600);
-
-const valueToIntTime = (value) => {
-  return 16 * value + 700;
 };
 
 function valuetext(value) {
@@ -46,36 +42,38 @@ function valuetext(value) {
 }
 
 const marks = [];
-for (let time = 700; time <= 2300; time += 50) {
+for (let time = 25200; time <= 82800; time += 1800) {
   marks.push({
     value: timetoValue(time),
   });
 }
+console.log("Marks: ", marks);
 
 class VerticalSlider extends Component {
-  state = { value: null };
-
-  /*handleChange = (event, new_values, id) => {
-     this.setState({ value: new_values.map((v) => valueToTime(v)) });
-    console.log(new_values.map((v) => valueToTime(v)));
-    console.log(new_values);
-  };*/
-
   render() {
-    const { removeSlider, user, weSliding } = this.props;
+    const { removeSlider, workblock, weSliding } = this.props;
+    const user = workblock.user;
     return (
       <div id="di" className="slider">
         <Typography id="range-slider" gutterBottom>
-          <button className="active-user" onClick={() => removeSlider(user)}>
-            {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
-          </button>
+          <div className="inactive-user" id="active-user">
+            <button onClick={() => removeSlider(user)}>
+              <p>+</p>
+            </button>
+            <p className="label">
+              {user.first_name[0].toUpperCase() + user.first_name.slice(1)}
+            </p>
+          </div>
         </Typography>
         <Slider
           valueLabel={{ color: user.color }}
           valueLabelDisplay="auto"
-          valueLabelFormat={(x) => valueToTime(x)}
+          valueLabelFormat={(x) => secondsToTime(f(x))}
           orientation="vertical"
-          defaultValue={[timetoValue(800), timetoValue(1600)]}
+          defaultValue={[
+            timetoValue(workblock.start_time),
+            timetoValue(workblock.end_time),
+          ]}
           aria-labelledby="vertical-slider"
           getAriaValueText={valuetext}
           marks={marks}
@@ -83,7 +81,7 @@ class VerticalSlider extends Component {
           onChangeCommitted={(e, new_value) =>
             weSliding(
               e,
-              new_value.map((value) => valueToIntTime(value)),
+              new_value.map((value) => f(value)),
               user
             )
           }

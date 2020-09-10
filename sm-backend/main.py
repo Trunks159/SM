@@ -41,10 +41,8 @@ def users():
 def receive_data():
     users = User.query
     data = request.get_json()
-    print('Data: ', data)
     workblocks = data['workblocks']
     day_id = data['day_id']
-    print('Workblocks: ', workblocks)
     day = Day.query.filter_by(id=day_id).first()
     for wb in day.workblocks:
         db.session.delete(wb)
@@ -104,8 +102,8 @@ def get_days():
 def wipe_days():
     for day in Day.query.all():
         db.session.delete(day)
-        # for workblock in day.workblocks:
-        #   db.session.delete(workblock)
+    for wb in WorkBlock.query.all():
+        db.session.delete(wb)
     db.session.commit()
     return jsonify({'success': True})
 

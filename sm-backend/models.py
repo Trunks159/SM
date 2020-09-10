@@ -127,6 +127,7 @@ class Day(db.Model):
 class WorkBlock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     worker_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    #time is stored in seconds
     start_time = db.Column(db.Integer)
     end_time = db.Column(db.Integer)
     day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
