@@ -1,9 +1,13 @@
 import React, { Component } from "react";
+import { Alert } from "@material-ui/lab";
+
 class Login extends Component {
   state = {
     username: "",
     password: "",
     remember: false,
+    username_errors: null,
+    password_errors: null,
   };
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -17,11 +21,51 @@ class Login extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { username, password, remember } = this.state;
-    this.props.postReq("/user_login", {
-      username: username,
-      password: password,
-      remember: remember,
-    });
+    const { users, postReq, notifyUser } = this.props;
+
+    const user = users.find((user) => user.username === username);
+
+    if (user) {
+      let x = postReq("/user_login", {
+        username: username,
+        password: password,
+        remember: remember,
+      });
+      x.then((data) =>
+        data.json().then(({ current_user }) => {
+          if (current_user.is_authenticated) {
+            notifyUser({
+              content: username + " is now logged in!",
+              title: "Success",
+              severity: "success",
+            });
+          } else {
+            this.setState({
+              password_errors: (
+                <Alert variant="outlined" severity="error">
+                  Bad Password
+                </Alert>
+              ),
+            });
+            setTimeout(() => {
+              this.setState({ password_errors: null });
+            }, 4000);
+          }
+        })
+      );
+    } else {
+      console.log("Something");
+      this.setState({
+        username_errors: (
+          <Alert variant="outlined" severity="error">
+            Bad Username
+          </Alert>
+        ),
+      });
+      setTimeout(() => {
+        this.setState({ username_errors: null });
+      }, 4000);
+    }
   };
 
   render() {
@@ -37,6 +81,9 @@ class Login extends Component {
           name="username"
           required
         />
+        {this.state.username_errors && (
+          <p className="username-errors">{this.state.username_errors}</p>
+        )}
         <label htmlFor="psw">
           <b>Password</b>
         </label>
@@ -47,6 +94,9 @@ class Login extends Component {
           name="password"
           required
         />
+        {this.state.password_errors && (
+          <p className="password-errors">{this.state.password_errors}</p>
+        )}
         <button type="submit">Login</button>
         <label>
           <input

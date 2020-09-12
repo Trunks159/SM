@@ -56,17 +56,15 @@ def receive_data():
 
 @app.route('/access_day', methods=['POST'])
 def access_day():
-    print('REQUEST: ', request.get_json())
     date = request.get_json()
     date = {'month': int(date['month']), 'day': int(
         date['day']), 'year': int(date['year'])}
     db_day = Day.query.filter_by(
         month=date['month'], day=date['day'], year=date['year']).first()
-    print('All the days we have in db: ', Day.query.all())
+
     if db_day:
         db_day.state = 'incomplete'
         db.session.commit()
-        print('db day:', db_day.color())
         return jsonify({'day': db_day.to_json()})
     else:
         day = Day(month=date['month'], day=date['day'], year=date['year'])
@@ -161,7 +159,6 @@ def register():
         db.session.commit()
         return jsonify({'success': 'Successfully Created User'})
 
-
     # Renders the add_worker template
     # You can't be logged in to access, and when the form submits
     # the user gets made and you're redirected
@@ -211,11 +208,11 @@ def user_login():
     password = data['password']
     remember = data['remember']
     user = User.query.filter_by(username=username).first()
-    if user is None or not user.check_password(password):
-        user = {'is_authenticated': current_user.is_authenticated}
-        return 'success'  # jsonify({'current_user': user})
-    login_user(user=user, remember=remember)
-    return jsonify({'current_user': user.to_json()})
+    if user:
+        if user.check_password(password):
+            login_user(user=user, remember=remember)
+            return jsonify({'current_user': user.to_json()})
+    return jsonify({'current_user': {'is_authenticated': False}})
     # return render_template('login.html', form=form)
 
 

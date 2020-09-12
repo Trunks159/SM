@@ -47,7 +47,6 @@ for (let time = 25200; time <= 82800; time += 1800) {
     value: timetoValue(time),
   });
 }
-console.log("Marks: ", marks);
 
 class VerticalSlider extends Component {
   render() {

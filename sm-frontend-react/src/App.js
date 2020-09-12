@@ -79,9 +79,7 @@ class App extends Component {
       year: year,
     });
     result.then(({ day }) => {
-      console.log("Checkdb input data: ", day);
       this.setState({ current_day: day });
-      console.log("The current day now: ", this.state.current_day);
     });
 
     return this.state.current_day;
@@ -96,14 +94,14 @@ class App extends Component {
     });
   };
 
-  notifyUser(message) {
+  notifyUser = (message) => {
     this.setState({
       message: message,
     });
     setTimeout(() => {
       this.setState({ message: null });
     }, 4000);
-  }
+  };
 
   /*Fetches Days and Users and Sets Current Day To Today */
   componentDidMount = async () => {
@@ -222,14 +220,15 @@ class App extends Component {
                 path="/login"
                 render={() => {
                   if (this.state.current_user.is_authenticated) {
-                    this.notifyUser({
-                      content: "You're Already Logged In",
-                      title: "Warning",
-                      severity: "warning",
-                    });
                     return <Redirect to="/" />;
                   }
-                  return <Login postReq={this.postReq} />;
+                  return (
+                    <Login
+                      users={this.state.users}
+                      notifyUser={this.notifyUser}
+                      postReq={this.postReq}
+                    />
+                  );
                 }}
               />
               <Route
