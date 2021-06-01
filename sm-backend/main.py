@@ -2,14 +2,11 @@ from flask import render_template, flash, redirect, url_for, request, jsonify
 from config import app, db
 from werkzeug.urls import url_parse
 from forms import RegistrationForm, LoginForm, AddUserForm
-from models import User, Day, WorkBlock, Schedule
+from models import User, Day, WorkBlock
 from flask_login import current_user, login_user, login_required, logout_user
-from calendar import month_name, day_name
 from dates import viewable_days
-from datetime import date
+from datetime import datetime, timedelta
 import os
-
-app.jinja_env.globals.update(month_name=month_name, day_name=day_name)
 
 
 @app.route('/')
@@ -42,6 +39,7 @@ def receive_data():
     users = User.query
     data = request.get_json()
     workblocks = data['workblocks']
+    print('HERE ARE THE WORKBLOCKS:', workblocks)
     day_id = data['day_id']
     day = Day.query.filter_by(id=day_id).first()
     for wb in day.workblocks:
@@ -49,50 +47,54 @@ def receive_data():
     for workblock in workblocks:
         user = users.filter_by(id=workblock['user_id']).first()
         w = WorkBlock(
-            user=user, start_time=workblock['start_time'], end_time=workblock['end_time'], day=day)
+            user=user, start_time=workblock['start_time'], end_time=workblock['end_time'])
+        db.session.add(w)
     db.session.commit()
     return jsonify({'data': data})
 
 
 @app.route('/access_day', methods=['POST'])
 def access_day():
-    date = request.get_json()
-    date = {'month': int(date['month']), 'day': int(
-        date['day']), 'year': int(date['year'])}
-    db_day = Day.query.filter_by(
-        month=date['month'], day=date['day'], year=date['year']).first()
+
+    day_date = request.get_json()
+    day_date = datetime(day_date['year'], day_date['month'], day_date['day'])
+    db_day = Day.query.filter_by(date=day_date).first()
 
     if db_day:
         db_day.state = 'incomplete'
         db.session.commit()
         return jsonify({'day': db_day.to_json()})
     else:
-        day = Day(month=date['month'], day=date['day'], year=date['year'])
+        day = Day(date=datetime(
+            day_date['year'], day_date['month'], day_date['day']))
         day.state = 'incomplete'
-        db.session.commit()
         db.session.add(day)
-        # db.session.commit()
+        db.session.commit()
         return jsonify({'day': day.to_json()})
 
 
 @app.route('/get_days')
 def get_days():
+    '''
+5/3/21 Made untested changes here this may give you problems!!!
+
+    '''
     # makes a today date, and goes and makes the days for the next two weeks
     # for each day if its in the db, grab that day, else make the day and add it to the
     # db, finally return all the days as jsons
-    today = date.today()
+    today = datetime.today()
+    today = datetime(today.year, today.month, today.day)
     days = []
     for day in viewable_days(today):
         d = Day.query.filter_by(
-            day=day.day, month=day.month, year=day.year).first()
+            date=day).first()
         if d == None:
             print('Couldnt find any days like that')
-            d = Day(day=day.day, month=day.month, year=day.year)
+            d = Day(date=day)
             db.session.add(d)
         days.append(d)
     db.session.commit()
     days = [day.to_json() for day in days]
-
     return jsonify({'days': days})
 
 
@@ -150,14 +152,14 @@ def register():
     username = data['username']
     user = User.query.filter_by(username=username).first()
     if user:
-        return jsonify({'error': 'User Already Exists'})
+        return jsonify({'response': 'User Already Exists'})
     else:
         u = User(username=username,
                  first_name=data['first_name'], last_name=data['last_name'])
         u.set_password(data['password'])
         db.session.add(u)
         db.session.commit()
-        return jsonify({'success': 'Successfully Created User'})
+        return jsonify({'response': True})
 
     # Renders the add_worker template
     # You can't be logged in to access, and when the form submits

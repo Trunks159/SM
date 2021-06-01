@@ -1,10 +1,7 @@
 from config import db, login
-from datetime import date
-import matplotlib
 from werkzeug.security import check_password_hash, generate_password_hash
+from datetime import datetime
 from flask_login import UserMixin
-import os
-import random
 
 
 class User(UserMixin, db.Model):
@@ -17,6 +14,7 @@ class User(UserMixin, db.Model):
     color = db.Column(db.String(20), index=True, unique=True)
     slug = db.Column(db.String(20), index=True, unique=True)
     workblocks = db.relationship('WorkBlock', backref='user', lazy=True)
+    availability = db.relationship('Availability', backref='user', lazy=True)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -55,8 +53,9 @@ class User(UserMixin, db.Model):
         return 'crew'
 
     def set_color(self):
+        import random
+        import matplotlib
         while True:
-            print('Hay')
             r = random.randint(0, 255)/255
             g = random.randint(0, 255)/255
             b = random.randint(0, 255)/255
@@ -69,34 +68,48 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
 
+class Availability(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    monday = db.Column(db.String(30))
+    tuesday = db.Column(db.String(30))
+    wednesday = db.Column(db.String(30))
+    thursday = db.Column(db.String(30))
+    friday = db.Column(db.String(30))
+    saturday = db.Column(db.String(30))
+    sunday = db.Column(db.String(30))
+
+    def getAvail(self, dayofWeek):
+        x = getattr(self, dayofWeek)
+        x = x.split('-')
+        times = []
+        for time in x:
+            t = datetime.strptime(time, '%H:%M')
+            times.append(t)
+
+        return times
+
+
 class Day(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    year = db.Column(db.Integer)
-    month = db.Column(db.Integer)
-    day = db.Column(db.Integer)
+    date = db.Column(db.DateTime)
     state = db.Column(db.String(30))
     workblocks = db.relationship('WorkBlock', backref='day', lazy=True)
-    schedule_id = db.Column(db.Integer, db.ForeignKey('schedule.id'))
 
     def __repr__(self):
-        return 'Day {}/{}/{}'.format(self.month, self.day, self.year)
+        return self.date.isoformat()
 
     def check_state(self):
         if len(self.workblocks) >= 7:
             self.state = 'complete'
 
         elif self.state != 'incomplete':
-            today = date.today()
-            print(self)
-            d = date(year=self.year, month=self.month, day=self.day)
-            if (today - d).days > 0:
+            today = datetime.today()
+            if (today - self.date).days > 0:
                 self.state = 'inactive'
             if self.state == None:
                 self.state = 'available'
         return self.state
-
-    def weekday(self):
-        return date(self.year, self.month, self.day).weekday()
 
     def color(self):
         return {'available': 'blue', 'complete': 'green',
@@ -111,11 +124,11 @@ class Day(db.Model):
             'id': self.id,
             'color': self.color(),
             'state': self.check_state(),
-            'year': self.year,
-            'month': self.month,
-            'day': self.day,
-            'weekday': self.weekday(),
-            'date': '{}{}{}'.format(str(self.month), str(self.day), str(self.year)),
+            'year': self.date.year,
+            'month': self.date.month,
+            'day': self.date.day,
+            'weekday': self.date.weekday(),
+            'date': self.date.isoformat(),
             'workblocks': [workblock.to_json() for workblock in self.workblocks]
 
         }
@@ -126,11 +139,11 @@ class Day(db.Model):
 
 class WorkBlock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    worker_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    #time is stored in seconds
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
+    # time is stored in seconds
     start_time = db.Column(db.Integer)
     end_time = db.Column(db.Integer)
-    day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
 
     def to_json(self):
         return{
@@ -139,13 +152,7 @@ class WorkBlock(db.Model):
             'start_time': self.start_time,
             'end_time': self.end_time,
             'day_id': self.day.id
-
         }
-
-
-class Schedule(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    days = db.relationship('Day', backref='week', lazy=True)
 
 
 @login.user_loader

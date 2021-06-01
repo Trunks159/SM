@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { Redirect } from "react-router-dom";
 
-class Register extends Component {
+class AvailabilityForm extends Component {
   state = {
     username: "",
     password: "",
@@ -14,7 +14,7 @@ class Register extends Component {
     redirect: null,
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     const {
       username,
@@ -23,37 +23,37 @@ class Register extends Component {
       first_name,
       last_name,
     } = this.state;
-    const {users, postReq} = this.props;
     if (password !== confirm_password) {
       this.setState({
         error: "Confirm Password and Password must be the same",
       });
-    } else if (users.find((user) => user.username === username)) {
+    } else if (this.props.users.find((user) => user.username === username)) {
       this.setState({
         error: "User already exists",
       });
     } else {
-      let rawResponse = postReq("/register", 
-        { 
+      const rawResponse = await fetch("/register", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           username: username,
           password: password,
           first_name: first_name,
           last_name: last_name,
-        });
-      rawResponse.then((data)=>data.json().then(({response})=>{
-        if (response === true){
-          this.setState({
-            redirect: <Redirect to="/login" />,
-          });
-        }else{
-        this.setState({error:response});
-      }}))
-      /*{
+        }),
+      });
+      const content = await rawResponse.json();
       if (content.error) {
         this.setState({ error: content.error });
       } else if (content.success) {
-        
-      }*/
+        this.setState({
+          success: content.success,
+          redirect: <Redirect to="/login" />,
+        });
+      }
     }
   };
   handleChange = (e) => {

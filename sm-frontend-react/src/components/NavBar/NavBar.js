@@ -1,17 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Users from "./Users";
+import SwipeableTemporaryDrawer from "./UsersDrawer"
+
 
 const NavBar = ({ users, current_user, logoutUser, Thumbnail }) => {
   const isAuthenticated = (user, logoutUser, Thumbnail) => {
     return (
       <React.Fragment>
-        <li>
           <Thumbnail user={user} />
-        </li>
-        <li className="nav-link">
-          <Link onClick={logoutUser}>Logout</Link>
-        </li>
+          <Link className="nav-link" onClick={logoutUser}>Logout</Link>
         {isManager(user)}
       </React.Fragment>
     );
@@ -20,12 +18,8 @@ const NavBar = ({ users, current_user, logoutUser, Thumbnail }) => {
   const notAuthenticated = () => {
     return (
       <React.Fragment>
-        <li className="nav-link">
-          <Link to="/login">Login</Link>
-        </li>
-        <li className="nav-link">
-          <Link to="/register">Register</Link>
-        </li>
+          <Link className="nav-link login" to="/login">Login</Link>
+          <Link className="nav-link register" to="/register">Register</Link>
       </React.Fragment>
     );
   };
@@ -40,20 +34,20 @@ const NavBar = ({ users, current_user, logoutUser, Thumbnail }) => {
     }
   };
   return (
-    <div className="nav-bar">
-      <Link className="nav-header" to="/">
+    <nav className="nav-bar">
+      <SwipeableTemporaryDrawer users = {users}/>
+      <Link className="nav-logo" to="/">
         <img
           src="http://localhost:5000/static/images/logo.png"
           alt="Scheduletron"
         />
       </Link>
-      <ul>
         {current_user.is_authenticated
           ? isAuthenticated(current_user, logoutUser, Thumbnail)
           : notAuthenticated()}
-      </ul>
-      <Users users={users} />
-    </div>
+      {/*
+      <Users users={users} />*/}
+    </nav>
   );
 };
 

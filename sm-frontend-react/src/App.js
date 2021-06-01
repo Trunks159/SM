@@ -19,6 +19,7 @@ class App extends Component {
     current_user: { is_authenticated: false },
     current_day: null,
     message: null,
+    redirect: null,
   };
 
   fetchDays = async () => {
@@ -78,9 +79,27 @@ class App extends Component {
       month: month,
       year: year,
     });
-    result.then(({ day }) => {
+    result.then((response) =>{
+    if (response.ok === true){
+      response.json().then(({ day }) => {
+        this.setState({ current_day: day });
+      })
+    }else{      
+        this.notifyUser(
+          {
+            content:"Error, Couldn't get day from database", 
+            title:'Warning',
+            severity:'warning'
+          }
+        
+          );
+          this.setState({redirect:<Redirect to = '/'/>});
+    }
+      }
+    );
+    /*result.json().then(({ day }) => {
       this.setState({ current_day: day });
-    });
+    });*/
 
     return this.state.current_day;
   };
@@ -144,15 +163,17 @@ class App extends Component {
       6: "Sunday",
     };
     return (
+      
       <Router>
         <div className="App">
-          <div className="main-flex">
+          
             <NavBar
               current_user={this.state.current_user}
               users={this.state.users}
               logoutUser={() => this.getReq("/logout")}
               Thumbnail={Thumbnail}
             />
+            {/*
             <div className="content">
               <Message message={this.state.message} />
               <Route exact path="/" render={() => <PastDays />} />
@@ -235,25 +256,20 @@ class App extends Component {
                 path="/register"
                 render={() => {
                   if (this.state.current_user.is_authenticated) {
-                    this.notifyUser({
-                      content: "You're Already Logged In",
-                      title: "Warning",
-                      severity: "warning",
-                    });
                     return <Redirect to="/" />;
                   }
-                  return <Register getUsers={this.getUsers} />;
+                  return <Register users={this.state.users} postReq={this.postReq}/>;
                 }}
               />
-            </div>
+            </div>*/}  
+           {/* 
             <CurrentDay day={this.state.current_day} dictionary={dictionary} />
             <Week
               days={this.state.days}
               dictionary={dictionary}
               wipeDays={this.wipeDays}
               reqDay={this.reqDay}
-            />
-          </div>
+            />*/}
         </div>
       </Router>
     );
