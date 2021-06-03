@@ -5,6 +5,7 @@ import SwipeableTemporaryDrawer from "./UsersDrawer"
 
 
 const NavBar = ({ users, current_user, logoutUser, Thumbnail }) => {
+
   const isAuthenticated = (user, logoutUser, Thumbnail) => {
     return (
       <React.Fragment>
@@ -47,6 +48,7 @@ const NavBar = ({ users, current_user, logoutUser, Thumbnail }) => {
           : notAuthenticated()}
       {/*
       <Users users={users} />*/}
+        
     </nav>
   );
 };

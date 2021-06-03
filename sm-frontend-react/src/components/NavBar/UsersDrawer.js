@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withTheme } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
@@ -14,25 +14,54 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import User from '../user/User';
 import { Link } from "react-router-dom";
 import DehazeIcon from '@material-ui/icons/Dehaze';
+import Typography from '@material-ui/core/Typography';
+
 
 const useStyles = makeStyles({
   list: {
     width: 250,
+    margin: 0,
+    background: '#BE35A3',
+    
   },
   fullList: {
     width: 'auto',
   },
+  divider:{
+      background:'#CACACA'
+  },
+  list_item_text:{
+      color:'white',
+  },
+  list_item:{
+    display:'block',
+    '&:hover':{
+      background: '#FF4BDB',
+    },
+  }
 });
+
+const useStyles2 = makeStyles((theme) => ({
+    users :{
+        'margin-left': '10px',
+        color: 'white',
+    }
+  }));
 
 export default function SwipeableTemporaryDrawer({users}) {
   const classes = useStyles();
+  const classes2 = useStyles2()
   const [state, setState] = React.useState({
     users: false,
   });
+
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
+
+   
 
     setState({ ...state, [anchor]: open });
   };
@@ -46,15 +75,15 @@ export default function SwipeableTemporaryDrawer({users}) {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <h1>
-          Users
-      </h1>
+        <div className = 'typodiv'><Typography variant = 'h6' className = {classes2.users}>Users</Typography></div>
+        <Divider   className = {classes.divider}/>
           {users.map((user)=>(
-              <ListItem button >
-                  <ListItemIcon><AccountCircleIcon/></ListItemIcon>
-                  <ListItemText primary={user.first_name} />
+              <ListItem className ={classes.list_item}>
+                <Link to={`/user/${user.username}`}>
+                  <ListItemIcon><AccountCircleIcon style={{fill: "white"}}/></ListItemIcon>
+                  <ListItemText className = {classes.list_item_text} primary={user.first_name} />
+                  </Link>
               </ListItem>
-
           ))}
           
     </div>
@@ -64,6 +93,7 @@ export default function SwipeableTemporaryDrawer({users}) {
     <div>
       {['users'].map((anchor) => (
         <React.Fragment key={anchor}>
+            
           <Button onClick={toggleDrawer(anchor, true)}><DehazeIcon style={{fill: "white"}}/></Button>
           <SwipeableDrawer
             anchor={anchor}
@@ -71,7 +101,7 @@ export default function SwipeableTemporaryDrawer({users}) {
             onClose={toggleDrawer(anchor, false)}
             onOpen={toggleDrawer(anchor, true)}
           >
-            {list(anchor, users)}
+            <List className = {classes.list}>{list(anchor, users)}</List>
           </SwipeableDrawer>
         </React.Fragment>
       ))}

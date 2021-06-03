@@ -173,6 +173,21 @@ class App extends Component {
               logoutUser={() => this.getReq("/logout")}
               Thumbnail={Thumbnail}
             />
+            <Route
+                path="/login"
+                render={() => {
+                  if (this.state.current_user.is_authenticated) {
+                    return <Redirect to="/" />;
+                  }
+                  return (
+                    <Login
+                      users={this.state.users}
+                      notifyUser={this.notifyUser}
+                      postReq={this.postReq}
+                    />
+                  );
+                }}
+              />
             {/*
             <div className="content">
               <Message message={this.state.message} />
