@@ -188,6 +188,15 @@ class App extends Component {
                   );
                 }}
               />
+              <Route
+                path="/register"
+                render={() => {
+                  if (this.state.current_user.is_authenticated) {
+                    return <Redirect to="/" />;
+                  }
+                  return <Register users={this.state.users} postReq={this.postReq}/>;
+                }}
+              />
             {/*
             <div className="content">
               <Message message={this.state.message} />

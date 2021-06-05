@@ -108,7 +108,7 @@ class Login extends Component {
         <Typography variant = 'h6' className = {classes.login}>Login <Divider></Divider></Typography>
         
       <form className = 'login-form' onSubmit={this.handleSubmit}>
-        <TextField className = {classes.input} name = 'username' label="Enter Username" onChange={this.handleChange}/>
+        <TextField className = {classes.input} name = 'username' label="Enter Username" onChange={this.handleChange} />
         {this.state.username_errors ? this.state.username_errors : null}
         <TextField className = {classes.input} name = 'password' label="Enter Password" onChange={this.handleChange}/>
         <Typography variant = 'subtitle1'><Link className = {classes.link} to = '/'>Forgot Password</Link></Typography>

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  background-color: #ff4bdb;
+  background-color: #7e266c;
   align-items: center;
   height: 40px;
 }
@@ -29,17 +29,14 @@
   margin-left: auto;
 }
 
-.typodiv {
-  height: 40px;
-  display: flex;
-  align-items: center;
-}
-
 .login-form {
   display: flex;
   flex-direction: column;
   margin: 40px;
 }
 
-.login-header {
+.register-form {
+  display: flex;
+  flex-direction: column;
+  margin: 40px;
 }

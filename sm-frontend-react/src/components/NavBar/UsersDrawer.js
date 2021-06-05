@@ -16,12 +16,11 @@ import { Link } from "react-router-dom";
 import DehazeIcon from '@material-ui/icons/Dehaze';
 import Typography from '@material-ui/core/Typography';
 
-
 const useStyles = makeStyles({
   list: {
     width: 250,
     margin: 0,
-    background: '#BE35A3',
+    background: '#7e266c',
     
   },
   fullList: {
@@ -30,15 +29,21 @@ const useStyles = makeStyles({
   divider:{
       background:'#CACACA'
   },
-  list_item_text:{
-      color:'white',
-  },
-  list_item:{
-    display:'block',
+  user_button:{
+    width:'100%',
+    backgroundColor: '#BE35A3',
+    textTransform:'none',
+    color: 'white',
     '&:hover':{
-      background: '#FF4BDB',
-    },
-  }
+      background:'#FF4BDB',
+    }
+  },
+  
+  user_link:{
+    display:'block',
+    textDecoration:'none',
+    margin:'5px',
+  },
 });
 
 const useStyles2 = makeStyles((theme) => ({
@@ -78,12 +83,15 @@ export default function SwipeableTemporaryDrawer({users}) {
         <div className = 'typodiv'><Typography variant = 'h6' className = {classes2.users}>Users</Typography></div>
         <Divider   className = {classes.divider}/>
           {users.map((user)=>(
-              <ListItem className ={classes.list_item}>
-                <Link to={`/user/${user.username}`}>
-                  <ListItemIcon><AccountCircleIcon style={{fill: "white"}}/></ListItemIcon>
-                  <ListItemText className = {classes.list_item_text} primary={user.first_name} />
+                <Link className = {classes.user_link} to={`/user/${user.username}`}>
+                  <Button
+                    variant="contained"
+                    className={classes.user_button}
+                    startIcon={<AccountCircleIcon style={{fill: "white"}}/>}
+                  >
+                    {user.first_name}
+                  </Button>
                   </Link>
-              </ListItem>
           ))}
           
     </div>
