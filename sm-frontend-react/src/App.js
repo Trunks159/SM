@@ -166,13 +166,14 @@ class App extends Component {
       
       <Router>
         <div className="App">
-          
+            
             <NavBar
               current_user={this.state.current_user}
               users={this.state.users}
               logoutUser={() => this.getReq("/logout")}
               Thumbnail={Thumbnail}
             />
+            <Message message={this.state.message} />
             <Route
                 path="/login"
                 render={() => {
@@ -194,12 +195,12 @@ class App extends Component {
                   if (this.state.current_user.is_authenticated) {
                     return <Redirect to="/" />;
                   }
-                  return <Register users={this.state.users} postReq={this.postReq}/>;
+                  return <Register users={this.state.users} postReq={this.postReq} notifyUser = {this.notifyUser}/>;
                 }}
               />
             {/*
             <div className="content">
-              <Message message={this.state.message} />
+              
               <Route exact path="/" render={() => <PastDays />} />
               <Route
                 path="/user/:username"
