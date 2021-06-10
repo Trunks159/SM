@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request, jsonify
+from flask import json, render_template, flash, redirect, url_for, request, jsonify
 from config import app, db
 from werkzeug.urls import url_parse
 from forms import RegistrationForm, LoginForm, AddUserForm
@@ -149,17 +149,15 @@ def edit_user(id):
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     data = request.get_json()
-    username = data['username']
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(first_name = data['first_name']).filter_by(last_name = data['last_name']).first()
     if user:
-        return jsonify({'response': 'User Already Exists'})
-    else:
-        u = User(username=username,
-                 first_name=data['first_name'], last_name=data['last_name'])
-        u.set_password(data['password'])
-        db.session.add(u)
+        
+        user.username = data['username']
+        user.set_password(data['password'])
         db.session.commit()
-        return jsonify({'response': True})
+        return jsonify({'response':True})
+    else:
+        return jsonify({'response': 'User Not Found'})
 
     # Renders the add_worker template
     # You can't be logged in to access, and when the form submits

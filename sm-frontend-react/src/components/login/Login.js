@@ -1,37 +1,37 @@
 import React, { Component } from "react";
 import { Alert } from "@material-ui/lab";
-import Typography from '@material-ui/core/Typography';
-import { withStyles} from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
-import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
+import Divider from "@material-ui/core/Divider";
+import TextField from "@material-ui/core/TextField";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Link } from "react-router-dom";
-import Button from '@material-ui/core/Button';
-import LockIcon from '@material-ui/icons/Lock';
+import Button from "@material-ui/core/Button";
+import LockIcon from "@material-ui/icons/Lock";
 
-const styles = theme => ({
-  login : {
-    margin: '40px',
-    'font-size': '40px',
-    'font-weight': '500',
+const styles = (theme) => ({
+  login: {
+    margin: "40px",
+    "font-size": "40px",
+    "font-weight": "500",
   },
-  submit:{
-    'background-color': '#ff4bdb',
-    width:'100px',
-    'margin-left':'auto',
+  submit: {
+    "background-color": "#ff4bdb",
+    width: "100px",
+    "margin-left": "auto",
   },
-  input:{
-    margin: '10px',
+  input: {
+    margin: "10px",
   },
-  link:{
-    'text-decoration': 'none',
-    'margin-left': '15px',
-    'font-size': 'small',
+  link: {
+    "text-decoration": "none",
+    "margin-left": "15px",
+    "font-size": "small",
   },
-  remember:{
-    margin: '20px',
-  }
+  remember: {
+    margin: "20px",
+  },
 });
 
 class Login extends Component {
@@ -101,42 +101,57 @@ class Login extends Component {
   };
 
   render() {
-    const {classes} = this.props
+    const { classes } = this.props;
     return (
       <React.Fragment>
-        <Typography variant = 'h6' className = {classes.login}>Login <Divider></Divider></Typography>
-        
-      <form className = 'login-form' onSubmit={this.handleSubmit}>
-        <TextField className = {classes.input} name = 'username' label="Enter Username" onChange={this.handleChange} />
-        {this.state.username_errors ? this.state.username_errors : null}
-        <TextField className = {classes.input} name = 'password' label="Enter Password" onChange={this.handleChange}/>
-        <Typography variant = 'subtitle1'><Link className = {classes.link} to = '/'>Forgot Password</Link></Typography>
-        <FormControlLabel
-        className = {classes.remember}
-        control={
-          <Checkbox
-            checked={this.state.remember}
-            onChange={this.handleCheckbox}
-            name="remember"
-            primary
+        <Typography variant="h6" className={classes.login}>
+          Login <Divider></Divider>
+        </Typography>
+
+        <form className="login-form" onSubmit={this.handleSubmit}>
+          <TextField
+            className={classes.input}
+            name="username"
+            label="Enter Username"
+            onChange={this.handleChange}
           />
-        }
-        label="Remember Me"
-      />
-        {this.state.password_errors}
+          {this.state.username_errors ? this.state.username_errors : null}
+          <TextField
+            className={classes.input}
+            name="password"
+            label="Enter Password"
+            onChange={this.handleChange}
+          />
+          {this.state.password_errors}
+          <Typography variant="subtitle1">
+            <Link className={classes.link} to="/">
+              Forgot Password
+            </Link>
+          </Typography>
+          <FormControlLabel
+            className={classes.remember}
+            control={
+              <Checkbox
+                checked={this.state.remember}
+                onChange={this.handleCheckbox}
+                name="remember"
+                primary
+              />
+            }
+            label="Remember Me"
+          />
 
-<Button
-        type = 'submit'
-        variant="contained"
-        color="primary"
-        className={classes.submit}
-        endIcon={<LockIcon/>}
-      >
-        Login
-      </Button>
-      </form>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            endIcon={<LockIcon />}
+          >
+            Login
+          </Button>
+        </form>
       </React.Fragment>
-
     );
   }
 }
