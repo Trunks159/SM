@@ -11,6 +11,7 @@ import CurrentDay from "./components/CurrentDay";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import AddUserPaper from "./components/AddUserPaper";
 
 class App extends Component {
   state = {
@@ -79,24 +80,20 @@ class App extends Component {
       month: month,
       year: year,
     });
-    result.then((response) =>{
-    if (response.ok === true){
-      response.json().then(({ day }) => {
-        this.setState({ current_day: day });
-      })
-    }else{      
-        this.notifyUser(
-          {
-            content:"Error, Couldn't get day from database", 
-            title:'Warning',
-            severity:'warning'
-          }
-        
-          );
-          this.setState({redirect:<Redirect to = '/'/>});
-    }
+    result.then((response) => {
+      if (response.ok === true) {
+        response.json().then(({ day }) => {
+          this.setState({ current_day: day });
+        });
+      } else {
+        this.notifyUser({
+          content: "Error, Couldn't get day from database",
+          title: "Warning",
+          severity: "warning",
+        });
+        this.setState({ redirect: <Redirect to="/" /> });
       }
-    );
+    });
     /*result.json().then(({ day }) => {
       this.setState({ current_day: day });
     });*/
@@ -163,42 +160,47 @@ class App extends Component {
       6: "Sunday",
     };
     return (
-      
       <Router>
         <div className="App">
-            
-            <NavBar
-              current_user={this.state.current_user}
-              users={this.state.users}
-              logoutUser={() => this.getReq("/logout")}
-              Thumbnail={Thumbnail}
-            />
-            <Message message={this.state.message} />
-            <Route
-                path="/login"
-                render={() => {
-                  if (this.state.current_user.is_authenticated) {
-                    return <Redirect to="/" />;
-                  }
-                  return (
-                    <Login
-                      users={this.state.users}
-                      notifyUser={this.notifyUser}
-                      postReq={this.postReq}
-                    />
-                  );
-                }}
-              />
-              <Route
-                path="/register"
-                render={() => {
-                  if (this.state.current_user.is_authenticated) {
-                    return <Redirect to="/" />;
-                  }
-                  return <Register users={this.state.users} postReq={this.postReq} notifyUser = {this.notifyUser}/>;
-                }}
-              />
-            {/*
+          <NavBar
+            current_user={this.state.current_user}
+            users={this.state.users}
+            getReq={this.getReq}
+            Thumbnail={Thumbnail}
+            notifyUser={this.notifyUser}
+          />
+          <Message message={this.state.message} />
+          <Route
+            path="/login"
+            render={() => {
+              if (this.state.current_user.is_authenticated) {
+                return <Redirect to="/" />;
+              }
+              return (
+                <Login
+                  users={this.state.users}
+                  notifyUser={this.notifyUser}
+                  postReq={this.postReq}
+                />
+              );
+            }}
+          />
+          <Route
+            path="/register"
+            render={() => {
+              if (this.state.current_user.is_authenticated) {
+                return <Redirect to="/" />;
+              }
+              return (
+                <Register
+                  users={this.state.users}
+                  postReq={this.postReq}
+                  notifyUser={this.notifyUser}
+                />
+              );
+            }}
+          />
+          {/*
             <div className="content">
               
               <Route exact path="/" render={() => <PastDays />} />
@@ -286,8 +288,8 @@ class App extends Component {
                   return <Register users={this.state.users} postReq={this.postReq}/>;
                 }}
               />
-            </div>*/}  
-           {/* 
+            </div>*/}
+          {/* 
             <CurrentDay day={this.state.current_day} dictionary={dictionary} />
             <Week
               days={this.state.days}

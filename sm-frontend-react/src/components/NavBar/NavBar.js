@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Users from "./Users";
-import UsersDrawer from "./UsersDrawer";
+import UsersDrawer2 from "./UsersDrawer2";
 import Button from "@material-ui/core/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles, withTheme } from "@material-ui/core/styles";
@@ -13,9 +13,19 @@ const useStyles = makeStyles({
   },
 });
 
-const NavBar = ({ users, current_user, logoutUser, Thumbnail }) => {
+const NavBar = ({ users, current_user, getReq, Thumbnail, notifyUser }) => {
   const classes = useStyles();
-  const isAuthenticated = (user, logoutUser, Thumbnail) => {
+
+  const logoutUser = () => {
+    getReq("/logout");
+    notifyUser({
+      content: "You Have Been Logged Out",
+      severity: "success",
+      title: "Logged Out",
+    });
+  };
+
+  const isAuthenticated = (user, Thumbnail) => {
     return (
       <React.Fragment>
         <Link className="nav-link username" to={`/user/${user.username}`}>
@@ -58,7 +68,7 @@ const NavBar = ({ users, current_user, logoutUser, Thumbnail }) => {
   };
   return (
     <nav className="nav-bar">
-      <UsersDrawer users={users} />
+      <UsersDrawer2 users={users} />
       <Link className="nav-logo" to="/">
         <img
           src="http://localhost:5000/static/images/logo.png"
@@ -66,7 +76,7 @@ const NavBar = ({ users, current_user, logoutUser, Thumbnail }) => {
         />
       </Link>
       {current_user.is_authenticated
-        ? isAuthenticated(current_user, logoutUser, Thumbnail)
+        ? isAuthenticated(current_user, Thumbnail)
         : notAuthenticated()}
       {/*
       <Users users={users} />*/}
