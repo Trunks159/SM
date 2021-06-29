@@ -51,3 +51,23 @@
   flex-direction: column;
   margin: 40px;
 }
+
+.test {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 40px;
+}
+
+.add_user_form{
+  margin: 20px;
+  color: white;
+}
+
+.add_user_first_name{
+  color:white
+}
+.add_user_last_name{
+  color: white;
+}
+
