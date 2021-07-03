@@ -10,10 +10,10 @@ import Typography from "@material-ui/core/Typography";
 import ReorderIcon from "@material-ui/icons/Reorder";
 import { red } from "@material-ui/core/colors";
 import TextField from "@material-ui/core/TextField";
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
 
 const styles = () => ({
   list: {
@@ -64,8 +64,11 @@ const styles = () => ({
     background: "#7e266c",
     width: "250px",
   },
-  first_name:{
-    color:'white',
+  textField: {
+    color: "white",
+  },
+  input: {
+    color: "white",
   },
 });
 
@@ -73,9 +76,9 @@ class UsersDrawer2 extends Component {
   state = {
     isDrawerOpened: false,
     add_user: false,
-    first_name:'',
-    last_name:'',
-    position:'crew',
+    first_name: "",
+    last_name: "",
+    position: "crew",
   };
 
   toggleDrawerStatus = () => {
@@ -85,54 +88,79 @@ class UsersDrawer2 extends Component {
   };
 
   closeDrawer = () => {
-    this.setState({
+    const original_state = {
       isDrawerOpened: false,
-      add_user:false, 
-    });
+      add_user: false,
+      first_name: "",
+      last_name: "",
+      position: "crew",
+    };
+    this.setState(original_state);
   };
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleAddUser = (classes) => {
-    if(this.state.add_user === false){
-      this.setState({add_user : <div className = 'add_user_form'>
-        <Typography variant = 'h6'>
-          Add User
-        </Typography>
-        <TextField
-            className='add_user_first_name'
-            name="first_name"
-            label="Enter First Name"
-            onChange={this.handleChange}
-          />
-          <TextField
-            className='add_user_last_name'
-            name="last_name"
-            label="Enter Last Name"
-            onChange={this.handleChange}
-          />
-          <FormControl>
-          <InputLabel id="demo-simple-select-label">Position</InputLabel>
-          <Select
-          id="demo-simple-select"
-          value={this.state.position}
-          onChange={this.handleChange}
-        >
-          <MenuItem value={'crew'}>Crew</MenuItem>
-          <MenuItem value={'manager'}>Manager</MenuItem>
-
-        </Select>
-          </FormControl>
-           
-      </div>});
-    }
-    else{
-      this.setState({add_user : false});
-    }
+  handlesubmitUser = ()=>{
+    const {first_name, last_name, position} = this.state
+    fetch('/add_user').then(response => response.json()).then(data=> {
+      if(data.success === true){
+        this.setState({
+          first_name:'', last_name:'', position 'crew'
+        })
+      }
+    })
   }
 
+  handleAddUser = () => {
+    const { classes } = this.props;
+    if (this.state.add_user === false) {
+      this.setState({
+        add_user: (
+          <div className="add_user_form">
+            <Typography variant="h6" className={classes.input}>
+              Add User
+            </Typography>
+            <TextField
+              className={classes.textfield}
+              name="first_name"
+              label="Enter First Name"
+              onChange={this.handleChange}
+              InputProps={{ className: classes.input }}
+              InputLabelProps={{ className: classes.input }}
+            />
+            <TextField
+              className={classes.input}
+              name="last_name"
+              label="Enter Last Name"
+              onChange={this.handleChange}
+              InputLabelProps={{ className: classes.input }}
+            />
+            <FormControl>
+              <Typography className={classes.input} variant="h6">
+                Position
+              </Typography>
+              <Select
+                id="demo-simple-select"
+                value={this.state.position}
+                onChange={this.handleChange}
+                inputProps={{ className: classes.input }}
+              >
+                <MenuItem value={"crew"}>Crew</MenuItem>
+                <MenuItem value={"manager"}>Manager</MenuItem>
+              </Select>
+              <Button onClick= {this.handlesubmitUser}>
+                Submit User
+              </Button>
+            </FormControl>
+          </div>
+        ),
+      });
+    } else {
+      this.setState({ add_user: false });
+    }
+  };
 
   render() {
     const { isDrawerOpened } = this.state;
@@ -155,30 +183,35 @@ class UsersDrawer2 extends Component {
             <Typography className={classes.users_header} variant="h6">
               Users
             </Typography>
-              <Button  className={classes.add_user_btn} onClick = {() => this.handleAddUser(classes)}>
-                <Typography variant="p">Add User</Typography>
-              </Button>
+            <Button
+              className={classes.add_user_btn}
+              onClick={this.handleAddUser}
+            >
+              <Typography variant="p">Add User</Typography>
+            </Button>
           </div>
           <Divider className={classes.divider} />
-          {this.state.add_user || users.map((user) => (
-            <List>
-              <Link to={`/user/${user.username}`} className={classes.user_link}>
-                <ListItem button key={user.id} onClick={this.closeDrawer}>
-                  <ListItemIcon>
-                    <AccountCircleIcon style={{ fill: "white" }} />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      user.first_name[0].toUpperCase() +
-                      user.first_name.slice(1)
-                    }
-                  />
-                </ListItem>
-              </Link>
-            </List>
-          )) }
-          
-
+          {this.state.add_user ||
+            users.map((user) => (
+              <List>
+                <Link
+                  to={`/user/${user.username}`}
+                  className={classes.user_link}
+                >
+                  <ListItem button key={user.id} onClick={this.closeDrawer}>
+                    <ListItemIcon>
+                      <AccountCircleIcon style={{ fill: "white" }} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        user.first_name[0].toUpperCase() +
+                        user.first_name.slice(1)
+                      }
+                    />
+                  </ListItem>
+                </Link>
+              </List>
+            ))}
         </Drawer>
       </div>
     );
