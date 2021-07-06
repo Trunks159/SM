@@ -102,16 +102,20 @@ class UsersDrawer2 extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handlesubmitUser = ()=>{
-    const {first_name, last_name, position} = this.state
-    fetch('/add_user').then(response => response.json()).then(data=> {
-      if(data.success === true){
-        this.setState({
-          first_name:'', last_name:'', position 'crew'
-        })
-      }
-    })
-  }
+  handlesubmitUser = () => {
+    const { first_name, last_name, position } = this.state;
+    const { postReq } = this.props;
+    let rawResponse = postReq("/add_user", {
+      first_name: first_name.toLowerCase(),
+      last_name: last_name.toLowerCase(),
+      position: position.toLowerCase(),
+    });
+    rawResponse.then((data) =>
+      data.json().then((response) => {
+        console.log("I guess we are good", response);
+      })
+    );
+  };
 
   handleAddUser = () => {
     const { classes } = this.props;
@@ -150,9 +154,7 @@ class UsersDrawer2 extends Component {
                 <MenuItem value={"crew"}>Crew</MenuItem>
                 <MenuItem value={"manager"}>Manager</MenuItem>
               </Select>
-              <Button onClick= {this.handlesubmitUser}>
-                Submit User
-              </Button>
+              <Button onClick={this.handlesubmitUser}>Submit User</Button>
             </FormControl>
           </div>
         ),
@@ -161,6 +163,19 @@ class UsersDrawer2 extends Component {
       this.setState({ add_user: false });
     }
   };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      const original_state = {
+        isDrawerOpened: false,
+        add_user: false,
+        first_name: "",
+        last_name: "",
+        position: "crew",
+      };
+      this.setState(original_state);
+    }
+  }
 
   render() {
     const { isDrawerOpened } = this.state;
@@ -200,7 +215,11 @@ class UsersDrawer2 extends Component {
                 >
                   <ListItem button key={user.id} onClick={this.closeDrawer}>
                     <ListItemIcon>
-                      <AccountCircleIcon style={{ fill: "white" }} />
+                      <AccountCircleIcon
+                        style={
+                          user.username ? { fill: "white" } : { fill: "grey" }
+                        }
+                      />
                     </ListItemIcon>
                     <ListItemText
                       primary={

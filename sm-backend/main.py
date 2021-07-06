@@ -111,39 +111,15 @@ def wipe_days():
 @login_required
 @app.route('/add_user', methods=['GET', 'POST'])
 def add_user():
-
-    # Only managers can access, and it makes a user. Redirects to home,
-    # uses same html file as register
-
-    if current_user.position < 1:
-        flash('Only managers can access this page')
-        return redirect(url_for('home'))
-    form = AddUserForm()
-    if form.validate_on_submit():
-        u = User(first_name=form.first_name.data.lower(),
-                 last_name=form.last_name.data.lower())
-        u.set_position(form.position.data.lower())
-        u.username = (
-            form.first_name.data[0].lower() + form.last_name.data.lower())
-        db.session.add(u)
+    # Only managers can access, and it makes a user. Redirects to home
+    user = request.get_json()
+    print('The user we got is: ', user)
+    if User.query.filter_by(first_name = user['first_name'], last_name = user['last_name']).first():
+        return(jsonify({'success': False, 'message': 'User {} {} already in database'.format(user['first_name'], user['last_name'])}))
+    else:
+        db.session.add(User(first_name = user['first_name'], last_name = user['last_name']))
         db.session.commit()
-        return redirect(url_for('home'))
-    return render_template('add_user.html', form=form)
-
-
-'''
-@app.route('/users/<int:id>', methods=['GET', 'POST'])
-def edit_user(id):
-    user = User.query.get_or_404(id)
-    data = request.get_json() or {}
-    if 'username' in data and data['username'] != user.username and \
-            User.query.filter_by(username=data['username']).first():
-        return bad_request('please use a different username')
-
-    return render_template('edit_user.html', user)
-
-
-'''
+        return jsonify({'success': True})
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -162,22 +138,6 @@ def register():
     # Renders the add_worker template
     # You can't be logged in to access, and when the form submits
     # the user gets made and you're redirected
-'''
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = RegistrationForm()
-    print(form.errors)
-    if form.validate_on_submit():
-        u = User(username=form.username.data, first_name=form.first_name.data.lower(),
-                 last_name=form.last_name.data.lower())
-        u.position = 0 if form.position.data.lower() == 'crew' else 1
-        u.set_password(form.password.data)
-        db.session.add(u)
-        db.session.commit()
-        flash('Congrats your registration was successful')
-        return redirect(url_for('login'))
-    return render_template('add_user.html', form=form)
-    '''
 
 
 @app.route('/user_login', methods=['GET', 'POST'])
@@ -190,19 +150,6 @@ def user_login():
         user = User.query.filter_by(
             username=current_user.username).first().to_json()
         return jsonify({'current_user': user})
-    '''form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
-            return redirect(url_for('login'))
-        login_user(user, remember=form.remember_me.data)
-        # if the user was redirected from some page to login, flask sends them to that page
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('home')
-        return redirect(next_page)
-        '''
     data = request.get_json()
     username = data['username']
     password = data['password']
@@ -213,7 +160,6 @@ def user_login():
             login_user(user=user, remember=remember)
             return jsonify({'current_user': user.to_json()})
     return jsonify({'current_user': {'is_authenticated': False}})
-    # return render_template('login.html', form=form)
 
 
 @login_required
@@ -222,14 +168,6 @@ def logout():
     logout_user()
     user = {'is_authenticated': current_user.is_authenticated}
     return jsonify({'current_user': user})
-
-
-@app.route('/user/<username>')
-@login_required
-def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
-    return render_template('user.html', user=user)
-
 
 if "__name__" == "__main__":
     app.debug = True

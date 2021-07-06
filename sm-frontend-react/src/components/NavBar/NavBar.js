@@ -13,7 +13,14 @@ const useStyles = makeStyles({
   },
 });
 
-const NavBar = ({ users, current_user, getReq, Thumbnail, notifyUser }) => {
+const NavBar = ({
+  users,
+  current_user,
+  getReq,
+  postReq,
+  Thumbnail,
+  notifyUser,
+}) => {
   const classes = useStyles();
 
   const logoutUser = () => {
@@ -68,7 +75,7 @@ const NavBar = ({ users, current_user, getReq, Thumbnail, notifyUser }) => {
   };
   return (
     <nav className="nav-bar">
-      <UsersDrawer2 users={users} />
+      <UsersDrawer2 users={users} postReq={postReq} />
       <Link className="nav-logo" to="/">
         <img
           src="http://localhost:5000/static/images/logo.png"

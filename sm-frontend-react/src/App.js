@@ -166,6 +166,7 @@ class App extends Component {
             current_user={this.state.current_user}
             users={this.state.users}
             getReq={this.getReq}
+            postReq={this.postReq}
             Thumbnail={Thumbnail}
             notifyUser={this.notifyUser}
           />
