@@ -56,5 +56,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-evenly;
   height: 40px;
+  width: 100%;
+  background-color: #7e266c;
+}
+.icecream {
+  color: red;
 }

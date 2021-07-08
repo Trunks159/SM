@@ -127,11 +127,14 @@ def register():
     data = request.get_json()
     user = User.query.filter_by(first_name = data['first_name']).filter_by(last_name = data['last_name']).first()
     if user:
-        
-        user.username = data['username']
-        user.set_password(data['password'])
-        db.session.commit()
-        return jsonify({'response':True})
+        u = User.query.filter_by(username = data['username']).first()
+        if u:
+            return jsonify({'response': 'Username Already In Use'})
+        else:
+            user.username = data['username']
+            user.set_password(data['password'])
+            db.session.commit()
+            return jsonify({'response':True})
     else:
         return jsonify({'response': 'User Not Found'})
 

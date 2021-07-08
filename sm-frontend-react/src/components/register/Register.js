@@ -146,11 +146,27 @@ class Register extends Component {
     const { users, postReq, notifyUser } = this.props;
     if (password.value !== confirm_password.value) {
       this.setState({
-        error: "Confirm Password and Password must be the same",
+        confirm_password: {
+          value: confirm_password.value,
+          errors: (
+            <Alert severity="error">
+              <AlertTitle>Confirm Password Error</AlertTitle>
+              Password and Confirm Password Must Be The Same!
+            </Alert>
+          ),
+        },
       });
     } else if (users.find((user) => user.username === username.value)) {
       this.setState({
-        error: "User already exists",
+        username: {
+          value: username.value,
+          errors: (
+            <Alert severity="error">
+              <AlertTitle>Username Error</AlertTitle>
+              Username Alread In Use
+            </Alert>
+          ),
+        },
       });
     } else {
       let rawResponse = postReq("/register", {

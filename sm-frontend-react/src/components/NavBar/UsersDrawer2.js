@@ -24,14 +24,11 @@ const styles = () => ({
   fullList: {
     width: "auto",
   },
-  divider: {
-    background: "white",
-  },
+  divider: {},
   user_button: {
     width: "100%",
     backgroundColor: "#BE35A3",
     textTransform: "none",
-    color: "white",
     "&:hover": {
       background: "#FF4BDB",
     },
@@ -39,36 +36,38 @@ const styles = () => ({
 
   user_link: {
     textDecoration: "none",
-    color: "white",
   },
   users_header: {
     color: "white",
-    margin: "10px",
+    textTransform: "none",
+    backgroundColor: "#7e266c",
+    "&:hover": {
+      backgroundColor: "white",
+    },
+    margin: "20px",
+    display: "block",
   },
   add_user_btn: {
-    padding: "5px",
-    marginLeft: "auto",
-    textTransform: "none",
     color: "white",
+    textTransform: "none",
     background: "#FF4BDB",
     ":&hover": {
       background: "#FF9CEB",
     },
     textDecoration: "none",
   },
-  users: {
-    "margin-left": "10px",
-    color: "white",
-  },
   paper: {
-    background: "#7e266c",
+    background: "white",
     width: "250px",
   },
-  textField: {
-    color: "white",
-  },
-  input: {
-    color: "white",
+  textField: {},
+  input: {},
+  add_user_form: {
+    margin: "20px",
+    display: "flex",
+    flexDirection: "column",
+    height: "65%",
+    justifyContent: "space-evenly",
   },
 });
 
@@ -122,7 +121,7 @@ class UsersDrawer2 extends Component {
     if (this.state.add_user === false) {
       this.setState({
         add_user: (
-          <div className="add_user_form">
+          <div className={classes.add_user_form}>
             <Typography variant="h6" className={classes.input}>
               Add User
             </Typography>
@@ -131,6 +130,7 @@ class UsersDrawer2 extends Component {
               name="first_name"
               label="Enter First Name"
               onChange={this.handleChange}
+              variant="outlined"
               InputProps={{ className: classes.input }}
               InputLabelProps={{ className: classes.input }}
             />
@@ -139,6 +139,7 @@ class UsersDrawer2 extends Component {
               name="last_name"
               label="Enter Last Name"
               onChange={this.handleChange}
+              variant="outlined"
               InputLabelProps={{ className: classes.input }}
             />
             <FormControl>
@@ -195,14 +196,14 @@ class UsersDrawer2 extends Component {
           classes={{ paper: classes.paper }}
         >
           <div className="test">
-            <Typography className={classes.users_header} variant="h6">
+            <Button variant="contained" className={classes.users_header}>
               Users
-            </Typography>
+            </Button>
             <Button
               className={classes.add_user_btn}
               onClick={this.handleAddUser}
             >
-              <Typography variant="p">Add User</Typography>
+              Add User
             </Button>
           </div>
           <Divider className={classes.divider} />
@@ -217,7 +218,7 @@ class UsersDrawer2 extends Component {
                     <ListItemIcon>
                       <AccountCircleIcon
                         style={
-                          user.username ? { fill: "white" } : { fill: "grey" }
+                          user.username ? { fill: "black" } : { fill: "grey" }
                         }
                       />
                     </ListItemIcon>
