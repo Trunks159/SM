@@ -5,26 +5,23 @@ import Button from "@material-ui/core/Button";
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
-import DehazeIcon from "@material-ui/icons/Dehaze";
 import Typography from "@material-ui/core/Typography";
 import ReorderIcon from "@material-ui/icons/Reorder";
-import { red } from "@material-ui/core/colors";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 const styles = () => ({
   list: {
     width: 250,
     margin: 0,
-    background: "#7e266c",
+    background: "#C63AAB",
   },
   fullList: {
     width: "auto",
   },
-  divider: {},
   user_button: {
     width: "100%",
     backgroundColor: "#BE35A3",
@@ -33,41 +30,69 @@ const styles = () => ({
       background: "#FF4BDB",
     },
   },
-
   user_link: {
     textDecoration: "none",
+    color: "white",
   },
-  users_header: {
+
+  main_container: {
+    background: "#C63AAB",
+    width: "250px",
+  },
+  container1: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    height: "40px",
+    margin: "10px",
+  },
+  btn: {
     color: "white",
     textTransform: "none",
-    backgroundColor: "#7e266c",
     "&:hover": {
       backgroundColor: "white",
     },
-    margin: "20px",
-    display: "block",
+    flex: 1,
+    margin: "3px",
+    borderRadius: 0,
   },
-  add_user_btn: {
+
+  container2: {
     color: "white",
-    textTransform: "none",
-    background: "#FF4BDB",
-    ":&hover": {
-      background: "#FF9CEB",
-    },
-    textDecoration: "none",
-  },
-  paper: {
-    background: "white",
-    width: "250px",
-  },
-  textField: {},
-  input: {},
-  add_user_form: {
     margin: "20px",
+    padding: "10px",
     display: "flex",
     flexDirection: "column",
-    height: "65%",
+    height: "60%",
+    boxShadow: "0px 0px 10px 1px rgba(0, 0, 0, 0.25)",
+  },
+  add_user_header: {
+    margin: "10px",
+  },
+  textfields: {
+    color: "white",
+    flex: "0 0 50%",
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "space-evenly",
+  },
+
+  textfield: {
+    color: "white",
+  },
+  btnSubm: {
+    textTransform: "none",
+    color: "white",
+    backgroundColor: "#E258C7",
+    borderRadius: 3,
+    margin: "20px",
+    "&:hover": {
+      backgroundColor: "#FF42DA",
+    },
+  },
+  select: {
+    display: "flex",
+    flexDirection: "column",
   },
 });
 
@@ -99,21 +124,46 @@ class UsersDrawer2 extends Component {
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+    console.log("New value: ", e.target.name, e.target.value);
+  };
+  handleSelect = (e) => {
+    console.log("Name: ", e.target.name, "Value: ", e.target.value);
+  };
+
+  handleUsersBtn = () => {
+    this.setState({ add_user: false });
   };
 
   handlesubmitUser = () => {
     const { first_name, last_name, position } = this.state;
-    const { postReq } = this.props;
-    let rawResponse = postReq("/add_user", {
-      first_name: first_name.toLowerCase(),
-      last_name: last_name.toLowerCase(),
-      position: position.toLowerCase(),
-    });
-    rawResponse.then((data) =>
-      data.json().then((response) => {
-        console.log("I guess we are good", response);
-      })
+    const u = this.props.users.find(
+      (user) =>
+        user.first_name.toLowerCase() === first_name.toLowerCase() &&
+        user.last_name.toLowerCase() === last_name.toLowerCase()
     );
+
+    if (u) {
+      this.setState({
+        errors: (
+          <Alert severity="error">
+            <AlertTitle>Name Error</AlertTitle>
+            User with that name already exists
+          </Alert>
+        ),
+      });
+    } else {
+      const { postReq } = this.props;
+      let rawResponse = postReq("/add_user", {
+        first_name: first_name.toLowerCase(),
+        last_name: last_name.toLowerCase(),
+        position: position.toLowerCase(),
+      });
+      rawResponse.then((data) =>
+        data.json().then((response) => {
+          console.log("I guess we are good", response);
+        })
+      );
+    }
   };
 
   handleAddUser = () => {
@@ -121,47 +171,53 @@ class UsersDrawer2 extends Component {
     if (this.state.add_user === false) {
       this.setState({
         add_user: (
-          <div className={classes.add_user_form}>
-            <Typography variant="h6" className={classes.input}>
+          <FormControl className={classes.container2}>
+            <Typography variant="h6" className={classes.add_user_header}>
               Add User
             </Typography>
-            <TextField
-              className={classes.textfield}
-              name="first_name"
-              label="Enter First Name"
-              onChange={this.handleChange}
-              variant="outlined"
-              InputProps={{ className: classes.input }}
-              InputLabelProps={{ className: classes.input }}
-            />
-            <TextField
-              className={classes.input}
-              name="last_name"
-              label="Enter Last Name"
-              onChange={this.handleChange}
-              variant="outlined"
-              InputLabelProps={{ className: classes.input }}
-            />
-            <FormControl>
-              <Typography className={classes.input} variant="h6">
+            <Divider></Divider>
+            <div className={classes.textfields}>
+              <TextField
+                required
+                className={classes.textfieldfn}
+                name="first_name"
+                label="Enter First Name"
+                onChange={this.handleChange}
+                variant="outlined"
+                InputProps={{ className: classes.textfield }}
+                InputLabelProps={{ className: classes.textfield }}
+              />
+              <TextField
+                required
+                className={classes.textfieldln}
+                name="last_name"
+                label="Enter Last Name"
+                onChange={this.handleChange}
+                variant="outlined"
+                InputLabelProps={{ className: classes.textfield }}
+              />
+            </div>
+            <div className={classes.select}>
+              <Typography className={classes.input} variant="p">
                 Position
               </Typography>
               <Select
-                id="demo-simple-select"
-                value={this.state.position}
+                name="position"
+                defaultValue={this.state.position}
                 onChange={this.handleChange}
                 inputProps={{ className: classes.input }}
               >
-                <MenuItem value={"crew"}>Crew</MenuItem>
-                <MenuItem value={"manager"}>Manager</MenuItem>
+                <MenuItem value="crew">Crew</MenuItem>
+                <MenuItem value="manager">Manager</MenuItem>
               </Select>
-              <Button onClick={this.handlesubmitUser}>Submit User</Button>
-            </FormControl>
-          </div>
+            </div>
+
+            <Button onClick={this.handlesubmitUser} className={classes.btnSubm}>
+              Submit User
+            </Button>
+          </FormControl>
         ),
       });
-    } else {
-      this.setState({ add_user: false });
     }
   };
 
@@ -193,20 +249,36 @@ class UsersDrawer2 extends Component {
           open={isDrawerOpened}
           onClose={this.closeDrawer}
           anchor="left"
-          classes={{ paper: classes.paper }}
+          classes={{ paper: classes.main_container }}
         >
-          <div className="test">
-            <Button variant="contained" className={classes.users_header}>
+          <div className={classes.container1}>
+            <Button
+              variant="contained"
+              className={classes.btn}
+              onClick={this.handleUsersBtn}
+              style={
+                this.state.add_user === false
+                  ? { backgroundColor: "#FF42DA" }
+                  : { backgroundColor: "#C63AAB" }
+              }
+            >
               Users
             </Button>
             <Button
-              className={classes.add_user_btn}
+              variant="contained"
+              className={classes.btn}
               onClick={this.handleAddUser}
+              style={
+                this.state.add_user
+                  ? { backgroundColor: "#FF42DA" }
+                  : { backgroundColor: "#C63AAB" }
+              }
             >
               Add User
             </Button>
           </div>
-          <Divider className={classes.divider} />
+          {this.state.errors}
+          {/*<Divider className={classes.divider} />*/}
           {this.state.add_user ||
             users.map((user) => (
               <List>
@@ -218,7 +290,7 @@ class UsersDrawer2 extends Component {
                     <ListItemIcon>
                       <AccountCircleIcon
                         style={
-                          user.username ? { fill: "black" } : { fill: "grey" }
+                          user.username ? { fill: "white" } : { fill: "grey" }
                         }
                       />
                     </ListItemIcon>
