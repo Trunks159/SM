@@ -95,7 +95,8 @@ class Register extends Component {
 
   capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
-  checkNames = () => {
+  checkNames = (e) => {
+    e.preventDefault();
     const { users, notifyUser } = this.props;
     let { first_name, last_name } = this.state;
     first_name = first_name.value.toLowerCase();
@@ -103,25 +104,33 @@ class Register extends Component {
     const found_user = users.find(
       (user) => user.first_name === first_name && user.last_name === last_name
     );
-    if (found_user) {
-      if (found_user.username) {
+    if (first_name === "" && last_name === "") {
+      notifyUser({
+        content: "You have to type something...",
+        title: "...",
+        severity: "error",
+      });
+    } else {
+      if (found_user) {
+        if (found_user.username) {
+          notifyUser({
+            content: "This User Is Alread Registered!",
+            title: "Error",
+            severity: "error",
+          });
+        } else {
+          this.setState({
+            found_user: found_user,
+            pg_num: 2,
+          });
+        }
+      } else {
         notifyUser({
-          content: "This User Is Alread Registered!",
+          content: "Sorry we couldn't find you in the database!",
           title: "Error",
           severity: "error",
         });
-      } else {
-        this.setState({
-          found_user: found_user,
-          pg_num: 2,
-        });
       }
-    } else {
-      notifyUser({
-        content: "Sorry we couldn't find you in the database!",
-        title: "Error",
-        severity: "error",
-      });
     }
   };
 
