@@ -112,14 +112,18 @@ def wipe_days():
 @app.route('/add_user', methods=['GET', 'POST'])
 def add_user():
     # Only managers can access, and it makes a user. Redirects to home
-    user = request.get_json()
-    print('The user we got is: ', user)
-    if User.query.filter_by(first_name = user['first_name'], last_name = user['last_name']).first():
-        return(jsonify({'success': False, 'message': 'User {} {} already in database'.format(user['first_name'], user['last_name'])}))
+    if current_user.position == 'manager':
+        user = request.get_json()
+        print('The user we got is: ', user)
+        if User.query.filter_by(first_name = user['first_name'], last_name = user['last_name']).first():
+            return(jsonify({'success': False, 'message': 'User {} {} already in database'.format(user['first_name'], user['last_name'])}))
+        else:
+            db.session.add(User(first_name = user['first_name'], last_name = user['last_name'], position = user['position']))
+            db.session.commit()
+            return jsonify({'success': True})
     else:
-        db.session.add(User(first_name = user['first_name'], last_name = user['last_name']))
-        db.session.commit()
-        return jsonify({'success': True})
+        print('Must be a manager to access this')
+        return(jsonify({'success':False, 'message': 'Must be a manager to access this.'}))
 
 
 @app.route('/register', methods=['GET', 'POST'])

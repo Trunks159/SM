@@ -134,7 +134,8 @@ class UsersDrawer2 extends Component {
     this.setState({ add_user: false });
   };
 
-  handlesubmitUser = () => {
+  handlesubmitUser = (e) => {
+    e.preventDefault();
     const { first_name, last_name, position } = this.state;
     const u = this.props.users.find(
       (user) =>
@@ -171,7 +172,7 @@ class UsersDrawer2 extends Component {
     if (this.state.add_user === false) {
       this.setState({
         add_user: (
-          <FormControl className={classes.container2}>
+          <form className={classes.container2} onSubmit={this.handlesubmitUser}>
             <Typography variant="h6" className={classes.add_user_header}>
               Add User
             </Typography>
@@ -194,6 +195,7 @@ class UsersDrawer2 extends Component {
                 label="Enter Last Name"
                 onChange={this.handleChange}
                 variant="outlined"
+                InputProps={{ className: classes.textfield }}
                 InputLabelProps={{ className: classes.textfield }}
               />
             </div>
@@ -205,17 +207,17 @@ class UsersDrawer2 extends Component {
                 name="position"
                 defaultValue={this.state.position}
                 onChange={this.handleChange}
-                inputProps={{ className: classes.input }}
+                inputProps={{ className: classes.textfield }}
               >
                 <MenuItem value="crew">Crew</MenuItem>
                 <MenuItem value="manager">Manager</MenuItem>
               </Select>
             </div>
 
-            <Button onClick={this.handlesubmitUser} className={classes.btnSubm}>
+            <Button type="submit" className={classes.btnSubm}>
               Submit User
             </Button>
-          </FormControl>
+          </form>
         ),
       });
     }
@@ -236,7 +238,7 @@ class UsersDrawer2 extends Component {
 
   render() {
     const { isDrawerOpened } = this.state;
-    const { users, classes } = this.props;
+    const { users, classes, current_user } = this.props;
     return (
       <div>
         <div>
@@ -258,25 +260,28 @@ class UsersDrawer2 extends Component {
               onClick={this.handleUsersBtn}
               style={
                 this.state.add_user === false
-                  ? { backgroundColor: "#FF42DA" }
-                  : { backgroundColor: "#C63AAB" }
+                  ? { backgroundColor: "#C63AAB" }
+                  : { backgroundColor: "#FF42DA" }
               }
             >
               Users
             </Button>
-            <Button
-              variant="contained"
-              className={classes.btn}
-              onClick={this.handleAddUser}
-              style={
-                this.state.add_user
-                  ? { backgroundColor: "#FF42DA" }
-                  : { backgroundColor: "#C63AAB" }
-              }
-            >
-              Add User
-            </Button>
+            {current_user.position === "manager" ? (
+              <Button
+                variant="contained"
+                className={classes.btn}
+                onClick={this.handleAddUser}
+                style={
+                  this.state.add_user
+                    ? { backgroundColor: "#C63AAB" }
+                    : { backgroundColor: "#FF42DA" }
+                }
+              >
+                Add User
+              </Button>
+            ) : null}
           </div>
+          <Divider />
           {this.state.errors}
           {/*<Divider className={classes.divider} />*/}
           {this.state.add_user ||

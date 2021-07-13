@@ -75,7 +75,11 @@ const NavBar = ({
   };
   return (
     <nav className="nav-bar">
-      <UsersDrawer2 users={users} postReq={postReq} />
+      <UsersDrawer2
+        users={users}
+        postReq={postReq}
+        current_user={current_user}
+      />
       <Link className="nav-logo" to="/">
         <img
           src="http://localhost:5000/static/images/logo.png"

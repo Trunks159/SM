@@ -104,33 +104,26 @@ class Register extends Component {
     const found_user = users.find(
       (user) => user.first_name === first_name && user.last_name === last_name
     );
-    if (first_name === "" && last_name === "") {
-      notifyUser({
-        content: "You have to type something...",
-        title: "...",
-        severity: "error",
-      });
-    } else {
-      if (found_user) {
-        if (found_user.username) {
-          notifyUser({
-            content: "This User Is Alread Registered!",
-            title: "Error",
-            severity: "error",
-          });
-        } else {
-          this.setState({
-            found_user: found_user,
-            pg_num: 2,
-          });
-        }
-      } else {
+
+    if (found_user) {
+      if (found_user.username) {
         notifyUser({
-          content: "Sorry we couldn't find you in the database!",
+          content: "This User Is Alread Registered!",
           title: "Error",
           severity: "error",
         });
+      } else {
+        this.setState({
+          found_user: found_user,
+          pg_num: 2,
+        });
       }
+    } else {
+      notifyUser({
+        content: "Sorry we couldn't find you in the database!",
+        title: "Error",
+        severity: "error",
+      });
     }
   };
 
@@ -222,6 +215,7 @@ class Register extends Component {
                 Link Your Account<Divider></Divider>
               </Typography>
               <TextField
+                required
                 className={classes.input}
                 name="first_name"
                 label="First Name"
@@ -229,6 +223,7 @@ class Register extends Component {
               />
               {this.state.first_name.errors}
               <TextField
+                required
                 className={classes.input}
                 name="last_name"
                 label="Last Name"
