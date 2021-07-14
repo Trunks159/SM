@@ -12,6 +12,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import { AnimatePresence, motion } from "framer-motion";
+import Grow from "@material-ui/core/Grow";
 
 const styles = () => ({
   list: {
@@ -103,6 +105,7 @@ class UsersDrawer2 extends Component {
     first_name: "",
     last_name: "",
     position: "crew",
+    checked: false,
   };
 
   toggleDrawerStatus = () => {
@@ -137,21 +140,26 @@ class UsersDrawer2 extends Component {
   handlesubmitUser = (e) => {
     e.preventDefault();
     const { first_name, last_name, position } = this.state;
-    const u = this.props.users.find(
+    const { users, notifyUser } = this.props;
+    const u = users.find(
       (user) =>
         user.first_name.toLowerCase() === first_name.toLowerCase() &&
         user.last_name.toLowerCase() === last_name.toLowerCase()
     );
 
     if (u) {
+      const message = (
+        <Alert severity="error">
+          <AlertTitle>Name Error</AlertTitle>
+          User with that name already exists
+        </Alert>
+      );
       this.setState({
-        errors: (
-          <Alert severity="error">
-            <AlertTitle>Name Error</AlertTitle>
-            User with that name already exists
-          </Alert>
-        ),
+        errors: message,
       });
+      setTimeout(() => {
+        this.setState({ errors: null });
+      }, 4000);
     } else {
       const { postReq } = this.props;
       let rawResponse = postReq("/add_user", {
@@ -159,6 +167,13 @@ class UsersDrawer2 extends Component {
         last_name: last_name.toLowerCase(),
         position: position.toLowerCase(),
       });
+      notifyUser({
+        content:
+          first_name + " " + last_name + " has been successfully added!!",
+        title: "Success",
+        severity: "success",
+      });
+
       rawResponse.then((data) =>
         data.json().then((response) => {
           console.log("I guess we are good", response);

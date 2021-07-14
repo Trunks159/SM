@@ -79,6 +79,7 @@ const NavBar = ({
         users={users}
         postReq={postReq}
         current_user={current_user}
+        notifyUser={notifyUser}
       />
       <Link className="nav-logo" to="/">
         <img
