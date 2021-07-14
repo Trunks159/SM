@@ -201,6 +201,26 @@ class App extends Component {
               );
             }}
           />
+
+          <Route
+            path="/user/:username"
+            render={(props) => {
+              const user = this.state.users.find(
+                (user) => user.username === props.match.params.username
+              );
+              if (user) {
+                return <User user={user} />;
+              } else {
+                console.log("Couldn't find user");
+                this.notifyUser({
+                  content: "Couldn't find user...",
+                  severity: "error",
+                  title: "error",
+                });
+                return <Redirect to="/" />;
+              }
+            }}
+          />
           {/*
             <div className="content">
               
