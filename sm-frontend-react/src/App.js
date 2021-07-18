@@ -6,11 +6,17 @@ import Thumbnail from "./components/Thumbnail";
 import ScheduleTron5000 from "./components/scheduletron5000/Scheduletron5000";
 import PastDays from "./components/home/PastDays";
 import User from "./components/user/User";
+import AvailabilityForm from "./components/user/UserAvailability";
 import Week from "./components/Week";
 import CurrentDay from "./components/CurrentDay";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
 import AddUserPaper from "./components/AddUserPaper";
 
 class App extends Component {
@@ -201,26 +207,54 @@ class App extends Component {
               );
             }}
           />
-
-          <Route
-            path="/user/:username"
-            render={(props) => {
-              const user = this.state.users.find(
-                (user) => user.username === props.match.params.username
-              );
-              if (user) {
-                return <User user={user} />;
-              } else {
-                console.log("Couldn't find user");
-                this.notifyUser({
-                  content: "Couldn't find user...",
-                  severity: "error",
-                  title: "error",
-                });
-                return <Redirect to="/" />;
-              }
-            }}
-          />
+          <Switch>
+            <Route
+              exact
+              path="/user/:username"
+              render={(props) => {
+                const user = this.state.users.find(
+                  (user) => user.username === props.match.params.username
+                );
+                if (user) {
+                  return (
+                    <User user={user} current_user={this.state.current_user} />
+                  );
+                } else {
+                  console.log("Couldn't find user");
+                  this.notifyUser({
+                    content: "Couldn't find user...",
+                    severity: "error",
+                    title: "error",
+                  });
+                  return <Redirect to="/" />;
+                }
+              }}
+            />
+            <Route
+              path="/user/:username/availability"
+              render={(props) => {
+                const user = this.state.users.find(
+                  (user) => user.username === props.match.params.username
+                );
+                if (user) {
+                  return (
+                    <AvailabilityForm
+                      user={user}
+                      current_user={this.state.current_user}
+                    />
+                  );
+                } else {
+                  console.log("Couldn't find user");
+                  this.notifyUser({
+                    content: "Couldn't find user...",
+                    severity: "error",
+                    title: "error",
+                  });
+                  return <Redirect to="/" />;
+                }
+              }}
+            />
+          </Switch>
           {/*
             <div className="content">
               

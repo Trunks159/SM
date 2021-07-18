@@ -16,6 +16,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import Grow from "@material-ui/core/Grow";
 
 const styles = () => ({
+  lst: {
+    overflowY: "auto",
+  },
   list: {
     width: 250,
     margin: 0,
@@ -299,9 +302,9 @@ class UsersDrawer2 extends Component {
           <Divider />
           {this.state.errors}
           {/*<Divider className={classes.divider} />*/}
-          {this.state.add_user ||
-            users.map((user) => (
-              <List>
+          {this.state.add_user || (
+            <div className={classes.lst}>
+              {users.map((user) => (
                 <Link
                   to={`/user/${user.username}`}
                   className={classes.user_link}
@@ -322,8 +325,9 @@ class UsersDrawer2 extends Component {
                     />
                   </ListItem>
                 </Link>
-              </List>
-            ))}
+              ))}
+            </div>
+          )}
         </Drawer>
       </div>
     );

@@ -121,6 +121,7 @@ class Login extends Component {
             name="password"
             label="Enter Password"
             onChange={this.handleChange}
+            type="password"
           />
           {this.state.password_errors}
           <Typography variant="subtitle1">
