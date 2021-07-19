@@ -5,7 +5,7 @@ from forms import RegistrationForm, LoginForm, AddUserForm
 from models import User, Day, WorkBlock
 from flask_login import current_user, login_user, login_required, logout_user
 from dates import viewable_days
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 import os
 
 
@@ -71,6 +71,19 @@ def access_day():
         db.session.add(day)
         db.session.commit()
         return jsonify({'day': day.to_json()})
+
+
+@app.route('/edit_availability', methods=['POST'])
+def edit_availability():
+    import iso8601
+    days = request.get_json()['days']
+    #this converts a timezone ready datetime tto something the datetime
+    #can use
+    #d = iso8601.parse_date(days[0]['value'][0])
+    
+    #t = time(hour=days[0]['value'][0], minute=days[0]['value'][1])
+    print('DUH DAYS: ', time(hour = days[0]['value'][0][0], minute = days[0]['value'][0][1]))
+    return jsonify ({'success' :True})
 
 
 @app.route('/get_days')

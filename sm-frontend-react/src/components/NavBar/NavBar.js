@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Users from "./Users";
 import UsersDrawer2 from "./UsersDrawer2";
 import Button from "@material-ui/core/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";

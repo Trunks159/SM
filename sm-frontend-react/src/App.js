@@ -176,85 +176,92 @@ class App extends Component {
             Thumbnail={Thumbnail}
             notifyUser={this.notifyUser}
           />
-          <Message message={this.state.message} />
-          <Route
-            path="/login"
-            render={() => {
-              if (this.state.current_user.is_authenticated) {
-                return <Redirect to="/" />;
-              }
-              return (
-                <Login
-                  users={this.state.users}
-                  notifyUser={this.notifyUser}
-                  postReq={this.postReq}
-                />
-              );
-            }}
-          />
-          <Route
-            path="/register"
-            render={() => {
-              if (this.state.current_user.is_authenticated) {
-                return <Redirect to="/" />;
-              }
-              return (
-                <Register
-                  users={this.state.users}
-                  postReq={this.postReq}
-                  notifyUser={this.notifyUser}
-                />
-              );
-            }}
-          />
-          <Switch>
+          <div className="mainContent">
+            <Message message={this.state.message} />
             <Route
-              exact
-              path="/user/:username"
-              render={(props) => {
-                const user = this.state.users.find(
-                  (user) => user.username === props.match.params.username
-                );
-                if (user) {
-                  return (
-                    <User user={user} current_user={this.state.current_user} />
-                  );
-                } else {
-                  console.log("Couldn't find user");
-                  this.notifyUser({
-                    content: "Couldn't find user...",
-                    severity: "error",
-                    title: "error",
-                  });
+              path="/login"
+              render={() => {
+                if (this.state.current_user.is_authenticated) {
                   return <Redirect to="/" />;
                 }
+                return (
+                  <Login
+                    users={this.state.users}
+                    notifyUser={this.notifyUser}
+                    postReq={this.postReq}
+                  />
+                );
               }}
             />
             <Route
-              path="/user/:username/availability"
-              render={(props) => {
-                const user = this.state.users.find(
-                  (user) => user.username === props.match.params.username
-                );
-                if (user) {
-                  return (
-                    <AvailabilityForm
-                      user={user}
-                      current_user={this.state.current_user}
-                    />
-                  );
-                } else {
-                  console.log("Couldn't find user");
-                  this.notifyUser({
-                    content: "Couldn't find user...",
-                    severity: "error",
-                    title: "error",
-                  });
+              path="/register"
+              render={() => {
+                if (this.state.current_user.is_authenticated) {
                   return <Redirect to="/" />;
                 }
+                return (
+                  <Register
+                    users={this.state.users}
+                    postReq={this.postReq}
+                    notifyUser={this.notifyUser}
+                  />
+                );
               }}
             />
-          </Switch>
+            <Switch>
+              <Route
+                exact
+                path="/user/:username"
+                render={(props) => {
+                  const user = this.state.users.find(
+                    (user) => user.username === props.match.params.username
+                  );
+                  if (user) {
+                    return (
+                      <User
+                        user={user}
+                        current_user={this.state.current_user}
+                      />
+                    );
+                  } else {
+                    console.log("Couldn't find user");
+                    this.notifyUser({
+                      content: "Couldn't find user...",
+                      severity: "error",
+                      title: "error",
+                    });
+                    return <Redirect to="/" />;
+                  }
+                }}
+              />
+              <Route
+                path="/user/:username/availability"
+                render={(props) => {
+                  const user = this.state.users.find(
+                    (user) => user.username === props.match.params.username
+                  );
+                  if (user) {
+                    return (
+                      <AvailabilityForm
+                        user={user}
+                        current_user={this.state.current_user}
+                        postReq={this.postReq}
+                        notifyUser={this.notifyUser}
+                      />
+                    );
+                  } else {
+                    console.log("Couldn't find user");
+                    this.notifyUser({
+                      content: "Couldn't find user...",
+                      severity: "error",
+                      title: "error",
+                    });
+                    return <Redirect to="/" />;
+                  }
+                }}
+              />
+            </Switch>
+          </div>
           {/*
             <div className="content">
               
