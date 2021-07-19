@@ -230,35 +230,35 @@ class AvailabilityForm extends Component {
       });
     } else if (day === "wednesday") {
       this.setState({
-        tuesday: {
+        wednesday: {
           ...this.state.wednesday,
           value: new_value,
         },
       });
     } else if (day === "thursday") {
       this.setState({
-        tuesday: {
+        thursday: {
           ...this.state.thursday,
           value: new_value,
         },
       });
     } else if (day === "friday") {
       this.setState({
-        tuesday: {
+        friday: {
           ...this.state.friday,
           value: new_value,
         },
       });
     } else if (day === "saturday") {
       this.setState({
-        tuesday: {
+        saturday: {
           ...this.state.saturday,
           value: new_value,
         },
       });
     } else if (day === "sunday") {
       this.setState({
-        tuesday: {
+        sunday: {
           ...this.state.sunday,
           value: new_value,
         },
@@ -280,6 +280,21 @@ class AvailabilityForm extends Component {
     const marks = this.dtToMarks();
     return (
       <form onSubmit={this.handleSubmit} className={classes.mainContent}>
+        <Typography variant="h6">Preferences</Typography>
+        <Typography>Weekdays</Typography>
+        <Slider
+          defaultValue={50}
+          steps={null}
+          marks={[
+            { value: 0, label: "Please No..." },
+            { value: 50, label: "Don't Care" },
+            { value: 100, label: "Yeah BOI" },
+          ]}
+        />
+        <Typography>Weekends</Typography>
+        <Typography>Short Shifts</Typography>
+        <Typography>Mornings</Typography>
+        <Typography>Nights</Typography>
         <Typography className={classes.header} variant="h6">
           {user.username}
           <br /> Availability
