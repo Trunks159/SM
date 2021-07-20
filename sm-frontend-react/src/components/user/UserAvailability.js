@@ -108,6 +108,7 @@ class AvailabilityForm extends Component {
     console.log("Value...: ", value);
     const marks = this.dtToMarks();
     const x = this.timeCrap();
+    console.log("MARKS: ", marks);
     const t = x[marks.indexOf(marks.find((t) => t.value === value))];
     return t.toTimeString().slice(0, 5);
   };
