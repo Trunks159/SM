@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import UsersDrawer2 from "./UsersDrawer2";
+import UsersDrawer from "./UsersDrawer";
 import Button from "@material-ui/core/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { makeStyles, withTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   button: {
@@ -43,9 +43,9 @@ const NavBar = ({
             {user.username}
           </Button>
         </Link>
-        <Link className="nav-link logout" onClick={logoutUser}>
+        <Button className="nav-link logout" onClick={logoutUser}>
           Logout
-        </Link>
+        </Button>
       </React.Fragment>
     );
   };
@@ -63,18 +63,9 @@ const NavBar = ({
     );
   };
 
-  const isManager = (user) => {
-    if (user.position) {
-      return (
-        <li className="nav-link">
-          <Link to="/">Add User</Link>
-        </li>
-      );
-    }
-  };
   return (
     <nav className="nav-bar">
-      <UsersDrawer2
+      <UsersDrawer
         users={users}
         postReq={postReq}
         current_user={current_user}

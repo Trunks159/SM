@@ -29,7 +29,8 @@ class User(UserMixin, db.Model):
             'color': self.color,
             'id': self.id,
             'slug': self.slug,
-            'is_authenticated': True
+            'is_authenticated': True,
+            'availability': self.availability[0].to_json() if self.availability else None,
         }
 
     def set_position(self, x):
@@ -88,6 +89,13 @@ class Availability(db.Model):
             times.append(t)
 
         return times
+
+    def to_json(self):
+        weekdays = ['monday','tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        d = {}
+        for weekday in weekdays:
+            d[weekday] = getattr(self, weekday)
+        return d
 
 
 class Day(db.Model):

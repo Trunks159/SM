@@ -1,11 +1,10 @@
-from flask import json, render_template, flash, redirect, url_for, request, jsonify
+from flask import json, request, jsonify
 from config import app, db
 from werkzeug.urls import url_parse
-from forms import RegistrationForm, LoginForm, AddUserForm
-from models import User, Day, WorkBlock
+from models import User, Day, WorkBlock, Availability
 from flask_login import current_user, login_user, login_required, logout_user
 from dates import viewable_days
-from datetime import datetime, timedelta, time
+from datetime import datetime
 import os
 
 
@@ -75,15 +74,17 @@ def access_day():
 
 @app.route('/edit_availability', methods=['POST'])
 def edit_availability():
-    import iso8601
     days = request.get_json()['days']
-    #this converts a timezone ready datetime tto something the datetime
-    #can use
-    #d = iso8601.parse_date(days[0]['value'][0])
-    
-    #t = time(hour=days[0]['value'][0], minute=days[0]['value'][1])
-    print('DUH DAYS: ', time(hour = days[0]['value'][0][0], minute = days[0]['value'][0][1]))
-    return jsonify ({'success' :True})
+    username = request.get_json()['username']
+    user = User.query.filter_by(username = username).first()
+    if user:
+        a = Availability(user = user)
+        for day in days:
+            setattr(a, day['name'], day['value'][0] + '-' + day['value'][1] )
+        db.session.add(a)
+        db.session.commit()
+        return jsonify ({'success' :True})
+
 
 
 @app.route('/get_days')

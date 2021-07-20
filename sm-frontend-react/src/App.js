@@ -241,12 +241,30 @@ class App extends Component {
                     (user) => user.username === props.match.params.username
                   );
                   if (user) {
+                    const convertAvailability = (timeData) => {
+                      if (timeData) {
+                        let times = timeData.split("-");
+                        let t1 = new Date("01 Jan 1970 " + times[0] + ":00");
+                        let t2 = new Date("01 Jan 1970 " + times[1] + ":00");
+                        let v1 =
+                          ((t1.getHours() - 7 + t1.getMinutes() / 60) / 16.5) *
+                          100;
+                        let v2 =
+                          ((t2.getHours() - 7 + t2.getMinutes() / 60) / 16.5) *
+                          100;
+                        console.log("V1 AND V2:", [v1, v2]);
+                        return [v1, v2];
+                      }
+                      return [0, 50];
+                    };
                     return (
                       <AvailabilityForm
                         user={user}
                         current_user={this.state.current_user}
                         postReq={this.postReq}
                         notifyUser={this.notifyUser}
+                        availability={user.availability}
+                        convertAvailability={convertAvailability}
                       />
                     );
                   } else {

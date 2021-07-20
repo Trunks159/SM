@@ -75,11 +75,11 @@ class User extends Component {
           className={classes.link}
           to={`/user/${user.username}/availability`}
         >
-          <Typography variant="p">Edit Availability</Typography>
+          <Typography variant="body1">Edit Availability</Typography>
           <ArrowRightAltIcon />
         </Link>
         <Link className={classes.link} to="/">
-          <Typography variant="p">Request Off</Typography>
+          <Typography variant="body1">Request Off</Typography>
           <ArrowRightAltIcon />
         </Link>
         <TextField

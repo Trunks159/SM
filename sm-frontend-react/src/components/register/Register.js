@@ -1,4 +1,4 @@
-import { Route, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import React, { Component } from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import Typography from "@material-ui/core/Typography";
@@ -8,16 +8,6 @@ import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import { AnimatePresence, motion } from "framer-motion";
-
-const pageVariant1 = {
-  in: {
-    opacity: 1,
-  },
-  out: {
-    opacity: 0,
-    x: "-100vw",
-  },
-};
 
 const pageVariant2 = {
   in: {

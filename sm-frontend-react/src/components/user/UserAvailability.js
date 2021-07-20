@@ -55,42 +55,57 @@ class AvailabilityForm extends Component {
   state = {
     monday: {
       name: "monday",
-      checked: false,
-      value: [0, 50],
+      checked: this.props.availability.monday ? true : false,
+      value: this.props.availability
+        ? this.props.convertAvailability(this.props.availability.monday)
+        : [0, 50],
     },
     tuesday: {
       name: "tuesday",
-      checked: false,
-      value: [0, 50],
+      checked: this.props.availability.tuesday ? true : false,
+      value: this.props.availability
+        ? this.props.convertAvailability(this.props.availability.tuesday)
+        : [0, 50],
     },
     wednesday: {
       name: "wednesday",
-      checked: false,
-      value: [0, 50],
+      checked: this.props.availability.wednesday ? true : false,
+      value: this.props.availability
+        ? this.props.convertAvailability(this.props.availability.wednesday)
+        : [0, 50],
     },
     thursday: {
       name: "thursday",
-      checked: false,
-      value: [0, 50],
+      checked: this.props.availability.thursday ? true : false,
+      value: this.props.availability
+        ? this.props.convertAvailability(this.props.availability.thursday)
+        : [0, 50],
     },
     friday: {
       name: "friday",
-      checked: false,
-      value: [0, 50],
+      checked: this.props.availability.friday ? true : false,
+      value: this.props.availability
+        ? this.props.convertAvailability(this.props.availability.friday)
+        : [0, 50],
     },
     saturday: {
       name: "saturday",
-      checked: false,
-      value: [0, 50],
+      checked: this.props.availability.saturday ? true : false,
+      value: this.props.availability
+        ? this.props.convertAvailability(this.props.availability.saturday)
+        : [0, 50],
     },
     sunday: {
       name: "sunday",
-      checked: false,
-      value: [0, 50],
+      checked: this.props.availability.sunday ? true : false,
+      value: this.props.availability
+        ? this.props.convertAvailability(this.props.availability.sunday)
+        : [0, 50],
     },
   };
 
   valueToTime = (value) => {
+    console.log("Value...: ", value);
     const marks = this.dtToMarks();
     const x = this.timeCrap();
     const t = x[marks.indexOf(marks.find((t) => t.value === value))];
@@ -124,7 +139,7 @@ class AvailabilityForm extends Component {
 
     const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } =
       this.state;
-    const { postReq, notifyUser } = this.props;
+    const { postReq, notifyUser, user } = this.props;
     let days = [monday, tuesday, wednesday, thursday, friday, saturday, sunday];
     days = days.filter((item) => item.checked);
 
@@ -132,11 +147,12 @@ class AvailabilityForm extends Component {
       days = days.map((day) => {
         return {
           ...day,
-          value: day.value.map((t) => this.valueToDt(t)),
+          value: day.value.map((t) => this.valueToTime(t)),
         };
       });
       let req = postReq("/edit_availability", {
         days: days,
+        username: user.username,
       });
     }
   };
@@ -151,13 +167,6 @@ class AvailabilityForm extends Component {
       t.setMinutes(t.getMinutes() + 30);
     }
     return x;
-    /*
-    let y = x.map((time) => {
-      return { value: (x.indexOf(time) / x.length) * 100 };
-    });
-    y[0].label = "7:00AM";
-    y[y.length - 1].label = "11:30PM";
-    return y;*/
   };
 
   handleSwitch = (e) => {
