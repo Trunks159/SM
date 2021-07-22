@@ -242,7 +242,7 @@ class App extends Component {
                   );
                   if (user) {
                     const convertAvailability = (timeData) => {
-                      if (timeData) {
+                      /*if (timeData) {
                         let times = timeData.split("-");
                         let t1 = new Date("01 Jan 1970 " + times[0] + ":00");
                         let t2 = new Date("01 Jan 1970 " + times[1] + ":00");
@@ -254,7 +254,7 @@ class App extends Component {
                           100;
                         console.log("V1 AND V2:", [v1, v2]);
                         return [v1, v2];
-                      }
+                      }*/
                       return [0, 50];
                     };
                     return (
