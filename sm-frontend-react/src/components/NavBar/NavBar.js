@@ -4,11 +4,20 @@ import UsersDrawer from "./UsersDrawer";
 import Button from "@material-ui/core/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
 
 const useStyles = makeStyles({
   button: {
     textTransform: "none",
     background: "#FF4BDB",
+  },
+  nav: {
+    backgroundColor: "#c63aab",
+    height: "50px",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 
@@ -31,7 +40,7 @@ const NavBar = ({
     });
   };
 
-  const isAuthenticated = (user, Thumbnail) => {
+  const isAuthenticated = (user) => {
     return (
       <React.Fragment>
         <Link className="nav-link username" to={`/user/${user.username}`}>
@@ -64,25 +73,27 @@ const NavBar = ({
   };
 
   return (
-    <nav className="nav-bar">
-      <UsersDrawer
-        users={users}
-        postReq={postReq}
-        current_user={current_user}
-        notifyUser={notifyUser}
-      />
-      <Link className="nav-logo" to="/">
-        <img
-          src="http://localhost:5000/static/images/logo.png"
-          alt="Scheduletron"
+    <AppBar position="static" className={classes.nav}>
+      <Toolbar>
+        <UsersDrawer
+          users={users}
+          postReq={postReq}
+          current_user={current_user}
+          notifyUser={notifyUser}
         />
-      </Link>
-      {current_user.is_authenticated
-        ? isAuthenticated(current_user, Thumbnail)
-        : notAuthenticated()}
+        <Link className="nav-logo" to="/">
+          <img
+            src="http://localhost:5000/static/images/logo.png"
+            alt="Scheduletron"
+          />
+        </Link>
+        {current_user.is_authenticated
+          ? isAuthenticated(current_user)
+          : notAuthenticated()}
+      </Toolbar>
       {/*
       <Users users={users} />*/}
-    </nav>
+    </AppBar>
   );
 };
 

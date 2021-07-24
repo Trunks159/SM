@@ -3,33 +3,7 @@ import { Switch, Slider } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Fade from "@material-ui/core/Fade";
-
-const timeCrap = () => {
-  let t = new Date();
-  t.setHours(0, 0, 0, 0);
-  t.setHours(7);
-  let x = [];
-  while (t.getHours() <= 22) {
-    x.push(new Date(t));
-    t.setMinutes(t.getMinutes() + 30);
-  }
-  return x;
-};
-
-const dtToMarks = (y) => {
-  /*takes what timeCrap returns*/
-  const marks = y.map((time) => {
-    if (time === y[0]) {
-      return { value: (y.indexOf(time) / y.length) * 100, label: "7:00AM" };
-    } else if (time === y[y.length - 1]) {
-      return { value: (y.indexOf(time) / y.length) * 100, label: "11:30PM" };
-    } else if (time.getHours() === 16 && time.getMinutes() === 0) {
-      return { value: (y.indexOf(time) / y.length) * 100, label: "4:00PM" };
-    }
-    return { value: (y.indexOf(time) / y.length) * 100 };
-  });
-  return marks;
-};
+import { valueToDt, miliToReg } from "./TimeFunctions";
 
 const styles = () => ({
   avBlock: {
@@ -51,13 +25,12 @@ const styles = () => ({
 const CustomSlider = ({
   classes,
   name,
-  valueToTime,
   handleSwitch,
   handleSlider,
   checked,
   value,
+  marks,
 }) => {
-  const marks = dtToMarks(timeCrap());
   return (
     <div
       className={classes.avBlock}
@@ -67,7 +40,7 @@ const CustomSlider = ({
           : { border: "1px solid black" }
       }
     >
-      <Typography>{name.toUpperCase() + name.slice(1)}</Typography>
+      <Typography>{name.charAt(0).toUpperCase() + name.slice(1)}</Typography>
       <Switch checked={checked} onChange={handleSwitch} name={name} />
       {checked ? (
         <Fade in={checked}>
@@ -75,7 +48,9 @@ const CustomSlider = ({
             key={name}
             defaultValue={value}
             marks={marks}
-            valueLabelFormat={(value) => valueToTime(value)}
+            valueLabelFormat={(value) =>
+              miliToReg(valueToDt(value).toTimeString().slice(0, 5))
+            }
             step={null}
             className={classes.slider}
             valueLabelDisplay="auto"

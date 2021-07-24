@@ -1,17 +1,15 @@
 import React, { Component } from "react";
-import { Button, Divider, Slider } from "@material-ui/core";
-import { ThemeProvider, withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import getMuiTheme from "material-ui/styles/getMuiTheme";
-
+import {
+  Button,
+  Divider,
+  Slider,
+  Snackbar,
+  Typography,
+} from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import CustomSlider from "./CustomSlider";
-
-const muiTheme = getMuiTheme({
-  slider: {
-    trackColor: "orange",
-    selectionColor: "blue",
-  },
-});
+import { valueToDt, timesToValues, miliToReg, getMarks } from "./TimeFunctions";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 const styles = () => ({
   stuff: {},
@@ -42,68 +40,74 @@ const styles = () => ({
 class AvailabilityForm extends Component {
   state = {
     days: [
-      [
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-        "sunday",
-      ].map((day) => {
-        return {
-          name: day,
-          value: [0, 50],
-          checked: false,
-        };
-      }),
-    ],
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+      "sunday",
+    ].map((day) => {
+      return {
+        name: day,
+        value: timesToValues(
+          this.props.user.availability
+            ? this.props.user.availability[day]
+            : null
+        ),
+        checked: this.props.user.availability
+          ? !!this.props.user.availability[day]
+          : null,
+      };
+    }),
+    snackbar: {
+      open: false,
+    },
   };
 
   handleSwitch = (e) => {
-    this.setState({ checked: e.target.value });
-  };
+    const { days } = this.state;
+    const day = days.find((d) => d.name === e.target.name);
 
-  valueToTime = (value) => {
-    console.log("Value...: ", value);
-    const marks = this.dtToMarks();
-    const x = this.timeCrap();
-    console.log("MARKS: ", marks);
-    const t = x[marks.indexOf(marks.find((t) => t.value === value))];
-    return t.toTimeString().slice(0, 5);
-  };
-
-  valueToDt = (value) => {
-    const marks = this.dtToMarks();
-    const x = this.timeCrap();
-    const t = x[marks.indexOf(marks.find((t) => t.value === value))];
-    return [t.getHours(), t.getMinutes()];
+    if (day) {
+      const index = days.indexOf(day);
+      days.splice(index, 1);
+      day.checked = e.target.checked;
+      days.splice(index, 0, day);
+      this.setState({ days: days });
+    } else {
+      console.log("Cant find it");
+    }
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { days } = this.state;
-    const { postReq, notifyUser, user } = this.props;
+    let { days } = this.state;
+    const { postReq, user } = this.props;
     days = days.filter((item) => item.checked);
 
     if (days) {
       days = days.map((day) => {
         return {
           ...day,
-          value: day.value.map((t) => this.valueToTime(t)),
+          value: day.value.map((t) => {
+            const x = valueToDt(t);
+            return x.toTimeString().slice(0, 5);
+          }),
         };
       });
       let req = postReq("/edit_availability", {
         days: days,
         username: user.username,
       });
+      this.setState({ snackbar: { open: true } });
     }
   };
 
   handleSlider = (e, new_value, name) => {
-    const { days } = this.state.days;
-    const day = this.state.days.find((d) => d.name === name);
+    const { days } = this.state;
+    const day = this.state.days[name];
 
     if (day) {
       const index = days.indexOf(day);
@@ -129,6 +133,12 @@ class AvailabilityForm extends Component {
     ];
     return (
       <form onSubmit={this.handleSubmit} className={classes.mainContent}>
+        <Typography className={classes.header} variant="h6">
+          {user.first_name[0].toUpperCase() + user.first_name.slice(1)}{" "}
+          {user.last_name[0].toUpperCase() + user.last_name.slice(1)} AKA '
+          {user.username}'
+          <br /> Availability
+        </Typography>
         <Typography variant="h6">Preferences</Typography>
         <Typography>Weekdays</Typography>
         <Slider
@@ -144,24 +154,36 @@ class AvailabilityForm extends Component {
         <Typography>Short Shifts</Typography>
         <Typography>Mornings</Typography>
         <Typography>Nights</Typography>
-        <Typography className={classes.header} variant="h6">
-          {user.username}
-          <br /> Availability
-        </Typography>
+
         <Divider className={classes.divider} />
         {weekdays.map((day) => {
+          const d = this.state.days.find((x) => x.name === day);
           return (
             <CustomSlider
               name={day}
-              valueToTime={this.valueToTime}
               handleSwitch={this.handleSwitch}
               handleSlider={this.handleSlider}
-              checked={false}
-              value={[0, 50]}
+              checked={d.checked}
+              value={d.value}
+              marks={getMarks()}
+              key={user.id}
             />
           );
         })}
 
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={this.state.snackbar.open}
+          onClose={() => this.setState({ snackbar: { open: false } })}
+          autoHideDuration={2000}
+        >
+          <Alert
+            onClose={() => this.setState({ snackbar: { open: false } })}
+            severity="success"
+          >
+            Changes Saved!
+          </Alert>
+        </Snackbar>
         <Button type="submit" variant="contained" className={classes.submitBtn}>
           Save
         </Button>

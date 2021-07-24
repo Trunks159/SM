@@ -80,6 +80,9 @@ class Availability(db.Model):
     saturday = db.Column(db.String(30))
     sunday = db.Column(db.String(30))
 
+    def __repr__(self):
+        return 'Availa {}'.format(self.to_json())
+
     def getAvail(self, dayofWeek):
         x = getattr(self, dayofWeek)
         x = x.split('-')

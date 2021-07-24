@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { Drawer, Divider, IconButton } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
@@ -10,10 +10,7 @@ import ReorderIcon from "@material-ui/icons/Reorder";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
 import { Alert, AlertTitle } from "@material-ui/lab";
-import { AnimatePresence, motion } from "framer-motion";
-import Grow from "@material-ui/core/Grow";
 
 const styles = () => ({
   lst: {
