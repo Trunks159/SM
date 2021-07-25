@@ -47,6 +47,14 @@ const styles = () => ({
     backgroundColor: "#00BBFF",
     width: "80%",
   },
+  upcomingDiv: {
+    border: "1px solid gray",
+    borderRadius: "5px",
+  },
+  upcomingDivMain: {
+    marginTop: "20px",
+    marginBottom: "20px",
+  },
 });
 
 class User extends Component {
@@ -54,6 +62,7 @@ class User extends Component {
     first_name: "",
     last_name: "",
     position: "",
+    upcomingShifts: null,
   };
 
   handleChange = (e) => {
@@ -85,7 +94,7 @@ class User extends Component {
         <TextField
           required
           className={classes.textfield}
-          defaultValue={user.first_name}
+          value={user.first_name}
           name="first_name"
           label="Edit First Name"
           onChange={this.handleChange}
@@ -94,15 +103,27 @@ class User extends Component {
         <TextField
           required
           className={classes.textfield}
-          defaultValue={user.last_name}
+          value={user.last_name}
           name="last_name"
           label="Edit Last Name"
           onChange={this.handleChange}
           variant="standard"
         />
 
-        <p>Position: {user.position}</p>
-        <h1>Upcoming Shifts</h1>
+        <Typography variant="body">
+          Position: {user.position[0].toUpperCase() + user.position.slice(1)}
+        </Typography>
+        <div className={classes.upcomingDivMain}>
+          <Typography variant="h6"> Upcoming Shifts</Typography>
+          <div className={classes.upcomingDiv}>
+            {this.state.upcomingShifts ? (
+              this.state.upcomingShifts
+            ) : (
+              <Typography variant="body">No Shifts Coming Up</Typography>
+            )}
+          </div>
+        </div>
+
         <Button type="submit" className={classes.btnMain}>
           Save
         </Button>

@@ -6,6 +6,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles({
   button: {
@@ -15,20 +16,41 @@ const useStyles = makeStyles({
   nav: {
     backgroundColor: "#c63aab",
     height: "50px",
-    display: "flex",
-    flexDirection: "row",
     alignItems: "center",
+  },
+  logo: {
+    backgroundColor: "white",
+    height: "100%",
+    paddingLeft: "5px",
+    paddingRight: "5px",
+  },
+  btn_logout: {
+    textTransform: "none",
+    color: "white",
+    backgroundColor: "red",
+    marginLeft: "8px",
+    height: "60%",
+  },
+  username: {
+    display: "flex",
+    alignItems: "center",
+    marginLeft: "auto",
+    textDecoration: "none",
+    color: "white",
+    backgroundColor: "#FF4BDB",
+    height: "60%",
+    borderRadius: "5px",
+  },
+  circleIcon: {
+    marginRight: "6px",
+    marginLeft: "6px",
+  },
+  usernameText: {
+    marginRight: "10px",
   },
 });
 
-const NavBar = ({
-  users,
-  current_user,
-  getReq,
-  postReq,
-  Thumbnail,
-  notifyUser,
-}) => {
+const NavBar = ({ users, current_user, getReq, postReq, notifyUser }) => {
   const classes = useStyles();
 
   const logoutUser = () => {
@@ -40,59 +62,51 @@ const NavBar = ({
     });
   };
 
-  const isAuthenticated = (user) => {
-    return (
-      <React.Fragment>
-        <Link className="nav-link username" to={`/user/${user.username}`}>
-          <Button
-            variant="contained"
-            startIcon={<AccountCircleIcon style={{ fill: "white" }} />}
-            className={classes.button}
-          >
-            {user.username}
-          </Button>
-        </Link>
-        <Button className="nav-link logout" onClick={logoutUser}>
-          Logout
-        </Button>
-      </React.Fragment>
-    );
-  };
-
-  const notAuthenticated = () => {
-    return (
-      <React.Fragment>
-        <Link className="nav-link login" to="/login">
-          Login
-        </Link>
-        <Link className="nav-link register" to="/register">
-          Register
-        </Link>
-      </React.Fragment>
-    );
-  };
-
   return (
-    <AppBar position="static" className={classes.nav}>
-      <Toolbar>
+    <AppBar position="static">
+      <Toolbar className={classes.nav}>
         <UsersDrawer
           users={users}
           postReq={postReq}
           current_user={current_user}
           notifyUser={notifyUser}
         />
-        <Link className="nav-logo" to="/">
+        <Link className={classes.logo} to="/">
           <img
+            className={classes.logo}
             src="http://localhost:5000/static/images/logo.png"
             alt="Scheduletron"
           />
         </Link>
-        {current_user.is_authenticated
-          ? isAuthenticated(current_user)
-          : notAuthenticated()}
+        {current_user.is_authenticated ? (
+          <React.Fragment>
+            <Link
+              className={classes.username}
+              to={`/user/${current_user.username}`}
+            >
+              <AccountCircleIcon
+                style={{ fill: "white" }}
+                className={classes.circleIcon}
+              />
+              <Typography variant="body" className={classes.usernameText}>
+                {current_user.username}
+              </Typography>
+            </Link>
+            <Button className={classes.btn_logout} onClick={logoutUser}>
+              Logout
+            </Button>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Link className="nav-link login" to="/login">
+              Login
+            </Link>
+            <Link className="nav-link register" to="/register">
+              Register
+            </Link>
+          </React.Fragment>
+        )}
       </Toolbar>
-      {/*
-      <Users users={users} />*/}
     </AppBar>
   );
 };

@@ -298,7 +298,6 @@ class UsersDrawer extends Component {
           </div>
           <Divider />
           {this.state.errors}
-          {/*<Divider className={classes.divider} />*/}
           {this.state.add_user || (
             <div className={classes.lst}>
               {users.map((user) => (
