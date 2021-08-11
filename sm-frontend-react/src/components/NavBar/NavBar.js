@@ -1,12 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import UsersDrawer from "./UsersDrawer";
-import Button from "@material-ui/core/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import { Typography } from "@material-ui/core";
+import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 
 const useStyles = makeStyles({
   button: {
