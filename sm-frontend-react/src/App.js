@@ -64,8 +64,10 @@ class App extends Component {
       },
       body: JSON.stringify(content),
     });
+
     this.fetchDays();
     this.fetchUsers();
+
     return rawResponse;
   };
 
@@ -73,8 +75,10 @@ class App extends Component {
     Fetches Users and Days After Each Reqeust*/
   getReq = async (url) => {
     const rawResponse = await fetch(url);
+
     this.fetchDays();
     this.fetchUsers();
+
     return rawResponse;
   };
 
@@ -86,6 +90,7 @@ class App extends Component {
       month: month,
       year: year,
     });
+
     result.then((response) => {
       if (response.ok === true) {
         response.json().then(({ day }) => {
@@ -100,9 +105,6 @@ class App extends Component {
         this.setState({ redirect: <Redirect to="/" /> });
       }
     });
-    /*result.json().then(({ day }) => {
-      this.setState({ current_day: day });
-    });*/
 
     return this.state.current_day;
   };
@@ -125,6 +127,15 @@ class App extends Component {
     }, 4000);
   };
 
+  getToday() {
+    let today = new Date();
+    return {
+      day: today.getDate(),
+      month: today.getMonth() + 1,
+      year: today.getFullYear(),
+    };
+  }
+
   /*Fetches Days and Users and Sets Current Day To Today */
   componentDidMount = async () => {
     await this.fetchUsers();
@@ -146,14 +157,7 @@ class App extends Component {
     });
   };
 
-  getToday() {
-    let today = new Date();
-    return {
-      day: today.getDate(),
-      month: today.getMonth() + 1,
-      year: today.getFullYear(),
-    };
-  }
+
 
   render() {
     const dictionary = {

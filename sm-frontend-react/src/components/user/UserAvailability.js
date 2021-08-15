@@ -11,6 +11,16 @@ import CustomSlider from "./CustomSlider";
 import { valueToDt, timesToValues, miliToReg, getMarks } from "./TimeFunctions";
 import { Alert, AlertTitle } from "@material-ui/lab";
 
+const weekdays = [
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+  "sunday",
+]
+
 const styles = () => ({
   stuff: {},
   header: {
@@ -39,15 +49,7 @@ const styles = () => ({
 
 class AvailabilityForm extends Component {
   state = {
-    days: [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
-    ].map((day) => {
+    days: weekdays.map((day) => {
       return {
         name: day,
         value: timesToValues(
@@ -82,10 +84,10 @@ class AvailabilityForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log('This is state rn: ', this.state);
     let { days } = this.state;
     const { postReq, user } = this.props;
-    days = days.filter((item) => item.checked);
+   /* days = days.filter((item) => item.checked);*/
 
     if (days) {
       days = days.map((day) => {
@@ -106,8 +108,9 @@ class AvailabilityForm extends Component {
   };
 
   handleSlider = (e, new_value, name) => {
-    const { days } = this.state;
-    const day = this.state.days[name];
+    console.log('Day Name: ', name, ' New Value: ', new_value);
+    let { days } = this.state;
+    let day = this.state.days[name];
 
     if (day) {
       const index = days.indexOf(day);
@@ -122,15 +125,8 @@ class AvailabilityForm extends Component {
 
   render() {
     const { classes, user } = this.props;
-    const weekdays = [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
-    ];
+    console.log('User Availability: ', this.props.user.availability);
+    
     return (
       <form onSubmit={this.handleSubmit} className={classes.mainContent}>
         <Typography className={classes.header} variant="h6">

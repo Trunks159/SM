@@ -67,7 +67,7 @@ class User extends Component {
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
-    console.log("New value: ", e.target.name, e.target.value);
+    
   };
 
   render() {

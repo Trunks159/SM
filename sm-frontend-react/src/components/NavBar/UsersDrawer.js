@@ -127,7 +127,7 @@ class UsersDrawer extends Component {
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
-    console.log("New value: ", e.target.name, e.target.value);
+    
   };
   handleSelect = (e) => {
     console.log("Name: ", e.target.name, "Value: ", e.target.value);
@@ -167,19 +167,32 @@ class UsersDrawer extends Component {
         last_name: last_name.toLowerCase(),
         position: position.toLowerCase(),
       });
-      notifyUser({
-        content:
-          first_name + " " + last_name + " has been successfully added!!",
-        title: "Success",
-        severity: "success",
-      });
-
-      rawResponse.then((data) =>
+ /*This try catch doesn't really work */
+      try{
+        rawResponse.then((data) =>
         data.json().then((response) => {
-          console.log("I guess we are good", response);
+          const severity = response.success ? 'success' : 'error';
+          const title = severity.charAt(0) + severity.slice(1);
+          notifyUser({
+            content:
+              response.message ? response.message : 'User successfully added!',
+            title: title ,
+            severity: severity,
+          });
         })
-      );
-    }
+      );}
+      catch(err){
+        notifyUser({
+          content:
+            'No Response From Server :(',
+          title: "Error",
+          severity: "error",
+        });
+      }
+      }
+  
+      
+      
   };
 
   handleAddUser = () => {
@@ -251,9 +264,27 @@ class UsersDrawer extends Component {
     }
   }
 
+  /* I literally copy and pasted this from stackoverflow*/
+  dynamicSort(property) {
+    var sortOrder = 1;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return function (a,b) {
+        /* next line works with strings and numbers, 
+         * and you may want to customize it to your needs
+         */
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+}
+
   render() {
     const { isDrawerOpened } = this.state;
-    const { users, classes, current_user } = this.props;
+    const { classes, current_user } = this.props;
+    const users = this.props.users.sort(this.dynamicSort('first_name'));
+
     return (
       <div>
         <div>

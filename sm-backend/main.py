@@ -74,18 +74,23 @@ def access_day():
 
 @app.route('/edit_availability', methods=['POST'])
 def edit_availability():
+
     days = request.get_json()['days']
-    print('The Days:', days[0])
     username = request.get_json()['username']
     user = User.query.filter_by(username = username).first()
+    
     if user:
         if user.availability == []:
             a = Availability(user = user)
         a = user.availability[0]
         for day in days:
-            setattr(a, day['name'], day['value'][0] + '-' + day['value'][1] )
+            if day['checked']: setattr(a, day['name'], day['value'][0] + '-' + day['value'][1] )
+            else: 
+                setattr(a, day['name'], '')
+        print(a)
         db.session.add(a)
         db.session.commit()
+
         return jsonify ({'success' :True})
 
 
