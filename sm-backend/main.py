@@ -78,7 +78,7 @@ def edit_availability():
     days = request.get_json()['days']
     username = request.get_json()['username']
     user = User.query.filter_by(username = username).first()
-    
+    print('Day info: ', days)
     if user:
         if user.availability == []:
             a = Availability(user = user)
@@ -87,7 +87,7 @@ def edit_availability():
             if day['checked']: setattr(a, day['name'], day['value'][0] + '-' + day['value'][1] )
             else: 
                 setattr(a, day['name'], '')
-        print(a)
+
         db.session.add(a)
         db.session.commit()
 

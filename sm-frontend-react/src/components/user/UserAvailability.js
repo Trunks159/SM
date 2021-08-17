@@ -82,13 +82,29 @@ class AvailabilityForm extends Component {
     }
   };
 
+  handleSlider = (e, new_value, name) => {
+    let { days } = this.state;
+    let day = this.state.days.find((day)=>day.name === name);
+   
+    if (day) {
+      const index = days.indexOf(day);
+      days.splice(index, 1);
+      day.value = new_value;
+      days.push(day);
+      this.setState({ days: days });
+      console.log('State days now: ', days);
+    } else {
+      console.log("Cant find it");
+    }
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
     console.log('This is state rn: ', this.state);
     let { days } = this.state;
     const { postReq, user } = this.props;
    /* days = days.filter((item) => item.checked);*/
-
+    console.log('Days: ', days);
     if (days) {
       days = days.map((day) => {
         return {
@@ -107,21 +123,7 @@ class AvailabilityForm extends Component {
     }
   };
 
-  handleSlider = (e, new_value, name) => {
-    console.log('Day Name: ', name, ' New Value: ', new_value);
-    let { days } = this.state;
-    let day = this.state.days[name];
 
-    if (day) {
-      const index = days.indexOf(day);
-      days.splice(index, 1);
-      day.value = new_value;
-      days.splice(index, 0, day);
-      this.setState({ days: days });
-    } else {
-      console.log("Cant find it");
-    }
-  };
 
   render() {
     const { classes, user } = this.props;
