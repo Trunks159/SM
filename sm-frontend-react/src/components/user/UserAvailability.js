@@ -92,7 +92,6 @@ class AvailabilityForm extends Component {
       day.value = new_value;
       days.push(day);
       this.setState({ days: days });
-      console.log('State days now: ', days);
     } else {
       console.log("Cant find it");
     }

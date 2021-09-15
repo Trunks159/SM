@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import UsersDrawer from "./UsersDrawer";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
+import { Typography, Button } from "@material-ui/core";
 
 const useStyles = makeStyles({
   button: {
@@ -11,9 +11,10 @@ const useStyles = makeStyles({
     background: "#FF4BDB",
   },
   nav: {
-    backgroundColor: "#c63aab",
+    backgroundColor: "#328f83",
     height: "50px",
     alignItems: "center",
+    display:'flex',
   },
   logo: {
     backgroundColor: "white",
@@ -24,17 +25,18 @@ const useStyles = makeStyles({
   btn_logout: {
     textTransform: "none",
     color: "white",
-    backgroundColor: "red",
-    marginLeft: "8px",
+    marginLeft: "10px",
     height: "60%",
+    marginRight:'10px',
+    fontSize : 16,
   },
   username: {
     display: "flex",
     alignItems: "center",
     marginLeft: "auto",
     textDecoration: "none",
-    color: "white",
-    backgroundColor: "#FF4BDB",
+    color: "#328f83",
+    backgroundColor: 'white',
     height: "60%",
     borderRadius: "5px",
   },
@@ -60,8 +62,7 @@ const NavBar = ({ users, current_user, getReq, postReq, notifyUser }) => {
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar className={classes.nav}>
+    <nav className={classes.nav}>
         <UsersDrawer
           users={users}
           postReq={postReq}
@@ -71,7 +72,7 @@ const NavBar = ({ users, current_user, getReq, postReq, notifyUser }) => {
         <Link className={classes.logo} to="/">
           <img
             className={classes.logo}
-            src="http://localhost:5000/static/images/logo.png"
+            src="http://localhost:5000/static/images/logo.svg"
             alt="Scheduletron"
           />
         </Link>
@@ -82,7 +83,7 @@ const NavBar = ({ users, current_user, getReq, postReq, notifyUser }) => {
               to={`/user/${current_user.username}`}
             >
               <AccountCircleIcon
-                style={{ fill: "white" }}
+                style={{ fill: "#328f83" }}
                 className={classes.circleIcon}
               />
               <Typography variant="body" className={classes.usernameText}>
@@ -103,8 +104,7 @@ const NavBar = ({ users, current_user, getReq, postReq, notifyUser }) => {
             </Link>
           </React.Fragment>
         )}
-      </Toolbar>
-    </AppBar>
+      </nav>
   );
 };
 

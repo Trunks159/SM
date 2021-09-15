@@ -3,7 +3,7 @@ import "./App.css";
 import NavBar from "./components/NavBar/NavBar";
 import Message from "./components/Message";
 import Thumbnail from "./components/Thumbnail";
-import ScheduleTron5000 from "./components/scheduletron5000/Scheduletron5000";
+import ScheduleTron5000 from "./components/scheduletron/ScheduleTron";
 import PastDays from "./components/home/PastDays";
 import User from "./components/user/User";
 import AvailabilityForm from "./components/user/UserAvailability";
@@ -18,6 +18,15 @@ import {
   Switch,
 } from "react-router-dom";
 import AddUserPaper from "./components/AddUserPaper";
+
+const colorPalette = {
+  primary : '#328F83',
+  secondary : '#D8F4EE',
+  secondaryLight : '#EEF9F7', 
+  grey : '#979797',
+  blue: '#00BCFF',
+  orange: '#FFB932',
+}
 
 class App extends Component {
   state = {
@@ -182,6 +191,14 @@ class App extends Component {
           />
           <div className="mainContent">
             <Message message={this.state.message} />
+            <Route 
+              path = '/scheduletron'
+              render = {()=>{
+                return <ScheduleTron5000 colorPalette = {colorPalette}/>
+              }
+              }
+            
+            />
             <Route
               path="/login"
               render={() => {

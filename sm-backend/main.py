@@ -77,22 +77,23 @@ def edit_availability():
 
     days = request.get_json()['days']
     username = request.get_json()['username']
-    user = User.query.filter_by(username = username).first()
+    user = User.query.filter_by(username=username).first()
     print('Day info: ', days)
     if user:
         if user.availability == []:
-            a = Availability(user = user)
+            a = Availability(user=user)
         a = user.availability[0]
         for day in days:
-            if day['checked']: setattr(a, day['name'], day['value'][0] + '-' + day['value'][1] )
-            else: 
+            if day['checked']:
+                setattr(a, day['name'], day['value']
+                        [0] + '-' + day['value'][1])
+            else:
                 setattr(a, day['name'], '')
 
         db.session.add(a)
         db.session.commit()
 
-        return jsonify ({'success' :True})
-
+        return jsonify({'success': True})
 
 
 @app.route('/get_days')
@@ -137,30 +138,32 @@ def add_user():
     if current_user.position == 'manager':
         user = request.get_json()
         print('The user we got is: ', user)
-        if User.query.filter_by(first_name = user['first_name'], last_name = user['last_name']).first():
+        if User.query.filter_by(first_name=user['first_name'], last_name=user['last_name']).first():
             return(jsonify({'success': False, 'message': 'User {} {} already in database'.format(user['first_name'], user['last_name'])}))
         else:
-            db.session.add(User(first_name = user['first_name'], last_name = user['last_name'], position = user['position']))
+            db.session.add(User(
+                first_name=user['first_name'], last_name=user['last_name'], position=user['position']))
             db.session.commit()
             return jsonify({'success': True})
     else:
         print('Must be a manager to access this')
-        return(jsonify({'success':False, 'message': 'Must be a manager to access this.'}))
+        return(jsonify({'success': False, 'message': 'Must be a manager to access this.'}))
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     data = request.get_json()
-    user = User.query.filter_by(first_name = data['first_name']).filter_by(last_name = data['last_name']).first()
+    user = User.query.filter_by(first_name=data['first_name']).filter_by(
+        last_name=data['last_name']).first()
     if user:
-        u = User.query.filter_by(username = data['username']).first()
+        u = User.query.filter_by(username=data['username']).first()
         if u:
             return jsonify({'response': 'Username Already In Use'})
         else:
             user.username = data['username']
             user.set_password(data['password'])
             db.session.commit()
-            return jsonify({'response':True})
+            return jsonify({'response': True})
     else:
         return jsonify({'response': 'User Not Found'})
 
@@ -197,6 +200,7 @@ def logout():
     logout_user()
     user = {'is_authenticated': current_user.is_authenticated}
     return jsonify({'current_user': user})
+
 
 if "__name__" == "__main__":
     app.debug = True
