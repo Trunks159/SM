@@ -40,7 +40,6 @@ const styles = () => ({
 
 class Nav extends Component {
   state = {
-    activeBtn: "weekView",
     btns: [
       {
         id: "weekView",
@@ -80,15 +79,10 @@ class Nav extends Component {
 
   searchBtn = (id) => this.state.btns.find((btn) => btn.id === id);
 
-  changeActiveBtn = (id) => {
-    if (id !== this.state.activeBtn) {
-      this.setState({ activeBtn: id });
-    }
-  };
+
 
   render() {
-    const { colorPalette, classes } = this.props;
-    const { activeBtn } = this.state;
+    const { colorPalette, classes, activePage, changeActivePage } = this.props;
     const weekView = this.searchBtn("weekView");
     const shiftView = this.searchBtn("shiftView");
     const shiftStats = this.searchBtn("shiftStats");
@@ -100,24 +94,25 @@ class Nav extends Component {
         <IconBtn
           baseObj={weekView}
           label="Week View"
-          changeActiveBtn={this.changeActiveBtn}
-          activeBtn={activeBtn}
+          changeActivePage={changeActivePage}
+          activePage={activePage}
           classes={classes}
         />
         <IconBtn
           baseObj={shiftView}
           label="Shift View"
-          changeActiveBtn={this.changeActiveBtn}
-          activeBtn={activeBtn}
+          changeActivePage={changeActivePage}
+          activePage={activePage}
           classes={classes}
         />
         <IconBtn
           baseObj={shiftStats}
           label="Shift Stats"
-          changeActiveBtn={this.changeActiveBtn}
-          activeBtn={activeBtn}
+          changeActivePage={changeActivePage}
+          activePage={activePage}
           classes={classes}
         />
+        <Divider style = {{width : '80%'}}/>
         <div className = {classes.btnDiv}>
           <p style={{ color: colorPalette.blue }} className={classes.p}>
             Add

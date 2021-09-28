@@ -3,7 +3,7 @@ import { Switch, Slider } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Fade from "@material-ui/core/Fade";
-import { valueToDt, miliToReg } from "./TimeFunctions";
+import MySlider from "../mySlider/MySlider";
 
 const styles = () => ({
   avBlock: {
@@ -22,14 +22,13 @@ const styles = () => ({
   },
 });
 
-const CustomSlider = ({
+const SlideSwitch = ({
   classes,
   name,
   handleSwitch,
   handleSlider,
   checked,
   value,
-  marks,
 }) => {
   return (
     <div
@@ -44,19 +43,12 @@ const CustomSlider = ({
       <Switch checked={checked} onChange={handleSwitch} name={name} />
       {checked ? (
         <Fade in={checked}>
-          <Slider
+          <MySlider
             key={name}
             defaultValue={value}
-            marks={marks}
-            valueLabelFormat={(value) =>
-              miliToReg(valueToDt(value).toTimeString().slice(0, 5))
-            }
+            handleSlider = {handleSlider}
             step={null}
-            className={classes.slider}
-            valueLabelDisplay="auto"
-            onChangeCommitted={(e, new_value) =>
-              handleSlider(e, new_value, name)
-            }
+            classes={classes}
           />
         </Fade>
       ) : null}
@@ -64,4 +56,4 @@ const CustomSlider = ({
   );
 };
 
-export default withStyles(styles)(CustomSlider);
+export default withStyles(styles)(SlideSwitch);

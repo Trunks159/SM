@@ -7,9 +7,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import CustomSlider from "./CustomSlider";
-import { valueToDt, timesToValues, miliToReg, getMarks } from "./TimeFunctions";
-import { Alert, AlertTitle } from "@material-ui/lab";
+import SlideSwitch from "./SlideSwitch";
+import { Alert } from "@material-ui/lab";
+import { timesToValues, valueToDt } from "../mySlider/TimeFunctions";
 
 const weekdays = [
   "monday",
@@ -126,7 +126,6 @@ class AvailabilityForm extends Component {
 
   render() {
     const { classes, user } = this.props;
-    console.log('User Availability: ', this.props.user.availability);
     
     return (
       <form onSubmit={this.handleSubmit} className={classes.mainContent}>
@@ -156,13 +155,12 @@ class AvailabilityForm extends Component {
         {weekdays.map((day) => {
           const d = this.state.days.find((x) => x.name === day);
           return (
-            <CustomSlider
+            <SlideSwitch
               name={day}
               handleSwitch={this.handleSwitch}
               handleSlider={this.handleSlider}
               checked={d.checked}
               value={d.value}
-              marks={getMarks()}
               key={user.id}
             />
           );

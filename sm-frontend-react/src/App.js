@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import NavBar from "./components/NavBar/NavBar";
+import NavBar from "./components/navBar/NavBar";
 import Message from "./components/Message";
 import Thumbnail from "./components/Thumbnail";
 import ScheduleTron5000 from "./components/scheduletron/ScheduleTron";
@@ -17,16 +17,17 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
-import AddUserPaper from "./components/AddUserPaper";
 
 const colorPalette = {
-  primary : '#328F83',
-  secondary : '#D8F4EE',
-  secondaryLight : '#EEF9F7', 
-  grey : '#979797',
-  blue: '#00BCFF',
-  orange: '#FFB932',
-}
+  primary: "#328F83",
+  secondary: "#D8F4EE",
+  secondaryLight: "#EEF9F7",
+  grey: "#979797",
+  blue: "#00BCFF",
+  orange: "#FFB932",
+  red: "#FF0000",
+  brightGreen: "#5EFF00",
+};
 
 class App extends Component {
   state = {
@@ -36,6 +37,7 @@ class App extends Component {
     current_day: null,
     message: null,
     redirect: null,
+    popup :null,
   };
 
   fetchDays = async () => {
@@ -48,6 +50,7 @@ class App extends Component {
       }
     });
   };
+
 
   fetchUsers = async () => {
     const x = await fetch("/users");
@@ -166,8 +169,6 @@ class App extends Component {
     });
   };
 
-
-
   render() {
     const dictionary = {
       0: "Monday",
@@ -189,15 +190,19 @@ class App extends Component {
             Thumbnail={Thumbnail}
             notifyUser={this.notifyUser}
           />
-          <div className="mainContent">
+          {this.state.popup}
+          <div className="mainContent" id = 'mainContent'>
             <Message message={this.state.message} />
-            <Route 
-              path = '/scheduletron'
-              render = {()=>{
-                return <ScheduleTron5000 colorPalette = {colorPalette}/>
-              }
-              }
-            
+            <Route
+              path="/scheduletron"
+              render={() => {
+                return (
+                  <ScheduleTron5000
+                    colorPalette={colorPalette}
+                    days={this.state.days}
+                  />
+                );
+              }}
             />
             <Route
               path="/login"

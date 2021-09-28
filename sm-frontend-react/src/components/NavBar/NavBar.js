@@ -4,6 +4,7 @@ import UsersDrawer from "./UsersDrawer";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Button } from "@material-ui/core";
+import UserMenu from "./UserMenu";
 
 const useStyles = makeStyles({
   button: {
@@ -35,8 +36,7 @@ const useStyles = makeStyles({
     alignItems: "center",
     marginLeft: "auto",
     textDecoration: "none",
-    color: "#328f83",
-    backgroundColor: 'white',
+    color: "white",
     height: "60%",
     borderRadius: "5px",
   },
@@ -69,7 +69,7 @@ const NavBar = ({ users, current_user, getReq, postReq, notifyUser }) => {
           current_user={current_user}
           notifyUser={notifyUser}
         />
-        <Link className={classes.logo} to="/">
+        <Link className={classes.logo} to="/scheduletron">
           <img
             className={classes.logo}
             src="http://localhost:5000/static/images/logo.svg"
@@ -77,23 +77,9 @@ const NavBar = ({ users, current_user, getReq, postReq, notifyUser }) => {
           />
         </Link>
         {current_user.is_authenticated ? (
-          <React.Fragment>
-            <Link
-              className={classes.username}
-              to={`/user/${current_user.username}`}
-            >
-              <AccountCircleIcon
-                style={{ fill: "#328f83" }}
-                className={classes.circleIcon}
-              />
-              <Typography variant="body" className={classes.usernameText}>
-                {current_user.username}
-              </Typography>
-            </Link>
-            <Button className={classes.btn_logout} onClick={logoutUser}>
-              Logout
-            </Button>
-          </React.Fragment>
+
+            <UserMenu username = {current_user.username} logoutUser = {logoutUser}/>
+
         ) : (
           <React.Fragment>
             <Link className="nav-link login" to="/login">
