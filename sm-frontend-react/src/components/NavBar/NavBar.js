@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import UsersDrawer from "./UsersDrawer";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Button } from "@material-ui/core";
+import { Typography, Button, Divider } from "@material-ui/core";
 import UserMenu from "./UserMenu";
 
 const useStyles = makeStyles({
@@ -12,24 +12,22 @@ const useStyles = makeStyles({
     background: "#FF4BDB",
   },
   nav: {
-    backgroundColor: "#328f83",
-    height: "50px",
     alignItems: "center",
-    display:'flex',
+    display: "flex",
+    flexDirection: "column",
+    overflowY: "auto",
+    maxWidth: "200px",
+    minWidth: "150px",
   },
-  logo: {
-    backgroundColor: "white",
-    height: "100%",
-    paddingLeft: "5px",
-    paddingRight: "5px",
+  mainLogo: {
+    margin: 10,
   },
   btn_logout: {
     textTransform: "none",
-    color: "white",
     marginLeft: "10px",
     height: "60%",
-    marginRight:'10px',
-    fontSize : 16,
+    marginRight: "10px",
+    fontSize: 16,
   },
   username: {
     display: "flex",
@@ -47,9 +45,38 @@ const useStyles = makeStyles({
   usernameText: {
     marginRight: "10px",
   },
+  navLink: {
+    textDecoration: "none",
+    fontSize: 18,
+    color: "black",
+    padding: 10,
+  },
+  divider: {
+    width: "80%",
+    background: "#F0F0F0",
+    margin: 15,
+  },
+  iconBtn: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    margin: 10,
+    "& p": {
+      margin: 5,
+    },
+  },
 });
 
-const NavBar = ({ users, current_user, getReq, postReq, notifyUser }) => {
+const NavBar = ({
+  users,
+  current_user,
+  getReq,
+  postReq,
+  notifyUser,
+  imgSrc,
+  colorPalette,
+  currentUrl,
+}) => {
   const classes = useStyles();
 
   const logoutUser = () => {
@@ -63,34 +90,59 @@ const NavBar = ({ users, current_user, getReq, postReq, notifyUser }) => {
 
   return (
     <nav className={classes.nav}>
-        <UsersDrawer
-          users={users}
-          postReq={postReq}
-          current_user={current_user}
-          notifyUser={notifyUser}
-        />
-        <Link className={classes.logo} to="/scheduletron">
-          <img
-            className={classes.logo}
-            src="http://localhost:5000/static/images/logo.svg"
-            alt="Scheduletron"
-          />
+      <Link className={classes.mainLogo}>
+        <img src={imgSrc + "/ScheduleTron Icon.svg"} alt="ScheduleTron" />
+      </Link>
+      {current_user.is_authenticated ? (
+        <UserMenu username={current_user.username} logoutUser={logoutUser} />
+      ) : (
+        <React.Fragment>
+          <Link className={classes.navLink} to="/login">
+            Login
+          </Link>
+          <Link className={classes.navLink} to="/register">
+            Register
+          </Link>
+          <Divider className={classes.divider} />
+        </React.Fragment>
+      )}
+      <UsersDrawer
+        colorPalette={colorPalette}
+        imgSrc={imgSrc}
+        users={users}
+        postReq={postReq}
+        current_user={current_user}
+        notifyUser={notifyUser}
+      />
+      <Divider className={classes.divider} />
+      <div className={classes.iconBtn}>
+        <p>Week View</p>
+        <Link to="/">
+          <img src={imgSrc + "/Week View Icon.svg"} />
         </Link>
-        {current_user.is_authenticated ? (
-
-            <UserMenu username = {current_user.username} logoutUser = {logoutUser}/>
-
-        ) : (
-          <React.Fragment>
-            <Link className="nav-link login" to="/login">
-              Login
-            </Link>
-            <Link className="nav-link register" to="/register">
-              Register
-            </Link>
-          </React.Fragment>
-        )}
-      </nav>
+      </div>
+      <div className={classes.iconBtn}>
+        <p>Shift View</p>
+        <Link to="/">
+          <img src={imgSrc + "/Shift View Icon.svg"} />
+        </Link>
+      </div>
+      <div className={classes.iconBtn}>
+        <p>Shift Stats</p>
+        <Link to="/">
+          <img src={imgSrc + "/Shift Stats Icon.svg"} />
+        </Link>
+      </div>
+      <Divider className={classes.divider} />
+      <div className={classes.iconBtn}>
+        <p className={classes.p} style={{ color: colorPalette.orange }}>
+          Submit
+        </p>
+        <Button>
+          <img src={imgSrc + "/SCTR Submit Icon.svg"} />
+        </Button>
+      </div>
+    </nav>
   );
 };
 

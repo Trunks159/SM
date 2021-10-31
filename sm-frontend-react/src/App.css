@@ -1,20 +1,20 @@
 .App {
   display: flex;
-  flex-direction: column;
   min-width: 400px;
   height: 100vh;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  overflow-y: hidden;
   overflow-x: hidden;
+}
+
+::-webkit-scrollbar-track {
+  display: none;
+}
+::-webkit-scrollbar-thumb {
+  background: red;
 }
 
 .mainContent {
   height: 100%;
-}
-
-.modal {
-  position: fixed;
-  background-color: #cb90bf;
 }
 
 .nav-bar {

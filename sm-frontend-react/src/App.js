@@ -3,12 +3,9 @@ import "./App.css";
 import NavBar from "./components/navBar/NavBar";
 import Message from "./components/Message";
 import Thumbnail from "./components/Thumbnail";
-import ScheduleTron5000 from "./components/scheduletron/ScheduleTron";
-import PastDays from "./components/home/PastDays";
+import ScheduleTron from "./components/scheduletron/ScheduleTron";
 import User from "./components/user/User";
 import AvailabilityForm from "./components/user/UserAvailability";
-import Week from "./components/Week";
-import CurrentDay from "./components/CurrentDay";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import {
@@ -33,12 +30,17 @@ class App extends Component {
   state = {
     days: [],
     users: [],
+    current_url : '/',
     current_user: { is_authenticated: false },
     current_day: null,
     message: null,
     redirect: null,
     popup :null,
   };
+
+  changeCurrentUrl = (newUrl)=>{
+    this.setState({current_url :newUrl});
+  }
 
   fetchDays = async () => {
     const x = await fetch("/get_days");
@@ -179,10 +181,13 @@ class App extends Component {
       5: "Saturday",
       6: "Sunday",
     };
+    const imgSrc = "http://localhost:5000/static/images/ScheduleTron";
     return (
       <Router>
         <div className="App">
           <NavBar
+            colorPalette = {colorPalette}
+            imgSrc = {imgSrc}
             current_user={this.state.current_user}
             users={this.state.users}
             getReq={this.getReq}
@@ -194,12 +199,13 @@ class App extends Component {
           <div className="mainContent" id = 'mainContent'>
             <Message message={this.state.message} />
             <Route
-              path="/scheduletron"
+              path="/"
               render={() => {
                 return (
-                  <ScheduleTron5000
+                  <ScheduleTron
+                    imgSrc = {imgSrc}
                     colorPalette={colorPalette}
-                    days={this.state.days}
+                    users = {this.state.users}
                   />
                 );
               }}
@@ -306,103 +312,7 @@ class App extends Component {
               />
             </Switch>
           </div>
-          {/*
-            <div className="content">
-              
-              <Route exact path="/" render={() => <PastDays />} />
-              <Route
-                path="/user/:username"
-                render={(props) => {
-                  const user = this.state.users.find(
-                    (user) => user.username === props.match.params.username
-                  );
-                  if (user) {
-                    return <User Thumbnail={Thumbnail} user={user} />;
-                  } else {
-                    console.log("Couldn't find user");
-                    this.notifyUser({
-                      content: "Couldn't find user...",
-                      severity: "error",
-                      title: "error",
-                    });
-                    return <Redirect to="/" />;
-                  }
-                }}
-              />
-              <Route
-                path="/day/:date"
-                render={(props) => {
-                  const { date } = props.match.params;
-                  let the_day = this.state.days.find(
-                    (d) =>
-                      d.month.toString() +
-                        d.day.toString() +
-                        d.year.toString() ===
-                      date
-                  );
 
-                  if (the_day) {
-                    the_day.workblocks = the_day.workblocks.map((wb) => {
-                      wb.user = this.state.users.find(
-                        (user) => user.id === wb.user_id
-                      );
-                      return wb;
-                    });
-                    const u = this.state.users.filter((user) => {
-                      let users = the_day.workblocks.map((wb) => wb.user);
-                      if (users.length > 0) {
-                        if (users.includes(user)) {
-                          return false;
-                        }
-                      }
-                      return true;
-                    });
-
-                    return (
-                      <ScheduleTron5000
-                        day={the_day}
-                        users={u}
-                        workblocks={the_day.workblocks}
-                        current_user={this.state.current_user}
-                        postReq={this.postReq}
-                      />
-                    );
-                  }
-                }}
-              />
-              <Route
-                path="/login"
-                render={() => {
-                  if (this.state.current_user.is_authenticated) {
-                    return <Redirect to="/" />;
-                  }
-                  return (
-                    <Login
-                      users={this.state.users}
-                      notifyUser={this.notifyUser}
-                      postReq={this.postReq}
-                    />
-                  );
-                }}
-              />
-              <Route
-                path="/register"
-                render={() => {
-                  if (this.state.current_user.is_authenticated) {
-                    return <Redirect to="/" />;
-                  }
-                  return <Register users={this.state.users} postReq={this.postReq}/>;
-                }}
-              />
-            </div>*/}
-          {/* 
-            <CurrentDay day={this.state.current_day} dictionary={dictionary} />
-            <Week
-              days={this.state.days}
-              dictionary={dictionary}
-              wipeDays={this.wipeDays}
-              reqDay={this.reqDay}
-            />*/}
         </div>
       </Router>
     );

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Backdrop, Button, Divider } from "@material-ui/core";
+import {Button, Divider } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import { motion } from "framer-motion";
 import ProfileTag from "./ProfileTag";
 import AddUsersBlurred from "./AddUsersBlurred";
+import { valueToDt } from "../../mySlider/TimeFunctions";
 
 const styles = () => ({
   main: {
@@ -30,12 +31,14 @@ const styles = () => ({
     flexDirection: "column",
     gap: "10px",
     alignItems: "center",
+    marginBottom:0,
+    
   },
 
   btn: {
-    position: "fixed",
-    bottom: 7,
-    right: 10,
+    position: "absolute",
+    bottom: 0,
+    right: 0,
   },
   sortBtn: {
     textTransform: "none",
@@ -43,7 +46,18 @@ const styles = () => ({
     borderRadius: 7,
     alignSelf: "start",
   },
-  
+
+  usersList:{
+    display:'flex',
+    flexDirection :'column',
+    gap :'10px',
+    overflowY :'auto',
+    maxHeight:'90%',
+    paddingBottom :'200px',
+
+
+  },
+
   userBtn: {
     display: "flex",
     flexDirection: "column",
@@ -87,6 +101,7 @@ const pageTransition = {
 class ShiftView extends Component {
   state = {
     addUserOpen: false,
+    slug : 'shiftview',
     workblocks: [
       {
         startTime: 0,
@@ -128,8 +143,62 @@ class ShiftView extends Component {
         id: 241,
         position: "crew",
       },
+      {
+        firstName: "Kramer",
+        id: 241,
+        position: "crew",
+      },
+      {
+        firstName: "Thomas",
+        id: 241,
+        position: "crew",
+      },
+      {
+        firstName: "Cream",
+        id: 241,
+        position: "crew",
+      },
+      {
+        firstName: "Ice",
+        id: 241,
+        position: "crew",
+      },
+      {
+        firstName: "Sam",
+        id: 241,
+        position: "crew",
+      },
+      {
+        firstName: "John",
+        id: 241,
+        position: "crew",
+      },
+      {
+        firstName: "Tim",
+        id: 241,
+        position: "crew",
+      },
     ],
-    selectedUsers: [],
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    let { workblocks } = this.state;
+    const { postReq} = this.props;
+   /* days = days.filter((item) => item.checked);*/
+    if (workblocks) {
+      workblocks = workblocks.map((workblock) => {
+        return {
+          userId  : workblock.user.id, 
+          startTime : valueToDt(workblock.startTime).toTimeString().slice(0,5), 
+          endTime : valueToDt(workblock.endTime).toTimeString().slice(0,5),
+        };
+      });
+      let req = postReq("/edit_schedule", {
+        workblocks : workblocks,
+      });
+      this.setState({ snackbar: { open: true } });
+    }
   };
 
   handleSlider = (e, new_value, id) => {
@@ -138,10 +207,12 @@ class ShiftView extends Component {
 
     if (workblock) {
       const index = workblocks.indexOf(workblock);
+      workblocks.splice(index, 1, workblock)
+      /*
       workblocks.splice(index, 1);
       workblock.startTime = new_value[0];
       workblock.endTime = new_value[1];
-      workblocks.push(workblock);
+      workblocks.push(workblock);*/
       this.setState({ workblocks: workblocks });
     } else {
       console.log("Cant find it");
@@ -162,7 +233,13 @@ class ShiftView extends Component {
     this.setState({ addUsersOpen: !this.state.addUsersOpen });
   };
 
-  lastSelectedUser = () => {};
+  submitUsers = (users) => {
+    this.addUsers(users);
+  };
+
+  componentDidMount = ()=>{
+    this.props.changeCurrentUrl(this.state.slug);
+  }
 
   /*let main = document.getElementById("mainContent");
     main.style.filter = "blur(4px)";
@@ -170,7 +247,7 @@ class ShiftView extends Component {
     let modal = document.getElementById("myModal");*/
 
   render() {
-    const { classes, colorPalette, imgSrc } = this.props;
+    const { classes, colorPalette, imgSrc , day} = this.props;
 
     return (
       <motion.div
@@ -191,6 +268,7 @@ class ShiftView extends Component {
               Sort
               <img src={imgSrc + "/Details Icon.svg"} />
             </Button>
+            <div className = {classes.usersList}>
             {this.state.workblocks.map(({ user, startTime, endTime }) => (
               <ProfileTag
                 id={user.id}
@@ -203,12 +281,20 @@ class ShiftView extends Component {
                 handleSlider={this.handleSlider}
               />
             ))}
+            </div>
             <Button className={classes.btn} onClick={this.handleClick}>
               <img src={imgSrc + "/Add Users Icon.svg"} />
             </Button>
           </div>
-
-          {this.state.addUsersOpen && <AddUsersBlurred imgSrc={imgSrc} users = {this.state.users} />}
+          
+          {this.state.addUsersOpen && (
+            <AddUsersBlurred
+              submitUsers = {this.submitUsers}
+              imgSrc={imgSrc}
+              users={this.state.users}
+              closeBlurredDiv={this.handleClick}
+            />
+          )}
         </div>
       </motion.div>
     );

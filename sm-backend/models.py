@@ -94,7 +94,8 @@ class Availability(db.Model):
         return times
 
     def to_json(self):
-        weekdays = ['monday','tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        weekdays = ['monday', 'tuesday', 'wednesday',
+                    'thursday', 'friday', 'saturday', 'sunday']
         d = {}
         for weekday in weekdays:
             d[weekday] = getattr(self, weekday)
@@ -106,11 +107,14 @@ class Day(db.Model):
     date = db.Column(db.DateTime)
     state = db.Column(db.String(30))
     workblocks = db.relationship('WorkBlock', backref='day', lazy=True)
+    projected_sales = db.Column(db.Float)
 
     def __repr__(self):
         return self.date.isoformat()
 
     def check_state(self):
+        # the standard for completion should be that the schedule was submitted
+        # and at least 75%
         if len(self.workblocks) >= 7:
             self.state = 'complete'
 
@@ -122,10 +126,6 @@ class Day(db.Model):
                 self.state = 'available'
         return self.state
 
-    def color(self):
-        return {'available': 'blue', 'complete': 'green',
-                'incomplete': 'red', 'inactive': 'gray', '': 'orange'}[self.check_state()]
-
     def from_json(self, json):
         for key in json:
             setattr(self, key, json[key])
@@ -133,7 +133,6 @@ class Day(db.Model):
     def to_json(self):
         return{
             'id': self.id,
-            'color': self.color(),
             'state': self.check_state(),
             'year': self.date.year,
             'month': self.date.month,
@@ -144,8 +143,87 @@ class Day(db.Model):
 
         }
 
-    def json_workblocks(self):
-        sliders = self.workblocks
+    def shiftData(self):
+        # return object that has 2 shifts morning and night and and data
+        # inside of them
+
+        return {'morning_data': self.morning_data(), 'night_data': self.night_data()}
+
+    def morning_data(self):
+        projected_sales = self.projected_sales/2
+        p = self.get_morning_staffing_and_hours()
+        actual_hours = p['hours']
+        actual_staffing = p['staffing']
+        projected_staffing = 5
+        projected_hours = 40
+        if projected_sales >= 2000:
+            projected_staffing = 6
+            projected_hours = 45
+            if projected_sales >= 2500:
+                projected_staffing = 7
+                projected_hours = 53
+                if projected_sales >= 3000:
+                    projected_staffing = 8
+                    projected_hours = 58
+        return {'actual_hours': actual_hours, 'actual_staffing': actual_staffing, 'projected_staffing':  projected_staffing, 'projected_hours': projected_hours}
+
+    def get_morning_staffing_and_hours(self):
+        # if the workblock's time overlaps for more than 4 hours
+        # its is considered a morning shift
+        staffing = 0
+        hours = 0
+        am = [7, 16]
+        workblocks = self.workblocks.all()
+        for workblock in workblocks:
+            test1 = workblock.start_time >= am[0] and workblock.start_time <= am[1]
+            test2 = workblock.end_time >= am[0] and workblock.end_time <= am[1]
+            if test1 and test2:
+                hours += workblock.end_time - workblock.start_time
+                if workblock.end_time - workblock.start_time >= 4:
+                    staffing += 1
+            if test1 == True and test2 == False:
+                hours += am[1] - workblock.start_time
+                if am[1] - workblock.start_time >= 4:
+                    staffing += 1
+        return {'staffing': staffing, 'hours': hours}
+
+    def night_data(self):
+        projected_sales = self.projected_sales/2
+        p = self.get_night_staffing_and_hours()
+        actual_hours = p['hours']
+        actual_staffing = p['staffing']
+        projected_staffing = 5
+        projected_hours = 40
+        if projected_sales >= 2000:
+            projected_staffing = 6
+            projected_hours = 45
+            if projected_sales >= 2500:
+                projected_staffing = 7
+                projected_hours = 53
+                if projected_sales >= 3000:
+                    projected_staffing = 8
+                    projected_hours = 58
+        return {'actual_hours': actual_hours, 'actual_staffing': actual_staffing, 'projected_staffing':  projected_staffing, 'projected_hours': projected_hours}
+
+    def get_night_staffing_and_hours(self):
+        # if the workblock's time overlaps for more than 4 hours
+        # its is considered a morning shift
+        staffing = 0
+        hours = 0
+        pm = [16, 23]
+        workblocks = self.workblocks.all()
+        for workblock in workblocks:
+            test1 = workblock.start_time >= pm[0] and workblock.start_time <= pm[1]
+            test2 = workblock.end_time >= pm[0] and workblock.end_time <= pm[1]
+            if test1 and test2:
+                hours += workblock.end_time - workblock.start_time
+                if workblock.end_time - workblock.start_time >= 4:
+                    staffing += 1
+            if test1 == False and test2 == True:
+                hours += pm[1] - workblock.start_time
+                if workblock.end_time - pm[0] >= 4:
+                    staffing += 1
+        return {'staffing': staffing, 'hours': hours}
 
 
 class WorkBlock(db.Model):

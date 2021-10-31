@@ -4,7 +4,7 @@ from werkzeug.urls import url_parse
 from models import User, Day, WorkBlock, Availability
 from flask_login import current_user, login_user, login_required, logout_user
 from dates import viewable_days
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 
 
@@ -192,6 +192,30 @@ def user_login():
             login_user(user=user, remember=remember)
             return jsonify({'current_user': user.to_json()})
     return jsonify({'current_user': {'is_authenticated': False}})
+
+
+@app.route('/get_week', methods=['GET', 'POST'])
+def get_week():
+
+    data = request.get_json()
+    week = []
+    start_date = datetime(data['year'], data['month'], data['day'])
+    for i in range(7):
+        date = start_date + timedelta(days=i)
+        d = []
+        # d = Day.query.filter(Day.date.month == date.month &
+        #                     Day.date.day == date.day & Day.date.year == date.year)
+        days = Day.query.all()
+        for item in days:
+            if item.date.month == date.month & item.date.day == date.day & item.date.year == date.year:
+                d.append(item)
+        if bool(d) == False:
+            date = datetime(date.year, date.month, date.day)
+            d = Day(date=date)
+            db.session.add(d)
+            # db.session.commit()
+        week.append(d)
+    return jsonify({'week': [day.to_json() for day in week]})
 
 
 @login_required

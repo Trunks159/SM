@@ -1,4 +1,5 @@
 import React from "react";
+import HealthBar from "../HealthBar";
 import {
   Button,
   FormHelperText,
@@ -7,30 +8,11 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles({
-  progressBar: {
-    width: "100%",
-    height: 10,
-    borderRadius: 5,
-    "& .MuiLinearProgress-colorPrimary": {
-      backgroundColor: "#FFFFFF",
-    },
-    "& .MuiLinearProgress-colorSecondary": {
-      backgroundColor: "#FFFFFF",
-    },
-    "& .MuiLinearProgress-bar": {
-      borderRadius: 5,
-    },
-    "& .MuiLinearProgress-barColorPrimary": {
-      backgroundColor: "#5EFF00",
-    },
-    "& .MuiLinearProgress-barColorSecondary": {
-      backgroundColor: "#FFFF00",
-    },
-  },
+
   mainContainer:{
     display :'flex',
     alignItems:'center',
-    padding:'0',
+    padding:0,
     margin:0, 
     height:'200px',
  },
@@ -45,40 +27,43 @@ const useStyles = makeStyles({
     position: "relative",
     borderRadius: "10px",
     boxShadow: "5px 5px 16px 5px rgba(0,0,0,0.12)",
-  },
-  flex: {
-    textTransform: "none",
-    height: "100%",
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    margin: 0,
-    position: "absolute",
+    textTransform :'none',
   },
 
   box1: {
-    marginLeft: "auto",
-    flex: 1,
+    position:'absolute',
+    marginLeft :'auto',
+    right:-5,
+    top:3,
+    width:40,
   },
   box2: {
+    position:'absolute',
+    marginRight :'auto',
+    marginLeft :'auto',
+    top:35,
     color: "white",
-    margin: 0,
-    flex: 1,
-    fontSize: "19px",
+    fontSize: "45px",
+    fontWeight:400,
+    padding:0,
+    marginTop:0,
+    marginBottom:0,
+
   },
   box3: {
+    position :'absolute',
     color: "white",
-    margin: 0,
-    flex: 1,
-    fontSize: "63px",
+    fontSize: "30px",
+    fontWeight:400,
+    top:70,
     /*'@media (min-width:400px)':{
         fontSize : '10vw',
     },*/
   },
   box4: {
-    flex: 2,
-    paddingLeft: "45px",
-    paddingRight: "45px",
+    position :'absolute',
+    bottom :15,
+    marginTop :'auto',
   },
 });
 
@@ -101,8 +86,8 @@ const indexColor = (variant)=>{
     }
 }
 
-const DayBtn = ({ day, imgSrc, colorPalette, index }) => {
-  const { date, variant, weekday, shiftHealth } = day;
+const DayBtn = ({ day, imgSrc, colorPalette, index, handleClick }) => {
+  const { date, variant, weekday, shiftHealth, id } = day;
   const classes = useStyles();
   return (
     <div className = {classes.mainContainer}>
@@ -112,8 +97,8 @@ const DayBtn = ({ day, imgSrc, colorPalette, index }) => {
         style={{
           backgroundColor: getSpecificStuff(variant, colorPalette).color,
         }}
+        onClick = {()=>handleClick(id)}
       >
-        <div className={classes.flex}>
           <img
             className={classes.box1}
             src={imgSrc + getSpecificStuff(variant, colorPalette).img}
@@ -121,21 +106,11 @@ const DayBtn = ({ day, imgSrc, colorPalette, index }) => {
           <p className={classes.box2}>{day.weekday}</p>
 
           <p className={classes.box3}>{date}</p>
-          <div className={classes.box4}>
             {shiftHealth ? (
-              <LinearProgress
-                className={classes.progressBar}
-                color={
-                  shiftHealth[0] / shiftHealth[1] >= 0.7
-                    ? "primary"
-                    : "secondary"
-                }
-                variant="buffer"
-                value={(shiftHealth[0] / shiftHealth[1]) * 100}
-              />
+              <HealthBar 
+              className  = {classes.box4}
+              shiftHealth = {shiftHealth}/>
             ) : null}
-          </div>
-        </div>
       </Button>
     </div>
   );

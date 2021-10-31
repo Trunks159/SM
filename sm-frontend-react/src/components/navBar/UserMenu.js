@@ -69,7 +69,7 @@ const UserMenu = ({username, logoutUser}) =>  {
         }}
       >
         <Link to={`/user/${username}`}><MenuItem onClick={handleClose}>Profile</MenuItem></Link>
-        <MenuItem onClick={handleClose}>My Availability</MenuItem>
+        <Link to={`/user/${username}/availability`} ><MenuItem onClick={handleClose}>My Availability</MenuItem></Link>
         <Button><MenuItem onClick={()=>handleLogout()}>Logout</MenuItem></Button>
       </Menu>
     </div>

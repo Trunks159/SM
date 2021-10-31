@@ -5,8 +5,8 @@ import MySlider from "../../mySlider/MySlider";
 
 const useStyles = makeStyles({
   paper: {
-    width: "300px",
-    height: "100px",
+    minWidth: "300px",
+    minHeight: "100px",
     position: "relative",
     borderRadius :7,
   },

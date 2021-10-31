@@ -13,6 +13,14 @@ import Select from "@material-ui/core/Select";
 import { Alert, AlertTitle } from "@material-ui/lab";
 
 const styles = () => ({
+  iconButton : {
+    display : 'flex',
+    flexDirection:'column',
+    alignItems : 'center',
+    '& p':{
+      margin : 0,
+    },
+  },
   lst: {
     overflowY: "auto",
   },
@@ -282,15 +290,16 @@ class UsersDrawer extends Component {
 
   render() {
     const { isDrawerOpened } = this.state;
-    const { classes, current_user } = this.props;
+    const { classes, current_user, imgSrc, colorPalette } = this.props;
     const users = this.props.users.sort(this.dynamicSort('first_name'));
 
     return (
       <div>
-        <div>
-          <IconButton onClick={this.toggleDrawerStatus}>
-            {!isDrawerOpened ? <ReorderIcon style={{ fill: "white" }} /> : null}
-          </IconButton>
+        <div className = {classes.iconButton}>
+          <p style = {{color : colorPalette.blue}}>Users</p>
+          <Button onClick={this.toggleDrawerStatus}>
+            {!isDrawerOpened ? <img src = {imgSrc + '/Users Icon.svg'} /> : null}
+          </Button>
         </div>
         <Drawer
           variant="temporary"

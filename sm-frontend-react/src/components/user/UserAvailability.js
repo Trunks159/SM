@@ -36,6 +36,7 @@ const styles = () => ({
     margin: "20px",
     display: "flex",
     flexDirection: "column",
+    overflowY :'auto',
   },
 
   submitBtn: {
@@ -45,6 +46,13 @@ const styles = () => ({
     alignSelf: "center",
     color: "white",
   },
+  days : {
+    display :'flex',
+    width : '100%',
+    flexDirection :'column',
+    height : '80%',
+    overflowY :'auto',
+  }
 });
 
 class AvailabilityForm extends Component {
@@ -99,7 +107,6 @@ class AvailabilityForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log('This is state rn: ', this.state);
     let { days } = this.state;
     const { postReq, user } = this.props;
    /* days = days.filter((item) => item.checked);*/
@@ -152,6 +159,7 @@ class AvailabilityForm extends Component {
         <Typography>Nights</Typography>
 
         <Divider className={classes.divider} />
+        <div className = {classes.days}>
         {weekdays.map((day) => {
           const d = this.state.days.find((x) => x.name === day);
           return (
@@ -165,6 +173,7 @@ class AvailabilityForm extends Component {
             />
           );
         })}
+        </div>
 
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}

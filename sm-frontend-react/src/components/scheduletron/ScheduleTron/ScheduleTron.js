@@ -76,11 +76,17 @@ const pageTransition = {
 };
 
 
-class WeekView extends Component {
-  state = {};
+class ScheduleNav extends Component {
+  state = {slug : 'weekView'};
   dot = (imgSrc) => (
     <img className={this.props.classes.dot} src={this.props.imgSrc + "/Dot.svg"} />
   );
+  componentDidMount = ()=>{
+    this.props.changeCurrentUrl(this.state.slug);
+  }
+
+
+  
   render() {
     const week = [
       {
@@ -97,8 +103,15 @@ class WeekView extends Component {
         weekday: "Tuesday",
         id: 2,
       },
+      {
+        date: "9/14",
+        variant: "untouched",
+        shiftHealth: null,
+        weekday: "Wednesday",
+        id: 2,
+      },
     ];
-    const { classes, imgSrc, colorPalette } = this.props;
+    const { classes, imgSrc, colorPalette, accessDay } = this.props;
     return (
       <motion.div
           initial="out"
@@ -131,6 +144,7 @@ class WeekView extends Component {
               imgSrc={imgSrc}
               colorPalette={colorPalette}
                 index = {index+1}
+              handleClick = {accessDay}
             />
           ))}
           </div>
@@ -140,4 +154,4 @@ class WeekView extends Component {
   }
 }
 
-export default withStyles(styles)(WeekView);
+export default withStyles(styles)(ScheduleTron);
