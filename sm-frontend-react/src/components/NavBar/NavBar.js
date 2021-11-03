@@ -1,33 +1,27 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink , Link} from "react-router-dom";
 import UsersDrawer from "./UsersDrawer";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Button, Divider } from "@material-ui/core";
+import { Button, Divider } from "@material-ui/core";
 import UserMenu from "./UserMenu";
+import IconLink from "./IconLink";
+import { ReactComponent as ScheduleTronIcon } from "../../assets/images/ScheduleTron Icon.svg";
+import { ReactComponent as WeekViewIcon } from "../../assets/images/Week View Icon.svg";
+import { ReactComponent as ShiftViewIcon } from "../../assets/images/Shift View Icon.svg";
+import { ReactComponent as ShiftStatsIcon } from "../../assets/images/Shift Stats Icon.svg";
+
 
 const useStyles = makeStyles({
-  button: {
-    textTransform: "none",
-    background: "#FF4BDB",
-  },
   nav: {
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
     overflowY: "auto",
-    maxWidth: "200px",
-    minWidth: "150px",
+    minWidth : 100,
+    gap :'10px',
   },
   mainLogo: {
-    margin: 10,
-  },
-  btn_logout: {
-    textTransform: "none",
-    marginLeft: "10px",
-    height: "60%",
-    marginRight: "10px",
-    fontSize: 16,
+    marginTop : 10,
   },
   username: {
     display: "flex",
@@ -35,35 +29,20 @@ const useStyles = makeStyles({
     marginLeft: "auto",
     textDecoration: "none",
     color: "white",
-    height: "60%",
     borderRadius: "5px",
-  },
-  circleIcon: {
-    marginRight: "6px",
-    marginLeft: "6px",
-  },
-  usernameText: {
-    marginRight: "10px",
   },
   navLink: {
     textDecoration: "none",
-    fontSize: 18,
+    fontSize: 14,
     color: "black",
-    padding: 10,
+    marginBottom : '10px',
+  },
+  navLinkActive: {
+    color: "#328F83",
   },
   divider: {
     width: "80%",
     background: "#F0F0F0",
-    margin: 15,
-  },
-  iconBtn: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    margin: 10,
-    "& p": {
-      margin: 5,
-    },
   },
 });
 
@@ -75,7 +54,6 @@ const NavBar = ({
   notifyUser,
   imgSrc,
   colorPalette,
-  currentUrl,
 }) => {
   const classes = useStyles();
 
@@ -91,18 +69,18 @@ const NavBar = ({
   return (
     <nav className={classes.nav}>
       <Link className={classes.mainLogo}>
-        <img src={imgSrc + "/ScheduleTron Icon.svg"} alt="ScheduleTron" />
+        <ScheduleTronIcon/>
       </Link>
       {current_user.is_authenticated ? (
         <UserMenu username={current_user.username} logoutUser={logoutUser} />
       ) : (
         <React.Fragment>
-          <Link className={classes.navLink} to="/login">
+          <NavLink className={classes.navLink} activeClassName = {classes.navLinkActive}  to="/login">
             Login
-          </Link>
-          <Link className={classes.navLink} to="/register">
+          </NavLink>
+          <NavLink className={classes.navLink} activeClassName = {classes.navLinkActive} to="/register">
             Register
-          </Link>
+          </NavLink>
           <Divider className={classes.divider} />
         </React.Fragment>
       )}
@@ -115,33 +93,9 @@ const NavBar = ({
         notifyUser={notifyUser}
       />
       <Divider className={classes.divider} />
-      <div className={classes.iconBtn}>
-        <p>Week View</p>
-        <Link to="/">
-          <img src={imgSrc + "/Week View Icon.svg"} />
-        </Link>
-      </div>
-      <div className={classes.iconBtn}>
-        <p>Shift View</p>
-        <Link to="/">
-          <img src={imgSrc + "/Shift View Icon.svg"} />
-        </Link>
-      </div>
-      <div className={classes.iconBtn}>
-        <p>Shift Stats</p>
-        <Link to="/">
-          <img src={imgSrc + "/Shift Stats Icon.svg"} />
-        </Link>
-      </div>
-      <Divider className={classes.divider} />
-      <div className={classes.iconBtn}>
-        <p className={classes.p} style={{ color: colorPalette.orange }}>
-          Submit
-        </p>
-        <Button>
-          <img src={imgSrc + "/SCTR Submit Icon.svg"} />
-        </Button>
-      </div>
+      <IconLink img = {<WeekViewIcon/>} label  = 'Week View'/>
+      <IconLink img = {<ShiftViewIcon/>} label  = 'Shift View'/>
+      <IconLink img = {<ShiftStatsIcon/>} label  = 'Shift Stats'/>
     </nav>
   );
 };

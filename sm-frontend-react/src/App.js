@@ -3,7 +3,7 @@ import "./App.css";
 import NavBar from "./components/navBar/NavBar";
 import Message from "./components/Message";
 import Thumbnail from "./components/Thumbnail";
-import ScheduleTron from "./components/scheduletron/ScheduleTron";
+import WeekView from "./components/weekView/WeekView";
 import User from "./components/user/User";
 import AvailabilityForm from "./components/user/UserAvailability";
 import Login from "./components/login/Login";
@@ -14,6 +14,7 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
+
 
 const colorPalette = {
   primary: "#328F83",
@@ -185,6 +186,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
+        
           <NavBar
             colorPalette = {colorPalette}
             imgSrc = {imgSrc}
@@ -196,13 +198,12 @@ class App extends Component {
             notifyUser={this.notifyUser}
           />
           {this.state.popup}
-          <div className="mainContent" id = 'mainContent'>
             <Message message={this.state.message} />
             <Route
               path="/"
               render={() => {
                 return (
-                  <ScheduleTron
+                  <WeekView
                     imgSrc = {imgSrc}
                     colorPalette={colorPalette}
                     users = {this.state.users}
@@ -311,7 +312,6 @@ class App extends Component {
                 }}
               />
             </Switch>
-          </div>
 
         </div>
       </Router>

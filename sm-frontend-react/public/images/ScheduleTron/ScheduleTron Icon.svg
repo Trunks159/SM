@@ -1,8 +1,0 @@
-<svg id="ScheduleTron_Icon" data-name="ScheduleTron Icon" xmlns="http://www.w3.org/2000/svg" width="73" height="79" viewBox="0 0 73 79">
-  <g id="Ellipse_134" data-name="Ellipse 134" transform="translate(0 6)" fill="#fff" stroke="#328f83" stroke-width="1">
-    <circle cx="36.5" cy="36.5" r="36.5" stroke="none"/>
-    <circle cx="36.5" cy="36.5" r="36" fill="none"/>
-  </g>
-  <text id="S" transform="translate(21 62)" fill="rgba(50,143,131,0.26)" font-size="57" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="0">S</tspan></text>
-  <text id="T" transform="translate(31 51)" fill="#328f83" font-size="21" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="0">T</tspan></text>
-</svg>

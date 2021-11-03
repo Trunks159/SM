@@ -1,5 +1,5 @@
 import React from "react";
-import HealthBar from "../HealthBar";
+import HealthBar from "./HealthBar";
 import {
   Button,
   FormHelperText,

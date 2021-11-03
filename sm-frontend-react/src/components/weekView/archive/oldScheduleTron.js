@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Nav from "./Nav/Nav";
 import { withStyles } from "@material-ui/core/styles";
 import WeekView from "./ScheduleNav/ScheduleNav";
-import ShiftView from "./ShiftView/ShiftView";
-import ShiftStats from "./ShiftStats";
+import ShiftView from "../ShiftView/ShiftView";
+import ShiftStats from "../ShiftStats";
 import { AnimatePresence, motion } from "framer-motion";
 
 const styles = () => ({

@@ -11,14 +11,16 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import { ReactComponent as UsersIcon } from "../../assets/images/Users Icon.svg";
 
 const styles = () => ({
-  iconButton : {
-    display : 'flex',
-    flexDirection:'column',
-    alignItems : 'center',
-    '& p':{
-      margin : 0,
+  iconButton: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    "& p": {
+      fontSize: 12,
+      margin: 3,
     },
   },
   lst: {
@@ -135,7 +137,6 @@ class UsersDrawer extends Component {
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
-    
   };
   handleSelect = (e) => {
     console.log("Name: ", e.target.name, "Value: ", e.target.value);
@@ -175,32 +176,29 @@ class UsersDrawer extends Component {
         last_name: last_name.toLowerCase(),
         position: position.toLowerCase(),
       });
- /*This try catch doesn't really work */
-      try{
+      /*This try catch doesn't really work */
+      try {
         rawResponse.then((data) =>
-        data.json().then((response) => {
-          const severity = response.success ? 'success' : 'error';
-          const title = severity.charAt(0) + severity.slice(1);
-          notifyUser({
-            content:
-              response.message ? response.message : 'User successfully added!',
-            title: title ,
-            severity: severity,
-          });
-        })
-      );}
-      catch(err){
+          data.json().then((response) => {
+            const severity = response.success ? "success" : "error";
+            const title = severity.charAt(0) + severity.slice(1);
+            notifyUser({
+              content: response.message
+                ? response.message
+                : "User successfully added!",
+              title: title,
+              severity: severity,
+            });
+          })
+        );
+      } catch (err) {
         notifyUser({
-          content:
-            'No Response From Server :(',
+          content: "No Response From Server :(",
           title: "Error",
           severity: "error",
         });
       }
-      }
-  
-      
-      
+    }
   };
 
   handleAddUser = () => {
@@ -275,30 +273,31 @@ class UsersDrawer extends Component {
   /* I literally copy and pasted this from stackoverflow*/
   dynamicSort(property) {
     var sortOrder = 1;
-    if(property[0] === "-") {
-        sortOrder = -1;
-        property = property.substr(1);
+    if (property[0] === "-") {
+      sortOrder = -1;
+      property = property.substr(1);
     }
-    return function (a,b) {
-        /* next line works with strings and numbers, 
-         * and you may want to customize it to your needs
-         */
-        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-        return result * sortOrder;
-    }
-}
+    return function (a, b) {
+      /* next line works with strings and numbers,
+       * and you may want to customize it to your needs
+       */
+      var result =
+        a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+      return result * sortOrder;
+    };
+  }
 
   render() {
     const { isDrawerOpened } = this.state;
     const { classes, current_user, imgSrc, colorPalette } = this.props;
-    const users = this.props.users.sort(this.dynamicSort('first_name'));
+    const users = this.props.users.sort(this.dynamicSort("first_name"));
 
     return (
       <div>
-        <div className = {classes.iconButton}>
-          <p style = {{color : colorPalette.blue}}>Users</p>
+        <div className={classes.iconButton}>
+          <p style={{ color: colorPalette.blue }}>Users</p>
           <Button onClick={this.toggleDrawerStatus}>
-            {!isDrawerOpened ? <img src = {imgSrc + '/Users Icon.svg'} /> : null}
+            <UsersIcon/>
           </Button>
         </div>
         <Drawer
