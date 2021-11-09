@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import { ReactComponent as SearchIcon } from "../../assets/images/Search Icon.svg";
-import MobileDatePicker from '@mui/lab/MobileDatePicker';
+
 
 const styles = () => ({
   main: {
@@ -14,6 +14,7 @@ const styles = () => ({
     border: "3px solid #D8F4EE",
     borderRadius: 7,
     height: 207,
+    minHeight :207,
     minWidth: 10,
     maxWidth: 600,
     width: "90%",
@@ -41,6 +42,7 @@ const styles = () => ({
   },
   scheduleBtn: {
     display: "inline-block",
+    boxShadow: "5px 5px 16px 5px rgba(0,0,0,0.12)",
     color: "white",
     textTransform: "none",
     overflowX: "auto",
@@ -97,7 +99,6 @@ class SelectWeek extends Component {
 
   returnedSched = (scheduleSet) => {
     const s = scheduleSet.find(({ id }) => id === this.state.openScheduleId);
-    console.log("S: ", s.month + "/" + s.day);
     return (
       <p style={{ color: '#328F83', fontSize: 20, fontWeight :400 }}>{s.month + "/" + s.day}</p>
     );
@@ -115,7 +116,7 @@ class SelectWeek extends Component {
     ];
     const index = this.openScheduleIndex(scheduleSet);
     return (
-      this.state.search ? (<div></div>):
+      this.state.search ? (<div> </div>):
       (<div className={classes.main}>
         <div className = {classes.selectedWeekHeader}>
           <p className={classes.header}>Selected Week -</p>

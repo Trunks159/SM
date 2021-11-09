@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="76" height="76" viewBox="0 0 76 76">
+  <defs>
+    <filter id="Ellipse_186" x="0" y="0" width="76" height="76" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Actions_Icon" data-name="Actions Icon" transform="translate(-294 -93)">
+    <g transform="matrix(1, 0, 0, 1, 294, 93)" filter="url(#Ellipse_186)">
+      <circle id="Ellipse_186-2" data-name="Ellipse 186" cx="29" cy="29" r="29" transform="translate(9 6)" fill="#54f2d1"/>
+    </g>
+    <g id="Backward_arrow" data-name="Backward arrow" transform="translate(344.58 127.497) rotate(135)">
+      <path id="Path_10" data-name="Path 10" d="M10.251,0,8.387,1.864,15.443,8.92H0v2.663H15.443L8.387,18.638,10.251,20.5,20.5,10.251Z" transform="translate(-5.246 9.251) rotate(-45)" fill="#fff"/>
+    </g>
+    <g id="Rectangle_762" data-name="Rectangle 762" transform="translate(354.835 127.5) rotate(135)" fill="none" stroke="#fff" stroke-width="3">
+      <rect width="33" height="33" rx="4" stroke="none"/>
+      <rect x="1.5" y="1.5" width="30" height="30" rx="2.5" fill="none"/>
+    </g>
+  </g>
+</svg>

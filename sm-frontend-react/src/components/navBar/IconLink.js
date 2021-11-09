@@ -26,7 +26,7 @@ class IconLink extends Component {
     const { classes, img, label } = this.props;
     return (
       <NavLink
-        exact to = {'/'}
+        exact to = {'/scheduletron'}
         activeClassName = {classes.activeIcon}
         className = {classes.regIcon}
       >

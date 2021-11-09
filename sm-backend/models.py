@@ -2,6 +2,7 @@ from config import db, login
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 from flask_login import UserMixin
+import calendar
 
 
 class User(UserMixin, db.Model):
@@ -107,24 +108,10 @@ class Day(db.Model):
     date = db.Column(db.DateTime)
     state = db.Column(db.String(30))
     workblocks = db.relationship('WorkBlock', backref='day', lazy=True)
-    projected_sales = db.Column(db.Float)
+    projected_sales = db.Column(db.Integer, default=4000)
 
     def __repr__(self):
         return self.date.isoformat()
-
-    def check_state(self):
-        # the standard for completion should be that the schedule was submitted
-        # and at least 75%
-        if len(self.workblocks) >= 7:
-            self.state = 'complete'
-
-        elif self.state != 'incomplete':
-            today = datetime.today()
-            if (today - self.date).days > 0:
-                self.state = 'inactive'
-            if self.state == None:
-                self.state = 'available'
-        return self.state
 
     def from_json(self, json):
         for key in json:
@@ -133,12 +120,12 @@ class Day(db.Model):
     def to_json(self):
         return{
             'id': self.id,
-            'state': self.check_state(),
             'year': self.date.year,
             'month': self.date.month,
             'day': self.date.day,
-            'weekday': self.date.weekday(),
+            'weekday': list(calendar.day_name)[self.date.weekday()],
             'date': self.date.isoformat(),
+            'projected_sales': self.projected_sales,
             'workblocks': [workblock.to_json() for workblock in self.workblocks]
 
         }

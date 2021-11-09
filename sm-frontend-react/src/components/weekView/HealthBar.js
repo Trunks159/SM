@@ -2,7 +2,7 @@ import React from "react";
 import { LinearProgress, styled } from "@material-ui/core";
 
 const StyledProgressBar = styled(LinearProgress)({
-  height: 15,
+  height: 13,
   borderRadius: 7,
   minWidth:100,
   "& .MuiLinearProgress-colorPrimary": {

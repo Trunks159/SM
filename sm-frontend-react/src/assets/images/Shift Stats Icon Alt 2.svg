@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="67" height="67" viewBox="0 0 67 67">
+  <defs>
+    <filter id="Rectangle_461" x="0" y="0" width="67" height="67" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Shift_Stats_Icon_Alt_2" data-name="Shift Stats Icon Alt 2" transform="translate(9 6)">
+    <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Rectangle_461)">
+      <rect id="Rectangle_461-2" data-name="Rectangle 461" width="49" height="49" rx="7" transform="translate(9 6)" fill="#54f2d1"/>
+    </g>
+    <line id="Line_169" data-name="Line 169" x2="9" transform="translate(1.5 7.5)" fill="none" stroke="#fff" stroke-width="3"/>
+    <line id="Line_169-2" data-name="Line 169" x2="31" transform="translate(1.5 19.25)" fill="none" stroke="#fff" stroke-width="3"/>
+    <line id="Line_169-3" data-name="Line 169" x2="14" transform="translate(1.5 29.75)" fill="none" stroke="#fff" stroke-width="3"/>
+    <line id="Line_169-4" data-name="Line 169" x2="25" transform="translate(1.5 41.5)" fill="none" stroke="#fff" stroke-width="3"/>
+  </g>
+</svg>

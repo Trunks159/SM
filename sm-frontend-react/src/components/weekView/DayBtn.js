@@ -1,11 +1,12 @@
 import React from "react";
 import HealthBar from "./HealthBar";
 import {
-  Button,
-  FormHelperText,
-  LinearProgress,
   makeStyles,
 } from "@material-ui/core";
+import { ReactComponent as WarningIcon } from "../../assets/images/Warning Icon.svg";
+import { ReactComponent as CompleteIcon } from "../../assets/images/Complete Icon.svg";
+import { ReactComponent as UntouchedIcon } from "../../assets/images/Untouched Icon.svg";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
 
@@ -14,15 +15,17 @@ const useStyles = makeStyles({
     alignItems:'center',
     padding:0,
     margin:0, 
-    height:'200px',
  },
   index:{
     fontSize: 114,
-    
+    padding: 0,
+    margin :0,
   },
-  btn: {
-    height: '100%',
-    width: "200px",
+  link: {
+    minHeight: 153,
+    minWidth: 166,
+    height : 153,
+    width : 166,
     padding: 0,
     position: "relative",
     borderRadius: "10px",
@@ -32,46 +35,51 @@ const useStyles = makeStyles({
 
   box1: {
     position:'absolute',
-    marginLeft :'auto',
-    right:-5,
-    top:3,
-    width:40,
+    right : 2,
+    top : 2,
+    padding : 0,
   },
   box2: {
     position:'absolute',
     marginRight :'auto',
     marginLeft :'auto',
-    top:35,
+    top:'15%',
     color: "white",
-    fontSize: "45px",
+    fontSize: "19px",
     fontWeight:400,
     padding:0,
     marginTop:0,
     marginBottom:0,
+    left : 47,
 
   },
   box3: {
     position :'absolute',
-    color: "white",
-    fontSize: "30px",
+    color: "rgba(255,255,255,1)",
+    fontSize: 63,
     fontWeight:400,
-    top:70,
+    bottom : -33,
+    left : 22,
     /*'@media (min-width:400px)':{
         fontSize : '10vw',
     },*/
   },
   box4: {
     position :'absolute',
-    bottom :15,
-    marginTop :'auto',
+    marginLeft : 'auto',
+    marginRight : 'auto',
+    left : 0,
+    right :0,
+    width :81,
+    bottom : 14,
   },
 });
 
-const getSpecificStuff = (variant, colorPalette) => {
+const getSpecificStuff = (variant, colorPalette, classes) => {
   const variantDict = {
-    warning: { img: "/Warning Icon.svg", color: colorPalette.red },
-    complete: { img: "/Complete Icon.svg", color: colorPalette.primary },
-    untouched: { img: "/Untouched Icon.svg", color: colorPalette.grey },
+    warning: { img: <WarningIcon className = {classes.box1}/>, color: colorPalette.red },
+    complete: { img: <CompleteIcon className = {classes.box1}/>, color: colorPalette.primary },
+    untouched: { img: <UntouchedIcon className = {classes.box1}/>, color: colorPalette.grey },
   };
   return variantDict[variant];
 };
@@ -86,32 +94,31 @@ const indexColor = (variant)=>{
     }
 }
 
-const DayBtn = ({ day, imgSrc, colorPalette, index, handleClick }) => {
-  const { date, variant, weekday, shiftHealth, id } = day;
+const DayBtn = ({ health, date, name, colorPalette, index, url}) => {
+  const {day, month, year} = date;
+  const variant = health  ? (health[0]/health[1] >= .7 ? 'complete' : 'warning' ):'untouched';
   const classes = useStyles();
+  const {img, color} = getSpecificStuff(variant, colorPalette, classes );
   return (
     <div className = {classes.mainContainer}>
         <p style = {{color : indexColor(variant)}} className = {classes.index}>{index}</p>
-      <Button
-        className={classes.btn}
+      <Link
+        className={classes.link}
         style={{
-          backgroundColor: getSpecificStuff(variant, colorPalette).color,
+          backgroundColor: color,
         }}
-        onClick = {()=>handleClick(id)}
+        to = {`${url}/day/${month}-${day}-${year}`}
       >
-          <img
-            className={classes.box1}
-            src={imgSrc + getSpecificStuff(variant, colorPalette).img}
-          />
-          <p className={classes.box2}>{day.weekday}</p>
+          {img}
+          <p className={classes.box2}>{name}</p>
 
-          <p className={classes.box3}>{date}</p>
-            {shiftHealth ? (
+          <p className={classes.box3}>{`${month}/${day}`}</p>
+            {health ? (
               <HealthBar 
               className  = {classes.box4}
-              shiftHealth = {shiftHealth}/>
+              shiftHealth = {health}/>
             ) : null}
-      </Button>
+      </Link>
     </div>
   );
 };

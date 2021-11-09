@@ -121,7 +121,7 @@ class AvailabilityForm extends Component {
           }),
         };
       });
-      let req = postReq("/edit_availability", {
+      postReq("/edit_availability", {
         days: days,
         username: user.username,
       });

@@ -2,51 +2,52 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
 import MySlider from "../../mySlider/MySlider";
+import { ReactComponent as ProfileIcon } from "../../../assets/images/Large Profile Icon.svg";
+import { ReactComponent as RemoveIcon } from "../../../assets/images/Remove Icon.svg";
 
 const useStyles = makeStyles({
   paper: {
-    minWidth: "300px",
-    minHeight: "100px",
+    width : 226,
     position: "relative",
-    borderRadius :7,
+    borderRadius: 7,
   },
   slider: {
-    width: "200px",
+    width: '60%',
     position: "absolute",
     bottom: "-20px",
     left: "50px",
     color: "#328F83",
     "& .MuiSlider-thumb": {
       backgroundColor: "#328F83",
-      width:20,
-      height:20,
-      top :9.5,
-      left:'100px',
+      width: 12,
+      height: 12,
+      top: 13,
     },
     "& .MuiSlider-mark": {
       height: 0,
     },
     "& .MuiSlider-track": {
-        height: 3,
-      },
+      height: 3,
+    },
     "& .MuiSlider-valueLabel": {
       fontSize: 10,
-      backgroundColor :'unset',
-      '&:before': {
-        display: 'none',
+      backgroundColor: "unset",
+      "&:before": {
+        display: "none",
       },
-      '& *': {
-        background: 'transparent',
-        color:'black',
+      "& *": {
+        background: "transparent",
+        color: "black",
       },
     },
     "& .MuiSlider-markLabel": {
-        top:-9,
-        fontSize:10,
+      top: -2,
+      fontSize: 10,
     },
   },
   profileIcon: {
     marginLeft: 12,
+    marginBottom:0,
     height: "100%",
   },
   removeIcon: {
@@ -56,22 +57,17 @@ const useStyles = makeStyles({
   },
   name: {
     position: "absolute",
-    top: '15%',
-    left: '43%',
-    margin:0,
+    top: "12%",
+    left:'50%',
+    transform: 'translate(-50%, -50%)',
     padding: 0,
-    textAlign: "center",
-    fontSize: 25,
+    fontSize: 20,
   },
   position: {
     position: "absolute",
     top: "46%",
-    left: '45%',
-    margin: "0",
-    padding: "0",
-    textAlign: "center",
-    fontSize: 10,
-    color : '#00BCFF',
+    fontSize: 6,
+    color: "#00BCFF",
   },
 });
 
@@ -81,7 +77,6 @@ const ProfileTag = ({
   position,
   startTime,
   endTime,
-  imgSrc,
   handleSlider,
 }) => {
   const classes = useStyles();
@@ -92,13 +87,12 @@ const ProfileTag = ({
       className={classes.paper}
       style={position === "manager" ? { border: "2px solid #328F83" } : null}
     >
-      <img
-        src={imgSrc + "/Large Profile Icon.svg"}
-        className={classes.profileIcon}
-      />
-      <img src={imgSrc + "/Remove Icon.svg"} className={classes.removeIcon} />
+      <ProfileIcon className={classes.profileIcon}/>
+      <RemoveIcon className = {classes.removeIcon}/>
       <p className={classes.name}>{firstName}</p>
-      <p className={classes.position}>{position.charAt(0).toUpperCase() + position.slice(1) }</p>
+      <p className={classes.position}>
+        {position.charAt(0).toUpperCase() + position.slice(1)}
+      </p>
 
       <MySlider
         id={id}

@@ -64,7 +64,6 @@ class Scheduletron5000 extends Component {
       start_time: workblock.start_time,
       end_time: workblock.end_time,
     }));
-    console.log("The day is apparently: ", this.state.day.id);
     this.props.postReq("/receive_data", {
       day_id: this.state.day.id,
       workblocks: workblocks,

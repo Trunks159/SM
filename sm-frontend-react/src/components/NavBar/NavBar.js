@@ -68,7 +68,7 @@ const NavBar = ({
 
   return (
     <nav className={classes.nav}>
-      <Link className={classes.mainLogo}>
+      <Link className={classes.mainLogo} to = '/'>
         <ScheduleTronIcon/>
       </Link>
       {current_user.is_authenticated ? (

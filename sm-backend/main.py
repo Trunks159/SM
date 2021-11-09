@@ -96,12 +96,13 @@ def edit_availability():
         return jsonify({'success': True})
 
 
+'''
 @app.route('/get_days')
 def get_days():
-    '''
-5/3/21 Made untested changes here this may give you problems!!!
 
-    '''
+#5/3/21 Made untested changes here this may give you problems!!!
+
+
     # makes a today date, and goes and makes the days for the next two weeks
     # for each day if its in the db, grab that day, else make the day and add it to the
     # db, finally return all the days as jsons
@@ -119,6 +120,7 @@ def get_days():
     db.session.commit()
     days = [day.to_json() for day in days]
     return jsonify({'days': days})
+'''
 
 
 @app.route('/wipe_days')
@@ -216,6 +218,23 @@ def get_week():
             # db.session.commit()
         week.append(d)
     return jsonify({'week': [day.to_json() for day in week]})
+
+
+@app.route('/get_day/<date>')
+def get_day(date):
+    date = [int(i) for i in date.split('-')]
+    month, day, year = date
+    days = Day.query.all()
+    found_day = None
+    for item in days:
+        if (item.date.month == month) & (item.date.day == day) & (item.date.year == year):
+            found_day = item
+            break
+    if found_day == None:
+        item = Day(date=datetime(year, month, day))
+        db.session.add(item)
+        db.session.commit()
+    return jsonify(item.to_json())
 
 
 @login_required
