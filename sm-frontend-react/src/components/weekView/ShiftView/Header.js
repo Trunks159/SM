@@ -2,21 +2,19 @@ import React from "react";
 import { Button, Divider, makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { ReactComponent as BackIcon } from "../../../assets/images/Back Icon.svg";
-import { ReactComponent as ShiftViewIcon } from "../../../assets/images/Shift View Icon Alt 2.svg";
 
 const useStyles = makeStyles({
   main: {
     background: "#F0F0F0",
     border: "1px solid #54F2D1",
     borderRadius: 7,
-
-    maxWidth: 500,
     margin: 10,
     height: 100,
     position: "relative",
   },
   link: {
     fontSize: 8,
+    textTransform : 'none',
     color: "#00BCFF",
     marginTop: 8,
     marginLeft: 8,
@@ -74,9 +72,9 @@ const Header = ({ date, projectedSales, weekday, weekSchedule, shiftView }) => {
           <p>{weekSchedule}</p>
         </Link>
       ) : (
-        <Button>
+        <Button className = {classes.link}>
           <BackIcon className={classes.linkImg} />
-          <ShiftViewIcon className = {classes.shiftViewIcon}/>
+          <p>Schedule {date}</p>
         </Button>
       )}
 

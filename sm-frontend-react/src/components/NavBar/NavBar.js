@@ -9,6 +9,7 @@ import { ReactComponent as ScheduleTronIcon } from "../../assets/images/Schedule
 import { ReactComponent as WeekViewIcon } from "../../assets/images/Week View Icon.svg";
 import { ReactComponent as ShiftViewIcon } from "../../assets/images/Shift View Icon.svg";
 import { ReactComponent as ShiftStatsIcon } from "../../assets/images/Shift Stats Icon.svg";
+import { mergeClasses } from "@material-ui/styles";
 
 
 const useStyles = makeStyles({
@@ -54,6 +55,7 @@ const NavBar = ({
   notifyUser,
   imgSrc,
   colorPalette,
+  navbarActions
 }) => {
   const classes = useStyles();
 
@@ -93,6 +95,14 @@ const NavBar = ({
         notifyUser={notifyUser}
       />
       <Divider className={classes.divider} />
+        {navbarActions ? (
+          <>
+            {navbarActions.map((action)=>(
+              action
+            ))}
+            <Divider className = {classes.divider}/>
+          </>
+        ) : null}
       <IconLink img = {<WeekViewIcon/>} label  = 'Week View'/>
       <IconLink img = {<ShiftViewIcon/>} label  = 'Shift View'/>
       <IconLink img = {<ShiftStatsIcon/>} label  = 'Shift Stats'/>

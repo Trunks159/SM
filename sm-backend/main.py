@@ -237,6 +237,11 @@ def get_day(date):
     return jsonify(item.to_json())
 
 
+@app.route('/edit_schedule')
+def edit_schedule():
+    pass
+
+
 @login_required
 @app.route('/logout')
 def logout():

@@ -8,8 +8,11 @@ import WorkerList from "./WorkerList";
 
 const styles = () => ({
   main: {
+    display :'flex',
+    flexDirection : 'column',
     width : '100%',
     minWidth :100,
+    maxheight : '100%',
   },
 });
 
@@ -39,7 +42,7 @@ class ShiftView extends Component {
     this.setDay();
   };
   render() {
-    const { classes } = this.props;
+    const { classes, setupNavBar, postReq } = this.props;
     return (
       this.state.redirect ||
       (this.state.day ? (
@@ -53,7 +56,9 @@ class ShiftView extends Component {
             weekSchedule = 'Week Schedule (8/17/21 - 8/24/21)'
             shiftView = {this.state.shiftView}
           />
-          <WorkerList />
+          <WorkerList
+            postReq = {postReq}
+          />
         </div>
       ) : null)
     );

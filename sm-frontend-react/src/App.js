@@ -34,10 +34,7 @@ class App extends Component {
     current_user: { is_authenticated: false },
     message: null,
     redirect: null,
-    popup: null,
-    navActions : null,
   };
-
 
 
   fetchDays = async () => {
@@ -223,8 +220,9 @@ class App extends Component {
                           colorPalette={colorPalette}
                           date={match.params.date}
                           getReq={this.getReq}
+                          postReq = {this.postReq}
                           url = {match.url}
-
+                          setupNavBar = {this.setupNavBar}
                         />
                       );
                     }}
