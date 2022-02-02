@@ -240,6 +240,9 @@ def get_day(date):
 @app.route('/edit_schedule', methods=['GET', 'POST'])
 def edit_schedule():
     schedule = request.get_json()
+    # So we have a list of dictionaries, we just need
+    # to convert the list to a bunch of workblocks and
+    # add them to either an existing day or create the day
     print(schedule)
     return jsonify({'success': True})
 
