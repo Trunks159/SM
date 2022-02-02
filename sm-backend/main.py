@@ -237,9 +237,11 @@ def get_day(date):
     return jsonify(item.to_json())
 
 
-@app.route('/edit_schedule')
+@app.route('/edit_schedule', methods=['GET', 'POST'])
 def edit_schedule():
-    pass
+    schedule = request.get_json()
+    print(schedule)
+    return jsonify({'success': True})
 
 
 @login_required
