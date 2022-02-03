@@ -196,7 +196,7 @@ class WorkerList extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     let { workers } = this.state;
-    const { postReq } = this.props;
+    const { postReq, dayId } = this.props;
     if (workers) {
       workers = workers.map((worker) => {
         const convertTime = (time) =>{
@@ -204,12 +204,12 @@ class WorkerList extends Component {
           return x.toTimeString().slice(0, 5);
         };
         return {
-          id : worker.id,
+          userId : worker.id,
           startTime: convertTime(worker.startTime),
           endTime : convertTime(worker.endTime),
         };
       });
-      postReq("/edit_schedule", {
+      postReq(`/edit_schedule/${dayId}`, {
         workers : workers,
       });
     }

@@ -237,13 +237,29 @@ def get_day(date):
     return jsonify(item.to_json())
 
 
-@app.route('/edit_schedule', methods=['GET', 'POST'])
-def edit_schedule():
-    schedule = request.get_json()
+@app.route('/edit_schedule/<day_id>', methods=['GET', 'POST'])
+def edit_schedule(day_id):
+    schedule = request.get_json()['workers']
     # So we have a list of dictionaries, we just need
     # to convert the list to a bunch of workblocks and
     # add them to either an existing day or create the day
-    print(schedule)
+    day = Day.query.filter_by(id = day_id).first()
+
+    #delete all of the workblocks that are there if there are any
+    wbs = day.workblocks
+    if wbs:
+        for wb in wbs:
+            db.session.delete(wb)
+
+
+    #replace them with the ones that just came in
+    for item in schedule:
+        workblock = WorkBlock(day_id = day_id, user_id = item['userId'],
+            start_time = item['startTime'], end_time = item['endTime'])
+        db.session.add(workblock)
+    
+    db.session.commit()
+
     return jsonify({'success': True})
 
 

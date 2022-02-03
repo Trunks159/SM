@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
-import NavBar from "./components/navBar/NavBar";
 import Message from "./components/Message";
+import NavBar from "./components/NavBar/NavBar";
+
 import Thumbnail from "./components/Thumbnail";
 import WeekView from "./components/weekView/WeekView";
 import User from "./components/user/User";
