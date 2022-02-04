@@ -224,6 +224,7 @@ class App extends Component {
                           postReq = {this.postReq}
                           url = {match.url}
                           setupNavBar = {this.setupNavBar}
+                          users = {this.state.users}
                         />
                       );
                     }}

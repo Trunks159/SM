@@ -144,6 +144,22 @@ class WorkerList extends Component {
     ],
   };
 
+  loadWorkBlocksIn = ()=>{
+    /*
+    So we have the wbs in Day and we have the Users in the db
+    we need to go through each wb , find its user and remove it from the list of
+    possible users which i believe is workers 2
+    */
+      const {day, users} = this.props;
+      const {users}
+      day.workblocks.map((wb)=>{
+        this.
+      })
+
+
+    return []
+  }
+
   handleSlider = (e, newValue, id) =>{
     const {workers} = this.state;
     const worker = workers.find((w)=>w.id === id)

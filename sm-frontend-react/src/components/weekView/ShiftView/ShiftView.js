@@ -42,7 +42,7 @@ class ShiftView extends Component {
     this.setDay();
   };
   render() {
-    const { classes, setupNavBar, postReq, date } = this.props;
+    const { classes, setupNavBar, postReq, date, users } = this.props;
     return (
       this.state.redirect ||
       (this.state.day ? (
@@ -59,6 +59,7 @@ class ShiftView extends Component {
           <WorkerList
             postReq = {postReq}
             dayId = {this.state.day.id}
+            users = {users}
           />
         </div>
       ) : null)
