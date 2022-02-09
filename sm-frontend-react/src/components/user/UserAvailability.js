@@ -63,7 +63,7 @@ class AvailabilityForm extends Component {
         value: timesToValues(
           this.props.user.availability
             ? this.props.user.availability[day]
-            : null
+            : [0,50]
         ),
         checked: this.props.user.availability
           ? !!this.props.user.availability[day]
@@ -132,8 +132,8 @@ class AvailabilityForm extends Component {
 
 
   render() {
-    const { classes, user } = this.props;
-    
+    const { classes, user, availability } = this.props;
+    console.log('Availability: ', this.state.days);
     return (
       <form onSubmit={this.handleSubmit} className={classes.mainContent}>
         <Typography className={classes.header} variant="h6">

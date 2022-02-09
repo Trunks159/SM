@@ -16,6 +16,7 @@ import {
   Switch,
 } from "react-router-dom";
 import ShiftView from "./components/weekView/ShiftView/ShiftView";
+import { timesToValues } from "./components/mySlider/TimeFunctions";
 
 const colorPalette = {
   primary: "#328F83",
@@ -36,7 +37,6 @@ class App extends Component {
     message: null,
     redirect: null,
   };
-
 
   fetchDays = async () => {
     const x = await fetch("/get_days");
@@ -192,8 +192,9 @@ class App extends Component {
           {this.state.popup}
           <Message message={this.state.message} />
           <Route
-            exact path = '/'
-            render = {()=><Redirect to = '/scheduletron'/>}
+            exact
+            path="/"
+            render={() => <Redirect to="/scheduletron" />}
           />
           <Route
             path="/scheduletron"
@@ -208,23 +209,23 @@ class App extends Component {
                         getReq={this.getReq}
                         colorPalette={colorPalette}
                         users={this.state.users}
-                        url = {url}
+                        url={url}
                       />
                     )}
                   />
 
                   <Route
                     path={`${url}/day/:date`}
-                    render={({match}) => {
+                    render={({ match }) => {
                       return (
                         <ShiftView
                           colorPalette={colorPalette}
                           date={match.params.date}
                           getReq={this.getReq}
-                          postReq = {this.postReq}
-                          url = {match.url}
-                          setupNavBar = {this.setupNavBar}
-                          users = {this.state.users}
+                          postReq={this.postReq}
+                          url={match.url}
+                          setupNavBar={this.setupNavBar}
+                          users={this.state.users}
                         />
                       );
                     }}
@@ -294,22 +295,7 @@ class App extends Component {
                   (user) => user.username === props.match.params.username
                 );
                 if (user) {
-                  const convertAvailability = (timeData) => {
-                    /*if (timeData) {
-                        let times = timeData.split("-");
-                        let t1 = new Date("01 Jan 1970 " + times[0] + ":00");
-                        let t2 = new Date("01 Jan 1970 " + times[1] + ":00");
-                        let v1 =
-                          ((t1.getHours() - 7 + t1.getMinutes() / 60) / 16.5) *
-                          100;
-                        let v2 =
-                          ((t2.getHours() - 7 + t2.getMinutes() / 60) / 16.5) *
-                          100;
-                        console.log("V1 AND V2:", [v1, v2]);
-                        return [v1, v2];
-                      }*/
-                    return [0, 50];
-                  };
+                  
                   return (
                     <AvailabilityForm
                       user={user}
@@ -317,7 +303,6 @@ class App extends Component {
                       postReq={this.postReq}
                       notifyUser={this.notifyUser}
                       availability={user.availability}
-                      convertAvailability={convertAvailability}
                     />
                   );
                 } else {
