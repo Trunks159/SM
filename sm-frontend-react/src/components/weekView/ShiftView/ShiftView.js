@@ -37,6 +37,24 @@ class ShiftView extends Component {
     );
   }
 
+  loadUsers = ()=>{
+      let { users } = this.props;
+      users = users.map((user) => {
+        return {
+          firstName: user.first_name,
+          lastName: user.last_name,
+          id: user.id,
+          position: user.position,
+          /*
+         this is where the program should check and see if the user is available
+         we'll get that logic in here later
+       */
+          available: true,
+        };
+      });
+      console.log ('Users?: ', users);
+      return users;
+  }
 
   componentDidMount = () => {
     this.setDay();
@@ -58,8 +76,8 @@ class ShiftView extends Component {
           />
           <WorkerList
             postReq = {postReq}
-            dayId = {this.state.day.id}
-            users = {users}
+            day = {this.state.day}
+            users = {this.loadUsers()}
           />
         </div>
       ) : null)

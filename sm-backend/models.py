@@ -218,18 +218,20 @@ class WorkBlock(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
     # time is stored in seconds
-    start_time = db.Column(db.Integer)
-    end_time = db.Column(db.Integer)
+    start_time = db.Column(db.String(30))
+    end_time = db.Column(db.String(30))
 
     def to_json(self):
         return{
             'id': self.id,
-            'user_id': self.user.id,
+            'user_id': self.user_id,
             'start_time': self.start_time,
             'end_time': self.end_time,
-            'day_id': self.day.id
+            'day_id': self.day_id
         }
 
+    def __repr__(self):
+        return 'Workblock, UserID:{} Start and End Time: {}'.format(self.user_id, self.start_time + self.end_time)
 
 @login.user_loader
 def load_user(id):

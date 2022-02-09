@@ -76,111 +76,43 @@ class WorkerList extends Component {
   state = {
     addWorkers: false,
     workers: [],
-    workers2: [
-      {
-        firstName: "Charles",
-        position: "manager",
-        available: true,
-        id: 1,
-        startTime: 0,
-        endTime: 50,
-      },
-      {
-        firstName: "Nick",
-        position: "crew",
-        available: true,
-        id: 2,
-        startTime: 0,
-        endTime: 50,
-      },
-      {
-        firstName: "Phonsi",
-        position: "crew",
-        available: true,
-        id: 3,
-        startTime: 0,
-        endTime: 50,
-      },
-      {
-        firstName: "Quack",
-        position: "crew",
-        available: false,
-        id: 4,
-        startTime: 0,
-        endTime: 50,
-      },
-      {
-        firstName: "Snap",
-        position: "crew",
-        available: true,
-        id: 5,
-        startTime: 0,
-        endTime: 50,
-      },
-      {
-        firstName: "Pop",
-        position: "manager",
-        available: true,
-        id: 6,
-        startTime: 0,
-        endTime: 50,
-      },
-      {
-        firstName: "Jimmy",
-        position: "manager",
-        available: true,
-        id: 7,
-        startTime: 0,
-        endTime: 50,
-      },
-      {
-        firstName: "John",
-        position: "manager",
-        available: true,
-        id: 8,
-        startTime: 0,
-        endTime: 50,
-      },
-    ],
+    workers2: this.props.users,
   };
 
-  loadWorkBlocksIn = ()=>{
+  loadWorkBlocksIn = () => {
     /*
-    So we have the wbs in Day and we have the Users in the db
-    we need to go through each wb , find its user and remove it from the list of
-    possible users which i believe is workers 2
+      So in Day there should be a list of workblocks
+      we need to take those workblocks and convert the times they have
+      and put them in the workers list
     */
-      const {day, users} = this.props;
-      const {users}
-      day.workblocks.map((wb)=>{
-        this.
-      })
+    const workblocks = this.props.day.workblocks;
+    console.log('Here are the wbs: ', this.state.workers2);
+  };
 
-
-    return []
-  }
-
-  handleSlider = (e, newValue, id) =>{
-    const {workers} = this.state;
-    const worker = workers.find((w)=>w.id === id)
-    if(worker){
+  handleSlider = (e, newValue, id) => {
+    const { workers } = this.state;
+    const worker = workers.find((w) => w.id === id);
+    if (worker) {
       const index = workers.indexOf(worker);
       worker.startTime = newValue[0];
       worker.endTime = newValue[1];
       workers.splice(index, 1, worker);
-      this.setState({workers : workers});
-      console.log('WOrkers: ', workers);
+      this.setState({ workers: workers });
+      console.log("WOrkers: ", workers);
+    } else {
+      console.log("Couldnt find them");
     }
-    else{
-      console.log('Couldnt find them');
-    }
-  }
+  };
 
   submitWorkers = (submittedWorkers) => {
     let { workers, workers2 } = this.state;
     submittedWorkers.map((worker) => {
       let found = workers2.find((w) => w.id === worker.id);
       if (found) {
+        /*
+          Set up the default start and end time of each worker
+        */
+        found = { ...found, startTime: 0, endTime: 50 };
         workers.push(found);
         let index = workers2.indexOf(found);
         workers2.splice(index, 1);
@@ -212,29 +144,37 @@ class WorkerList extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     let { workers } = this.state;
-    const { postReq, dayId } = this.props;
+    const { postReq, day } = this.props;
     if (workers) {
       workers = workers.map((worker) => {
-        const convertTime = (time) =>{
+        const convertTime = (time) => {
           const x = valueToDt(time);
           return x.toTimeString().slice(0, 5);
         };
         return {
-          userId : worker.id,
+          userId: worker.id,
           startTime: convertTime(worker.startTime),
-          endTime : convertTime(worker.endTime),
+          endTime: convertTime(worker.endTime),
         };
       });
-      postReq(`/edit_schedule/${dayId}`, {
-        workers : workers,
+      postReq(`/edit_schedule/${day.id}`, {
+        workers: workers,
       });
     }
   };
 
+  componentDidUpdate = (prevProps)=>{
+    if(prevProps != this.props){
+      this.setState({
+        workers2 : this.props.users
+      });
+    }
+  }
+
   render() {
     const { classes } = this.props;
     const { workers, workers2 } = this.state;
-
+    this.loadWorkBlocksIn();
     const actions = [
       {
         name: "Add",
@@ -271,14 +211,14 @@ class WorkerList extends Component {
           {workers.map(({ firstName, position, startTime, endTime, id }) => {
             return (
               <ProfileTag
-                key = {id}
-                id = {id}
+                key={id}
+                id={id}
                 firstName={firstName}
                 position={position}
                 startTime={startTime}
                 endTime={endTime}
                 handleClose={this.handleClose}
-                handleSlider = {this.handleSlider}
+                handleSlider={this.handleSlider}
               />
             );
           })}

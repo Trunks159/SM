@@ -7,6 +7,18 @@ from dates import viewable_days
 from datetime import datetime, timedelta
 import os
 
+'''
+So this is how time should be converted. At some point we need the datetime
+at some point we need to convert to a value between 0 - 100
+at some point we need to convert to a 00:00 format
+datetime can only be read by python 
+sO I THINK EACH workblock's start and end time should be kept with datetime i think?
+right now its in seconds which obviously must be converted
+time being stored in seconds isn't bad since it can eaasily be converted to anything
+so i guess we'll stick with that.
+So in js when the time comes in it is confirmed to be seconds
+'''
+
 
 @app.route('/')
 @app.route('/home')
@@ -246,18 +258,18 @@ def edit_schedule(day_id):
     day = Day.query.filter_by(id = day_id).first()
 
     #delete all of the workblocks that are there if there are any
-    wbs = day.workblocks
-    if wbs:
-        for wb in wbs:
-            db.session.delete(wb)
-
-
+    if day:
+        wbs = day.workblocks
+        if wbs:
+            for wb in wbs:
+                db.session.delete(wb)
+    print('The schedule:', schedule)
     #replace them with the ones that just came in
     for item in schedule:
         workblock = WorkBlock(day_id = day_id, user_id = item['userId'],
             start_time = item['startTime'], end_time = item['endTime'])
         db.session.add(workblock)
-    
+    print('The schedule:', workblock)
     db.session.commit()
 
     return jsonify({'success': True})
