@@ -91,6 +91,7 @@ class AvailabilityForm extends Component {
   };
 
   handleSlider = (e, new_value, name) => {
+    console.log('Day name: ', name, 'Value: ', new_value);
     let { days } = this.state;
     let day = this.state.days.find((day)=>day.name === name);
    

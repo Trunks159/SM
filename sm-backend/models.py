@@ -217,7 +217,7 @@ class WorkBlock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
-    # time is stored in seconds
+    #time is stored in 00:00-12:00 format
     start_time = db.Column(db.String(30))
     end_time = db.Column(db.String(30))
 
@@ -231,7 +231,7 @@ class WorkBlock(db.Model):
         }
 
     def __repr__(self):
-        return 'Workblock, UserID:{} Start and End Time: {}'.format(self.user_id, self.start_time + self.end_time)
+        return 'Workblock, UserID:{} Start and End Time: {}'.format(self.user_id, self.time_range)
 
 @login.user_loader
 def load_user(id):

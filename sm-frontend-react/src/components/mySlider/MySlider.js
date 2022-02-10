@@ -31,19 +31,20 @@ const StyledSlider = styled(Slider)({
   },
 });
 
-const MySlider = ({ id, handleSlider, value }) => {
+const MySlider = ({name, handleSlider, value }) => {
   return (
     <StyledSlider
       /*I changed name to id so watch out bro */
-      key={id}
-      defaultValue={value}
+      name = {name}
+      defaultValue = {0,50}
+      value={value}
       marks={getMarks()}
       valueLabelFormat={(value) =>
         miliToReg(valueToDt(value).toTimeString().slice(0, 5))
       }
       step={null}
       valueLabelDisplay="auto"
-      onChangeCommitted={(e, new_value) => handleSlider(e, new_value, id)}
+      onChangeCommitted={(e, new_value) => handleSlider(e, new_value, name)}
     />
   );
 };

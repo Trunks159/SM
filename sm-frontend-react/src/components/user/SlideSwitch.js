@@ -30,6 +30,7 @@ const SlideSwitch = ({
   checked,
   value,
 }) => {
+  console.log('Weekday: ', name, 'Value: ', value);
   return (
     <div
       className={classes.avBlock}
@@ -44,8 +45,9 @@ const SlideSwitch = ({
       {checked ? (
         <Fade in={checked}>
           <MySlider
-            key={name}
-            defaultValue={value}
+
+            name = {name}
+            value={value}
             handleSlider = {handleSlider}
             step={null}
             classes={classes}
