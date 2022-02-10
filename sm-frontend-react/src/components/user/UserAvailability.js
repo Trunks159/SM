@@ -63,7 +63,7 @@ class AvailabilityForm extends Component {
         value: timesToValues(
           this.props.user.availability
             ? this.props.user.availability[day]
-            : [0,50]
+            : null
         ),
         checked: this.props.user.availability
           ? !!this.props.user.availability[day]

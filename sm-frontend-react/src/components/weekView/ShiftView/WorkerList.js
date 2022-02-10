@@ -9,6 +9,10 @@ import { Button } from "@material-ui/core";
 import AddWorkers from "./AddWorkers.js";
 import { timesToValues, valueToDt } from "../../mySlider/TimeFunctions";
 
+/*So when thius component loads it takes the wbs in the day
+loops through those and puts them in workers and removes them from
+workers 2 */
+
 const styles = () => ({
   main: {
     position: "relative",
@@ -105,16 +109,16 @@ class WorkerList extends Component {
   };
 
   submitWorkers = (submittedWorkers) => {
+    /*This function is called from the AddWorkers Component */
     let { workers, workers2 } = this.state;
     submittedWorkers.map((worker) => {
       let found = workers2.find((w) => w.id === worker.id);
       if (found) {
-        /*
-          Set up the default start and end time of each worker
-        */
+        
+        let index = workers2.indexOf(found);
+        /*Set up the default start and end time of each worker*/
         found = { ...found, startTime: 0, endTime: 50 };
         workers.push(found);
-        let index = workers2.indexOf(found);
         workers2.splice(index, 1);
       } else {
         console.log("Not Found...");

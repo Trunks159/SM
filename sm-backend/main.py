@@ -243,10 +243,10 @@ def get_day(date):
             found_day = item
             break
     if found_day == None:
-        item = Day(date=datetime(year, month, day))
+        found_day = Day(date=datetime(year, month, day))
         db.session.add(item)
         db.session.commit()
-    return jsonify(item.to_json())
+    return jsonify(found_day.to_json())
 
 
 @app.route('/edit_schedule/<day_id>', methods=['GET', 'POST'])
@@ -255,21 +255,20 @@ def edit_schedule(day_id):
     # So we have a list of dictionaries, we just need
     # to convert the list to a bunch of workblocks and
     # add them to either an existing day or create the day
-    day = Day.query.filter_by(id = day_id).first()
+    day = Day.query.filter_by(id=day_id).first()
 
-    #delete all of the workblocks that are there if there are any
+    # delete all of the workblocks that are there if there are any
     if day:
         wbs = day.workblocks
         if wbs:
             for wb in wbs:
                 db.session.delete(wb)
-    print('The schedule:', schedule)
-    #replace them with the ones that just came in
+    print('The schedule:', day_id)
+    # replace them with the ones that just came in
     for item in schedule:
-        workblock = WorkBlock(day_id = day_id, user_id = item['userId'],
-            start_time = item['startTime'], end_time = item['endTime'])
+        workblock = WorkBlock(day_id=day_id, user_id=item['userId'],
+                              start_time=item['startTime'], end_time=item['endTime'])
         db.session.add(workblock)
-    print('The schedule:', workblock)
     db.session.commit()
 
     return jsonify({'success': True})
