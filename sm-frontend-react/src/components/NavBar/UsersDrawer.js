@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { Drawer, Divider, IconButton } from "@material-ui/core";
+import { Drawer, Divider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
-import ReorderIcon from "@material-ui/icons/Reorder";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -34,7 +33,7 @@ const styles = () => ({
   fullList: {
     width: "auto",
   },
-  user_button: {
+  userButton: {
     width: "100%",
     backgroundColor: "#BE35A3",
     textTransform: "none",
@@ -42,12 +41,12 @@ const styles = () => ({
       background: "#FF4BDB",
     },
   },
-  user_link: {
+  userLink: {
     textDecoration: "none",
     color: "white",
   },
 
-  main_container: {
+  mainContainer: {
     background: "#C63AAB",
     width: "250px",
   },
@@ -78,7 +77,7 @@ const styles = () => ({
     height: "60%",
     boxShadow: "0px 0px 10px 1px rgba(0, 0, 0, 0.25)",
   },
-  add_user_header: {
+  addUserHeader: {
     margin: "10px",
   },
   textfields: {
@@ -111,9 +110,9 @@ const styles = () => ({
 class UsersDrawer extends Component {
   state = {
     isDrawerOpened: false,
-    add_user: false,
-    first_name: "",
-    last_name: "",
+    addUser: false,
+    firstName: "",
+    lastName: "",
     position: "crew",
     checked: false,
   };
@@ -125,14 +124,14 @@ class UsersDrawer extends Component {
   };
 
   closeDrawer = () => {
-    const original_state = {
+    const originalState = {
       isDrawerOpened: false,
-      add_user: false,
-      first_name: "",
-      last_name: "",
+      addUser: false,
+      firstName: "",
+      lastName: "",
       position: "crew",
     };
-    this.setState(original_state);
+    this.setState(originalState);
   };
 
   handleChange = (e) => {
@@ -143,17 +142,17 @@ class UsersDrawer extends Component {
   };
 
   handleUsersBtn = () => {
-    this.setState({ add_user: false });
+    this.setState({ addUser: false });
   };
 
   handlesubmitUser = (e) => {
     e.preventDefault();
-    const { first_name, last_name, position } = this.state;
+    const { firstName, lastName, position } = this.state;
     const { users, notifyUser } = this.props;
     const u = users.find(
       (user) =>
-        user.first_name.toLowerCase() === first_name.toLowerCase() &&
-        user.last_name.toLowerCase() === last_name.toLowerCase()
+        user.firstName.toLowerCase() === firstName.toLowerCase() &&
+        user.lastName.toLowerCase() === lastName.toLowerCase()
     );
 
     if (u) {
@@ -172,8 +171,8 @@ class UsersDrawer extends Component {
     } else {
       const { postReq } = this.props;
       let rawResponse = postReq("/add_user", {
-        first_name: first_name.toLowerCase(),
-        last_name: last_name.toLowerCase(),
+        first_name: firstName.toLowerCase(),
+        last_name: lastName.toLowerCase(),
         position: position.toLowerCase(),
       });
       /*This try catch doesn't really work */
@@ -203,11 +202,11 @@ class UsersDrawer extends Component {
 
   handleAddUser = () => {
     const { classes } = this.props;
-    if (this.state.add_user === false) {
+    if (this.state.addUser === false) {
       this.setState({
-        add_user: (
+        addUser: (
           <form className={classes.container2} onSubmit={this.handlesubmitUser}>
-            <Typography variant="h6" className={classes.add_user_header}>
+            <Typography variant="h6" className={classes.addUserHeader}>
               Add User
             </Typography>
             <Divider></Divider>
@@ -215,7 +214,7 @@ class UsersDrawer extends Component {
               <TextField
                 required
                 className={classes.textfieldfn}
-                name="first_name"
+                name="firstName"
                 label="Enter First Name"
                 onChange={this.handleChange}
                 variant="outlined"
@@ -225,7 +224,7 @@ class UsersDrawer extends Component {
               <TextField
                 required
                 className={classes.textfieldln}
-                name="last_name"
+                name="lastName"
                 label="Enter Last Name"
                 onChange={this.handleChange}
                 variant="outlined"
@@ -259,14 +258,14 @@ class UsersDrawer extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
-      const original_state = {
+      const originalState = {
         isDrawerOpened: false,
-        add_user: false,
-        first_name: "",
-        last_name: "",
+        addUser: false,
+        firstName: "",
+        lastName: "",
         position: "crew",
       };
-      this.setState(original_state);
+      this.setState(originalState);
     }
   }
 
@@ -289,8 +288,8 @@ class UsersDrawer extends Component {
 
   render() {
     const { isDrawerOpened } = this.state;
-    const { classes, current_user, imgSrc, colorPalette } = this.props;
-    const users = this.props.users.sort(this.dynamicSort("first_name"));
+    const { classes, currentUser, imgSrc, colorPalette } = this.props;
+    const users = this.props.users.sort(this.dynamicSort("firstName"));
 
     return (
       <div>
@@ -305,7 +304,7 @@ class UsersDrawer extends Component {
           open={isDrawerOpened}
           onClose={this.closeDrawer}
           anchor="left"
-          classes={{ paper: classes.main_container }}
+          classes={{ paper: classes.mainContainer }}
         >
           <div className={classes.container1}>
             <Button
@@ -313,20 +312,20 @@ class UsersDrawer extends Component {
               className={classes.btn}
               onClick={this.handleUsersBtn}
               style={
-                this.state.add_user === false
+                this.state.addUser === false
                   ? { backgroundColor: "#C63AAB" }
                   : { backgroundColor: "#FF42DA" }
               }
             >
               Users
             </Button>
-            {current_user.position === "manager" ? (
+            {currentUser.position === "manager" ? (
               <Button
                 variant="contained"
                 className={classes.btn}
                 onClick={this.handleAddUser}
                 style={
-                  this.state.add_user
+                  this.state.addUser
                     ? { backgroundColor: "#C63AAB" }
                     : { backgroundColor: "#FF42DA" }
                 }
@@ -337,12 +336,12 @@ class UsersDrawer extends Component {
           </div>
           <Divider />
           {this.state.errors}
-          {this.state.add_user || (
+          {this.state.addUser || (
             <div className={classes.lst}>
               {users.map((user) => (
                 <Link
                   to={`/user/${user.username}`}
-                  className={classes.user_link}
+                  className={classes.userLink}
                   key={user.id}
                 >
                   <ListItem button key={user.id} onClick={this.closeDrawer}>
@@ -355,8 +354,8 @@ class UsersDrawer extends Component {
                     </ListItemIcon>
                     <ListItemText
                       primary={
-                        user.first_name[0].toUpperCase() +
-                        user.first_name.slice(1)
+                        user.firstName[0].toUpperCase() +
+                        user.firstName.slice(1)
                       }
                     />
                   </ListItem>

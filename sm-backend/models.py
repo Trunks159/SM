@@ -25,13 +25,13 @@ class User(UserMixin, db.Model):
     def to_json(self):
         return{
             'username': self.username,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
+            'firstName': self.first_name,
+            'lastName': self.last_name,
             'position': self.position,
             'color': self.color,
             'id': self.id,
             'slug': self.slug,
-            'is_authenticated': True,
+            'isAuthenticated': True,
             'availability': self.availability[0].to_json() if self.availability else None,
         }
 
@@ -126,7 +126,7 @@ class Day(db.Model):
             'day': self.date.day,
             'weekday': list(calendar.day_name)[self.date.weekday()],
             'date': self.date.isoformat(),
-            'projected_sales': self.projected_sales,
+            'projectedSales': self.projected_sales,
             'workblocks': [workblock.to_json() for workblock in self.workblocks]
 
         }
@@ -226,9 +226,9 @@ class WorkBlock(db.Model):
         return{
             'id': self.id,
             'user_id': self.user_id,
-            'start_time': self.start_time,
-            'end_time': self.end_time,
-            'day_id': self.day_id
+            'startTime': self.start_time,
+            'endTime': self.end_time,
+            'dayId': self.day_id
         }
 
     def __repr__(self):
