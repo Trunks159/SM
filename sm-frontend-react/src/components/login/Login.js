@@ -55,6 +55,7 @@ class Login extends Component {
     e.preventDefault();
     const { username, password, remember } = this.state;
     const { users, postReq, notifyUser } = this.props;
+    console.log('Da users: ', users);
     const user = users.find((user) => user.username === username);
 
     if (user) {
@@ -86,7 +87,6 @@ class Login extends Component {
         })
       );
     } else {
-      console.log("Something");
       this.setState({
         username_errors: (
           <Alert variant="outlined" severity="error">

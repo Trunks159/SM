@@ -5,12 +5,9 @@ import Button from "@material-ui/core/Button";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { ReactComponent as UsersIcon } from "../../assets/images/Users Icon.svg";
+import AddUserForm from "./UsersDrawer/AddUserForm";
 
 const styles = () => ({
   iconButton: {
@@ -68,43 +65,6 @@ const styles = () => ({
     borderRadius: 0,
   },
 
-  container2: {
-    color: "white",
-    margin: "20px",
-    padding: "10px",
-    display: "flex",
-    flexDirection: "column",
-    height: "60%",
-    boxShadow: "0px 0px 10px 1px rgba(0, 0, 0, 0.25)",
-  },
-  addUserHeader: {
-    margin: "10px",
-  },
-  textfields: {
-    color: "white",
-    flex: "0 0 50%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-  },
-
-  textfield: {
-    color: "white",
-  },
-  btnSubm: {
-    textTransform: "none",
-    color: "white",
-    backgroundColor: "#E258C7",
-    borderRadius: 3,
-    margin: "20px",
-    "&:hover": {
-      backgroundColor: "#FF42DA",
-    },
-  },
-  select: {
-    display: "flex",
-    flexDirection: "column",
-  },
 });
 
 class UsersDrawer extends Component {
@@ -200,63 +160,7 @@ class UsersDrawer extends Component {
     }
   };
 
-  handleAddUser = () => {
-    const { classes } = this.props;
-    if (this.state.addUser === false) {
-      this.setState({
-        addUser: (
-          <form className={classes.container2} onSubmit={this.handlesubmitUser}>
-            <Typography variant="h6" className={classes.addUserHeader}>
-              Add User
-            </Typography>
-            <Divider></Divider>
-            <div className={classes.textfields}>
-              <TextField
-                required
-                className={classes.textfieldfn}
-                name="firstName"
-                label="Enter First Name"
-                onChange={this.handleChange}
-                variant="outlined"
-                InputProps={{ className: classes.textfield }}
-                InputLabelProps={{ className: classes.textfield }}
-              />
-              <TextField
-                required
-                className={classes.textfieldln}
-                name="lastName"
-                label="Enter Last Name"
-                onChange={this.handleChange}
-                variant="outlined"
-                InputProps={{ className: classes.textfield }}
-                InputLabelProps={{ className: classes.textfield }}
-              />
-            </div>
-            <div className={classes.select}>
-              <Typography className={classes.input} variant="body1">
-                Position
-              </Typography>
-              <Select
-                name="position"
-                defaultValue={this.state.position}
-                onChange={this.handleChange}
-                inputProps={{ className: classes.textfield }}
-              >
-                <MenuItem value="crew">Crew</MenuItem>
-                <MenuItem value="manager">Manager</MenuItem>
-              </Select>
-            </div>
-
-            <Button type="submit" className={classes.btnSubm}>
-              Submit User
-            </Button>
-          </form>
-        ),
-      });
-    }
-  };
-
-  componentDidUpdate(prevProps) {
+  componentDidUpdate = (prevProps) => {
     if (prevProps !== this.props) {
       const originalState = {
         isDrawerOpened: false,
@@ -267,9 +171,14 @@ class UsersDrawer extends Component {
       };
       this.setState(originalState);
     }
-  }
+  };
 
-  /* I literally copy and pasted this from stackoverflow*/
+  toggleAddUserForm = () => this.setState({ addUser: true });
+
+  /* I literally copy and pasted this from stackoverflow
+  looks like it sorts users based on name
+ This is the function you would pass to .sort*/
+
   dynamicSort(property) {
     var sortOrder = 1;
     if (property[0] === "-") {
@@ -288,15 +197,15 @@ class UsersDrawer extends Component {
 
   render() {
     const { isDrawerOpened } = this.state;
-    const { classes, currentUser, imgSrc, colorPalette } = this.props;
-    const users = this.props.users.sort(this.dynamicSort("firstName"));
-
+    let { classes, currentUser, colorPalette, users } = this.props;
+    users = users.sort(this.dynamicSort("firstName"));
+    console.log("Users: ", this.props.currentUser);
     return (
       <div>
         <div className={classes.iconButton}>
           <p style={{ color: colorPalette.blue }}>Users</p>
           <Button onClick={this.toggleDrawerStatus}>
-            <UsersIcon/>
+            <UsersIcon />
           </Button>
         </div>
         <Drawer
@@ -323,7 +232,7 @@ class UsersDrawer extends Component {
               <Button
                 variant="contained"
                 className={classes.btn}
-                onClick={this.handleAddUser}
+                onClick={this.toggleAddUserForm}
                 style={
                   this.state.addUser
                     ? { backgroundColor: "#C63AAB" }
@@ -336,7 +245,9 @@ class UsersDrawer extends Component {
           </div>
           <Divider />
           {this.state.errors}
-          {this.state.addUser || (
+          {this.state.addUser ? (
+            <AddUserForm users={users} />
+          ) : this.props.users ? (
             <div className={classes.lst}>
               {users.map((user) => (
                 <Link
@@ -362,7 +273,7 @@ class UsersDrawer extends Component {
                 </Link>
               ))}
             </div>
-          )}
+          ) : null}
         </Drawer>
       </div>
     );

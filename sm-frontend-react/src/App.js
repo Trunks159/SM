@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import "./App.css";
 import Message from "./components/Message";
 import NavBar from "./components/NavBar/NavBar";
-
-import Thumbnail from "./components/Thumbnail";
 import WeekView from "./components/weekView/WeekView";
 import User from "./components/user/User";
 import AvailabilityForm from "./components/user/UserAvailability";
@@ -16,7 +14,6 @@ import {
   Switch,
 } from "react-router-dom";
 import ShiftView from "./components/weekView/ShiftView/ShiftView";
-import { timesToValues } from "./components/mySlider/TimeFunctions";
 
 const colorPalette = {
   primary: "#328F83",
@@ -31,39 +28,28 @@ const colorPalette = {
 
 class App extends Component {
   state = {
-    days: [],
     users: [],
-    current_user: { is_authenticated: false },
+    currentUser: { isAuthenticated: false },
     message: null,
     redirect: null,
   };
 
-  fetchDays = async () => {
-    const x = await fetch("/get_days");
-    x.json().then(({ days }) => {
-      if (days !== this.state.days) {
-        this.setState({
-          days: days,
-        });
-      }
-    });
-  };
-
-  fetchUsers = async () => {
-    const x = await fetch("/users");
-
-    x.json().then(({ users, current_user }) => {
-      if (
-        this.state.users !== users ||
-        this.state.current_user !== current_user
-      ) {
-        this.setState({ users: users, current_user: current_user });
-      }
-    });
+  fetchUsers = () => {
+    fetch("/users")
+      .then((response) => response.json())
+      .then(({ users, currentUser }) => {
+        if (
+          this.state.users !== users ||
+          this.state.currentUser !== currentUser
+        ) {
+          console.log("Current: ", currentUser);
+          this.setState({ users: users, currentUser: currentUser });
+        }
+      });
   };
 
   /*Most POST Requests Go Through This
-    Fetches Users and Days After Each Reqeust*/
+    Fetches Users After Each Request*/
   postReq = async (url, content) => {
     const rawResponse = await fetch(url, {
       method: "POST",
@@ -74,7 +60,6 @@ class App extends Component {
       body: JSON.stringify(content),
     });
 
-    this.fetchDays();
     this.fetchUsers();
 
     return rawResponse;
@@ -82,48 +67,10 @@ class App extends Component {
 
   /*Most GET Requests Go Through This
     Fetches Users and Days After Each Reqeust*/
-  getReq = async (url) => {
-    const rawResponse = await fetch(url);
-    this.fetchDays();
+  getReq = (url) => {
+    const rawResponse = fetch(url);
     this.fetchUsers();
-
     return rawResponse;
-  };
-
-  /*REQUESTS DAY FROM DB AND CHANGES CURRENTDAY IN STATE
-    CALLED FROM WEEK COMPONENT*/
-  reqDay = ({ day, month, year }) => {
-    const result = this.postReq("/access_day", {
-      day: day,
-      month: month,
-      year: year,
-    });
-
-    result.then((response) => {
-      if (response.ok === true) {
-        response.json().then(({ day }) => {
-          this.setState({ current_day: day });
-        });
-      } else {
-        this.notifyUser({
-          content: "Error, Couldn't get day from database",
-          title: "Warning",
-          severity: "warning",
-        });
-        this.setState({ redirect: <Redirect to="/" /> });
-      }
-    });
-
-    return this.state.current_day;
-  };
-
-  wipeDays = () => {
-    this.getReq("/wipe_days");
-    this.notifyUser({
-      content: "Days have been wiped",
-      title: "Success",
-      severity: "success",
-    });
   };
 
   notifyUser = (message) => {
@@ -144,52 +91,23 @@ class App extends Component {
     };
   }
 
-  /*Fetches Days and Users and Sets Current Day To Today */
-  componentDidMount = async () => {
-    await this.fetchUsers();
-    const x = await fetch("/get_days");
-    x.json().then(({ days }) => {
-      if (days !== this.state.days) {
-        let today = this.getToday();
-        today = days.find(
-          (d) =>
-            d.day === today.day &&
-            d.month === today.month &&
-            d.year === today.year
-        );
-        this.setState({
-          current_day: today,
-          days: days,
-        });
-      }
-    });
+  /*Fetches Users */
+  componentDidMount = () => {
+    this.fetchUsers();
   };
 
   render() {
-    const dictionary = {
-      0: "Monday",
-      1: "Tuesday",
-      2: "Wednesday",
-      3: "Thursday",
-      4: "Friday",
-      5: "Saturday",
-      6: "Sunday",
-    };
-    const imgSrc = "http://localhost:5000/static/images/ScheduleTron";
     return (
       <Router>
         <div className="App">
           <NavBar
             colorPalette={colorPalette}
-            imgSrc={imgSrc}
-            current_user={this.state.current_user}
+            currentUser={this.state.currentUser}
             users={this.state.users}
             getReq={this.getReq}
             postReq={this.postReq}
-            Thumbnail={Thumbnail}
             notifyUser={this.notifyUser}
           />
-          {this.state.popup}
           <Message message={this.state.message} />
           <Route
             exact
@@ -238,7 +156,7 @@ class App extends Component {
           <Route
             path="/login"
             render={() => {
-              if (this.state.current_user.is_authenticated) {
+              if (this.state.currentUser) {
                 return <Redirect to="/" />;
               }
               return (
@@ -253,7 +171,7 @@ class App extends Component {
           <Route
             path="/register"
             render={() => {
-              if (this.state.current_user.is_authenticated) {
+              if (this.state.currentUser) {
                 return <Redirect to="/" />;
               }
               return (
@@ -275,7 +193,7 @@ class App extends Component {
                 );
                 if (user) {
                   return (
-                    <User user={user} current_user={this.state.current_user} />
+                    <User user={user} currentUser={this.state.currentUser} />
                   );
                 } else {
                   console.log("Couldn't find user");
@@ -295,11 +213,10 @@ class App extends Component {
                   (user) => user.username === props.match.params.username
                 );
                 if (user) {
-                  
                   return (
                     <AvailabilityForm
                       user={user}
-                      current_user={this.state.current_user}
+                      currentUser={this.state.currentUser.isAuthenticated}
                       postReq={this.postReq}
                       notifyUser={this.notifyUser}
                       availability={user.availability}

@@ -49,11 +49,10 @@ const useStyles = makeStyles({
 
 const NavBar = ({
   users,
-  current_user,
+  currentUser,
   getReq,
   postReq,
   notifyUser,
-  imgSrc,
   colorPalette,
   navbarActions
 }) => {
@@ -73,8 +72,8 @@ const NavBar = ({
       <Link className={classes.mainLogo} to = '/'>
         <ScheduleTronIcon/>
       </Link>
-      {current_user.is_authenticated ? (
-        <UserMenu username={current_user.username} logoutUser={logoutUser} />
+      {currentUser.isAuthenticated ? (
+        <UserMenu username={currentUser.username} logoutUser={logoutUser} />
       ) : (
         <React.Fragment>
           <NavLink className={classes.navLink} activeClassName = {classes.navLinkActive}  to="/login">
@@ -88,10 +87,9 @@ const NavBar = ({
       )}
       <UsersDrawer
         colorPalette={colorPalette}
-        imgSrc={imgSrc}
         users={users}
         postReq={postReq}
-        current_user={current_user}
+        currentUser={currentUser}
         notifyUser={notifyUser}
       />
       <Divider className={classes.divider} />

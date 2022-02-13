@@ -1,5 +1,47 @@
+import React, {Component} from "react";
+import { Alert, AlertTitle } from "@material-ui/lab";
+import { Divider, TextField, Select, MenuItem, Button, withStyles } from "@material-ui/core";
+
+
+const styles = ()=>({
+  form: {
+    color: "white",
+    margin: "20px",
+    padding: "10px",
+    display: "flex",
+    flexDirection: "column",
+    height: "60%",
+    boxShadow: "0px 0px 10px 1px rgba(0, 0, 0, 0.25)",
+  },
+  header: {
+    margin: "10px",
+  },
+  textfield :{
+    color: 'white',
+  },
+  select: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  submitBtn: {
+    textTransform: "none",
+    color: "white",
+    backgroundColor: "#E258C7",
+    borderRadius: 3,
+    margin: "20px",
+    "&:hover": {
+      backgroundColor: "#FF42DA",
+    },
+  },
+
+});
+
 class AddUserForm extends Component {
-    state = {  } 
+    state = { 
+      firstName : '',
+      lastName :'',
+      position : '',
+     } 
 
     userExists = (firstName, lastName, users) =>{
         return (users.find(
@@ -50,7 +92,7 @@ class AddUserForm extends Component {
     handlesubmitUser = (e) => {
         e.preventDefault();
         const { firstName, lastName, position } = this.state;
-        const { users} = this.props;
+        const {users} = this.props;
 
         if (this.userExists(firstName, lastName, users)) {
           this.displayErrorMessage({title : 'Name Error', message : 'User With That Name Already Exists'})
@@ -61,12 +103,50 @@ class AddUserForm extends Component {
 
       
     render() { 
+        const {classes} = this.props;
         return (
-            <form>
+          <form className={classes.form} onSubmit={this.handlesubmitUser}>
+            <p className={classes.header}>Add User</p>
+          <Divider></Divider>
+            <TextField
+              required
+              className={classes.textfield}
+              name="firstName"
+              label="Enter First Name"
+              onChange={this.handleChange}
+              variant="outlined"
+              InputProps={{ className: classes.textfieldInput }}
+              InputLabelProps={{ className: classes.textfieldInput }}
+            />
+            <TextField
+              required
+              className={classes.textfieldln}
+              name="lastName"
+              label="Enter Last Name"
+              onChange={this.handleChange}
+              variant="outlined"
+              InputProps={{ className: classes.textfieldInput }}
+              InputLabelProps={{ className: classes.textfieldInput }}
+            />
+          <div className={classes.select}>
+            <p className={classes.input}>Position</p>
+            <Select
+              name="position"
+              defaultValue={this.state.position}
+              onChange={this.handleChange}
+              inputProps={{ className: classes.textfield }}
+            >
+              <MenuItem value="crew">Crew</MenuItem>
+              <MenuItem value="manager">Manager</MenuItem>
+            </Select>
+          </div>
 
-            </form>
+          <Button type="submit" className={classes.submitBtn}>
+            Submit User
+          </Button>
+        </form>
         );
     }
 }
  
-export default AddUserForm;
+export default withStyles(styles)(AddUserForm);

@@ -19,7 +19,6 @@ class WeekView extends Component {
   state = {};
   render() {
     const { classes, colorPalette, url} = this.props;
-    console.log('URL : ', url);
     return (
       <div className={classes.main}>
         <SelectWeek />
