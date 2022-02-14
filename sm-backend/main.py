@@ -14,7 +14,7 @@ def home():
 @app.route('/users')
 def users():
     users = [user.to_json() for user in User.query.all()]
-    user = current_user.to_json if current_user.is_authenticated else {
+    user = current_user.to_json() if current_user.is_authenticated else {
         'is_authenticated': False}
     return jsonify({'users': users, 'currentUser': user})
 
@@ -100,7 +100,7 @@ def user_login():
         if user.check_password(password):
             login_user(user=user, remember=remember)
             return jsonify({'current_user': user.to_json()})
-    return jsonify({'is_authenticated': False})
+    return jsonify({'isAuthenticated': False})
 
 
 @app.route('/get_day/<date>')
@@ -122,31 +122,48 @@ def get_day(date):
 
 @app.route('/edit_schedule/<day_id>', methods=['GET', 'POST'])
 def edit_schedule(day_id):
-    schedule = request.get_json()['workers']
+    schedule = request.get_json()
     # So we have a list of dictionaries, we just need
     # to convert the list to a bunch of workblocks and
     # add them to either an existing day or create the day
     day = Day.query.filter_by(id=day_id).first()
-
+    print('The schedule:', schedule)
     # delete all of the workblocks that are there if there are any
     if day:
         wbs = day.workblocks
         if wbs:
             for wb in wbs:
                 db.session.delete(wb)
-    print('The schedule:', day_id)
+
     # replace them with the ones that just came in
     for item in schedule:
-        workblock = WorkBlock(day_id=day_id, user_id=item['userId'],
-                              start_time=item['startTime'], end_time=item['endTime'])
+        print("Item: ", item)
+        workblock = WorkBlock(day_id=day_id, user_id=item['id'],
+                              start_time=item['start_time'], end_time=item['end_time'])
         db.session.add(workblock)
     db.session.commit()
 
     return jsonify({'success': True})
 
 
-@login_required
-@app.route('/logout')
+@app.route('/get_schedule/<day_id>')
+def get_schedule(day_id):
+    # So we have a list of dictionaries, we just need
+    # to convert the list to a bunch of workblocks and
+    # add them to either an existing day or create the day
+    users = User.query.all()
+    day = Day.query.filter_by(id=day_id).first()
+    schedule = [workblock.to_json() for workblock in day.workblocks]
+    for wb in schedule:
+        user = User.query.filter_by(id=wb.user_id).first()
+        wb['firstName'] = user.first_name
+        users.remove(user)
+    return jsonify({'notScheduled': users, 'scheduled': schedule)
+
+
+
+@ login_required
+@ app.route('/logout')
 def logout():
     logout_user()
     user = {'is_authenticated': current_user.is_authenticated}

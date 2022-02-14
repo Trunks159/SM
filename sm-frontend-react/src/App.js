@@ -91,6 +91,10 @@ class App extends Component {
     };
   }
 
+  getDay = ()=>{
+
+  }
+
   /*Fetches Users */
   componentDidMount = () => {
     this.fetchUsers();
@@ -135,17 +139,16 @@ class App extends Component {
                   <Route
                     path={`${url}/day/:date`}
                     render={({ match }) => {
-                      return (
+                      return(
                         <ShiftView
                           colorPalette={colorPalette}
-                          date={match.params.date}
-                          getReq={this.getReq}
                           postReq={this.postReq}
                           url={match.url}
-                          setupNavBar={this.setupNavBar}
                           users={this.state.users}
+                          date = {match.params.date}
                         />
-                      );
+                      )
+                    
                     }}
                   />
                 </>

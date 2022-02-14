@@ -20,99 +20,85 @@ class ShiftView extends Component {
     day: null,
     redirect: null,
     shiftView: false,
-  };
-
-  setDay = () => {
-    const { date, getReq } = this.props;
-    const day = getReq(`/get_day/${date}`);
-    day.then((data) =>
-      data.json().then((day) => {
-        if (day) {
-          this.setState({ day: day });
-        } else {
-          this.setState({ redirect: <Redirect to="/" /> });
-        }
-      })
-    );
-  };
-
-  setUpWorkersList = () => {
-    let workers = [];
-    let workers2 = this.props.users;
-    if (this.state.day){
-      const { workblocks } = this.state.day;
-      
-      for (let wb of workblocks) {
-        let worker = workers2.find((w)=>w.id = wb.user_id)
-        console.log('Found worker: ', workers2);
-        let index = workers2.indexOf(worker);
-        workers2.splice(index, 1)
-        workers.push({
-          userId: wb.user_id,
-          startTime: dtToValue(
-            new Date("January 1, 1980 " + wb.start_time + ":00")
-          ),
-          endTime: dtToValue(
-            new Date("January 1, 1980 " + wb.end_time + ":00")
-          ),
-          position : worker.position,
-        });
-      
-      }
-      
-    }
-    return ({
-      workers :workers,
-      workers2 : workers2,
-    })
-  };
-
-  loadUsers = () => {
-    let { users } = this.props;
-    users = users.map((user) => {
-      return {
-        firstName: user.first_name,
-        lastName: user.last_name,
-        id: user.id,
-        position: user.position,
-        /*
-         this is where the program should check and see if the user is available
-         we'll get that logic in here later
-       */
-        available: true,
-      };
-    });
-    return users;
+    users: this.props.users.map((user) => ({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      id: user.id,
+      position: user.position,
+      /*
+       this is where the program should check and see if the user is available
+       we'll get that logic in here later
+     */
+      available: true,
+    })),
   };
 
   componentDidMount = () => {
-    this.setDay();
+    fetch(`/get_day/${this.props.date}`)
+      .then((response) => response.json())
+      .then((day) => {
+        this.setState({ day: day });
+      });
   };
+
+  divideWorkers = () => {
+    /*So there are 2 lists of workers, ones that have been
+    added to the schedule and the ones that are just users
+    who may or may not be available */
+    let scheduled = [];
+    let notScheduled = this.state.users;
+    console.log('Not scheduled: ', notScheduled[0]);
+    if (this.state.day) {
+      const { workblocks } = this.state.day;
+
+      for (let wb of workblocks) {
+        let worker = notScheduled.find((w) => (w.id = wb.userId));
+        let index = notScheduled.indexOf(worker);
+        notScheduled.splice(index, 1);
+        scheduled.push({
+          firstName: worker.firstName,
+          id: wb.userId,
+          startTime: dtToValue(
+            new Date("January 1, 1980 " + wb.startTime + ":00")
+          ),
+          endTime: dtToValue(new Date("January 1, 1980 " + wb.endTime + ":00")),
+          position: worker.position,
+        });
+      }
+      console.log('IDK boy: ', notScheduled)
+      return {
+        notScheduled: notScheduled,
+        scheduled: scheduled,
+      };
+    }
+  };
+
   render() {
     const { classes, postReq } = this.props;
-    const {workers, workers2} = this.setUpWorkersList();
-    return (
-      this.state.redirect ||
-      (this.state.day ? (
+    
+    if (this.state.day) {
+      const { day } = this.state;
+      return (
         <div className={classes.main}>
           <Header
-            date={`${this.state.day.month}/${
-              this.state.day.day
-            }/${this.state.day.year.toString().substring(2, 4)}`}
-            projectedSales={`$${this.state.day.projected_sales}`}
-            weekday={this.state.day.weekday}
+            date={`${day.month}/${day.day}/${day.year
+              .toString()
+              .substring(2, 4)}`}
+            projectedSales={`$${day.projectedSales}`}
+            weekday={day.weekday}
             weekSchedule="Week Schedule (8/17/21 - 8/24/21)"
             shiftView={this.state.shiftView}
           />
           <WorkerList
             postReq={postReq}
-            day={this.state.day}
-            users={this.loadUsers()}
-            workers = {workers}
+            day={day}
+            users = {this.props.users}
           />
         </div>
-      ) : null)
-    );
+      );
+    } else {
+      return null;
+    }
   }
 }
 

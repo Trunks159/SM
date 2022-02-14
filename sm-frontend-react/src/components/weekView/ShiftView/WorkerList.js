@@ -7,7 +7,7 @@ import { ReactComponent as SubmitIcon } from "../../../assets/images/Submit Icon
 import { ReactComponent as ShiftStatsIcon2 } from "../../../assets/images/Shift Stats Icon Alt 2.svg";
 import { Button } from "@material-ui/core";
 import AddWorkers from "./AddWorkers.js";
-import { timesToValues, valueToDt } from "../../mySlider/TimeFunctions";
+import { timesToValues, valueToDt, dtToValue } from "../../mySlider/TimeFunctions";
 
 /*So when thius component loads it takes the wbs in the day
 loops through those and puts them in workers and removes them from
@@ -76,33 +76,52 @@ const styles = () => ({
   },
 });
 
+const divideWorkers = (day, users, setState ) => {
+  /*So there are 2 lists of workers, ones that have been
+  added to the schedule and the ones that are just users
+  who may or may not be available */
+  let scheduled = [];
+  let notScheduled = users;
+  if (day) {
+    const { workblocks } = day;
+    for (let wb of workblocks) {
+      let worker = notScheduled.find((w) => (w.id = wb.userId));
+      let index = notScheduled.indexOf(worker);
+      notScheduled.splice(index, 1);
+      scheduled.push({
+        firstName: worker.firstName,
+        id: wb.userId,
+        startTime: dtToValue(
+          new Date("January 1, 1980 " + wb.startTime + ":00")
+        ),
+        endTime: dtToValue(new Date("January 1, 1980 " + wb.endTime + ":00")),
+        position: worker.position,
+      });
+    }
+    setState({
+      notScheduled: notScheduled,
+      scheduled: scheduled,
+    });
+  }
+};
+
 class WorkerList extends Component {
   state = {
     addWorkers: false,
-    workers: [],
-    workers2: this.props.users,
-  };
-
-  loadWorkBlocksIn = () => {
-    /*
-      So in Day there should be a list of workblocks
-      we need to take those workblocks and convert the times they have
-      and put them in the workers list
-    */
-    const workblocks = this.props.day.workblocks;
-    console.log('Here are the wbs: ', this.state.workers2);
+    scheduled : this.props.scheduled || [] ,
+    notScheduled : this.props.notScheduled || [],
   };
 
   handleSlider = (e, newValue, id) => {
-    const { workers } = this.state;
-    const worker = workers.find((w) => w.id === id);
+    const { scheduled } = this.state;
+    const worker = scheduled.find((w) => w.id === id);
     if (worker) {
-      const index = workers.indexOf(worker);
+      const index = scheduled.indexOf(worker);
       worker.startTime = newValue[0];
       worker.endTime = newValue[1];
-      workers.splice(index, 1, worker);
-      this.setState({ workers: workers });
-      console.log("WOrkers: ", workers);
+      scheduled.splice(index, 1, worker);
+      this.setState({ scheduled: scheduled });
+      console.log("WOrkers: ", scheduled);
     } else {
       console.log("Couldnt find them");
     }
@@ -110,75 +129,89 @@ class WorkerList extends Component {
 
   submitWorkers = (submittedWorkers) => {
     /*This function is called from the AddWorkers Component */
-    let { workers, workers2 } = this.state;
+    let { scheduled, notScheduled } = this.state;
     submittedWorkers.map((worker) => {
-      let found = workers2.find((w) => w.id === worker.id);
+      let found = notScheduled.find((w) => w.id === worker.id);
       if (found) {
         
-        let index = workers2.indexOf(found);
+        let index = notScheduled.indexOf(found);
         /*Set up the default start and end time of each worker*/
         found = { ...found, startTime: 0, endTime: 50 };
-        workers.push(found);
-        workers2.splice(index, 1);
+        scheduled.push(found);
+        notScheduled.splice(index, 1);
       } else {
         console.log("Not Found...");
       }
     });
-    this.setState({ workers: workers, workers2: workers2 });
+    this.setState({ scheduled: scheduled, notScheduled: notScheduled });
   };
 
   handleClose = (id) => {
-    const { workers, workers2 } = this.state;
+    const { scheduled, notScheduled } = this.state;
     console.log("ID", id);
-    let found = workers.find((w) => w.id === id);
+    let found = scheduled.find((w) => w.id === id);
     if (found) {
-      const index = workers.indexOf(found);
-      workers.splice(index, 1);
-      workers2.push(found);
+      const index = scheduled.indexOf(found);
+      scheduled.splice(index, 1);
+      notScheduled.push(found);
     } else {
-      console.log("IDK Man i cant find it: ", workers);
+      console.log("IDK Man i cant find it: ", scheduled);
     }
-    this.setState({ workers: workers, workers2: workers2 });
+    this.setState({ scheduled: scheduled, notScheduled: notScheduled });
   };
 
   handleAdd = () => {
     this.setState({ addWorkers: !this.state.addWorkers });
   };
 
+
+
   handleSubmit = (e) => {
     e.preventDefault();
-    let { workers } = this.state;
+    let { scheduled } = this.state;
     const { postReq, day } = this.props;
-    if (workers) {
-      workers = workers.map((worker) => {
+    if (scheduled) {
+      scheduled = scheduled.map((worker) => {
         const convertTime = (time) => {
           const x = valueToDt(time);
           return x.toTimeString().slice(0, 5);
         };
         return {
-          userId: worker.id,
-          startTime: convertTime(worker.startTime),
-          endTime: convertTime(worker.endTime),
+          id: worker.id,
+          start_time: convertTime(worker.startTime),
+          end_time: convertTime(worker.endTime),
         };
       });
-      postReq(`/edit_schedule/${day.id}`, {
-        workers: workers,
-      });
+      postReq(`/edit_schedule/${day.id}`, scheduled);
     }
   };
 
   componentDidUpdate = (prevProps)=>{
     if(prevProps != this.props){
+      console.log('Not scheduled: ', this.props.notScheduled)
       this.setState({
-        workers2 : this.props.users
+        notScheduled : this.props.notScheduled
       });
     }
   }
 
+  componentDidMount = ()=>{
+    fetch(`get_schedule${this.props.day.id}`)
+    .then((response)=> response.json())
+    .then(({scheduled, notScheduled})=>{
+      scheduled = scheduled.map((wb)=> ({
+        ...wb, 
+        wb.startTime : dtToValue(new Date("January 1, 1980 " + wb.startTime + ":00")),
+        wb.endTime : dtToValue(new Date("January 1, 1980 " + wb.endTime + ":00"))
+        }  ))
+      this.setState({scheduled : scheduled, notScheduled: notScheduled});
+    })
+  }
+
   render() {
     const { classes } = this.props;
-    const { workers, workers2 } = this.state;
-    this.loadWorkBlocksIn();
+    const { scheduled, notScheduled } = this.state;
+    console.log('Not Sce: ', scheduled)
     const actions = [
       {
         name: "Add",
@@ -212,7 +245,7 @@ class WorkerList extends Component {
           <Divider />
         </div>
         <div className={classes.list}>
-          {workers.map(({ firstName, position, startTime, endTime, id }) => {
+          {scheduled.map(({ firstName, position, startTime, endTime, id }) => {
             return (
               <ProfileTag
                 key={id}
@@ -230,7 +263,7 @@ class WorkerList extends Component {
 
         {this.state.addWorkers ? (
           <AddWorkers
-            workers={workers2}
+            notScheduled={notScheduled}
             closeWindow={this.handleAdd}
             submitWorkers={this.submitWorkers}
           />

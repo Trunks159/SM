@@ -50,39 +50,40 @@ const styles = ()=>({
 
 class AddWorkers extends Component {
     state = {
-      selectedWorkers : [],
+      selected : [],
     };
 
     inSelected = (workerId)=>{
-        if(this.state.selectedWorkers){
-            return this.state.selectedWorkers.find(worker=>workerId === worker.id)
+        if(this.state.selected){
+            return this.state.selected.find(worker=>workerId === worker.id)
         }
         return false;   
     }
 
     handleBtn = (id)=>{
-      let workers = this.state.selectedWorkers;
+      console.log("an id: ", id);
+      let selected = this.state.selected;
       let worker = this.inSelected(id);
       if(worker){
-        const index = workers.indexOf(workers);
-        workers.splice(index, 1);
-        this.setState({selectedWorkers : workers});
+        const index = selected.indexOf(worker);
+        selected.splice(index, 1);
+        this.setState({selectedWorkers : selected});
       }
       else{
-        worker = this.props.workers.find((w)=>w.id === id);
-        workers.push(worker)
-        this.setState({selectedWorkers : workers})
+        worker = this.props.notScheduled.find((w)=>w.id === id);
+        selected.push(worker)
+        this.setState({selected : selected})
     }
   }
 
     render() {
-        const { classes, workers, submitWorkers, closeWindow } = this.props;
+        const { classes, notScheduled, submitWorkers, closeWindow } = this.props;
         return (
             <div className={classes.main}>
               <Button className = {classes.closeIcon} onClick = {closeWindow} endIcon = {<img  src = {closeIcon}  />}></Button>
                 
               <div className={classes.column}>
-                {workers.map(({firstName, available, id}) => (
+                {notScheduled.map(({firstName, available, id}) => (
                   <UserThumbnail
                     key = {id}
                     name={firstName}
@@ -92,7 +93,7 @@ class AddWorkers extends Component {
                   />
                 ))}
               </div>
-              <Button  onClick = {() => submitWorkers(this.state.selectedWorkers)} className={classes.addBtn}>Add Batch</Button>
+              <Button  onClick = {() => submitWorkers(this.state.selected)} className={classes.addBtn}>Add Batch</Button>
             </div>
           );
     }
