@@ -151,15 +151,23 @@ def get_schedule(day_id):
     # So we have a list of dictionaries, we just need
     # to convert the list to a bunch of workblocks and
     # add them to either an existing day or create the day
-    users = User.query.all()
+    users = [user.to_json() for user in User.query.all()]
     day = Day.query.filter_by(id=day_id).first()
     schedule = [workblock.to_json() for workblock in day.workblocks]
     for wb in schedule:
-        user = User.query.filter_by(id=wb.user_id).first()
+        print('ID is : ', wb['id'])
+        user = User.query.filter_by(id = wb['id']).first()
+        print('User: ', user)
         wb['firstName'] = user.first_name
-        users.remove(user)
-    return jsonify({'notScheduled': users, 'scheduled': schedule)
+        
+        for u in users:
+            if u['id' ]== user.id:
+                users.remove(u)
+    
+    return jsonify({'notScheduled': users, 'scheduled': schedule})
 
+
+'''So we need to get all'''
 
 
 @ login_required

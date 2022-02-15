@@ -7,7 +7,11 @@ import { ReactComponent as SubmitIcon } from "../../../assets/images/Submit Icon
 import { ReactComponent as ShiftStatsIcon2 } from "../../../assets/images/Shift Stats Icon Alt 2.svg";
 import { Button } from "@material-ui/core";
 import AddWorkers from "./AddWorkers.js";
-import { timesToValues, valueToDt, dtToValue } from "../../mySlider/TimeFunctions";
+import {
+  timesToValues,
+  valueToDt,
+  dtToValue,
+} from "../../mySlider/TimeFunctions";
 
 /*So when thius component loads it takes the wbs in the day
 loops through those and puts them in workers and removes them from
@@ -76,7 +80,7 @@ const styles = () => ({
   },
 });
 
-const divideWorkers = (day, users, setState ) => {
+const divideWorkers = (day, users, setState) => {
   /*So there are 2 lists of workers, ones that have been
   added to the schedule and the ones that are just users
   who may or may not be available */
@@ -108,8 +112,8 @@ const divideWorkers = (day, users, setState ) => {
 class WorkerList extends Component {
   state = {
     addWorkers: false,
-    scheduled : this.props.scheduled || [] ,
-    notScheduled : this.props.notScheduled || [],
+    scheduled: this.props.scheduled || [],
+    notScheduled: this.props.notScheduled || [],
   };
 
   handleSlider = (e, newValue, id) => {
@@ -133,7 +137,6 @@ class WorkerList extends Component {
     submittedWorkers.map((worker) => {
       let found = notScheduled.find((w) => w.id === worker.id);
       if (found) {
-        
         let index = notScheduled.indexOf(found);
         /*Set up the default start and end time of each worker*/
         found = { ...found, startTime: 0, endTime: 50 };
@@ -164,8 +167,6 @@ class WorkerList extends Component {
     this.setState({ addWorkers: !this.state.addWorkers });
   };
 
-
-
   handleSubmit = (e) => {
     e.preventDefault();
     let { scheduled } = this.state;
@@ -186,32 +187,41 @@ class WorkerList extends Component {
     }
   };
 
-  componentDidUpdate = (prevProps)=>{
-    if(prevProps != this.props){
-      console.log('Not scheduled: ', this.props.notScheduled)
+  componentDidUpdate = (prevProps) => {
+    if (prevProps != this.props) {
+      console.log("Not scheduled: ", this.props.notScheduled);
       this.setState({
-        notScheduled : this.props.notScheduled
+        notScheduled: this.props.notScheduled,
       });
     }
-  }
+  };
 
-  componentDidMount = ()=>{
-    fetch(`get_schedule${this.props.day.id}`)
-    .then((response)=> response.json())
-    .then(({scheduled, notScheduled})=>{
-      scheduled = scheduled.map((wb)=> ({
-        ...wb, 
-        wb.startTime : dtToValue(new Date("January 1, 1980 " + wb.startTime + ":00")),
-        wb.endTime : dtToValue(new Date("January 1, 1980 " + wb.endTime + ":00"))
-        }  ))
-      this.setState({scheduled : scheduled, notScheduled: notScheduled});
-    })
-  }
+  componentDidMount = () => {
+   
+    fetch(`/get_schedule/${this.props.day.id}`)
+      .then((response) => response.json())
+      .then(({ scheduled, notScheduled }) => {
+        console.log('Scheduled: ', scheduled, 'Not Scheduled: ', notScheduled)
+        let newScheduled = [];
+        for (let wb of scheduled) {
+          newScheduled.push({
+            ...wb,
+            startTime: dtToValue(
+              new Date("January 1, 1980 " + wb.startTime + ":00")
+            ),
+            endTime: dtToValue(
+              new Date("January 1, 1980 " + wb.endTime + ":00")
+            ),
+          });
+        }
+        this.setState({ scheduled: newScheduled, notScheduled: notScheduled });
+      });
+  };
 
   render() {
     const { classes } = this.props;
     const { scheduled, notScheduled } = this.state;
-    console.log('Not Sce: ', scheduled)
+    console.log("Not Sce: ", scheduled);
     const actions = [
       {
         name: "Add",
