@@ -83,11 +83,11 @@ class AddWorkers extends Component {
               <Button className = {classes.closeIcon} onClick = {closeWindow} endIcon = {<img  src = {closeIcon}  />}></Button>
                 
               <div className={classes.column}>
-                {notScheduled.map(({firstName, available, id}) => (
+                {notScheduled.map(({firstName, isAvailable, id}) => (
                   <UserThumbnail
                     key = {id}
                     name={firstName}
-                    available={available}
+                    isAvailable={isAvailable}
                     selected={this.inSelected(id)}
                     handleBtn = {()=>this.handleBtn(id)}
                   />

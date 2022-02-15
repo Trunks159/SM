@@ -137,8 +137,7 @@ def edit_schedule(day_id):
 
     # replace them with the ones that just came in
     for item in schedule:
-        print("Item: ", item)
-        workblock = WorkBlock(day_id=day_id, user_id=item['id'],
+        workblock = WorkBlock(day_id=day_id, user_id=item['userId'],
                               start_time=item['start_time'], end_time=item['end_time'])
         db.session.add(workblock)
     db.session.commit()
@@ -155,15 +154,13 @@ def get_schedule(day_id):
     day = Day.query.filter_by(id=day_id).first()
     schedule = [workblock.to_json() for workblock in day.workblocks]
     for wb in schedule:
-        print('ID is : ', wb['id'])
-        user = User.query.filter_by(id = wb['id']).first()
-        print('User: ', user)
+        user = User.query.filter_by(id=wb['userId']).first()
         wb['firstName'] = user.first_name
-        
+
         for u in users:
-            if u['id' ]== user.id:
+            if u['id'] == user.id:
                 users.remove(u)
-    
+
     return jsonify({'notScheduled': users, 'scheduled': schedule})
 
 

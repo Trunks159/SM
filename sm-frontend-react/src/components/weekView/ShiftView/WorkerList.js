@@ -80,34 +80,6 @@ const styles = () => ({
   },
 });
 
-const divideWorkers = (day, users, setState) => {
-  /*So there are 2 lists of workers, ones that have been
-  added to the schedule and the ones that are just users
-  who may or may not be available */
-  let scheduled = [];
-  let notScheduled = users;
-  if (day) {
-    const { workblocks } = day;
-    for (let wb of workblocks) {
-      let worker = notScheduled.find((w) => (w.id = wb.userId));
-      let index = notScheduled.indexOf(worker);
-      notScheduled.splice(index, 1);
-      scheduled.push({
-        firstName: worker.firstName,
-        id: wb.userId,
-        startTime: dtToValue(
-          new Date("January 1, 1980 " + wb.startTime + ":00")
-        ),
-        endTime: dtToValue(new Date("January 1, 1980 " + wb.endTime + ":00")),
-        position: worker.position,
-      });
-    }
-    setState({
-      notScheduled: notScheduled,
-      scheduled: scheduled,
-    });
-  }
-};
 
 class WorkerList extends Component {
   state = {
@@ -118,7 +90,7 @@ class WorkerList extends Component {
 
   handleSlider = (e, newValue, id) => {
     const { scheduled } = this.state;
-    const worker = scheduled.find((w) => w.id === id);
+    const worker = scheduled.find((w) => w.userId === id);
     if (worker) {
       const index = scheduled.indexOf(worker);
       worker.startTime = newValue[0];
@@ -178,7 +150,7 @@ class WorkerList extends Component {
           return x.toTimeString().slice(0, 5);
         };
         return {
-          id: worker.id,
+          userId: worker.id,
           start_time: convertTime(worker.startTime),
           end_time: convertTime(worker.endTime),
         };
@@ -201,7 +173,6 @@ class WorkerList extends Component {
     fetch(`/get_schedule/${this.props.day.id}`)
       .then((response) => response.json())
       .then(({ scheduled, notScheduled }) => {
-        console.log('Scheduled: ', scheduled, 'Not Scheduled: ', notScheduled)
         let newScheduled = [];
         for (let wb of scheduled) {
           newScheduled.push({
@@ -214,6 +185,8 @@ class WorkerList extends Component {
             ),
           });
         }
+        console.log('sh: ', scheduled);
+        
         this.setState({ scheduled: newScheduled, notScheduled: notScheduled });
       });
   };
@@ -242,8 +215,7 @@ class WorkerList extends Component {
         handle: this.handleSubmit,
       },
     ];
-
-    return (
+    return this.state.notScheduled ? (
       <div className={classes.main}>
         <div className={classes.textDiv}>
           <p>Sort By:</p>
@@ -255,11 +227,11 @@ class WorkerList extends Component {
           <Divider />
         </div>
         <div className={classes.list}>
-          {scheduled.map(({ firstName, position, startTime, endTime, id }) => {
+          {scheduled.map(({ firstName, position, startTime, endTime, userId }) => {
             return (
               <ProfileTag
-                key={id}
-                id={id}
+                key={userId}
+                id={userId}
                 firstName={firstName}
                 position={position}
                 startTime={startTime}
@@ -290,7 +262,11 @@ class WorkerList extends Component {
           </div>
         )}
       </div>
-    );
+    ) :(
+      <p>
+        Hold up im loading
+      </p>
+    )
   }
 }
 

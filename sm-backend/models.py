@@ -32,6 +32,8 @@ class User(UserMixin, db.Model):
             'id': self.id,
             'slug': self.slug,
             'isAuthenticated': True,
+            # this is a placeholder, isAvailable shouldnt be in the final product
+            'isAvailable': True,
             'availability': self.availability[0].to_json() if self.availability else None,
         }
 

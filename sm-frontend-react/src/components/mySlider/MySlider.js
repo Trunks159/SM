@@ -31,11 +31,10 @@ const StyledSlider = styled(Slider)({
   },
 });
 
-const MySlider = ({name, handleSlider, value }) => {
+const MySlider = ({id, handleSlider, value }) => {
   return (
     <StyledSlider
       /*I changed name to id so watch out bro */
-      name = {name}
       defaultValue = {0,50}
       value={value}
       marks={getMarks()}
@@ -44,7 +43,7 @@ const MySlider = ({name, handleSlider, value }) => {
       }
       step={null}
       valueLabelDisplay="auto"
-      onChangeCommitted={(e, new_value) => handleSlider(e, new_value, name)}
+      onChange={(e, new_value) => handleSlider(e, new_value, id)}
     />
   );
 };

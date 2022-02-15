@@ -27,9 +27,9 @@ class UserThumbnail extends Component {
 
  
   render() {
-    const {classes, name, available, selected, handleBtn} = this.props; 
-    const color = available ? (selected ? "#54F2D1" : "#D8F4EE") : "#F0F0F0";
-    return available ? (
+    const {classes, name, isAvailable, selected, handleBtn} = this.props; 
+    const color = isAvailable ? (selected ? "#54F2D1" : "#D8F4EE") : "#F0F0F0";
+    return isAvailable ? (
       <Button  onClick = {handleBtn} style = {{background : color, width : 59, height : 59, minWidth : 20,margin :10}}>
         <div  className = {classes.main} >
           <img src={whiteProfileIcon} />

@@ -46,7 +46,7 @@ const useStyles = makeStyles({
 });
 
 const ProfileTag = ({
-  userId,
+  id,
   firstName,
   position,
   startTime,
@@ -55,7 +55,7 @@ const ProfileTag = ({
   handleClose,
 }) => {
   const classes = useStyles();
-  console.log("The id: ", userId);
+  console.log("The id: ", id);
   return (
     <Paper
       elevation={3}
@@ -65,7 +65,7 @@ const ProfileTag = ({
       {/*<ProfileIcon className={classes.profileIcon}/>*/}
       <Button
         className={classes.removeIcon}
-        onClick={() => handleClose(userId)}
+        onClick={() => handleClose(id)}
         endIcon={<img src={removeIcon} />}
       ></Button>
 
@@ -77,7 +77,7 @@ const ProfileTag = ({
       <img className={classes.profileIcon} src={profileIcon} />
       <div className={classes.slider}>
         <MySlider
-          id={userId}
+          id={id}
           handleSlider={handleSlider}
           value={[startTime, endTime]}
         />

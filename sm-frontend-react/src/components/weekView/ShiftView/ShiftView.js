@@ -29,7 +29,6 @@ class ShiftView extends Component {
        this is where the program should check and see if the user is available
        we'll get that logic in here later
      */
-      available: true,
     })),
   };
 
@@ -40,39 +39,7 @@ class ShiftView extends Component {
         this.setState({ day: day });
       });
   };
-
-  divideWorkers = () => {
-    /*So there are 2 lists of workers, ones that have been
-    added to the schedule and the ones that are just users
-    who may or may not be available */
-    let scheduled = [];
-    let notScheduled = this.state.users;
-    console.log('Not scheduled: ', notScheduled[0]);
-    if (this.state.day) {
-      const { workblocks } = this.state.day;
-
-      for (let wb of workblocks) {
-        let worker = notScheduled.find((w) => (w.id = wb.userId));
-        let index = notScheduled.indexOf(worker);
-        notScheduled.splice(index, 1);
-        scheduled.push({
-          firstName: worker.firstName,
-          id: wb.userId,
-          startTime: dtToValue(
-            new Date("January 1, 1980 " + wb.startTime + ":00")
-          ),
-          endTime: dtToValue(new Date("January 1, 1980 " + wb.endTime + ":00")),
-          position: worker.position,
-        });
-      }
-      console.log('IDK boy: ', notScheduled)
-      return {
-        notScheduled: notScheduled,
-        scheduled: scheduled,
-      };
-    }
-  };
-
+  
   render() {
     const { classes, postReq } = this.props;
     
