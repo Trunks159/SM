@@ -111,7 +111,8 @@ class WorkerList extends Component {
       if (found) {
         let index = notScheduled.indexOf(found);
         /*Set up the default start and end time of each worker*/
-        found = { ...found, startTime: 0, endTime: 50 };
+        found = { firstName : found.firstName, startTime: 0, endTime: 50, position: found.position, userId : found.id, dayId : this.props.day.id };
+        console.log('Found: ', found);
         scheduled.push(found);
         notScheduled.splice(index, 1);
       } else {
@@ -145,16 +146,18 @@ class WorkerList extends Component {
     const { postReq, day } = this.props;
     if (scheduled) {
       scheduled = scheduled.map((worker) => {
+        console.log('The worker: ', worker);
         const convertTime = (time) => {
           const x = valueToDt(time);
           return x.toTimeString().slice(0, 5);
         };
         return {
-          userId: worker.id,
+          user_id: worker.userId,
           start_time: convertTime(worker.startTime),
           end_time: convertTime(worker.endTime),
         };
       });
+      console.log('What is sent: ', scheduled);
       postReq(`/edit_schedule/${day.id}`, scheduled);
     }
   };

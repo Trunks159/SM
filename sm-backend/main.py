@@ -127,17 +127,15 @@ def edit_schedule(day_id):
     # to convert the list to a bunch of workblocks and
     # add them to either an existing day or create the day
     day = Day.query.filter_by(id=day_id).first()
-    print('The schedule:', schedule)
     # delete all of the workblocks that are there if there are any
-    if day:
-        wbs = day.workblocks
-        if wbs:
-            for wb in wbs:
-                db.session.delete(wb)
+    if day.workblocks:
+        for wb in day.workblocks:
+            db.session.delete(wb)
 
     # replace them with the ones that just came in
+    print('IDK man: ', schedule)
     for item in schedule:
-        workblock = WorkBlock(day_id=day_id, user_id=item['userId'],
+        workblock = WorkBlock(day_id=day_id, user_id=item['user_id'],
                               start_time=item['start_time'], end_time=item['end_time'])
         db.session.add(workblock)
     db.session.commit()
