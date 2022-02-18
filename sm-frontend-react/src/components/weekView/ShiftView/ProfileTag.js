@@ -4,11 +4,13 @@ import { Paper, Button } from "@material-ui/core";
 import MySlider from "../../mySlider/MySlider";
 import profileIcon from "../../../assets/images/Large Profile Icon.svg";
 import removeIcon from "../../../assets/images/Remove Icon.svg";
+import expandIcon from "../../../assets/images/Expand Icon.svg";
+import { Accordion, AccordionSummary } from '@mui/material';
 
 const useStyles = makeStyles({
   paper: {
     width: 237,
-    height: 78,
+    minHeight: 78,
     position: "relative",
     borderRadius: 7,
   },
@@ -43,6 +45,16 @@ const useStyles = makeStyles({
     color: "#00BCFF",
     margin: 3,
   },
+  accordion:{
+    backgroundColor: '#F0F0F0',
+  },
+  '& .Mui-expanded':{
+    backgroundColor : 'red',
+  },
+
+  expandIcon :{
+
+  }
 });
 
 const ProfileTag = ({
@@ -57,7 +69,8 @@ const ProfileTag = ({
   const classes = useStyles();
   console.log("The id: ", id);
   return (
-    <Paper
+    <div>
+      <Paper
       elevation={3}
       className={classes.paper}
       style={position === "manager" ? { border: "1px solid #00BCFF" } : null}
@@ -82,7 +95,18 @@ const ProfileTag = ({
           value={[startTime, endTime]}
         />
       </div>
+        
+    
     </Paper>
+    <Accordion className = {classes.accordion}>
+          <AccordionSummary expandIcon = {<img src = {expandIcon}/>}>
+            <p>User Info</p>
+          </AccordionSummary>
+        </Accordion>
+    </div>
+
+    
+
   );
 };
 
