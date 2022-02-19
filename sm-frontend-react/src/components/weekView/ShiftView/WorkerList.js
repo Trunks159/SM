@@ -197,7 +197,7 @@ class WorkerList extends Component {
   render() {
     const { classes } = this.props;
     const { scheduled, notScheduled } = this.state;
-    console.log("Not Sce: ", scheduled);
+    console.log("Not Sce: ", this.props.day);
     const actions = [
       {
         name: "Add",
@@ -233,6 +233,7 @@ class WorkerList extends Component {
           {scheduled.map(({ firstName, position, startTime, endTime, userId }) => {
             return (
               <ProfileTag
+                weekday = {this.props.day.weekday}
                 key={userId}
                 id={userId}
                 firstName={firstName}

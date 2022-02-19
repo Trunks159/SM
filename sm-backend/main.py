@@ -154,7 +154,7 @@ def get_schedule(day_id):
     for wb in schedule:
         user = User.query.filter_by(id=wb['userId']).first()
         wb['firstName'] = user.first_name
-
+        wb['position'] = user.position
         for u in users:
             if u['id'] == user.id:
                 users.remove(u)
@@ -162,7 +162,13 @@ def get_schedule(day_id):
     return jsonify({'notScheduled': users, 'scheduled': schedule})
 
 
-'''So we need to get all'''
+@app.route('/profile_info/<user_id>/<weekday>')
+def profile_info(user_id, weekday):
+
+    u = User.query.filter_by(id=user_id).first()
+    user = {'firstName': u.first_name, 'lastName': u.last_name,
+            'availability': getattr(u.availability[0], weekday.lower()) if u.availability else 'Free', 'shifts': 'test'}
+    return jsonify(user)
 
 
 @ login_required

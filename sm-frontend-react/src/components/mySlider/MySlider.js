@@ -11,6 +11,7 @@ const StyledSlider = styled(Slider)({
     backgroundColor: "#328F83",
     width: 15,
     height: 15,
+    top : 12,
   },
   "& .MuiSlider-mark": {
     height: 0,
@@ -26,7 +27,7 @@ const StyledSlider = styled(Slider)({
     },
   },
   "& .MuiSlider-markLabel": {
-    top: 0,
+    top: -3,
     fontSize: 10,
   },
 });
