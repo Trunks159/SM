@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 const styles = () => ({
   activeIcon : {
-    filter: 'invert(46%) sepia(61%) saturate(390%) hue-rotate(123deg) brightness(91%) contrast(91%)' ,                       
+      filter: 'invert(46%) sepia(61%) saturate(390%) hue-rotate(123deg) brightness(91%) contrast(91%)' ,                    
   },
   regIcon : {
     textDecoration : 'none',
@@ -20,8 +20,7 @@ const styles = () => ({
 });
 
 class IconLink extends Component {
-  state = {
-  };
+
   render() {
     const { classes, img, label } = this.props;
     return (

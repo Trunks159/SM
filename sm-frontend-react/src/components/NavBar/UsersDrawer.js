@@ -201,9 +201,9 @@ class UsersDrawer extends Component {
     users = users.sort(this.dynamicSort("firstName"));
     console.log("Users: ", this.props.currentUser);
     return (
-      <div>
+      <div >
         <div className={classes.iconButton}>
-          <p style={{ color: colorPalette.blue }}>Users</p>
+          <p style={{fontWeight : '500', margin : 0}}>Users</p>
           <Button onClick={this.toggleDrawerStatus}>
             <UsersIcon />
           </Button>

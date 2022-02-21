@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink , Link} from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import UsersDrawer from "./UsersDrawer";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Divider } from "@material-ui/core";
@@ -9,8 +9,9 @@ import { ReactComponent as ScheduleTronIcon } from "../../assets/images/Schedule
 import { ReactComponent as WeekViewIcon } from "../../assets/images/Week View Icon.svg";
 import { ReactComponent as ShiftViewIcon } from "../../assets/images/Shift View Icon.svg";
 import { ReactComponent as ShiftStatsIcon } from "../../assets/images/Shift Stats Icon.svg";
-import { mergeClasses } from "@material-ui/styles";
-
+import notificationsIcon from "../../assets/images/Notifications Icon.svg";
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import expandIcon from "../../assets/images/Expand Icon.svg";
 
 const useStyles = makeStyles({
   nav: {
@@ -18,11 +19,13 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     overflowY: "auto",
-    minWidth : 100,
-    gap :'10px',
+    minWidth: 100,
+    gap: "10px",
+    margin: 15,
+    marginLeft: 5,
   },
   mainLogo: {
-    marginTop : 10,
+    marginRight: 10,
   },
   username: {
     display: "flex",
@@ -36,14 +39,16 @@ const useStyles = makeStyles({
     textDecoration: "none",
     fontSize: 14,
     color: "black",
-    marginBottom : '10px',
+    marginBottom: "10px",
   },
   navLinkActive: {
     color: "#328F83",
   },
   divider: {
     width: "80%",
-    background: "#F0F0F0",
+    background: "#C4C3C3",
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
 
@@ -54,7 +59,6 @@ const NavBar = ({
   postReq,
   notifyUser,
   colorPalette,
-  navbarActions
 }) => {
   const classes = useStyles();
 
@@ -69,20 +73,33 @@ const NavBar = ({
 
   return (
     <nav className={classes.nav}>
-      <Link className={classes.mainLogo} to = '/'>
-        <ScheduleTronIcon/>
+      <Link className={classes.mainLogo} to="/">
+        <ScheduleTronIcon />
       </Link>
+
       {currentUser.isAuthenticated ? (
-        <UserMenu username={currentUser.username} logoutUser={logoutUser} />
+        <>
+          <UserMenu username={currentUser.username} logoutUser={logoutUser} />
+          <Button>
+            <img src={notificationsIcon} />
+          </Button>
+        </>
       ) : (
         <React.Fragment>
-          <NavLink className={classes.navLink} activeClassName = {classes.navLinkActive}  to="/login">
+          <NavLink
+            className={classes.navLink}
+            activeClassName={classes.navLinkActive}
+            to="/login"
+          >
             Login
           </NavLink>
-          <NavLink className={classes.navLink} activeClassName = {classes.navLinkActive} to="/register">
+          <NavLink
+            className={classes.navLink}
+            activeClassName={classes.navLinkActive}
+            to="/register"
+          >
             Register
           </NavLink>
-          <Divider className={classes.divider} />
         </React.Fragment>
       )}
       <UsersDrawer
@@ -92,18 +109,53 @@ const NavBar = ({
         currentUser={currentUser}
         notifyUser={notifyUser}
       />
+
       <Divider className={classes.divider} />
-        {navbarActions ? (
-          <>
-            {navbarActions.map((action)=>(
-              action
-            ))}
-            <Divider className = {classes.divider}/>
-          </>
-        ) : null}
-      <IconLink img = {<WeekViewIcon/>} label  = 'Week View'/>
-      <IconLink img = {<ShiftViewIcon/>} label  = 'Shift View'/>
-      <IconLink img = {<ShiftStatsIcon/>} label  = 'Shift Stats'/>
+
+      <IconLink img={<WeekViewIcon />} label="Week Schedule" />
+      <Accordion
+        disableGutters
+        sx={{ width: 75, margin: 0, borderRadius: "7px", border : '1px solid #D2DDDA',
+          overflowY : 'auto' }}
+        elevation = {0}
+      >
+        <AccordionSummary
+          expandIcon={
+            <img style={{ marginLeft: 5, marginRight: 0 }} src={expandIcon} />
+          }
+        >
+          <Button
+            style={{
+              background: colorPalette.primary,
+              color: "white",
+              width: 42,
+              height: 42,
+              minWidth: 42,
+              marginLeft: 12,
+            }}
+          >
+            <p style={{ margin: 0 }}>9/13</p>
+          </Button>
+        </AccordionSummary>
+        <AccordionDetails
+          sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+        >
+          {["9/14", "9/15", "9/16", "9/17", "9/18", "9/19", "9/17", "9/18", "9/19"].map((d) => (
+            <Button
+              style={{
+                background: "#D2DDDA",
+                color: "white",
+                width: 42,
+                height: 42,
+                minWidth: 42,
+              }}
+              key={d}
+            >
+              {d}
+            </Button>
+          ))}
+        </AccordionDetails>
+      </Accordion>
     </nav>
   );
 };

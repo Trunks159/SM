@@ -1,28 +1,38 @@
-import React from 'react';
-import { Menu, MenuItem, Button } from '@material-ui/core';
-import { makeStyles} from '@material-ui/styles';
-import { Link } from 'react-router-dom';
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import React from "react";
+import { Menu, MenuItem, Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+import { Link } from "react-router-dom";
+import userIcon from "../../assets/images/User Icon.svg";
+
 const useStyles = makeStyles({
-    mainDiv :{
-        marginLeft :'auto',
-        marginRight:10,
-        background: 'white',
-        borderRadius : 7,
-        boxShadow : '5px 5px 15px 5px rgba(0,0,0,0.25)'
-    },
-    dashboard :{
-        textTransform : 'none',
-        color : 'black',
-    },
-    circleIcon: {
-        marginRight: "6px",
-        marginLeft: "6px",
+  mainDiv: {
+    borderRadius: 7,
+
+  },
+  dashboard: {
+    textTransform: "none",
+    color: "black",
+    "& div": {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: 'center',
+      fontSize :'12px',
+      '& p':{
+        margin :3,
       },
+      '& img':{
+        width : 44,
+      },
+    },
+  },
+  circleIcon: {
+    marginRight: "6px",
+    marginLeft: "6px",
+  },
 });
 
-const UserMenu = ({username, logoutUser}) =>  {
-    const classes = useStyles();
+const UserMenu = ({ username, logoutUser }) => {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -31,27 +41,25 @@ const UserMenu = ({username, logoutUser}) =>  {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleLogout = () =>{
-      handleClose();
-      logoutUser();
-
-  }
+  const handleLogout = () => {
+    handleClose();
+    logoutUser();
+  };
 
   return (
-    <div className = {classes.mainDiv}>
+    <div className={classes.mainDiv}>
       <Button
         id="demo-positioned-button"
         aria-controls="demo-positioned-menu"
         aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+        aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        className = {classes.dashboard}
+        className={classes.dashboard}
       >
-                        <AccountCircleIcon
-                style={{ fill: "black" }}
-                className={classes.circleIcon}
-              />
-       {username}
+        <div>
+          <p>{username}</p>
+          <img src={userIcon} />
+        </div>
       </Button>
       <Menu
         id="demo-positioned-menu"
@@ -60,20 +68,26 @@ const UserMenu = ({username, logoutUser}) =>  {
         open={open}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
+          vertical: "top",
+          horizontal: "left",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
+          vertical: "top",
+          horizontal: "left",
         }}
       >
-        <Link to={`/user/${username}`}><MenuItem onClick={handleClose}>Profile</MenuItem></Link>
-        <Link to={`/user/${username}/availability`} ><MenuItem onClick={handleClose}>My Availability</MenuItem></Link>
-        <Button><MenuItem onClick={()=>handleLogout()}>Logout</MenuItem></Button>
+        <Link to={`/user/${username}`}>
+          <MenuItem onClick={handleClose}>Profile</MenuItem>
+        </Link>
+        <Link to={`/user/${username}/availability`}>
+          <MenuItem onClick={handleClose}>My Availability</MenuItem>
+        </Link>
+        <Button>
+          <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
+        </Button>
       </Menu>
     </div>
   );
-}
+};
 
 export default UserMenu;

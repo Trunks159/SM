@@ -14,13 +14,14 @@ import {
   Switch,
 } from "react-router-dom";
 import ShiftView from "./components/weekView/ShiftView/ShiftView";
+import ShiftEditor from "./components/weekView/ShiftEditor/ShiftEditor";
 
 const colorPalette = {
   primary: "#328F83",
   secondary: "#D8F4EE",
   secondaryLight: "#EEF9F7",
   grey: "#979797",
-  blue: "#00BCFF",
+  blue: "#1897E6",
   orange: "#FFB932",
   red: "#FF0000",
   brightGreen: "#5EFF00",
@@ -104,6 +105,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
+          <div className="Test">
           <NavBar
             colorPalette={colorPalette}
             currentUser={this.state.currentUser}
@@ -135,7 +137,17 @@ class App extends Component {
                       />
                     )}
                   />
-
+                  <Route
+                    path={`${url}/day/:date`}
+                    render={({ match }) => {
+                      return(
+                        <ShiftEditor
+                        />
+                      )
+                    
+                    }}
+                  />
+                {/*
                   <Route
                     path={`${url}/day/:date`}
                     render={({ match }) => {
@@ -151,6 +163,7 @@ class App extends Component {
                     
                     }}
                   />
+                  */}
                 </>
               );
             }}
@@ -237,6 +250,8 @@ class App extends Component {
               }}
             />
           </Switch>
+          </div>
+          
         </div>
       </Router>
     );

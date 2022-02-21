@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Paper, Button, capitalize } from "@material-ui/core";
+import { Paper, Button} from "@material-ui/core";
 import MySlider from "../../mySlider/MySlider";
 import profileIcon from "../../../assets/images/Large Profile Icon.svg";
 import removeIcon from "../../../assets/images/Remove Icon.svg";
