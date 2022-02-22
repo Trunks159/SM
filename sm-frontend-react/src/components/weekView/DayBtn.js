@@ -116,7 +116,7 @@ const DayBtn = ({ health, date, name, colorPalette, index, url}) => {
             {health ? (
               <HealthBar 
               className  = {classes.box4}
-              shiftHealth = {health}/>
+              shiftHealth = {health[0]/health[1]}/>
             ) : null}
       </Link>
     </div>

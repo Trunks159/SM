@@ -1,42 +1,28 @@
 import React, { Component } from "react";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { Button } from "@material-ui/core";
-import { Collapse } from "@material-ui/core";
-import expandIcon from "../../../assets/images/Expand Icon.svg";
+import expandIcon from "../../../assets/images/White Expand Icon.svg";
+import addIcon from "../../../assets/images/Add Workers Icon.svg";
+import submitIcon from "../../../assets/images/Submit Icon.svg";
+import dayIcon from "../../../assets/images/Day Icon.svg";
+import nightIcon from "../../../assets/images/Night Icon.svg";
+import ActionBtn from "./ActionBtn";
 
 class Actions extends Component {
-  state = {
-    collapse: true,
-  };
+  state = {};
   render() {
     return (
-      <div
-        style={{
-          display: "flex",
-          background: "rgba(151, 151, 151, .78)",
-          maxWidth: "100%",
-          width: 250,
-          borderRadius: "7px 0px 0px 7px",
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-          height: 85,
-        }}
-      >
-        <Button
-          onClick={() => {
-            this.setState({ collapse: !this.state.collapse });
-          }}
-        >
-          <img
-            style={{ transform: "rotate(90deg)", marginRight: "auto" }}
-            src={expandIcon}
-          />
-        </Button>
-        <Collapse in={this.state.collapse}>
-          <Button>Stuff</Button>
-        </Collapse>
-      </div>
+      <Accordion disableGutters sx={{ background: "rgba(151, 151,151, .78)", width: 90 , position : "absolute", right : 0, top :0,}}>
+        <AccordionSummary sx = {{flexDirection : 'column'}} expandIcon={<img style = {{transform : 'rotate(90deg)', marginBottom : 10}} src={expandIcon} />}>
+          <ActionBtn iconPath={addIcon} label = {'Add'}/>
+          
+        </AccordionSummary>
+        <AccordionDetails sx={{alignItems : 'center', display : 'flex', flexDirection : 'column'}}>
+        <ActionBtn iconPath={submitIcon} label = {'Submit'}/>
+        <ActionBtn iconPath={dayIcon} label = {'Day'}/>
+        <ActionBtn iconPath={nightIcon} label = {'Night'}/>
+        </AccordionDetails>
+      </Accordion>
     );
   }
 }

@@ -25,9 +25,9 @@ const StyledProgressBar = styled(LinearProgress)({
 const HealthBar = ({ shiftHealth, className }) => {
   return (
     <StyledProgressBar
-      color={shiftHealth[0] / shiftHealth[1] >= 0.7 ? "primary" : "secondary"}
+      color={shiftHealth >= 0.7 ? "primary" : "secondary"}
       variant="buffer"
-      value={(shiftHealth[0] / shiftHealth[1]) * 100}
+      value={shiftHealth * 100}
       className = {className}
     />
   );
