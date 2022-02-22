@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Paper, Button} from "@material-ui/core";
+import { Paper, Button } from "@material-ui/core";
 import MySlider from "../../mySlider/MySlider";
 import profileIcon from "../../../assets/images/Large Profile Icon.svg";
 import removeIcon from "../../../assets/images/Remove Icon.svg";
@@ -9,8 +9,8 @@ import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ProfileInfo from "./ProfileInfo";
 
 const useStyles = makeStyles({
+
   paper: {
-    width: 237,
     minHeight: 78,
     position: "relative",
     borderRadius: "7px 7px 0px 0px",
@@ -22,10 +22,10 @@ const useStyles = makeStyles({
     transform: "translate(-50%, 0%)",
   },
   profileIcon: {
-    position :'absolute',
+    position: "absolute",
     height: 77,
     marginLeft: 12,
-    marginBottom : 0,
+    marginBottom: 0,
   },
   removeIcon: {
     position: "absolute",
@@ -41,7 +41,7 @@ const useStyles = makeStyles({
     transform: "translate(-50%, 0%)",
     padding: 0,
     fontSize: 22,
-    textTransform : 'capitalize',
+    textTransform: "capitalize",
   },
   position: {
     position: "absolute",
@@ -49,7 +49,6 @@ const useStyles = makeStyles({
     color: "#00BCFF",
     margin: 3,
   },
-
 });
 
 const ProfileTag = ({
@@ -65,7 +64,7 @@ const ProfileTag = ({
   const classes = useStyles();
   console.log("The id: ", weekday);
   return (
-    <div>
+    <div  >
       <Paper
         elevation={2}
         className={classes.paper}
@@ -93,21 +92,21 @@ const ProfileTag = ({
         </div>
       </Paper>
       <Accordion
-      disable disableGutters
+        disable
+        disableGutters
         className={classes.accordion}
-        sx = {
-          {background : '#F0F0F0'}
-        
-        }
+        sx={{ background: "#F0F0F0",  }}
       >
         <AccordionSummary
           expandIcon={<img src={expandIcon} />}
-          sx = {{minHeight : '18px', height : '18px'}}
+          sx={{ minHeight: "18px", height: "18px" }}
         >
-          <p style={{ fontSize: 8, marginLeft : 'auto', marginRight: '4px' }}>User Info</p>
+          <p style={{ fontSize: 8, marginLeft: "auto", marginRight: "4px" }}>
+            User Info
+          </p>
         </AccordionSummary>
         <AccordionDetails>
-          <ProfileInfo id = {id} weekday = {weekday}/>
+          <ProfileInfo id={id} weekday={weekday} />
         </AccordionDetails>
       </Accordion>
     </div>

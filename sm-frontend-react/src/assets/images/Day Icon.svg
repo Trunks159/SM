@@ -1,108 +1,96 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="67" height="67" viewBox="0 0 67 67">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="46.929" height="46.929" viewBox="0 0 46.929 46.929">
   <defs>
-    <filter id="Rectangle_461" x="0" y="0" width="67" height="67" filterUnits="userSpaceOnUse">
+    <filter id="Ellipse_149" x="6.682" y="6.683" width="34.047" height="34.047" filterUnits="userSpaceOnUse">
       <feOffset dy="3" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="3" result="blur"/>
       <feFlood flood-opacity="0.161"/>
       <feComposite operator="in" in2="blur"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="Ellipse_149" x="14.718" y="14.219" width="38.047" height="38.047" filterUnits="userSpaceOnUse">
+    <filter id="Line_172" x="13.677" y="0" width="20" height="21.341" filterUnits="userSpaceOnUse">
       <feOffset dy="3" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="3" result="blur-2"/>
       <feFlood flood-opacity="0.161"/>
       <feComposite operator="in" in2="blur-2"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="Line_172" x="23.742" y="7.536" width="20" height="21.341" filterUnits="userSpaceOnUse">
+    <filter id="Line_173" x="25.107" y="13.465" width="21.822" height="20" filterUnits="userSpaceOnUse">
       <feOffset dy="3" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="3" result="blur-3"/>
       <feFlood flood-opacity="0.161"/>
       <feComposite operator="in" in2="blur-3"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="Line_173" x="37.142" y="23.001" width="21.822" height="20" filterUnits="userSpaceOnUse">
+    <filter id="Line_176" x="21.14" y="2.28" width="24.612" height="24.612" filterUnits="userSpaceOnUse">
       <feOffset dy="3" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="3" result="blur-4"/>
       <feFlood flood-opacity="0.161"/>
       <feComposite operator="in" in2="blur-4"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="Line_176" x="33.175" y="9.816" width="24.612" height="24.612" filterUnits="userSpaceOnUse">
+    <filter id="Line_178" x="1.178" y="2.28" width="24.612" height="24.612" filterUnits="userSpaceOnUse">
       <feOffset dy="3" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="3" result="blur-5"/>
       <feFlood flood-opacity="0.161"/>
       <feComposite operator="in" in2="blur-5"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="Line_178" x="9.213" y="9.816" width="24.612" height="24.612" filterUnits="userSpaceOnUse">
+    <filter id="Line_179" x="1.251" y="20.037" width="24.612" height="24.612" filterUnits="userSpaceOnUse">
       <feOffset dy="3" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="3" result="blur-6"/>
       <feFlood flood-opacity="0.161"/>
       <feComposite operator="in" in2="blur-6"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="Line_179" x="9.287" y="31.573" width="24.612" height="24.612" filterUnits="userSpaceOnUse">
+    <filter id="Line_177" x="21.14" y="20.037" width="24.612" height="24.612" filterUnits="userSpaceOnUse">
       <feOffset dy="3" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="3" result="blur-7"/>
       <feFlood flood-opacity="0.161"/>
       <feComposite operator="in" in2="blur-7"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="Line_177" x="33.175" y="31.573" width="24.612" height="24.612" filterUnits="userSpaceOnUse">
+    <filter id="Line_175" x="0" y="13.465" width="21.822" height="20" filterUnits="userSpaceOnUse">
       <feOffset dy="3" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="3" result="blur-8"/>
       <feFlood flood-opacity="0.161"/>
       <feComposite operator="in" in2="blur-8"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="Line_175" x="8.036" y="23.001" width="21.822" height="20" filterUnits="userSpaceOnUse">
+    <filter id="Line_174" x="13.497" y="25.107" width="20" height="21.822" filterUnits="userSpaceOnUse">
       <feOffset dy="3" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="3" result="blur-9"/>
       <feFlood flood-opacity="0.161"/>
       <feComposite operator="in" in2="blur-9"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="Line_174" x="23.537" y="36.643" width="20" height="21.822" filterUnits="userSpaceOnUse">
-      <feOffset dy="3" input="SourceAlpha"/>
-      <feGaussianBlur stdDeviation="3" result="blur-10"/>
-      <feFlood flood-opacity="0.161"/>
-      <feComposite operator="in" in2="blur-10"/>
-      <feComposite in="SourceGraphic"/>
-    </filter>
   </defs>
-  <g id="Day_Icon" data-name="Day Icon" transform="translate(-184 -459)">
-    <g transform="matrix(1, 0, 0, 1, 184, 459)" filter="url(#Rectangle_461)">
-      <rect id="Rectangle_461-2" data-name="Rectangle 461" width="49" height="49" rx="7" transform="translate(9 6)" fill="#00a870"/>
+  <g id="Day_Icon" data-name="Day Icon" transform="translate(9 6)">
+    <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Ellipse_149)">
+      <circle id="Ellipse_149-2" data-name="Ellipse 149" cx="8.024" cy="8.024" r="8.024" transform="translate(15.68 12.68)" fill="#fff"/>
     </g>
-    <g id="Group_334" data-name="Group 334" transform="translate(201.036 472.536)">
-      <g transform="matrix(1, 0, 0, 1, -17.04, -13.54)" filter="url(#Ellipse_149)">
-        <circle id="Ellipse_149-2" data-name="Ellipse 149" cx="10.024" cy="10.024" r="10.024" transform="translate(23.72 20.22)" fill="#fff"/>
-      </g>
-      <g transform="matrix(1, 0, 0, 1, -17.04, -13.54)" filter="url(#Line_172)">
-        <line id="Line_172-2" data-name="Line 172" y1="3.341" transform="translate(33.74 13.54)" fill="none" stroke="#fff" stroke-width="2"/>
-      </g>
-      <g transform="matrix(1, 0, 0, 1, -17.04, -13.54)" filter="url(#Line_173)">
-        <line id="Line_173-2" data-name="Line 173" y1="3.822" transform="translate(49.96 30) rotate(90)" fill="none" stroke="#fff" stroke-width="2"/>
-      </g>
-      <g transform="matrix(1, 0, 0, 1, -17.04, -13.54)" filter="url(#Line_176)">
-        <line id="Line_176-2" data-name="Line 176" y1="7.35" transform="translate(48.08 16.52) rotate(45)" fill="none" stroke="#fff" stroke-width="2"/>
-      </g>
-      <g transform="matrix(1, 0, 0, 1, -17.04, -13.54)" filter="url(#Line_178)">
-        <line id="Line_178-2" data-name="Line 178" y1="7.35" transform="translate(18.92 16.52) rotate(-45)" fill="none" stroke="#fff" stroke-width="2"/>
-      </g>
-      <g transform="matrix(1, 0, 0, 1, -17.04, -13.54)" filter="url(#Line_179)">
-        <line id="Line_179-2" data-name="Line 179" y1="7.35" transform="translate(18.99 43.48) rotate(-135)" fill="none" stroke="#fff" stroke-width="2"/>
-      </g>
-      <g transform="matrix(1, 0, 0, 1, -17.04, -13.54)" filter="url(#Line_177)">
-        <line id="Line_177-2" data-name="Line 177" y1="7.35" transform="translate(48.08 43.48) rotate(135)" fill="none" stroke="#fff" stroke-width="2"/>
-      </g>
-      <g transform="matrix(1, 0, 0, 1, -17.04, -13.54)" filter="url(#Line_175)">
-        <line id="Line_175-2" data-name="Line 175" y1="3.822" transform="translate(20.86 30) rotate(90)" fill="none" stroke="#fff" stroke-width="2"/>
-      </g>
-      <g transform="matrix(1, 0, 0, 1, -17.04, -13.54)" filter="url(#Line_174)">
-        <line id="Line_174-2" data-name="Line 174" y1="3.822" transform="translate(33.54 46.47) rotate(180)" fill="none" stroke="#fff" stroke-width="2"/>
-      </g>
+    <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Line_172)">
+      <line id="Line_172-2" data-name="Line 172" y1="3.341" transform="translate(23.68 6)" fill="none" stroke="#fff" stroke-width="2"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Line_173)">
+      <line id="Line_173-2" data-name="Line 173" y1="3.822" transform="translate(37.93 20.46) rotate(90)" fill="none" stroke="#fff" stroke-width="2"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Line_176)">
+      <line id="Line_176-2" data-name="Line 176" y1="7.35" transform="translate(36.04 8.99) rotate(45)" fill="none" stroke="#fff" stroke-width="2"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Line_178)">
+      <line id="Line_178-2" data-name="Line 178" y1="7.35" transform="translate(10.88 8.99) rotate(-45)" fill="none" stroke="#fff" stroke-width="2"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Line_179)">
+      <line id="Line_179-2" data-name="Line 179" y1="7.35" transform="translate(10.96 31.94) rotate(-135)" fill="none" stroke="#fff" stroke-width="2"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Line_177)">
+      <line id="Line_177-2" data-name="Line 177" y1="7.35" transform="translate(36.04 31.94) rotate(135)" fill="none" stroke="#fff" stroke-width="2"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Line_175)">
+      <line id="Line_175-2" data-name="Line 175" y1="3.822" transform="translate(12.82 20.46) rotate(90)" fill="none" stroke="#fff" stroke-width="2"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Line_174)">
+      <line id="Line_174-2" data-name="Line 174" y1="3.822" transform="translate(23.5 34.93) rotate(180)" fill="none" stroke="#fff" stroke-width="2"/>
     </g>
   </g>
 </svg>

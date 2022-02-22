@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import HealthBar from "../HealthBar";
 import { withStyles } from "@material-ui/styles";
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 
 const styles = () => ({
   userInitial: {

@@ -15,7 +15,7 @@ const StyledProgressBar = styled(LinearProgress)({
     borderRadius: 5,
   },
   "& .MuiLinearProgress-barColorPrimary": {
-    backgroundColor: "#C2FFA8",
+    backgroundColor: "#5EFF00",
   },
   "& .MuiLinearProgress-barColorSecondary": {
     backgroundColor: "#FFFF00",

@@ -172,7 +172,8 @@ class App extends Component {
           <Route
             path="/login"
             render={() => {
-              if (this.state.currentUser) {
+              console.log('Current: ', this.state.currentUser);
+              if (this.state.currentUser.isAuthenticated) {
                 return <Redirect to="/" />;
               }
               return (

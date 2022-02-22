@@ -22,6 +22,7 @@ const useStyles = makeStyles({
     minWidth: 100,
     gap: "10px",
     margin: 15,
+    marginRight : 0,
     marginLeft: 5,
   },
   mainLogo: {
@@ -116,7 +117,7 @@ const NavBar = ({
       <Accordion
         disableGutters
         sx={{ width: 75, margin: 0, borderRadius: "7px", border : '1px solid #D2DDDA',
-          overflowY : 'auto' }}
+          overflowY : 'auto', }}
         elevation = {0}
       >
         <AccordionSummary

@@ -15,7 +15,7 @@ def home():
 def users():
     users = [user.to_json() for user in User.query.all()]
     user = current_user.to_json() if current_user.is_authenticated else {
-        'is_authenticated': False}
+        'isAuthenticated': False}
     return jsonify({'users': users, 'currentUser': user})
 
 

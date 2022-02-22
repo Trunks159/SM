@@ -1,20 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="67" height="66" viewBox="0 0 67 66">
-  <defs>
-    <filter id="Rectangle_732" x="0" y="0" width="67" height="66" filterUnits="userSpaceOnUse">
-      <feOffset dy="3" input="SourceAlpha"/>
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feFlood flood-opacity="0.161"/>
-      <feComposite operator="in" in2="blur"/>
-      <feComposite in="SourceGraphic"/>
-    </filter>
-  </defs>
-  <g id="Submit_Icon" data-name="Submit Icon" transform="translate(-162 -758)">
-    <g transform="matrix(1, 0, 0, 1, 162, 758)" filter="url(#Rectangle_732)">
-      <rect id="Rectangle_732-2" data-name="Rectangle 732" width="49" height="48" rx="7" transform="translate(9 6)" fill="#ffb932"/>
-    </g>
-    <g id="Yes" transform="translate(183.446 776.622)">
-      <rect id="Rectangle_460" data-name="Rectangle 460" width="23.375" height="23.375" transform="translate(0 0)" fill="none"/>
-      <path id="Checkbox" d="M9.269,16.121,0,6.851,1.881,4.971l7.389,7.254L21.494,0l1.881,1.881Z" transform="translate(0 2.922)" fill="#fff"/>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="23.375" height="23.375" viewBox="0 0 23.375 23.375">
+  <g id="Submit_Icon" data-name="Submit Icon" transform="translate(0 0)">
+    <rect id="Rectangle_460" data-name="Rectangle 460" width="23.375" height="23.375" transform="translate(0 0)" fill="none"/>
+    <path id="Checkbox" d="M9.269,16.121,0,6.851,1.881,4.971l7.389,7.254L21.494,0l1.881,1.881Z" transform="translate(0 2.922)" fill="#fff"/>
   </g>
 </svg>
