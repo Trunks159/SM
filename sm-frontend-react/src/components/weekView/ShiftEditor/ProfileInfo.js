@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import HealthBar from "../HealthBar";
 import { withStyles } from "@material-ui/styles";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import expandIcon from "../../../assets/images/Expand Icon.svg";
 
 const styles = () => ({
   userInitial: {
@@ -33,15 +34,30 @@ class ProfileInfo extends Component {
     } else {
       const { firstName, lastName, availability, shifts } = this.state;
       return (
-        <div>
-          <p className={classes.userInitial}>{firstName.charAt(0)}</p>
-          <p>
-            {firstName} {lastName}
-          </p>
-          <HealthBar shiftHealth={0.5} />
-          <p>Availability : </p>
-          {availability}
-        </div>
+        <Accordion
+          disable
+          disableGutters
+          sx={{ background: "#F0F0F0" }}
+        >
+
+          <AccordionSummary
+            expandIcon={<img src={expandIcon} />}
+            sx={{ minHeight: "18px", height: "18px" }}
+          >
+            <p style={{ fontSize: 8, marginLeft: "auto", marginRight: "4px" }}>
+              User Info
+            </p>
+          </AccordionSummary>
+          <AccordionDetails>
+            <p className={classes.userInitial}>{firstName.charAt(0)}</p>
+            <p>
+              {firstName} {lastName}
+            </p>
+            <HealthBar shiftHealth={0.5} />
+            <p>Availability : </p>
+            {availability}
+          </AccordionDetails>
+        </Accordion>
       );
     }
   }

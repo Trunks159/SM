@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import SelectWeek from "./SelectWeek";
 import WeekSchedule from "./WeekSchedule";
-import ShiftView from "./ShiftView/ShiftView";
-import { Route } from "react-router";
 
 const styles = () => ({
   main: {

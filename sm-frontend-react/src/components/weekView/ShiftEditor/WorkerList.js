@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import ProfileTag from "./ProfileTag.js";
 import { withStyles } from "@material-ui/styles";
-import { Checkbox, Divider } from "@material-ui/core";
 import AddWorkers from "./AddWorkers.js";
 import {
   timesToValues,

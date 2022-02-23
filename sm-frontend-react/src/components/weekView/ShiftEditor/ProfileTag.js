@@ -1,35 +1,35 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Paper, Button} from "@material-ui/core";
+import { Paper, Button } from "@material-ui/core";
 import MySlider from "../../mySlider/MySlider";
 import profileIcon from "../../../assets/images/Large Profile Icon.svg";
 import removeIcon from "../../../assets/images/Remove Icon.svg";
-import expandIcon from "../../../assets/images/Expand Icon.svg";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ProfileInfo from "./ProfileInfo";
 
 const useStyles = makeStyles({
-  main : {
-    width : 200,
-    height : 80,
+  main: {
+    width: 200,
+    height: 80,
   },
   paper: {
-    width: '100%',
+    width: "100%",
     minHeight: 70,
     position: "relative",
     borderRadius: "7px 7px 0px 0px",
   },
   slider: {
     position: "absolute",
-    bottom: "-10%",
+    bottom:0,
     left: "50%",
+    width :'60%',
     transform: "translate(-50%, 0%)",
   },
   profileIcon: {
-    position :'absolute',
-    height: 77,
+    position: "absolute",
+    height: "100%",
     marginLeft: 12,
-    marginBottom : 0,
+    marginBottom: 0,
   },
   removeIcon: {
     position: "absolute",
@@ -44,8 +44,8 @@ const useStyles = makeStyles({
     left: "50%",
     transform: "translate(-50%, 0%)",
     padding: 0,
-    fontSize: 22,
-    textTransform : 'capitalize',
+    fontSize: 20,
+    textTransform: "capitalize",
   },
   position: {
     position: "absolute",
@@ -53,7 +53,6 @@ const useStyles = makeStyles({
     color: "#00BCFF",
     margin: 3,
   },
-
 });
 
 const ProfileTag = ({
@@ -69,7 +68,7 @@ const ProfileTag = ({
   const classes = useStyles();
   console.log("The id: ", weekday);
   return (
-    <div className= {classes.main}>
+    <div className={classes.main}>
       <Paper
         elevation={2}
         className={classes.paper}
@@ -81,39 +80,19 @@ const ProfileTag = ({
           onClick={() => handleClose(id)}
           endIcon={<img src={removeIcon} />}
         ></Button>
-
+        <img className={classes.profileIcon} src={profileIcon} />
         <p className={classes.name}>{firstName}</p>
         <p className={classes.position}>
           {position === "manager" ? position.charAt(0).toUpperCase() : null}
         </p>
-
-        <img className={classes.profileIcon} src={profileIcon} />
-        <div className={classes.slider}>
           <MySlider
+            classes = {classes.slider} 
             id={id}
             handleSlider={handleSlider}
             value={[startTime, endTime]}
           />
-        </div>
       </Paper>
-      <Accordion
-      disable disableGutters
-        className={classes.accordion}
-        sx = {
-          {background : '#F0F0F0'}
-        
-        }
-      >
-        <AccordionSummary
-          expandIcon={<img src={expandIcon} />}
-          sx = {{minHeight : '18px', height : '18px'}}
-        >
-          <p style={{ fontSize: 8, marginLeft : 'auto', marginRight: '4px' }}>User Info</p>
-        </AccordionSummary>
-        <AccordionDetails>
-          <ProfileInfo id = {id} weekday = {weekday}/>
-        </AccordionDetails>
-      </Accordion>
+      <ProfileInfo weekday={weekday} id={id} />
     </div>
   );
 };

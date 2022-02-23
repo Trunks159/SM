@@ -4,7 +4,6 @@ import { styled } from "@material-ui/core/styles";
 import { valueToDt, miliToReg, getMarks } from "./TimeFunctions";
 
 const StyledSlider = styled(Slider)({
-  width: 145,
   margin: 0,
   color: "#328F83",
   "& .MuiSlider-thumb": {
@@ -32,10 +31,11 @@ const StyledSlider = styled(Slider)({
   },
 });
 
-const MySlider = ({id, handleSlider, value }) => {
+const MySlider = ({id, handleSlider, value, classes }) => {
   return (
     <StyledSlider
       /*I changed name to id so watch out bro */
+      className={classes}
       defaultValue = {0,50}
       value={value}
       marks={getMarks()}

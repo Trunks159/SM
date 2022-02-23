@@ -13,7 +13,6 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
-import ShiftView from "./components/weekView/ShiftView/ShiftView";
 import ShiftEditor from "./components/weekView/ShiftEditor/ShiftEditor";
 
 const colorPalette = {
