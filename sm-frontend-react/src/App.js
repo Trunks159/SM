@@ -142,7 +142,9 @@ class App extends Component {
                     render={({ match }) => {
                       return(
                         <ShiftEditor
+                        date = {match.params.date}
                         />
+                      
                       )
                     
                     }}

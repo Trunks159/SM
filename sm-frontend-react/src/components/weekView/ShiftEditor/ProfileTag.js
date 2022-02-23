@@ -10,11 +10,12 @@ import ProfileInfo from "./ProfileInfo";
 
 const useStyles = makeStyles({
   main : {
-    width : 237,
+    width : 200,
+    height : 80,
   },
   paper: {
-    width: 237,
-    minHeight: 78,
+    width: '100%',
+    minHeight: 70,
     position: "relative",
     borderRadius: "7px 7px 0px 0px",
   },

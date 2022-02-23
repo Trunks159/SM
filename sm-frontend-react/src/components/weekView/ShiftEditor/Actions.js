@@ -11,6 +11,7 @@ import ActionBtn from "./ActionBtn";
 class Actions extends Component {
   state = {};
   render() {
+    const {handleAdd, handleSubmit} = this.props;
     return (
       <Accordion
         disableGutters
@@ -31,7 +32,7 @@ class Actions extends Component {
             />
           }
         >
-          <ActionBtn iconPath={addIcon} label={"Add"} />
+          <ActionBtn iconPath={addIcon} label={"Add"} color = {'#54F2D1'} handleAdd = {handleAdd}/>
         </AccordionSummary>
         <AccordionDetails
           sx={{
@@ -42,7 +43,7 @@ class Actions extends Component {
           }}
         >
 
-          <ActionBtn iconPath={submitIcon} label={"Submit"} color = {'#FFB932'} />
+          <ActionBtn iconPath={submitIcon} label={"Submit"} color = {'#FFB932'} handleSubmit = {handleSubmit}/>
           <ActionBtn iconPath={dayIcon} label={"Day"} color = {'#00A870'} imgStyle = {{marginTop : 4}} />
           <ActionBtn iconPath={nightIcon} label={"Night"} color = {'#737F7B'} imgStyle = {{transform :'rotate(-45deg)', marginTop : 5,}}/>
           <ActionBtn iconPath={settingsIcon} label={"Settings"} color = {'#328F83'}/>
