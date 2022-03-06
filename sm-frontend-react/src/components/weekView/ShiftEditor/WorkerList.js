@@ -39,10 +39,11 @@ const styles = () => ({
   },
   list: {
     display: "flex",
-    justifyContent: "center",
+    minWidth : '90%' ,
+    justifyContent: "space-evenly",
     flexWrap: "wrap",
     margin: 10,
-    gap: "10px",
+    gap: "20px",
   },
 
 });

@@ -22,6 +22,7 @@ const styles = ()=>({
         gap : '44px',
 
     }
+
 })
 
 class WeekSchedule extends Component {
@@ -40,6 +41,10 @@ class WeekSchedule extends Component {
         return (
             <div className = {classes.main}>
                 <div className = {classes.dayList}>
+
+                    <div className = {'btn'} style = {{background : 'red'}}>
+                        Yo
+                    </div>
                     {schedule.map(({name, date, health}, index)=>{
                         return(
                             <DayBtn

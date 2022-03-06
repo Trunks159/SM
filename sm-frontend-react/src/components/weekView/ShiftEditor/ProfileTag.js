@@ -9,8 +9,8 @@ import ProfileInfo from "./ProfileInfo";
 
 const useStyles = makeStyles({
   main: {
-    width: 200,
-    height: 80,
+    minWidth: 200,
+    minHeight: 80,
   },
   paper: {
     width: "100%",
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
   slider: {
     position: "absolute",
-    bottom:0,
+    bottom:'18%',
     left: "50%",
     width :'60%',
     transform: "translate(-50%, 0%)",
@@ -33,9 +33,9 @@ const useStyles = makeStyles({
   },
   removeIcon: {
     position: "absolute",
-    height: "32%",
-    top: 5,
-    right: 5,
+    top: 0,
+    right: -10,
+    
   },
   name: {
     position: "absolute",

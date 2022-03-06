@@ -5,18 +5,19 @@ import { valueToDt, miliToReg, getMarks } from "./TimeFunctions";
 
 const StyledSlider = styled(Slider)({
   margin: 0,
+  padding :0,
   color: "#328F83",
+  position:'relative',
   "& .MuiSlider-thumb": {
     backgroundColor: "#328F83",
-    width: 15,
-    height: 15,
-    top : 12,
+    width: 12,
+    height: 12,
   },
   "& .MuiSlider-mark": {
     height: 0,
   },
   "& .MuiSlider-track": {
-    height: 3,
+    height: 2,
   },
   "& .MuiSlider-valueLabel": {
     fontSize: 10,
@@ -26,7 +27,7 @@ const StyledSlider = styled(Slider)({
     },
   },
   "& .MuiSlider-markLabel": {
-    top: -3,
+    top : -15,
     fontSize: 10,
   },
 });

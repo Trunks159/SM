@@ -1,6 +1,8 @@
-<svg id="No" xmlns="http://www.w3.org/2000/svg" width="25.299" height="25.299" viewBox="0 0 25.299 25.299">
-  <circle id="Ellipse_111" data-name="Ellipse 111" cx="12.649" cy="12.649" r="12.649" transform="translate(0)" fill="#d8f4ee"/>
-  <g id="Symbol_85_1" data-name="Symbol 85 – 1" transform="translate(8.419 8.197)">
-    <path id="Union_3" data-name="Union 3" d="M4.276,5.568.778,9.423,0,8.566,3.5,4.711,0,.857.778,0l3.5,3.854L7.773,0l.778.857-3.5,3.854,3.5,3.854-.778.857Z" transform="translate(0)" fill="#328f83"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="17.16" height="17.16" viewBox="0 0 17.16 17.16">
+  <g id="Remove_Icon" data-name="Remove Icon" transform="translate(0.032 0.09)">
+    <circle id="Ellipse_111" data-name="Ellipse 111" cx="8.58" cy="8.58" r="8.58" transform="translate(-0.032 -0.09)" fill="#f5f5f5"/>
+    <g id="Symbol_85_1" data-name="Symbol 85 – 1" transform="translate(5.679 4.745)">
+      <path id="Union_3" data-name="Union 3" d="M3.282,4.275.6,7.233,0,6.576,2.685,3.617,0,.658.6,0,3.282,2.959,5.967,0l.6.658L3.879,3.617,6.564,6.576l-.6.658Z" transform="translate(0)"/>
+    </g>
   </g>
 </svg>
