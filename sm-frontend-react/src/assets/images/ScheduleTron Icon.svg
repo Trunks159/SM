@@ -1,20 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="71.5" height="72" viewBox="0 0 71.5 72">
-  <g id="Scheduletron_Icon" data-name="Scheduletron Icon" transform="translate(-17.5 -16)">
-    <g id="Group_313" data-name="Group 313" transform="translate(-114)">
-      <rect id="Rectangle_461" data-name="Rectangle 461" width="60" height="60" rx="7" transform="translate(143 28)" fill="#328f83"/>
-      <circle id="Ellipse_131" data-name="Ellipse 131" cx="4" cy="4" r="4" transform="translate(150 35)" fill="#fff"/>
-      <circle id="Ellipse_132" data-name="Ellipse 132" cx="4" cy="4" r="4" transform="translate(168 35)" fill="#fff"/>
-      <circle id="Ellipse_131-2" data-name="Ellipse 131" cx="4" cy="4" r="4" transform="translate(161 54)" fill="#fff"/>
-      <circle id="Ellipse_132-2" data-name="Ellipse 132" cx="4" cy="4" r="4" transform="translate(177 54)" fill="#54f2d1"/>
-      <circle id="Ellipse_131-3" data-name="Ellipse 131" cx="4" cy="4" r="4" transform="translate(172 72)" fill="#fff"/>
-      <circle id="Ellipse_132-3" data-name="Ellipse 132" cx="4" cy="4" r="4" transform="translate(189 72)" fill="#fff"/>
-      <path id="Path_90" data-name="Path 90" d="M0,0H12.464" transform="translate(158 39.313)" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="10"/>
-      <path id="Path_91" data-name="Path 91" d="M0,0H8.779" transform="translate(168.221 57.76)" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="10"/>
-      <path id="Path_90-2" data-name="Path 90" d="M0,0H10.684" transform="translate(179.316 76.208)" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="10"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="49.254" height="48.458" viewBox="0 0 49.254 48.458">
+  <g id="ScheduleTron_Icon" data-name="ScheduleTron Icon" transform="translate(-17.5 -17)">
+    <g id="Group_313" data-name="Group 313" transform="translate(25 23.704)">
+      <rect id="Rectangle_461" data-name="Rectangle 461" width="41.754" height="41.754" rx="7" fill="#2178a6"/>
+      <circle id="Ellipse_131" data-name="Ellipse 131" cx="2.784" cy="2.784" r="2.784" transform="translate(4.871 4.871)" fill="#fff"/>
+      <circle id="Ellipse_132" data-name="Ellipse 132" cx="2.784" cy="2.784" r="2.784" transform="translate(17.397 4.871)" fill="#fff"/>
+      <circle id="Ellipse_131-2" data-name="Ellipse 131" cx="2.784" cy="2.784" r="2.784" transform="translate(12.526 18.093)" fill="#fff"/>
+      <circle id="Ellipse_131-3" data-name="Ellipse 131" cx="2.784" cy="2.784" r="2.784" transform="translate(20.181 30.619)" fill="#fff"/>
+      <circle id="Ellipse_132-2" data-name="Ellipse 132" cx="2.784" cy="2.784" r="2.784" transform="translate(32.011 30.619)" fill="#fff"/>
+      <line id="Line_223" data-name="Line 223" x2="7.548" transform="translate(10.095 7.651)" fill="none" stroke="#fff" stroke-width="1"/>
+      <line id="Line_224" data-name="Line 224" x2="7.548" transform="translate(17.397 20.877)" fill="none" stroke="#fff" stroke-width="1"/>
+      <line id="Line_225" data-name="Line 225" x2="7.548" transform="translate(25.454 33.403)" fill="none" stroke="#fff" stroke-width="1"/>
+      <circle id="Ellipse_132-3" data-name="Ellipse 132" cx="2.784" cy="2.784" r="2.784" transform="translate(23.661 18.094)" fill="#54dcf2"/>
     </g>
-    <g id="Group_314" data-name="Group 314" transform="translate(-10 -10)">
-      <line id="Line_212" data-name="Line 212" y1="32.629" transform="translate(28.5 51.5)" fill="none" stroke="#54f2d1" stroke-linecap="round" stroke-width="2"/>
-      <line id="Line_215" data-name="Line 215" y1="32.629" transform="translate(85.129 27) rotate(90)" fill="none" stroke="#54f2d1" stroke-linecap="round" stroke-width="2"/>
+    <g id="Group_314" data-name="Group 314" transform="translate(18.5 17)">
+      <line id="Line_212" data-name="Line 212" y1="17" transform="translate(0 19.204)" fill="none" stroke="#54dcf2" stroke-linecap="round" stroke-width="2"/>
+      <line id="Line_215" data-name="Line 215" y1="17" transform="translate(36 1) rotate(90)" fill="none" stroke="#54dcf2" stroke-linecap="round" stroke-width="2"/>
     </g>
   </g>
 </svg>

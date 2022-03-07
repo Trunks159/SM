@@ -7,7 +7,6 @@
 .Test {
   margin-left: auto;
   margin-right: auto;
-  display: flex;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   max-width: 1600px;
   width: 100%;
@@ -64,21 +63,4 @@
   display: flex;
   flex-direction: column;
   margin: 40px;
-}
-
-@keyframes example {
-  from {top: 0px;
-  right :0;}
-  to {top: 100px;
-    right : 100px;}
-}
-
-.btn {
-  width: 100px;
-  top : 0;
-  position : absolute;
-  height: 100px;
-  background-color: red;
-  animation-name: example;
-  animation-duration: .25s;
 }

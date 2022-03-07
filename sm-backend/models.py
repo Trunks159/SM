@@ -16,7 +16,8 @@ class User(UserMixin, db.Model):
     color = db.Column(db.String(20), index=True, unique=True)
     slug = db.Column(db.String(20), index=True, unique=True)
     workblocks = db.relationship('WorkBlock', backref='user', lazy=True)
-    availability = db.relationship('Availability', backref='user', lazy=True)
+    availability = db.relationship(
+        'Availability', uselist=False, backref='user', lazy=True)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import Message from "./components/Message";
-import NavBar from "./components/NavBar/NavBar";
-import WeekView from "./components/weekView/WeekView";
+import NavBar from "./components/navbar/NavBar";
 import User from "./components/user/User";
 import AvailabilityForm from "./components/user/UserAvailability";
 import Login from "./components/login/Login";
@@ -13,18 +12,7 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
-import ShiftEditor from "./components/weekView/ShiftEditor/ShiftEditor";
-
-const colorPalette = {
-  primary: "#328F83",
-  secondary: "#D8F4EE",
-  secondaryLight: "#EEF9F7",
-  grey: "#979797",
-  blue: "#1897E6",
-  orange: "#FFB932",
-  red: "#FF0000",
-  brightGreen: "#5EFF00",
-};
+import Scheduletron from "./components/scheduletron/Scheduletron";
 
 class App extends Component {
   state = {
@@ -106,13 +94,7 @@ class App extends Component {
         <div className="App">
           <div className="Test">
           <NavBar
-            colorPalette={colorPalette}
-            currentUser={this.state.currentUser}
-            users={this.state.users}
-            getReq={this.getReq}
-            postReq={this.postReq}
-            notifyUser={this.notifyUser}
-          />
+            currentUser={this.state.currentUser}/>
           <Message message={this.state.message} />
           <Route
             exact
@@ -123,49 +105,7 @@ class App extends Component {
             path="/scheduletron"
             render={({ match: { url } }) => {
               return (
-                <>
-                  <Route
-                    exact
-                    path={url}
-                    render={() => (
-                      <WeekView
-                        getReq={this.getReq}
-                        colorPalette={colorPalette}
-                        users={this.state.users}
-                        url={url}
-                      />
-                    )}
-                  />
-                  <Route
-                    path={`${url}/day/:date`}
-                    render={({ match }) => {
-                      return(
-                        <ShiftEditor
-                        date = {match.params.date}
-                        />
-                      
-                      )
-                    
-                    }}
-                  />
-                {/*
-                  <Route
-                    path={`${url}/day/:date`}
-                    render={({ match }) => {
-                      return(
-                        <ShiftView
-                          colorPalette={colorPalette}
-                          postReq={this.postReq}
-                          url={match.url}
-                          users={this.state.users}
-                          date = {match.params.date}
-                        />
-                      )
-                    
-                    }}
-                  />
-                  */}
-                </>
+                <Scheduletron/>
               );
             }}
           />
