@@ -48,7 +48,7 @@ const NavBar = ({ currentUser }) => {
 
       {currentUser.isAuthenticated ? (
         <div className={classes.links}>
-          <Link className={classes.link} to="/">
+          <Link className={classes.link} to="/scheduletron">
             <img src={scheduleIcon} />
             <p>Schedule</p>
           </Link>
