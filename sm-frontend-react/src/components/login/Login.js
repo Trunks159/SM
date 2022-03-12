@@ -18,27 +18,34 @@ const styles = () => ({
     margin : 100,
     background: "#F2F5F6",
     width: 700,
+    display :'flex',
+    flexDirection : 'column',
   },
-  login: {
-    margin: "40px",
-    "font-size": "40px",
-    "font-weight": "500",
+  header: {
+    margin: 30,
+    fontSize: 40,
+    fontWeight: "500",
   },
   submit: {
-    "background-color": "#ff4bdb",
-    width: "100px",
-    "margin-left": "auto",
+    backgroundColor: "#ff4bdb",
+    width: 100,
+    margin : 50,
+    marginLeft: "auto",
   },
   input: {
-    margin: "10px",
+    margin: 10,
+    marginRight: 20,
+    marginLeft : 20,
+    marginBottom : 5,
   },
-  link: {
-    "text-decoration": "none",
-    "margin-left": "15px",
-    "font-size": "small",
+  forgot: {
+    textDecoration: "none",
+    margin: 'none',
+    marginLeft: 20,
+    fontSize: 12,
   },
   remember: {
-    margin: "20px",
+    margin: 20,
   },
 });
 
@@ -112,9 +119,10 @@ class Login extends Component {
     const { classes } = this.props;
     return (
       <Paper className={classes.main}>
-        <Typography variant="h6" className={classes.login}>
-          Login <Divider></Divider>
+        <Typography variant="h6" className={classes.header}>
+          Login 
         </Typography>
+        <Divider></Divider>
         <TextField
           className={classes.input}
           name="username"
@@ -131,7 +139,7 @@ class Login extends Component {
         />
         {this.state.password_errors}
         <Typography variant="subtitle1">
-          <Link className={classes.link} to="/">
+          <Link className={classes.forgot} to="/">
             Forgot Password
           </Link>
         </Typography>
