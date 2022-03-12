@@ -35,7 +35,7 @@ class User(UserMixin, db.Model):
             'isAuthenticated': True,
             # this is a placeholder, isAvailable shouldnt be in the final product
             'isAvailable': True,
-            'availability': self.availability[0].to_json() if self.availability else None,
+            'availability': self.availability.to_json() if self.availability else None,
         }
 
     def set_position(self, x):

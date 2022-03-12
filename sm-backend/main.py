@@ -28,7 +28,7 @@ def edit_availability():
     if user:
         if user.availability == []:
             a = Availability(user=user)
-        a = user.availability[0]
+        a = user.availability
         for day in days:
             if day['checked']:
                 setattr(a, day['name'], day['value']

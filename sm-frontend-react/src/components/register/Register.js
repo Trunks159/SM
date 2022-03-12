@@ -133,8 +133,6 @@ class Register extends Component {
     const { username, password, confirm_password, first_name, last_name } =
       this.state;
 
-    console.log("Current Username, Password: ", username, password);
-
     const { users, postReq, notifyUser } = this.props;
     if (password.value !== confirm_password.value) {
       this.setState({

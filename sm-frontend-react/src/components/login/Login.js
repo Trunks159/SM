@@ -1,16 +1,24 @@
 import React, { Component } from "react";
 import { Alert } from "@material-ui/lab";
-import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import Divider from "@material-ui/core/Divider";
-import TextField from "@material-ui/core/TextField";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import {
+  TextField,
+  Checkbox,
+  FormControlLabel,
+  Button,
+  Divider,
+  Typography,
+  Paper,
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
 import LockIcon from "@material-ui/icons/Lock";
 
-const styles = (theme) => ({
+const styles = () => ({
+  main: {
+    margin : 100,
+    background: "#F2F5F6",
+    width: 700,
+  },
   login: {
     margin: "40px",
     "font-size": "40px",
@@ -103,56 +111,54 @@ class Login extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <Paper className={classes.main}>
         <Typography variant="h6" className={classes.login}>
           Login <Divider></Divider>
         </Typography>
+        <TextField
+          className={classes.input}
+          name="username"
+          label="Enter Username"
+          onChange={this.handleChange}
+        />
+        {this.state.username_errors ? this.state.username_errors : null}
+        <TextField
+          className={classes.input}
+          name="password"
+          label="Enter Password"
+          onChange={this.handleChange}
+          type="password"
+        />
+        {this.state.password_errors}
+        <Typography variant="subtitle1">
+          <Link className={classes.link} to="/">
+            Forgot Password
+          </Link>
+        </Typography>
+        <FormControlLabel
+          className={classes.remember}
+          control={
+            <Checkbox
+              checked={this.state.remember}
+              onChange={this.handleCheckbox}
+              name="remember"
+              primary
+            />
+          }
+          label="Remember Me"
+        />
 
-        <form className="login-form" onSubmit={this.handleSubmit}>
-          <TextField
-            className={classes.input}
-            name="username"
-            label="Enter Username"
-            onChange={this.handleChange}
-          />
-          {this.state.username_errors ? this.state.username_errors : null}
-          <TextField
-            className={classes.input}
-            name="password"
-            label="Enter Password"
-            onChange={this.handleChange}
-            type="password"
-          />
-          {this.state.password_errors}
-          <Typography variant="subtitle1">
-            <Link className={classes.link} to="/">
-              Forgot Password
-            </Link>
-          </Typography>
-          <FormControlLabel
-            className={classes.remember}
-            control={
-              <Checkbox
-                checked={this.state.remember}
-                onChange={this.handleCheckbox}
-                name="remember"
-                primary
-              />
-            }
-            label="Remember Me"
-          />
-
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            endIcon={<LockIcon />}
-          >
-            Login
-          </Button>
-        </form>
-      </React.Fragment>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          endIcon={<LockIcon />}
+          onClick={this.handleSubmit}
+        >
+          Login
+        </Button>
+      </Paper>
     );
   }
 }

@@ -5,14 +5,15 @@ import logo from "../../assets/images/ScheduleTron Icon.svg";
 import profileIcon from "../../assets/images/Profile Icon.svg";
 import teamIcon from "../../assets/images/Team Icon.svg";
 import scheduleIcon from "../../assets/images/Schedule Icon.svg";
+import { Paper } from "@material-ui/core";
 
 const useStyles = makeStyles({
   nav: {
     width: "100%",
-    background: "#0F374D",
     height: 67,
     display: "flex",
     alignItems: "center",
+    borderRadius : '0',
   },
   logo: {
     width: 48,
@@ -26,7 +27,7 @@ const useStyles = makeStyles({
   },
   link: {
     textDecoration: "none",
-    color: "white",
+    color: "black",
     fontSize: 14,
     margin: 20,
     display: "flex",
@@ -41,8 +42,8 @@ const NavBar = ({ currentUser }) => {
   console.log("CUrrent: ", currentUser);
 
   return (
-    <nav className={classes.nav}>
-      <Link className={classes.logo}>
+    <Paper elevation = {1} className={classes.nav}>
+      <Link to = '/' className={classes.logo}>
         <img src={logo} />
       </Link>
 
@@ -71,7 +72,7 @@ const NavBar = ({ currentUser }) => {
           </Link>
         </div>
       )}
-    </nav>
+    </Paper>
   );
 };
 
