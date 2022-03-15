@@ -8,19 +8,13 @@ import {
   Button,
   Divider,
   Typography,
-  Paper,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
+import StyledPaper from "../StyledPaper";
 
 const styles = () => ({
-  main: {
-    margin : 100,
-    background: "#F2F5F6",
-    width: 700,
-    display :'flex',
-    flexDirection : 'column',
-  },
+
   header: {
     margin: 30,
     fontSize: 40,
@@ -118,7 +112,7 @@ class Login extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <Paper className={classes.main}>
+      <StyledPaper>
         <Typography variant="h6" className={classes.header}>
           Login 
         </Typography>
@@ -166,7 +160,7 @@ class Login extends Component {
         >
           Login
         </Button>
-      </Paper>
+      </StyledPaper>
     );
   }
 }

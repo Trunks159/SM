@@ -34,6 +34,7 @@ const useStyles = makeStyles({
     "& img": {
       margin: 6,
     },
+    fontWeight :'500',
   },
 });
 

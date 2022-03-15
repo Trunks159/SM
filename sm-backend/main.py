@@ -62,11 +62,11 @@ def add_user():
         return(jsonify({'success': False, 'message': 'Must be a manager to access this.'}))
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
+@app.route('/register/<first_name>-<last_name>', methods=['GET', 'POST'])
+def register(first_name, last_name):
     data = request.get_json()
-    user = User.query.filter_by(first_name=data['first_name']).filter_by(
-        last_name=data['last_name']).first()
+    user = User.query.filter_by(first_name=first_name).filter_by(
+        last_name=last_name).first()
     if user:
         u = User.query.filter_by(username=data['username']).first()
         if u:

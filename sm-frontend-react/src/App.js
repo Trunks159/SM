@@ -16,7 +16,7 @@ import Scheduletron from "./components/scheduletron/Scheduletron";
 
 class App extends Component {
   state = {
-    users: [],
+    users: null,
     currentUser: { isAuthenticated: false },
     message: null,
     redirect: null,
