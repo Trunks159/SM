@@ -6,6 +6,7 @@ import profileIcon from "../../assets/images/Profile Icon.svg";
 import teamIcon from "../../assets/images/Team Icon.svg";
 import scheduleIcon from "../../assets/images/Schedule Icon.svg";
 import { Paper } from "@material-ui/core";
+import MyMenu from "./MyMenu";
 
 const useStyles = makeStyles({
   nav: {
@@ -40,7 +41,7 @@ const useStyles = makeStyles({
 
 const NavBar = ({ currentUser }) => {
   const classes = useStyles();
-  console.log("CUrrent: ", currentUser);
+  console.log("Current: ", currentUser);
 
   return (
     <Paper elevation = {1} className={classes.nav}>
@@ -58,10 +59,7 @@ const NavBar = ({ currentUser }) => {
             <img src={teamIcon} />
             <p>Team</p>
           </Link>
-          <Link className={classes.link} to="/">
-            <img src={profileIcon} />
-            <p>{currentUser.username}</p>
-          </Link>
+          <MyMenu username = {currentUser.username}/>
         </div>
       ) : (
         <div className={classes.links}>
