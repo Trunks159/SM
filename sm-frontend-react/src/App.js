@@ -13,6 +13,7 @@ import {
   Switch,
 } from "react-router-dom";
 import Scheduletron from "./components/scheduletron/Scheduletron";
+import Dashboard from "./components/Dashboard";
 
 class App extends Component {
   state = {
@@ -97,7 +98,7 @@ class App extends Component {
               <Route
                 exact
                 path="/"
-                render={() => <Redirect to="/scheduletron" />}
+                render={() => <Dashboard/>}
               />
               <Route
                 path="/scheduletron"

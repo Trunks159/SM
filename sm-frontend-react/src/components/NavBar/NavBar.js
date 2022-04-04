@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import logo from "../../assets/images/ScheduleTron Icon.svg";
-import profileIcon from "../../assets/images/Profile Icon.svg";
 import teamIcon from "../../assets/images/Team Icon.svg";
 import scheduleIcon from "../../assets/images/Schedule Icon.svg";
 import { Paper } from "@material-ui/core";
@@ -23,7 +22,7 @@ const useStyles = makeStyles({
   },
   links: {
     marginLeft: "auto",
-    marginRight: 20,
+    marginRight: 40,
     display: "flex",
   },
   link: {
