@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="711.32" height="25" viewBox="0 0 711.32 25">
+  <g id="TimeLine" transform="translate(-1)">
+    <line id="Line_316" data-name="Line 316" x2="678.88" transform="translate(16.5 24.5)" fill="none" stroke="#c1c1c1" stroke-width="1"/>
+    <text id="_7AM" data-name="7AM" transform="translate(15 14)" fill="#888" font-size="13" font-family="SegoeUI, Segoe UI"><tspan x="-13.533" y="0">7AM</tspan></text>
+    <text id="_12AM" data-name="12AM" transform="translate(694.32 14)" fill="#888" font-size="13" font-family="SegoeUI, Segoe UI"><tspan x="-17.037" y="0">12AM</tspan></text>
+  </g>
+</svg>
