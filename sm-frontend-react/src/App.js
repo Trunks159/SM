@@ -13,7 +13,7 @@ import {
   Switch,
 } from "react-router-dom";
 import Scheduletron from "./components/scheduletron/Scheduletron";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/dashboard/Dashboard";
 
 class App extends Component {
   state = {
@@ -89,7 +89,8 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
+      this.state.users ? (
+        <Router>
         <div className="App">
           <div className="Test">
             <NavBar currentUser={this.state.currentUser} />
@@ -98,7 +99,7 @@ class App extends Component {
               <Route
                 exact
                 path="/"
-                render={() => <Dashboard/>}
+                render={() => <Dashboard teamMembers = {this.state.users}/>}
               />
               <Route
                 path="/scheduletron"
@@ -196,6 +197,8 @@ class App extends Component {
           </div>
         </div>
       </Router>
+      ):(null)
+      
     );
   }
 }
