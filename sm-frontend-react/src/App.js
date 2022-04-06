@@ -99,7 +99,7 @@ class App extends Component {
               <Route
                 exact
                 path="/"
-                render={() => <Dashboard teamMembers = {this.state.users}/>}
+                render={() => <Dashboard teamMembers = {this.state.users} currentUser = {this.state.currentUser}/>}
               />
               <Route
                 path="/scheduletron"

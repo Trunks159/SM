@@ -36,7 +36,7 @@ class User(UserMixin, db.Model):
             # this is a placeholder, isAvailable shouldnt be in the final product
             'isAvailable': True,
             'availability': self.availability.to_json() if self.availability else None,
-            'upcomingShifts' : self.get_upcoming_shifts()
+            'upcomingShifts': self.get_upcoming_shifts()
         }
 
     def get_upcoming_shifts(self):
@@ -231,15 +231,19 @@ class WorkBlock(db.Model):
 
     def to_json(self):
         return{
-            'userId': self.user_id,
+            'user': self.get_user(),
             'startTime': self.start_time,
             'endTime': self.end_time,
-            'date':self.get_date(),
+            'date': self.get_date(),
         }
 
     def get_date(self):
-        day = Day.query.filter_by(id = self.day_id).first()
-        return {'month': day.date.month, 'day': day.date.day, 'year' : day.date.year}
+        day = Day.query.filter_by(id=self.day_id).first()
+        return {'month': day.date.month, 'day': day.date.day, 'year': day.date.year}
+
+    def get_user(self):
+        user = User.query.filter_by(id=self.user_id).first()
+        return {'firstName': user.first_name, 'lastName': user.last_name}
 
     def __repr__(self):
         return 'Workblock, UserID:{} Start and End Time: {}'.format(self.user_id, self.start_time + '-' + self.end_time)
