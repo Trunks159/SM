@@ -14,6 +14,7 @@ const useStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     borderRadius : '0',
+    marginBottom : 5
   },
   logo: {
     width: 48,
@@ -43,7 +44,7 @@ const NavBar = ({ currentUser }) => {
   console.log("Current: ", currentUser);
 
   return (
-    <Paper elevation = {1} className={classes.nav}>
+    <Paper elevation = {3} className={classes.nav}>
       <Link to = '/' className={classes.logo}>
         <img src={logo} />
       </Link>

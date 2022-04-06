@@ -31,8 +31,13 @@ function timesToValues(times) {
   return times
     ? times
         .split("-")
-        .map((t) => dtToValue(new Date("January 1, 1980 " + t + ":00")))
+        .map((t) => timeToValue(t))
     : timesToValues("08:00-15:30");
+}
+
+function timeToValue(time){
+  /*Takes time in xx:xx format and retrns a value between 0 - 100*/
+  return dtToValue(new Date("January 1, 1980 " + time + ":00"))
 }
 
 function miliToReg(time) {
@@ -78,6 +83,7 @@ export {
   valueToDt,
   dtToValue,
   timesToValues,
+  timeToValue,
   miliToReg,
   getMarks,
 };

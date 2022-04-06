@@ -2,6 +2,7 @@ import { Paper } from "@material-ui/core";
 import React from "react";
 import timeLine from "../../assets/images/TimeLine.svg";
 import { makeStyles } from "@material-ui/core";
+import { timeToValue } from "../user/TimeFunctions";
 
 const useStyles = makeStyles({
   paper: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles({
 
 function TodaysSchedule({ teamMembers }) {
   const classes = useStyles();
-
+  const today = {day : 13, month : 9, year : 2021};
   return (
     <Paper className={classes.paper}>
       <p style={{fontSize : 18, color : '#1897E6', fontWeight: 'bold'}}> Monday, 9/17</p>
@@ -28,7 +29,11 @@ function TodaysSchedule({ teamMembers }) {
       >
         {"Team"}
         <img src={timeLine} />
-        {teamMembers.map((member) => (
+        {teamMembers.map((member) =>{ 
+        const startTime = timeToValue(member.workblocks.find((wb)=>(
+          wb.day === today.day && wb.month === today.month && wb.year === today.year
+        )));
+        return(
           <>
             <p style = {{textTransform :'capitalize', fontSize : 11, fontWeight : '500' }}>
               {member.firstName} {member.lastName}
@@ -38,14 +43,14 @@ function TodaysSchedule({ teamMembers }) {
                 style={{ display: "flex", alignItems: "center" }}
                 stroke={"#1897E6"}
                 strokeWidth={"3"}
-                x1={"0%"}
+                x1={`90%`}
                 y1={"50%"}
                 x2={"70%"}
                 y2={"50%"}
               />
             </svg>
           </>
-        ))}
+        )})}
       </div>
     </Paper>
   );

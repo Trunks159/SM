@@ -36,7 +36,11 @@ class User(UserMixin, db.Model):
             # this is a placeholder, isAvailable shouldnt be in the final product
             'isAvailable': True,
             'availability': self.availability.to_json() if self.availability else None,
+            'upcomingShifts' : self.get_upcoming_shifts()
         }
+
+    def get_upcoming_shifts(self):
+        return [workblock.to_json() for workblock in self.workblocks]
 
     def set_position(self, x):
         if x == 'crew':
@@ -230,8 +234,12 @@ class WorkBlock(db.Model):
             'userId': self.user_id,
             'startTime': self.start_time,
             'endTime': self.end_time,
-            'dayId': self.day_id
+            'date':self.get_date(),
         }
+
+    def get_date(self):
+        day = Day.query.filter_by(id = self.day_id).first()
+        return {'month': day.date.month, 'day': day.date.day, 'year' : day.date.year}
 
     def __repr__(self):
         return 'Workblock, UserID:{} Start and End Time: {}'.format(self.user_id, self.start_time + '-' + self.end_time)

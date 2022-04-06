@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core";
 import phonyShift from "../../assets/images/Phony Shift.svg";
 import TodaysSchedule from "./TodaysSchedule";
+
 const styles = () => ({
   main: {
     width: "100%",
     display: "flex",
     flexWrap: "wrap",
+    background : 'white',
   },
   
 });
@@ -14,7 +16,12 @@ const styles = () => ({
 class Dashboard extends Component {
   state = {};
   render() {
-    const { classes, teamMembers } = this.props;
+    /*When the site actually works, the date wont be passed in
+    instead, we'll just get today date */
+    const { classes, teamMembers, date } = this.props;
+    
+    
+    console.log('Team: ', teamMembers[0].upcomingShifts);
     return (
       <div className={classes.main}>
         <div>
