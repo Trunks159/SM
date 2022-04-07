@@ -12,9 +12,11 @@ const useStyles = makeStyles({
     minWidth: 400,
     height: 342,
     overflowY: "auto",
+    overflowX : 'hidden',
     background: "white",
     margin :15,
     position : 'relative'
+
   },
 });
 
@@ -38,10 +40,11 @@ function TodaysSchedule() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 7fr",
+          gridTemplateColumns: "1fr 8fr",
           alignItems: "center",
           gridGap : 10,
-          width : '100%'
+          width : '100%',
+          marginLeft : 20,
         }}
       >
       <p style = {{fontSize : 12}}>Team</p>
@@ -61,7 +64,7 @@ function TodaysSchedule() {
                 {user.firstName} {user.lastName}
               </p>
 
-              <svg style={{ height: 10, width: "95.5%", margin: 15, }}>
+              <svg style={{ height: 10, width: "86.5%", margin: 15,}}>
                 <Tooltip title={`${startTime}-${endTime}`} placement={"top"}>
                   <line
                     style={{ display: "flex", alignItems: "center" }}

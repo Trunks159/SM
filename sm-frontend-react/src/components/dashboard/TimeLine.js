@@ -2,7 +2,7 @@ import React from "react";
 
 function TimeLine() {
   return (
-    <div style = {{marginRight : 10}}>
+    <div style = {{marginRight : 10,  maxWidth: 710}}>
       <div style = {{display : 'flex', alignItems : 'center'}}>
       <p style={{marginBottom : 0, fontSize : 13,color  : '#888888' }}>
           7AM
@@ -13,7 +13,7 @@ function TimeLine() {
 
       </div>
         
-      <svg style={{  height: 5, width: "90%", }}>
+      <svg style={{  height: 5, width: "94%",}}>
         <line
           style={{ display: "flex", alignItems: "center" , background:'red'}}
           stroke={"#C1C1C1"}
