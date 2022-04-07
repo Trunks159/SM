@@ -3,6 +3,8 @@ import React from "react";
 import TimeLine from "./TimeLine";
 import { makeStyles, Tooltip } from "@material-ui/core";
 import { timeToValue } from "../user/TimeFunctions";
+import scheduleIcon from '../../assets/images/Schedule Icon Watermark.svg'
+
 
 const useStyles = makeStyles({
   paper: {
@@ -11,6 +13,8 @@ const useStyles = makeStyles({
     height: 342,
     overflowY: "auto",
     background: "white",
+    margin :15,
+    position : 'relative'
   },
 });
 
@@ -27,18 +31,20 @@ function TodaysSchedule() {
 
   return day ? (
     <Paper className={classes.paper} elevation = {2}>
-      <p style={{ fontSize: 18, color: "#1897E6", fontWeight: "bold" }}>
+      <img style = {{position : 'absolute', margin :5}} src = {scheduleIcon}/>
+      <p style={{ fontSize: 18, color: "#1897E6", fontWeight: "bold", margin :5, marginLeft  : 25 }}>
         {`${day.weekday}    ${day.month}/${day.day}/${day.year}`}
       </p>
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: "1fr 7fr",
           alignItems: "center",
-          gridGap : 10
+          gridGap : 10,
+          width : '100%'
         }}
       >
-        {"Team"}
+      <p style = {{fontSize : 12}}>Team</p>
         <TimeLine/>
         {day.workblocks.map(({ startTime, endTime, user }) => {
           const newStartTime = timeToValue(startTime);

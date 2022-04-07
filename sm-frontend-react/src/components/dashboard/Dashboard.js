@@ -21,7 +21,7 @@ class Dashboard extends Component {
 
     return (
       <div className={classes.main}>
-        <div>
+        <div style = {{margin : 20}}>
           <p style={{ fontWeight: "bold", fontSize: 30, color: "#275C78" }}>
             Dashboard
           </p>
