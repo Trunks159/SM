@@ -21,7 +21,7 @@ class Dashboard extends Component {
 
     return (
       <div className={classes.main}>
-        <div style = {{margin : 20, marginTop : 0}}>
+        <div style={{ margin: 20, marginTop: 0 }}>
           <p style={{ fontWeight: "bold", fontSize: 30, color: "#275C78" }}>
             Dashboard
           </p>
@@ -30,13 +30,54 @@ class Dashboard extends Component {
         </div>
         <div>
           <p>My Upcoming Shifts</p>
-          <div style = {{display : 'flex', flexWrap :'wrap'}}>
-          {currentUser.upcomingShifts.map(({ date, startTime, endTime }) => (
-            <Paper style = {{width :90, display :'flex', flexDirection : 'column', alignItems :'center',}} >
-              <p style = {{fontSize : 21, textAlign : 'center',marginBottom :0, marginTop : 10}}>{`${date.month}/${date.day}`}</p>
-              <p style = {{fontSize : 9, textAlign : 'center'}}>{`${startTime} - ${endTime}`}</p>
-            </Paper>
-          ))}
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            {currentUser.upcomingShifts.map(({ date, startTime, endTime }) => (
+              <Paper
+                style={{
+                  width: 90,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: 21,
+                    textAlign: "center",
+                    marginBottom: 0,
+                    marginTop: 10,
+                  }}
+                >{`${date.month}/${date.day}`}</p>
+                <p
+                  style={{ fontSize: 9, textAlign: "center" }}
+                >{`${startTime} - ${endTime}`}</p>
+              </Paper>
+            ))}
+          </div>
+          <div>
+            <p>My Upcoming Request Offs</p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap :10 }}>
+              {currentUser.upcomingRequestOffs.map(({ date }) => (
+                <Paper
+                  elevation={2}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <p
+                    style={{
+                      fontSize: 21,
+                      textAlign: "center",
+                      margin : 5,
+                    }}
+                  >
+                    {date}
+                  </p>
+                </Paper>
+              ))}
+            </div>
           </div>
         </div>
       </div>

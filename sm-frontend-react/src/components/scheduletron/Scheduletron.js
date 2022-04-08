@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/styles';
 import HealthBar from './HealthBar';
+import homeIcon from '../../assets/images/Home Icon.svg'
+import { Link } from 'react-router-dom';
 
 const styles = ()=>({
     main : {
         background : '#F0F0F0',
+        width : '100%',
+        height : '100%',
     },
 });
 
@@ -53,13 +57,13 @@ class  Scheduletron extends Component {
 
         return (
             <div className = {classes.main}>
-                <p>SELECT SCHEDULE</p>
-                {schedules.map((schedule)=>(
-                    <div>
-                        <p>{schedule[0].date}</p>
-                        <p>{schedule[6].date}</p>
-                    </div>
-                ))}
+                <nav style={{alignSelf : 'flex-start' ,display : 'flex', flexDirection : 'column', background : '#51636D', }}>
+                    <Link style={{color : 'white', textDecoration : 'none'}}>
+                    <img src  = {homeIcon}/>
+                    <p>Home</p>
+                    </Link>
+                    
+                </nav>
             </div>
         );
     }

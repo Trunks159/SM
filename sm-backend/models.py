@@ -18,6 +18,7 @@ class User(UserMixin, db.Model):
     workblocks = db.relationship('WorkBlock', backref='user', lazy=True)
     availability = db.relationship(
         'Availability', uselist=False, backref='user', lazy=True)
+    request_offs= db.relationship('RequestOff', backref = 'user', lazy = True)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -36,11 +37,15 @@ class User(UserMixin, db.Model):
             # this is a placeholder, isAvailable shouldnt be in the final product
             'isAvailable': True,
             'availability': self.availability.to_json() if self.availability else None,
-            'upcomingShifts': self.get_upcoming_shifts()
+            'upcomingShifts': self.get_upcoming_shifts(),
+            'upcomingRequestOffs': self.get_upcoming_request_offs(),
         }
 
     def get_upcoming_shifts(self):
         return [workblock.to_json() for workblock in self.workblocks]
+
+    def get_upcoming_request_offs(self):
+        return [req.to_json() for req in self.request_offs]
 
     def set_position(self, x):
         if x == 'crew':
@@ -247,6 +252,19 @@ class WorkBlock(db.Model):
 
     def __repr__(self):
         return 'Workblock, UserID:{} Start and End Time: {}'.format(self.user_id, self.start_time + '-' + self.end_time)
+
+class RequestOff(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    date = db.Column(db.String(30))
+    # time is stored in 00:00-12:00 format
+    start_time = db.Column(db.String(30))
+    end_time = db.Column(db.String(30))
+
+    def to_json(self):
+        return {
+            'date': self.date,
+        }
 
 
 @login.user_loader
