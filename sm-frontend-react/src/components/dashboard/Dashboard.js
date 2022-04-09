@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Paper, withStyles } from "@material-ui/core";
 import TodaysSchedule from "./TodaysSchedule";
+import scheduleIcon from "../../assets/images/Schedule Icon White.svg";
+import { Link } from "react-router-dom";
 
 const styles = () => ({
   main: {
@@ -8,6 +10,20 @@ const styles = () => ({
     display: "flex",
     flexWrap: "wrap",
     background: "white",
+  },
+  mainAction: {
+    background: "#1897E6",
+    padding: 20,
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    justifyContent: "center",
+    width: 250,
+    borderRadius: 7,
+    textDecoration: "none",
+    color: "white",
+    marginLeft : 'auto',
+    marginRight : 15
   },
 });
 
@@ -27,6 +43,13 @@ class Dashboard extends Component {
           </p>
           <p style={{ fontSize: "18", fontWeight: "bold" }}>Today's Schedule</p>
           <TodaysSchedule currentUser={currentUser} />
+          <Link to = '/scheduletron' style = {{color : 'white', textDecoration : 'none'}}>
+            <Paper elevation={2} className = {classes.mainAction}>
+            <p >View and Edit Schedules</p>
+            <img style={{ width: 48 }} src={scheduleIcon} />
+            </Paper>
+            
+          </Link>
         </div>
         <div>
           <p>My Upcoming Shifts</p>
@@ -56,7 +79,7 @@ class Dashboard extends Component {
           </div>
           <div>
             <p>My Upcoming Request Offs</p>
-            <div style={{ display: "flex", flexWrap: "wrap", gap :10 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
               {currentUser.upcomingRequestOffs.map(({ date }) => (
                 <Paper
                   elevation={2}
@@ -70,7 +93,7 @@ class Dashboard extends Component {
                     style={{
                       fontSize: 21,
                       textAlign: "center",
-                      margin : 5,
+                      margin: 5,
                     }}
                   >
                     {date}
