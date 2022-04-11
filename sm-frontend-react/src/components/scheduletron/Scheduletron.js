@@ -1,91 +1,36 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
-import HealthBar from "./HealthBar";
-import homeIcon from "../../assets/images/Home Icon.svg";
-import scheduleIcon from '../../assets/images/Schedule Icon White.svg'
-import settingsIcon from '../../assets/images/Settings Icon Not Active.svg'
-import { Link } from "react-router-dom";
+import { Link, Route, Switch, withRouter } from "react-router-dom";
+import Nav from "./Nav";
+import Home from "./Home";
+import Scheduler from "./Scheduler";
 
 const styles = () => ({
   main: {
-    background: "red",
-    width: "100%",
     height: "100%",
+    display: "flex",
   },
 });
 
 class Scheduletron extends Component {
   state = {};
   render() {
-    const { classes } = this.props;
-    const schedules = [
-      [
-        {
-          weekday: "Monday",
-          date: "9/17",
-          health: ".9",
-        },
-        {
-          weekday: "Monday",
-          date: "9/18",
-          health: ".9",
-        },
-        {
-          weekday: "Monday",
-          date: "9/18",
-          health: ".9",
-        },
-        {
-          weekday: "Monday",
-          date: "9/19",
-          health: ".9",
-        },
-        {
-          weekday: "Monday",
-          date: "9/20",
-          health: ".9",
-        },
-        {
-          weekday: "Monday",
-          date: "9/21",
-          health: ".1",
-        },
-        {
-          weekday: "Monday",
-          date: "9/22",
-          health: ".5",
-        },
-      ],
-    ];
-
+    const { classes, match } = this.props;
+    let { path } = match;
     return (
       <div className={classes.main}>
-        <div
-          style={{
-            background: "#51636D",
-            height : '100%',
-            width :  50,
-            padding : 10,
-            display :'flex',
-            flexDirection : 'column'
-          }}
-        >
-          <Link style={{ color: "white", textDecoration: "none" }}>
-            <img src={homeIcon} />
-            <p>Home</p>
-          </Link>
-          <Link style={{ color: "white", textDecoration: "none" }}>
-            <img src={scheduleIcon} />
-            <p style={{visibility : 'hidden' }}>Schedule</p>
-          </Link>
-          <Link style={{ color: "white", textDecoration: "none" , marginTop : 'auto'}}>
-            <img src={settingsIcon} />
-            <p style={{visibility : 'hidden'}}>Settings</p>
-          </Link>
-        </div>
+        <Nav path={path} />
+        <Switch>
+          <Route exact path={"/scheduletron"}>
+            <Home />
+          </Route>
+          <Route path={"/scheduletron/:date"}>
+            <Scheduler />
+          </Route>
+        </Switch>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(Scheduletron);
+export default withStyles(styles)(withRouter(Scheduletron));

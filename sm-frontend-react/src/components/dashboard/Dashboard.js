@@ -10,6 +10,7 @@ const styles = () => ({
     display: "flex",
     flexWrap: "wrap",
     background: "white",
+    minHeight : '100%',
   },
   mainAction: {
     background: "#1897E6",
@@ -33,7 +34,6 @@ class Dashboard extends Component {
     /*When the site actually works, the date wont be passed in
     instead, we'll just get today date */
     const { classes, currentUser } = this.props;
-    console.log("CUrrent: ", currentUser);
 
     return (
       <div className={classes.main}>

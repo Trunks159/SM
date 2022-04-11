@@ -95,64 +95,63 @@ class App extends Component {
             <NavBar currentUser={this.state.currentUser} />
 
             <Message message={this.state.message} />
-
-            <Route
-              exact
-              path="/"
-              render={() => {
-                return this.state.currentUser.isAuthenticated ? (
-                  <Dashboard
-                    teamMembers={this.state.users}
-                    currentUser={this.state.currentUser}
-                  />
-                ) : (
-                  <Redirect to="/login" />
-                );
-              }}
-            />
-            <Route
-              path="/scheduletron"
-              render={({ match: { url } }) => {
-                return this.state.currentUser.isAuthenticated ? (
-                  <Scheduletron />
-                ) : (
-                  <Redirect to="/login" />
-                );
-              }}
-            />
-
-            <Route
-              path="/login"
-              render={() => {
-                console.log("Current: ", this.state.currentUser);
-                if (this.state.currentUser.isAuthenticated) {
-                  return <Redirect to="/" />;
-                }
-                return (
-                  <Login
-                    users={this.state.users}
-                    notifyUser={this.notifyUser}
-                    postReq={this.postReq}
-                  />
-                );
-              }}
-            />
-            <Route
-              path="/register"
-              render={() => {
-                if (this.state.currentUser.isAuthenticated) {
-                  return <Redirect to="/" />;
-                }
-                return (
-                  <Register
-                    users={this.state.users}
-                    postReq={this.postReq}
-                    notifyUser={this.notifyUser}
-                  />
-                );
-              }}
-            />
             <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => {
+                  return this.state.currentUser.isAuthenticated ? (
+                    <Dashboard
+                      teamMembers={this.state.users}
+                      currentUser={this.state.currentUser}
+                    />
+                  ) : (
+                    <Redirect to="/login" />
+                  );
+                }}
+              />
+              <Route
+                path="/scheduletron"
+                render={() => {
+                  return this.state.currentUser.isAuthenticated ? (
+                    <Scheduletron />
+                  ) : (
+                    <Redirect to="/login" />
+                  );
+                }}
+              />
+
+              <Route
+                path="/login"
+                render={() => {
+                  if (this.state.currentUser.isAuthenticated) {
+                    return <Redirect to="/" />;
+                  }
+                  return (
+                    <Login
+                      users={this.state.users}
+                      notifyUser={this.notifyUser}
+                      postReq={this.postReq}
+                    />
+                  );
+                }}
+              />
+              <Route
+                path="/register"
+                render={() => {
+                  if (this.state.currentUser.isAuthenticated) {
+                    return <Redirect to="/" />;
+                  }
+                  return (
+                    <Register
+                      users={this.state.users}
+                      postReq={this.postReq}
+                      notifyUser={this.notifyUser}
+                    />
+                  );
+                }}
+              />
+
               <Route
                 exact
                 path="/user/:username"

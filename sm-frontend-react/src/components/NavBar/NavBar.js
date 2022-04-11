@@ -10,11 +10,10 @@ import MyMenu from "./MyMenu";
 const useStyles = makeStyles({
   nav: {
     width: "100%",
-    height: 67,
+    maxHeight: 67,
     display: "flex",
     alignItems: "center",
     borderRadius : '0',
-    marginBottom : 5
   },
   logo: {
     width: 48,
