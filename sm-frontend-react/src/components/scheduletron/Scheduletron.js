@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import HealthBar from "./HealthBar";
 import homeIcon from "../../assets/images/Home Icon.svg";
+import scheduleIcon from '../../assets/images/Schedule Icon White.svg'
+import settingsIcon from '../../assets/images/Settings Icon Not Active.svg'
 import { Link } from "react-router-dom";
 
 const styles = () => ({
@@ -61,11 +63,24 @@ class Scheduletron extends Component {
         <div
           style={{
             background: "#51636D",
+            height : '100%',
+            width :  50,
+            padding : 10,
+            display :'flex',
+            flexDirection : 'column'
           }}
         >
           <Link style={{ color: "white", textDecoration: "none" }}>
             <img src={homeIcon} />
             <p>Home</p>
+          </Link>
+          <Link style={{ color: "white", textDecoration: "none" }}>
+            <img src={scheduleIcon} />
+            <p style={{visibility : 'hidden' }}>Schedule</p>
+          </Link>
+          <Link style={{ color: "white", textDecoration: "none" , marginTop : 'auto'}}>
+            <img src={settingsIcon} />
+            <p style={{visibility : 'hidden'}}>Settings</p>
           </Link>
         </div>
       </div>

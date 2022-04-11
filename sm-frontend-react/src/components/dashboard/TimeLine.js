@@ -2,7 +2,7 @@ import React from "react";
 
 function TimeLine() {
   return (
-    <div style = {{marginRight : 10,  maxWidth: 710}}>
+    <div style = {{marginRight : 0,  maxWidth: 710, marginLeft : 'auto', width : '90%'}}>
       <div style = {{display : 'flex', alignItems : 'center'}}>
       <p style={{marginBottom : 0, fontSize : 13,color  : '#888888' }}>
           7AM

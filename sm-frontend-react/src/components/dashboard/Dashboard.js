@@ -13,17 +13,17 @@ const styles = () => ({
   },
   mainAction: {
     background: "#1897E6",
-    padding: 20,
+    padding: 5,
     display: "flex",
     alignItems: "center",
-    gap: 10,
+    gap: 15,
     justifyContent: "center",
     width: 250,
     borderRadius: 7,
     textDecoration: "none",
     color: "white",
-    marginLeft : 'auto',
-    marginRight : 15
+    marginLeft: "auto",
+    marginRight: 15,
   },
 });
 
@@ -38,17 +38,25 @@ class Dashboard extends Component {
     return (
       <div className={classes.main}>
         <div style={{ margin: 20, marginTop: 0 }}>
-          <p style={{ fontWeight: "bold", fontSize: 30, color: "#275C78" }}>
+          <p
+            style={{
+              fontWeight: "bold",
+              fontSize: 30,
+              color: "#275C78",
+            }}
+          >
             Dashboard
           </p>
           <p style={{ fontSize: "18", fontWeight: "bold" }}>Today's Schedule</p>
           <TodaysSchedule currentUser={currentUser} />
-          <Link to = '/scheduletron' style = {{color : 'white', textDecoration : 'none'}}>
-            <Paper elevation={2} className = {classes.mainAction}>
-            <p >View and Edit Schedules</p>
-            <img style={{ width: 48 }} src={scheduleIcon} />
+          <Link
+            to="/scheduletron"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <Paper elevation={2} className={classes.mainAction}>
+              <p>View and Edit Schedules</p>
+              <img style={{ width: 48 }} src={scheduleIcon} />
             </Paper>
-            
           </Link>
         </div>
         <div>

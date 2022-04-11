@@ -11,8 +11,8 @@ const useStyles = makeStyles({
     maxWidth: 837,
     minWidth: 400,
     height: 342,
-    overflowY: "auto",
     overflowX : 'hidden',
+
     background: "white",
     margin :15,
     position : 'relative'
@@ -34,9 +34,10 @@ function TodaysSchedule() {
   return day ? (
     <Paper className={classes.paper} elevation = {2}>
       <img style = {{position : 'absolute', margin :5}} src = {scheduleIcon}/>
-      <p style={{ fontSize: 18, color: "#1897E6", fontWeight: "bold", margin :5, marginLeft  : 25 }}>
+      <p style={{ fontSize: 18, color: "#1897E6", fontWeight: "bold", margin :10, marginLeft  : 25 }}>
         {`${day.weekday}    ${day.month}/${day.day}/${day.year}`}
       </p>
+        <TimeLine/>
       <div
         style={{
           display: "grid",
@@ -45,10 +46,11 @@ function TodaysSchedule() {
           gridGap : 10,
           width : '100%',
           marginLeft : 20,
+          overflowY : 'auto',
+          height : '90%'
         }}
       >
-      <p style = {{fontSize : 12}}>Team</p>
-        <TimeLine/>
+    
         {day.workblocks.map(({ startTime, endTime, user }) => {
           const newStartTime = timeToValue(startTime);
           const newEndTime = timeToValue(endTime);
@@ -64,22 +66,25 @@ function TodaysSchedule() {
                 {user.firstName} {user.lastName}
               </p>
 
-              <svg style={{ height: 10, width: "86.5%", margin: 15,}}>
+              <svg style={{ height: 10, width: "86.5%", padding: 15,}}>
                 <Tooltip title={`${startTime}-${endTime}`} placement={"top"}>
+                  
                   <line
-                    style={{ display: "flex", alignItems: "center" }}
+                    style={{ display: "flex", alignItems: "center", padding :100, background : 'orange' }}
                     stroke={"#1897E6"}
                     strokeWidth={"5"}
                     x1={`${newStartTime}%`}
                     y1={"50%"}
                     x2={`${newEndTime}%`}
                     y2={"50%"}
+                    
                   />
                 </Tooltip>
               </svg>
             </>
           );
         })}
+        
       </div>
     </Paper>
   ) : null;
