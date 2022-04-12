@@ -1,9 +1,11 @@
 import json
+import this
 from flask import request, jsonify
 from config import app, db
 from models import User, Day, WorkBlock, Availability, WeekSchedule
 from flask_login import current_user, login_user, login_required, logout_user
 from datetime import datetime, timedelta
+from dates import create_week, complete_schedule_set
 
 
 @app.route('/')
@@ -162,13 +164,22 @@ def get_schedule(day_id):
 
     return jsonify({'notScheduled': users, 'scheduled': schedule})
 
-@app.route('/get_week_schedules/<todays_month>/<todays_day>/<todays_year>')
-def get_week_schedules(todays_month, todays_day, todays_year):
 
-    w = WeekSchedule.query.filter(datetime.strptime(WeekSchedule.monday_date, "%d/%m/%y %H:%M:%S").day == 13)
-    print(w)
-    return jsonify('IDK man')
+@app.route('/get_week_schedules/<todays_date>')
+def get_week_schedules(todays_date):
+    date = [int(string) for string in todays_date.split('-')]
+    '''So we get the date and with that we first get the schedule set that has that day'''
+    d = datetime(date[2], date[0], date[1])
+    day = Day.query.filter(Day.date == d).first()
 
+    if bool(day) == False:
+        this_week = create_week(d)
+        day = this_week[0]
+
+    week = day.week_schedule
+    schedule_set = complete_schedule_set(week)
+    print('Lets see: ', schedule_set)
+    return jsonify([schedule.to_json() for schedule in schedule_set])
 
 
 @app.route('/profile_info/<user_id>/<weekday>')

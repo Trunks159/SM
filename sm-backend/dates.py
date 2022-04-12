@@ -1,23 +1,45 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
+from models import WeekSchedule, Day, db
+
+'''
+takes a datetime object and creates a week of Day objects
+linked to a weekschedule  in the db
+'''
 
 
-def viewable_days(d):
-    weekday = d.weekday()
-    weeks = []
+def create_week(date):
+    monday = date - timedelta(date.weekday())
+    week = []
+    ws = WeekSchedule(monday_date=monday)
     for i in range(7):
-        if i < weekday:
-            td = timedelta(days=weekday - i)
-            new_date = d - td
-            weeks.append(new_date)
-        elif i == weekday:
-            weeks.append(d)
-        elif i > weekday:
-            td = timedelta(days=abs(weekday-i))
-            new_date = d + td
-            weeks.append(new_date)
+        day = Day(date=monday + timedelta(i), week_schedule=ws)
+        db.session.add(day)
+        week.append(day)
+    db.session.add(ws)
+    # db.session.commit()
+    return week[0].week_schedule
 
-    last_day = weeks[len(weeks)-1]
-    for i in range(1, 15):
-        new_date = last_day + timedelta(days=i)
-        weeks.append(new_date)
-    return weeks
+
+def complete_schedule_set(week):
+    schedule_set = [week]
+    '''
+    takes a week and returns the weeks surrounding it if they exist of course'''
+    next_weeks = WeekSchedule.query.filter(
+        WeekSchedule.monday_date > week.monday_date).all()
+    for schedule in next_weeks:
+        schedule_set.append(schedule)
+    last_week = WeekSchedule.query.filter(
+        WeekSchedule.monday_date == week.monday_date - timedelta(days=7)).first()
+    two_weeks_ago = WeekSchedule.query.filter(
+        WeekSchedule.monday_date == week.monday_date - timedelta(days=14)).first()
+    if last_week:
+        schedule_set.append(last_week)
+    if two_weeks_ago:
+        schedule_set.append(two_weeks_ago)
+    return sorted(schedule_set)
+
+
+def fake():
+    d = datetime(2021, 9, 20)
+    week = create_week(d)
+    return complete_schedule_set(week)

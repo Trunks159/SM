@@ -18,17 +18,17 @@ class Home extends Component {
   state = {};
 
   componentDidMount = ()=>{
-    fetch(`/get_week_schedules/${9}/${13}/${2022}`)
+    fetch(`/get_week_schedules/${9}-${13}-${2021}`)
     .then(response=> response.json())
     .then(x =>{
       console.log('Um x: ', x)
     })
   }
   render() {
-    const { match, classes } = this.props;
+    const { classes } = this.props;
     return (
-      <div>
-        <p>To start, select schedule to view or edit</p>
+      <div style = {{background : 'white', height : '100%', width : '100%'}}>
+        <p style = {{fontSize : 31}}>To start, select schedule to <b>view</b> or <b>edit</b></p>
         <div>
           <Paper
             style={{
