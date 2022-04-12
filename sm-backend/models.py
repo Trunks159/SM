@@ -122,6 +122,7 @@ class Day(db.Model):
     state = db.Column(db.String(30))
     workblocks = db.relationship('WorkBlock', backref='day', lazy=True)
     projected_sales = db.Column(db.Integer, default=4000)
+    week_id = db.Column(db.Integer, db.ForeignKey('week_schedule.id'))
 
     def __repr__(self):
         return self.date.isoformat()
@@ -226,6 +227,15 @@ class Day(db.Model):
         return {'staffing': staffing, 'hours': hours}
 
 
+class WeekSchedule(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    monday_date = db.Column(db.DateTime)
+    week = db.relationship('Day', backref = 'week_schedule', lazy = True)
+
+    def to_json(self):
+        return(
+            [day.to_json() for day in self.week]
+        )
 class WorkBlock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

@@ -1,6 +1,7 @@
+import json
 from flask import request, jsonify
 from config import app, db
-from models import User, Day, WorkBlock, Availability
+from models import User, Day, WorkBlock, Availability, WeekSchedule
 from flask_login import current_user, login_user, login_required, logout_user
 from datetime import datetime, timedelta
 
@@ -160,6 +161,14 @@ def get_schedule(day_id):
                 users.remove(u)
 
     return jsonify({'notScheduled': users, 'scheduled': schedule})
+
+@app.route('/get_week_schedules/<todays_month>/<todays_day>/<todays_year>')
+def get_week_schedules(todays_month, todays_day, todays_year):
+
+    w = WeekSchedule.query.filter(datetime.strptime(WeekSchedule.monday_date, "%d/%m/%y %H:%M:%S").day == 13)
+    print(w)
+    return jsonify('IDK man')
+
 
 
 @app.route('/profile_info/<user_id>/<weekday>')

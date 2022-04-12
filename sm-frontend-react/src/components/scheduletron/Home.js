@@ -16,6 +16,14 @@ const styles = () => ({
 
 class Home extends Component {
   state = {};
+
+  componentDidMount = ()=>{
+    fetch(`/get_week_schedules/${9}/${13}/${2022}`)
+    .then(response=> response.json())
+    .then(x =>{
+      console.log('Um x: ', x)
+    })
+  }
   render() {
     const { match, classes } = this.props;
     return (
@@ -34,16 +42,16 @@ class Home extends Component {
             <Paper
               style={{
 
-                width: "20%",
+                width: "70%",
                 height: "100%",
                 background: "#F0F0F0",
                 position: "absolute",
                 borderRadius : '7px 0px 0px 7px',
               }}
             ></Paper>
-            <Button  style = {{position : 'absolute', left : 0, right : 0, marginLeft : 'auto', marginRight : 'auto'}} classes={{ label: classes.label, root: classes.button }}>
+            <Button  style = {{position : 'absolute', width : '100%', height : '100%', }} classes={{ label: classes.label, root: classes.button }}>
               9/17
-              <img style={{ }} src={scheduleIcon} />
+              <img style={{margin : '10px 0px'}} src={scheduleIcon} />
               9/24
             </Button>
           </Paper>
