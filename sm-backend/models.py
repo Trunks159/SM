@@ -18,7 +18,7 @@ class User(UserMixin, db.Model):
     workblocks = db.relationship('WorkBlock', backref='user', lazy=True)
     availability = db.relationship(
         'Availability', uselist=False, backref='user', lazy=True)
-    request_offs= db.relationship('RequestOff', backref = 'user', lazy = True)
+    request_offs = db.relationship('RequestOff', backref='user', lazy=True)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -230,12 +230,15 @@ class Day(db.Model):
 class WeekSchedule(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     monday_date = db.Column(db.DateTime)
-    week = db.relationship('Day', backref = 'week_schedule', lazy = True)
+    week = db.relationship('Day', backref='week_schedule', lazy=True)
 
     def to_json(self):
+        week = sorted(self.week, key=lambda x: x.date)
         return(
-            [day.to_json() for day in self.week]
+            [day.to_json() for day in week]
         )
+
+
 class WorkBlock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -262,6 +265,7 @@ class WorkBlock(db.Model):
 
     def __repr__(self):
         return 'Workblock, UserID:{} Start and End Time: {}'.format(self.user_id, self.start_time + '-' + self.end_time)
+
 
 class RequestOff(db.Model):
     id = db.Column(db.Integer, primary_key=True)

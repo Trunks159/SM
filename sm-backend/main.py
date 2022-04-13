@@ -176,8 +176,10 @@ def get_week_schedules(todays_date):
     if not create a week for that day and return schedule set'''
     week = day.week_schedule if day else create_week(dt)
     schedule_set = complete_schedule_set(week)
-    print('Lets see: ', schedule_set)
-    return jsonify([schedule.to_json() for schedule in schedule_set])
+    for item in schedule_set:
+        item['schedule'] = item['schedule'].to_json()
+    print('Lets see: ', schedule_set[0])
+    return jsonify(schedule_set)
 
 
 @app.route('/profile_info/<user_id>/<weekday>')
