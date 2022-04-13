@@ -169,14 +169,12 @@ def get_schedule(day_id):
 def get_week_schedules(todays_date):
     date = [int(string) for string in todays_date.split('-')]
     '''So we get the date and with that we first get the schedule set that has that day'''
-    d = datetime(date[2], date[0], date[1])
-    day = Day.query.filter(Day.date == d).first()
+    dt = datetime(date[2], date[0], date[1])
+    day = Day.query.filter(Day.date == dt).first()
 
-    if bool(day) == False:
-        this_week = create_week(d)
-        day = this_week[0]
-
-    week = day.week_schedule
+    '''If day is found , take that day's weekschedule and create a scheduleset
+    if not create a week for that day and return schedule set'''
+    week = day.week_schedule if day else create_week(dt)
     schedule_set = complete_schedule_set(week)
     print('Lets see: ', schedule_set)
     return jsonify([schedule.to_json() for schedule in schedule_set])

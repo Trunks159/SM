@@ -17,11 +17,12 @@ def create_week(date):
         week.append(day)
     db.session.add(ws)
     # db.session.commit()
-    return week[0].week_schedule
+    '''returns weekSchedule instead of list of days in week'''
+    return ws
 
 
 def complete_schedule_set(week):
-    schedule_set = [week]
+    schedule_set = [{week}]
     '''
     takes a week and returns the weeks surrounding it if they exist of course'''
     next_weeks = WeekSchedule.query.filter(
@@ -33,13 +34,16 @@ def complete_schedule_set(week):
     two_weeks_ago = WeekSchedule.query.filter(
         WeekSchedule.monday_date == week.monday_date - timedelta(days=14)).first()
     if last_week:
-        schedule_set.append(last_week)
+        schedule_set.append({'last week' : last_week})
     if two_weeks_ago:
-        schedule_set.append(two_weeks_ago)
-    return sorted(schedule_set)
+        schedule_set.append({'two weeks ago': two_weeks_ago})
+    return sorted(schedule_set, key=lambda x: x.monday_date)
+
 
 
 def fake():
-    d = datetime(2021, 9, 20)
+    d = datetime(2021, 9, 6)
     week = create_week(d)
+    d = datetime(2021, 9,20)
+    create_week(d)
     return complete_schedule_set(week)
