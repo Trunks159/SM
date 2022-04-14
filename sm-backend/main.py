@@ -178,7 +178,6 @@ def get_week_schedules(todays_date):
     schedule_set = complete_schedule_set(week)
     for item in schedule_set:
         item['schedule'] = item['schedule'].to_json()
-    print('Lets see: ', schedule_set[0])
     return jsonify(schedule_set)
 
 

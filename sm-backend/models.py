@@ -141,7 +141,6 @@ class Day(db.Model):
             'date': self.date.isoformat(),
             'projectedSales': self.projected_sales,
             'workblocks': [workblock.to_json() for workblock in self.workblocks]
-
         }
 
     def shiftData(self):
@@ -234,9 +233,10 @@ class WeekSchedule(db.Model):
 
     def to_json(self):
         week = sorted(self.week, key=lambda x: x.date)
-        return(
-            [day.to_json() for day in week]
-        )
+        return({
+            'schedule': [day.to_json() for day in week],
+            'staffing': {'actual': 3, 'projected': 7}
+        })
 
 
 class WorkBlock(db.Model):

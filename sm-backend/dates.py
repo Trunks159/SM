@@ -50,15 +50,16 @@ def with_added_labels(schedule_set, this_week):
     finished_set = []
     p = inflect.engine()
     for schedule in schedule_set:
-        difference = (schedule.monday_date - this_week.monday_date).days / 7
-        print('Duh difference: ', difference)
+        difference = int(
+            (schedule.monday_date - this_week.monday_date).days / 7)
         if difference < 0:
             word = 'last week' if difference == - \
                 1 else '{number} weeks ago'.format(p.number_to_words(abs(difference)/7))
         elif difference == 0:
             word = 'this week'
         else:
-            word = 'next week' if difference == 1 else '{} weeks from now'.format(p.number_to_words(difference))
+            word = 'next week' if difference == 1 else '{} weeks from now'.format(
+                p.number_to_words(difference))
         finished_set.append({'timeFrame': word, 'schedule': schedule})
     return finished_set
 

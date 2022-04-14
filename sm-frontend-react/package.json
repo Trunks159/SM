@@ -11,6 +11,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@mui/lab": "^5.0.0-alpha.53",
     "@mui/material": "^5.0.6",
+    "@mui/x-date-pickers": "^5.0.0-alpha.0",
     "@progress/kendo-data-query": "^1.5.3",
     "@progress/kendo-drawing": "^1.7.0",
     "@progress/kendo-react-charts": "^3.14.0",
