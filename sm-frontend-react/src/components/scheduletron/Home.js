@@ -24,6 +24,15 @@ const styles = () => ({
 class Home extends Component {
   state = {
     schedules: [],
+    selected: null,
+  };
+
+  handleSelect = (week) => {
+    if (this.state.selected) {
+      this.setState({ selected: null });
+    } else {
+      this.setState({ selected: week });
+    }
   };
 
   componentDidMount = () => {
@@ -43,101 +52,144 @@ class Home extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div style={{ background: "#F0F0F0", height: "100%" }}>
-        <p style={{ fontSize: 31 }}>
-          To start, select schedule to <b>view</b> or <b>edit</b>
-        </p>
-        <div
-          style={{
-            display: "inline-flex",
-            gap: 10,
-            background: "white",
-            padding: 20,
-            alignItems: "center",
-            borderRadius: 7,
-          }}
-        >
-          {this.state.schedules.map(({ week, timeFrame, staffing }) => (
+      <div
+        style={{
+          background: "#F0F0F0",
+          height: "100%",
+          width: "100%",
+          display: "flex",
+        }}
+      >
+        <div style={{}}>
+          <p style={{ fontSize: 31 }}>
+            To start, select schedule to <b>view</b> or <b>edit</b>
+          </p>
+          <div
+            style={{
+              display: "inline-flex",
+              gap: 10,
+              background: "white",
+              padding: 20,
+              margin: 20,
+              alignItems: "center",
+              borderRadius: 7,
+            }}
+          >
+            {this.state.schedules.map(({ week, timeFrame, staffing }) => (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <p
+                  style={{
+                    textTransform: "capitalize",
+                    fontSize: 15,
+                    margin: 0,
+                  }}
+                >
+                  {timeFrame}
+                </p>
+                <Paper
+                  style={{
+                    width: 145,
+                    height: 205,
+                    background: "#DADADA",
+                    position: "relative",
+                    borderRadius: "7px",
+                  }}
+                >
+                  <Paper
+                    style={{
+                      width: `${(staffing.actual / staffing.projected) * 100}%`,
+                      height: "100%",
+                      background: "#F0F0F0",
+                      position: "absolute",
+                      borderRadius: "7px 0px 0px 7px",
+                    }}
+                  ></Paper>
+
+                  <Button
+                    onClick={() => this.handleSelect(week)}
+                    style={{
+                      position: "absolute",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                    classes={{ label: classes.label, root: classes.button }}
+                  >
+                    {week[0].month}/{week[0].day}
+                    <img style={{ margin: "10px 0px" }} src={scheduleIcon} />
+                    {week[6].month}/{week[6].day}
+                    <p
+                      style={{ fontSize: 9, textTransform: "none", margin: 0 }}
+                    >
+                      {Math.round((staffing.actual / staffing.projected) * 100)}
+                      % Complete
+                    </p>
+                  </Button>
+                </Paper>
+              </div>
+            ))}
+          </div>
+          {this.state.selected ? (
             <div
               style={{
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                background: "#E6E6E6",
+                justifyContent: "space-evenly",
               }}
             >
-              <p
-                style={{
-                  textTransform: "capitalize",
-                  fontSize: 15,
-                  margin: 0,
-                }}
-              >
-                {timeFrame}
-              </p>
-              <Paper
-                style={{
-                  width: 145,
-                  height: 205,
-                  background: "#DADADA",
-                  position: "relative",
-                  borderRadius: "7px",
-                }}
-              >
-                <Paper
+              {this.state.selected.map(({ day, month, weekday }) => (
+                <div
                   style={{
-                    width: "70%",
-                    height: "100%",
-                    background: "#F0F0F0",
-                    position: "absolute",
-                    borderRadius: "7px 0px 0px 7px",
+                    width: 66,
+                    height: 66,
+                    margin: 20,
+                    color: "white",
+                    background: "#738D9B",
+                    textAlign: "center",
+                    borderRadius : 7
                   }}
-                ></Paper>
-
-                <Button
-                  style={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                  }}
-                  classes={{ label: classes.label, root: classes.button }}
                 >
-                  {week[0].month}/{week[0].day}
-                  <img style={{ margin: "10px 0px" }} src={scheduleIcon} />
-                  {week[6].month}/{week[6].day}
-                  <p style={{ fontSize: 9, textTransform: "none", margin: 0 }}>
-                    {Math.round((staffing.actual / staffing.projected) * 100)}%
-                    Complete
+                  <b style={{ fontSize: 14 , marginTop : 30}}>{weekday}</b>
+                  <p style={{ fontSize: 11 }}>
+                    {" "}
+                    {month}/{day}
                   </p>
-                </Button>
-              </Paper>
+                  <p style={{ fontSize: 4 }}>50% Complete</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <div style={{ display: "flex", padding: 25, gap: 15 }}>
-          <Button
-            style={{
-              marginLeft: "auto",
-              textTransform: "none",
-              color: "white",
-              background: "#606060",
-              padding: "10px 20px",
-            }}
-            startIcon={<img style={{ width: 20 }} src={addIcon} />}
-          >
-            Add A Schedule
-          </Button>
-          <Link
-            style={{
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none",
-              color: "#CBCBCB",
-            }}
-            to="/"
-          >
-            <img src={openIconInactive} />
-            Open
-          </Link>
+          ) : null}
+          <div style={{ display: "flex", padding: 25, gap: 15 }}>
+            <Button
+              style={{
+                marginLeft: "auto",
+                textTransform: "none",
+                color: "white",
+                background: "#606060",
+                padding: "10px 20px",
+              }}
+              startIcon={<img style={{ width: 20 }} src={addIcon} />}
+            >
+              Add A Schedule
+            </Button>
+            <Link
+              style={{
+                display: "flex",
+                alignItems: "center",
+                textDecoration: "none",
+                color: "#CBCBCB",
+              }}
+              to="/"
+            >
+              <img src={openIconInactive} />
+              Open
+            </Link>
+          </div>
         </div>
 
         <div>

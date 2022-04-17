@@ -39,6 +39,7 @@ const NavLink = ({ img, label,to }) => (
 );
 
 const Nav = ({ path }) => {
+  console.log('The pAth: ', path)
   const classes = useStyles();
   return (
     <div

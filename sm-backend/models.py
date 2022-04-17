@@ -235,7 +235,7 @@ class WeekSchedule(db.Model):
         week = sorted(self.week, key=lambda x: x.date)
         return({
             'schedule': [day.to_json() for day in week],
-            'staffing': {'actual': 3, 'projected': 7}
+            'staffing': {'actual': 6, 'projected': 7}
         })
 
 
