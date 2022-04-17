@@ -13,7 +13,19 @@ const styles = () => ({
 });
 
 class Scheduletron extends Component {
-  state = {};
+  state = {
+    selected : null,
+  };
+
+  handleSelect = (week) => {
+    console.log('the selected', week)
+    if (this.state.selected === week) {
+      this.setState({ selected: null });
+    } else {
+      this.setState({ selected: week });
+    }
+  };
+
   render() {
     const { classes, match } = this.props;
     let { path } = match;
@@ -22,10 +34,10 @@ class Scheduletron extends Component {
         <Nav path={path} />
         <Switch>
           <Route exact path={"/scheduletron"}>
-            <Home />
+            <Home handleSelect = {this.handleSelect} selected = {this.state.selected}/>
           </Route>
           <Route path={"/scheduletron/:date"}>
-            <Scheduler />
+            <Scheduler day = {this.state.selected} />
           </Route>
         </Switch>
       </div>

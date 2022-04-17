@@ -4,7 +4,7 @@ import scheduleIconWhite from "../../assets/images/Schedule Icon White.svg";
 import openIcon from "../../assets/images/Open Icon.svg";
 import openIconInactive from "../../assets/images/Open Icon Not Active.svg";
 import addIcon from "../../assets/images/Add Icon.svg";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -24,16 +24,8 @@ const styles = () => ({
 class Home extends Component {
   state = {
     schedules: [],
-    selected: null,
   };
 
-  handleSelect = (week) => {
-    if (this.state.selected) {
-      this.setState({ selected: null });
-    } else {
-      this.setState({ selected: week });
-    }
-  };
 
   componentDidMount = () => {
     /*This would request for today but not yet */
@@ -41,16 +33,18 @@ class Home extends Component {
       .then((response) => response.json())
       .then((schedules) => {
         schedules = schedules.map(({ schedule, timeFrame }) => ({
+          id : schedule.id,
           week: schedule.schedule,
           timeFrame: timeFrame,
           staffing: schedule.staffing,
+
         }));
         console.log("The schedules: ", schedules);
         this.setState({ schedules: schedules });
       });
   };
   render() {
-    const { classes } = this.props;
+    const { classes , handleSelect, match, selected} = this.props;
     return (
       <div
         style={{
@@ -75,7 +69,7 @@ class Home extends Component {
               borderRadius: 7,
             }}
           >
-            {this.state.schedules.map(({ week, timeFrame, staffing }) => (
+            {this.state.schedules.map(({ week, timeFrame, staffing,id }) => (
               <div
                 style={{
                   display: "flex",
@@ -112,7 +106,7 @@ class Home extends Component {
                   ></Paper>
 
                   <Button
-                    onClick={() => this.handleSelect(week)}
+                    onClick={() => handleSelect({week : week, id :id})}
                     style={{
                       position: "absolute",
                       width: "100%",
@@ -134,7 +128,7 @@ class Home extends Component {
               </div>
             ))}
           </div>
-          {this.state.selected ? (
+          {selected ? (
             <div
               style={{
                 display: "flex",
@@ -142,7 +136,7 @@ class Home extends Component {
                 justifyContent: "space-evenly",
               }}
             >
-              {this.state.selected.map(({ day, month, weekday }) => (
+              {selected.week.map(({ day, month, weekday }) => (
                 <div
                   style={{
                     width: 66,
@@ -173,7 +167,7 @@ class Home extends Component {
                 background: "#606060",
                 padding: "10px 20px",
               }}
-              startIcon={<img style={{ width: 20 }} src={addIcon} />}
+              startIcon={<img style={{ width: 20, }} src={addIcon} />}
             >
               Add A Schedule
             </Button>
@@ -182,12 +176,14 @@ class Home extends Component {
                 display: "flex",
                 alignItems: "center",
                 textDecoration: "none",
-                color: "#CBCBCB",
+                color: selected ? '#1897E6' : "#CBCBCB", 
+                pointerEvents : selected ? 'auto' : 'none',
+      
               }}
-              to="/"
+              to = {selected ? (`${match.path}/${selected.id}`) : ('/')}
             >
-              <img src={openIconInactive} />
-              Open
+              <img style = {{filter : selected ? 'invert(48%) sepia(80%) saturate(1387%) hue-rotate(174deg) brightness(92%) contrast(94%)' :  'none'}} src={openIconInactive} />
+              Open {selected ? `${selected.week[0].month}/${selected.week[0].day} - ${selected.week[6].month}/${selected.week[6].day}` : null}
             </Link>
           </div>
         </div>
@@ -218,4 +214,4 @@ class Home extends Component {
   }
 }
 
-export default withStyles(styles)(Home);
+export default withStyles(styles)(withRouter(Home));
