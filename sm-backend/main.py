@@ -1,6 +1,8 @@
+from email.policy import default
 import json
 import this
 from flask import request, jsonify
+from sqlalchemy import false
 from config import app, db
 from models import User, Day, WorkBlock, Availability, WeekSchedule
 from flask_login import current_user, login_user, login_required, logout_user
@@ -179,6 +181,25 @@ def get_week_schedules(todays_date):
     for item in schedule_set:
         item['schedule'] = item['schedule'].to_json()
     return jsonify(schedule_set)
+
+
+@app.route('/get_week_schedule/<schedule_id>')
+def get_week_schedule(schedule_id):
+    ws = WeekSchedule.query.filter_by(id=schedule_id).first()
+
+    if ws:
+        return(jsonify(ws.to_json()))
+    else:
+        return (jsonify(False))
+
+
+@app.route('/get_day_schedule/<id>')
+def get_day_schedule(id):
+    ds = Day.query.filter_by(id=id).first()
+    if ds:
+        return jsonify(ds.to_json())
+    else:
+        return jsonify(False)
 
 
 @app.route('/profile_info/<user_id>/<weekday>')

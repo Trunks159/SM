@@ -5,41 +5,45 @@ import homeIconInactive from "../../assets/images/Home Icon Not Active.svg";
 import scheduleIcon from "../../assets/images/Schedule Icon White.svg";
 import scheduleIconInactive from "../../assets/images/Schedule Icon Not Active.svg";
 import settingsIcon from "../../assets/images/Settings Icon Not Active.svg";
-import { Link } from "react-router-dom";
-import { makeStyles} from "@material-ui/core";
+import { Link, NavLink } from "react-router-dom";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
   label: {
     flexDirection: "column",
   },
-  settings : {
-      textTransform : 'none',
-      marginTop : 'auto',
-      color :'white',
-      fontWeight : 'normal',
-      fontSize : 9,
-  }
+  settings: {
+    textTransform: "none",
+    marginTop: "auto",
+    color: "white",
+    fontWeight: "normal",
+    fontSize: 9,
+  },
 });
 
-const NavLink = ({ img, label,to }) => (
-  <Link
-    style={{
+const IconLink = ({ img, label, to }) => (
+  <NavLink
+    activeStyle={{
       color: "white",
+    }}
+    style={{
+      color: "#9DB5C2",
       textDecoration: "none",
       display: "flex",
       alignItems: "center",
       flexDirection: "column",
-      margin : 10
+      margin: 10,
     }}
-    to = {to}
+    exact
+    to={to}
   >
     <img src={img} />
-    {label ? <p style = {{margin  :0, fontSize : 9}}>{label}</p> : null}
-  </Link>
+    {label ? <p style={{ margin: 0, fontSize: 9 }}>{label}</p> : null}
+  </NavLink>
 );
 
-const Nav = ({ path }) => {
-  console.log('The pAth: ', path)
+const Nav = ({ path, dayId }) => {
+  console.log("The pAth: ", dayId);
   const classes = useStyles();
   return (
     <div
@@ -52,23 +56,22 @@ const Nav = ({ path }) => {
         maxWidth: 70,
       }}
     >
-      <NavLink
-        img={path === "/scheduletron" ? homeIcon : homeIconInactive}
+      <IconLink
+        img={homeIcon}
         label={path === "/scheduletron" ? "Home" : null}
-        to = {'/scheduletron'}
+        to={path}
       />
-      <NavLink
-        img={path !== "/scheduletron" ? scheduleIcon : scheduleIconInactive }
+      <IconLink
+        img={scheduleIcon}
         label={path !== "/scheduletron" ? "Schedule" : null}
-        to = {path  + '/schedule'}
+        to={path + `/${dayId}`}
       />
       <Button
-        classes={{ label: classes.label ,root : classes.settings}}
-        startIcon={<img style = {{ marginLeft : 10, marginBottom :5}} src={settingsIcon} />}
-        
-      >
-      
-      </Button>
+        classes={{ label: classes.label, root: classes.settings }}
+        startIcon={
+          <img style={{ marginLeft: 10, marginBottom: 5 }} src={settingsIcon} />
+        }
+      ></Button>
     </div>
   );
 };

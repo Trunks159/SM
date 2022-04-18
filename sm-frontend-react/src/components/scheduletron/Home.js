@@ -9,6 +9,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button, TextField, Paper, withStyles } from "@material-ui/core";
+import DayBtn from "./DayBtn";
 
 const styles = () => ({
   label: {
@@ -22,29 +23,10 @@ const styles = () => ({
 });
 
 class Home extends Component {
-  state = {
-    schedules: [],
-  };
+  state = {};
 
-
-  componentDidMount = () => {
-    /*This would request for today but not yet */
-    fetch(`/get_week_schedules/${9}-${13}-${2021}`)
-      .then((response) => response.json())
-      .then((schedules) => {
-        schedules = schedules.map(({ schedule, timeFrame }) => ({
-          id : schedule.id,
-          week: schedule.schedule,
-          timeFrame: timeFrame,
-          staffing: schedule.staffing,
-
-        }));
-        console.log("The schedules: ", schedules);
-        this.setState({ schedules: schedules });
-      });
-  };
   render() {
-    const { classes , handleSelect, match, selected} = this.props;
+    const { classes, handleSelect, match, selected, schedules } = this.props;
     return (
       <div
         style={{
@@ -69,7 +51,7 @@ class Home extends Component {
               borderRadius: 7,
             }}
           >
-            {this.state.schedules.map(({ week, timeFrame, staffing,id }) => (
+            {schedules.map(({ week, timeFrame, staffing, id }) => (
               <div
                 style={{
                   display: "flex",
@@ -106,7 +88,7 @@ class Home extends Component {
                   ></Paper>
 
                   <Button
-                    onClick={() => handleSelect({week : week, id :id})}
+                    onClick={() => handleSelect({ week: week, id: id })}
                     style={{
                       position: "absolute",
                       width: "100%",
@@ -128,36 +110,7 @@ class Home extends Component {
               </div>
             ))}
           </div>
-          {selected ? (
-            <div
-              style={{
-                display: "flex",
-                background: "#E6E6E6",
-                justifyContent: "space-evenly",
-              }}
-            >
-              {selected.week.map(({ day, month, weekday }) => (
-                <div
-                  style={{
-                    width: 66,
-                    height: 66,
-                    margin: 20,
-                    color: "white",
-                    background: "#738D9B",
-                    textAlign: "center",
-                    borderRadius : 7
-                  }}
-                >
-                  <b style={{ fontSize: 14 , marginTop : 30}}>{weekday}</b>
-                  <p style={{ fontSize: 11 }}>
-                    {" "}
-                    {month}/{day}
-                  </p>
-                  <p style={{ fontSize: 4 }}>50% Complete</p>
-                </div>
-              ))}
-            </div>
-          ) : null}
+
           <div style={{ display: "flex", padding: 25, gap: 15 }}>
             <Button
               style={{
@@ -167,7 +120,7 @@ class Home extends Component {
                 background: "#606060",
                 padding: "10px 20px",
               }}
-              startIcon={<img style={{ width: 20, }} src={addIcon} />}
+              startIcon={<img style={{ width: 20 }} src={addIcon} />}
             >
               Add A Schedule
             </Button>
@@ -176,14 +129,23 @@ class Home extends Component {
                 display: "flex",
                 alignItems: "center",
                 textDecoration: "none",
-                color: selected ? '#1897E6' : "#CBCBCB", 
-                pointerEvents : selected ? 'auto' : 'none',
-      
+                color: selected ? "#1897E6" : "#CBCBCB",
+                pointerEvents: selected ? "auto" : "none",
               }}
-              to = {selected ? (`${match.path}/${selected.id}`) : ('/')}
+              to={selected ? `${match.path}/${selected.id}` : "/"}
             >
-              <img style = {{filter : selected ? 'invert(48%) sepia(80%) saturate(1387%) hue-rotate(174deg) brightness(92%) contrast(94%)' :  'none'}} src={openIconInactive} />
-              Open {selected ? `${selected.week[0].month}/${selected.week[0].day} - ${selected.week[6].month}/${selected.week[6].day}` : null}
+              <img
+                style={{
+                  filter: selected
+                    ? "invert(48%) sepia(80%) saturate(1387%) hue-rotate(174deg) brightness(92%) contrast(94%)"
+                    : "none",
+                }}
+                src={openIconInactive}
+              />
+              Open{" "}
+              {selected
+                ? `${selected.week[0].month}/${selected.week[0].day} - ${selected.week[6].month}/${selected.week[6].day}`
+                : null}
             </Link>
           </div>
         </div>

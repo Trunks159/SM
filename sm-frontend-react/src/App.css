@@ -46,3 +46,15 @@
   margin: 10px;
   padding: 20px;
 }
+
+
+.example {
+  width: 1px;
+  height: 100px;
+  background-color: #cb90bf;
+  transition: width .5s ease-in;
+}
+
+.example:hover {
+  width: 200px;
+}
