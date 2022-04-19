@@ -1,6 +1,7 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React from "react";
 import { makeStyles } from "@material-ui/core";
+import { getListItemSecondaryActionClassesUtilityClass } from "@mui/material";
 
 const useStyles = makeStyles({
   label: {
@@ -18,12 +19,11 @@ const abreviated = {
   Sunday: "Sun.",
 };
 
-const DayBtn = ({ weekday, date, completion, disabled, id }) => {
+const DayBtn = ({ weekday, date, completion, disabled, id, path, setDay }) => {
   const classes = useStyles();
-  const location = useLocation();
   return (
     <Link
-      to={`${location.pathname}/${id}`}
+      to={`/scheduletron/${id}`}
       style={{
         height: 66,
         width: 66,
@@ -36,6 +36,7 @@ const DayBtn = ({ weekday, date, completion, disabled, id }) => {
         pointerEvents: disabled ? "none" : "auto",
         position: "relative",
       }}
+      onClick={() => setDay(id)}
     >
       <div
         style={{

@@ -183,14 +183,18 @@ def get_week_schedules(todays_date):
     return jsonify(schedule_set)
 
 
-@app.route('/get_week_schedule/<schedule_id>')
-def get_week_schedule(schedule_id):
-    ws = WeekSchedule.query.filter_by(id=schedule_id).first()
+@app.route('/get_week_schedule/<day_id>')
+def get_week_schedule(day_id):
+    day = Day.query.filter_by(id=day_id).first()
 
-    if ws:
-        return(jsonify(ws.to_json()))
+    if day:
+        week = day.week_schedule
+        set = complete_schedule_set(week)
+        for item in set:
+            item['schedule'] = item['schedule'].to_json()
+        return(jsonify({'weekSchedule': week.to_json(), 'day': day.to_json(), 'scheduleSet': set}))
     else:
-        return (jsonify(False))
+        return (jsonify('Couldnt find the day man'))
 
 
 @app.route('/get_day_schedule/<id>')

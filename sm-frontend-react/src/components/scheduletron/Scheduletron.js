@@ -17,21 +17,28 @@ class Scheduletron extends Component {
   state = {
     schedules: null,
     selected: null,
+    day: null,
   };
 
   componentDidMount = () => {
     /*This would request for today but not yet */
-    fetch(`/get_week_schedules/${9}-${13}-${2021}`)
-      .then((response) => response.json())
-      .then((schedules) => {
-        schedules = schedules.map(({ schedule, timeFrame }) => ({
-          id: schedule.id,
-          week: schedule.schedule,
-          timeFrame: timeFrame,
-          staffing: schedule.staffing,
-        }));
-        this.setState({ schedules: schedules });
-      });
+    if (this.state.schedules === null) {
+      fetch(`/get_week_schedules/${9}-${13}-${2021}`)
+        .then((response) => response.json())
+        .then((scheduleSet) => {
+          this.setScheduleSet(scheduleSet);
+        });
+    }
+  };
+
+  setScheduleSet = (scheduleSet) => {
+    const schedules = scheduleSet.map(({ schedule, timeFrame }) => ({
+      id: schedule.id,
+      week: schedule.schedule,
+      timeFrame: timeFrame,
+      staffing: schedule.staffing,
+    }));
+    this.setState({ schedules: schedules });
   };
 
   handleSelect = (week) => {
@@ -41,6 +48,11 @@ class Scheduletron extends Component {
     } else {
       this.setState({ selected: week });
     }
+  };
+
+  setDay = (id) => {
+    day = this.state.selected.week.find((d) => d.id === id);
+    this.setState({ day: day });
   };
 
   render() {
@@ -59,7 +71,11 @@ class Scheduletron extends Component {
           }
         />
         {this.state.selected ? (
-          <WeekBar week={this.state.selected.week} />
+          <WeekBar
+            week={this.state.selected.week}
+            path={path}
+            setDay={this.setDay}
+          />
         ) : null}
 
         <Switch>
@@ -73,13 +89,19 @@ class Scheduletron extends Component {
           <Route
             path={"/scheduletron/:day"}
             render={({ match }) => {
+              /*
               const day = this.state.selected
                 ? this.state.selected.week.find(
                     ({ id }) => id === parseInt(match.params.day)
                   )
-                : null;
-              console.log("Ad day is passed ", day);
-              return <Scheduler day={day} handleSelect={this.handleSelect} />;
+                : null;*/
+              return (
+                <Scheduler
+                  day={this.state.day}
+                  handleSelect={this.handleSelect}
+                  setScheduleSet={this.setScheduleSet}
+                />
+              );
             }}
           />
         </Switch>

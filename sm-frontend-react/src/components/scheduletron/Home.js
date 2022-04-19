@@ -77,7 +77,7 @@ class Home extends Component {
                     borderRadius: "7px",
                   }}
                 >
-                  <Paper
+                  <div
                     style={{
                       width: `${(staffing.actual / staffing.projected) * 100}%`,
                       height: "100%",
@@ -85,7 +85,7 @@ class Home extends Component {
                       position: "absolute",
                       borderRadius: "7px 0px 0px 7px",
                     }}
-                  ></Paper>
+                  ></div>
 
                   <Button
                     onClick={() => handleSelect({ week: week, id: id })}

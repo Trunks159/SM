@@ -10,20 +10,22 @@ const styles = () => ({
     alignItems: "center",
     background: "#E1E9EE",
     justifyContent: "space-evenly",
-    minWidth :1,
+    minWidth: 1,
     padding: "0px 15px",
+    overflowX: "hidden",
   },
 });
 
 class WeekBar extends Component {
   render() {
-    const { week, classes } = this.props;
+    const { week, classes, path, setDay } = this.props;
     return (
       <AnimatePresence>
         <motion.div
           className={classes.main}
-          initial={{ width: '0px' }}
-          animate={{ width : '100px' }}
+          initial={{ width: "0px" }}
+          animate={{ width: "100px" }}
+          transition={{ duration: 0.2 }}
           exit={{ opacity: 0 }}
         >
           {week.map(({ weekday, staffing, month, day, id }) => (
@@ -34,6 +36,8 @@ class WeekBar extends Component {
               )}
               date={`${month}/${day}`}
               id={id}
+              path={path}
+              setDay={setDay}
             />
           ))}
         </motion.div>
