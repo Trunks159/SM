@@ -51,7 +51,7 @@ class Scheduletron extends Component {
   };
 
   setDay = (id) => {
-    day = this.state.selected.week.find((d) => d.id === id);
+    const day = this.state.selected.week.find((d) => d.id === id);
     this.setState({ day: day });
   };
 
