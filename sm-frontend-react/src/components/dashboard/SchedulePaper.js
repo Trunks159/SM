@@ -1,57 +1,54 @@
 import { Paper } from "@material-ui/core";
 import React from "react";
-import TimeLine from "./TimeLine";
+import TimeLine from "../TimeLine";
 import { makeStyles, Tooltip } from "@material-ui/core";
 import { timeToValue } from "../user/TimeFunctions";
-import scheduleIcon from '../../assets/images/Schedule Icon Watermark.svg'
-
+import scheduleIcon from "../../assets/images/Schedule Icon Watermark.svg";
 
 const useStyles = makeStyles({
   paper: {
     maxWidth: 837,
     minWidth: 400,
     height: 342,
-    overflowX : 'hidden',
+    overflowX: "hidden",
 
     background: "white",
-    margin :15,
-    position : 'relative'
-
+    margin: 15,
+    position: "relative",
   },
 });
 
-function TodaysSchedule() {
-  const [day, setDay] = React.useState(null);
+function SchedulePaper({ schedule }) {
+  const { weekday, day, month, year, workblocks } = schedule;
   const classes = useStyles();
-
-  React.useEffect(() => {
-    const today = { day: 13, month: 9, year: 2021 };
-    fetch(`get_day/${today.month}-${today.day}-${today.year}`)
-      .then((response) => response.json())
-      .then((day) => setDay(day));
-  }, []);
-
-  return day ? (
-    <Paper className={classes.paper} elevation = {2}>
-      <img style = {{position : 'absolute', margin :5}} src = {scheduleIcon}/>
-      <p style={{ fontSize: 18, color: "#1897E6", fontWeight: "bold", margin :10, marginLeft  : 25 }}>
-        {`${day.weekday}    ${day.month}/${day.day}/${day.year}`}
+  return (
+    <Paper className={classes.paper} elevation={2}>
+      <img style={{ position: "absolute", margin: 5 }} src={scheduleIcon} />
+      <p
+        style={{
+          fontSize: 18,
+          color: "#1897E6",
+          fontWeight: "bold",
+          margin: 10,
+          marginLeft: 25,
+        }}
+      >
+        {`${weekday}    ${month}/${day}/${year}`}
       </p>
-        <TimeLine/>
+      <TimeLine />
       <div
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 8fr",
           alignItems: "center",
-          gridGap : 10,
-          width : '100%',
-          marginLeft : 20,
-          overflowY : 'auto',
-          height : '90%'
+          gridGap: 10,
+          width: "100%",
+          marginLeft: 20,
+          overflowY: "auto",
+          height: "90%",
         }}
       >
-    
-        {day.workblocks.map(({ startTime, endTime, user }) => {
+        {workblocks.map(({ startTime, endTime, user }) => {
           const newStartTime = timeToValue(startTime);
           const newEndTime = timeToValue(endTime);
           return (
@@ -66,28 +63,30 @@ function TodaysSchedule() {
                 {user.firstName} {user.lastName}
               </p>
 
-              <svg style={{ height: 10, width: "86.5%", padding: 15,}}>
+              <svg style={{ height: 10, width: "86.5%", padding: 15 }}>
                 <Tooltip title={`${startTime}-${endTime}`} placement={"top"}>
-                  
                   <line
-                    style={{ display: "flex", alignItems: "center", padding :100, background : 'orange' }}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      padding: 100,
+                      background: "orange",
+                    }}
                     stroke={"#1897E6"}
                     strokeWidth={"5"}
                     x1={`${newStartTime}%`}
                     y1={"50%"}
                     x2={`${newEndTime}%`}
                     y2={"50%"}
-                    
                   />
                 </Tooltip>
               </svg>
             </>
           );
         })}
-        
       </div>
     </Paper>
-  ) : null;
+  );
 }
 
-export default TodaysSchedule;
+export default SchedulePaper;

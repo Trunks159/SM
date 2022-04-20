@@ -51,6 +51,8 @@ class Scheduler extends Component {
             margin: 10,
             background: "white",
             borderRadius: 7,
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <div
@@ -87,7 +89,7 @@ class Scheduler extends Component {
             </Button>
           </div>
 
-          <Main />
+          <Main schedule={this.state.day} />
         </Paper>
         <div>
           <Link to="/">Back To Yesterday</Link>

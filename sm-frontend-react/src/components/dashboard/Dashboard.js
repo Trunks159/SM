@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Paper, withStyles } from "@material-ui/core";
-import TodaysSchedule from "./TodaysSchedule";
+import SchedulePaper from "./SchedulePaper";
 import scheduleIcon from "../../assets/images/Schedule Icon White.svg";
 import { Link } from "react-router-dom";
 
@@ -10,7 +10,7 @@ const styles = () => ({
     display: "flex",
     flexWrap: "wrap",
     background: "white",
-    minHeight : '100%',
+    minHeight: "100%",
   },
   mainAction: {
     background: "#1897E6",
@@ -29,13 +29,26 @@ const styles = () => ({
 });
 
 class Dashboard extends Component {
-  state = {};
+  state = {
+    schedule: null,
+  };
+
+  componentDidMount = () => {
+    const today = { day: 13, month: 9, year: 2021 };
+    fetch(`get_day/${today.month}-${today.day}-${today.year}`)
+      .then((response) => response.json())
+      .then((schedule) => {
+        console.log("Schedule: ", schedule);
+        this.setState({ schedule: schedule });
+      });
+  };
+
   render() {
     /*When the site actually works, the date wont be passed in
     instead, we'll just get today date */
     const { classes, currentUser } = this.props;
 
-    return (
+    return this.state.schedule ? (
       <div className={classes.main}>
         <div style={{ margin: 20, marginTop: 0 }}>
           <p
@@ -48,7 +61,7 @@ class Dashboard extends Component {
             Dashboard
           </p>
           <p style={{ fontSize: "18", fontWeight: "bold" }}>Today's Schedule</p>
-          <TodaysSchedule currentUser={currentUser} />
+          <SchedulePaper schedule={this.state.schedule} />
           <Link
             to="/scheduletron"
             style={{ color: "white", textDecoration: "none" }}
@@ -112,7 +125,7 @@ class Dashboard extends Component {
           </div>
         </div>
       </div>
-    );
+    ) : null;
   }
 }
 
