@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
-import { Link, Route, Switch, withRouter } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import Nav from "./Nav";
-import Home from "./Home";
+import Home from "./home/Home";
 import Scheduler from "./scheduler/Scheduler";
 import WeekBar from "./WeekBar";
 
@@ -21,7 +21,10 @@ class Scheduletron extends Component {
   };
 
   componentDidMount = () => {
-    /*This would request for today but not yet */
+    /*This would request for today but not yet
+      it initializes the schedule set which is an array of
+      5 or so weekSchedules
+    */
     if (this.state.schedules === null) {
       fetch(`/get_week_schedules/${9}-${13}-${2021}`)
         .then((response) => response.json())
@@ -32,6 +35,8 @@ class Scheduletron extends Component {
   };
 
   setScheduleSet = (scheduleSet) => {
+    /* Used by DayBtn and of course ComponentDidMount
+        kinda self explanatory*/
     const schedules = scheduleSet.map(({ schedule, timeFrame }) => ({
       id: schedule.id,
       week: schedule.schedule,
@@ -42,7 +47,6 @@ class Scheduletron extends Component {
   };
 
   handleSelect = (week) => {
-    console.log("the selected", week);
     if (this.state.selected === week) {
       this.setState({ selected: null });
     } else {

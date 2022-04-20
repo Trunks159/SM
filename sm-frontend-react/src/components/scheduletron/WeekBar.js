@@ -10,9 +10,7 @@ const styles = () => ({
     alignItems: "center",
     background: "#E1E9EE",
     justifyContent: "space-evenly",
-    minWidth: 1,
     padding: "0px 15px",
-    overflowX: "hidden",
   },
 });
 
