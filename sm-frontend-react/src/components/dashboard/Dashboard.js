@@ -60,14 +60,14 @@ class Dashboard extends Component {
             Dashboard
           </p>
           <p style={{ fontSize: "18", fontWeight: "bold" }}>Today's Schedule</p>
-          <SchedulePaper schedule={this.state.schedule} />
+          <SchedulePaper header={true} schedule={this.state.schedule} />
           <Link
             to="/scheduletron"
             style={{ color: "white", textDecoration: "none" }}
           >
             <Paper elevation={2} className={classes.mainAction}>
               <p>View and Edit Schedules</p>
-              <img alt = '' style={{ width: 48 }} src={scheduleIcon} />
+              <img alt="" style={{ width: 48 }} src={scheduleIcon} />
             </Paper>
           </Link>
         </div>
