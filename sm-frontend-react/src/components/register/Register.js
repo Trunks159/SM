@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core";
-import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
+import { Redirect, Route, Switch} from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import RegisterPg1 from "./RegisterPg1";
 import RegisterPg2 from "./RegisterPg2";
 import { withRouter } from "react-router-dom";
-import { Alert, AlertTitle } from "@material-ui/lab";
 
 const pageVariant2 = {
   in: {
@@ -31,7 +30,6 @@ const styles = () => ({
     fontWeight: "500",
     margin: 30,
     fontSize: 40,
-    fontWeight: "500",
     textTransform: "capitalize",
   },
   submit: {
@@ -89,13 +87,11 @@ class Register extends Component {
         <Route
           path={`/register/:firstName/:lastName`}
           render={(props) => {
-            console.log('Users: ', users)
             const found = users.find(
               (u) =>
                 u.firstName === props.match.params.firstName &&
                 u.lastName === props.match.params.lastName
             );
-            console.log('Found: ', found);
             if (found) {
               if (found.username) {
                 return <Redirect to={match.path} />;

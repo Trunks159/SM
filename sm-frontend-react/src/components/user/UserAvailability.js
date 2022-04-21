@@ -85,13 +85,10 @@ class AvailabilityForm extends Component {
       day.checked = e.target.checked;
       days.splice(index, 0, day);
       this.setState({ days: days });
-    } else {
-      console.log("Cant find it");
     }
   };
 
   handleSlider = (e, new_value, name) => {
-    console.log('Day name: ', name, 'Value: ', new_value);
     let { days } = this.state;
     let day = this.state.days.find((day)=>day.name === name);
    
@@ -101,9 +98,7 @@ class AvailabilityForm extends Component {
       day.value = new_value;
       days.push(day);
       this.setState({ days: days });
-    } else {
-      console.log("Cant find it");
-    }
+    } 
   };
 
   handleSubmit = (e) => {
@@ -111,7 +106,6 @@ class AvailabilityForm extends Component {
     let { days } = this.state;
     const { postReq, user } = this.props;
    /* days = days.filter((item) => item.checked);*/
-    console.log('Days: ', days);
     if (days) {
       days = days.map((day) => {
         return {
@@ -133,8 +127,7 @@ class AvailabilityForm extends Component {
 
 
   render() {
-    const { classes, user, availability } = this.props;
-    console.log('Availability: ', this.state.days);
+    const { classes, user } = this.props;
     return (
       <form onSubmit={this.handleSubmit} className={classes.mainContent}>
         <Typography className={classes.header} variant="h6">

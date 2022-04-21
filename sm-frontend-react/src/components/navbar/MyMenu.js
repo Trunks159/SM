@@ -10,7 +10,6 @@ class MyMenu extends Component {
   };
 
   handleClick = (e) => {
-    console.log("Stff: ", e.target);
     this.setState({ anchorEl: e.target, open: !this.state.open });
   };
 
@@ -20,7 +19,7 @@ class MyMenu extends Component {
 
   render() {
     const { open, anchorEl } = this.state;
-    const { classes, username } = this.props;
+    const {  username } = this.props;
     return (
       <div
         style={{ border: "2px solid black", borderRadius: "7px", height: 38, marginTop : 'auto', marginBottom : 'auto' , padding : 5}}
@@ -31,7 +30,7 @@ class MyMenu extends Component {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
           onClick={this.handleClick}
-          startIcon={<img src={profileIcon} />}
+          startIcon={<img alt = {''} src={profileIcon} />}
           style={{ textTransform: "none" }}
         >
           {username}

@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-
 import scheduleIconWhite from "../../../assets/images/Schedule Icon White.svg";
-import openIcon from "../../../assets/images/Open Icon.svg";
 import openIconInactive from "../../../assets/images/Open Icon Not Active.svg";
 import addIcon from "../../../assets/images/Add Icon.svg";
 import { Link, withRouter } from "react-router-dom";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Button, TextField, Paper, withStyles } from "@material-ui/core";
+import { Button, TextField, withStyles } from "@material-ui/core";
 import ScheduleBtn from "./ScheduleBtn";
 
 const styles = () => ({
@@ -75,7 +73,7 @@ class Home extends Component {
                 background: "#606060",
                 padding: "10px 20px",
               }}
-              startIcon={<img style={{ width: 20 }} src={addIcon} />}
+              startIcon={<img alt = '' style={{ width: 20 }} src={addIcon} />}
             >
               Add A Schedule
             </Button>
@@ -90,6 +88,7 @@ class Home extends Component {
               to={selected ? `${match.path}/${selected.id}` : "/"}
             >
               <img
+                alt = ''
                 style={{
                   filter: selected
                     ? "invert(48%) sepia(80%) saturate(1387%) hue-rotate(174deg) brightness(92%) contrast(94%)"
@@ -123,7 +122,7 @@ class Home extends Component {
             classes={{ label: classes.label, root: classes.button }}
           >
             ?
-            <img style={{ width: 72 }} src={scheduleIconWhite} />?
+            <img alt = '' style={{ width: 72 }} src={scheduleIconWhite} />?
           </Button>
         </div>
       </div>

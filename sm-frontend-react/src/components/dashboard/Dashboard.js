@@ -38,7 +38,6 @@ class Dashboard extends Component {
     fetch(`get_day/${today.month}-${today.day}-${today.year}`)
       .then((response) => response.json())
       .then((schedule) => {
-        console.log("Schedule: ", schedule);
         this.setState({ schedule: schedule });
       });
   };
@@ -68,7 +67,7 @@ class Dashboard extends Component {
           >
             <Paper elevation={2} className={classes.mainAction}>
               <p>View and Edit Schedules</p>
-              <img style={{ width: 48 }} src={scheduleIcon} />
+              <img alt = '' style={{ width: 48 }} src={scheduleIcon} />
             </Paper>
           </Link>
         </div>

@@ -1,16 +1,10 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Link,
-} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import { Button, Divider } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
-import AvailabilityForm from "./UserAvailability";
 
 const styles = () => ({
   main: {

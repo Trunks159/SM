@@ -40,22 +40,21 @@ const useStyles = makeStyles({
 
 const NavBar = ({ currentUser }) => {
   const classes = useStyles();
-  console.log("Current: ", currentUser);
 
   return (
     <Paper elevation = {3} className={classes.nav}>
       <Link to = '/' className={classes.logo}>
-        <img src={logo} />
+        <img alt = {''} src={logo} />
       </Link>
 
       {currentUser.isAuthenticated ? (
         <div className={classes.links}>
           <Link className={classes.link} to="/scheduletron">
-            <img src={scheduleIcon} />
+            <img alt = {'/'}  src={scheduleIcon} />
             <p>Schedule</p>
           </Link>
           <Link className={classes.link} to="/">
-            <img src={teamIcon} />
+            <img alt = {'/'} src={teamIcon} />
             <p>Team</p>
           </Link>
           <MyMenu username = {currentUser.username}/>

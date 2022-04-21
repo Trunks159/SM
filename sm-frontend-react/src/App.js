@@ -31,7 +31,6 @@ class App extends Component {
           this.state.users !== users ||
           this.state.currentUser !== currentUser
         ) {
-          console.log("Current: ", currentUser);
           this.setState({ users: users, currentUser: currentUser });
         }
       });
@@ -164,7 +163,6 @@ class App extends Component {
                       <User user={user} currentUser={this.state.currentUser} />
                     );
                   } else {
-                    console.log("Couldn't find user");
                     this.notifyUser({
                       content: "Couldn't find user...",
                       severity: "error",
@@ -191,7 +189,6 @@ class App extends Component {
                       />
                     );
                   } else {
-                    console.log("Couldn't find user");
                     this.notifyUser({
                       content: "Couldn't find user...",
                       severity: "error",

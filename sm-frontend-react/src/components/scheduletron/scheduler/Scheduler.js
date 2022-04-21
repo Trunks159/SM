@@ -32,8 +32,6 @@ class Scheduler extends Component {
   };
 
   render() {
-    const { match } = this.props;
-    console.log("Match??: ", match);
     return this.state.day ? (
       <div
         style={{
@@ -63,7 +61,7 @@ class Scheduler extends Component {
               color: "white",
             }}
           >
-            <img style={{ width: 38 }} src={scheduleIcon} />
+            <img alt = '' style={{ width: 38 }} src={scheduleIcon} />
             <p>{this.state.day.weekday}, </p>
             <p>
               {this.state.day.month}/{this.state.day.day}
@@ -76,7 +74,7 @@ class Scheduler extends Component {
                 marginLeft: "auto",
               }}
             >
-              <img style={{ margin: 0, width: 32 }} src={dayIcon} />
+              <img alt = '' style={{ margin: 0, width: 32 }} src={dayIcon} />
             </Button>
             <Button
               style={{
@@ -85,7 +83,7 @@ class Scheduler extends Component {
                 padding: 0,
               }}
             >
-              <img style={{ width: 20, margin: 0 }} src={nightIcon} />
+              <img alt = '' style={{ width: 20, margin: 0 }} src={nightIcon} />
             </Button>
           </div>
 

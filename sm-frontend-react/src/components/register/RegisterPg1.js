@@ -18,7 +18,6 @@ class RegisterPg1 extends Component {
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: { value: e.target.value, error: null } });
-    console.log("Hey bio: ", this.state);
   };
 
   checkNames = () => {

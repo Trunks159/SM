@@ -37,7 +37,7 @@ const MySlider = ({id, handleSlider, value, classes }) => {
     <StyledSlider
       /*I changed name to id so watch out bro */
       className={classes}
-      defaultValue = {0,50}
+      defaultValue = {[0,50]}
       value={value}
       marks={getMarks()}
       valueLabelFormat={(value) =>

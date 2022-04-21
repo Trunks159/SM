@@ -1,13 +1,6 @@
 import { Link } from "react-router-dom";
 import React from "react";
-import { makeStyles } from "@material-ui/core";
-import { getListItemSecondaryActionClassesUtilityClass } from "@mui/material";
 
-const useStyles = makeStyles({
-  label: {
-    flexDirection: "column",
-  },
-});
 
 const abreviated = {
   Monday: "Mon.",
@@ -20,7 +13,6 @@ const abreviated = {
 };
 
 const DayBtn = ({ weekday, date, completion, disabled, id, path, setDay }) => {
-  const classes = useStyles();
   return (
     <Link
       to={`/scheduletron/${id}`}

@@ -23,7 +23,7 @@ function SchedulePaper({ schedule }) {
   const classes = useStyles();
   return (
     <Paper className={classes.paper} elevation={2}>
-      <img style={{ position: "absolute", margin: 5 }} src={scheduleIcon} />
+      <img alt = {''} style={{ position: "absolute", margin: 5 }} src={scheduleIcon} />
       <p
         style={{
           fontSize: 18,
@@ -48,11 +48,11 @@ function SchedulePaper({ schedule }) {
           height: "90%",
         }}
       >
-        {workblocks.map(({ startTime, endTime, user }) => {
+        {workblocks ? (workblocks.map(({ startTime, endTime, user }) => {
           const newStartTime = timeToValue(startTime);
           const newEndTime = timeToValue(endTime);
           return (
-            <>
+            <div key = {user.id}>
               <p
                 style={{
                   textTransform: "capitalize",
@@ -81,9 +81,9 @@ function SchedulePaper({ schedule }) {
                   />
                 </Tooltip>
               </svg>
-            </>
+            </div>
           );
-        })}
+        })):null}
       </div>
     </Paper>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Slider } from "@material-ui/core";
+import { Switch } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Fade from "@material-ui/core/Fade";
@@ -30,7 +30,6 @@ const SlideSwitch = ({
   checked,
   value,
 }) => {
-  console.log('Weekday: ', name, 'Value: ', value);
   return (
     <div
       className={classes.avBlock}

@@ -48,7 +48,7 @@ class ScheduleBtn extends Component {
                     classes={{ label: classes.label, root: classes.button }}
                   >
                     {week[0].month}/{week[0].day}
-                    <img style={{ margin: "10px 0px" }} src={scheduleIcon} />
+                    <img alt = '' style={{ margin: "10px 0px" }} src={scheduleIcon} />
                     {week[6].month}/{week[6].day}
                     <p
                       style={{ fontSize: 9, textTransform: "none", margin: 0 }}

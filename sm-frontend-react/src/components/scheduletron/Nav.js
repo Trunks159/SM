@@ -1,11 +1,9 @@
 import { Button } from "@material-ui/core";
 import React from "react";
 import homeIcon from "../../assets/images/Home Icon.svg";
-import homeIconInactive from "../../assets/images/Home Icon Not Active.svg";
 import scheduleIcon from "../../assets/images/Schedule Icon White.svg";
-import scheduleIconInactive from "../../assets/images/Schedule Icon Not Active.svg";
 import settingsIcon from "../../assets/images/Settings Icon Not Active.svg";
-import { Link, NavLink } from "react-router-dom";
+import {NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -37,13 +35,12 @@ const IconLink = ({ img, label, to }) => (
     exact
     to={to}
   >
-    <img src={img} />
+    <img alt = '' src={img} />
     {label ? <p style={{ margin: 0, fontSize: 9 }}>{label}</p> : null}
   </NavLink>
 );
 
 const Nav = ({ path, dayId }) => {
-  console.log("The pAth: ", dayId);
   const classes = useStyles();
   return (
     <div
@@ -69,7 +66,7 @@ const Nav = ({ path, dayId }) => {
       <Button
         classes={{ label: classes.label, root: classes.settings }}
         startIcon={
-          <img style={{ marginLeft: 10, marginBottom: 5 }} src={settingsIcon} />
+          <img alt = '' style={{ marginLeft: 10, marginBottom: 5 }} src={settingsIcon} />
         }
       ></Button>
     </div>

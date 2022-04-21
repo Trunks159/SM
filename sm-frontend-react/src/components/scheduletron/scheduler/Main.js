@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, withStyles, styled, Icon } from "@material-ui/core";
+import { Button, withStyles } from "@material-ui/core";
 import vsIcon from "../../../assets/images/Visualizer Icon.svg";
 import editorIcon from "../../../assets/images/Editor Icon.svg";
 import saveIcon from "../../../assets/images/Save Icon.svg";
@@ -44,7 +44,7 @@ const IconBtn = ({ img, label, isSave }) => {
   return (
     <div style={style}>
       <Button>
-        <img src={img} />
+        <img alt = '/' src={img} />
       </Button>
       <p style={{ margin: 0 }}>{label}</p>
     </div>
