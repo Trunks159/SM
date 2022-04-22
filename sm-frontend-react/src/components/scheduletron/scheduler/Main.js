@@ -4,6 +4,8 @@ import vsIcon from "../../../assets/images/Visualizer Icon.svg";
 import editorIcon from "../../../assets/images/Editor Icon.svg";
 import saveIcon from "../../../assets/images/Save Icon.svg";
 import SchedulePaper from "../../dashboard/SchedulePaper";
+import BasicTabs from "./TabPanel";
+import Visualizer from "./Visualizer";
 
 const styles = () => ({
   main: {
@@ -66,6 +68,7 @@ class Main extends Component {
     const { classes, schedule } = this.props;
     return (
       <div className={classes.main}>
+        {/*
         <div className={classes.nav}>
           <IconBtn
             img={vsIcon}
@@ -87,9 +90,9 @@ class Main extends Component {
             handleBtn={this.handleBtn}
           />
         </div>
-        <div className={classes.content}>
-          <SchedulePaper schedule={schedule} />
-        </div>
+        */}
+        <BasicTabs visualizer = {<Visualizer schedule={schedule}/>}/> 
+
       </div>
     );
   }
