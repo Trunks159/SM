@@ -1,5 +1,57 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
-  <g id="Add_Icon" data-name="Add Icon" transform="translate(-0.085 0.409)">
-    <path id="Union_1" data-name="Union 1" d="M10.937,25V14.063H0V10.937H10.937V0h3.126V10.937H25v3.125H14.063V25Z" transform="translate(0.085 -0.409)" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="114" viewBox="0 0 36 114">
+  <defs>
+    <clipPath id="clip-path">
+      <rect width="18" height="68" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Add_Icon" data-name="Add Icon" transform="translate(-1175.437 -425.545)">
+    <rect id="Rectangle_765" data-name="Rectangle 765" width="36" height="114" rx="7" transform="translate(1175.437 425.545)" fill="#ff9f32"/>
+    <g id="Add" transform="translate(1184.334 434.442)">
+      <path id="Union_1" data-name="Union 1" d="M8.312,19V10.688H0V8.312H8.312V0h2.376V8.312H19v2.375H10.688V19Z" transform="translate(0.103 0.103)" fill="#fff"/>
+    </g>
+    <g id="Repeat_Grid_47" data-name="Repeat Grid 47" transform="translate(1186.437 466.545)" clip-path="url(#clip-path)">
+      <g transform="translate(-1191.437 -459.545)">
+        <rect id="Rectangle_951" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+      <g transform="translate(-1181.437 -459.545)">
+        <rect id="Rectangle_951-2" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+      <g transform="translate(-1191.437 -449.545)">
+        <rect id="Rectangle_951-3" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+      <g transform="translate(-1181.437 -449.545)">
+        <rect id="Rectangle_951-4" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+      <g transform="translate(-1191.437 -439.545)">
+        <rect id="Rectangle_951-5" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+      <g transform="translate(-1181.437 -439.545)">
+        <rect id="Rectangle_951-6" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+      <g transform="translate(-1191.437 -429.545)">
+        <rect id="Rectangle_951-7" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+      <g transform="translate(-1181.437 -429.545)">
+        <rect id="Rectangle_951-8" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+      <g transform="translate(-1191.437 -419.545)">
+        <rect id="Rectangle_951-9" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+      <g transform="translate(-1181.437 -419.545)">
+        <rect id="Rectangle_951-10" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+      <g transform="translate(-1191.437 -409.545)">
+        <rect id="Rectangle_951-11" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+      <g transform="translate(-1181.437 -409.545)">
+        <rect id="Rectangle_951-12" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+      <g transform="translate(-1191.437 -399.545)">
+        <rect id="Rectangle_951-13" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+      <g transform="translate(-1181.437 -399.545)">
+        <rect id="Rectangle_951-14" data-name="Rectangle 951" width="5" height="5" transform="translate(1191.437 459.545)" fill="#fff"/>
+      </g>
+    </g>
   </g>
 </svg>

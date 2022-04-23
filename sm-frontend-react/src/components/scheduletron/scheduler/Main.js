@@ -4,7 +4,7 @@ import vsIcon from "../../../assets/images/Visualizer Icon.svg";
 import editorIcon from "../../../assets/images/Editor Icon.svg";
 import saveIcon from "../../../assets/images/Save Icon.svg";
 import SchedulePaper from "../../dashboard/SchedulePaper";
-import BasicTabs from "./TabPanel";
+import Tabs from "./Tabs";
 import Visualizer from "./Visualizer";
 
 const styles = () => ({
@@ -42,15 +42,29 @@ const IconBtn = ({ img, label, isSave, isActive, handleBtn }) => {
     fontSize: 8,
     margin: "10px 0",
     padding: "15px 0px",
+    position: "relative",
   };
   style = isSave ? { ...style, marginTop: "auto" } : style;
-  style = isActive ? { ...style, borderRight: "3px solid #707070" } : style;
   return (
     <div style={style}>
       <Button onClick={() => handleBtn(label.toLowerCase())}>
         <img alt="/" src={img} />
       </Button>
       <p style={{ margin: 0 }}>{label}</p>
+      <svg style={{ position: "absolute", left: "0%" }}>
+        <line
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+          stroke={"#1897E6"}
+          strokeWidth={"5"}
+          x1={"50%"}
+          y1={"0%"}
+          x2={"50%"}
+          y2={"100%"}
+        />
+      </svg>
     </div>
   );
 };
@@ -68,8 +82,10 @@ class Main extends Component {
     const { classes, schedule } = this.props;
     return (
       <div className={classes.main}>
+        <Tabs schedule={schedule} />
         {/*
         <div className={classes.nav}>
+          
           <IconBtn
             img={vsIcon}
             label={"Visualizer"}
@@ -89,10 +105,7 @@ class Main extends Component {
             isSave={true}
             handleBtn={this.handleBtn}
           />
-        </div>
-        */}
-        <BasicTabs visualizer = {<Visualizer schedule={schedule}/>}/> 
-
+    </div>*/}
       </div>
     );
   }

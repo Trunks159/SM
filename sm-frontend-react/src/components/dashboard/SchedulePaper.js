@@ -7,9 +7,9 @@ import scheduleIcon from "../../assets/images/Schedule Icon Watermark.svg";
 
 const useStyles = makeStyles({
   paper: {
-    minWidth: "100%",
+    width: "100%",
     boxSizing: "border-box",
-    minHeight: "100%",
+    height: "100%",
     background: "transparent",
     position: "relative",
     display: "flex",

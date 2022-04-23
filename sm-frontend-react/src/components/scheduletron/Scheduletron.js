@@ -10,6 +10,7 @@ const styles = () => ({
   main: {
     height: "100%",
     display: "flex",
+    background: "orange",
   },
 });
 
