@@ -10,10 +10,11 @@ import MyMenu from "./MyMenu";
 const useStyles = makeStyles({
   nav: {
     width: "100%",
-    maxHeight: 67,
     display: "flex",
     alignItems: "center",
-    borderRadius : '0',
+    borderRadius: "0",
+    height: 65,
+    borderBottom: "1px solid #ECECEC",
   },
   logo: {
     width: 48,
@@ -34,7 +35,7 @@ const useStyles = makeStyles({
     "& img": {
       margin: 6,
     },
-    fontWeight :'500',
+    fontWeight: "500",
   },
 });
 
@@ -42,22 +43,22 @@ const NavBar = ({ currentUser }) => {
   const classes = useStyles();
 
   return (
-    <Paper elevation = {3} className={classes.nav}>
-      <Link to = '/' className={classes.logo}>
-        <img alt = {''} src={logo} />
+    <Paper elevation={3} className={classes.nav}>
+      <Link to="/" className={classes.logo}>
+        <img alt={""} src={logo} />
       </Link>
 
       {currentUser.isAuthenticated ? (
         <div className={classes.links}>
           <Link className={classes.link} to="/scheduletron">
-            <img alt = {'/'}  src={scheduleIcon} />
+            <img alt={"/"} src={scheduleIcon} />
             <p>Schedule</p>
           </Link>
           <Link className={classes.link} to="/">
-            <img alt = {'/'} src={teamIcon} />
+            <img alt={"/"} src={teamIcon} />
             <p>Team</p>
           </Link>
-          <MyMenu username = {currentUser.username}/>
+          <MyMenu username={currentUser.username} />
         </div>
       ) : (
         <div className={classes.links}>

@@ -90,9 +90,8 @@ class App extends Component {
     return this.state.users ? (
       <Router>
         <div className="App">
+          <NavBar currentUser={this.state.currentUser} />
           <div className="Test">
-            <NavBar currentUser={this.state.currentUser} />
-
             <Message message={this.state.message} />
             <Switch>
               <Route

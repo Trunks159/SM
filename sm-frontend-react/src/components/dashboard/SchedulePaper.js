@@ -7,13 +7,12 @@ import scheduleIcon from "../../assets/images/Schedule Icon Watermark.svg";
 
 const useStyles = makeStyles({
   paper: {
-    width: "100%",
-    boxSizing: "border-box",
-    height: "100%",
     background: "transparent",
     position: "relative",
     display: "flex",
     flexDirection: "column",
+    height: 342,
+    maxWidth: 840,
   },
 });
 

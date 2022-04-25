@@ -4,16 +4,18 @@
   background-color: navy;
   overflow-y: auto;
   display: flex;
-
+  flex-direction: column;
 }
 
 .Test {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: white;
   width: 100%;
   max-width: 1600px;
-  margin: 0 auto;
+  flex: 1;
+  align-self: center;
   display: flex;
-  flex-direction: column;
+
 }
 
 /* Track */
@@ -25,36 +27,4 @@
 ::-webkit-scrollbar-thumb {
   background: #cecece;
   border-radius: 20px;
-}
-
-.mainContent {
-  height: 10;
-}
-
-.nav-link :hover {
-  background: #cb90bf;
-}
-
-.login {
-  margin-left: auto;
-}
-
-.username {
-  margin-left: auto;
-}
-.logout {
-  margin: 10px;
-  padding: 20px;
-}
-
-
-.example {
-  width: 1px;
-  height: 100px;
-  background-color: #cb90bf;
-  transition: width .5s ease-in;
-}
-
-.example:hover {
-  width: 200px;
 }
