@@ -11,8 +11,6 @@ const styles = () => ({
     background: "white",
     flexDirection: "column",
     margin: "0px 60px",
-    borderLeft: "2px solid #ECECEC",
-    borderRight: "2px solid #ECECEC",
   },
   header: {
     fontWeight: "bold",
