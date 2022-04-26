@@ -21,14 +21,13 @@ const styles = () => ({
   },
   mainFlex: {
     display: "grid",
-    gridTemplateColumns: "minmax(20px, 800px) 1fr",
-    gridTemplateRows: "1fr 1fr",
-    "@media(max-width : 800px)": { background: "red" },
+    gridTemplateColumns : '1fr 1fr'
   },
   container1: {
-    gridColumn: "1 / -1",
-    margin: 10,
-    "@media(min-width : 800px)": { gridColumn: "auto", gridRow: "span 3" },
+    background : 'red',
+    display :'flex',
+    flexDirection : 'column',
+    gap : '10px',
   },
   container2: {
     background: "green",
@@ -44,13 +43,20 @@ const styles = () => ({
     padding: 5,
     display: "flex",
     alignItems: "center",
-    gap: 15,
-    justifyContent: "center",
-    width: 250,
+    justifyContent: "space-evenly",
     borderRadius: 7,
     textDecoration: "none",
     color: "white",
-    margin: "10px 0px 0px auto",
+    marginLeft : 'auto',
+    width:  250,
+    '& img':{
+      width : 48,
+
+    },
+    '& p':{
+      fontSize : 14,
+      fontWeight :'bold',
+    }
   },
   header2: {
     fontSize: 18,
@@ -81,19 +87,22 @@ class Dashboard extends Component {
       <div className={classes.main}>
         <p className={classes.header}>Dashboard</p>
         <div className={classes.mainFlex}>
+          <div style={}>
           <div className={classes.container1}>
             <p className={classes.header2}>Today's Schedule</p>
             <SchedulePaper header={true} schedule={this.state.schedule} />
             <Link
               to="/scheduletron"
-              style={{ color: "white", textDecoration: "none" }}
+              style={{ textDecoration: "none", }}
             >
               <Paper elevation={2} className={classes.mainAction}>
                 <p>View and Edit Schedules</p>
-                <img alt="" style={{ width: 48 }} src={scheduleIcon} />
+                <img alt=""  src={scheduleIcon} />
               </Paper>
             </Link>
           </div>
+          </div>
+          
           <div className={classes.container2}>
             <p>My Upcoming Shifts</p>
             <div style={{ display: "flex", flexWrap: "wrap" }}>
