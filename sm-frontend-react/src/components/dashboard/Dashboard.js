@@ -21,21 +21,25 @@ const styles = () => ({
   },
   mainFlex: {
     display: "grid",
-    gridTemplateColumns : '1fr 1fr'
+    gridTemplateColumns: "3fr 1fr",
+    columnGap: "10px",
+    rowGap: "10px",
+    "@media (max-width : 700px)": {
+      gridTemplateColumns: "1fr",
+    },
   },
   container1: {
-    background : 'red',
-    display :'flex',
-    flexDirection : 'column',
-    gap : '10px',
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+    maxWidth: 840,
+    width: "100%",
+    justifySelf: "center",
   },
   container2: {
-    background: "green",
-    justifySelf: "start",
-  },
-  container3: {
-    justifySelf: "start",
-    background: "yellow",
+    display: "flex",
+    flexWrap: "wrap",
+    alignSelf: "start",
   },
 
   mainAction: {
@@ -47,16 +51,15 @@ const styles = () => ({
     borderRadius: 7,
     textDecoration: "none",
     color: "white",
-    marginLeft : 'auto',
-    width:  250,
-    '& img':{
-      width : 48,
-
+    marginLeft: "auto",
+    width: 250,
+    "& img": {
+      width: 48,
     },
-    '& p':{
-      fontSize : 14,
-      fontWeight :'bold',
-    }
+    "& p": {
+      fontSize: 14,
+      fontWeight: "bold",
+    },
   },
   header2: {
     fontSize: 18,
@@ -87,30 +90,53 @@ class Dashboard extends Component {
       <div className={classes.main}>
         <p className={classes.header}>Dashboard</p>
         <div className={classes.mainFlex}>
-          <div style={}>
           <div className={classes.container1}>
             <p className={classes.header2}>Today's Schedule</p>
             <SchedulePaper header={true} schedule={this.state.schedule} />
-            <Link
-              to="/scheduletron"
-              style={{ textDecoration: "none", }}
-            >
+            <Link to="/scheduletron" style={{ textDecoration: "none" }}>
               <Paper elevation={2} className={classes.mainAction}>
                 <p>View and Edit Schedules</p>
-                <img alt=""  src={scheduleIcon} />
+                <img alt="" src={scheduleIcon} />
               </Paper>
             </Link>
           </div>
-          </div>
-          
           <div className={classes.container2}>
-            <p>My Upcoming Shifts</p>
-            <div style={{ display: "flex", flexWrap: "wrap" }}>
-              {currentUser.upcomingShifts.map(
-                ({ date, startTime, endTime }) => (
+            <div>
+              <p>My Upcoming Shifts</p>
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                {currentUser.upcomingShifts.map(
+                  ({ date, startTime, endTime }) => (
+                    <Paper
+                      style={{
+                        width: 90,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                    >
+                      <p
+                        style={{
+                          fontSize: 21,
+                          textAlign: "center",
+                          marginBottom: 0,
+                          marginTop: 10,
+                        }}
+                      >{`${date.month}/${date.day}`}</p>
+                      <p
+                        style={{ fontSize: 9, textAlign: "center" }}
+                      >{`${startTime} - ${endTime}`}</p>
+                    </Paper>
+                  )
+                )}
+              </div>
+            </div>
+            <div>
+              <p>My Upcoming Request Offs</p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                {currentUser.upcomingRequestOffs.map(({ date }) => (
                   <Paper
+                    elevation={2}
                     style={{
-                      width: 90,
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
@@ -120,41 +146,14 @@ class Dashboard extends Component {
                       style={{
                         fontSize: 21,
                         textAlign: "center",
-                        marginBottom: 0,
-                        marginTop: 10,
+                        margin: 5,
                       }}
-                    >{`${date.month}/${date.day}`}</p>
-                    <p
-                      style={{ fontSize: 9, textAlign: "center" }}
-                    >{`${startTime} - ${endTime}`}</p>
+                    >
+                      {date}
+                    </p>
                   </Paper>
-                )
-              )}
-            </div>
-          </div>
-          <div className={classes.container3}>
-            <p>My Upcoming Request Offs</p>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              {currentUser.upcomingRequestOffs.map(({ date }) => (
-                <Paper
-                  elevation={2}
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontSize: 21,
-                      textAlign: "center",
-                      margin: 5,
-                    }}
-                  >
-                    {date}
-                  </p>
-                </Paper>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>

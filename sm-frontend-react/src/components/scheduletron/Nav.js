@@ -3,7 +3,7 @@ import React from "react";
 import homeIcon from "../../assets/images/Home Icon.svg";
 import scheduleIcon from "../../assets/images/Schedule Icon White.svg";
 import settingsIcon from "../../assets/images/Settings Icon Not Active.svg";
-import {NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -35,7 +35,7 @@ const IconLink = ({ img, label, to }) => (
     exact
     to={to}
   >
-    <img alt = '' src={img} />
+    <img alt="" src={img} />
     {label ? <p style={{ margin: 0, fontSize: 9 }}>{label}</p> : null}
   </NavLink>
 );
@@ -46,11 +46,10 @@ const Nav = ({ path, dayId }) => {
     <div
       style={{
         background: "#51636D",
-        height: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        maxWidth: 70,
+        width: 70,
       }}
     >
       <IconLink
@@ -66,7 +65,11 @@ const Nav = ({ path, dayId }) => {
       <Button
         classes={{ label: classes.label, root: classes.settings }}
         startIcon={
-          <img alt = '' style={{ marginLeft: 10, marginBottom: 5 }} src={settingsIcon} />
+          <img
+            alt=""
+            style={{ marginLeft: 10, marginBottom: 5 }}
+            src={settingsIcon}
+          />
         }
       ></Button>
     </div>

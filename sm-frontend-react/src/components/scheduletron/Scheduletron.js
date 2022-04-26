@@ -8,9 +8,8 @@ import WeekBar from "./WeekBar";
 
 const styles = () => ({
   main: {
-    height: "100%",
+    flexGrow: 1,
     display: "flex",
-    background: "orange",
   },
 });
 

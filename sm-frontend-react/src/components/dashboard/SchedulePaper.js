@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     flexDirection: "column",
     height: 342,
     maxWidth: 840,
-    flex : 1,
+    width: "100%",
   },
 });
 

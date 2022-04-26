@@ -35,8 +35,7 @@ class Scheduler extends Component {
     return this.state.day ? (
       <div
         style={{
-          width: "100%",
-          height: "100%",
+          flex: 1,
           background: "#F0F0F0",
           display: "flex",
           flexDirection: "column",
@@ -45,7 +44,7 @@ class Scheduler extends Component {
         <Paper
           elevation={2}
           style={{
-            height: "80%",
+            flex: 1,
             margin: 10,
             background: "white",
             borderRadius: 7,
@@ -59,9 +58,10 @@ class Scheduler extends Component {
               display: "flex",
               padding: 5,
               color: "white",
+              borderRadius: "7px 7px 0px 0px",
             }}
           >
-            <img alt = '' style={{ width: 38 }} src={scheduleIcon} />
+            <img alt="" style={{ width: 38 }} src={scheduleIcon} />
             <p>{this.state.day.weekday}, </p>
             <p>
               {this.state.day.month}/{this.state.day.day}
@@ -74,7 +74,7 @@ class Scheduler extends Component {
                 marginLeft: "auto",
               }}
             >
-              <img alt = '' style={{ margin: 0, width: 32 }} src={dayIcon} />
+              <img alt="" style={{ margin: 0, width: 32 }} src={dayIcon} />
             </Button>
             <Button
               style={{
@@ -83,13 +83,13 @@ class Scheduler extends Component {
                 padding: 0,
               }}
             >
-              <img alt = '' style={{ width: 20, margin: 0 }} src={nightIcon} />
+              <img alt="" style={{ width: 20, margin: 0 }} src={nightIcon} />
             </Button>
           </div>
 
           <Main schedule={this.state.day} />
         </Paper>
-        <div>
+        <div style={{ margin: 20, display: "flex" }}>
           <Link to="/">Back To Yesterday</Link>
           <Link to="/" style={{ marginLeft: "auto" }}>
             To Tommorrow
