@@ -9,10 +9,32 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button, TextField, withStyles } from "@material-ui/core";
 import ScheduleBtn from "./ScheduleBtn";
 
-const styles = () => ({});
+const styles = () => ({
+  header : {
+    fontSize : 17,
+    '@media (min-width: 600px)':{
+      fontSize : 31,
+    }
+  },
+});
 
 class Home extends Component {
-  state = {};
+  state = {
+    isDesktop : false,
+  };
+
+  componentDidMount  = () => {
+    this.updatePredicate();
+    window.addEventListener("resize", this.updatePredicate);
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener("resize", this.updatePredicate);
+  }
+
+  updatePredicate = () => {
+    this.setState({ isDesktop: window.innerWidth > 600 });
+  }
 
   render() {
     const { classes, handleSelect, match, selected, schedules } = this.props;
@@ -24,10 +46,13 @@ class Home extends Component {
           display: "flex",
         }}
       >
-        <div style={{}}>
-          <p style={{ fontSize: 31 }}>
+        <p className={classes.header}>
             To start, select schedule to <b>view</b> or <b>edit</b>
           </p>
+
+        {/*
+        <div style={{}}>
+          
           <div
             style={{
               display: "inline-flex",
@@ -127,6 +152,7 @@ class Home extends Component {
             <img alt="" style={{ width: 72 }} src={scheduleIconWhite} />?
           </Button>
         </div>
+          */}
       </div>
     );
   }

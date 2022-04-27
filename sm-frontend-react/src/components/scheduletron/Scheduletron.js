@@ -81,7 +81,6 @@ class Scheduletron extends Component {
             setDay={this.setDay}
           />
         ) : null}
-
         <Switch>
           <Route exact path={"/scheduletron"}>
             <Home

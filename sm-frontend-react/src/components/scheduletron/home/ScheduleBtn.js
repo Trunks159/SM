@@ -12,6 +12,18 @@ const styles = () => ({
       padding: 30,
       display: "flex",
     },
+    paper:{
+      width : 117,
+      height :165,
+      '@media (min-width : 600px)':{
+        width: 145,
+        height: 205,
+        background: "#DADADA",
+        position: "relative",
+        borderRadius: "7px",
+      },
+
+    },
   });
 
 class ScheduleBtn extends Component {
@@ -20,13 +32,7 @@ class ScheduleBtn extends Component {
         const {handleSelect, staffing, week, id, classes} = this.props;
         return (
             <Paper
-                  style={{
-                    width: 145,
-                    height: 205,
-                    background: "#DADADA",
-                    position: "relative",
-                    borderRadius: "7px",
-                  }}
+                  className={classes.paper}
                 >
                   <div
                     style={{
