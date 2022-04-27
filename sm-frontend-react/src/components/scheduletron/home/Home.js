@@ -10,31 +10,31 @@ import { Button, TextField, withStyles } from "@material-ui/core";
 import ScheduleBtn from "./ScheduleBtn";
 
 const styles = () => ({
-  header : {
-    fontSize : 17,
-    '@media (min-width: 600px)':{
-      fontSize : 31,
-    }
+  header: {
+    fontSize: 17,
+    "@media (min-width: 600px)": {
+      fontSize: 31,
+    },
   },
 });
 
 class Home extends Component {
   state = {
-    isDesktop : false,
+    isDesktop: false,
   };
 
-  componentDidMount  = () => {
+  componentDidMount = () => {
     this.updatePredicate();
     window.addEventListener("resize", this.updatePredicate);
-  }
+  };
 
   componentWillUnmount = () => {
     window.removeEventListener("resize", this.updatePredicate);
-  }
+  };
 
   updatePredicate = () => {
     this.setState({ isDesktop: window.innerWidth > 600 });
-  }
+  };
 
   render() {
     const { classes, handleSelect, match, selected, schedules } = this.props;
@@ -47,49 +47,49 @@ class Home extends Component {
         }}
       >
         <p className={classes.header}>
-            To start, select schedule to <b>view</b> or <b>edit</b>
-          </p>
-
+          To start, select schedule to <b>view</b> or <b>edit</b>
+        </p>
+        <div
+          style={{
+            display: "inline-flex",
+            gap: 10,
+            background: "white",
+            padding: 20,
+            margin: 20,
+            alignItems: "center",
+            borderRadius: 7,
+          }}
+        >
+          {schedules.map(({ week, timeFrame, staffing, id }) => (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <p
+                style={{
+                  textTransform: "capitalize",
+                  fontSize: 15,
+                  margin: 0,
+                }}
+              >
+                {timeFrame}
+              </p>
+              <ScheduleBtn
+                week={week}
+                staffing={staffing}
+                id={id}
+                handleSelect={handleSelect}
+              />
+            </div>
+          ))}
+        </div>
         {/*
         <div style={{}}>
           
-          <div
-            style={{
-              display: "inline-flex",
-              gap: 10,
-              background: "white",
-              padding: 20,
-              margin: 20,
-              alignItems: "center",
-              borderRadius: 7,
-            }}
-          >
-            {schedules.map(({ week, timeFrame, staffing, id }) => (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <p
-                  style={{
-                    textTransform: "capitalize",
-                    fontSize: 15,
-                    margin: 0,
-                  }}
-                >
-                  {timeFrame}
-                </p>
-                <ScheduleBtn
-                  week={week}
-                  staffing={staffing}
-                  id={id}
-                  handleSelect={handleSelect}
-                />
-              </div>
-            ))}
-          </div>
+
 
           <div style={{ display: "flex", padding: 25, gap: 15 }}>
             <Button
