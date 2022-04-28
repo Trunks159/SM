@@ -3,6 +3,7 @@ import React from "react";
 import homeIcon from "../../assets/images/Home Icon.svg";
 import scheduleIcon from "../../assets/images/Schedule Icon White.svg";
 import settingsIcon from "../../assets/images/Settings Icon Not Active.svg";
+import searchIcon from "../../assets/images/Search Icon Not Active.svg";
 import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 
@@ -49,7 +50,7 @@ const Nav = ({ path, dayId }) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: 70,
+        width: 63,
       }}
     >
       <IconLink
@@ -59,6 +60,11 @@ const Nav = ({ path, dayId }) => {
       />
       <IconLink
         img={scheduleIcon}
+        label={path !== "/scheduletron" ? "Schedule" : null}
+        to={path + `/${dayId}`}
+      />
+      <IconLink
+        img={searchIcon}
         label={path !== "/scheduletron" ? "Schedule" : null}
         to={path + `/${dayId}`}
       />
