@@ -4,7 +4,13 @@
   background-color: navy;
   overflow-y: auto;
   display: flex;
+ 
   flex-direction: column;
+}
+
+@media (min-width : 600px){
+    .App{
+    }
 }
 
 .Test {

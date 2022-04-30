@@ -18,6 +18,7 @@ class Scheduletron extends Component {
     schedules: null,
     selected: null,
     day: null,
+    isDesktop: false,
   };
 
   componentDidMount = () => {
@@ -32,6 +33,16 @@ class Scheduletron extends Component {
           this.setScheduleSet(scheduleSet);
         });
     }
+    this.updatePredicate();
+    window.addEventListener("resize", this.updatePredicate);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener("resize", this.updatePredicate);
+  };
+
+  updatePredicate = () => {
+    this.setState({ isDesktop: window.innerWidth > 600 });
   };
 
   setScheduleSet = (scheduleSet) => {
@@ -74,7 +85,7 @@ class Scheduletron extends Component {
                 ).week[0].id
           }
         />
-        {this.state.selected ? (
+        {this.state.selected && this.state.isDesktop ? (
           <WeekBar
             week={this.state.selected.week}
             path={path}

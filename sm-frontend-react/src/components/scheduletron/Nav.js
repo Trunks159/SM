@@ -1,49 +1,98 @@
-import { Button } from "@material-ui/core";
-import React from "react";
-import homeIcon from "../../assets/images/Home Icon.svg";
+import React, { Component } from "react";
 import scheduleIcon from "../../assets/images/Schedule Icon White.svg";
-import settingsIcon from "../../assets/images/Settings Icon Not Active.svg";
-import searchIcon from "../../assets/images/Search Icon Not Active.svg";
-import { NavLink } from "react-router-dom";
+import settingsIcon from "../../assets/images/Settings Icon.svg";
+import searchIcon from "../../assets/images/Search Icon.svg";
+import logo from "../../assets/images/Logo.svg";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
-const useStyles = makeStyles({
-  label: {
-    flexDirection: "column",
-  },
-  settings: {
-    textTransform: "none",
-    marginTop: "auto",
-    color: "white",
-    fontWeight: "normal",
-    fontSize: 9,
-  },
-});
+class Nav extends Component {
+  state = {
+    value: 0,
+  };
 
-const IconLink = ({ img, label, to }) => (
-  <NavLink
-    activeStyle={{
-      color: "white",
-    }}
-    style={{
-      color: "#9DB5C2",
-      textDecoration: "none",
-      display: "flex",
-      alignItems: "center",
-      flexDirection: "column",
-      margin: 10,
-    }}
-    exact
-    to={to}
-  >
-    <img alt="" src={img} />
-    {label ? <p style={{ margin: 0, fontSize: 9 }}>{label}</p> : null}
-  </NavLink>
-);
+  handleChange = (event, newValue) => {
+    this.setState({ value: newValue });
+  };
 
+  a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
+
+  render() {
+    const { path, dayId } = this.props;
+    const theTabs = [
+      {
+        src: scheduleIcon,
+        label: "Schedules",
+        link: path,
+      },
+      {
+        src: searchIcon,
+        label: "Search",
+      },
+      {
+        src: settingsIcon,
+        label: "Settings",
+      },
+      {
+        src: logo,
+        label: null,
+        link: `${path}/${dayId}`,
+      },
+    ];
+    return (
+      <Tabs
+        style={{ background: "#51636D" }}
+        value={this.state.value}
+        onChange={this.handleChange}
+        aria-label="basic tabs example"
+        orientation="vertical"
+        TabIndicatorProps={{
+          style: {
+            background: "white",
+          },
+        }}
+      >
+        {theTabs.map((t, index) => {
+          const active = this.state.value === index;
+          return (
+            <Tab
+              style={{ color: "white", opacity: active ? 1 : 0.5 }}
+              icon={
+                t.link ? (
+                  <Link to={t.link}>
+                    <img src={t.src} />
+                  </Link>
+                ) : (
+                  <img src={t.src} />
+                )
+              }
+              label={t.label}
+              {...this.a11yProps(index)}
+              sx={{
+                textTransform: "none",
+                fontSize: 9,
+                fontWeight: "bold",
+              }}
+            />
+          );
+        })}
+      </Tabs>
+    );
+  }
+}
+
+/*
 const Nav = ({ path, dayId }) => {
   const classes = useStyles();
   return (
+    <CustomTabs />
     <div
       style={{
         background: "#51636D",
@@ -81,5 +130,6 @@ const Nav = ({ path, dayId }) => {
     </div>
   );
 };
+*/
 
 export default Nav;
