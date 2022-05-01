@@ -43,7 +43,6 @@ class Home extends Component {
         style={{
           background: "#F0F0F0",
           flex: 1,
-          display: "flex",
         }}
       >
         <p className={classes.header}>
@@ -51,15 +50,19 @@ class Home extends Component {
         </p>
         <div
           style={{
-            display: "inline-flex",
-            gap: 10,
             background: "white",
-            padding: 20,
-            margin: 20,
             alignItems: "center",
             borderRadius: 7,
           }}
         >
+          <ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/>
+          <ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/>
+          <ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/>
+          <ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/>
+          <ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/>
+          <ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/>
+          {/*
+          
           {schedules.map(({ week, timeFrame, staffing, id }) => (
             <div
               style={{
@@ -84,7 +87,7 @@ class Home extends Component {
                 handleSelect={handleSelect}
               />
             </div>
-          ))}
+              ))}*/}
         </div>
 
         {/*

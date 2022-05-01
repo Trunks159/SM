@@ -4,26 +4,16 @@ import scheduleIcon from "../../../assets/images/Schedule Icon Black.svg";
 import { withStyles } from '@material-ui/styles';
 
 const styles = () => ({
-    label: {
-      flexDirection: "column",
-      fontSize: 25,
-    },
-    button: {
-      padding: 30,
-      display: "flex",
-    },
+
     paper:{
       width : 117,
       height :165,
-      '@media (min-width : 600px)':{
-        width: 145,
-        height: 205,
-        background: "#DADADA",
-        position: "relative",
-        borderRadius: "7px",
-      },
-
+      background : 'red'
     },
+    root : {
+      justifyItems : 'flex-start'
+    }
+    
   });
 
 class ScheduleBtn extends Component {
@@ -31,9 +21,41 @@ class ScheduleBtn extends Component {
     render() { 
         const {handleSelect, staffing, week, id, classes} = this.props;
         return (
-            <Paper
-                  className={classes.paper}
-                >
+
+        <button
+      style={{
+        height: 165,
+        width: 117,
+        background: "#738D9B",
+        border : 'none',
+        borderRadius: 7,
+        textAlign: "center",
+        boxShadow: "2px 10px 22px -6px rgba(0,0,0,0.37)",
+        position: "relative",
+      }}
+    >
+      <div
+        style={{
+          width: `${50}%`,
+          height: "100%",
+          background: "#33789E",
+          position: "absolute",
+          top : 0,
+          borderRadius: "7px 0px 0px 7px",
+        }}
+      ></div>
+      <div style={{ width: "100%", height: "100%", position: "absolute", top : 0 }}>
+        <p
+          style={{ fontSize: 16, margin: 0, marginTop: "18%", fontWeight: 700 }}
+        >
+          9/13
+        </p>
+        <img src = {scheduleIcon}/>
+        <p style={{ fontSize: 8, marginTop: 5, marginBottom: 0 }}>
+          9/17
+        </p>
+      </div>
+          {/*
                   <div
                     style={{
                       width: `${(staffing.actual / staffing.projected) * 100}%`,
@@ -43,16 +65,8 @@ class ScheduleBtn extends Component {
                       borderRadius: "7px 0px 0px 7px",
                     }}
                   ></div>
-
-                  <Button
-                    onClick={() => handleSelect({ week: week, id: id })}
-                    style={{
-                      position: "absolute",
-                      width: "100%",
-                      height: "100%",
-                    }}
-                    classes={{ label: classes.label, root: classes.button }}
-                  >
+                  
+                  
                     {week[0].month}/{week[0].day}
                     <img alt = '' style={{ margin: "10px 0px" }} src={scheduleIcon} />
                     {week[6].month}/{week[6].day}
@@ -62,8 +76,8 @@ class ScheduleBtn extends Component {
                       {Math.round((staffing.actual / staffing.projected) * 100)}
                       % Complete
                     </p>
-                  </Button>
-                </Paper>
+                  */}
+                  </button>
         );
     }
 }
