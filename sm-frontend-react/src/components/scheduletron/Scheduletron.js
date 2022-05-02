@@ -5,11 +5,12 @@ import Nav from "./Nav";
 import Home from "./home/Home";
 import Scheduler from "./scheduler/Scheduler";
 import WeekBar from "./WeekBar";
+import Nav2 from "./Nav2";
 
 const styles = () => ({
   main: {
-    flexGrow: 1,
-    display: "flex",
+    display: "grid",
+    gridTemplateColumns: "1fr",
   },
 });
 
@@ -26,6 +27,7 @@ class Scheduletron extends Component {
       it initializes the schedule set which is an array of
       5 or so weekSchedules
     */
+
     if (this.state.schedules === null) {
       fetch(`/get_week_schedules/${9}-${13}-${2021}`)
         .then((response) => response.json())
@@ -58,6 +60,7 @@ class Scheduletron extends Component {
   };
 
   handleSelect = (week) => {
+    console.log("Duh week: ", week);
     if (this.state.selected === week) {
       this.setState({ selected: null });
     } else {
@@ -73,21 +76,23 @@ class Scheduletron extends Component {
   render() {
     const { classes, match } = this.props;
     let { path } = match;
+
     return this.state.schedules ? (
       <div className={classes.main}>
         <Nav
           path={path}
           dayId={
             this.state.selected
-              ? this.state.selected.week[0].id
+              ? this.state.selected[0].id
               : this.state.schedules.find(
                   ({ timeFrame }) => timeFrame === "this week"
                 ).week[0].id
           }
         />
+
         {this.state.selected && this.state.isDesktop ? (
           <WeekBar
-            week={this.state.selected.week}
+            week={this.state.selected}
             path={path}
             setDay={this.setDay}
           />
@@ -98,17 +103,19 @@ class Scheduletron extends Component {
               handleSelect={this.handleSelect}
               selected={this.state.selected}
               schedules={this.state.schedules}
+              marginLeft={
+                this.state.selected && this.state.isDesktop ? 230 : 100
+              }
             />
           </Route>
           <Route
             path={"/scheduletron/:day"}
             render={({ match }) => {
-              /*
               const day = this.state.selected
                 ? this.state.selected.week.find(
                     ({ id }) => id === parseInt(match.params.day)
                   )
-                : null;*/
+                : null;
               return (
                 <Scheduler
                   day={this.state.day}

@@ -21,6 +21,7 @@ class App extends Component {
     currentUser: { isAuthenticated: false },
     message: null,
     redirect: null,
+    isDesktop: false,
   };
 
   fetchUsers = () => {
@@ -84,13 +85,27 @@ class App extends Component {
   /*Fetches Users */
   componentDidMount = () => {
     this.fetchUsers();
+    this.updatePredicate();
+    window.addEventListener("resize", this.updatePredicate);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener("resize", this.updatePredicate);
+  };
+
+  updatePredicate = () => {
+    this.setState({ isDesktop: window.innerWidth > 600 });
   };
 
   render() {
     return this.state.users ? (
       <Router>
         <div className="App">
-          <NavBar currentUser={this.state.currentUser} />
+          {this.state.isDesktop ? (
+            <NavBar currentUser={this.state.currentUser} />
+          ) : null}
+          {this.state.isDesktop && <div></div>}
+
           <div className="Test">
             <Message message={this.state.message} />
             <Switch>
@@ -199,6 +214,9 @@ class App extends Component {
               />
             </Switch>
           </div>
+          {this.state.isDesktop === false ? (
+            <NavBar currentUser={this.state.currentUser} />
+          ) : null}
         </div>
       </Router>
     ) : null;

@@ -48,8 +48,14 @@ class Nav extends Component {
     ];
     return (
       <Tabs
-        style={{ background: "#51636D" }}
+        style={{
+          background: "#51636D",
+          position: "fixed",
+          height: "100%",
+          width: 100,
+        }}
         value={this.state.value}
+        i
         onChange={this.handleChange}
         aria-label="basic tabs example"
         orientation="vertical"

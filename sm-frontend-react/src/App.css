@@ -2,25 +2,15 @@
   width: 100%;
   min-height: 100vh;
   background-color: navy;
-  overflow-y: auto;
-  display: flex;
- 
-  flex-direction: column;
-}
-
-@media (min-width : 600px){
-    .App{
-    }
+  display: grid;
+  grid-template-rows: 65px 1fr;
 }
 
 .Test {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: white;
-  width: 100%;
-  max-width: 1600px;
-  flex: 1;
-  align-self: center;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
 
 }
 

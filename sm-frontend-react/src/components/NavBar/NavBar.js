@@ -7,22 +7,23 @@ import teamIcon from "../../assets/images/Team Icon.svg";
 import scheduleIcon from "../../assets/images/Schedule Icon Grey.svg";
 import { Paper } from "@material-ui/core";
 import MyMenu from "./MyMenu";
+import { Toolbar, AppBar } from "@mui/material";
 
 const useStyles = makeStyles({
   nav: {
-    width: "100%",
-    display: "flex",
     alignItems: "center",
-    borderRadius: "0",
-    height: 65,
-    borderBottom: "1px solid #ECECEC",
-    borderTop: "1px solid #ECECEC",
+    position: "fixed",
     justifyContent: "center",
     "@media (max-width: 600px)": {
       position: "fixed",
       bottom: 0,
     },
+    width: "100%",
+    display: "flex",
+    height: 65,
+    zIndex: 1,
   },
+
   logo: {
     "@media (max-width :600px)": { display: "none" },
   },
@@ -81,7 +82,7 @@ const NavBar = ({ currentUser }) => {
   const classes = useStyles();
 
   return (
-    <Paper elevation={3} className={classes.nav}>
+    <nav style={{ background: "white" }} className={classes.nav}>
       <Link to="/" className={classes.link}>
         <img className={classes.logo} alt={""} src={logo} />
         <img className={classes.home} alt={""} src={homeIcon} />
@@ -116,7 +117,7 @@ const NavBar = ({ currentUser }) => {
           </Link>
         </>
       )}
-    </Paper>
+    </nav>
   );
 };
 

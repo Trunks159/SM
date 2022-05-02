@@ -37,12 +37,16 @@ class Home extends Component {
   };
 
   render() {
-    const { classes, handleSelect, match, selected, schedules } = this.props;
+    const { classes, handleSelect, match, selected, schedules, marginLeft } =
+      this.props;
     return (
       <div
         style={{
           background: "#F0F0F0",
-          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginLeft: marginLeft,
         }}
       >
         <p className={classes.header}>
@@ -53,41 +57,45 @@ class Home extends Component {
             background: "white",
             alignItems: "center",
             borderRadius: 7,
+            overflowY: "auto",
+            height: "100%",
           }}
         >
-          <ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/>
-          <ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/>
-          <ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/>
-          <ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/>
-          <ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/>
-          <ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/><ScheduleBtn week = {schedules[0].week} staffing = {schedules[0].staffing} id = {schedules[0].id}/>
-          {/*
-          
-          {schedules.map(({ week, timeFrame, staffing, id }) => (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <p
+          {schedules.map(({ week, timeFrame, staffing, id }) => {
+            const startDate = `${week[0].month}/${week[0].day}`;
+            const endDate = `${week[6].month}/${week[6].day}`;
+            const completion = Math.round(
+              (staffing.actual / staffing.projected) * 100
+            );
+            return (
+              <div
+                key={id}
                 style={{
-                  textTransform: "capitalize",
-                  fontSize: 15,
-                  margin: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
-                {timeFrame}
-              </p>
-              <ScheduleBtn
-                week={week}
-                staffing={staffing}
-                id={id}
-                handleSelect={handleSelect}
-              />
-            </div>
-              ))}*/}
+                <p
+                  style={{
+                    textTransform: "capitalize",
+                    fontSize: 15,
+                    margin: 0,
+                  }}
+                >
+                  {timeFrame}
+                </p>
+                <ScheduleBtn
+                  week={week}
+                  startDate={startDate}
+                  endDate={endDate}
+                  completion={completion}
+                  id={id}
+                  handleSelect={handleSelect}
+                />
+              </div>
+            );
+          })}
         </div>
 
         {/*

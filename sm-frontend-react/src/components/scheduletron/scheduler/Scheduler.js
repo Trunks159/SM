@@ -35,7 +35,7 @@ class Scheduler extends Component {
     return this.state.day ? (
       <div
         style={{
-          flex: 1,
+          flexGrow: 1,
           background: "#F0F0F0",
           display: "flex",
           flexDirection: "column",
@@ -44,7 +44,7 @@ class Scheduler extends Component {
         <Paper
           elevation={2}
           style={{
-            flex: 1,
+            flexGrow: 1,
             margin: 10,
             background: "white",
             borderRadius: 7,
