@@ -9,8 +9,8 @@ import Nav2 from "./Nav2";
 
 const styles = () => ({
   main: {
-    display: "grid",
-    gridTemplateColumns: "1fr",
+    display : 'flex',
+    width : '100vw'
   },
 });
 
@@ -83,7 +83,7 @@ class Scheduletron extends Component {
           path={path}
           dayId={
             this.state.selected
-              ? this.state.selected[0].id
+              ? this.state.selected.week[0].id
               : this.state.schedules.find(
                   ({ timeFrame }) => timeFrame === "this week"
                 ).week[0].id
@@ -92,7 +92,7 @@ class Scheduletron extends Component {
 
         {this.state.selected && this.state.isDesktop ? (
           <WeekBar
-            week={this.state.selected}
+            week={this.state.selected.week}
             path={path}
             setDay={this.setDay}
           />

@@ -36,7 +36,7 @@ const ScheduleBtn = ({
         margin: 20,
         borderRadius: 7,
       }}
-      onClick={() => handleSelect(week)}
+      onClick={() => handleSelect({week : week, id :id})}
     >
       <p style={{ margin: 0 }}>{startDate}</p>
       <img src={scheduleIcon} />
