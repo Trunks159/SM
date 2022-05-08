@@ -10,7 +10,8 @@ import Nav2 from "./Nav2";
 const styles = () => ({
   main: {
     display : 'flex',
-    width : '100vw'
+    flexGrow : 1,
+    width  :'300px'
   },
 });
 

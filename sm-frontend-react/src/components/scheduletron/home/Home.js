@@ -8,63 +8,36 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button, TextField, withStyles } from "@material-ui/core";
 import ScheduleBtn from "./ScheduleBtn";
+import "./home.css";
 
 const styles = () => ({
   header: {
-    justifySelf: "center",
     fontSize: 17,
+    display: "flex",
     "@media (min-width: 600px)": {
       justifySelf: "start",
     },
     "@media (min-width: 860px)": {
       fontSize: 27,
     },
+    background: "red",
   },
-  schedules: {
-    display: "flex",
-    flexDirection: "column",
-    background: "white",
-    justifySelf: "center",
-    alignItems: "center",
-    borderRadius: 7,
-    "@media (min-width: 600px)": {
-      flexDirection: "row",
-      flexWrap: "wrap",
-      margin: 10,
-      justifyContent: "space-evenly",
-    },
-    '@media (min-width : 860px)':{
-      gridColumnStart : 1,
-      gridColumnEnd : 3,
-      alignSelf : 'start',
-      justifySelf : 'start',
-    }
-  },
+
   schedule: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   },
-  main: {
-    background: "#F0F0F0",
-    display: "grid",
-    gridTemplateRows: "min-content 1fr",
-    alignItems: "center",
-    flexGrow: 1,
-    "@media (min-width : 860px)": {
-      gridTemplateRows: "min-content 200px",
-      gridTemplateColumns: "max-content 1fr",
-    },
-  },
   actions: {
     display: "flex",
-    gridColumnStart : 2,
-    gridColumnEnd : 3
+    gridColumnStart: 2,
+    gridColumnEnd: 3,
   },
-  search : {
-    justifySelf : 'end'
+  search: {
+    marginLeft: "auto",
+    fontSize: 9,
+    textAlign: "center",
   },
-
 });
 
 class Home extends Component {
@@ -89,67 +62,72 @@ class Home extends Component {
     const { classes, handleSelect, match, selected, schedules, marginLeft } =
       this.props;
     return (
-      <div className={classes.main} style={{ marginLeft: marginLeft }}>
-        <p className={classes.header}>
-          To start, select schedule to <b>view</b> or <b>edit</b>
-        </p>
-        {this.state.isDesktop && (
-          <div className= {classes.search}>
-            <p>Looking for a schedule in particular?</p>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                label="Enter Date"
-                value={"02/22/1998"}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-            {/*
+      <div className={"main"} style={{ marginLeft: marginLeft }}>
+        {/*
+        <div className={classes.header}>
+          <p className={classes.p}>
+            To start, select schedule to <b>view</b> or <b>edit</b>
+          </p>
+          {this.state.isDesktop && (
+            <div className={classes.search}>
+              <p>Looking for a schedule in particular?</p>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  label="Enter Date"
+                  value={"02/22/1998"}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            
             <Button
               style={{
                 background: "#DDDDDD",
                 color: "white",
                 borderRadius: "7px",
+                display : 'hidden',
               }}
               classes={{ label: classes.label, root: classes.button }}
             >
               ?
               <img alt="" style={{ width: 72 }} src={scheduleIconWhite} />?
-            </Button>*/}
+            </Button>
+            </div>
+          )}
+        </div>
+
+        <div className={"schedules"}>
+          <div className={"list"}>
+            {schedules.map(({ week, timeFrame, staffing, id }) => {
+              const startDate = `${week[0].month}/${week[0].day}`;
+              const endDate = `${week[6].month}/${week[6].day}`;
+              const completion = Math.round(
+                (staffing.actual / staffing.projected) * 100
+              );
+              return (
+                <div key={id} className={classes.schedule}>
+                  <p
+                    style={{
+                      textTransform: "capitalize",
+                      fontSize: 15,
+                      margin: 0,
+                    }}
+                  >
+                    {timeFrame}
+                  </p>
+                  <ScheduleBtn
+                    week={week}
+                    startDate={startDate}
+                    endDate={endDate}
+                    completion={completion}
+                    id={id}
+                    handleSelect={handleSelect}
+                  />
+                </div>
+              );
+            })}
           </div>
-        )}
-        <div className={classes.schedules}>
-          <div className={classes.list}>
-          {schedules.map(({ week, timeFrame, staffing, id }) => {
-            const startDate = `${week[0].month}/${week[0].day}`;
-            const endDate = `${week[6].month}/${week[6].day}`;
-            const completion = Math.round(
-              (staffing.actual / staffing.projected) * 100
-            );
-            return (
-              <div key={id} className={classes.schedule}>
-                <p
-                  style={{
-                    textTransform: "capitalize",
-                    fontSize: 15,
-                    margin: 0,
-                  }}
-                >
-                  {timeFrame}
-                </p>
-                <ScheduleBtn
-                  week={week}
-                  startDate={startDate}
-                  endDate={endDate}
-                  completion={completion}
-                  id={id}
-                  handleSelect={handleSelect}
-                />
-              </div>
-            );
-          })}
-          </div>
-          
-            {this.state.isDesktop && (
+
+          {this.state.isDesktop && (
             <div className={classes.actions}>
               <Button
                 style={{
@@ -189,8 +167,10 @@ class Home extends Component {
               </Link>
             </div>
           )}
+
+          
         </div>
-      
+*/}
         {/*
         <div style={{}}>
           

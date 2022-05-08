@@ -101,10 +101,12 @@ class App extends Component {
     return this.state.users ? (
       <Router>
         <div className="App">
-          {this.state.isDesktop ? (
-            <NavBar currentUser={this.state.currentUser} />
-          ) : null}
-          {this.state.isDesktop && <div></div>}
+        {this.state.isDesktop && (
+            <>
+              <div style={{ height: 65, width: "100%", }}></div>
+              <NavBar currentUser={this.state.currentUser} />
+            </>
+          )}
 
           <div className="Test">
             <Message message={this.state.message} />
@@ -214,9 +216,12 @@ class App extends Component {
               />
             </Switch>
           </div>
-          {this.state.isDesktop === false ? (
-            <NavBar currentUser={this.state.currentUser} />
-          ) : null}
+          {this.state.isDesktop || (
+            <>
+              <div style={{ height: 65, width: "100%" }}></div>
+              <NavBar currentUser={this.state.currentUser} />
+            </>
+          )}
         </div>
       </Router>
     ) : null;

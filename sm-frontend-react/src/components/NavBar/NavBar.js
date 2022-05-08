@@ -15,13 +15,12 @@ const useStyles = makeStyles({
     position: "fixed",
     justifyContent: "center",
     "@media (max-width: 600px)": {
-      position: "fixed",
       bottom: 0,
     },
-    width: "100%",
     display: "flex",
     height: 65,
     zIndex: 1,
+    width : '100vw',
   },
 
   logo: {
