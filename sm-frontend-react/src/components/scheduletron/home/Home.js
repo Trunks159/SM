@@ -10,36 +10,6 @@ import { Button, TextField, withStyles } from "@material-ui/core";
 import ScheduleBtn from "./ScheduleBtn";
 import "./home.css";
 
-const styles = () => ({
-  header: {
-    fontSize: 17,
-    display: "flex",
-    "@media (min-width: 600px)": {
-      justifySelf: "start",
-    },
-    "@media (min-width: 860px)": {
-      fontSize: 27,
-    },
-    background: "red",
-  },
-
-  schedule: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  actions: {
-    display: "flex",
-    gridColumnStart: 2,
-    gridColumnEnd: 3,
-  },
-  search: {
-    marginLeft: "auto",
-    fontSize: 9,
-    textAlign: "center",
-  },
-});
-
 class Home extends Component {
   state = {
     isDesktop: false,
@@ -59,17 +29,15 @@ class Home extends Component {
   };
 
   render() {
-    const { classes, handleSelect, match, selected, schedules, marginLeft } =
-      this.props;
+    const { handleSelect, match, selected, schedules, marginLeft } = this.props;
     return (
       <div className={"main"} style={{ marginLeft: marginLeft }}>
-        {/*
-        <div className={classes.header}>
-          <p className={classes.p}>
+        <div className={"container1"}>
+          <p className={"header"}>
             To start, select schedule to <b>view</b> or <b>edit</b>
           </p>
           {this.state.isDesktop && (
-            <div className={classes.search}>
+            <div className={"search"}>
               <p>Looking for a schedule in particular?</p>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
@@ -78,24 +46,23 @@ class Home extends Component {
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
-            
-            <Button
-              style={{
-                background: "#DDDDDD",
-                color: "white",
-                borderRadius: "7px",
-                display : 'hidden',
-              }}
-              classes={{ label: classes.label, root: classes.button }}
-            >
-              ?
-              <img alt="" style={{ width: 72 }} src={scheduleIconWhite} />?
-            </Button>
+
+              <Button
+                style={{
+                  background: "#DDDDDD",
+                  color: "white",
+                  borderRadius: "7px",
+                  display: "none",
+                }}
+              >
+                ?
+                <img alt="" style={{ width: 72 }} src={scheduleIconWhite} />?
+              </Button>
             </div>
           )}
         </div>
 
-        <div className={"schedules"}>
+        <div className={"container2"}>
           <div className={"list"}>
             {schedules.map(({ week, timeFrame, staffing, id }) => {
               const startDate = `${week[0].month}/${week[0].day}`;
@@ -104,7 +71,7 @@ class Home extends Component {
                 (staffing.actual / staffing.projected) * 100
               );
               return (
-                <div key={id} className={classes.schedule}>
+                <div key={id} className={"schedule"}>
                   <p
                     style={{
                       textTransform: "capitalize",
@@ -126,7 +93,7 @@ class Home extends Component {
               );
             })}
           </div>
-
+          {/*
           {this.state.isDesktop && (
             <div className={classes.actions}>
               <Button
@@ -167,10 +134,9 @@ class Home extends Component {
               </Link>
             </div>
           )}
-
-          
+           */}
         </div>
-*/}
+
         {/*
         <div style={{}}>
           
@@ -243,4 +209,4 @@ class Home extends Component {
   }
 }
 
-export default withStyles(styles)(withRouter(Home));
+export default withRouter(Home);

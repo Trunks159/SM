@@ -1,11 +1,12 @@
 import React from "react";
 import scheduleIcon from "../../../assets/images/Schedule Icon.svg";
-
+import "./home.css";
 import { makeStyles, Button } from "@material-ui/core";
 
 const useStyles = makeStyles({
   label: {
     flexDirection: "column",
+    gap: "10px",
   },
 });
 
@@ -22,24 +23,21 @@ const ScheduleBtn = ({
     <Button
       classes={{ label: classes.label }}
       style={{
-        color: "black",
         textTransform: "none",
         position: "relative",
-        flexDirection: "column",
-        alignItems: "center",
         justifyContent: "space-evenly",
-        fontSize: 25,
         width: 145,
         height: 205,
+        borderRadius: 7,
+        fontSize: 25,
         background: "rgb(240,240,240)",
         background: `linear-gradient(90deg, rgba(240,240,240,1) ${completion}%, rgba(218,218,218,1) 50%)`,
-        margin: 20,
-        borderRadius: 7,
+        fontWeight: "400",
       }}
-      onClick={() => handleSelect({week : week, id :id})}
+      onClick={() => handleSelect({ week: week, id: id })}
     >
       <p style={{ margin: 0 }}>{startDate}</p>
-      <img src={scheduleIcon} />
+      <img style={{ width: 71 }} src={scheduleIcon} />
       <p style={{ margin: 0, marginBottom: 7 }}>{endDate}</p>
       <p
         style={{
