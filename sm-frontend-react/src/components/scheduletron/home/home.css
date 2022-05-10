@@ -7,13 +7,13 @@
   justify-items: center;
 }
 
-
-
-
 .container1 {
-  font-size: 17px;
   display: flex;
 } 
+
+.header {
+  font-size: 20px;
+}
 
 .search{
   margin-left: auto;
@@ -23,10 +23,8 @@
 }
 
 .container2 {
-  background-color: white;
   width : min-content;
   border-radius: 7px;
-
 }
 
 .list{
@@ -43,6 +41,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap : 10px;
 }
 
 .actions {

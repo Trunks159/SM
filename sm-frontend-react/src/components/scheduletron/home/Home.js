@@ -75,7 +75,7 @@ class Home extends Component {
                   <p
                     style={{
                       textTransform: "capitalize",
-                      fontSize: 15,
+                      fontSize: 11,
                       margin: 0,
                     }}
                   >
