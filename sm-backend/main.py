@@ -219,7 +219,7 @@ def profile_info(user_id, weekday):
 @ app.route('/logout')
 def logout():
     logout_user()
-    user = {'is_authenticated': current_user.is_authenticated}
+    user = {'isAuthenticated': current_user.is_authenticated}
     return jsonify({'currentUser': user})
 
 

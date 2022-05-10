@@ -13,6 +13,7 @@ import "./home.css";
 class Home extends Component {
   state = {
     isDesktop: false,
+    isLargeDesktop: false,
   };
 
   componentDidMount = () => {
@@ -26,6 +27,7 @@ class Home extends Component {
 
   updatePredicate = () => {
     this.setState({ isDesktop: window.innerWidth > 860 });
+    this.setState({ isLargeDesktop: window.innerWidth > 1160 });
   };
 
   render() {
@@ -37,7 +39,10 @@ class Home extends Component {
             To start, select schedule to <b>view</b> or <b>edit</b>
           </p>
           {this.state.isDesktop && (
-            <div className={"search"}>
+            <div
+              style={this.state.isLargeDesktop ? { display: "none" } : null}
+              className={"search"}
+            >
               <p>Looking for a schedule in particular?</p>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
@@ -61,6 +66,31 @@ class Home extends Component {
             </div>
           )}
         </div>
+
+        {this.state.isLargeDesktop && (
+          <div className={"search"}>
+            <p>Looking for a schedule in particular?</p>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label="Enter Date"
+                value={"02/22/1998"}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+
+            <Button
+              style={{
+                background: "#DDDDDD",
+                color: "white",
+                borderRadius: "7px",
+                display: "none",
+              }}
+            >
+              ?
+              <img alt="" style={{ width: 72 }} src={scheduleIconWhite} />?
+            </Button>
+          </div>
+        )}
 
         <div className={"container2"}>
           <div className={"list"}>

@@ -9,18 +9,15 @@
 
 .container1 {
   display: flex;
+  background-color: aqua;
+
 } 
 
 .header {
   font-size: 20px;
 }
 
-.search{
-  margin-left: auto;
-  font-size: 9px;
-  text-align: center;
-  margin-left: auto;
-}
+
 
 .container2 {
   width : min-content;
@@ -66,7 +63,6 @@
   }
   .header { 
     font-size: 27px;
-    justify-self: start;
   }
 
 }
@@ -77,6 +73,17 @@
     grid-template-columns: 1fr;
   }
 
+  .container1{
+    margin: 20px;
+  }
+
+  .search{
+    font-size: 9px;
+    text-align: center;
+    margin-left: auto;
+
+  }
+
   .schedules {
     align-self: start;
     justify-self: start;
@@ -84,8 +91,6 @@
 } ;
 
 @media (min-width : 1160px){
-    .main {
-        grid-template-columns: min-content 1fr;    
-    }
     
+
 }

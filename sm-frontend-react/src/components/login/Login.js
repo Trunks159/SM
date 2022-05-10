@@ -14,7 +14,6 @@ import LockIcon from "@material-ui/icons/Lock";
 import StyledPaper from "../StyledPaper";
 
 const styles = () => ({
-
   header: {
     margin: 30,
     fontSize: 40,
@@ -23,18 +22,18 @@ const styles = () => ({
   submit: {
     backgroundColor: "#ff4bdb",
     width: 100,
-    margin : 50,
+    margin: 50,
     marginLeft: "auto",
   },
   input: {
     margin: 10,
     marginRight: 20,
-    marginLeft : 20,
-    marginBottom : 5,
+    marginLeft: 20,
+    marginBottom: 5,
   },
   forgot: {
     textDecoration: "none",
-    margin: 'none',
+    margin: "none",
     marginLeft: 20,
     fontSize: 12,
   },
@@ -74,7 +73,7 @@ class Login extends Component {
       });
       x.then((data) =>
         data.json().then(({ current_user }) => {
-          if (current_user.is_authenticated) {
+          if (current_user.isAuthenticated) {
             notifyUser({
               content: username + " is now logged in!",
               title: "Success",
@@ -113,7 +112,7 @@ class Login extends Component {
     return (
       <StyledPaper>
         <Typography variant="h6" className={classes.header}>
-          Login 
+          Login
         </Typography>
         <Divider></Divider>
         <TextField
