@@ -30,6 +30,8 @@ class Home extends Component {
     this.setState({ isLargeDesktop: window.innerWidth > 1160 });
   };
 
+
+
   render() {
     const { handleSelect, match, selected, schedules, marginLeft } = this.props;
     return (
@@ -68,7 +70,7 @@ class Home extends Component {
         </div>
 
         {this.state.isLargeDesktop && (
-          <div className={"search"}>
+          <div className={"search2"}>
             <p>Looking for a schedule in particular?</p>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
@@ -89,6 +91,12 @@ class Home extends Component {
               ?
               <img alt="" style={{ width: 72 }} src={scheduleIconWhite} />?
             </Button>
+            <ScheduleBtn
+                    varient = {'unknown'}
+                    startDate={'?'}
+                    endDate={'?'}
+                    handleSelect={handleSelect}
+                  />
           </div>
         )}
 
