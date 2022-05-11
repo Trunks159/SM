@@ -30,8 +30,6 @@ class Home extends Component {
     this.setState({ isLargeDesktop: window.innerWidth > 1160 });
   };
 
-
-
   render() {
     const { handleSelect, match, selected, schedules, marginLeft } = this.props;
     return (
@@ -53,18 +51,6 @@ class Home extends Component {
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
-
-              <Button
-                style={{
-                  background: "#DDDDDD",
-                  color: "white",
-                  borderRadius: "7px",
-                  display: "none",
-                }}
-              >
-                ?
-                <img alt="" style={{ width: 72 }} src={scheduleIconWhite} />?
-              </Button>
             </div>
           )}
         </div>
@@ -80,23 +66,12 @@ class Home extends Component {
               />
             </LocalizationProvider>
 
-            <Button
-              style={{
-                background: "#DDDDDD",
-                color: "white",
-                borderRadius: "7px",
-                display: "none",
-              }}
-            >
-              ?
-              <img alt="" style={{ width: 72 }} src={scheduleIconWhite} />?
-            </Button>
             <ScheduleBtn
-                    varient = {'unknown'}
-                    startDate={'?'}
-                    endDate={'?'}
-                    handleSelect={handleSelect}
-                  />
+              varient={"unknown"}
+              startDate={"?"}
+              endDate={"?"}
+              handleSelect={handleSelect}
+            />
           </div>
         )}
 
@@ -131,9 +106,8 @@ class Home extends Component {
               );
             })}
           </div>
-          {/*
           {this.state.isDesktop && (
-            <div className={classes.actions}>
+            <div className={"container2-actions"}>
               <Button
                 style={{
                   marginLeft: "auto",
@@ -172,7 +146,6 @@ class Home extends Component {
               </Link>
             </div>
           )}
-           */}
         </div>
 
         {/*

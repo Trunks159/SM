@@ -11,7 +11,7 @@ const styles = () => ({
     background: "#E1E9EE",
     justifyContent: "space-evenly",
     padding: "0px 15px",
-    position: "fixed",
+    position: "absolute",
     height: "100%",
     width: 120,
     left: 100,

@@ -50,7 +50,7 @@ class Nav extends Component {
       <Tabs
         style={{
           background: "#51636D",
-          position: "fixed",
+          position: "absolute",
           height: "100%",
           width: 100,
         }}

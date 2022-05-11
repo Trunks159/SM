@@ -5,13 +5,15 @@ import Nav from "./Nav";
 import Home from "./home/Home";
 import Scheduler from "./scheduler/Scheduler";
 import WeekBar from "./WeekBar";
-import Nav2 from "./Nav2";
 
 const styles = () => ({
   main: {
-    display : 'flex',
-    flexGrow : 1,
-    width  :'300px'
+    display: "flex",
+    flexGrow: 1,
+    maxWidth: 1400,
+    marginLeft: "auto",
+    marginRight: "auto",
+    position: "relative",
   },
 });
 
@@ -119,6 +121,9 @@ class Scheduletron extends Component {
                 : null;
               return (
                 <Scheduler
+                  marginLeft={
+                    this.state.selected && this.state.isDesktop ? 230 : 100
+                  }
                   day={this.state.day}
                   handleSelect={this.handleSelect}
                   setScheduleSet={this.setScheduleSet}

@@ -32,6 +32,7 @@ class Scheduler extends Component {
   };
 
   render() {
+    const { marginLeft } = this.props;
     return this.state.day ? (
       <div
         style={{
@@ -39,6 +40,7 @@ class Scheduler extends Component {
           background: "#F0F0F0",
           display: "flex",
           flexDirection: "column",
+          marginLeft: marginLeft,
         }}
       >
         <Paper
