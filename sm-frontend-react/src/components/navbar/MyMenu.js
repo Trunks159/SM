@@ -88,4 +88,55 @@ class MyMenu extends Component {
   }
 }
 
-export default MyMenu;
+class BasicMenu extends Component {
+  state = {
+    anchorEl: null,
+  };
+
+  handleClick = (e) => {
+    this.setState({ anchorEl: e.currentTarget });
+  };
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+  render() {
+    const open = Boolean(this.state.anchorEl);
+    const { username, id, handleLogout } = this.props;
+    return (
+      <div>
+        <Button
+          id="basic-button"
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={this.handleClick}
+        >
+          {username}
+        </Button>
+        <Menu
+          id="basic-menu"
+          anchorEl={this.state.anchorEl}
+          open={open}
+          onClose={this.handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={this.handleClose}>
+            <Link className={"menu-link"}>My Profile</Link>
+          </MenuItem>
+          <MenuItem onClick={this.handleClose}>
+            <Link className={"menu-link"}>My Availability</Link>
+          </MenuItem>
+          <MenuItem onClick={this.handleClose}>
+            <Link onClick={handleLogout} className={"menu-link"}>
+              Logout
+            </Link>
+          </MenuItem>
+        </Menu>
+      </div>
+    );
+  }
+}
+
+export default BasicMenu;

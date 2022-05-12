@@ -72,7 +72,7 @@ class Login extends Component {
         remember: remember,
       });
       x.then((data) =>
-        data.json().then(({ current_user }) => {
+        data.json().then((current_user) => {
           if (current_user.isAuthenticated) {
             notifyUser({
               content: username + " is now logged in!",
@@ -110,55 +110,56 @@ class Login extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <StyledPaper>
-        <Typography variant="h6" className={classes.header}>
-          Login
-        </Typography>
-        <Divider></Divider>
-        <TextField
-          className={classes.input}
-          name="username"
-          label="Enter Username"
-          onChange={this.handleChange}
-        />
-        {this.state.username_errors ? this.state.username_errors : null}
-        <TextField
-          className={classes.input}
-          name="password"
-          label="Enter Password"
-          onChange={this.handleChange}
-          type="password"
-        />
-        {this.state.password_errors}
-        <Typography variant="subtitle1">
-          <Link className={classes.forgot} to="/">
-            Forgot Password
-          </Link>
-        </Typography>
-        <FormControlLabel
-          className={classes.remember}
-          control={
-            <Checkbox
-              checked={this.state.remember}
-              onChange={this.handleCheckbox}
-              name="remember"
-              primary
-            />
-          }
-          label="Remember Me"
-        />
+      <form onSubmit={this.handleSubmit}>
+        <StyledPaper>
+          <Typography variant="h6" className={classes.header}>
+            Login
+          </Typography>
+          <Divider></Divider>
+          <TextField
+            className={classes.input}
+            name="username"
+            label="Enter Username"
+            onChange={this.handleChange}
+          />
+          {this.state.username_errors ? this.state.username_errors : null}
+          <TextField
+            className={classes.input}
+            name="password"
+            label="Enter Password"
+            onChange={this.handleChange}
+            type="password"
+          />
+          {this.state.password_errors}
+          <Typography variant="subtitle1">
+            <Link className={classes.forgot} to="/">
+              Forgot Password
+            </Link>
+          </Typography>
+          <FormControlLabel
+            className={classes.remember}
+            control={
+              <Checkbox
+                checked={this.state.remember}
+                onChange={this.handleCheckbox}
+                name="remember"
+                primary
+              />
+            }
+            label="Remember Me"
+          />
 
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          endIcon={<LockIcon />}
-          onClick={this.handleSubmit}
-        >
-          Login
-        </Button>
-      </StyledPaper>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            endIcon={<LockIcon />}
+          >
+            Login
+          </Button>
+        </StyledPaper>
+      </form>
     );
   }
 }

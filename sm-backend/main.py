@@ -104,7 +104,7 @@ def user_login():
     if user:
         if user.check_password(password):
             login_user(user=user, remember=remember)
-            return jsonify({'current_user': user.to_json()})
+            return jsonify(user.to_json())
     return jsonify({'isAuthenticated': False})
 
 

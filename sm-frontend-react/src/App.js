@@ -97,14 +97,26 @@ class App extends Component {
     this.setState({ isDesktop: window.innerWidth > 600 });
   };
 
+  handleLogout = () => {
+    fetch("/logout")
+      .then((response) => response.json())
+      .then(() => {
+        this.fetchUsers();
+        this.updatePredicate();
+      });
+  };
+
   render() {
     return this.state.users ? (
       <Router>
         <div className="App">
-        {this.state.isDesktop && (
+          {this.state.isDesktop && (
             <>
-              <div style={{ height: 65, width: "100%", }}></div>
-              <NavBar currentUser={this.state.currentUser} />
+              <div style={{ height: 65, width: "100%" }}></div>
+              <NavBar
+                currentUser={this.state.currentUser}
+                handleLogout={this.handleLogout}
+              />
             </>
           )}
 
@@ -125,6 +137,7 @@ class App extends Component {
                   );
                 }}
               />
+
               <Route
                 path="/scheduletron"
                 render={() => {
@@ -219,7 +232,10 @@ class App extends Component {
           {this.state.isDesktop || (
             <>
               <div style={{ height: 65, width: "100%" }}></div>
-              <NavBar currentUser={this.state.currentUser} />
+              <NavBar
+                currentUser={this.state.currentUser}
+                handleLogout={this.handleLogout}
+              />
             </>
           )}
         </div>

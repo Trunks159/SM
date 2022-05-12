@@ -36,7 +36,8 @@ class Home extends Component {
       <div className={"main"} style={{ marginLeft: marginLeft }}>
         <div className={"container1"}>
           <p className={"header"}>
-            To start, select schedule to <b>view</b> or <b>edit</b>
+            Let's get started! <br />
+            Select a schedule below to <b>view</b> or <b>edit</b>
           </p>
           {this.state.isDesktop && (
             <div

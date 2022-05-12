@@ -8,7 +8,7 @@ import scheduleIcon from "../../assets/images/Schedule Icon Grey.svg";
 import { Paper } from "@material-ui/core";
 import MyMenu from "./MyMenu";
 import { Toolbar, AppBar } from "@mui/material";
-
+import "./navbar.css";
 const useStyles = makeStyles({
   nav: {
     alignItems: "center",
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     display: "flex",
     height: 65,
     zIndex: 1,
-    width : '100vw',
+    width: "100vw",
   },
 
   logo: {
@@ -77,7 +77,7 @@ const CustomLink = ({ to, src, children, className }) => (
   </Link>
 );
 
-const NavBar = ({ currentUser }) => {
+const NavBar = ({ currentUser, handleLogout }) => {
   const classes = useStyles();
 
   return (
@@ -104,7 +104,11 @@ const NavBar = ({ currentUser }) => {
             Team
           </CustomLink>
 
-          <MyMenu username={currentUser.username} />
+          <MyMenu
+            id={currentUser.id}
+            username={currentUser.username}
+            handleLogout={handleLogout}
+          />
         </>
       ) : (
         <>
