@@ -55,7 +55,6 @@
   .list {
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
     overflow-y: auto;
     height: 300;
   }
