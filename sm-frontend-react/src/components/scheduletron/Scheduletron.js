@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { Route, Switch, withRouter } from "react-router-dom";
 import Nav from "./Nav";
+import Nav2 from "./Nav2";
 import Home from "./home/Home";
 import Scheduler from "./scheduler/Scheduler";
 import WeekBar from "./WeekBar";
@@ -82,6 +83,8 @@ class Scheduletron extends Component {
 
     return this.state.schedules ? (
       <div className={classes.main}>
+        <Nav2/>
+        {/*
         <Nav
           path={path}
           dayId={
@@ -92,7 +95,7 @@ class Scheduletron extends Component {
                 ).week[0].id
           }
         />
-
+          */}
         {this.state.selected && this.state.isDesktop ? (
           <WeekBar
             week={this.state.selected.week}
