@@ -3,6 +3,7 @@ import scheduleIcon from "../../assets/images/Schedule Icon White.svg";
 import settingsIcon from "../../assets/images/Settings Icon.svg";
 import searchIcon from "../../assets/images/Search Icon.svg";
 import logo from "../../assets/images/Logo.svg";
+import openIcon from "../../assets/images/Open Icon.svg";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import Tabs from "@mui/material/Tabs";
@@ -23,9 +24,25 @@ class Nav extends Component {
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
-
   render() {
     const { path, dayId } = this.props;
+    const tabGroup1 = [
+      {
+        src: openIcon,
+        label: "Open",
+        link: path,
+      },
+      {
+        src: schedulerIcon,
+        label: null,
+      },
+      {
+        src: settingsIcon,
+        label: "Settings",
+      },
+
+    ];
+
     const theTabs = [
       {
         src: scheduleIcon,
@@ -47,49 +64,94 @@ class Nav extends Component {
       },
     ];
     return (
-      <Tabs
-        style={{
-          background: "#51636D",
-          position: "absolute",
-          height: "100%",
-          width: 100,
-        }}
-        value={this.state.value}
-        i
-        onChange={this.handleChange}
-        aria-label="basic tabs example"
-        orientation="vertical"
-        TabIndicatorProps={{
-          style: {
-            background: "white",
-          },
-        }}
-      >
-        {theTabs.map((t, index) => {
-          const active = this.state.value === index;
-          return (
-            <Tab
-              style={{ color: "white", opacity: active ? 1 : 0.5 }}
-              icon={
-                t.link ? (
-                  <Link to={t.link}>
-                    <img src={t.src} />
-                  </Link>
-                ) : (
-                  <img src={t.src} />
-                )
-              }
-              label={t.label}
-              {...this.a11yProps(index)}
-              sx={{
-                textTransform: "none",
-                fontSize: 9,
-                fontWeight: "bold",
-              }}
-            />
-          );
-        })}
-      </Tabs>
+      <div style={{
+        background: "#51636D",
+        position: "fixed",
+        height: "100%",
+        width: 100,
+        display : 'flex',
+        flexDirection : 'column'
+
+      }} >
+<Tabs style = {{flex : 1}}
+       
+       value={this.state.value}
+       i
+       onChange={this.handleChange}
+       aria-label="basic tabs example"
+       orientation="vertical"
+       TabIndicatorProps={{
+         style: {
+           background: "white",
+         },
+       }}
+     >
+       {theTabs.map((t, index) => {
+         const active = this.state.value === index;
+         return (
+           <Tab
+             style={{ color: "white", opacity: active ? 1 : 0.5 }}
+             icon={
+               t.link ? (
+                 <Link to={t.link}>
+                   <img src={t.src} />
+                 </Link>
+               ) : (
+                 <img src={t.src} />
+               )
+             }
+             label={t.label}
+             {...this.a11yProps(index)}
+             sx={{
+               textTransform: "none",
+               fontSize: 9,
+               fontWeight: "bold",
+             }}
+           />
+         );
+       })}
+     </Tabs>
+     <Tabs style = {{marginTop : 'auto'}}
+       
+       value={this.state.value}
+       i
+       onChange={this.handleChange}
+       aria-label="basic tabs example"
+       orientation="vertical"
+       TabIndicatorProps={{
+         style: {
+           background: "white",
+         },
+       }}
+     >
+       {theTabs.map((t, index) => {
+         const active = this.state.value === index;
+         return (
+           <Tab
+             style={{ color: "white", opacity: active ? 1 : 0.5 }}
+             icon={
+               t.link ? (
+                 <Link to={t.link}>
+                   <img src={t.src} />
+                 </Link>
+               ) : (
+                 <img src={t.src} />
+               )
+             }
+             label={t.label}
+             {...this.a11yProps(index)}
+             sx={{
+               textTransform: "none",
+               fontSize: 9,
+               fontWeight: "bold",
+             }}
+           />
+         );
+       })}
+     </Tabs>
+     
+      </div>
+        
     );
   }
 }

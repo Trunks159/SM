@@ -83,7 +83,7 @@ class Scheduletron extends Component {
 
     return this.state.schedules ? (
       <div className={classes.main}>
-        <Nav2/>
+        <Nav/>
         {/*
         <Nav
           path={path}
