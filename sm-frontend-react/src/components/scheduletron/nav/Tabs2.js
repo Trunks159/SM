@@ -11,7 +11,12 @@ class Tabs2 extends Component {
   };
 
   handleChange = (event, newValue) => {
-    this.setState({ value: newValue });
+    if(this.state.value === newValue){
+      this.setState({ value: null });
+    }
+    else{
+      this.setState({ value: newValue });
+    }
   };
 
   render() {

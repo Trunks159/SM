@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import Tabs1 from "./Tabs1";
 import Tabs2 from "./Tabs2";
+import { withRouter } from "react-router-dom";
+import './nav.css'
 
 class Nav extends Component {
   render() {
-    const { path, dayId } = this.props;
+    const { path, dayId, match } = this.props;
 
     return (
       <div
@@ -12,13 +14,13 @@ class Nav extends Component {
           background: "#51636D",
           position: "fixed",
           height: "100%",
-          width: 100,
+          width: 70,
           display: "flex",
           flexDirection: "column",
         }}
       >
-        <Tabs1 path={path} dayId={dayId} />
-        <Tabs2 path={path} dayId={dayId} />
+        <Tabs1 path={match.path} dayId={dayId} />
+        <Tabs2 path={match.path} dayId={dayId} />
       </div>
     );
   }
@@ -68,4 +70,4 @@ const Nav = ({ path, dayId }) => {
 };
 */
 
-export default Nav;
+export default withRouter(Nav);

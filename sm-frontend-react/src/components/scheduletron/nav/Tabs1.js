@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import openIcon from "../../../assets/images/Open Icon.svg";
 import schedulerIcon from "../../../assets/images/Scheduler Icon.svg";
-import { Link } from "react-router-dom";
+import openIcon from "../../../assets/images/Open Icon.svg";
+import { Divider } from "@mui/material";
+import { NavLink } from "react-router-dom";
 
-class Tabs1 extends Component {
+class Tabs2 extends Component {
   state = {
     value: 0,
   };
@@ -14,69 +13,139 @@ class Tabs1 extends Component {
     this.setState({ value: newValue });
   };
 
-  a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`,
-    };
-  }
-
   render() {
-    const { path, dayId } = this.props;
-
+    const { classes, path, dayId } = this.props;
     const theTabs = [
       {
         src: openIcon,
-        label: "Schedules",
+        label: "Open",
+        index: 0,
         link: path,
       },
       {
         src: schedulerIcon,
         label: null,
+        index: 1,
         link: `${path}/${dayId}`,
       },
     ];
+
     return (
-      <Tabs
-        style={{ flex: "max-content" }}
-        value={this.state.value}
-        i
-        onChange={this.handleChange}
-        aria-label="basic tabs example"
-        orientation="vertical"
-        TabIndicatorProps={{
-          style: {
-            background: "white",
-          },
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginTop: "auto",
         }}
       >
-        {theTabs.map((t, index) => {
+        <Divider style={{ width: "90%", background: "#71828B", height: 0.5 }} />
+        {/*theTabs.map(({ index, label, src, link = null }) => {
           const active = this.state.value === index;
           return (
-            <Tab
-              style={{ color: "white", opacity: active ? 1 : 0.5 }}
-              icon={
-                t.link ? (
-                  <Link to={t.link}>
-                    <img src={t.src} />
-                  </Link>
-                ) : (
-                  <img src={t.src} />
-                )
-              }
-              label={t.label}
-              {...this.a11yProps(index)}
+            <Button
+              style={{
+                color: "white",
+                padding: "0px",
+                width: "100%",
+                borderRadius: 0,
+                position: "relative",
+                paddingTop: 15,
+              }}
               sx={{
                 textTransform: "none",
                 fontSize: 9,
                 fontWeight: "bold",
               }}
-            />
+              onClick={(e) => this.handleChange(e, index)}
+            >
+              <Divider
+                style={{
+                  opacity: active ? 1 : 0,
+                  position: "absolute",
+                  background: "white",
+                  width: 2,
+                  height: "100%",
+                  right: 0,
+                  transition: "opacity .5s",
+                }}
+              />
+              {link ? (
+                <NavLink
+                  to={path}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    opacity: active ? 1 : 0.5,
+                  }}
+                >
+                  <img src={src} />
+                  <p style={active ? null : { visibility: "hidden" }}>
+                    {label}
+                  </p>
+                </NavLink>
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    opacity: active ? 1 : 0.5,
+                  }}
+                >
+                  <img src={src} />
+                  <p style={active ? null : { visibility: "hidden" }}>
+                    {label}
+                  </p>
+                </div>
+              )}
+            </Button>
           );
-        })}
-      </Tabs>
+        })*/}
+
+
+              <NavLink
+                to={path}
+                className={"nav-link" + (this.state.value === 0 ? " active" : " inactive")}
+              >
+                <img alt="Open" src={openIcon} />
+                <p>Open</p>
+                <Divider
+                  style={{
+                    opacity: this.state.value === 0 ? 1 : 0,
+                    position: "absolute",
+                    background: "white",
+                    width: 2,
+                    height: "100%",
+                    right: 0,
+                    transition: "opacity .5s",
+                  }}
+                />
+              </NavLink>
+              <NavLink
+                to={path}
+                className={"nav-link" + (this.state.value === 1 ? " active" : " inactive")}
+              >
+                <img alt="Scheduler" src={schedulerIcon} />
+                <p>{null}</p>
+                <Divider
+                  style={{
+                    opacity: this.state.value === 1 ? 1 : 0,
+                    position: "absolute",
+                    background: "white",
+                    width: 2,
+                    height: "100%",
+                    right: 0,
+                    transition: "opacity .5s",
+                  }}
+                />
+              </NavLink>
+            
+          
+
+      </div>
     );
   }
 }
 
-export default Tabs1;
+export default Tabs2;
