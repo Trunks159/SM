@@ -14,9 +14,11 @@ class Scheduler extends Component {
 
   componentDidMount = () => {
     if (!!this.state.day === false) {
+      console.log("Match: ", this.props.match);
       fetch(`/get_week_schedule/${this.props.match.params.day}`)
         .then((response) => response.json())
         .then(({ day, weekSchedule, scheduleSet }) => {
+          console.log("Lets see: ", day, weekSchedule, scheduleSet);
           const { handleSelect, setScheduleSet } = this.props;
           this.setState({ day: day });
           handleSelect({ week: weekSchedule.schedule, id: weekSchedule.id });

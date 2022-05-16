@@ -2,150 +2,78 @@ import React, { Component } from "react";
 import schedulerIcon from "../../../assets/images/Scheduler Icon.svg";
 import openIcon from "../../../assets/images/Open Icon.svg";
 import { Divider } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
-class Tabs2 extends Component {
+const withLocation = (WhateverComponent) => {
+  return (props) => <WhateverComponent location={useLocation()} {...props} />;
+};
+
+const MyNavLink = ({ img, active, label, to = "/scheduletron" }) => {
+  return (
+    <NavLink
+      to={to}
+      className={"nav-link"}
+      style={{ opacity: active ? 1 : 0.5 }}
+    >
+      <img alt="Open" src={img} />
+      <p>{label}</p>
+      <Divider
+        style={{
+          visibility: active ? "visible" : "hidden",
+          position: "absolute",
+          background: "white",
+          width: 2,
+          height: "100%",
+          right: 0,
+          transition: "opacity .3s",
+          top: 0,
+        }}
+      />
+    </NavLink>
+  );
+};
+
+class Tabs1 extends Component {
   state = {
-    value: 0,
+    value: this.props.location.pathname,
   };
 
   handleChange = (event, newValue) => {
     this.setState({ value: newValue });
   };
 
+  componentDidUpdate = (prevProps) => {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.setState({ value: this.props.location.pathname });
+    }
+  };
+
   render() {
-    const { classes, path, dayId } = this.props;
-    const theTabs = [
-      {
-        src: openIcon,
-        label: "Open",
-        index: 0,
-        link: path,
-      },
-      {
-        src: schedulerIcon,
-        label: null,
-        index: 1,
-        link: `${path}/${dayId}`,
-      },
-    ];
+    const { dayId, location } = this.props;
 
     return (
       <div
         style={{
-          flex: 1,
           display: "flex",
+          flex: 1.75,
           flexDirection: "column",
           alignItems: "center",
-          marginTop: "auto",
         }}
       >
-        <Divider style={{ width: "90%", background: "#71828B", height: 0.5 }} />
-        {/*theTabs.map(({ index, label, src, link = null }) => {
-          const active = this.state.value === index;
-          return (
-            <Button
-              style={{
-                color: "white",
-                padding: "0px",
-                width: "100%",
-                borderRadius: 0,
-                position: "relative",
-                paddingTop: 15,
-              }}
-              sx={{
-                textTransform: "none",
-                fontSize: 9,
-                fontWeight: "bold",
-              }}
-              onClick={(e) => this.handleChange(e, index)}
-            >
-              <Divider
-                style={{
-                  opacity: active ? 1 : 0,
-                  position: "absolute",
-                  background: "white",
-                  width: 2,
-                  height: "100%",
-                  right: 0,
-                  transition: "opacity .5s",
-                }}
-              />
-              {link ? (
-                <NavLink
-                  to={path}
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    opacity: active ? 1 : 0.5,
-                  }}
-                >
-                  <img src={src} />
-                  <p style={active ? null : { visibility: "hidden" }}>
-                    {label}
-                  </p>
-                </NavLink>
-              ) : (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    opacity: active ? 1 : 0.5,
-                  }}
-                >
-                  <img src={src} />
-                  <p style={active ? null : { visibility: "hidden" }}>
-                    {label}
-                  </p>
-                </div>
-              )}
-            </Button>
-          );
-        })*/}
+        <MyNavLink
+          img={openIcon}
+          active={this.state.value === "/scheduletron"}
+          label="Open"
+        />
 
-
-              <NavLink
-                to={path}
-                className={"nav-link" + (this.state.value === 0 ? " active" : " inactive")}
-              >
-                <img alt="Open" src={openIcon} />
-                <p>Open</p>
-                <Divider
-                  style={{
-                    opacity: this.state.value === 0 ? 1 : 0,
-                    position: "absolute",
-                    background: "white",
-                    width: 2,
-                    height: "100%",
-                    right: 0,
-                    transition: "opacity .5s",
-                  }}
-                />
-              </NavLink>
-              <NavLink
-                to={path}
-                className={"nav-link" + (this.state.value === 1 ? " active" : " inactive")}
-              >
-                <img alt="Scheduler" src={schedulerIcon} />
-                <p>{null}</p>
-                <Divider
-                  style={{
-                    opacity: this.state.value === 1 ? 1 : 0,
-                    position: "absolute",
-                    background: "white",
-                    width: 2,
-                    height: "100%",
-                    right: 0,
-                    transition: "opacity .5s",
-                  }}
-                />
-              </NavLink>
-            
-          
-
+        <MyNavLink
+          img={schedulerIcon}
+          active={this.state.value !== "/scheduletron"}
+          to={`/scheduletron/${dayId}`}
+        />
       </div>
     );
   }
 }
 
-export default Tabs2;
+export default withLocation(Tabs1);

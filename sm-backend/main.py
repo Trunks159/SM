@@ -186,7 +186,7 @@ def get_week_schedules(todays_date):
 @app.route('/get_week_schedule/<day_id>')
 def get_week_schedule(day_id):
     day = Day.query.filter_by(id=day_id).first()
-
+    print('Duh day: ', day_id)
     if day:
         week = day.week_schedule
         set = complete_schedule_set(week)

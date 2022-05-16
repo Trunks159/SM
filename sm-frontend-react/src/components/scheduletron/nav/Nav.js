@@ -1,73 +1,49 @@
 import React, { Component } from "react";
 import Tabs1 from "./Tabs1";
 import Tabs2 from "./Tabs2";
-import { withRouter } from "react-router-dom";
-import './nav.css'
+import "./nav.css";
+import { touchRippleClasses } from "@mui/material";
+import WeekBar from "../WeekBar";
 
 class Nav extends Component {
-  render() {
-    const { path, dayId, match } = this.props;
+  state = {
+    menu: null,
+  };
 
+  changeMenu = (menuTitle) => {
+    menuTitle = this.state.menu === menuTitle ? null : menuTitle;
+    this.props.adjustMarginLeft(menuTitle ? 230 : 100);
+    this.setState({ menu: menuTitle });
+  };
+
+  render() {
+    const { dayId, selected, setDay } = this.props;
+    const { menu } = this.state;
     return (
       <div
         style={{
-          background: "#51636D",
-          position: "fixed",
-          height: "100%",
-          width: 70,
           display: "flex",
-          flexDirection: "column",
+          position: "fixed",
+          top: 65,
+          bottom: 0,
         }}
       >
-        <Tabs1 path={match.path} dayId={dayId} />
-        <Tabs2 path={match.path} dayId={dayId} />
+        <div className="side-nav">
+          <Tabs1 dayId={dayId} />
+          <Tabs2
+            dayId={dayId}
+            changeMenu={this.changeMenu}
+            selected={selected}
+          />
+        </div>
+        {menu === "weekbar" && <WeekBar week={selected.week} setDay={setDay} />}
+        {menu === "search" && <div style={{ gridColumn: "2 / 3" }}>Search</div>}
+        {menu === "settings" && (
+          <div style={{ gridColumn: "2 / 3" }}>Search</div>
+        )}
       </div>
     );
   }
 }
 
-/*
-const Nav = ({ path, dayId }) => {
-  const classes = useStyles();
-  return (
-    <CustomTabs />
-    <div
-      style={{
-        background: "#51636D",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: 63,
-      }}
-    >
-      <IconLink
-        img={homeIcon}
-        label={path === "/scheduletron" ? "Home" : null}
-        to={path}
-      />
-      <IconLink
-        img={scheduleIcon}
-        label={path !== "/scheduletron" ? "Schedule" : null}
-        to={path + `/${dayId}`}
-      />
-      <IconLink
-        img={searchIcon}
-        label={path !== "/scheduletron" ? "Schedule" : null}
-        to={path + `/${dayId}`}
-      />
-      <Button
-        classes={{ label: classes.label, root: classes.settings }}
-        startIcon={
-          <img
-            alt=""
-            style={{ marginLeft: 10, marginBottom: 5 }}
-            src={settingsIcon}
-          />
-        }
-      ></Button>
-    </div>
-  );
-};
-*/
-
-export default withRouter(Nav);
+export default Nav;

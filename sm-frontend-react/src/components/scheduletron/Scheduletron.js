@@ -23,6 +23,7 @@ class Scheduletron extends Component {
     selected: null,
     day: null,
     isDesktop: false,
+    marginLeft: 100,
   };
 
   componentDidMount = () => {
@@ -76,13 +77,27 @@ class Scheduletron extends Component {
     this.setState({ day: day });
   };
 
-  render() {
-    const { classes, match } = this.props;
-    let { path } = match;
+  adjustMarginLeft = (marginLeft) => {
+    this.state.marginLeft !== marginLeft &&
+      this.setState({ marginLeft: marginLeft });
+  };
 
-    return this.state.schedules ? (
+  render() {
+    const { classes } = this.props;
+    const { schedules, selected, day, isDesktop, marginLeft } = this.state;
+    return schedules ? (
       <div className={classes.main}>
-        <Nav />
+        <Nav
+          adjustMarginLeft={this.adjustMarginLeft}
+          selected={selected}
+          setDay={this.setDay}
+          dayId={
+            selected
+              ? selected.week[0].id
+              : schedules.find(({ timeFrame }) => timeFrame === "this week")
+                  .week[0].id
+          }
+        />
         {/*
         <Nav
           path={path}
@@ -95,38 +110,30 @@ class Scheduletron extends Component {
           }
         />
           */}
-        {this.state.selected && this.state.isDesktop ? (
-          <WeekBar
-            week={this.state.selected.week}
-            path={path}
-            setDay={this.setDay}
-          />
-        ) : null}
+        {/*this.state.selected && this.state.isDesktop ? (
+          <WeekBar week={this.state.selected.week} setDay={this.setDay} />
+        ) : null*/}
         <Switch>
           <Route exact path={"/scheduletron"}>
             <Home
               handleSelect={this.handleSelect}
               selected={this.state.selected}
               schedules={this.state.schedules}
-              marginLeft={
-                this.state.selected && this.state.isDesktop ? 230 : 100
-              }
+              marginLeft={marginLeft}
             />
           </Route>
           <Route
             path={"/scheduletron/:day"}
             render={({ match }) => {
-              const day = this.state.selected
-                ? this.state.selected.week.find(
+              const day = selected
+                ? selected.week.find(
                     ({ id }) => id === parseInt(match.params.day)
                   )
                 : null;
               return (
                 <Scheduler
-                  marginLeft={
-                    this.state.selected && this.state.isDesktop ? 230 : 100
-                  }
-                  day={this.state.day}
+                  marginLeft={selected && isDesktop ? 230 : 100}
+                  day={day}
                   handleSelect={this.handleSelect}
                   setScheduleSet={this.setScheduleSet}
                 />
@@ -139,4 +146,4 @@ class Scheduletron extends Component {
   }
 }
 
-export default withStyles(styles)(withRouter(Scheduletron));
+export default withStyles(styles)(Scheduletron);

@@ -1,25 +1,25 @@
+.side-nav{
+    background-color: #51636D;
+    height: 100%;
+    width: 70px;
+    display: flex;
+    flex-direction: column;
+}
+
 .nav-link {
     display: flex;
     flex-direction: column;
     align-items: center;
-    opacity: .5;
     color: white;
     width: 100%;
     position: relative;
-    padding-top: 15px;
     font-size: 9px;
     font-weight: bold;
     text-decoration: none;
+    padding: 10px 0px;
 
 }
-.active p{
-    visibility :hidden;
-}
 
-.active{
-    opacity: 1;
-}
-
-.active p{
-    visibility: visible;
+.nav-link p{
+    margin: 0px;
 }
