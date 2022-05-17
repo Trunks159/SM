@@ -90,7 +90,10 @@ class Dashboard extends Component {
         <div className={classes.mainFlex}>
           <div className={classes.container1}>
             <p className={classes.header2}>Today's Schedule</p>
+            <div style = {{display : 'flex', height : 342, maxWidth : 840}}>
             <SchedulePaper header={true} schedule={this.state.schedule} />
+            </div>
+            
             <Link to="/scheduletron" style={{ textDecoration: "none" }}>
               <Paper elevation={2} className={classes.mainAction}>
                 <p>View and Edit Schedules</p>

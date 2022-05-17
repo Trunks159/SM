@@ -13,8 +13,8 @@ class Scheduler extends Component {
   };
 
   componentDidMount = () => {
+    console.log('Duh day: ', this.state.day)
     if (!!this.state.day === false) {
-      console.log("Match: ", this.props.match);
       fetch(`/get_week_schedule/${this.props.match.params.day}`)
         .then((response) => response.json())
         .then(({ day, weekSchedule, scheduleSet }) => {
@@ -29,12 +29,13 @@ class Scheduler extends Component {
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.day !== this.props.day) {
-      this.setState({ day: this.props });
+      this.setState({ day: this.props.day });
     }
   };
 
   render() {
     const { marginLeft } = this.props;
+    console.log('Now its: ', this.state.day);
     return this.state.day ? (
       <div
         style={{

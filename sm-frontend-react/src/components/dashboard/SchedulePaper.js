@@ -11,9 +11,7 @@ const useStyles = makeStyles({
     position: "relative",
     display: "flex",
     flexDirection: "column",
-    height: 342,
-    maxWidth: 840,
-    width: "100%",
+    flex : 1,
   },
 });
 

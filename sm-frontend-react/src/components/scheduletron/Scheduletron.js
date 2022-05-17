@@ -48,7 +48,8 @@ class Scheduletron extends Component {
   };
 
   updatePredicate = () => {
-    this.setState({ isDesktop: window.innerWidth > 600 });
+    const isDesktop = window.innerWidth > 600;
+    this.setState({ isDesktop: isDesktop});
   };
 
   setScheduleSet = (scheduleSet) => {
@@ -113,13 +114,13 @@ class Scheduletron extends Component {
         {/*this.state.selected && this.state.isDesktop ? (
           <WeekBar week={this.state.selected.week} setDay={this.setDay} />
         ) : null*/}
+        <div style={{display : 'flex', flex : 1, marginLeft: marginLeft}}>
         <Switch>
           <Route exact path={"/scheduletron"}>
             <Home
               handleSelect={this.handleSelect}
               selected={this.state.selected}
               schedules={this.state.schedules}
-              marginLeft={marginLeft}
             />
           </Route>
           <Route
@@ -132,7 +133,6 @@ class Scheduletron extends Component {
                 : null;
               return (
                 <Scheduler
-                  marginLeft={selected && isDesktop ? 230 : 100}
                   day={day}
                   handleSelect={this.handleSelect}
                   setScheduleSet={this.setScheduleSet}
@@ -141,6 +141,8 @@ class Scheduletron extends Component {
             }}
           />
         </Switch>
+        </div>
+
       </div>
     ) : null;
   }

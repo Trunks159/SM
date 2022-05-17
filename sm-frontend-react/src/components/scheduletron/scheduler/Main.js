@@ -27,7 +27,7 @@ const styles = () => ({
   label: {
     display: "flex",
     flexDirection: "column",
-    alignItemss: "center",
+    alignItems: "center",
   },
   saveBtn: {
     marginTop: "auto",
