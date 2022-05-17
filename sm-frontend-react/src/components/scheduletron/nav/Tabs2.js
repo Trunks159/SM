@@ -49,15 +49,15 @@ class Tabs2 extends Component {
     return (
       <div
         style={{
-          flex: 1,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          background: "#EFF1F2",
           marginTop: "auto",
-          background: "red",
+          justifyContent: "space-evenly",
+          width: "100%",
         }}
       >
-        <Divider style={{ width: "90%", background: "#71828B", height: 0.5 }} />
         {theTabs.map(
           ({
             index,
@@ -68,46 +68,24 @@ class Tabs2 extends Component {
           }) => {
             const active = this.state.value === index;
             return (
-              <Button
-                style={{
-                  color: "white",
-                  padding: "0px",
-                  width: "100%",
-                  borderRadius: 0,
-                  position: "relative",
-                  paddingTop: 15,
-                }}
-                sx={{
-                  textTransform: "none",
-                  fontSize: 9,
-                  fontWeight: "bold",
-                }}
+              <button
+                className={`nav-button ${active ? "active" : "inactive"}`}
                 onClick={(e) => handle(e, index, menuTitle)}
               >
                 <Divider
                   style={{
-                    opacity: active ? 1 : 0,
+                    visibility: active ? "visible" : "hidden",
                     position: "absolute",
-                    background: "white",
+                    background: "#51636D",
                     width: 2,
                     height: "100%",
                     right: 0,
-                    transition: "opacity .5s",
                   }}
                 />
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    opacity: active ? 1 : 0.5,
-                  }}
-                >
-                  <img src={src} />
-                  <p style={active ? null : { visibility: "hidden" }}>
-                    {label}
-                  </p>
-                </div>
-              </Button>
+
+                <img src={src} />
+                <p style={active ? null : { visibility: "hidden" }}>{label}</p>
+              </button>
             );
           }
         )}

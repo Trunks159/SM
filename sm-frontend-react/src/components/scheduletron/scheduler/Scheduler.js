@@ -1,11 +1,15 @@
 import { Paper } from "@material-ui/core";
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import scheduleIcon from "../../../assets/images/Schedule Icon White.svg";
 import dayIcon from "../../../assets/images/Day Icon.svg";
 import nightIcon from "../../../assets/images/Night Icon.svg";
 import { Button } from "@mui/material";
 import Main from "./Main";
+
+const withLocation = (WhateverComponent) => {
+  return (props) => <WhateverComponent location={useLocation()} {...props} />;
+};
 
 class Scheduler extends Component {
   state = {
@@ -15,10 +19,14 @@ class Scheduler extends Component {
   componentDidMount = () => {
     console.log('Duh day: ', this.state.day)
     if (!!this.state.day === false) {
+<<<<<<< Updated upstream
       fetch(`/get_week_schedule/${this.props.match.params.day}`)
+=======
+      fetch(`/get_week_schedule/${this.props.dayId}`)
+>>>>>>> Stashed changes
         .then((response) => response.json())
         .then(({ day, weekSchedule, scheduleSet }) => {
-          console.log("Lets see: ", day, weekSchedule, scheduleSet);
+          console.log("Lets see: ", day);
           const { handleSelect, setScheduleSet } = this.props;
           this.setState({ day: day });
           handleSelect({ week: weekSchedule.schedule, id: weekSchedule.id });
@@ -107,4 +115,4 @@ class Scheduler extends Component {
   }
 }
 
-export default withRouter(Scheduler);
+export default withLocation(Scheduler);

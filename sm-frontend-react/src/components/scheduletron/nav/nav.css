@@ -4,7 +4,9 @@
     width: 70px;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
 }
+
 
 .nav-link {
     display: flex;
@@ -18,6 +20,37 @@
     text-decoration: none;
     padding: 10px 0px;
 
+}
+
+.active{
+    opacity: 1;
+}
+
+.inactive{
+    opacity: .5;
+}
+
+.nav-link :hover{
+    opacity: 1;
+}  
+
+.nav-button {
+    color : #51636D;
+    width: 100%;
+    position: relative;
+    font-size: 9px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    border: none;
+    padding-top: 10px ;
+}
+
+
+.nav-button:hover{
+    opacity: 1;
 }
 
 .nav-link p{

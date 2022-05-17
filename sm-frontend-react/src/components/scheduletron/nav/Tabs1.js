@@ -10,12 +10,12 @@ const withLocation = (WhateverComponent) => {
 
 const MyNavLink = ({ img, active, label, to = "/scheduletron" }) => {
   return (
-    <NavLink
-      to={to}
-      className={"nav-link"}
-      style={{ opacity: active ? 1 : 0.5 }}
-    >
-      <img alt="Open" src={img} />
+    <NavLink to={to} className={"nav-link"} style={{}}>
+      <img
+        className={`jordan ${active ? "active" : "inactive"}`}
+        alt="Open"
+        src={img}
+      />
       <p>{label}</p>
       <Divider
         style={{
@@ -55,9 +55,9 @@ class Tabs1 extends Component {
       <div
         style={{
           display: "flex",
-          flex: 1.75,
           flexDirection: "column",
           alignItems: "center",
+          width: "100%",
         }}
       >
         <MyNavLink

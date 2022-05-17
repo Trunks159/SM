@@ -55,6 +55,7 @@ class Scheduletron extends Component {
   setScheduleSet = (scheduleSet) => {
     /* Used by DayBtn and of course ComponentDidMount
         kinda self explanatory*/
+    console.log("i run: ", scheduleSet);
     const schedules = scheduleSet.map(({ schedule, timeFrame }) => ({
       id: schedule.id,
       week: schedule.schedule,
@@ -64,13 +65,14 @@ class Scheduletron extends Component {
     this.setState({ schedules: schedules });
   };
 
-  handleSelect = (week) => {
-    console.log("Duh week: ", week);
-    if (this.state.selected === week) {
+  handleSelect = (newlySelected) => {
+    console.log("Duh week: ", newlySelected);
+    if (this.state.selected === newlySelected) {
       this.setState({ selected: null });
     } else {
-      this.setState({ selected: week });
+      this.setState({ selected: newlySelected });
     }
+    this.setState({ selected: this.state.selected === newlySelected });
   };
 
   setDay = (id) => {
@@ -133,6 +135,11 @@ class Scheduletron extends Component {
                 : null;
               return (
                 <Scheduler
+<<<<<<< Updated upstream
+=======
+                  dayId={match.params.day}
+                  marginLeft={selected && isDesktop ? 230 : 100}
+>>>>>>> Stashed changes
                   day={day}
                   handleSelect={this.handleSelect}
                   setScheduleSet={this.setScheduleSet}
