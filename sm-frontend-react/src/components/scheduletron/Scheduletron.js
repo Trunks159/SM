@@ -49,7 +49,7 @@ class Scheduletron extends Component {
 
   updatePredicate = () => {
     const isDesktop = window.innerWidth > 600;
-    this.setState({ isDesktop: isDesktop});
+    this.setState({ isDesktop: isDesktop });
   };
 
   setScheduleSet = (scheduleSet) => {
@@ -116,40 +116,36 @@ class Scheduletron extends Component {
         {/*this.state.selected && this.state.isDesktop ? (
           <WeekBar week={this.state.selected.week} setDay={this.setDay} />
         ) : null*/}
-        <div style={{display : 'flex', flex : 1, marginLeft: marginLeft}}>
-        <Switch>
-          <Route exact path={"/scheduletron"}>
-            <Home
-              handleSelect={this.handleSelect}
-              selected={this.state.selected}
-              schedules={this.state.schedules}
+        <div style={{ display: "flex", flex: 1, marginLeft: marginLeft }}>
+          <Switch>
+            <Route exact path={"/scheduletron"}>
+              <Home
+                handleSelect={this.handleSelect}
+                selected={this.state.selected}
+                schedules={this.state.schedules}
+              />
+            </Route>
+            <Route
+              path={"/scheduletron/:day"}
+              render={({ match }) => {
+                const day = selected
+                  ? selected.week.find(
+                      ({ id }) => id === parseInt(match.params.day)
+                    )
+                  : null;
+                return (
+                  <Scheduler
+                    dayId={match.params.day}
+                    marginLeft={selected && isDesktop ? 230 : 100}
+                    day={day}
+                    handleSelect={this.handleSelect}
+                    setScheduleSet={this.setScheduleSet}
+                  />
+                );
+              }}
             />
-          </Route>
-          <Route
-            path={"/scheduletron/:day"}
-            render={({ match }) => {
-              const day = selected
-                ? selected.week.find(
-                    ({ id }) => id === parseInt(match.params.day)
-                  )
-                : null;
-              return (
-                <Scheduler
-<<<<<<< Updated upstream
-=======
-                  dayId={match.params.day}
-                  marginLeft={selected && isDesktop ? 230 : 100}
->>>>>>> Stashed changes
-                  day={day}
-                  handleSelect={this.handleSelect}
-                  setScheduleSet={this.setScheduleSet}
-                />
-              );
-            }}
-          />
-        </Switch>
+          </Switch>
         </div>
-
       </div>
     ) : null;
   }
