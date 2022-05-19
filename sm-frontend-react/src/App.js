@@ -18,17 +18,34 @@ import Dashboard from "./components/dashboard/Dashboard";
 class App extends Component {
   state = {
     users: null,
+    //logged in user, the user logged in in Flask also
     currentUser: { isAuthenticated: false },
     message: null,
-    redirect: null,
     isDesktop: false,
   };
 
+  /*Fetches Users adds listener that will let React
+  know what size the screen is at any time*/
+  componentDidMount = () => {
+    this.fetchUsers();
+    this.updatePredicate();
+    window.addEventListener("resize", this.updatePredicate);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener("resize", this.updatePredicate);
+  };
+
   fetchUsers = () => {
+    /*API Call that gets users and puts them in state
+      and gets the Logged in user
+    */
     fetch("/users")
       .then((response) => response.json())
       .then(({ users, currentUser }) => {
         if (
+          /*if the data from the api call is different
+          than the data we have, update state*/
           this.state.users !== users ||
           this.state.currentUser !== currentUser
         ) {
@@ -54,14 +71,7 @@ class App extends Component {
     return rawResponse;
   };
 
-  /*Most GET Requests Go Through This
-    Fetches Users and Days After Each Reqeust*/
-  getReq = (url) => {
-    const rawResponse = fetch(url);
-    this.fetchUsers();
-    return rawResponse;
-  };
-
+  //Places an alert of some kind under the nav bar
   notifyUser = (message) => {
     this.setState({
       message: message,
@@ -71,32 +81,13 @@ class App extends Component {
     }, 4000);
   };
 
-  getToday() {
-    let today = new Date();
-    return {
-      day: today.getDate(),
-      month: today.getMonth() + 1,
-      year: today.getFullYear(),
-    };
-  }
-
-  getDay = () => {};
-
-  /*Fetches Users */
-  componentDidMount = () => {
-    this.fetchUsers();
-    this.updatePredicate();
-    window.addEventListener("resize", this.updatePredicate);
-  };
-
-  componentWillUnmount = () => {
-    window.removeEventListener("resize", this.updatePredicate);
-  };
-
+  //Updates state to what the screen size is
   updatePredicate = () => {
     this.setState({ isDesktop: window.innerWidth > 600 });
   };
 
+  /*Logs the user out in flask via get req and calss
+  fetchUsers to refresh the currentUser*/
   handleLogout = () => {
     fetch("/logout")
       .then((response) => response.json())
@@ -119,7 +110,7 @@ class App extends Component {
               />
             </>
           )}
-
+          {/*
           <div className="Test">
             <Message message={this.state.message} />
             <Switch>
@@ -228,7 +219,7 @@ class App extends Component {
                 }}
               />
             </Switch>
-          </div>
+          </div> */}
           {this.state.isDesktop || (
             <>
               <div style={{ height: 65, width: "100%" }}></div>
@@ -240,7 +231,7 @@ class App extends Component {
           )}
         </div>
       </Router>
-    ) : null;
+    ) : <p>Loading Right Now...</p>>;
   }
 }
 

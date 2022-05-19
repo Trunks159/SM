@@ -72,7 +72,7 @@ class Scheduletron extends Component {
     } else {
       this.setState({ selected: newlySelected });
     }
-    this.setState({ selected: this.state.selected === newlySelected });
+    this.setState({ selected: this.state.selected === newlySelected ? null: newlySelected});
   };
 
   setDay = (id) => {
@@ -88,6 +88,7 @@ class Scheduletron extends Component {
   render() {
     const { classes } = this.props;
     const { schedules, selected, day, isDesktop, marginLeft } = this.state;
+    console.log('Selected thing: ', selected);
     return schedules ? (
       <div className={classes.main}>
         <Nav

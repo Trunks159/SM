@@ -18,12 +18,8 @@ class Scheduler extends Component {
 
   componentDidMount = () => {
     console.log('Duh day: ', this.state.day)
-    if (!!this.state.day === false) {
-<<<<<<< Updated upstream
-      fetch(`/get_week_schedule/${this.props.match.params.day}`)
-=======
+    if (Boolean(this.state.day) === false) {
       fetch(`/get_week_schedule/${this.props.dayId}`)
->>>>>>> Stashed changes
         .then((response) => response.json())
         .then(({ day, weekSchedule, scheduleSet }) => {
           console.log("Lets see: ", day);
