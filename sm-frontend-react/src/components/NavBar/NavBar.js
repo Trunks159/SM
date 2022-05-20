@@ -5,24 +5,9 @@ import homeIcon from "../../assets/images/Home Icon Grey.svg";
 import logo from "../../assets/images/ScheduleTron Icon.svg";
 import teamIcon from "../../assets/images/Team Icon.svg";
 import scheduleIcon from "../../assets/images/Schedule Icon Grey.svg";
-import { Paper } from "@material-ui/core";
 import MyMenu from "./MyMenu";
-import { Toolbar, AppBar } from "@mui/material";
 import "./navbar.css";
 const useStyles = makeStyles({
-  nav: {
-    alignItems: "center",
-    position: "fixed",
-    justifyContent: "center",
-    "@media (max-width: 600px)": {
-      bottom: 0,
-    },
-    display: "flex",
-    height: 65,
-    zIndex: 1,
-    width: "100vw",
-  },
-
   logo: {
     "@media (max-width :600px)": { display: "none" },
   },
@@ -70,57 +55,48 @@ const useStyles = makeStyles({
   },
 });
 
-const CustomLink = ({ to, src, children, className }) => (
-  <Link className={className} to={to}>
-    <img alt={"/"} src={src} />
-    <p style={{ display: "hidden" }}>{children}</p>
-  </Link>
-);
-
 const NavBar = ({ currentUser, handleLogout }) => {
   const classes = useStyles();
 
   return (
-    <nav style={{ background: "white" }} className={classes.nav}>
-      <Link to="/" className={classes.link}>
-        <img className={classes.logo} alt={""} src={logo} />
-        <img className={classes.home} alt={""} src={homeIcon} />
-      </Link>
+    <>
+      <nav className="placeholder-nav"></nav>
+      <nav className="nav-bar">
+        <NavLink to="/" className={classes.link}>
+          <img className={classes.logo} alt={""} src={logo} />
+          <img className={classes.home} alt={""} src={homeIcon} />
+        </NavLink>
 
-      {currentUser.isAuthenticated ? (
-        <>
-          <CustomLink
-            to={"/scheduletron"}
-            className={classes.customLink}
-            src={scheduleIcon}
-          >
-            Schedule
-          </CustomLink>
-          <CustomLink
-            to={"/team"}
-            className={classes.customLink}
-            src={teamIcon}
-          >
-            Team
-          </CustomLink>
+        {currentUser.isAuthenticated ? (
+          <>
+            <NavLink className={classes.customLink} to={"/scheduletron"}>
+              <img alt={"/"} src={scheduleIcon} />
+              <p style={{ display: "hidden" }}>Schedule</p>
+            </NavLink>
 
-          <MyMenu
-            id={currentUser.id}
-            username={currentUser.username}
-            handleLogout={handleLogout}
-          />
-        </>
-      ) : (
-        <>
-          <Link className={classes.link} to="/login">
-            Login
-          </Link>
-          <Link className={classes.link} to="/register">
-            Register
-          </Link>
-        </>
-      )}
-    </nav>
+            <NavLink className={classes.customLink} to={"/team"}>
+              <img alt={"/"} src={teamIcon} />
+              <p style={{ display: "hidden" }}>Team</p>
+            </NavLink>
+
+            <MyMenu
+              id={currentUser.id}
+              username={currentUser.username}
+              handleLogout={handleLogout}
+            />
+          </>
+        ) : (
+          <>
+            <NavLink className={classes.link} to="/login">
+              Login
+            </NavLink>
+            <NavLink className={classes.link} to="/register">
+              Register
+            </NavLink>
+          </>
+        )}
+      </nav>
+    </>
   );
 };
 

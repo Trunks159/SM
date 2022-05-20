@@ -3,20 +3,9 @@ import { Paper, withStyles } from "@material-ui/core";
 import SchedulePaper from "./SchedulePaper";
 import scheduleIcon from "../../assets/images/Schedule Icon White.svg";
 import { Link } from "react-router-dom";
+import "./dashboard.css";
 
 const styles = () => ({
-  main: {
-    flexGrow: 1,
-    display: "flex",
-    background: "white",
-    flexDirection: "column",
-    margin: "0px 60px",
-  },
-  header: {
-    fontWeight: "bold",
-    fontSize: 30,
-    color: "#275C78",
-  },
   mainFlex: {
     display: "grid",
     gridTemplateColumns: "3fr 1fr",
@@ -25,14 +14,6 @@ const styles = () => ({
     "@media (max-width : 700px)": {
       gridTemplateColumns: "1fr",
     },
-  },
-  container1: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-    maxWidth: 840,
-    width: "100%",
-    justifySelf: "center",
   },
   container2: {
     display: "flex",
@@ -59,10 +40,6 @@ const styles = () => ({
       fontWeight: "bold",
     },
   },
-  header2: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
 });
 
 class Dashboard extends Component {
@@ -71,6 +48,8 @@ class Dashboard extends Component {
   };
 
   componentDidMount = () => {
+    /*When the site actually works, the date wont be passed in
+    instead, we'll just get today date */
     const today = { day: 13, month: 9, year: 2021 };
     fetch(`get_day/${today.month}-${today.day}-${today.year}`)
       .then((response) => response.json())
@@ -80,20 +59,23 @@ class Dashboard extends Component {
   };
 
   render() {
-    /*When the site actually works, the date wont be passed in
-    instead, we'll just get today date */
     const { classes, currentUser } = this.props;
 
     return this.state.schedule ? (
-      <div className={classes.main}>
-        <p className={classes.header}>Dashboard</p>
-        <div className={classes.mainFlex}>
-          <div className={classes.container1}>
-            <p className={classes.header2}>Today's Schedule</p>
-            <div style = {{display : 'flex', height : 342, maxWidth : 840}}>
-            <SchedulePaper header={true} schedule={this.state.schedule} />
+      <div className="dashboard">
+        <header>
+          <h1>Dashboard</h1>
+        </header>
+        <div className="mainFlex">
+          <div style={{ height: 100, background: "red" }}>Testing</div>
+          <div style={{ height: 100, background: "orange" }}>Testing</div>
+          {/*
+          <div className='dashboard-schedule'>
+            <h2 >Today's Schedule</h2>
+            <div style={{ display: "flex", height: 342, maxWidth: 840 }}>
+              <SchedulePaper header={true} schedule={this.state.schedule} />
             </div>
-            
+
             <Link to="/scheduletron" style={{ textDecoration: "none" }}>
               <Paper elevation={2} className={classes.mainAction}>
                 <p>View and Edit Schedules</p>
@@ -156,10 +138,8 @@ class Dashboard extends Component {
                 ))}
               </div>
             </div>
-          </div>
+          </div>*/}
         </div>
-        {/*
-         */}
       </div>
     ) : null;
   }

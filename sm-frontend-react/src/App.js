@@ -36,10 +36,10 @@ class App extends Component {
     window.removeEventListener("resize", this.updatePredicate);
   };
 
+  /*API Call that gets users and puts them in state
+    and gets the Logged in user
+  */
   fetchUsers = () => {
-    /*API Call that gets users and puts them in state
-      and gets the Logged in user
-    */
     fetch("/users")
       .then((response) => response.json())
       .then(({ users, currentUser }) => {
@@ -98,21 +98,36 @@ class App extends Component {
   };
 
   render() {
-    return this.state.users ? (
+    const { users } = this.state;
+    return users ? (
       <Router>
         <div className="App">
-          {this.state.isDesktop && (
-            <>
-              <div style={{ height: 65, width: "100%" }}></div>
-              <NavBar
-                currentUser={this.state.currentUser}
-                handleLogout={this.handleLogout}
+          <NavBar
+            currentUser={this.state.currentUser}
+            handleLogout={this.handleLogout}
+          />
+          <Message message={this.state.message} />
+          <main>
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => {
+                  return this.state.currentUser.isAuthenticated ? (
+                    <Dashboard
+                      teamMembers={this.state.users}
+                      currentUser={this.state.currentUser}
+                    />
+                  ) : (
+                    <Redirect to="/login" />
+                  );
+                }}
               />
-            </>
-          )}
+            </Switch>
+          </main>
           {/*
           <div className="Test">
-            <Message message={this.state.message} />
+            
             <Switch>
               <Route
                 exact
@@ -220,18 +235,11 @@ class App extends Component {
               />
             </Switch>
           </div> */}
-          {this.state.isDesktop || (
-            <>
-              <div style={{ height: 65, width: "100%" }}></div>
-              <NavBar
-                currentUser={this.state.currentUser}
-                handleLogout={this.handleLogout}
-              />
-            </>
-          )}
         </div>
       </Router>
-    ) : <p>Loading Right Now...</p>>;
+    ) : (
+      <p>Loading Right Now...</p>
+    );
   }
 }
 

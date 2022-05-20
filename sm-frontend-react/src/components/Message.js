@@ -1,14 +1,18 @@
 import React from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import { Collapse } from "@material-ui/core";
 
 const Message = ({ message }) => {
   return (
-    message && (
-      <Alert severity={message.severity}>
-        <AlertTitle>{message.title}</AlertTitle>
-        {message.content}
+    <Collapse in={Boolean(message)}>
+      <Alert
+        style={{ borderRadius: 0 }}
+        severity={message ? message.severity : "error"}
+      >
+        <AlertTitle>{message ? message.title : "Error"}</AlertTitle>
+        {message ? message.content : "Bad Something"}
       </Alert>
-    )
+    </Collapse>
   );
 };
 

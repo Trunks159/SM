@@ -1,4 +1,32 @@
-.menu-link{
-    text-decoration: none;
-    color: black;
+.menu-link {
+  text-decoration: none;
+  color: black;
+}
+
+.nav-bar {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  height: 65px;
+  z-index: 1;
+  width: 100vw;
+  background-color: white;
+  position: fixed;
+
+}
+
+.placeholder-nav{
+    height: 65px;
+    width : 100%;
+}
+
+@media (max-width: 600px) {
+  .nav-bar {
+      bottom :0;
+  }
+  .placeholder-nav{
+      order: 1;
+  }
+
+
 }

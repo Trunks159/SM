@@ -1,0 +1,32 @@
+.dashboard {
+  flex: 1;
+  display: flex;
+  background: white;
+  flex-direction: column;
+  margin: 0px 60px;
+}
+
+header {
+  font-size: 30px;
+  color: #275c78;
+}
+
+h2 {
+  font-size: 18;
+}
+
+.dashboard-schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 840;
+  width: 100%;
+  justify-self: center;
+}
+
+.mainFlex {
+  display: grid;
+  flex: 1;
+  background-color: green;
+}
+
