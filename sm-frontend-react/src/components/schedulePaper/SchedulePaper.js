@@ -1,26 +1,34 @@
 import { Paper } from "@material-ui/core";
-import React from "react";
-import TimeLine from "../TimeLine";
-import { makeStyles, Tooltip } from "@material-ui/core";
+import TimeLine from "./TimeLine";
+import { Tooltip } from "@material-ui/core";
 import { timeToValue } from "../user/TimeFunctions";
 import scheduleIcon from "../../assets/images/Schedule Icon Watermark.svg";
+import "./schedulepaper.css";
+import React, { Component } from "react";
+import Toolbar from "./Toolbar";
 
-const useStyles = makeStyles({
-  paper: {
-    background: "transparent",
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-    flex : 1,
-  },
-});
+class SchedulePaper extends Component {
+  render() {
+    const { weekday, day, month, year, workblocks } = this.props.schedule;
 
-function SchedulePaper({ schedule, header }) {
-  const { weekday, day, month, year, workblocks } = schedule;
-  const classes = useStyles();
-  console.log("Header: ", header);
-  return (
-    <Paper className={classes.paper} elevation={header ? 2 : 0}>
+    return (
+      <Paper
+        className={"schedule-main"}
+        elevation={3}
+        style={{ borderRadius: 7 }}
+      >
+        <header>
+          <div className="headertext-background">
+            <h1>
+              {weekday}
+              {"  "}
+              {month}/{day}
+            </h1>
+          </div>
+          <Toolbar />
+        </header>
+        <div className={"schedule-content"}></div>
+        {/*
       {header ? (
         <>
           <img
@@ -117,8 +125,10 @@ function SchedulePaper({ schedule, header }) {
             })
           : null}
       </div>
-    </Paper>
-  );
+          */}
+      </Paper>
+    );
+  }
 }
 
 export default SchedulePaper;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Paper, withStyles } from "@material-ui/core";
-import SchedulePaper from "./SchedulePaper";
+import SchedulePaper from "../schedulePaper/SchedulePaper";
 import scheduleIcon from "../../assets/images/Schedule Icon White.svg";
 import { Link } from "react-router-dom";
 import "./dashboard.css";
@@ -67,8 +67,7 @@ class Dashboard extends Component {
           <h1>Dashboard</h1>
         </header>
         <div className="mainFlex">
-          <div style={{ height: 100, background: "red" }}>Testing</div>
-          <div style={{ height: 100, background: "orange" }}>Testing</div>
+          <SchedulePaper schedule={this.state.schedule} />
           {/*
           <div className='dashboard-schedule'>
             <h2 >Today's Schedule</h2>

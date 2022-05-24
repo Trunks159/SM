@@ -123,6 +123,21 @@ class App extends Component {
                   );
                 }}
               />
+              <Route
+                path="/login"
+                render={() => {
+                  if (this.state.currentUser.isAuthenticated) {
+                    return <Redirect to="/" />;
+                  }
+                  return (
+                    <Login
+                      users={this.state.users}
+                      notifyUser={this.notifyUser}
+                      postReq={this.postReq}
+                    />
+                  );
+                }}
+              />
             </Switch>
           </main>
           {/*

@@ -3,17 +3,18 @@
   display: flex;
   background: white;
   flex-direction: column;
-  margin: 0px 60px;
 }
 
 header {
-  font-size: 30px;
+  font-size: .9em;
   color: #275c78;
 }
 
-h2 {
-  font-size: 18;
+h1{
+  margin: 8px;
 }
+
+
 
 .dashboard-schedule {
   display: flex;

@@ -3,7 +3,7 @@ import { Button, withStyles } from "@material-ui/core";
 import vsIcon from "../../../assets/images/Visualizer Icon.svg";
 import editorIcon from "../../../assets/images/Editor Icon.svg";
 import saveIcon from "../../../assets/images/Save Icon.svg";
-import SchedulePaper from "../../dashboard/SchedulePaper";
+import SchedulePaper from "../../schedulePaper/SchedulePaper";
 import Tabs from "./Tabs";
 import Visualizer from "./Visualizer";
 
