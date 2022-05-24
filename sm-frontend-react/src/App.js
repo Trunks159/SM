@@ -123,6 +123,16 @@ class App extends Component {
                   );
                 }}
               />
+              <Route
+                path="/scheduletron"
+                render={() => {
+                  return this.state.currentUser.isAuthenticated ? (
+                    <Scheduletron />
+                  ) : (
+                    <Redirect to="/login" />
+                  );
+                }}
+              />
             </Switch>
           </main>
           {/*

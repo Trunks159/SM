@@ -31,9 +31,9 @@ class Home extends Component {
   };
 
   render() {
-    const { handleSelect, match, selected, schedules, marginLeft } = this.props;
+    const { handleSelect, match, selected, schedules} = this.props;
     return (
-      <div className={"main"} style={{ marginLeft: marginLeft }}>
+      <div className={"main"}>
         <div className={"container1"}>
           <p className={"header"}>
             Let's get started! <br />

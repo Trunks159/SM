@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { Route, Switch, withRouter } from "react-router-dom";
-import Nav from "./nav/Nav";
+import SideNav from "./nav/SideNav";
 import Home from "./home/Home";
 import Scheduler from "./scheduler/Scheduler";
 import WeekBar from "./WeekBar";
@@ -23,7 +23,6 @@ class Scheduletron extends Component {
     selected: null,
     day: null,
     isDesktop: false,
-    marginLeft: 100,
   };
 
   componentDidMount = () => {
@@ -80,19 +79,13 @@ class Scheduletron extends Component {
     this.setState({ day: day });
   };
 
-  adjustMarginLeft = (marginLeft) => {
-    this.state.marginLeft !== marginLeft &&
-      this.setState({ marginLeft: marginLeft });
-  };
-
   render() {
     const { classes } = this.props;
-    const { schedules, selected, day, isDesktop, marginLeft } = this.state;
+    const { schedules, selected, day, isDesktop} = this.state;
     console.log('Selected thing: ', selected);
     return schedules ? (
       <div className={classes.main}>
-        <Nav
-          adjustMarginLeft={this.adjustMarginLeft}
+        <SideNav
           selected={selected}
           setDay={this.setDay}
           dayId={
@@ -117,7 +110,7 @@ class Scheduletron extends Component {
         {/*this.state.selected && this.state.isDesktop ? (
           <WeekBar week={this.state.selected.week} setDay={this.setDay} />
         ) : null*/}
-        <div style={{ display: "flex", flex: 1, marginLeft: marginLeft }}>
+        <div style={{ display: "flex", flex: 1}}>
           <Switch>
             <Route exact path={"/scheduletron"}>
               <Home
@@ -137,7 +130,6 @@ class Scheduletron extends Component {
                 return (
                   <Scheduler
                     dayId={match.params.day}
-                    marginLeft={selected && isDesktop ? 230 : 100}
                     day={day}
                     handleSelect={this.handleSelect}
                     setScheduleSet={this.setScheduleSet}
