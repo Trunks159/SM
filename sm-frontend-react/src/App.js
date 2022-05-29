@@ -105,8 +105,7 @@ class App extends Component {
           <NavBar
             currentUser={this.state.currentUser}
             handleLogout={this.handleLogout}
-          />
-          <Message message={this.state.message} />
+          />3
           <main>
             <Switch>
               <Route
