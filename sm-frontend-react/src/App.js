@@ -105,7 +105,7 @@ class App extends Component {
           <NavBar
             currentUser={this.state.currentUser}
             handleLogout={this.handleLogout}
-          />3
+          />
           <main>
             <Switch>
               <Route
@@ -134,6 +134,16 @@ class App extends Component {
                       notifyUser={this.notifyUser}
                       postReq={this.postReq}
                     />
+                  );
+                }}
+              />
+              <Route
+                path="/scheduletron"
+                render={() => {
+                  return this.state.currentUser.isAuthenticated ? (
+                    <Scheduletron />
+                  ) : (
+                    <Redirect to="/login" />
                   );
                 }}
               />

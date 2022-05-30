@@ -56,6 +56,7 @@ class Tabs2 extends Component {
           marginTop: "auto",
           justifyContent: "space-evenly",
           width: "100%",
+          height: 190,
         }}
       >
         {theTabs.map(
@@ -74,12 +75,13 @@ class Tabs2 extends Component {
               >
                 <Divider
                   style={{
-                    visibility: active ? "visible" : "hidden",
+                    opacity: active ? 1 : 0,
                     position: "absolute",
                     background: "#51636D",
                     width: 2,
                     height: "100%",
                     right: 0,
+                    transition: "opacity .25s",
                   }}
                 />
 

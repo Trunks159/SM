@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import schedulerIcon from "../../../assets/images/Scheduler Icon.svg";
+import scheduleIcon from "../../../assets/images/Schedule Icon.svg";
 import openIcon from "../../../assets/images/Open Icon.svg";
 import { Divider } from "@mui/material";
 import { NavLink, useLocation } from "react-router-dom";
@@ -19,13 +19,13 @@ const MyNavLink = ({ img, active, label, to = "/scheduletron" }) => {
       <p>{label}</p>
       <Divider
         style={{
-          visibility: active ? "visible" : "hidden",
+          opacity: active ? 1 : 0,
           position: "absolute",
           background: "white",
           width: 2,
           height: "100%",
           right: 0,
-          transition: "opacity .3s",
+          transition: "opacity .25s",
           top: 0,
         }}
       />
@@ -67,7 +67,7 @@ class Tabs1 extends Component {
         />
 
         <MyNavLink
-          img={schedulerIcon}
+          img={scheduleIcon}
           active={this.state.value !== "/scheduletron"}
           to={`/scheduletron/${dayId}`}
         />

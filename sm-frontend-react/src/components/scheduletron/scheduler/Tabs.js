@@ -9,6 +9,13 @@ import vsIcon from "../../../assets/images/Visualizer Icon.svg";
 import editorIcon from "../../../assets/images/Editor Icon.svg";
 import saveIcon from "../../../assets/images/Save Icon.svg";
 import Editor from "./Editor";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  indicator: {
+    top: 0,
+  },
+});
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,13 +52,14 @@ function a11yProps(index) {
 
 export default function BasicTabs({ schedule }) {
   const [value, setValue] = React.useState(0);
+  const classes = useStyles();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <Box sx={{ width: "100%", display: "flex" , background : 'orange'}}>
+    <Box sx={{ width: "100%", display: "flex", background: "orange" }}>
       <Box
         sx={{
           borderRight: 1,
@@ -59,11 +67,12 @@ export default function BasicTabs({ schedule }) {
         }}
       >
         <Tabs
+          classes={{ indicator: classes.indicator }}
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
           orientation="vertical"
-          style = {{width : 72, display : 'flex'}}
+          style={{ width: 72, display: "flex" }}
         >
           <Tab
             icon={<img src={vsIcon} />}
@@ -96,7 +105,7 @@ export default function BasicTabs({ schedule }) {
           height: "100%",
           width: "100%",
           overflowY: "auto",
-          background: 'red',
+          background: "red",
         }}
       >
         <Visualizer schedule={schedule} />
@@ -110,7 +119,7 @@ export default function BasicTabs({ schedule }) {
           overflowY: "auto",
           background: "blue",
           display: "flex",
-          visibility : 'hidden',
+          visibility: "hidden",
         }}
       >
         <Editor />

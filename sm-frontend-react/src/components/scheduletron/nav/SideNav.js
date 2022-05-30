@@ -21,31 +21,24 @@ class SideNav extends Component {
     return (
       <>
         <nav className="placeholder-nav"></nav>
-        <div
-        className="side-navbar"
-        style={{
-          display: "flex",
-          position: "fixed",
-          top: 65,
-          bottom: 0,
-        }}
-      >
-        <nav >
+        <div className="side-navbar">
           <Tabs1 dayId={dayId} />
           <Tabs2
             dayId={dayId}
             changeMenu={this.changeMenu}
             selected={selected}
           />
-        </nav>
-        {menu === "weekbar" && <WeekBar week={selected.week} setDay={setDay} />}
-        {menu === "search" && <div style={{ gridColumn: "2 / 3" }}>Search</div>}
-        {menu === "settings" && (
-          <div style={{ gridColumn: "2 / 3" }}>Search</div>
-        )}
-      </div>
+          {menu === "weekbar" && (
+            <WeekBar week={selected.week} setDay={setDay} />
+          )}
+          {menu === "search" && (
+            <div style={{ gridColumn: "2 / 3" }}>Search</div>
+          )}
+          {menu === "settings" && (
+            <div style={{ gridColumn: "2 / 3" }}>Search</div>
+          )}
+        </div>
       </>
-      
     );
   }
 }

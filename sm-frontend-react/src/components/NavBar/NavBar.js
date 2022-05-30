@@ -69,62 +69,55 @@ class NavBar extends Component {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      margin: "10px 0px",
       border: "none",
       background: "none",
     };
-    return (
-      <>
-        <div
-          style={{ width: 63, height: '100vh', background : 'red' }}
-        ></div>
-        <nav
-          style={{
-            background: this.state.isOpen ? "#65747D" : "#DFE2E4",
-            height: this.state.isOpen ? "100vh" : "min-content",
-            position: "fixed",
-          }}
-        >
-          <button
-            style={
-              this.state.isOpen
-                ? { ...style, transform: "rotate(90deg)" }
-                : style
-            }
-            onClick={() => this.setState({ isOpen: !this.state.isOpen })}
-          >
-            <img src={logo} />
-          </button>
 
-          <Collapse in={this.state.isOpen}>
-            <div
-            className="nav-links"
+    return (
+      <nav
+        className="main-nav"
+        style={{
+          zIndex: this.state.isOpen ? 2 : 1,
+          background: this.state.isOpen ? "#65747D" : "#DFE2E4",
+          height: this.state.isOpen ? "100vh" : 70,
+        }}
+      >
+        <button
+          className="main-button"
+          style={
+            this.state.isOpen ? { ...style, transform: "rotate(90deg)" } : style
+          }
+          onClick={() => this.setState({ isOpen: !this.state.isOpen })}
+        >
+          <img src={logo} />
+        </button>
+
+        <Collapse in={this.state.isOpen}>
+          <div className="nav-links">
+            <NavLink className="nav-link" to="/scheduletron">
+              <img src={scheduleIcon} />
+            </NavLink>
+            <NavLink className="nav-link" to="/">
+              <img src={teamIcon} />
+            </NavLink>
+            <NavLink
+              className="nav-link"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textDecoration: "none",
+                fontSize: 11,
+                color: "white",
+              }}
+              to="/"
             >
-              <NavLink className = 'nav-link' to="/scheduletron">
-                <img src={scheduleIcon} />
-              </NavLink>
-              <NavLink className = 'nav-link' to="/">
-                <img src={teamIcon} />
-              </NavLink>
-              <NavLink
-              className = 'nav-link'
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textDecoration: "none",
-                  fontSize: 11,
-                  color: "white",
-                }}
-                to="/"
-              >
-                <img src={profileIcon} />
-                Trunks159
-              </NavLink>
-            </div>
-          </Collapse>
-        </nav>
-      </>
+              <img src={profileIcon} />
+              Trunks159
+            </NavLink>
+          </div>
+        </Collapse>
+      </nav>
 
       /*
     <>

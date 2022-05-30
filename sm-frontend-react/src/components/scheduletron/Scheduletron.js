@@ -71,7 +71,9 @@ class Scheduletron extends Component {
     } else {
       this.setState({ selected: newlySelected });
     }
-    this.setState({ selected: this.state.selected === newlySelected ? null: newlySelected});
+    this.setState({
+      selected: this.state.selected === newlySelected ? null : newlySelected,
+    });
   };
 
   setDay = (id) => {
@@ -81,8 +83,8 @@ class Scheduletron extends Component {
 
   render() {
     const { classes } = this.props;
-    const { schedules, selected, day, isDesktop} = this.state;
-    console.log('Selected thing: ', selected);
+    const { schedules, selected, day, isDesktop } = this.state;
+    console.log("Selected thing: ", selected);
     return schedules ? (
       <div className={classes.main}>
         <SideNav
@@ -110,7 +112,7 @@ class Scheduletron extends Component {
         {/*this.state.selected && this.state.isDesktop ? (
           <WeekBar week={this.state.selected.week} setDay={this.setDay} />
         ) : null*/}
-        <div style={{ display: "flex", flex: 1}}>
+        <div style={{ display: "flex", flex: 1 }}>
           <Switch>
             <Route exact path={"/scheduletron"}>
               <Home
