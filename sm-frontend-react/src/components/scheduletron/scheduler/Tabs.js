@@ -59,7 +59,8 @@ export default function BasicTabs({ schedule }) {
   };
 
   return (
-    <Box sx={{ width: "100%", display: "flex", background: "orange" }}>
+    <div style={{ width: "100%", display: "flex", background: "orange" }}>
+      {/*
       <Box
         sx={{
           borderRight: 1,
@@ -71,8 +72,7 @@ export default function BasicTabs({ schedule }) {
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
-          orientation="vertical"
-          style={{ width: 72, display: "flex" }}
+          style={{width : "100%" }}
         >
           <Tab
             icon={<img src={vsIcon} />}
@@ -98,6 +98,8 @@ export default function BasicTabs({ schedule }) {
           />
         </Tabs>
       </Box>
+            */}
+      {/*
       <TabPanel
         value={value}
         index={0}
@@ -127,7 +129,7 @@ export default function BasicTabs({ schedule }) {
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
-      </TabPanel>
-    </Box>
+      </TabPanel>*/}
+    </div>
   );
 }
