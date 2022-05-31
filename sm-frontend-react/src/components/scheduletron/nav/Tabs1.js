@@ -10,13 +10,13 @@ const withLocation = (WhateverComponent) => {
 
 const MyNavLink = ({ img, active, label, to = "/scheduletron" }) => {
   return (
-    <NavLink to={to} className={"nav-link"} style={{}}>
+    <NavLink to={to} className={"nav-link"}>
       <img
         className={`jordan ${active ? "active" : "inactive"}`}
         alt="Open"
         src={img}
       />
-      <p>{label}</p>
+      <p style={{ opacity: active ? 1 : 0 }}>{label}</p>
       <Divider
         style={{
           opacity: active ? 1 : 0,
