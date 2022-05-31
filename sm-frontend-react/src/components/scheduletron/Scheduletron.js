@@ -30,7 +30,6 @@ class Scheduletron extends Component {
       it initializes the schedule set which is an array of
       5 or so weekSchedules
     */
-
     if (this.state.schedules === null) {
       fetch(`/get_week_schedules/${9}-${13}-${2021}`)
         .then((response) => response.json())
@@ -66,14 +65,7 @@ class Scheduletron extends Component {
 
   handleSelect = (newlySelected) => {
     console.log("Duh week: ", newlySelected);
-    if (this.state.selected === newlySelected) {
-      this.setState({ selected: null });
-    } else {
       this.setState({ selected: newlySelected });
-    }
-    this.setState({
-      selected: this.state.selected === newlySelected ? null : newlySelected,
-    });
   };
 
   setDay = (id) => {
@@ -124,6 +116,7 @@ class Scheduletron extends Component {
             <Route
               path={"/scheduletron/:day"}
               render={({ match }) => {
+                console.log('Dude: ', Boolean(selected))
                 const day = selected
                   ? selected.week.find(
                       ({ id }) => id === parseInt(match.params.day)
