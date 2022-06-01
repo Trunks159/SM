@@ -8,12 +8,13 @@ import WeekBar from "./WeekBar";
 
 const styles = () => ({
   main: {
-    display: "flex",
+    display: "grid",
     flexGrow: 1,
     maxWidth: 1400,
     marginLeft: "auto",
     marginRight: "auto",
     position: "relative",
+    gridTemplateRows: "1fr 70px",
   },
 });
 
@@ -65,7 +66,7 @@ class Scheduletron extends Component {
 
   handleSelect = (newlySelected) => {
     console.log("Duh week: ", newlySelected);
-      this.setState({ selected: newlySelected });
+    this.setState({ selected: newlySelected });
   };
 
   setDay = (id) => {
@@ -116,7 +117,7 @@ class Scheduletron extends Component {
             <Route
               path={"/scheduletron/:day"}
               render={({ match }) => {
-                console.log('Dude: ', Boolean(selected))
+                console.log("Dude: ", Boolean(selected));
                 const day = selected
                   ? selected.week.find(
                       ({ id }) => id === parseInt(match.params.day)

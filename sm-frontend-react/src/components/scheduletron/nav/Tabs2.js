@@ -52,11 +52,12 @@ class Tabs2 extends Component {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          background: "#EFF1F2",
-          marginTop: "auto",
           justifyContent: "space-evenly",
           width: "100%",
           height: 190,
+          paddingTop: 10,
+          marginTop: 10,
+          borderTop: ".5px solid #71828B",
         }}
       >
         {theTabs.map(

@@ -6,7 +6,8 @@ import dayIcon from "../../../assets/images/Day Icon.svg";
 import nightIcon from "../../../assets/images/Night Icon.svg";
 import { Button } from "@mui/material";
 import Main from "./Main";
-import './scheduler.css'
+import NewTabs from "./NewTabs";
+import "./scheduler.css";
 
 const withLocation = (WhateverComponent) => {
   return (props) => <WhateverComponent location={useLocation()} {...props} />;
@@ -18,7 +19,7 @@ class Scheduler extends Component {
   };
 
   componentDidMount = () => {
-    console.log('Duh day: ', this.props.day)
+    console.log("Duh day: ", this.props.day);
     if (Boolean(this.props.day) === false) {
       fetch(`/get_week_schedule/${this.props.dayId}`)
         .then((response) => response.json())
@@ -39,14 +40,10 @@ class Scheduler extends Component {
   };
 
   render() {
-    const { marginLeft } = this.props;
-    console.log('Now its: ', this.state.day);
+    console.log("Now its: ", this.state.day);
     return this.state.day ? (
-      <div
-        className="scheduler-main"
-      >
-
-
+      <div className="scheduler-main">
+        <NewTabs></NewTabs>
         {/*
         <Paper
           elevation={2}
