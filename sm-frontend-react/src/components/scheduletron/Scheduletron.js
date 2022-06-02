@@ -8,13 +8,12 @@ import WeekBar from "./WeekBar";
 
 const styles = () => ({
   main: {
-    display: "grid",
+    display: "flex",
     flexGrow: 1,
     maxWidth: 1400,
     marginLeft: "auto",
     marginRight: "auto",
     position: "relative",
-    gridTemplateRows: "1fr 70px",
   },
 });
 
@@ -54,7 +53,6 @@ class Scheduletron extends Component {
   setScheduleSet = (scheduleSet) => {
     /* Used by DayBtn and of course ComponentDidMount
         kinda self explanatory*/
-    console.log("i run: ", scheduleSet);
     const schedules = scheduleSet.map(({ schedule, timeFrame }) => ({
       id: schedule.id,
       week: schedule.schedule,
@@ -90,18 +88,6 @@ class Scheduletron extends Component {
                   .week[0].id
           }
         />
-        {/*
-        <Nav
-          path={path}
-          dayId={
-            this.state.selected
-              ? this.state.selected.week[0].id
-              : this.state.schedules.find(
-                  ({ timeFrame }) => timeFrame === "this week"
-                ).week[0].id
-          }
-        />
-          */}
         {/*this.state.selected && this.state.isDesktop ? (
           <WeekBar week={this.state.selected.week} setDay={this.setDay} />
         ) : null*/}

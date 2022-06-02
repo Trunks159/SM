@@ -74,12 +74,12 @@ class NavBar extends Component {
     };
 
     return (
+
       <nav
         className="main-nav"
         style={{
           zIndex: this.state.isOpen ? 2 : 1,
-          background: this.state.isOpen ? "#65747D" : "#DFE2E4",
-          height: this.state.isOpen ? "100vh" : 70,
+          background: this.state.isOpen ? "#607480" : "#DFE2E4",
         }}
       >
         <button
@@ -118,6 +118,7 @@ class NavBar extends Component {
           </div>
         </Collapse>
       </nav>
+     
 
       /*
     <>

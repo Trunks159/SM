@@ -24,9 +24,10 @@
 }
 
 .placeholder-nav{
-    margin-top: 63px;
+    margin-top: 70px;
     height: 100%;
     width : 70px;
+    background-color: red;
 }
 
 .nav-link {

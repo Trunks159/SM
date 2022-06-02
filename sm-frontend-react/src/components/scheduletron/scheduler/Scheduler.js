@@ -44,6 +44,7 @@ class Scheduler extends Component {
     return this.state.day ? (
       <div className="scheduler-main">
         <NewTabs></NewTabs>
+        Yo man
         {/*
         <Paper
           elevation={2}
