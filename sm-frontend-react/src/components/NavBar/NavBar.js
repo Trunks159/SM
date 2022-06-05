@@ -100,21 +100,7 @@ class NavBar extends Component {
             <NavLink className="nav-link" to="/">
               <img src={teamIcon} />
             </NavLink>
-            <NavLink
-              className="nav-link"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textDecoration: "none",
-                fontSize: 11,
-                color: "white",
-              }}
-              to="/"
-            >
-              <img src={profileIcon} />
-              Trunks159
-            </NavLink>
+            <MyMenu username  = {currentUser.username} id = {currentUser.id} handleLogout = {handleLogout}/>
           </div>
         </Collapse>
       </nav>
