@@ -2,6 +2,19 @@ import React, { Component } from "react";
 import { Menu, MenuItem, Button } from "@material-ui/core";
 import profileIcon from "../../assets/images/Profile Icon.svg";
 import { Link, Redirect } from "react-router-dom";
+import { withStyles } from "@material-ui/core";
+
+const styles = ()=>({
+  label : {
+    flexDirection : 'column'
+  },
+  root : {
+    fontSize : 11,
+    color : 'white',
+    textTransform : 'none',
+
+  }
+}) ;
 
 class MyMenu extends Component {
   state = {
@@ -28,7 +41,7 @@ class MyMenu extends Component {
 
   render() {
     const { open, anchorEl } = this.state;
-    const { username } = this.props;
+    const { username, classes } = this.props;
     return (
       <div
         style={{
@@ -42,6 +55,7 @@ class MyMenu extends Component {
       >
         {this.state.redirect && <Redirect to={"/login"} />}
         <Button
+        classes = {{label : classes.label , root : classes.root}}
           id="demo-positioned-button"
           aria-controls="demo-positioned-menu"
           aria-haspopup="true"
@@ -88,55 +102,5 @@ class MyMenu extends Component {
   }
 }
 
-class BasicMenu extends Component {
-  state = {
-    anchorEl: null,
-  };
 
-  handleClick = (e) => {
-    this.setState({ anchorEl: e.currentTarget });
-  };
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
-  render() {
-    const open = Boolean(this.state.anchorEl);
-    const { username, id, handleLogout } = this.props;
-    return (
-      <div>
-        <Button
-          id="basic-button"
-          aria-controls={open ? "basic-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-          onClick={this.handleClick}
-        >
-          {username}
-        </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={this.state.anchorEl}
-          open={open}
-          onClose={this.handleClose}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          <MenuItem onClick={this.handleClose}>
-            <Link className={"menu-link"}>My Profile</Link>
-          </MenuItem>
-          <MenuItem onClick={this.handleClose}>
-            <Link className={"menu-link"}>My Availability</Link>
-          </MenuItem>
-          <MenuItem onClick={this.handleClose}>
-            <Link onClick={handleLogout} className={"menu-link"}>
-              Logout
-            </Link>
-          </MenuItem>
-        </Menu>
-      </div>
-    );
-  }
-}
-
-export default BasicMenu;
+export default withStyles(styles)(MyMenu);

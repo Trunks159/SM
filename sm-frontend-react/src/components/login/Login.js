@@ -8,10 +8,10 @@ import {
   Button,
   Divider,
   Typography,
+  Paper
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
-import StyledPaper from "../StyledPaper";
 
 const styles = () => ({
   header: {
@@ -111,7 +111,7 @@ class Login extends Component {
     const { classes } = this.props;
     return (
       <form onSubmit={this.handleSubmit}>
-        <StyledPaper>
+        <Paper elevation = {2} sx = {{flex : 1, maxWidth : 516}}>
           <Typography variant="h6" className={classes.header}>
             Login
           </Typography>
@@ -158,7 +158,7 @@ class Login extends Component {
           >
             Login
           </Button>
-        </StyledPaper>
+        </Paper>
       </form>
     );
   }

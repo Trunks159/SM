@@ -2,7 +2,7 @@ import { styled } from "@material-ui/core/styles";
 import { Paper } from '@material-ui/core';
 
 const StyledPaper = styled(Paper)({
-    margin : 50,
+    margin : 20,
     background: "white",
     width: 490,
     display :'flex',
