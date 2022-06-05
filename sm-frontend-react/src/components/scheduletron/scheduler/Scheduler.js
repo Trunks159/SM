@@ -43,7 +43,6 @@ class Scheduler extends Component {
     console.log("Now its: ", this.state.day);
     return this.state.day ? (
       <div className="scheduler-main">
-        <NewTabs></NewTabs>
         Yo man
         {/*
         <Paper

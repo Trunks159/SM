@@ -8,12 +8,13 @@ import WeekBar from "./WeekBar";
 
 const styles = () => ({
   main: {
-    display: "flex",
+    display: "grid",
     flexGrow: 1,
     maxWidth: 1400,
     marginLeft: "auto",
     marginRight: "auto",
     position: "relative",
+    gridTemplateColumns: "60px 1fr",
   },
 });
 

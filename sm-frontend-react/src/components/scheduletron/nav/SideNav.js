@@ -20,7 +20,7 @@ class SideNav extends Component {
     const { menu } = this.state;
     return (
       <>
-        <nav className="placeholder-nav"></nav>
+        <div className="placeholder-nav"></div>
         <div className="side-navbar">
           <Tabs1 dayId={dayId} />
           <Tabs2

@@ -39,15 +39,11 @@ const AntTab = styled((props) => <Tab disableRipple {...props} />)(
     [theme.breakpoints.up("sm")]: {
       minWidth: 0,
     },
-    backgroundColor: "#275C78",
     fontSize: 29,
     fontWeight: 400,
-    height : 70,
-    marginRight: theme.spacing(1),
+    height: 70,
+    marginRight: 10,
     color: "white",
-    fontFamily :[
-      'Segoe UI'
-    ],
     backgroundColor: "#627E8C",
     borderRadius: "7px 7px 0px 0px",
     "&:hover": {
@@ -85,19 +81,30 @@ export default function BasicTabs() {
     setValue(newValue);
   };
   const days = [
-    'Monday 9/13', 'Tuesday 9/14', 'Wednesday 9/15', 'Thursday 9/16', 'Friday 9/17', 'Saturday 9/18', 'Sunday 9/19'
+    "Monday 9/13",
+    "Tuesday 9/14",
+    "Wednesday 9/15",
+    "Thursday 9/16",
+    "Friday 9/17",
+    "Saturday 9/18",
+    "Sunday 9/19",
   ];
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <AntTabs value={value} scrollButtons variant = 'scrollable' onChange={handleChange} aria-label="basic tabs example">
-          {days.map((day, index)=>(
+    <div style={{ flex: 1 }}>
+      <div style={{ borderBottom: 1, borderColor: "divider" }}>
+        <AntTabs
+          value={value}
+          scrollButtons
+          variant="scrollable"
+          onChange={handleChange}
+          aria-label="basic tabs example"
+        >
+          {days.map((day, index) => (
             <AntTab label={day} {...a11yProps(index)} />
           ))}
-
         </AntTabs>
-      </Box>
+      </div>
       <TabPanel value={value} index={0}>
         Item One
       </TabPanel>
@@ -107,6 +114,6 @@ export default function BasicTabs() {
       <TabPanel value={value} index={2}>
         Item Three
       </TabPanel>
-    </Box>
+    </div>
   );
 }

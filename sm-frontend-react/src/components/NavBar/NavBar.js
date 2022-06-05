@@ -72,27 +72,28 @@ class NavBar extends Component {
       border: "none",
       background: "none",
     };
+    const { isOpen } = this.state;
 
     return (
-
       <nav
         className="main-nav"
         style={{
-          zIndex: this.state.isOpen ? 2 : 1,
-          background: this.state.isOpen ? "#607480" : "#DFE2E4",
+          zIndex: isOpen ? 2 : 1,
+          background: isOpen
+            ? "rgba(123, 136, 144, 1)"
+            : "rgba(123, 136, 144, .24)",
+          height: isOpen ? "max-content" : 60,
         }}
       >
         <button
           className="main-button"
-          style={
-            this.state.isOpen ? { ...style, transform: "rotate(90deg)" } : style
-          }
-          onClick={() => this.setState({ isOpen: !this.state.isOpen })}
+          style={isOpen ? { ...style, transform: "rotate(90deg)" } : style}
+          onClick={() => this.setState({ isOpen: !isOpen })}
         >
           <img src={logo} />
         </button>
 
-        <Collapse in={this.state.isOpen}>
+        <Collapse in={isOpen}>
           <div className="nav-links">
             <NavLink className="nav-link" to="/scheduletron">
               <img src={scheduleIcon} />
@@ -118,7 +119,6 @@ class NavBar extends Component {
           </div>
         </Collapse>
       </nav>
-     
 
       /*
     <>
