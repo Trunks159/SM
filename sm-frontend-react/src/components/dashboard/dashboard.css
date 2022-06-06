@@ -5,13 +5,11 @@
   flex-direction: column;
 }
 
-header {
+
+.dashboard-header{
+  margin: 8px;
   font-size: .9em;
   color: #275c78;
-}
-
-h1{
-  margin: 8px;
 }
 
 

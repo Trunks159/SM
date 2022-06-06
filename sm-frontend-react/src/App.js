@@ -14,6 +14,8 @@ import {
 } from "react-router-dom";
 import Scheduletron from "./components/scheduletron/Scheduletron";
 import Dashboard from "./components/dashboard/Dashboard";
+import Notification from "./components/Notification";
+import { Collapse } from "@material-ui/core";
 
 class App extends Component {
   state = {
@@ -94,11 +96,12 @@ class App extends Component {
       .then(() => {
         this.fetchUsers();
         this.updatePredicate();
+        this.notifyUser();
       });
   };
 
   render() {
-    const { users } = this.state;
+    const { users, message } = this.state;
     return users ? (
       <Router>
         <div className="App">
@@ -106,6 +109,8 @@ class App extends Component {
             currentUser={this.state.currentUser}
             handleLogout={this.handleLogout}
           />
+          <Notification message={message} />
+
           <main>
             <Switch>
               <Route

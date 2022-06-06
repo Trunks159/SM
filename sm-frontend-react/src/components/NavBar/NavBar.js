@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import homeIcon from "../../assets/images/Home Icon Grey.svg";
 import logo from "../../assets/images/ScheduleTron Icon.svg";
+import logoActive from "../../assets/images/ScheduleTron Icon Active.svg";
 import teamIcon from "../../assets/images/Team Icon.svg";
 import scheduleIcon from "../../assets/images/Schedule Icon.svg";
-import profileIcon from "../../assets/images/Profile Icon.svg";
+import homeIcon from "../../assets/images/Home Icon.svg";
 import MyMenu from "./MyMenu";
 import "./navbar.css";
 import { Collapse, Button } from "@mui/material";
@@ -62,6 +62,11 @@ class NavBar extends Component {
     isOpen: false,
   };
 
+  handleCollapse = () => this.setState({ isOpen: false });
+
+  handleMouseEnter = () => this.setState({ isOpen: true });
+  handleMouseLeave = () => this.setState({ isOpen: false });
+
   render() {
     const { currentUser, handleLogout } = this.props;
     const style = {
@@ -71,6 +76,7 @@ class NavBar extends Component {
       justifyContent: "center",
       border: "none",
       background: "none",
+      height: 60,
     };
     const { isOpen } = this.state;
 
@@ -81,71 +87,61 @@ class NavBar extends Component {
           zIndex: isOpen ? 2 : 1,
           background: isOpen
             ? "rgba(123, 136, 144, 1)"
-            : "rgba(123, 136, 144, .24)",
-          height: isOpen ? "max-content" : 60,
+            : "rgba(123, 136, 144, .4)",
+          height: isOpen ? "100vh" : 60,
         }}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
       >
         <button
           className="main-button"
           style={isOpen ? { ...style, transform: "rotate(90deg)" } : style}
           onClick={() => this.setState({ isOpen: !isOpen })}
         >
-          <img src={logo} />
+          <img
+            style={{
+              position: "absolute",
+              opacity: isOpen ? 0 : 1,
+              transition: "opacity .2s",
+            }}
+            src={logo}
+          />
+          <img
+            style={{
+              position: "absolute",
+              opacity: isOpen ? 1 : 0,
+              transition: "opacity .2s",
+            }}
+            src={logoActive}
+          />
         </button>
 
         <Collapse in={isOpen}>
           <div className="nav-links">
-            <NavLink className="nav-link" to="/scheduletron">
+            <NavLink onClick={this.handleCollapse} className="nav-link" to="/">
+              <img src={homeIcon} />
+            </NavLink>
+            <NavLink
+              onClick={this.handleCollapse}
+              className="nav-link"
+              to="/scheduletron"
+            >
               <img src={scheduleIcon} />
             </NavLink>
-            <NavLink className="nav-link" to="/">
+            <NavLink onClick={this.handleCollapse} className="nav-link" to="/">
               <img src={teamIcon} />
             </NavLink>
-            <MyMenu username  = {currentUser.username} id = {currentUser.id} handleLogout = {handleLogout}/>
+            {currentUser.isAuthenticated && (
+              <MyMenu
+                username={currentUser.username}
+                id={currentUser.id}
+                handleLogout={handleLogout}
+                handleCollapse={this.handleCollapse}
+              />
+            )}
           </div>
         </Collapse>
       </nav>
-
-      /*
-    <>
-      <nav className="placeholder-nav"></nav>
-      <nav className="nav-bar">
-        <NavLink to="/" className={classes.link}>
-          <img className={classes.logo} alt={""} src={logo} />
-          <img className={classes.home} alt={""} src={homeIcon} />
-        </NavLink>
-
-        {currentUser.isAuthenticated ? (
-          <>
-            <NavLink className={classes.customLink} to={"/scheduletron"}>
-              <img alt={"/"} src={scheduleIcon} />
-              <p style={{ display: "hidden" }}>Schedule</p>
-            </NavLink>
-
-            <NavLink className={classes.customLink} to={"/team"}>
-              <img alt={"/"} src={teamIcon} />
-              <p style={{ display: "hidden" }}>Team</p>
-            </NavLink>
-
-            <MyMenu
-              id={currentUser.id}
-              username={currentUser.username}
-              handleLogout={handleLogout}
-            />
-          </>
-        ) : (
-          <>
-            <NavLink className={classes.link} to="/login">
-              Login
-            </NavLink>
-            <NavLink className={classes.link} to="/register">
-              Register
-            </NavLink>
-          </>
-        )}
-      </nav>
-    </>
-  */
     );
   }
 }

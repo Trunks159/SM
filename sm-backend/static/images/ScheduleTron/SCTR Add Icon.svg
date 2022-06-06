@@ -1,9 +1,0 @@
-<svg id="SCTR_Add_Icon" data-name="SCTR Add Icon" xmlns="http://www.w3.org/2000/svg" width="44" height="42" viewBox="0 0 44 42">
-  <g id="Rectangle_453" data-name="Rectangle 453" fill="none" stroke="#00bcff" stroke-width="1">
-    <rect width="44" height="42" rx="6" stroke="none"/>
-    <rect x="0.5" y="0.5" width="43" height="41" rx="5.5" fill="none"/>
-  </g>
-  <g id="Add" transform="translate(14 13)">
-    <path id="Union_1" data-name="Union 1" d="M7,16V9H0V7H7V0H9V7h7V9H9v7Z" fill="#00bcff"/>
-  </g>
-</svg>

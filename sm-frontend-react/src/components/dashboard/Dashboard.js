@@ -63,9 +63,7 @@ class Dashboard extends Component {
 
     return this.state.schedule ? (
       <div className="dashboard">
-        <header>
-          <h1>Dashboard</h1>
-        </header>
+        <h1 className="dashboard-header">Dashboard</h1>
         <div className="mainFlex">
           <SchedulePaper schedule={this.state.schedule} />
           {/*

@@ -1,3 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20.587" height="21.113" viewBox="0 0 20.587 21.113">
-  <path id="Profile_Icon" data-name="Profile Icon" d="M0,21.113V18.474c0-2.9,4.632-5.279,10.293-5.279s10.293,2.375,10.293,5.279v2.639ZM5.146,5.279A5.214,5.214,0,0,1,10.293,0a5.214,5.214,0,0,1,5.146,5.279,5.214,5.214,0,0,1-5.146,5.278A5.214,5.214,0,0,1,5.146,5.279Z" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39">
+  <g id="Profile_Icon" data-name="Profile Icon" transform="translate(-17 -297)">
+    <circle id="Ellipse_209" data-name="Ellipse 209" cx="19.5" cy="19.5" r="19.5" transform="translate(17 297)" fill="#fff"/>
+    <path id="Profile_Icon-2" data-name="Profile Icon" d="M0,18.113V15.849c0-2.491,3.957-4.529,8.793-4.529s8.793,2.038,8.793,4.529v2.264ZM4.4,4.529A4.464,4.464,0,0,1,8.793,0a4.464,4.464,0,0,1,4.4,4.529,4.464,4.464,0,0,1-4.4,4.528A4.464,4.464,0,0,1,4.4,4.529Z" transform="translate(27.707 305.943)" fill="#08f"/>
+  </g>
 </svg>

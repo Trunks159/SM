@@ -1,36 +1,11 @@
 import React, { Component } from "react";
 import scheduleIcon from "../../../assets/images/Schedule Icon.svg";
 import openIcon from "../../../assets/images/Open Icon.svg";
-import { Divider } from "@mui/material";
+import { Divider, Tooltip } from "@mui/material";
 import { NavLink, useLocation } from "react-router-dom";
 
 const withLocation = (WhateverComponent) => {
   return (props) => <WhateverComponent location={useLocation()} {...props} />;
-};
-
-const MyNavLink = ({ img, active, label, to = "/scheduletron" }) => {
-  return (
-    <NavLink to={to} className={"nav-link"}>
-      <img
-        className={`jordan ${active ? "active" : "inactive"}`}
-        alt="Open"
-        src={img}
-      />
-      <p style={{ opacity: active ? 1 : 0 }}>{label}</p>
-      <Divider
-        style={{
-          opacity: active ? 1 : 0,
-          position: "absolute",
-          background: "white",
-          width: 2,
-          height: "100%",
-          right: 0,
-          transition: "opacity .25s",
-          top: 0,
-        }}
-      />
-    </NavLink>
-  );
 };
 
 class Tabs1 extends Component {
@@ -60,17 +35,54 @@ class Tabs1 extends Component {
           width: "100%",
         }}
       >
-        <MyNavLink
-          img={openIcon}
-          active={this.state.value === "/scheduletron"}
-          label="Open"
-        />
-
-        <MyNavLink
-          img={scheduleIcon}
-          active={this.state.value !== "/scheduletron"}
-          to={`/scheduletron/${dayId}`}
-        />
+        <NavLink to={"/scheduletron"} className={"nav-link"}>
+          <img
+            className={`jordan ${
+              this.state.value === "/scheduletron" ? "active" : "inactive"
+            }`}
+            alt="Open"
+            src={openIcon}
+          />
+          <p style={{ opacity: this.state.value === "/scheduletron" ? 1 : 0 }}>
+            Open
+          </p>
+          <Divider
+            style={{
+              opacity: this.state.value === "/scheduletron" ? 1 : 0,
+              position: "absolute",
+              background: "white",
+              width: 2,
+              height: "100%",
+              right: 0,
+              transition: "opacity .25s",
+              top: 0,
+            }}
+          />
+        </NavLink>
+        <NavLink to={`/scheduletron/${dayId}`} className={"nav-link"}>
+          <img
+            className={`jordan ${
+              this.state.value !== "/scheduletron" ? "active" : "inactive"
+            }`}
+            alt="Open"
+            src={scheduleIcon}
+          />
+          <p style={{ opacity: this.state.value !== "/scheduletron" ? 1 : 0 }}>
+            Actual Schedule
+          </p>
+          <Divider
+            style={{
+              opacity: this.state.value !== "/scheduletron" ? 1 : 0,
+              position: "absolute",
+              background: "white",
+              width: 2,
+              height: "100%",
+              right: 0,
+              transition: "opacity .25s",
+              top: 0,
+            }}
+          />
+        </NavLink>
       </div>
     );
   }

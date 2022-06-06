@@ -101,7 +101,11 @@ export default function BasicTabs() {
           aria-label="basic tabs example"
         >
           {days.map((day, index) => (
-            <AntTab label={day} {...a11yProps(index)} />
+            <AntTab
+              style={{ borderRadius: 7, backgroundColor: "#627E8C" }}
+              label={day}
+              {...a11yProps(index)}
+            />
           ))}
         </AntTabs>
       </div>

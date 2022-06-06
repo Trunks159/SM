@@ -2,23 +2,13 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   width: 100%;
   min-height: 100vh;
-  background-color: navy;
   display: flex;
 }
 
-main{
+main {
   flex: 1;
-  background-color: aqua;
+  justify-content: center;
   display: flex;
-}
-
-.Test {
-  
-  background-color: white;
-  display: flex;
-  flex : 1;
-  background-color: aquamarine;
-
 }
 
 /* Track */

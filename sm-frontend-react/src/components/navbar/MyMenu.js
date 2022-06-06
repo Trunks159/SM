@@ -4,21 +4,19 @@ import profileIcon from "../../assets/images/Profile Icon.svg";
 import { Link, Redirect } from "react-router-dom";
 import { withStyles } from "@material-ui/core";
 
-const styles = ()=>({
-  label : {
-    flexDirection : 'column'
+const styles = () => ({
+  label: {
+    flexDirection: "column",
   },
-  root : {
-    fontSize : 11,
-    color : 'white',
-    textTransform : 'none',
-
-  }
-}) ;
+  root: {
+    fontSize: 11,
+    color: "white",
+    textTransform: "none",
+  },
+});
 
 class MyMenu extends Component {
   state = {
-    open: false,
     anchorEl: null,
     redirect: false,
   };
@@ -32,62 +30,49 @@ class MyMenu extends Component {
   };
 
   handleLogout = () => {
-    fetch("/logout")
-      .then((response) => response.json())
-      .then(() => {
-        this.setState({ redirect: true });
-      });
+    this.props.handleCollapse();
+    this.props.handleLogout();
+    this.setState({ redirect: true });
   };
 
   render() {
-    const { open, anchorEl } = this.state;
-    const { username, classes } = this.props;
+    const { anchorEl } = this.state;
+    const open = Boolean(anchorEl);
+    const { username, classes, handleCollapse } = this.props;
     return (
-      <div
-        style={{
-          border: "2px solid black",
-          borderRadius: "7px",
-          height: 38,
-          marginTop: "auto",
-          marginBottom: "auto",
-          padding: 5,
-        }}
-      >
+      <div>
         {this.state.redirect && <Redirect to={"/login"} />}
         <Button
-        classes = {{label : classes.label , root : classes.root}}
-          id="demo-positioned-button"
-          aria-controls="demo-positioned-menu"
+          id="basic-button"
+          aria-controls={open ? "basic-menu" : undefined}
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
           onClick={this.handleClick}
-          startIcon={<img alt={""} src={profileIcon} />}
-          style={{ textTransform: "none" }}
+          style={{
+            textTransform: "none",
+            padding: 0,
+            margin: 0,
+            minWidth: 1,
+          }}
         >
-          {username}
+          <img src={profileIcon} />
         </Button>
         <Menu
-          id="demo-positioned-menu"
-          aria-labelledby="demo-positioned-button"
+          id="basic-menu"
           anchorEl={anchorEl}
           open={open}
           onClose={this.handleClose}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "left",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
           }}
         >
           <MenuItem onClick={this.handleClose}>
-            <Link to="/">
+            <Link onClick={handleCollapse} to="/">
               <p>Profile</p>
             </Link>
           </MenuItem>
           <MenuItem onClick={this.handleClose}>
-            <Link to="/">
+            <Link onClick={handleCollapse} to="/">
               <p>My Availability</p>
             </Link>
           </MenuItem>
@@ -101,6 +86,5 @@ class MyMenu extends Component {
     );
   }
 }
-
 
 export default withStyles(styles)(MyMenu);

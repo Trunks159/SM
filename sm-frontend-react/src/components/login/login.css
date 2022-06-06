@@ -1,0 +1,36 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 35px;
+  margin: 10px;
+  flex: 1;
+  max-width: 516px;
+  box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.28);
+  border-radius: 7px;
+  box-sizing: border-box;
+}
+
+.login-form header{
+   margin-bottom: 35px;
+}
+
+.login-form header h1{
+    font-size:4rem;
+    font-weight: normal;
+}
+
+.login-submitButton {
+  flex-grow: 1;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  padding: 8px 0px;
+}
+
+.forgotPassword{
+    color: #00CBFF;
+}
+

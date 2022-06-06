@@ -5,40 +5,30 @@ import {
   TextField,
   Checkbox,
   FormControlLabel,
-  Button,
-  Divider,
-  Typography,
-  Paper
+  Paper,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
+import "./login.css";
+import FancyDivider from "./FancyDivider";
 
 const styles = () => ({
-  header: {
-    margin: 30,
-    fontSize: 40,
-    fontWeight: "500",
-  },
-  submit: {
-    backgroundColor: "#ff4bdb",
-    width: 100,
-    margin: 50,
-    marginLeft: "auto",
+  divider: {
+    backgroundColor: "blue",
+    height: 0.5,
+    margin: "15px 0px",
   },
   input: {
-    margin: 10,
-    marginRight: 20,
-    marginLeft: 20,
-    marginBottom: 5,
+    maxWidth: 260,
+    margin: "10px 0px",
   },
   forgot: {
     textDecoration: "none",
-    margin: "none",
-    marginLeft: 20,
     fontSize: 12,
   },
-  remember: {
-    margin: 20,
+  rememberMe: {
+    marginTop: 20,
+    width: "max-content",
   },
 });
 
@@ -110,54 +100,64 @@ class Login extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <Paper elevation = {2} sx = {{flex : 1, maxWidth : 516}}>
-          <Typography variant="h6" className={classes.header}>
-            Login
-          </Typography>
-          <Divider></Divider>
-          <TextField
-            className={classes.input}
-            name="username"
-            label="Enter Username"
-            onChange={this.handleChange}
-          />
-          {this.state.username_errors ? this.state.username_errors : null}
-          <TextField
-            className={classes.input}
-            name="password"
-            label="Enter Password"
-            onChange={this.handleChange}
-            type="password"
-          />
-          {this.state.password_errors}
-          <Typography variant="subtitle1">
-            <Link className={classes.forgot} to="/">
-              Forgot Password
-            </Link>
-          </Typography>
-          <FormControlLabel
-            className={classes.remember}
-            control={
-              <Checkbox
-                checked={this.state.remember}
-                onChange={this.handleCheckbox}
-                name="remember"
-                primary
-              />
-            }
-            label="Remember Me"
-          />
-
-          <Button
+      <form className="login-form" onSubmit={this.handleSubmit}>
+        <header>
+          <h1>Sign In</h1>
+          <FancyDivider />
+        </header>
+        <TextField
+          required
+          variant="outlined"
+          className={classes.input}
+          name="username"
+          label="Enter Username"
+          onChange={this.handleChange}
+        />
+        {this.state.username_errors ? this.state.username_errors : null}
+        <TextField
+          required
+          variant="outlined"
+          className={classes.input}
+          name="password"
+          label="Enter Password"
+          onChange={this.handleChange}
+          type="password"
+        />
+        {this.state.password_errors}
+        <Link className="forgotPassword" to="/">
+          Forgot Password?
+        </Link>
+        <FormControlLabel
+          className={classes.rememberMe}
+          control={
+            <Checkbox
+              checked={this.state.remember}
+              onChange={this.handleCheckbox}
+              name="remember"
+              primary
+            />
+          }
+          label="Remember Me"
+        />
+        <Paper
+          style={{
+            display: "flex",
+            width: 150,
+            background: "#00CBFF",
+            borderRadius: 7,
+            marginLeft: "auto",
+            marginTop: 50,
+          }}
+        >
+          <button
+            className="login-submitButton"
             type="submit"
             variant="contained"
             color="primary"
-            className={classes.submit}
             endIcon={<LockIcon />}
           >
             Login
-          </Button>
+          </button>
         </Paper>
       </form>
     );

@@ -43,7 +43,7 @@ class Scheduler extends Component {
     console.log("Now its: ", this.state.day);
     return this.state.day ? (
       <div className="scheduler-main">
-        Yo man
+        <NewTabs />
         {/*
         <Paper
           elevation={2}
