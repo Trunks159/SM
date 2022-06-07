@@ -5,6 +5,7 @@ import SideNav from "./nav/SideNav";
 import Home from "./home/Home";
 import Scheduler from "./scheduler/Scheduler";
 import WeekBar from "./WeekBar";
+import "./scheduletron.css";
 
 const styles = () => ({
   main: {
@@ -15,6 +16,7 @@ const styles = () => ({
     marginRight: "auto",
     position: "relative",
     gridTemplateColumns: "60px 1fr",
+    background: "#F6F6F6",
   },
 });
 
@@ -92,36 +94,36 @@ class Scheduletron extends Component {
         {/*this.state.selected && this.state.isDesktop ? (
           <WeekBar week={this.state.selected.week} setDay={this.setDay} />
         ) : null*/}
-        <div style={{ display: "flex", flex: 1 }}>
-          <Switch>
-            <Route exact path={"/scheduletron"}>
-              <Home
-                handleSelect={this.handleSelect}
-                selected={this.state.selected}
-                schedules={this.state.schedules}
-              />
-            </Route>
-            <Route
-              path={"/scheduletron/:day"}
-              render={({ match }) => {
-                console.log("Dude: ", Boolean(selected));
-                const day = selected
-                  ? selected.week.find(
-                      ({ id }) => id === parseInt(match.params.day)
-                    )
-                  : null;
-                return (
-                  <Scheduler
-                    dayId={match.params.day}
-                    day={day}
-                    handleSelect={this.handleSelect}
-                    setScheduleSet={this.setScheduleSet}
-                  />
-                );
-              }}
+        <Switch>
+          <Route exact path={"/scheduletron"}>
+            <Home
+              handleSelect={this.handleSelect}
+              selected={this.state.selected}
+              schedules={this.state.schedules}
             />
-          </Switch>
-        </div>
+          </Route>
+          <Route
+            path={"/scheduletron/:day"}
+            render={({ match }) => {
+              console.log("Dude: ", Boolean(selected));
+              const day = selected
+                ? selected.week.find(
+                    ({ id }) => id === parseInt(match.params.day)
+                  )
+                : null;
+              console.log("The day i found : ", day);
+              return (
+                <Scheduler
+                  dayId={match.params.day}
+                  day={day}
+                  days={selected && selected.week}
+                  handleSelect={this.handleSelect}
+                  setScheduleSet={this.setScheduleSet}
+                />
+              );
+            }}
+          />
+        </Switch>
       </div>
     ) : null;
   }

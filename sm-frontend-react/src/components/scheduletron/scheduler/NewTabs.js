@@ -16,9 +16,12 @@ function TabPanel(props) {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
+      style={{
+        background: "white",
+      }}
     >
       {value === index && (
-        <div >
+        <div>
           <Typography>{children}</Typography>
         </div>
       )}
@@ -27,6 +30,7 @@ function TabPanel(props) {
 }
 
 const AntTabs = styled((props) => <Tabs {...props} />)(({ theme }) => ({
+  width: "40%",
   "& .MuiTabs-indicator": {
     display: "none",
   },
@@ -35,28 +39,30 @@ const AntTabs = styled((props) => <Tabs {...props} />)(({ theme }) => ({
 const AntTab = styled((props) => <Tab disableRipple {...props} />)(
   ({ theme }) => ({
     textTransform: "none",
+    borderRadius: "7px 7px 7px 0px",
     minWidth: 0,
     fontSize: 29,
-    fontWeight: 'normal',
+    fontWeight: "normal",
     height: 70,
-    marginRight: 10,
-    color: "white",
-    borderRadius: "7px 7px 0px 0px",
-
-    '&.MuiButtonBase-root.MuiTab-root' : {
-        backgroundColor : 'red'
-    },    
+    "&.MuiTab-root": {
+      backgroundColor: "#627E8C",
+      borderRadius: "7px 7px 0px 0px",
+      color: "#BECACF",
+      marginRight: 10,
+    },
     "&:hover": {
-      color: "#40a9ff",
+      color: "white",
       opacity: 1,
     },
     "&.Mui-selected": {
-      backgroundColor: "black",
-      color: "white",
+      "&.MuiTab-root": {
+        backgroundColor: "#275C78",
+        color: "white",
+      },
     },
 
     "&.Mui-focusVisible": {
-      backgroundColor: "#d1eaff",
+      backgroundColor: "#275C78",
     },
   })
 );
@@ -73,26 +79,24 @@ function a11yProps(index) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
-export default function BasicTabs() {
+const BasicTabs = ({ days }) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  const days = [
-    "Monday 9/13",
-    "Tuesday 9/14",
-    "Wednesday 9/15",
-    "Thursday 9/16",
-    "Friday 9/17",
-    "Saturday 9/18",
-    "Sunday 9/19",
-  ];
-
   return (
-    <div style={{ flex: 1 }}>
-      <div style={{ borderBottom: 1, borderColor: "divider" }}>
+    <div
+      style={{
+        boxSizing: "border-box",
+        background: "red",
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        margin: 100,
+      }}
+    >
+      <div>
         <AntTabs
           value={value}
           scrollButtons
@@ -102,8 +106,14 @@ export default function BasicTabs() {
         >
           {days.map((day, index) => (
             <AntTab
-              style={{ borderRadius: 7 }}
-              label={day}
+              label={
+                <div style={{ display: "flex", gap: 9, margin: "0px 25px" }}>
+                  {value === index && <p>{day.weekday}</p>}
+                  <p>
+                    {day.month}/{day.day}
+                  </p>
+                </div>
+              }
               {...a11yProps(index)}
             />
           ))}
@@ -120,4 +130,6 @@ export default function BasicTabs() {
       </TabPanel>
     </div>
   );
-}
+};
+
+export default BasicTabs;
