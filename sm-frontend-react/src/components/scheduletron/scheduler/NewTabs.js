@@ -18,9 +18,9 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <div >
           <Typography>{children}</Typography>
-        </Box>
+        </div>
       )}
     </div>
   );
@@ -36,22 +36,22 @@ const AntTab = styled((props) => <Tab disableRipple {...props} />)(
   ({ theme }) => ({
     textTransform: "none",
     minWidth: 0,
-    [theme.breakpoints.up("sm")]: {
-      minWidth: 0,
-    },
     fontSize: 29,
-    fontWeight: 400,
+    fontWeight: 'normal',
     height: 70,
     marginRight: 10,
     color: "white",
-    backgroundColor: "#627E8C",
     borderRadius: "7px 7px 0px 0px",
+
+    '&.MuiButtonBase-root.MuiTab-root' : {
+        backgroundColor : 'red'
+    },    
     "&:hover": {
       color: "#40a9ff",
       opacity: 1,
     },
     "&.Mui-selected": {
-      backgroundColor: "#275C78",
+      backgroundColor: "black",
       color: "white",
     },
 
@@ -102,7 +102,7 @@ export default function BasicTabs() {
         >
           {days.map((day, index) => (
             <AntTab
-              style={{ borderRadius: 7, backgroundColor: "#627E8C" }}
+              style={{ borderRadius: 7 }}
               label={day}
               {...a11yProps(index)}
             />
