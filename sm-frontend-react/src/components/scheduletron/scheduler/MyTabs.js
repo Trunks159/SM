@@ -1,20 +1,49 @@
-import React, {Component} from "react";
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
+import React, { Component } from "react";
 
+const Tab = ({ weekday, date, isActive }) => (
+  <div className="tab" style = {{background : isActive ?  '#275C78' : '#627E8C'}}>
+    {isActive && <p>{weekday} </p>}
+    <p>{date}</p>
+  </div>
+);
 
-
-class MyTabs extends Component {
-    state = {  } 
-    render() { 
-        return ();
-    }
+class Tabs extends Component {
+  state = {
+    value: 0,
+  };
+  render() {
+    return (
+      <div className="tabs">
+        {this.props.days.map((day, index) => (
+          <Tab
+            weekday={day.weekday}
+            date={`${day.month}/${day.day}`}
+            isActive={index === this.state.value}
+          />
+        ))}
+      </div>
+    );
+  }
 }
-import { Tabs } from '@material-ui/core'; 
 
+class TabContent extends Component {
+  state = {};
+  render() {
+    return <div></div>;
+  }
+}
 
-export default MyTabs;
+class TabsContainer extends Component {
+  state = {};
+  render() {
+    const { days } = this.props;
+    return (
+      <div className="tabs-container">
+        <Tabs days={days} />
+        <TabContent />
+      </div>
+    );
+  }
+}
+
+export default TabsContainer;

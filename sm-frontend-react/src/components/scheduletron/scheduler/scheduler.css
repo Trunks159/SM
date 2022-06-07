@@ -1,0 +1,14 @@
+.tabs{
+    display: flex;
+    gap : 15px;
+}
+
+.tabs-container{
+    margin : 20px;
+}
+
+.tab {
+    display: flex;
+    gap : 4px;
+    border-radius: 7px 7px 0px 0px;
+}
