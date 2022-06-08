@@ -1,10 +1,14 @@
 import React, { Component } from "react";
+import { Paper } from "@mui/material";
 
 const Tab = ({ weekday, date, isActive }) => (
-  <div className="tab" style = {{background : isActive ?  '#275C78' : '#627E8C'}}>
+  <button
+    className="tab"
+    style={{ background: isActive ? "#275C78" : "#627E8C" }}
+  >
     {isActive && <p>{weekday} </p>}
     <p>{date}</p>
-  </div>
+  </button>
 );
 
 class Tabs extends Component {
@@ -29,7 +33,138 @@ class Tabs extends Component {
 class TabContent extends Component {
   state = {};
   render() {
-    return <div></div>;
+    return (
+      <Paper className="tab-content">
+        Officia non mollit sunt consectetur minim velit sunt cupidatat
+        consectetur qui culpa. Duis non ad aliqua tempor ex velit duis
+        reprehenderit ex cillum incididunt est reprehenderit. Voluptate laborum
+        ad pariatur laborum cillum quis sint. Dolor ullamco pariatur eiusmod
+        officia aute sint elit sint. Officia non mollit sunt consectetur minim
+        velit sunt cupidatat consectetur qui culpa. Duis non ad aliqua tempor ex
+        velit duis reprehenderit ex cillum incididunt est reprehenderit.
+        Voluptate laborum ad pariatur laborum cillum quis sint. Dolor ullamco
+        pariatur eiusmod officia aute sint elit sint. Officia non mollit sunt
+        consectetur minim velit sunt cupidatat consectetur qui culpa. Duis non
+        ad aliqua tempor ex velit duis reprehenderit ex cillum incididunt est
+        reprehenderit. Voluptate laborum ad pariatur laborum cillum quis sint.
+        Dolor ullamco pariatur eiusmod officia aute sint elit sint. Officia non
+        mollit sunt consectetur minim velit sunt cupidatat consectetur qui
+        culpa. Duis non ad aliqua tempor ex velit duis reprehenderit ex cillum
+        incididunt est reprehenderit. Voluptate laborum ad pariatur laborum
+        cillum quis sint. Dolor ullamco pariatur eiusmod officia aute sint elit
+        sint. Officia non mollit sunt consectetur minim velit sunt cupidatat
+        consectetur qui culpa. Duis non ad aliqua tempor ex velit duis
+        reprehenderit ex cillum incididunt est reprehenderit. Voluptate laborum
+        ad pariatur laborum cillum quis sint. Dolor ullamco pariatur eiusmod
+        officia aute sint elit sint. Officia non mollit sunt consectetur minim
+        velit sunt cupidatat consectetur qui culpa. Duis non ad aliqua tempor ex
+        velit duis reprehenderit ex cillum incididunt est reprehenderit.
+        Voluptate laborum ad pariatur laborum cillum quis sint. Dolor ullamco
+        pariatur eiusmod officia aute sint elit sint. Officia non mollit sunt
+        consectetur minim velit sunt cupidatat consectetur qui culpa. Duis non
+        ad aliqua tempor ex velit duis reprehenderit ex cillum incididunt est
+        reprehenderit. Voluptate laborum ad pariatur laborum cillum quis sint.
+        Dolor ullamco pariatur eiusmod officia aute sint elit sint. Officia non
+        mollit sunt consectetur minim velit sunt cupidatat consectetur qui
+        culpa. Duis non ad aliqua tempor ex velit duis reprehenderit ex cillum
+        incididunt est reprehenderit. Voluptate laborum ad pariatur laborum
+        cillum quis sint. Dolor ullamco pariatur eiusmod officia aute sint elit
+        sint. Officia non mollit sunt consectetur minim velit sunt cupidatat
+        consectetur qui culpa. Duis non ad aliqua tempor ex velit duis
+        reprehenderit ex cillum incididunt est reprehenderit. Voluptate laborum
+        ad pariatur laborum cillum quis sint. Dolor ullamco pariatur eiusmod
+        officia aute sint elit sint. Officia non mollit sunt consectetur minim
+        velit sunt cupidatat consectetur qui culpa. Duis non ad aliqua tempor ex
+        velit duis reprehenderit ex cillum incididunt est reprehenderit.
+        Voluptate laborum ad pariatur laborum cillum quis sint. Dolor ullamco
+        pariatur eiusmod officia aute sint elit sint. Officia non mollit sunt
+        consectetur minim velit sunt cupidatat consectetur qui culpa. Duis non
+        ad aliqua tempor ex velit duis reprehenderit ex cillum incididunt est
+        reprehenderit. Voluptate laborum ad pariatur laborum cillum quis sint.
+        Dolor ullamco pariatur eiusmod officia aute sint elit sint. Officia non
+        mollit sunt consectetur minim velit sunt cupidatat consectetur qui
+        culpa. Duis non ad aliqua tempor ex velit duis reprehenderit ex cillum
+        incididunt est reprehenderit. Voluptate laborum ad pariatur laborum
+        cillum quis sint. Dolor ullamco pariatur eiusmod officia aute sint elit
+        sint. Officia non mollit sunt consectetur minim velit sunt cupidatat
+        consectetur qui culpa. Duis non ad aliqua tempor ex velit duis
+        reprehenderit ex cillum incididunt est reprehenderit. Voluptate laborum
+        ad pariatur laborum cillum quis sint. Dolor ullamco pariatur eiusmod
+        officia aute sint elit sint. Officia non mollit sunt consectetur minim
+        velit sunt cupidatat consectetur qui culpa. Duis non ad aliqua tempor ex
+        velit duis reprehenderit ex cillum incididunt est reprehenderit.
+        Voluptate laborum ad pariatur laborum cillum quis sint. Dolor ullamco
+        pariatur eiusmod officia aute sint elit sint. Officia non mollit sunt
+        consectetur minim velit sunt cupidatat consectetur qui culpa. Duis non
+        ad aliqua tempor ex velit duis reprehenderit ex cillum incididunt est
+        reprehenderit. Voluptate laborum ad pariatur laborum cillum quis sint.
+        Dolor ullamco pariatur eiusmod officia aute sint elit sint. Officia non
+        mollit sunt consectetur minim velit sunt cupidatat consectetur qui
+        culpa. Duis non ad aliqua tempor ex velit duis reprehenderit ex cillum
+        incididunt est reprehenderit. Voluptate laborum ad pariatur laborum
+        cillum quis sint. Dolor ullamco pariatur eiusmod officia aute sint elit
+        sint. Officia non mollit sunt consectetur minim velit sunt cupidatat
+        consectetur qui culpa. Duis non ad aliqua tempor ex velit duis
+        reprehenderit ex cillum incididunt est reprehenderit. Voluptate laborum
+        ad pariatur laborum cillum quis sint. Dolor ullamco pariatur eiusmod
+        officia aute sint elit sint. Officia non mollit sunt consectetur minim
+        velit sunt cupidatat consectetur qui culpa. Duis non ad aliqua tempor ex
+        velit duis reprehenderit ex cillum incididunt est reprehenderit.
+        Voluptate laborum ad pariatur laborum cillum quis sint. Dolor ullamco
+        pariatur eiusmod officia aute sint elit sint. Officia non mollit sunt
+        consectetur minim velit sunt cupidatat consectetur qui culpa. Duis non
+        ad aliqua tempor ex velit duis reprehenderit ex cillum incididunt est
+        reprehenderit. Voluptate laborum ad pariatur laborum cillum quis sint.
+        Dolor ullamco pariatur eiusmod officia aute sint elit sint. Officia non
+        mollit sunt consectetur minim velit sunt cupidatat consectetur qui
+        culpa. Duis non ad aliqua tempor ex velit duis reprehenderit ex cillum
+        incididunt est reprehenderit. Voluptate laborum ad pariatur laborum
+        cillum quis sint. Dolor ullamco pariatur eiusmod officia aute sint elit
+        sint. Officia non mollit sunt consectetur minim velit sunt cupidatat
+        consectetur qui culpa. Duis non ad aliqua tempor ex velit duis
+        reprehenderit ex cillum incididunt est reprehenderit. Voluptate laborum
+        ad pariatur laborum cillum quis sint. Dolor ullamco pariatur eiusmod
+        officia aute sint elit sint. Officia non mollit sunt consectetur minim
+        velit sunt cupidatat consectetur qui culpa. Duis non ad aliqua tempor ex
+        velit duis reprehenderit ex cillum incididunt est reprehenderit.
+        Voluptate laborum ad pariatur laborum cillum quis sint. Dolor ullamco
+        pariatur eiusmod officia aute sint elit sint. Officia non mollit sunt
+        consectetur minim velit sunt cupidatat consectetur qui culpa. Duis non
+        ad aliqua tempor ex velit duis reprehenderit ex cillum incididunt est
+        reprehenderit. Voluptate laborum ad pariatur laborum cillum quis sint.
+        Dolor ullamco pariatur eiusmod officia aute sint elit sint. Officia non
+        mollit sunt consectetur minim velit sunt cupidatat consectetur qui
+        culpa. Duis non ad aliqua tempor ex velit duis reprehenderit ex cillum
+        incididunt est reprehenderit. Voluptate laborum ad pariatur laborum
+        cillum quis sint. Dolor ullamco pariatur eiusmod officia aute sint elit
+        sint. Officia non mollit sunt consectetur minim velit sunt cupidatat
+        consectetur qui culpa. Duis non ad aliqua tempor ex velit duis
+        reprehenderit ex cillum incididunt est reprehenderit. Voluptate laborum
+        ad pariatur laborum cillum quis sint. Dolor ullamco pariatur eiusmod
+        officia aute sint elit sint. Officia non mollit sunt consectetur minim
+        velit sunt cupidatat consectetur qui culpa. Duis non ad aliqua tempor ex
+        velit duis reprehenderit ex cillum incididunt est reprehenderit.
+        Voluptate laborum ad pariatur laborum cillum quis sint. Dolor ullamco
+        pariatur eiusmod officia aute sint elit sint. Officia non mollit sunt
+        consectetur minim velit sunt cupidatat consectetur qui culpa. Duis non
+        ad aliqua tempor ex velit duis reprehenderit ex cillum incididunt est
+        reprehenderit. Voluptate laborum ad pariatur laborum cillum quis sint.
+        Dolor ullamco pariatur eiusmod officia aute sint elit sint. Officia non
+        mollit sunt consectetur minim velit sunt cupidatat consectetur qui
+        culpa. Duis non ad aliqua tempor ex velit duis reprehenderit ex cillum
+        incididunt est reprehenderit. Voluptate laborum ad pariatur laborum
+        cillum quis sint. Dolor ullamco pariatur eiusmod officia aute sint elit
+        sint. Officia non mollit sunt consectetur minim velit sunt cupidatat
+        consectetur qui culpa. Duis non ad aliqua tempor ex velit duis
+        reprehenderit ex cillum incididunt est reprehenderit. Voluptate laborum
+        ad pariatur laborum cillum quis sint. Dolor ullamco pariatur eiusmod
+        officia aute sint elit sint. Officia non mollit sunt consectetur minim
+        velit sunt cupidatat consectetur qui culpa. Duis non ad aliqua tempor ex
+        velit duis reprehenderit ex cillum incididunt est reprehenderit.
+        Voluptate laborum ad pariatur laborum cillum quis sint. Dolor ullamco
+        pariatur eiusmod officia aute sint elit sint.
+      </Paper>
+    );
   }
 }
 

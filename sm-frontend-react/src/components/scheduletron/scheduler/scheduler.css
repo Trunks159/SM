@@ -1,14 +1,64 @@
-.tabs{
-    display: flex;
-    gap : 15px;
-}
-
 .tabs-container{
     margin : 20px;
+    display: grid;
+    grid-template-rows: 64px 1fr;
+}
+
+.tabs{
+    overflow-x: auto;
+    display: flex;
+    gap : 10px;
 }
 
 .tab {
+    flex-shrink: 0;
+    width: min-content;
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap : 4px;
+    cursor: pointer;
+    font-size: 20px;
+    position: relative;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    transition-duration: 0.4s;
+    overflow: hidden;
     border-radius: 7px 7px 0px 0px;
+  }
+  
+  .tab:hover {
+    opacity: .8;
+  }
+  
+  .tab:after {
+    content: "";
+    background: red;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px !important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s
+  }
+  
+  .tab:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+  }
+  
+  .tab p{
+      margin: 0px;
+  }
+
+
+.tab-content{
+    background-color: white;
+    min-height: 0ex;
 }
