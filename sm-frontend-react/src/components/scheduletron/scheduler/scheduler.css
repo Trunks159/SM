@@ -1,7 +1,6 @@
 .tabs-container{
-    margin : 20px;
     display: grid;
-    grid-template-rows: 64px 1fr;
+    grid-template-rows: 65px minmax(0px, 1fr);
 }
 
 .tabs{
@@ -11,17 +10,17 @@
 }
 
 .tab {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     flex-shrink: 0;
     width: min-content;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap : 4px;
+    gap : 9px;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 29px;
     position: relative;
     border: none;
-    color: white;
     padding: 20px;
     text-align: center;
     transition-duration: 0.4s;
@@ -35,7 +34,7 @@
   
   .tab:after {
     content: "";
-    background: red;
+    background:  #275C78;
     display: block;
     position: absolute;
     padding-top: 300%;
@@ -52,13 +51,13 @@
     opacity: 1;
     transition: 0s
   }
-  
-  .tab p{
-      margin: 0px;
-  }
-
 
 .tab-content{
     background-color: white;
-    min-height: 0ex;
+    display: flex;
+    overflow: hidden;
+    
+}
+
+.tab-content p{
 }
