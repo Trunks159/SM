@@ -1,17 +1,13 @@
 import React, { Component } from "react";
 import { Paper } from "@mui/material";
-import ScheduleFunctions from './SchedulerFunctions'
+import VisualizerTabs from "./VisualizerTabs";
 
 const Tab = ({ weekday, date, index, value, handleTab }) => {
   const isActive = index === value;
   return (
     <button
       onClick={() => handleTab(index)}
-      className="tab"
-      style={{
-        background: isActive ? "#275C78" : "#627E8C",
-        color: isActive ? "white" : "#BECACF",
-      }}
+      className={`tab ${isActive ? "active" : "inactive"}`}
     >
       {isActive && <p>{weekday} </p>}
       <p>{date}</p>
@@ -36,7 +32,7 @@ class Tabs extends Component {
             date={`${day.month}/${day.day}`}
             index={index}
             value={this.state.value}
-            handleTab = {this.handleTab}
+            handleTab={this.handleTab}
           />
         ))}
       </div>
@@ -47,11 +43,7 @@ class Tabs extends Component {
 class TabContent extends Component {
   state = {};
   render() {
-    return (
-      <Paper className="tab-content">
-    
-     </Paper>
-    );
+    return <Paper className="tab-content" style={{ display: "flex" }}></Paper>;
   }
 }
 

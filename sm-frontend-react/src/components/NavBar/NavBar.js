@@ -88,7 +88,7 @@ class NavBar extends Component {
           background: isOpen
             ? "rgba(123, 136, 144, 1)"
             : "rgba(123, 136, 144, .4)",
-          height: isOpen ? "100vh" : 60,
+          height: isOpen ? "100vh" : 70,
         }}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}

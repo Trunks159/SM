@@ -5,17 +5,16 @@ import SideNav from "./nav/SideNav";
 import Home from "./home/Home";
 import Scheduler from "./scheduler/Scheduler";
 import WeekBar from "./WeekBar";
-import "./scheduletron.css";
 
 const styles = () => ({
   main: {
     display: "grid",
     flexGrow: 1,
-    maxWidth: 1400,
     marginLeft: "auto",
     marginRight: "auto",
     position: "relative",
-    gridTemplateColumns: "60px 1fr",
+    justifyItems: "center",
+    gridTemplateColumns: "70px 1fr",
     background: "#F6F6F6",
   },
 });

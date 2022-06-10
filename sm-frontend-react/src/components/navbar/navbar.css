@@ -1,10 +1,14 @@
 .main-nav {
   box-shadow: 0px 2px 4px 1px rgba(0,0,0,0.28);
-  width: 60px;
-  transition: background .25s;
+  width: 70px;
+  transition-duration: .25s;
   display: grid;
   grid-template-rows: 70px 1fr;
   position: fixed;
+}
+
+.main-button{
+  margin-top: 7px;
 }
 
 .main-button :hover{

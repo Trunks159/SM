@@ -1,6 +1,6 @@
 .side-navbar{
     box-shadow: 0px 2px 4px 1px rgba(0,0,0,0.28);
-    width: 60px;
+    width: 70px;
     transition: background .25s;
     border-radius: 0px;
     display: flex;
@@ -9,16 +9,15 @@
     position: fixed;
     z-index: 1;
     background-color: #51636D;
-    top  :60px;
+    top  :70px;
     bottom : 0;
     left : 0;
 
 }
 
 .placeholder-nav{
-    margin-top: 60px;
+    margin-top: 70px;
     background-color: gold;
-    width : 60px;
 }
 
 .nav-link {
