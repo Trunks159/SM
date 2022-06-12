@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Paper } from "@mui/material";
-import VisualizerTabs from "./VisualizerTabs";
-import FNav from "./FunctionNavigation";
+import Options from "./Options";
+import NewDrawer from "./NewDrawer";
 
 const Tab = ({ weekday, date, index, value, handleTab }) => {
   const isActive = index === value;
@@ -44,7 +44,11 @@ class Tabs extends Component {
 class TabContent extends Component {
   state = {};
   render() {
-    return <FNav/>
+    return (
+      <NewDrawer>
+        <Options />
+      </NewDrawer>
+    );
   }
 }
 

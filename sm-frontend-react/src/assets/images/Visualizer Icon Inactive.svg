@@ -1,14 +1,12 @@
-<svg id="Visualizer_Icon_Inactive" data-name="Visualizer Icon Inactive" xmlns="http://www.w3.org/2000/svg" width="37.226" height="37.226" viewBox="0 0 37.226 37.226">
-  <g id="Group_313" data-name="Group 313" transform="translate(0 0)">
-    <rect id="Rectangle_461" data-name="Rectangle 461" width="37.226" height="37.226" rx="2" fill="#606060"/>
-    <ellipse id="Ellipse_131" data-name="Ellipse 131" cx="2.482" cy="2.482" rx="2.482" ry="2.482" transform="translate(4.343 4.343)" fill="#fff"/>
-    <ellipse id="Ellipse_132" data-name="Ellipse 132" cx="2.482" cy="2.482" rx="2.482" ry="2.482" transform="translate(15.511 4.343)" fill="#fff"/>
-    <ellipse id="Ellipse_131-2" data-name="Ellipse 131" cx="2.482" cy="2.482" rx="2.482" ry="2.482" transform="translate(11.168 16.131)" fill="#fff"/>
-    <ellipse id="Ellipse_131-3" data-name="Ellipse 131" cx="2.482" cy="2.482" rx="2.482" ry="2.482" transform="translate(17.993 27.299)" fill="#fff"/>
-    <ellipse id="Ellipse_132-2" data-name="Ellipse 132" cx="2.482" cy="2.482" rx="2.482" ry="2.482" transform="translate(28.54 27.299)" fill="#fff"/>
-    <line id="Line_223" data-name="Line 223" x2="6.729" transform="translate(9 6.821)" fill="none" stroke="#fff" stroke-width="1"/>
-    <line id="Line_224" data-name="Line 224" x2="6.729" transform="translate(15.511 18.613)" fill="none" stroke="#fff" stroke-width="1"/>
-    <line id="Line_225" data-name="Line 225" x2="6.729" transform="translate(22.694 29.781)" fill="none" stroke="#fff" stroke-width="1"/>
-    <ellipse id="Ellipse_132-3" data-name="Ellipse 132" cx="2.482" cy="2.482" rx="2.482" ry="2.482" transform="translate(21.095 16.131)" fill="#fff"/>
-  </g>
+<svg id="Visualizer_Icon_Inactive" data-name="Visualizer Icon Inactive" xmlns="http://www.w3.org/2000/svg" width="32.91" height="32.91" viewBox="0 0 32.91 32.91">
+  <rect id="Rectangle_461" data-name="Rectangle 461" width="32.91" height="32.91" rx="2" fill="#606060"/>
+  <circle id="Ellipse_131" data-name="Ellipse 131" cx="2.194" cy="2.194" r="2.194" transform="translate(3.84 3.84)" fill="#fff"/>
+  <circle id="Ellipse_132" data-name="Ellipse 132" cx="2.194" cy="2.194" r="2.194" transform="translate(13.713 3.84)" fill="#fff"/>
+  <circle id="Ellipse_131-2" data-name="Ellipse 131" cx="2.194" cy="2.194" r="2.194" transform="translate(9.873 14.261)" fill="#fff"/>
+  <circle id="Ellipse_131-3" data-name="Ellipse 131" cx="2.194" cy="2.194" r="2.194" transform="translate(15.907 24.134)" fill="#fff"/>
+  <circle id="Ellipse_132-2" data-name="Ellipse 132" cx="2.194" cy="2.194" r="2.194" transform="translate(25.231 24.134)" fill="#fff"/>
+  <line id="Line_223" data-name="Line 223" x2="5.949" transform="translate(7.957 6.03)" fill="none" stroke="#fff" stroke-width="1"/>
+  <line id="Line_224" data-name="Line 224" x2="5.949" transform="translate(13.713 16.455)" fill="none" stroke="#fff" stroke-width="1"/>
+  <line id="Line_225" data-name="Line 225" x2="5.949" transform="translate(20.063 26.328)" fill="none" stroke="#fff" stroke-width="1"/>
+  <circle id="Ellipse_132-3" data-name="Ellipse 132" cx="2.194" cy="2.194" r="2.194" transform="translate(18.649 14.261)" fill="#fff"/>
 </svg>

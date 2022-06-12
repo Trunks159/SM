@@ -1,6 +1,6 @@
 .tabs-container{
-    display: grid;
-    grid-template-rows: 80px minmax(0px, 1fr);
+    display: flex;
+    flex-direction: column;
     margin : 10px;
     max-width: 1600px;
 }
@@ -9,6 +9,7 @@
     overflow-x: auto;
     display: flex;
     gap : 10px;
+    height : 80px;
 }
 
 .tab {

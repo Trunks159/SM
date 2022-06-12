@@ -4,39 +4,22 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { makeStyles } from "@material-ui/core";
 import visualizerIcon from "../../../assets/images/Visualizer Icon.svg";
 import editorIcon from "../../../assets/images/Editor Icon.svg";
 import metricsIcon from "../../../assets/images/Metrics Icon.svg";
 import saveIcon from "../../../assets/images/Save Icon.svg";
+import visualizerIconInactive from "../../../assets/images/Visualizer Icon Inactive.svg";
+import editorIconInactive from "../../../assets/images/Editor Icon Inactive.svg";
+import metricsIconInactive from "../../../assets/images/Metrics Icon Inactive.svg";
+import saveIconInactive from "../../../assets/images/Save Icon Inactive.svg";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
-  box1: {
-    display: "grid",
-    gridTemplateRows: "1fr 80px",
-    width: "100%",
-  },
-  box2: {
-    borderTop: 1,
-    borderColor: "divider",
-    display: "flex",
-  },
   tabs: {
     "& .MuiTabs-indicator": {
       top: 0,
-      background: "#54DCF2",
     },
-    flex: 1,
-    alignItems: "center",
-    display: "flex",
-  },
-  tab: {
-    height: 80,
-    opacity: 0.8,
-    transitionDuration: ".2s",
-    "&.Mui-selected": {
-      opacity: 1,
-    },
+    flexShrink: 0,
   },
 });
 
@@ -47,15 +30,13 @@ function TabPanel(props) {
     value === index && (
       <div
         role="tabpanel"
+        hidden={value !== index}
+        display={"flex"}
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
         {...other}
       >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
+        {children}
       </div>
     )
   );
@@ -81,10 +62,21 @@ export default function BasicTabs() {
     setValue(newValue);
   };
   const classes = useStyles();
+
   return (
-    <Box className={classes.box1}>
-      <TabPanel value={value} index={0}>
-        Item One
+    /* <TabPanel
+        style={{
+          overflow: "auto",
+          background: "red",
+          flex: 1,
+          minHeight: 0,
+          minWidth: 0,
+          width: "100%",
+        }}
+        value={value}
+        index={0}
+      >
+        Item 1
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two
@@ -93,37 +85,34 @@ export default function BasicTabs() {
         Item Three
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item Four
-      </TabPanel>
-      <Box className={classes.box2}>
-        <Tabs
-          className={classes.tabs}
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
-          <Tab
-            className={classes.tab}
-            icon={<img src={visualizerIcon} />}
-            {...a11yProps(0)}
-          />
-          <Tab
-            className={classes.tab}
-            icon={<img src={editorIcon} />}
-            {...a11yProps(1)}
-          />
-          <Tab
-            className={classes.tab}
-            icon={<img src={metricsIcon} />}
-            {...a11yProps(2)}
-          />
-          <Tab
-            className={classes.tab}
-            icon={<img src={saveIcon} />}
-            {...a11yProps(3)}
-          />
-        </Tabs>
-      </Box>
-    </Box>
+        Item Three
+      </TabPanel> */
+
+    <Tabs
+      className={classes.tabs}
+      value={value}
+      onChange={handleChange}
+      aria-label="basic tabs example"
+      sx={{ borderTop: 1, borderColor: "divider", padding: "20px 0px" }}
+    >
+      <Tab
+        icon={
+          <img src={value === 0 ? visualizerIcon : visualizerIconInactive} />
+        }
+        {...a11yProps(0)}
+      />
+      <Tab
+        icon={<img src={value === 1 ? editorIcon : editorIconInactive} />}
+        {...a11yProps(1)}
+      />
+      <Tab
+        icon={<img src={value === 2 ? metricsIcon : metricsIconInactive} />}
+        {...a11yProps(2)}
+      />
+      <Tab
+        icon={<img src={value === 3 ? saveIcon : saveIconInactive} />}
+        {...a11yProps(3)}
+      />
+    </Tabs>
   );
 }

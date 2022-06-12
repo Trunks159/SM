@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="76" height="76" viewBox="0 0 76 76">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="72" height="72" viewBox="0 0 72 72">
   <defs>
-    <filter id="Ellipse_186" x="0" y="0" width="76" height="76" filterUnits="userSpaceOnUse">
+    <filter id="Rectangle_994" x="0" y="0" width="72" height="72" filterUnits="userSpaceOnUse">
       <feOffset dy="3" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="3" result="blur"/>
       <feFlood flood-opacity="0.161"/>
@@ -8,16 +8,14 @@
       <feComposite in="SourceGraphic"/>
     </filter>
   </defs>
-  <g id="Actions_Icon" data-name="Actions Icon" transform="translate(-294 -93)">
-    <g transform="matrix(1, 0, 0, 1, 294, 93)" filter="url(#Ellipse_186)">
-      <circle id="Ellipse_186-2" data-name="Ellipse 186" cx="29" cy="29" r="29" transform="translate(9 6)" fill="#54f2d1"/>
+  <g id="Actions_Icon" data-name="Actions Icon" transform="translate(-247 -597)">
+    <g transform="matrix(1, 0, 0, 1, 247, 597)" filter="url(#Rectangle_994)">
+      <rect id="Rectangle_994-2" data-name="Rectangle 994" width="54" height="54" rx="27" transform="translate(9 6)" fill="#275c78"/>
     </g>
-    <g id="Backward_arrow" data-name="Backward arrow" transform="translate(344.58 127.497) rotate(135)">
-      <path id="Path_10" data-name="Path 10" d="M10.251,0,8.387,1.864,15.443,8.92H0v2.663H15.443L8.387,18.638,10.251,20.5,20.5,10.251Z" transform="translate(-5.246 9.251) rotate(-45)" fill="#fff"/>
-    </g>
-    <g id="Rectangle_762" data-name="Rectangle 762" transform="translate(354.835 127.5) rotate(135)" fill="none" stroke="#fff" stroke-width="3">
-      <rect width="33" height="33" rx="4" stroke="none"/>
-      <rect x="1.5" y="1.5" width="30" height="30" rx="2.5" fill="none"/>
+    <g id="Group_729" data-name="Group 729" transform="translate(1.906 1.317)">
+      <path id="Path_258" data-name="Path 258" d="M26.534,26.534H5.942V5.942h10.3V3H5.942A2.941,2.941,0,0,0,3,5.942V26.534a2.941,2.941,0,0,0,2.942,2.942H26.534a2.95,2.95,0,0,0,2.942-2.942v-10.3H26.534ZM19.18,3V5.942h5.28L10,20.4l2.074,2.074L26.534,8.016V13.3h2.942V3Z" transform="translate(264.823 612.471)" fill="#fff"/>
+      <path id="Path_275" data-name="Path 275" d="M293.649,620.659v5.192h3V615.373h-3Z" transform="translate(-2.288 0.047)" fill="#2b9dd9"/>
+      <path id="Path_276" data-name="Path 276" d="M0,5.286v5.192H3V0H0Z" transform="translate(283.821 618.422) rotate(-90)" fill="#2b9dd9"/>
     </g>
   </g>
 </svg>
