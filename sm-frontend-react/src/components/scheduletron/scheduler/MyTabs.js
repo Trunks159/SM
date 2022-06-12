@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Paper } from "@mui/material";
 import VisualizerTabs from "./VisualizerTabs";
+import FNav from "./FunctionNavigation";
 
 const Tab = ({ weekday, date, index, value, handleTab }) => {
   const isActive = index === value;
@@ -43,7 +44,7 @@ class Tabs extends Component {
 class TabContent extends Component {
   state = {};
   render() {
-    return <Paper className="tab-content" style={{ display: "flex" }}></Paper>;
+    return <FNav/>
   }
 }
 
