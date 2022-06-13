@@ -111,7 +111,7 @@ class App extends Component {
           />
           <Notification message={message} />
 
-          <main>
+          <>
             <Switch>
               <Route
                 exact
@@ -153,7 +153,7 @@ class App extends Component {
                 }}
               />
             </Switch>
-          </main>
+          </>
           {/*
           <div className="Test">
             

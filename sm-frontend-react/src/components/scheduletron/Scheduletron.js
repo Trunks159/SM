@@ -9,13 +9,12 @@ import WeekBar from "./WeekBar";
 const styles = () => ({
   main: {
     display: "grid",
+    gridTemplateColumns: "70px 1fr",
     flexGrow: 1,
     marginLeft: "auto",
     marginRight: "auto",
     position: "relative",
     justifyItems: "center",
-    gridTemplateColumns: "70px 1fr",
-    background: "#F6F6F6",
   },
 });
 
@@ -90,9 +89,7 @@ class Scheduletron extends Component {
                   .week[0].id
           }
         />
-        {/*this.state.selected && this.state.isDesktop ? (
-          <WeekBar week={this.state.selected.week} setDay={this.setDay} />
-        ) : null*/}
+
         <Switch>
           <Route exact path={"/scheduletron"}>
             <Home
@@ -101,6 +98,7 @@ class Scheduletron extends Component {
               schedules={this.state.schedules}
             />
           </Route>
+
           <Route
             path={"/scheduletron/:day"}
             render={({ match }) => {
@@ -129,3 +127,9 @@ class Scheduletron extends Component {
 }
 
 export default withStyles(styles)(Scheduletron);
+
+/*      
+       
+
+
+         */

@@ -5,36 +5,69 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Zoom from "@mui/material/Zoom";
 import actionsIcon from "../../../assets/images/Actions Icon.svg";
+import closeActionsIcon from "../../../assets/images/Close Actions Icon.svg";
+import { Collapse } from "@material-ui/core";
 
 class NewDrawer extends Component {
   state = {
     isOpen: false,
   };
 
-  toggleDrawer = (e, open) => {
-    console.log("What up: ", e);
-    this.setState({ isOpen: open });
-  };
+  toggleDrawer = (e, open = false) =>
+    this.setState({ isOpen: open || !this.state.isOpen });
 
   render() {
     return (
-      <div>
-        <Zoom
-          in={!this.state.isOpen}
+      <>
+        <button
           style={{
+            border: "none",
+            background: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 100,
+            height: 100,
             position: "fixed",
             bottom: 20,
             right: 20,
-            transitionDuration: ".5s",
           }}
+          onClick={this.toggleDrawer}
         >
-          <Button
-            startIcon={<img src={actionsIcon} />}
-            onClick={(e) => this.toggleDrawer(e, true)}
-          />
-        </Zoom>
-
-        <Drawer
+          {" "}
+          <>
+            <img
+              style={{
+                position: "absolute",
+                opacity: this.state.isOpen ? 1 : 0,
+                transitionDuration: ".3s",
+              }}
+              src={closeActionsIcon}
+            />
+            <img
+              style={{
+                position: "absolute",
+                opacity: this.state.isOpen ? 0 : 1,
+                transitionDuration: ".3s",
+              }}
+              src={actionsIcon}
+            />
+          </>
+        </button>
+        <Collapse
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 2,
+            background: "white",
+          }}
+          in={this.state.isOpen}
+        >
+          {this.props.children}
+        </Collapse>
+        {/* <Drawer
           anchor={"bottom"}
           open={this.state.isOpen}
           hideBackdrop
@@ -48,8 +81,8 @@ class NewDrawer extends Component {
           >
             {this.props.children}
           </Box>
-        </Drawer>
-      </div>
+        </Drawer> */}
+      </>
     );
   }
 }

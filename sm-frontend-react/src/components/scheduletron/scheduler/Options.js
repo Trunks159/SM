@@ -19,6 +19,10 @@ const useStyles = makeStyles({
     "& .MuiTabs-indicator": {
       top: 0,
     },
+    "& .MuiTabs-flexContainer": {
+      height: "100%",
+      justifyContent: "center",
+    },
     flexShrink: 0,
   },
 });
@@ -93,7 +97,10 @@ export default function BasicTabs() {
       value={value}
       onChange={handleChange}
       aria-label="basic tabs example"
-      sx={{ borderTop: 1, borderColor: "divider", padding: "20px 0px" }}
+      sx={{
+        borderTop: 1,
+        borderColor: "divider",
+      }}
     >
       <Tab
         icon={

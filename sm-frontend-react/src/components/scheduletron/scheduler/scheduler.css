@@ -1,66 +1,66 @@
-.tabs-container{
-    display: flex;
-    flex-direction: column;
-    margin : 10px;
-    max-width: 1600px;
+.tabs-container {
+  flex: 1;
+  display: grid;
+  grid-template-rows: 80px 1fr;
+  margin: 10px;
+  max-width: 1600px;
+  background-color: white;
 }
 
-.tabs{
-    overflow-x: auto;
-    display: flex;
-    gap : 10px;
-    height : 80px;
+.tabs {
+  overflow-x: auto;
+  display: flex;
+  gap: 10px;
 }
 
 .tab {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    flex-shrink: 0;
-    width: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap : 9px;
-    cursor: pointer;
-    font-size: 32px;
-    position: relative;
-    border: none;
-    padding-top: 20px;
-    padding-Bottom: 20px;
-    text-align: center;
-    transition-duration: 0.2s;
-    overflow: hidden;
-    border-radius: 7px 7px 0px 0px;
-    color :#BECACF;
-    background-color: #627E8C;
-  }
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  flex-shrink: 0;
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  cursor: pointer;
+  font-size: 32px;
+  position: relative;
+  border: none;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+  transition-duration: 0.2s;
+  overflow: hidden;
+  border-radius: 7px 7px 0px 0px;
+  color: #becacf;
+  background-color: #627e8c;
+}
 
-  .tab.active{
-    background-color: #275C78;
-    color : white;
-    width : 260px;
-  }
-  
-  .tab:hover {
-    opacity: 1;
-  }
-  
-  .tab:after {
-    content: "";
-    background:  #275C78;
-    display: block;
-    position: absolute;
-    padding-top: 300%;
-    padding-left: 350%;
-    margin-left: -20px !important;
-    margin-top: -120%;
-    opacity: 0;
-    transition: all 0.8s
-  }
-  
-  .tab:active:after {
-    padding: 0;
-    margin: 0;
-    opacity: 1;
-    transition: 0s
-  }
+.tab.active {
+  background-color: #275c78;
+  color: white;
+  width: 260px;
+}
 
+.tab:hover {
+  opacity: 1;
+}
+
+.tab:after {
+  content: "";
+  background: #275c78;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px !important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s;
+}
+
+.tab:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s;
+}
