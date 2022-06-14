@@ -17,11 +17,11 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles({
   tabs: {
     "& .MuiTabs-indicator": {
-      top: 0,
+      left: 0,
     },
     "& .MuiTabs-flexContainer": {
-      height: "100%",
-      justifyContent: "center",
+      width: 60,
+      alignItems: "center",
     },
     flexShrink: 0,
   },
@@ -95,10 +95,11 @@ export default function BasicTabs() {
     <Tabs
       className={classes.tabs}
       value={value}
+      orientation={"vertical"}
       onChange={handleChange}
       aria-label="basic tabs example"
       sx={{
-        borderTop: 1,
+        borderLeft: 1,
         borderColor: "divider",
       }}
     >

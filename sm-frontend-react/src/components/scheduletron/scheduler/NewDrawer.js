@@ -18,35 +18,38 @@ class NewDrawer extends Component {
 
   render() {
     return (
-      <div style={{position : 'fixed', display : 'flex', flexDirection : 'column', right : 10, bottom : 0}}>
+      <div
+        style={{
+          position: "fixed",
+          display: "flex",
+          flexDirection: "column",
+          right: 10,
+          bottom: 0,
+        }}
+      >
         <button
           style={{
             border: "none",
-            borderRadius : '7px 7px 0px 0px',
+            borderRadius: "7px 7px 0px 0px",
             background: "#FF4B4B",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             width: 60,
             height: 40,
+            marginLeft: "auto",
           }}
           onClick={this.toggleDrawer}
         >
-          {" "}
-          
- 
-            
-            <img
-              style={{
-                position: "absolute",
-                opacity: this.state.isOpen ? 0 : 1,
-                transitionDuration: ".3s",
-                transform : this.state.isOpen && 'rotate(180deg)'
-              }}
-              src={actionsIcon}
-            />
-          
-                  </button>
+          <img
+            style={{
+              position: "absolute",
+              transitionDuration: ".3s",
+              transform: this.state.isOpen && "rotate(180deg)",
+            }}
+            src={actionsIcon}
+          />
+        </button>
         <Collapse
           style={{
             background: "white",

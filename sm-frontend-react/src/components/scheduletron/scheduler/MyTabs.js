@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Paper } from "@mui/material";
 import Options from "./Options";
 import NewDrawer from "./NewDrawer";
+import DayNightToggle from "./DayNightToggle";
 
 const Tab = ({ weekday, date, index, value, handleTab }) => {
   const isActive = index === value;
@@ -41,7 +42,7 @@ class Tabs extends Component {
   }
 }
 
-class TabContent extends Component {
+class Actions extends Component {
   state = {};
   render() {
     return (
@@ -52,6 +53,13 @@ class TabContent extends Component {
   }
 }
 
+class TabContent extends Component {
+  state = {};
+  render() {
+    return <div></div>;
+  }
+}
+
 class TabsContainer extends Component {
   state = {};
   render() {
@@ -59,7 +67,8 @@ class TabsContainer extends Component {
     return (
       <div className="tabs-container">
         <Tabs days={days} />
-        <TabContent />
+        <DayNightToggle />
+        <Actions />
       </div>
     );
   }

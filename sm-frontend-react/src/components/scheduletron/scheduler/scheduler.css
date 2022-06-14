@@ -1,16 +1,17 @@
 .tabs-container {
-  flex: 1;
   display: grid;
   grid-template-rows: 80px 1fr;
-  margin: 10px;
+  margin: 10px 10px 0px 10px;
   max-width: 1600px;
-  background-color: white;
+  background-color: blue;
 }
 
 .tabs {
   overflow-x: auto;
   display: flex;
   gap: 10px;
+  position: sticky;
+  top : 0;
 }
 
 .tab {
