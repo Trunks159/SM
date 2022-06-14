@@ -1,19 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="102" height="102" viewBox="0 0 102 102">
-  <defs>
-    <filter id="Rectangle_994" x="0" y="0" width="102" height="102" filterUnits="userSpaceOnUse">
-      <feOffset dy="3" input="SourceAlpha"/>
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feFlood flood-opacity="0.161"/>
-      <feComposite operator="in" in2="blur"/>
-      <feComposite in="SourceGraphic"/>
-    </filter>
-  </defs>
-  <g id="Actions_Icon" data-name="Actions Icon" transform="translate(-246.853 -596.853)">
-    <g transform="matrix(1, 0, 0, 1, 246.85, 596.85)" filter="url(#Rectangle_994)">
-      <rect id="Rectangle_994-2" data-name="Rectangle 994" width="84" height="84" rx="42" transform="translate(9 6)" fill="#275c78"/>
-    </g>
-    <g id="Group_729" data-name="Group 729" transform="translate(277.32 624.41)">
-      <path id="Path_258" data-name="Path 258" d="M39.544,39.544H7.568V7.568H23.556V3H7.568A4.567,4.567,0,0,0,3,7.568V39.544a4.567,4.567,0,0,0,4.568,4.568H39.544a4.581,4.581,0,0,0,4.568-4.568V23.556H39.544ZM28.124,3V7.568h8.2L13.872,30.02l3.22,3.22L39.544,10.788v8.2h4.568V3Z" transform="translate(-3 -3)" fill="#fff"/>
-    </g>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="28.281" height="17.44" viewBox="0 0 28.281 17.44">
+  <path id="Actions_Icon" data-name="Actions Icon" d="M24.958,17.44,14.141,6.661,3.323,17.44,0,14.121,14.141,0,28.281,14.121Z" fill="#fff"/>
 </svg>
