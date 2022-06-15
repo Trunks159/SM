@@ -64,3 +64,20 @@
   opacity: 1;
   transition: 0s;
 }
+
+.daynight-group {
+
+  width: 100px;
+  height: 100px;
+  background-color: #C4C4C4;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 50px;
+  align-items: center;
+}
+
+.daynight-group button{
+  background: none;
+  border: none;
+  padding: 0px;
+}

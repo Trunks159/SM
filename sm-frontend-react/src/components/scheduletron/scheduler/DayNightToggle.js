@@ -1,52 +1,62 @@
 import React, { Component } from "react";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import dayIcon from "../../../assets/images/Day Icon.svg";
 import nightIcon from "../../../assets/images/Night Icon.svg";
-import { withStyles } from "@material-ui/core";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { makeStyles } from "@material-ui/core";
 
-const styles = () => ({
-  toggleGroup: {
-    background: "red",
-    width: 100,
-    height: 35,
+const useStyles = makeStyles({
+  group: {
     display: "flex",
-    justifyContent: "space-evenly",
-    marginLeft: "auto",
+    height: 100,
+    width: 100,
   },
-  btn: {
-    flex: 1,
-    "& .MuiButtonBase-root": {
-      background: "orange",
+  button: {
+    width: "50%",
+    borderRadius: 7,
+    background: "#C4C4C4",
+    "& img": {
+      opacity: 0.5,
+    },
+    "&.Mui-selected": {
+      background: "#275C78",
+      "& img": {
+        opacity: 1,
+      },
     },
   },
 });
 
-class DayNightToggle extends Component {
-  state = { value: "day" };
-  handleValue = (e, newValue) => {
-    console.log("Newvalue: ", e.target.value);
-    this.setState({ value: newValue });
+export default function ToggleButtons() {
+  const [alignment, setAlignment] = React.useState("left");
+  const classes = useStyles();
+  const handleAlignment = (event, newAlignment) => {
+    setAlignment(newAlignment);
   };
 
-  render() {
-    const { value } = this.state;
-    const { classes } = this.props;
-    return (
-      <div className={classes.toggleGroup}>
-        <button>
-          <img style={{ opacity: value === "day" ? 1 : 0.5 }} src={dayIcon} />
-        </button>
-
-        <button>
-          <img
-            style={{ opacity: value === "night" ? 1 : 0.5 }}
-            src={nightIcon}
-          />
-        </button>
-      </div>
-    );
-  }
+  return (
+    <ToggleButtonGroup
+      className={classes.group}
+      value={alignment}
+      exclusive
+      onChange={handleAlignment}
+      aria-label="text alignment"
+    >
+      <ToggleButton
+        className={classes.button}
+        value="left"
+        aria-label="left aligned"
+      >
+        <img className={classes.img} src={dayIcon} />
+      </ToggleButton>
+      <ToggleButton
+        className={classes.button}
+        value="center"
+        aria-label="centered"
+        style={{ paddingBottom: 4 }}
+      >
+        <img src={nightIcon} />
+      </ToggleButton>
+    </ToggleButtonGroup>
+  );
 }
-
-export default withStyles(styles)(DayNightToggle);
