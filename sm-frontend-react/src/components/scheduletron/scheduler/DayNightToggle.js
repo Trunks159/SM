@@ -8,21 +8,32 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles({
   group: {
     display: "flex",
-    height: 100,
+    height: 40,
     width: 100,
+    marginLeft : 'auto',
   },
   button: {
     width: "50%",
     borderRadius: 7,
-    background: "#C4C4C4",
+    backgroundColor: "#C4C4C4",
+
+    '&:hover':{
+        backgroundColor : '#C4C4C4',
+        opacity : .8,
+    },
     "& img": {
       opacity: 0.5,
     },
     "&.Mui-selected": {
-      background: "#275C78",
+      '&:hover':{
+        backgroundColor : '#275C78',
+        opacity : .8,
+    },
+      backgroundColor: "#275C78",
       "& img": {
         opacity: 1,
       },
+
     },
   },
 });
@@ -31,6 +42,7 @@ export default function ToggleButtons() {
   const [alignment, setAlignment] = React.useState("left");
   const classes = useStyles();
   const handleAlignment = (event, newAlignment) => {
+    console.log('NewAlignment: ', newAlignment)
     setAlignment(newAlignment);
   };
 
@@ -47,13 +59,13 @@ export default function ToggleButtons() {
         value="left"
         aria-label="left aligned"
       >
-        <img className={classes.img} src={dayIcon} />
+        <img style={{paddingTop : 6}} className={classes.img} src={dayIcon} />
       </ToggleButton>
       <ToggleButton
         className={classes.button}
         value="center"
         aria-label="centered"
-        style={{ paddingBottom: 4 }}
+        style={{ paddingBottom: 1 }}
       >
         <img src={nightIcon} />
       </ToggleButton>

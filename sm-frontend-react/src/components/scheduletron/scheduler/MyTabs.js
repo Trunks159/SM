@@ -68,6 +68,7 @@ class TabsContainer extends Component {
       <div className="tabs-container">
         <Tabs days={days} />
         <DayNightToggle />
+        
         <Actions />
       </div>
     );
