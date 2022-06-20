@@ -65,19 +65,54 @@
   transition: 0s;
 }
 
-.daynight-group {
-
-  width: 100px;
-  height: 100px;
-  background-color: #C4C4C4;
+.actions-drawer{
+  position: fixed;
   display: flex;
-  justify-content: space-evenly;
-  margin: 50px;
-  align-items: center;
+  flex-direction: column;
+  right : 10px;
+  bottom: 0px;
 }
 
-.daynight-group button{
+.actions-drawer-mainButton{
+  border: none;
+  border-radius: 7px 7px 0px 0px;
+  background-color: #FF4B4B;
+  width : 60px;
+  height: 40px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actions-drawer-mainButton:hover{
+  background-color: #FF0000;
+}
+
+.time-slot{
+  height: 66px;
+  background: #2B9DD9;
+  width:200px;
+  color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 7px;
+  margin-top:20px ;
+}
+
+.time-slot:hover{
+  background-color: #00A7FF;
+}
+
+.switch-button{
   background: none;
   border: none;
-  padding: 0px;
+}
+
+.bar-graph{
+  display: flex;
+  flex-direction: column;
+  margin : 0px 28px
 }

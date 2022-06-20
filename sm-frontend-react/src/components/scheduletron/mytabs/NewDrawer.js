@@ -18,27 +18,9 @@ class NewDrawer extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          position: "fixed",
-          display: "flex",
-          flexDirection: "column",
-          right: 10,
-          bottom: 0,
-        }}
-      >
+      <div className="actions-drawer">
         <button
-          style={{
-            border: "none",
-            borderRadius: "7px 7px 0px 0px",
-            background: "#FF4B4B",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 60,
-            height: 40,
-            marginLeft: "auto",
-          }}
+          className="actions-drawer-mainButton"
           onClick={this.toggleDrawer}
         >
           <img

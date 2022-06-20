@@ -3,8 +3,8 @@ import { withStyles } from "@material-ui/styles";
 import { Route, Switch, withRouter } from "react-router-dom";
 import SideNav from "./nav/SideNav";
 import Home from "./home/Home";
-import Scheduler from "./scheduler/Scheduler";
 import WeekBar from "./WeekBar";
+import MyTabs from "./mytabs/MyTabs";
 
 const styles = () => ({
   main: {
@@ -24,6 +24,7 @@ class Scheduletron extends Component {
     selected: null,
     day: null,
     isDesktop: false,
+    screenWidth: 0,
   };
 
   componentDidMount = () => {
@@ -48,7 +49,7 @@ class Scheduletron extends Component {
 
   updatePredicate = () => {
     const isDesktop = window.innerWidth > 600;
-    this.setState({ isDesktop: isDesktop });
+    this.setState({ isDesktop: isDesktop, screenWidth: window.innerWidth });
   };
 
   setScheduleSet = (scheduleSet) => {
@@ -75,7 +76,7 @@ class Scheduletron extends Component {
 
   render() {
     const { classes } = this.props;
-    const { schedules, selected, day, isDesktop } = this.state;
+    const { schedules, selected, screenWidth } = this.state;
     console.log("Selected thing: ", selected);
     return schedules ? (
       <div className={classes.main}>
@@ -110,12 +111,13 @@ class Scheduletron extends Component {
                 : null;
               console.log("The day i found : ", day);
               return (
-                <Scheduler
+                <MyTabs
                   dayId={match.params.day}
                   day={day}
                   days={selected && selected.week}
                   handleSelect={this.handleSelect}
                   setScheduleSet={this.setScheduleSet}
+                  screenWidth={screenWidth}
                 />
               );
             }}
