@@ -9,7 +9,7 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import SlideSwitch from "./SlideSwitch";
 import { Alert } from "@material-ui/lab";
-import { timesToValues, valueToDt } from "../mySlider/TimeFunctions";
+import { timesToValues, valueToDt } from "../TimeFunctions";
 
 const weekdays = [
   "monday",
@@ -19,7 +19,7 @@ const weekdays = [
   "friday",
   "saturday",
   "sunday",
-]
+];
 
 const styles = () => ({
   stuff: {},
@@ -36,7 +36,7 @@ const styles = () => ({
     margin: "20px",
     display: "flex",
     flexDirection: "column",
-    overflowY :'auto',
+    overflowY: "auto",
   },
 
   submitBtn: {
@@ -46,13 +46,13 @@ const styles = () => ({
     alignSelf: "center",
     color: "white",
   },
-  days : {
-    display :'flex',
-    width : '100%',
-    flexDirection :'column',
-    height : '80%',
-    overflowY :'auto',
-  }
+  days: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "column",
+    height: "80%",
+    overflowY: "auto",
+  },
 });
 
 class AvailabilityForm extends Component {
@@ -90,22 +90,22 @@ class AvailabilityForm extends Component {
 
   handleSlider = (e, new_value, name) => {
     let { days } = this.state;
-    let day = this.state.days.find((day)=>day.name === name);
-   
+    let day = this.state.days.find((day) => day.name === name);
+
     if (day) {
       const index = days.indexOf(day);
       days.splice(index, 1);
       day.value = new_value;
       days.push(day);
       this.setState({ days: days });
-    } 
+    }
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
     let { days } = this.state;
     const { postReq, user } = this.props;
-   /* days = days.filter((item) => item.checked);*/
+    /* days = days.filter((item) => item.checked);*/
     if (days) {
       days = days.map((day) => {
         return {
@@ -123,8 +123,6 @@ class AvailabilityForm extends Component {
       this.setState({ snackbar: { open: true } });
     }
   };
-
-
 
   render() {
     const { classes, user } = this.props;
@@ -153,20 +151,20 @@ class AvailabilityForm extends Component {
         <Typography>Nights</Typography>
 
         <Divider className={classes.divider} />
-        <div className = {classes.days}>
-        {weekdays.map((day) => {
-          const d = this.state.days.find((x) => x.name === day);
-          return (
-            <SlideSwitch
-              name={day}
-              handleSwitch={this.handleSwitch}
-              handleSlider={this.handleSlider}
-              checked={d.checked}
-              value={d.value}
-              key={user.id}
-            />
-          );
-        })}
+        <div className={classes.days}>
+          {weekdays.map((day) => {
+            const d = this.state.days.find((x) => x.name === day);
+            return (
+              <SlideSwitch
+                name={day}
+                handleSwitch={this.handleSwitch}
+                handleSlider={this.handleSlider}
+                checked={d.checked}
+                value={d.value}
+                key={user.id}
+              />
+            );
+          })}
         </div>
 
         <Snackbar

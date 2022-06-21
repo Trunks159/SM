@@ -1,13 +1,13 @@
 import React from "react";
 import { Slider } from "@material-ui/core";
 import { styled } from "@material-ui/core/styles";
-import { valueToDt, miliToReg, getMarks } from "./TimeFunctions";
+import { valueToDt, miliToReg, getMarks } from "../TimeFunctions";
 
 const StyledSlider = styled(Slider)({
   margin: 0,
-  padding :0,
+  padding: 0,
   color: "#328F83",
-  position:'relative',
+  position: "relative",
   "& .MuiSlider-thumb": {
     backgroundColor: "#328F83",
     width: 12,
@@ -27,17 +27,17 @@ const StyledSlider = styled(Slider)({
     },
   },
   "& .MuiSlider-markLabel": {
-    top : -15,
+    top: -15,
     fontSize: 10,
   },
 });
 
-const MySlider = ({id, handleSlider, value, classes }) => {
+const MySlider = ({ id, handleSlider, value, classes }) => {
   return (
     <StyledSlider
       /*I changed name to id so watch out bro */
       className={classes}
-      defaultValue = {[0,50]}
+      defaultValue={[0, 50]}
       value={value}
       marks={getMarks()}
       valueLabelFormat={(value) =>

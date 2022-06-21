@@ -1,7 +1,7 @@
 import { Paper } from "@material-ui/core";
 import TimeLine from "./TimeLine";
 import { Tooltip } from "@material-ui/core";
-import { timeToValue } from "../user/TimeFunctions";
+import { timeToValue } from "../TimeFunctions";
 import scheduleIcon from "../../assets/images/Schedule Icon Watermark.svg";
 import "./schedulepaper.css";
 import React, { Component } from "react";

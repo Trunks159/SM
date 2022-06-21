@@ -101,7 +101,9 @@ class TabsContainer extends Component {
             {screenWidth > 849 ? <DayNightSwitches /> : <DayNightToggle />}
             <div className="bar-graph">
               <TimeLine isDesktop={screenWidth >= 849} />
-              <TimeSlot />
+              {day.workblocks.map((workblock) => (
+                <TimeSlot workblock={workblock} />
+              ))}
             </div>
           </div>
 

@@ -1,56 +1,44 @@
 import React from "react";
+import { timeToValue } from "../../TimeFunctions";
 
-const test1 = () => {
-  const availableTimes = [6, 15];
+const timeslotPosition = (availableTimes = [6, 15], workslot = [2, 17]) => {
+  /*Returns marginleft and width of the timeslot and lets
+    react know whether theres overflow or not
+  */
   const availableTimesDiff = availableTimes[1] - availableTimes[0];
-  const workslot = [7, 12];
-  const workslotDiff = workslot[1] - workslot[0];
-  const width = (workslotDiff / availableTimesDiff) * 100 + "%";
-  const marginLeft =
-    ((workslot[0] - availableTimes[0]) / availableTimesDiff) * 100 + "%";
-  return { marginLeft: marginLeft, width: width };
-};
-
-const test2 = () => {
-  const availableTimes = [6, 15];
-  const availableTimesDiff = availableTimes[1] - availableTimes[0];
-  const workslot = [2, 12];
-  let marginLeft =
-    ((workslot[0] - availableTimes[0]) / availableTimesDiff) * 100;
-  const width = ((workslot[1] - availableTimes[0]) / availableTimesDiff) * 100;
-
-  return { marginLeft: marginLeft, width: width };
-};
-
-const test3 = () => {
-  const availableTimes = [6, 15];
-  const workslot = [2, 12];
   const marginLeft = workslot[0] - availableTimes[0];
-  const marginRight = availableTimes[1] - workslot[1] ;
-  const overflowLeft = Math.abs(marginLeft)
-  const overflowRight = Math.abs(marginRight)
-  const width = workslot[1] - workslot[0] - overflowLeft - overflowRight; 
-  return {width : width * 100 + '%', marginLeft : marginLeft * 100 + '%', overflowLeft : Boolean(overflowLeft), overflowRight : Boolean(overflowRight) };
+  const marginRight = availableTimes[1] - workslot[1];
+  const overflowLeft = marginLeft < 0 ? Math.abs(marginLeft) : 0;
+  const overflowRight = marginRight < 0 ? Math.abs(marginRight) : 0;
+  const width = workslot[1] - workslot[0] - overflowLeft - overflowRight;
+  const toPercentage = (item) => (item / availableTimesDiff) * 100 + "%";
+  return {
+    width: toPercentage(width),
+    marginLeft: marginLeft < 0 ? "0%" : toPercentage(marginLeft),
+    overflowLeft: overflowLeft !== 0,
+    overflowRight: overflowRight !== 0,
+  };
 };
 
-console.log("Test1: ", test2());
-
-const TimeSlot = () => {
-  const {overflowLeft, width, marginLeft, overflowRight} = test3();
-  const [background, setBackground] = React.useState('#2B9DD9');
-  const handleMouseEnter = ()=> setBackground('#00A7FF');
-  const handleMouseLeave = ()=> setBackground('#2B9DD9');
+const TimeSlot = ({ workblock, timelineRange }) => {
+  const { overflowLeft, overflowRight, width, marginLeft } = timeslotPosition();
+  const [background, setBackground] = React.useState("#2B9DD9");
+  const handleMouseEnter = () => setBackground("#00A7FF");
+  const handleMouseLeave = () => setBackground("#2B9DD9");
+  console.log("StartTime: ", workblock);
   return (
     <div
       className="time-slot"
       style={{
         minWidth: 130,
-        width :width,
-        marginLeft  : marginLeft  ,
-        borderRadius: `${overflowLeft ? '0px' : '7px'} ${overflowRight ? '0px' : '7px'} ${overflowRight ? '0px' : '7px'} ${overflowLeft ? '0px' : '7px'}` ,
+        width: width,
+        marginLeft: marginLeft,
+        borderRadius: `${overflowLeft ? "0px" : "7px"} ${
+          overflowRight ? "0px" : "7px"
+        } ${overflowRight ? "0px" : "7px"} ${overflowLeft ? "0px" : "7px"}`,
       }}
-      onMouseEnter = {handleMouseEnter}
-      onMouseLeave = {handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <p
         style={{
@@ -75,21 +63,38 @@ const TimeSlot = () => {
       >
         2am - 1pm
       </p>
-
-      <svg
-        width={20}
-        height={"66px"}
-        style={{ position: "absolute", left: -20 }}
-      >
-        <line
-          strokeDasharray="1, 2"
-          x1={0}
-          y1={0}
-          x2="100%"
-          strokeWidth={"300px"}
-          stroke={background}
-        />
-      </svg>
+      {overflowLeft && (
+        <svg
+          width={20}
+          height={"66px"}
+          style={{ position: "absolute", left: -20 }}
+        >
+          <line
+            strokeDasharray="1, 2"
+            x1={0}
+            y1={0}
+            x2="100%"
+            strokeWidth={"300px"}
+            stroke={background}
+          />
+        </svg>
+      )}
+      {overflowRight && (
+        <svg
+          width={20}
+          height={"66px"}
+          style={{ position: "absolute", right: -20 }}
+        >
+          <line
+            strokeDasharray="1, 2"
+            x1={0}
+            y1={0}
+            x2="100%"
+            strokeWidth={"300px"}
+            stroke={background}
+          />
+        </svg>
+      )}
     </div>
   );
 };
