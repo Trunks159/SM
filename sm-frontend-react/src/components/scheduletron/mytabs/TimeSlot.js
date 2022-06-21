@@ -22,17 +22,35 @@ const test2 = () => {
   return { marginLeft: marginLeft, width: width };
 };
 
+const test3 = () => {
+  const availableTimes = [6, 15];
+  const workslot = [2, 12];
+  const marginLeft = workslot[0] - availableTimes[0];
+  const marginRight = availableTimes[1] - workslot[1] ;
+  const overflowLeft = Math.abs(marginLeft)
+  const overflowRight = Math.abs(marginRight)
+  const width = workslot[1] - workslot[0] - overflowLeft - overflowRight; 
+  return {width : width * 100 + '%', marginLeft : marginLeft * 100 + '%', overflowLeft : Boolean(overflowLeft), overflowRight : Boolean(overflowRight) };
+};
+
 console.log("Test1: ", test2());
 
 const TimeSlot = () => {
-  const styles = test2();
+  const {overflowLeft, width, marginLeft, overflowRight} = test3();
+  const [background, setBackground] = React.useState('#2B9DD9');
+  const handleMouseEnter = ()=> setBackground('#00A7FF');
+  const handleMouseLeave = ()=> setBackground('#2B9DD9');
   return (
     <div
       className="time-slot"
       style={{
         minWidth: 130,
-        borderRadius: styles.marginLeft < 0 ? "0px 7px 7px 0px" : "7px",
+        width :width,
+        marginLeft  : marginLeft  ,
+        borderRadius: `${overflowLeft ? '0px' : '7px'} ${overflowRight ? '0px' : '7px'} ${overflowRight ? '0px' : '7px'} ${overflowLeft ? '0px' : '7px'}` ,
       }}
+      onMouseEnter = {handleMouseEnter}
+      onMouseLeave = {handleMouseLeave}
     >
       <p
         style={{
@@ -69,7 +87,7 @@ const TimeSlot = () => {
           y1={0}
           x2="100%"
           strokeWidth={"300px"}
-          stroke={"#2B9DD9"}
+          stroke={background}
         />
       </svg>
     </div>

@@ -114,5 +114,5 @@
 .bar-graph{
   display: flex;
   flex-direction: column;
-  margin : 0px 28px
+  margin : 0px 28px;
 }
