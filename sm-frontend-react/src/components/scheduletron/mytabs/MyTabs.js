@@ -6,6 +6,16 @@ import DayNightToggle from "./daynight/DayNightToggle";
 import DayNightSwitches from "./daynight/DayNightSwitches";
 import TimeLine from "./TimeLine";
 import TimeSlot from "./TimeSlot";
+import { touchRippleClasses } from "@mui/material";
+
+const timelineRange = ({ day, night }) => {
+  if (day && night) {
+    return ["6:00", "23:59"];
+  } else if (day === true && night === false) {
+    return ["6:00", "15:00"];
+  }
+  return ["15:00", "23:59"];
+};
 
 const Tab = ({ weekday, date, index, value, handleTab }) => {
   const isActive = index === value;
@@ -67,6 +77,12 @@ class TabsContainer extends Component {
   state = {
     day: this.props.day,
     days: this.props.days,
+    shiftFilter: { day: true, night: true },
+  };
+
+  handleShiftFilter = (newValue) => {
+    console.log("Duh new value: ", newValue);
+    this.setState({ shiftFilter: newValue });
   };
 
   componentDidMount = () => {
@@ -91,16 +107,29 @@ class TabsContainer extends Component {
   };
 
   render() {
-    const { days, day } = this.state;
+    const { days, day, shiftFilter } = this.state;
     const { screenWidth } = this.props;
     return (
       day && (
         <div className="tabs-container">
           <Tabs days={this.state.days} />
           <div className="tab-content">
-            {screenWidth > 849 ? <DayNightSwitches /> : <DayNightToggle />}
+            {screenWidth > 849 ? (
+              <DayNightSwitches
+                handleShiftFilter={this.handleShiftFilter}
+                shiftFilter={shiftFilter}
+              />
+            ) : (
+              <DayNightToggle
+                handleShiftFilter={this.handleShiftFilter}
+                shiftFilter={shiftFilter}
+              />
+            )}
             <div className="bar-graph">
-              <TimeLine isDesktop={screenWidth >= 849} />
+              <TimeLine
+                timelineRange={timelineRange(this.state.shiftFilter)}
+                isDesktop={screenWidth >= 849}
+              />
               {day.workblocks.map((workblock) => (
                 <TimeSlot workblock={workblock} />
               ))}
