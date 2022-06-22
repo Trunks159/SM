@@ -1,3 +1,9 @@
+function timeToFloat(time) {
+  //Converts string time 00:00 to an float
+  const d = new Date("January 1, 1980 " + time + ":00");
+  return d.getHours() + d.getMinutes() / 60;
+}
+
 function arrayOfDates() {
   /*Returns Array of Dates ranging from 7:00AM to 11:30PM */
   let t = new Date();
@@ -29,15 +35,13 @@ function timesToValues(times) {
   */
 
   return times
-    ? times
-        .split("-")
-        .map((t) => timeToValue(t))
+    ? times.split("-").map((t) => timeToValue(t))
     : timesToValues("08:00-15:30");
 }
 
-function timeToValue(time){
+function timeToValue(time) {
   /*Takes time in xx:xx format and retrns a value between 0 - 100*/
-  return dtToValue(new Date("January 1, 1980 " + time + ":00"))
+  return dtToValue(new Date("January 1, 1980 " + time + ":00"));
 }
 
 function miliToReg(time) {
@@ -86,4 +90,5 @@ export {
   timeToValue,
   miliToReg,
   getMarks,
+  timeToFloat,
 };

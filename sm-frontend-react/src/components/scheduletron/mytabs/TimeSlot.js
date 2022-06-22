@@ -1,10 +1,12 @@
 import React from "react";
-import { timeToValue } from "../../TimeFunctions";
+import { timeToFloat } from "../../TimeFunctions";
 
 const timeslotPosition = (availableTimes = [6, 15], workslot = [2, 17]) => {
   /*Returns marginleft and width of the timeslot and lets
     react know whether theres overflow or not
   */
+
+  console.log("Get stuff: ", availableTimes, workslot);
   const availableTimesDiff = availableTimes[1] - availableTimes[0];
   const marginLeft = workslot[0] - availableTimes[0];
   const marginRight = availableTimes[1] - workslot[1];
@@ -20,12 +22,15 @@ const timeslotPosition = (availableTimes = [6, 15], workslot = [2, 17]) => {
   };
 };
 
-const TimeSlot = ({ workblock, timelineRange }) => {
-  const { overflowLeft, overflowRight, width, marginLeft } = timeslotPosition();
+const TimeSlot = ({ shiftFilter, availableTimes, workslot }) => {
   const [background, setBackground] = React.useState("#2B9DD9");
   const handleMouseEnter = () => setBackground("#00A7FF");
   const handleMouseLeave = () => setBackground("#2B9DD9");
-  console.log("StartTime: ", workblock);
+
+  const { overflowLeft, overflowRight, width, marginLeft } = timeslotPosition(
+    availableTimes,
+    workslot
+  );
   return (
     <div
       className="time-slot"

@@ -6,7 +6,7 @@ import DayNightToggle from "./daynight/DayNightToggle";
 import DayNightSwitches from "./daynight/DayNightSwitches";
 import TimeLine from "./TimeLine";
 import TimeSlot from "./TimeSlot";
-import { touchRippleClasses } from "@mui/material";
+import { timeToFloat } from "../../TimeFunctions";
 
 const getTimelineRange = ({ day, night }) => {
   if (day && night) {
@@ -127,12 +127,29 @@ class TabsContainer extends Component {
             )}
             <div className="bar-graph">
               <TimeLine
-                timelineRange={getTimelineRange(this.state.shiftFilter)}
+                shiftFilter={shiftFilter}
                 isDesktop={screenWidth >= 849}
               />
-              {day.workblocks.map((workblock) => (
-                <TimeSlot workblock={workblock} />
-              ))}
+              {day.workblocks.map(({ startTime, endTime }) => {
+                const availableTimes = getTimelineRange(shiftFilter).map((av) =>
+                  timeToFloat(av)
+                );
+                const workslot = [timeToFloat(startTime), timeToFloat(endTime)];
+
+                const isBetween = (value, range) =>
+                  value > range[0] && value < range[1];
+                return (
+                  //if the user works outside of the time range dont render them
+                  (isBetween(workslot[0], availableTimes) ||
+                    isBetween(workslot[1], availableTimes)) && (
+                    <TimeSlot
+                      availableTimes={availableTimes}
+                      workslot={workslot}
+                      shiftFilter={shiftFilter}
+                    />
+                  )
+                );
+              })}
             </div>
           </div>
 

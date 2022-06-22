@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { display } from "@mui/system";
 
 const TimeLine = ({ isDesktop }) => {
   const times = isDesktop
