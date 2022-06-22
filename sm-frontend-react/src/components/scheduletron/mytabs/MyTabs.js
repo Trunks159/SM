@@ -8,10 +8,10 @@ import TimeLine from "./TimeLine";
 import TimeSlot from "./TimeSlot";
 import { touchRippleClasses } from "@mui/material";
 
-const timelineRange = ({ day, night }) => {
+const getTimelineRange = ({ day, night }) => {
   if (day && night) {
     return ["6:00", "23:59"];
-  } else if (day === true && night === false) {
+  } else if (day === true) {
     return ["6:00", "15:00"];
   }
   return ["15:00", "23:59"];
@@ -127,7 +127,7 @@ class TabsContainer extends Component {
             )}
             <div className="bar-graph">
               <TimeLine
-                timelineRange={timelineRange(this.state.shiftFilter)}
+                timelineRange={getTimelineRange(this.state.shiftFilter)}
                 isDesktop={screenWidth >= 849}
               />
               {day.workblocks.map((workblock) => (
