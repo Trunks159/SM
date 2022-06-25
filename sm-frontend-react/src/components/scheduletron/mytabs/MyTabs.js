@@ -130,26 +130,35 @@ class TabsContainer extends Component {
                 shiftFilter={shiftFilter}
                 isDesktop={screenWidth >= 849}
               />
-              {day.workblocks.map(({ startTime, endTime }) => {
-                const availableTimes = getTimelineRange(shiftFilter).map((av) =>
-                  timeToFloat(av)
-                );
-                const workslot = [timeToFloat(startTime), timeToFloat(endTime)];
+              <div
+                style={{ display: "flex", flexDirection: "column", gap: 10 }}
+              >
+                {day.workblocks.map((workblock) => {
+                  const availableTimes = getTimelineRange(shiftFilter).map(
+                    (av) => timeToFloat(av)
+                  );
+                  const workslot = [
+                    timeToFloat(workblock.startTime),
+                    timeToFloat(workblock.endTime),
+                  ];
 
-                const isBetween = (value, range) =>
-                  value > range[0] && value < range[1];
-                return (
-                  //if the user works outside of the time range dont render them
-                  (isBetween(workslot[0], availableTimes) ||
-                    isBetween(workslot[1], availableTimes)) && (
-                    <TimeSlot
-                      availableTimes={availableTimes}
-                      workslot={workslot}
-                      shiftFilter={shiftFilter}
-                    />
-                  )
-                );
-              })}
+                  const isBetween = (value, range) =>
+                    value > range[0] && value < range[1];
+                  return (
+                    //if the user works outside of the time range dont render them
+                    (isBetween(workslot[0], availableTimes) ||
+                      isBetween(workslot[1], availableTimes)) && (
+                      <TimeSlot
+                        availableTimes={availableTimes}
+                        workslot={workslot}
+                        shiftFilter={shiftFilter}
+                        user={workblock.user}
+                        workblock={workblock}
+                      />
+                    )
+                  );
+                })}
+              </div>
             </div>
           </div>
 

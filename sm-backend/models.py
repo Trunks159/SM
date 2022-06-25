@@ -251,6 +251,7 @@ class WorkBlock(db.Model):
 
     def to_json(self):
         return{
+            'wbId': self.id,
             'user': self.get_user(),
             'startTime': self.start_time,
             'endTime': self.end_time,

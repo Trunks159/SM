@@ -1,19 +1,31 @@
-import React from "react";
+import * as React from "react";
+import { alpha, styled } from "@mui/material/styles";
+import { pink } from "@mui/material/colors";
 import Switch from "@mui/material/Switch";
-import dayIcon from "../../../../assets/images/Day Icon Desktop.svg";
-import nightIcon from "../../../../assets/images/Night Icon Desktop.svg";
 
-export default function BasicSwitches() {
+const MySwitch = styled(Switch)(({ theme }) => ({
+  "& .MuiSwitch-switchBase.Mui-checked": {
+    color: "white",
+    "&:hover": {
+      backgroundColor: "white",
+    },
+  },
+  "& .MuiSwitch-track": {
+    backgroundColor: "#275C78",
+  },
+  width: 200,
+}));
+
+const label = { inputProps: { "aria-label": "Switch demo" } };
+
+export default function ColorSwitches() {
   return (
-    <div>
-      <button className="switch-button">
-        <img src={dayIcon} />
-        <Switch defaultChecked />
-      </button>
-      <button className="switch-button">
-        <img src={nightIcon} />
-        <Switch defaultChecked />
-      </button>
+    <div style={{}}>
+      <Switch {...label} defaultChecked />
+      <Switch {...label} defaultChecked color="secondary" />
+      <Switch {...label} defaultChecked color="warning" />
+      <Switch {...label} defaultChecked color="default" />
+      <MySwitch defaultChecked />
     </div>
   );
 }

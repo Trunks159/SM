@@ -69,11 +69,10 @@ class App extends Component {
     });
 
     this.fetchUsers();
-
     return rawResponse;
   };
 
-  //Places an alert of some kind under the nav bar
+  //Places an alert of some kind at the top of the screen
   notifyUser = (message) => {
     this.setState({
       message: message,
@@ -95,7 +94,6 @@ class App extends Component {
       .then((response) => response.json())
       .then(() => {
         this.fetchUsers();
-        this.updatePredicate();
         this.notifyUser();
       });
   };

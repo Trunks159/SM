@@ -1,10 +1,22 @@
 import React, { Component } from "react";
 
-const TimeLine = ({ isDesktop }) => {
-  const times = isDesktop
-    ? ["6am", "10:30am", "3pm", "7:30pm", "12am"]
-    : ["6am", "10:30am", "3pm"];
+const getTimeLabels = (shiftFilter) => {
+  const { day, night } = shiftFilter;
+  const labels = {
+    both: ["6am", "10:30am", "3pm", "7:30pm", "12am"],
+    day: ["6am", "10:30am", "3pm"],
+    night: ["3pm", "7:30pm", "12am"],
+  };
+  if (day && night) {
+    return labels.both;
+  } else if (day) {
+    return labels.day;
+  }
+  return labels.night;
+};
 
+const TimeLine = ({ shiftFilter }) => {
+  const timeLabels = getTimeLabels(shiftFilter);
   return (
     <div
       style={{
@@ -21,7 +33,7 @@ const TimeLine = ({ isDesktop }) => {
           padding: 0,
         }}
       >
-        {times.map((time, index) => (
+        {timeLabels.map((time, index) => (
           <p
             style={{
               textTransform: "uppercase",

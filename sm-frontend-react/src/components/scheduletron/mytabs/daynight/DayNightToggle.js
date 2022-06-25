@@ -40,7 +40,7 @@ const styles = () => ({
 class ToggleButtons extends Component {
   state = {};
   componentDidMount = () => {
-    this.props.handleShiftFilter({ day: true, night :false });
+    this.props.handleShiftFilter({ day: true, night: false });
   };
   render() {
     const { isDesktop, handleShiftFilter, shiftFilter, classes } = this.props;
@@ -48,9 +48,10 @@ class ToggleButtons extends Component {
       <ToggleButtonGroup
         className={classes.group}
         value={shiftFilter.day ? "day" : "night"}
-        exclusive
+        exclusive={!isDesktop}
         onChange={(e, newValue) =>
-          newValue && handleShiftFilter({
+          newValue &&
+          handleShiftFilter({
             day: newValue === "day",
             night: newValue === "night",
           })

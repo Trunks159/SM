@@ -55,7 +55,7 @@ function miliToReg(time) {
   if (h > 12) {
     return (h - 12).toString() + ":" + convertMin(m) + "PM";
   } else if (h === 12) {
-    return h.toString() + ":" + convertMin(m) + "N";
+    return h.toString() + ":" + convertMin(m) + "PM";
   }
   return h.toString() + ":" + convertMin(m) + "AM";
 }
