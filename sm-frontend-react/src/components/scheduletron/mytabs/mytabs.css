@@ -13,6 +13,7 @@
   top : 0;
 }
 
+
 .tab {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   flex-shrink: 0;
@@ -104,13 +105,4 @@
 
 .time-slot:hover{
   background-color: #00A7FF;
-}
-
-.switch-button{
-}
-
-.bar-graph{
-  display: flex;
-  flex-direction: column;
-  margin : 0px 28px;
 }

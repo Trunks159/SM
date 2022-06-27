@@ -1,5 +1,5 @@
 import React from "react";
-import { timeToFloat, miliToReg } from "../../TimeFunctions";
+import { miliToReg } from "../../../../TimeFunctions";
 //***I have the idea to hide text depending on name character length
 
 const timeslotPosition = (availableTimes = [6, 15], workslot = [2, 17]) => {
@@ -12,7 +12,8 @@ const timeslotPosition = (availableTimes = [6, 15], workslot = [2, 17]) => {
   const marginRight = availableTimes[1] - workslot[1];
   const overflowLeft = marginLeft < 0 ? Math.abs(marginLeft) : 0;
   const overflowRight = marginRight < 0 ? Math.abs(marginRight) : 0;
-  const width = workslot[1] - workslot[0] - overflowLeft - overflowRight;
+  const trueWidth = workslot[1] - workslot[0];
+  const width = trueWidth - overflowLeft - overflowRight;
   const toPercentage = (item) => (item / availableTimesDiff) * 100 + "%";
   console.log("Get stuff: ", width / availableTimesDiff);
   return {
@@ -20,7 +21,9 @@ const timeslotPosition = (availableTimes = [6, 15], workslot = [2, 17]) => {
     marginLeft: marginLeft < 0 ? "0%" : toPercentage(marginLeft),
     overflowLeft: overflowLeft !== 0,
     overflowRight: overflowRight !== 0,
-    hideSelf: width / availableTimesDiff < 0.33,
+    //if > 70% of the shift is within the current filter
+    //display it
+    hideSelf: width / trueWidth < 0.3,
   };
 };
 

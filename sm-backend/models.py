@@ -264,7 +264,7 @@ class WorkBlock(db.Model):
 
     def get_user(self):
         user = User.query.filter_by(id=self.user_id).first()
-        return {'firstName': user.first_name, 'lastName': user.last_name}
+        return {'firstName': user.first_name, 'lastName': user.last_name, 'id': user.id}
 
     def __repr__(self):
         return 'Workblock, UserID:{} Start and End Time: {}'.format(self.user_id, self.start_time + '-' + self.end_time)

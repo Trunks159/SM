@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import dayIcon from "../../../../assets/images/Day Icon.svg";
-import nightIcon from "../../../../assets/images/Night Icon.svg";
+import dayIcon from "../../../../../assets/images/Day Icon.svg";
+import nightIcon from "../../../../../assets/images/Night Icon.svg";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { withStyles } from "@material-ui/core";
@@ -38,9 +38,10 @@ const styles = () => ({
 });
 
 class ToggleButtons extends Component {
-  state = {};
   componentDidMount = () => {
-    this.props.handleShiftFilter({ day: true, night: false });
+    this.props.shiftFilter.day
+      ? this.props.handleShiftFilter({ day: true, night: false })
+      : this.props.handleShiftFilter({ day: false, night: true });
   };
   render() {
     const { isDesktop, handleShiftFilter, shiftFilter, classes } = this.props;

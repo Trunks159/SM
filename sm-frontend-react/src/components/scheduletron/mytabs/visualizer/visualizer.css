@@ -1,0 +1,22 @@
+.visualizer{
+  flex :1;
+  margin :20px;
+  margin-top: 10px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.timeline-labels {
+  display: flex;
+  justify-content: space-between;
+}
+
+.timeline-labels p {
+  text-transform: uppercase;
+  color: #888888;
+}

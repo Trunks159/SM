@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import { Divider } from "@mui/material";
+import React from "react";
 
 const getTimeLabels = (shiftFilter) => {
   const { day, night } = shiftFilter;
@@ -18,26 +19,12 @@ const getTimeLabels = (shiftFilter) => {
 const TimeLine = ({ shiftFilter }) => {
   const timeLabels = getTimeLabels(shiftFilter);
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        boxSizing: "border-box",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          padding: 0,
-        }}
-      >
+    <div className="timeline">
+      <div className="timeline-labels">
         {timeLabels.map((time, index) => (
           <p
+            key={index}
             style={{
-              textTransform: "uppercase",
-              color: "#888888",
               fontSize: index % 2 !== 0 ? ".75rem" : "1rem",
               marginTop: index % 2 !== 0 ? "auto" : 0,
             }}
@@ -46,16 +33,7 @@ const TimeLine = ({ shiftFilter }) => {
           </p>
         ))}
       </div>
-      <svg height={10}>
-        <line
-          style={{ margin: "0px 100px" }}
-          x1={0}
-          y1={0}
-          x2={"100%"}
-          y2={0}
-          stroke="#C1C1C1"
-        />
-      </svg>
+      <Divider />
     </div>
   );
 };
