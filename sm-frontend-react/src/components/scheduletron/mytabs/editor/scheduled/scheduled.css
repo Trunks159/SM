@@ -1,0 +1,15 @@
+.scheduled{
+    display: flex;
+    flex-direction: column;
+    gap : 10px;
+    margin : 10px;
+}
+
+.profile-tag{
+    width: 237px;
+    height : 87px;
+}
+
+.profile-tag h2{
+    position: absolute;
+}

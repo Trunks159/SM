@@ -1,11 +1,23 @@
-import {  ToggleButton } from "@mui/material";
-import {makeStyles} from '@mui/styles';
+import { ToggleButton } from "@mui/material";
+import { makeStyles } from "@material-ui/core";
 import React from "react";
 
 const useStyles = makeStyles({
   button: {
-    "& Mui-selected": {
+    textTransform: "capitalize",
+    width: 150,
+    background: "white",
+    color: "black",
+    borderRadius: 7,
+    transitionDuration: ".2s",
+    "&:hover": {
       background: "red",
+    },
+    "&.Mui-selected": {
+      background: "red",
+      "&:hover": {
+        background: "red",
+      },
     },
   },
 });
@@ -16,13 +28,6 @@ function MyToggleButton({ children }) {
   return (
     <ToggleButton
       className={classes.button}
-      style={{
-        textTransform: "capitalize",
-        width: 150,
-        background: "white",
-        color: "black",
-        borderRadius: 7,
-      }}
       value="check"
       selected={selected}
       onChange={() => {
