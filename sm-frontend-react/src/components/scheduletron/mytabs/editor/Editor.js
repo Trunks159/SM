@@ -1,6 +1,7 @@
-import { Divider } from "@mui/material";
+import { ToggleButton, Divider } from "@mui/material";
 import React, { Component } from "react";
 import { timeToValue } from "../../../TimeFunctions";
+import MyToggleButton from "./MyToggleButton";
 
 class Editor extends Component {
   state = {
@@ -26,26 +27,21 @@ class Editor extends Component {
     if (this.state.allUsers) {
       const availableUsers = this.getAvailableUsers();
       return (
-        <div style={{ flex: 1 }}>
-          <h2>Available Team Members</h2>
-          <Divider />
+        <div style={{ flex: 1, margin: "0px 10px", background: "#EAEAEA" }}>
+          <h2 style={{ margin: 20 }}>Available Team Members</h2>
+          <Divider sx={{ margin: "0px 10px" }} />
           <ul
             style={{
               display: "grid",
               width: 300,
               gridTemplateColumns: "1fr 1fr",
+              gridGap: 10,
             }}
           >
             {availableUsers.map(({ firstName, lastName }) => (
-              <p
-                style={{
-                  textTransform: "capitalize",
-                  width: 150,
-                  background: "red",
-                }}
-              >
+              <MyToggleButton>
                 {firstName} {lastName}
-              </p>
+              </MyToggleButton>
             ))}
           </ul>
         </div>
