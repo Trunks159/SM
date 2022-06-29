@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ProfileTag from "./ProfileTag";
+import ProfileTag from "./profiletag/ProfileTag";
 import "./scheduled.css";
 
 class Scheduled extends Component {

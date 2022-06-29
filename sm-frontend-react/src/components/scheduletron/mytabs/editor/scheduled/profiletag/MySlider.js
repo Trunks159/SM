@@ -1,7 +1,7 @@
 import React from "react";
 import { Slider } from "@material-ui/core";
 import { styled } from "@material-ui/core/styles";
-import { valueToDt, miliToReg, getMarks } from "../../../../TimeFunctions";
+import { valueToDt, miliToReg, getMarks } from "../../../../../TimeFunctions";
 
 const StyledSlider = styled(Slider)({
   margin: 0,
