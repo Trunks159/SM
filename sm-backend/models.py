@@ -256,6 +256,7 @@ class WorkBlock(db.Model):
             'startTime': self.start_time,
             'endTime': self.end_time,
             'date': self.get_date(),
+            'dayId': self.day_id,
         }
 
     def get_date(self):
@@ -264,7 +265,7 @@ class WorkBlock(db.Model):
 
     def get_user(self):
         user = User.query.filter_by(id=self.user_id).first()
-        return {'firstName': user.first_name, 'lastName': user.last_name, 'id': user.id}
+        return {'firstName': user.first_name, 'lastName': user.last_name, 'id': user.id, 'position': user.position}
 
     def __repr__(self):
         return 'Workblock, UserID:{} Start and End Time: {}'.format(self.user_id, self.start_time + '-' + self.end_time)

@@ -76,7 +76,7 @@ const TimeSlot = ({ availableTimes, workslot, user, workblock }) => {
             fontSize: "1.2rem",
           }}
         >
-          {user.firstName} {user.lastName}
+          {user.firstName} {user.lastName.charAt(0)}.
         </p>
         <p
           style={{
