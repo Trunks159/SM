@@ -5,36 +5,15 @@ import Available from "./available/Available";
 import Scheduled from "./scheduled/Scheduled";
 
 class Editor extends Component {
-  state = {
-    allUsers: [],
-    scheduledUsers: this.props.workblocks,
-  };
 
-  getAvailableUsers = () => {
-    const { allUsers, scheduledUsers } = this.state;
-    const scheduledUsersIds = scheduledUsers.map(({ user }) => user.id);
-
-    return allUsers.filter(({ id }) => scheduledUsersIds.includes(id));
-  };
-
-  componentDidMount = () => {
-    fetch("/users")
-      .then((response) => response.json())
-      .then(({ users }) => {
-        this.setState({ allUsers: users });
-      });
-  };
   render() {
-    if (this.state.allUsers) {
-      const availableUsers = this.getAvailableUsers();
-      return (
-        <div>
-          <Scheduled workblocks={this.state.scheduledUsers} />
-          {/*<Available availableUsers={availableUsers} />*/}
-        </div>
-      );
-    }
-    return null;
+    const {workblocks, removeFromSchedule, hidden} = this.props;
+    return (
+      <div hidden = {hidden}>
+        <Scheduled workblocks={workblocks} removeFromSchedule = {removeFromSchedule}/>
+        {/*<Available availableUsers={availableUsers} />*/}
+      </div>
+    );
   }
 }
 

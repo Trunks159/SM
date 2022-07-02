@@ -252,7 +252,7 @@ class WorkBlock(db.Model):
     def to_json(self):
         return{
             'wbId': self.id,
-            'user': self.get_user(),
+            'user': self.get_user_json(),
             'startTime': self.start_time,
             'endTime': self.end_time,
             'date': self.get_date(),
@@ -263,9 +263,10 @@ class WorkBlock(db.Model):
         day = Day.query.filter_by(id=self.day_id).first()
         return {'month': day.date.month, 'day': day.date.day, 'year': day.date.year}
 
-    def get_user(self):
+    def get_user_json(self):
         user = User.query.filter_by(id=self.user_id).first()
         return {'firstName': user.first_name, 'lastName': user.last_name, 'id': user.id, 'position': user.position}
+
 
     def __repr__(self):
         return 'Workblock, UserID:{} Start and End Time: {}'.format(self.user_id, self.start_time + '-' + self.end_time)

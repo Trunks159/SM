@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import "./mytabs.css";
 import Functions from "./functions/Functions";
-import Vizualizer from "./visualizer/Visualizer";
-import Editor from "./editor/Editor";
 import { Paper } from "@mui/material";
+import MainContent from "./MainContent";
 
 const Tab = ({ weekday, date, index, value, handleTab }) => {
   const isActive = index === value;
@@ -78,12 +77,8 @@ class TabsContainer extends Component {
               currentFunction={currentFunction}
               setCurrentFunction={this.setCurrentFunction}
             />
-            {currentFunction === 0 && (
-              <Vizualizer day={day} isDesktop={isDesktop} />
-            )}
-            {currentFunction === 1 && <Editor workblocks={day.workblocks} />}
-            {currentFunction === 2 && <div>Metrics</div>}
-            {currentFunction === 3 && <div>Save</div>}
+            <MainContent  isDesktop = {isDesktop} day = {day} currentFunction = {currentFunction}/>
+
           </Paper>
         </div>
       )

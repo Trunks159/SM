@@ -4,7 +4,7 @@ import { Paper, Button } from "@material-ui/core";
 import MySlider from "./MySlider";
 import profileIcon from "./assets/Large Profile Icon.svg";
 import removeIcon from "./assets/Remove Icon.svg";
-import expandIcon from "./assets/Expand Icon.svg";
+
 import ProfileInfo from "./ProfileInfo";
 import { timeToValue } from "../../../../../TimeFunctions";
 import "./profiletag.css";
@@ -23,25 +23,16 @@ const useStyles = makeStyles({
     width: "60%",
     transform: "translate(-50%, 0%)",
   },
-  expandBtn: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    padding: 10,
-    paddingRight: 12,
-    minWidth: 0,
-  },
 });
 
 const ProfileTag = ({
-  weekday,
-  id,
+  wbId,
   dayId,
   user,
   startTime,
   endTime,
   handleSlider,
-  handleClose,
+  removeFromSchedule,
 }) => {
   const [expanded, setExpanded] = React.useState(false);
   const classes = useStyles();
@@ -57,7 +48,12 @@ const ProfileTag = ({
           height: 87,
         }}
       >
-        <Button className={classes.deleteBtn} onClick={() => handleClose(id)}>
+        <Button
+          className={classes.deleteBtn}
+          onClick={() => {
+            return removeFromSchedule(wbId);
+          }}
+        >
           <img src={removeIcon} />
         </Button>
         <img className="profile-icon" src={profileIcon} />
@@ -72,19 +68,18 @@ const ProfileTag = ({
 
         <MySlider
           classes={classes.slider}
-          id={id}
+          id={wbId}
           handleSlider={handleSlider}
           value={[startTime, endTime].map((time) => timeToValue(time))}
         />
-        <Button
-          onClick={() => setExpanded(!expanded)}
-          className={classes.expandBtn}
-        >
-          <img src={expandIcon} />
-        </Button>
       </div>
 
-      <ProfileInfo expanded={expanded} userId={user.id} dayId={dayId} />
+      <ProfileInfo
+        setExpanded={setExpanded}
+        expanded={expanded}
+        userId={user.id}
+        dayId={dayId}
+      />
     </Paper>
   );
 };

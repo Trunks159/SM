@@ -1,7 +1,10 @@
+import calendar
 from email.policy import default
 import json
 import this
+from turtle import position
 from flask import request, jsonify
+from matplotlib.style import available
 from sqlalchemy import false
 from config import app, db
 from models import User, Day, WorkBlock, Availability, WeekSchedule
@@ -148,23 +151,24 @@ def edit_schedule(day_id):
     return jsonify({'success': True})
 
 
+
+
 @app.route('/get_schedule/<day_id>')
 def get_schedule(day_id):
-    # So we have a list of dictionaries, we just need
-    # to convert the list to a bunch of workblocks and
-    # add them to either an existing day or create the day
-    users = [user.to_json() for user in User.query.all()]
-    day = Day.query.filter_by(id=day_id).first()
-    schedule = [workblock.to_json() for workblock in day.workblocks]
-    for wb in schedule:
-        user = User.query.filter_by(id=wb['userId']).first()
-        wb['firstName'] = user.first_name
-        wb['position'] = user.position
-        for u in users:
-            if u['id'] == user.id:
-                users.remove(u)
+    print("dayid: ", day_id)
+    def filter(the_list, id):
+        for item in the_list:
+            if item.id == id:
+                the_list.remove(item) 
+                break
+        return the_list
 
-    return jsonify({'notScheduled': users, 'scheduled': schedule})
+    users = User.query.all()
+    not_scheduled = users[:]
+    day = Day.query.filter_by(id=day_id).first()
+    for workblock in day.workblocks: filter(not_scheduled, workblock.user_id)
+
+    return jsonify({'notScheduled': [i.to_json() for i in not_scheduled], 'scheduled': [workblock.to_json() for workblock in day.workblocks], 'allUsers' : [user.to_json() for user in users] })
 
 
 @app.route('/get_week_schedules/<todays_date>')
@@ -206,12 +210,15 @@ def get_day_schedule(id):
         return jsonify(False)
 
 
-@app.route('/profile_info/<user_id>/<weekday>')
-def profile_info(user_id, weekday):
+@app.route('/profile_info/<user_id>/<day_id>')
+def profile_info(user_id, day_id):
 
     u = User.query.filter_by(id=user_id).first()
+    print('Calendar: ', list(calendar.day_name)[0])
+    weekday = Day.query.filter_by(id = day_id).first().date.weekday()
+    weekday = list(calendar.day_name)[weekday]
     user = {'firstName': u.first_name, 'lastName': u.last_name,
-            'availability': getattr(u.availability[0], weekday.lower()) if u.availability else 'Free', 'shifts': 'test'}
+            'availability': getattr(u.availability, weekday.lower()) if u.availability else 'Free', 'shifts': 'test', 'position' : u.position}
     return jsonify(user)
 
 

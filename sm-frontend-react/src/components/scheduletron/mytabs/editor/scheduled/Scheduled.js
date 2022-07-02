@@ -1,19 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
 import ProfileTag from "./profiletag/ProfileTag";
 import "./scheduled.css";
 
-class Scheduled extends Component {
-  state = {};
-  render() {
-    const { workblocks } = this.props;
-    return (
-      <div className="scheduled">
+const Scheduled = ({ workblocks, removeFromSchedule })=>(
+<div className="scheduled">
         {workblocks.map((workblock) => (
-          <ProfileTag {...workblock} />
+          <ProfileTag {...workblock} removeFromSchedule = {removeFromSchedule} />
         ))}
       </div>
-    );
-  }
-}
+);
 
 export default Scheduled;

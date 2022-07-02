@@ -16,10 +16,10 @@ class Visualizer extends Component {
     });
 
   render() {
-    const { isDesktop, day } = this.props;
+    const { isDesktop, day, hidden, workblocks } = this.props;
     const { shiftFilter } = this.state;
     return (
-      <div className="visualizer">
+      <div className="visualizer" hidden  = {hidden} >
         <ShiftFilter
           handleShiftFilter={this.handleShiftFilter}
           handleSwitch={this.handleSwitch}
@@ -27,7 +27,7 @@ class Visualizer extends Component {
           isDesktop={isDesktop}
         />
         <TimeLine shiftFilter={shiftFilter} isDesktop={isDesktop} />
-        <TimeSlots shiftFilter={shiftFilter} workblocks={day.workblocks} />
+        <TimeSlots shiftFilter={shiftFilter} workblocks={workblocks} />
       </div>
     );
   }
