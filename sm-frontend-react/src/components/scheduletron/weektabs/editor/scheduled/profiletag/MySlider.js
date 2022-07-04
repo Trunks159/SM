@@ -6,10 +6,10 @@ import { valueToDt, miliToReg, getMarks } from "../../../../../TimeFunctions";
 const StyledSlider = styled(Slider)({
   margin: 0,
   padding: 0,
-  color: "#328F83",
+  color: "#2178A6",
   position: "relative",
   "& .MuiSlider-thumb": {
-    backgroundColor: "#328F83",
+    backgroundColor: "#2178A6",
     width: 12,
     height: 12,
   },

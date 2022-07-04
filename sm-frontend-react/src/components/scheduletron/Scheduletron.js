@@ -4,7 +4,7 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import SideNav from "./nav/SideNav";
 import Home from "./home/Home";
 import WeekBar from "./WeekBar";
-import MyTabs from "./mytabs/MyTabs";
+import WeekTabs from "./weektabs/WeekTabs";
 
 const styles = () => ({
   main: {
@@ -111,7 +111,7 @@ class Scheduletron extends Component {
                 : null;
               console.log("The day i found : ", day);
               return (
-                <MyTabs
+                <WeekTabs
                   dayId={match.params.day}
                   day={day}
                   days={selected && selected.week}

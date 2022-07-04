@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./mytabs.css";
+import "./weektabs.css";
 import Functions from "./functions/Functions";
 import { Paper } from "@mui/material";
 import MainContent from "./MainContent";
@@ -77,8 +77,11 @@ class TabsContainer extends Component {
               currentFunction={currentFunction}
               setCurrentFunction={this.setCurrentFunction}
             />
-            <MainContent  isDesktop = {isDesktop} day = {day} currentFunction = {currentFunction}/>
-
+            <MainContent
+              isDesktop={isDesktop}
+              day={day}
+              currentFunction={currentFunction}
+            />
           </Paper>
         </div>
       )
