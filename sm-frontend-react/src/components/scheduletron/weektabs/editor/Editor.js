@@ -1,18 +1,17 @@
-import { ToggleButton, Divider, Button } from "@mui/material";
 import React, { Component } from "react";
 import { timeToValue } from "../../../TimeFunctions";
 import Available from "./available/Available";
 import Scheduled from "./scheduled/Scheduled";
-import backIcon from "./assets/Av Team Members Icon.svg";
+import AddDrawer from "./AddDrawer";
+import "./editor.css";
 
 class Editor extends Component {
   render() {
-    const { workblocks, removeFromSchedule, hidden } = this.props;
+    const { workblocks, removeFromSchedule, hidden, availableUsers } =
+      this.props;
     return (
       <div hidden={hidden}>
-        <Button startIcon={<img src={backIcon} />}>
-          Available Team Members
-        </Button>
+        <AddDrawer availableUsers={availableUsers} />
         <Scheduled
           workblocks={workblocks}
           removeFromSchedule={removeFromSchedule}

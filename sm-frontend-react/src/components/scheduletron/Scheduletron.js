@@ -3,7 +3,6 @@ import { withStyles } from "@material-ui/styles";
 import { Route, Switch, withRouter } from "react-router-dom";
 import SideNav from "./nav/SideNav";
 import Home from "./home/Home";
-import WeekBar from "./WeekBar";
 import WeekTabs from "./weektabs/WeekTabs";
 
 const styles = () => ({

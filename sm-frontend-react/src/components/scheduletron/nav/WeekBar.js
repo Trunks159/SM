@@ -72,28 +72,20 @@ class WeekBar extends Component {
   render() {
     const { week, classes, path, setDay } = this.props;
     return (
-      <AnimatePresence>
-        <motion.div
-          className={classes.main}
-          initial={{ width: "0px" }}
-          animate={{ width: "100px" }}
-          transition={{ duration: 0.2 }}
-          exit={{ opacity: 0 }}
-        >
-          {week.map(({ weekday, staffing, month, day, id }) => (
-            <DayBtn
-              weekday={weekday}
-              completion={Math.round(
-                (staffing.actual / staffing.projected) * 100
-              )}
-              date={`${month}/${day}`}
-              id={id}
-              path={path}
-              setDay={setDay}
-            />
-          ))}
-        </motion.div>
-      </AnimatePresence>
+      <div style={{ width: "100%" }}>
+        {week.map(({ weekday, staffing, month, day, id }) => (
+          <DayBtn
+            weekday={weekday}
+            completion={Math.round(
+              (staffing.actual / staffing.projected) * 100
+            )}
+            date={`${month}/${day}`}
+            id={id}
+            path={path}
+            setDay={setDay}
+          />
+        ))}
+      </div>
     );
   }
 }

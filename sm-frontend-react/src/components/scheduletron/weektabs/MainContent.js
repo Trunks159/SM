@@ -17,7 +17,7 @@ class MainContent extends Component {
   };
 
   removeFromSchedule = (wbId) => {
-    console.log('WBID: ', wbId)
+    console.log("WBID: ", wbId);
     let { notScheduled, scheduled } = this.state;
     notScheduled.push(
       scheduled.splice(
@@ -49,7 +49,7 @@ class MainContent extends Component {
           <Vizualizer
             hidden={currentFunction !== 0}
             day={day}
-            workblocks = {scheduled}
+            workblocks={scheduled}
             isDesktop={isDesktop}
           />
           <Editor
@@ -58,6 +58,7 @@ class MainContent extends Component {
             dayId={day.id}
             removeFromSchedule={this.removeFromSchedule}
             allUsers={allUsers}
+            availableUsers={this.state.notScheduled}
           />
           <div hidden={currentFunction !== 2}>Metrics</div>
           <div hidden={currentFunction !== 3}>Save</div>

@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Tabs1 from "./Tabs1";
 import Tabs2 from "./Tabs2";
 import "./nav.css";
-import { Paper, touchRippleClasses } from "@mui/material";
-import WeekBar from "../WeekBar";
+import { Collapse, Paper, touchRippleClasses } from "@mui/material";
+import WeekBar from "./WeekBar";
 
 class SideNav extends Component {
   state = {
@@ -28,15 +28,18 @@ class SideNav extends Component {
             changeMenu={this.changeMenu}
             selected={selected}
           />
-          {menu === "weekbar" && (
-            <WeekBar week={selected.week} setDay={setDay} />
-          )}
-          {menu === "search" && (
-            <div style={{ gridColumn: "2 / 3" }}>Search</div>
-          )}
-          {menu === "settings" && (
-            <div style={{ gridColumn: "2 / 3" }}>Search</div>
-          )}
+          <Collapse in={Boolean(menu)}>
+            {selected && (
+              <WeekBar
+                hidden={menu === "weekbar"}
+                week={selected.week}
+                setDay={setDay}
+              />
+            )}
+
+            <div hidden={menu === "search"}>Search</div>
+            <div hidden={menu === "settings"}>Settings</div>
+          </Collapse>
         </div>
       </>
     );

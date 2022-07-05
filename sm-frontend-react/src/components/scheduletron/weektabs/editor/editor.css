@@ -1,0 +1,23 @@
+.add-drawer {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  bottom: 0px;
+  z-index: 1;
+}
+
+.add-drawer .add-button {
+  background-color: #54f2d1;
+  border-radius: 7px 7px 0px 0px;
+  width: 59px;
+  height: 37px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-button:hover {
+  background-color: #00ffca;
+  border: none;
+}
