@@ -3,12 +3,13 @@ import "./weektabs.css";
 import Functions from "./functions/Functions";
 import { Paper } from "@mui/material";
 import MainContent from "./MainContent";
+import TabPanels from "./TabPanels";
 
-const Tab = ({ weekday, date, index, value, handleTab }) => {
+const Tab = ({ weekday, date, index, value, changeTab }) => {
   const isActive = index === value;
   return (
     <button
-      onClick={() => handleTab(index)}
+      onClick={() => changeTab(index)}
       className={`tab ${isActive ? "active" : "inactive"}`}
     >
       {isActive && <p>{weekday} </p>}
@@ -17,8 +18,7 @@ const Tab = ({ weekday, date, index, value, handleTab }) => {
   );
 };
 
-function Tabs({ days }) {
-  const [value, setValue] = React.useState(0);
+function Tabs({ days, currentTab, changeTab }) {
   return (
     <div className="tabs">
       {days.map((day, index) => (
@@ -26,8 +26,8 @@ function Tabs({ days }) {
           weekday={day.weekday}
           date={`${day.month}/${day.day}`}
           index={index}
-          value={value}
-          handleTab={(newValue) => newValue === value || setValue(newValue)}
+          value={currentTab}
+          changeTab={(newTab) => newTab === currentTab || changeTab(newTab)}
         />
       ))}
     </div>
@@ -36,10 +36,12 @@ function Tabs({ days }) {
 
 class TabsContainer extends Component {
   state = {
+    currentTab : 0,
     day: this.props.day,
     days: this.props.days,
-    currentFunction: 1,
   };
+
+  changeTab = (newTab)=> this.setState({currentTab : newTab});
 
   componentDidMount = () => {
     Boolean(this.props.day) === false &&
@@ -59,30 +61,16 @@ class TabsContainer extends Component {
     }
   };
 
-  setCurrentFunction = (e, newValue) =>
-    newValue !== this.state.currentTab &&
-    this.setState({ currentFunction: newValue });
-
+ 
   render() {
     const isDesktop = this.props.screenWidth > 849;
-    const { days, day, currentFunction } = this.state;
+    const { days, day, currentTab } = this.state;
 
     return (
       day && (
         <div className="tabs-container">
-          <Tabs days={days} />
-          <Paper style={{ display: "flex" }}>
-            <Functions
-              isDesktop={isDesktop}
-              currentFunction={currentFunction}
-              setCurrentFunction={this.setCurrentFunction}
-            />
-            <MainContent
-              isDesktop={isDesktop}
-              day={day}
-              currentFunction={currentFunction}
-            />
-          </Paper>
+          <Tabs changeTab={this.changeTab} days={days} currentTab = {currentTab} />
+          <TabPanels days = {days} currentDay = {day} />
         </div>
       )
     );
