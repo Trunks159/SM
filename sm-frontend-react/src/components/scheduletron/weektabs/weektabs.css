@@ -66,32 +66,6 @@
   transition: 0s;
 }
 
-.actions-drawer{
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  right : 10px;
-  bottom: 0px;
-  z-index: 1;
-}
-
-.actions-drawer-mainButton{
-  border: none;
-  border-radius: 7px 7px 0px 0px;
-  background-color: #FF4B4B;
-  width : 60px;
-  height: 40px;
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-}
-
-.actions-drawer-mainButton:hover{
-  background-color: #FF0000;
-}
-
 .time-slot{
   height: 66px;
   background: #2B9DD9;

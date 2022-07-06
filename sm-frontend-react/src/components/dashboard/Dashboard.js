@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Paper, withStyles } from "@material-ui/core";
 import SchedulePaper from "../schedulePaper/SchedulePaper";
 import scheduleIcon from "../../assets/images/Schedule Icon White.svg";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import "./dashboard.css";
 
 const styles = () => ({
@@ -45,6 +45,7 @@ const styles = () => ({
 class Dashboard extends Component {
   state = {
     schedule: null,
+    redirect: null,
   };
 
   componentDidMount = () => {
@@ -60,35 +61,65 @@ class Dashboard extends Component {
 
   render() {
     const { classes, currentUser } = this.props;
+    const { schedule } = this.state;
 
-    return this.state.schedule ? (
-      <div className="dashboard">
-        <h1 className="dashboard-header">Dashboard</h1>
-        <div className="mainFlex">
-          <SchedulePaper schedule={this.state.schedule} />
-          {/*
-          <div className='dashboard-schedule'>
-            <h2 >Today's Schedule</h2>
-            <div style={{ display: "flex", height: 342, maxWidth: 840 }}>
-              <SchedulePaper header={true} schedule={this.state.schedule} />
+    return (
+      schedule && (
+        <div className="dashboard">
+          <h1 className="dashboard-header">Dashboard</h1>
+          <div className="mainFlex">
+            <SchedulePaper schedule={schedule} />
+            {/*
+            <div className='dashboard-schedule'>
+              <h2 >Today's Schedule</h2>
+              <div style={{ display: "flex", height: 342, maxWidth: 840 }}>
+                <SchedulePaper header={true} schedule={this.state.schedule} />
+              </div>
+  
+              <Link to="/scheduletron" style={{ textDecoration: "none" }}>
+                <Paper elevation={2} className={classes.mainAction}>
+                  <p>View and Edit Schedules</p>
+                  <img alt="" src={scheduleIcon} />
+                </Paper>
+              </Link>
             </div>
-
-            <Link to="/scheduletron" style={{ textDecoration: "none" }}>
-              <Paper elevation={2} className={classes.mainAction}>
-                <p>View and Edit Schedules</p>
-                <img alt="" src={scheduleIcon} />
-              </Paper>
-            </Link>
-          </div>
-          <div className={classes.container2}>
-            <div>
-              <p>My Upcoming Shifts</p>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {currentUser.upcomingShifts.map(
-                  ({ date, startTime, endTime }) => (
+            <div className={classes.container2}>
+              <div>
+                <p>My Upcoming Shifts</p>
+                <div style={{ display: "flex", flexWrap: "wrap" }}>
+                  {currentUser.upcomingShifts.map(
+                    ({ date, startTime, endTime }) => (
+                      <Paper
+                        style={{
+                          width: 90,
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }}
+                      >
+                        <p
+                          style={{
+                            fontSize: 21,
+                            textAlign: "center",
+                            marginBottom: 0,
+                            marginTop: 10,
+                          }}
+                        >{`${date.month}/${date.day}`}</p>
+                        <p
+                          style={{ fontSize: 9, textAlign: "center" }}
+                        >{`${startTime} - ${endTime}`}</p>
+                      </Paper>
+                    )
+                  )}
+                </div>
+              </div>
+              <div>
+                <p>My Upcoming Request Offs</p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                  {currentUser.upcomingRequestOffs.map(({ date }) => (
                     <Paper
+                      elevation={2}
                       style={{
-                        width: 90,
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
@@ -98,47 +129,20 @@ class Dashboard extends Component {
                         style={{
                           fontSize: 21,
                           textAlign: "center",
-                          marginBottom: 0,
-                          marginTop: 10,
+                          margin: 5,
                         }}
-                      >{`${date.month}/${date.day}`}</p>
-                      <p
-                        style={{ fontSize: 9, textAlign: "center" }}
-                      >{`${startTime} - ${endTime}`}</p>
+                      >
+                        {date}
+                      </p>
                     </Paper>
-                  )
-                )}
+                  ))}
+                </div>
               </div>
-            </div>
-            <div>
-              <p>My Upcoming Request Offs</p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-                {currentUser.upcomingRequestOffs.map(({ date }) => (
-                  <Paper
-                    elevation={2}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontSize: 21,
-                        textAlign: "center",
-                        margin: 5,
-                      }}
-                    >
-                      {date}
-                    </p>
-                  </Paper>
-                ))}
-              </div>
-            </div>
-          </div>*/}
+            </div>*/}
+          </div>
         </div>
-      </div>
-    ) : null;
+      )
+    );
   }
 }
 

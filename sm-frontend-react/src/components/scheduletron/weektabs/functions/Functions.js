@@ -3,7 +3,6 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { makeStyles } from "@material-ui/core";
 import FunctionsDrawer from "./FunctionsDrawer";
-
 import visualizerIcon from "./assets/Visualizer Icon.svg";
 import editorIcon from "./assets/Editor Icon.svg";
 import metricsIcon from "./assets/Metrics Icon.svg";
@@ -12,6 +11,7 @@ import visualizerIconInactive from "./assets/Visualizer Icon Inactive.svg";
 import editorIconInactive from "./assets/Editor Icon Inactive.svg";
 import metricsIconInactive from "./assets/Metrics Icon Inactive.svg";
 import saveIconInactive from "./assets/Save Icon Inactive.svg";
+import "./functions.css";
 
 const useStyles = makeStyles({
   tabs: {

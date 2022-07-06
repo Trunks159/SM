@@ -3,8 +3,7 @@ import addIcon from "./assets/Add Icon.svg";
 import { Collapse } from "@material-ui/core";
 import MyToggleButton from "./MyToggleButton";
 
-function FunctionsDrawer({ availableUsers }) {
-  console.log("MyuserS: ", availableUsers);
+function AddDrawer({ availableUsers }) {
   const [open, setOpen] = React.useState(false);
   const toggleDrawer = (e, newValue = false) => setOpen(newValue || !open);
   return (
@@ -38,4 +37,4 @@ function FunctionsDrawer({ availableUsers }) {
   );
 }
 
-export default FunctionsDrawer;
+export default AddDrawer;

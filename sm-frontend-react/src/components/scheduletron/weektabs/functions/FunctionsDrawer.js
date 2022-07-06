@@ -7,8 +7,8 @@ function FunctionsDrawer({ children }) {
   const toggleDrawer = (e, newValue = false) => setOpen(newValue || !open);
 
   return (
-    <div className="actions-drawer">
-      <button className="actions-drawer-mainButton" onClick={toggleDrawer}>
+    <div className="functions-drawer">
+      <button className="functions-button" onClick={toggleDrawer}>
         <img
           style={{
             position: "absolute",

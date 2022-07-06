@@ -99,169 +99,96 @@ class App extends Component {
   };
 
   render() {
-    const { users, message } = this.state;
+    const { users, message, currentUser } = this.state;
     return users ? (
       <Router>
         <div className="App">
-          <NavBar
-            currentUser={this.state.currentUser}
-            handleLogout={this.handleLogout}
-          />
+          <NavBar currentUser={currentUser} handleLogout={this.handleLogout} />
           <Notification message={message} />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() =>
+                currentUser.isAuthenticated ? (
+                  <Dashboard users={users} currentUser={currentUser} />
+                ) : (
+                  <Redirect to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/login"
+              render={() => {
+                if (currentUser.isAuthenticated) {
+                  return <Redirect to="/" />;
+                }
+                return (
+                  <Login
+                    users={users}
+                    notifyUser={this.notifyUser}
+                    postReq={this.postReq}
+                  />
+                );
+              }}
+            />
+            <Route
+              path="/scheduletron"
+              render={() => {
+                return currentUser.isAuthenticated ? (
+                  <Scheduletron />
+                ) : (
+                  <Redirect to="/login" />
+                );
+              }}
+            />
+          </Switch>
 
-          <>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={() => {
-                  return this.state.currentUser.isAuthenticated ? (
-                    <Dashboard
-                      teamMembers={this.state.users}
-                      currentUser={this.state.currentUser}
-                    />
-                  ) : (
-                    <Redirect to="/login" />
-                  );
-                }}
-              />
-              <Route
-                path="/login"
-                render={() => {
-                  if (this.state.currentUser.isAuthenticated) {
-                    return <Redirect to="/" />;
-                  }
-                  return (
-                    <Login
-                      users={this.state.users}
-                      notifyUser={this.notifyUser}
-                      postReq={this.postReq}
-                    />
-                  );
-                }}
-              />
-              <Route
-                path="/scheduletron"
-                render={() => {
-                  return this.state.currentUser.isAuthenticated ? (
-                    <Scheduletron />
-                  ) : (
-                    <Redirect to="/login" />
-                  );
-                }}
-              />
-            </Switch>
-          </>
-          {/*
-          <div className="Test">
-            
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={() => {
-                  return this.state.currentUser.isAuthenticated ? (
-                    <Dashboard
-                      teamMembers={this.state.users}
-                      currentUser={this.state.currentUser}
-                    />
-                  ) : (
-                    <Redirect to="/login" />
-                  );
-                }}
-              />
-
-              <Route
-                path="/scheduletron"
-                render={() => {
-                  return this.state.currentUser.isAuthenticated ? (
-                    <Scheduletron />
-                  ) : (
-                    <Redirect to="/login" />
-                  );
-                }}
-              />
-
-              <Route
-                path="/login"
-                render={() => {
-                  if (this.state.currentUser.isAuthenticated) {
-                    return <Redirect to="/" />;
-                  }
-                  return (
-                    <Login
-                      users={this.state.users}
-                      notifyUser={this.notifyUser}
-                      postReq={this.postReq}
-                    />
-                  );
-                }}
-              />
-              <Route
-                path="/register"
-                render={() => {
-                  if (this.state.currentUser.isAuthenticated) {
-                    return <Redirect to="/" />;
-                  }
-                  return (
-                    <Register
-                      users={this.state.users}
-                      postReq={this.postReq}
-                      notifyUser={this.notifyUser}
-                    />
-                  );
-                }}
-              />
-
-              <Route
-                exact
-                path="/user/:username"
-                render={(props) => {
-                  const user = this.state.users.find(
-                    (user) => user.username === props.match.params.username
-                  );
-                  if (user) {
-                    return (
-                      <User user={user} currentUser={this.state.currentUser} />
-                    );
-                  } else {
-                    this.notifyUser({
-                      content: "Couldn't find user...",
-                      severity: "error",
-                      title: "error",
-                    });
-                    return <Redirect to="/" />;
-                  }
-                }}
-              />
-              <Route
-                path="/user/:username/availability"
-                render={(props) => {
-                  const user = this.state.users.find(
-                    (user) => user.username === props.match.params.username
-                  );
-                  if (user) {
-                    return (
-                      <AvailabilityForm
-                        user={user}
-                        currentUser={this.state.currentUser.isAuthenticated}
-                        postReq={this.postReq}
-                        notifyUser={this.notifyUser}
-                        availability={user.availability}
-                      />
-                    );
-                  } else {
-                    this.notifyUser({
-                      content: "Couldn't find user...",
-                      severity: "error",
-                      title: "error",
-                    });
-                    return <Redirect to="/" />;
-                  }
-                }}
-              />
-            </Switch>
-          </div> */}
+          <Route
+            exact
+            path="/user/:username"
+            render={(props) => {
+              const user = users.find(
+                (user) => user.username === props.match.params.username
+              );
+              if (user) {
+                return <User user={user} currentUser={currentUser} />;
+              } else {
+                this.notifyUser({
+                  content: "Couldn't find user...",
+                  severity: "error",
+                  title: "error",
+                });
+                return <Redirect to="/" />;
+              }
+            }}
+          />
+          <Route
+            path="/user/:username/availability"
+            render={(props) => {
+              const user = users.find(
+                (user) => user.username === props.match.params.username
+              );
+              if (user) {
+                return (
+                  <AvailabilityForm
+                    user={user}
+                    currentUser={currentUser.isAuthenticated}
+                    postReq={this.postReq}
+                    notifyUser={this.notifyUser}
+                    availability={user.availability}
+                  />
+                );
+              } else {
+                this.notifyUser({
+                  content: "Couldn't find user...",
+                  severity: "error",
+                  title: "error",
+                });
+                return <Redirect to="/" />;
+              }
+            }}
+          />
         </div>
       </Router>
     ) : (

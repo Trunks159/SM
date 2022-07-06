@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Paper } from "@mui/material";
 import Functions from "./functions/Functions";
 import MainContent from "./MainContent";
+import AddDrawer from "./editor/AddDrawer";
 
 class TabPanels extends Component {
   state = {
@@ -12,22 +13,22 @@ class TabPanels extends Component {
     this.setState({ currentFunction: newValue });
 
   render() {
-    const {currentFunction} = this.state;
-    const { days, isDesktop, currentDay} = this.props;
-    return days.map((day) => (
+    const { currentFunction } = this.state;
+    const { days, isDesktop, currentDay } = this.props;
+    return (
       <Paper style={{ display: "flex" }}>
+        <MainContent
+          isDesktop={isDesktop}
+          day={currentDay}
+          currentFunction={currentFunction}
+        />
         <Functions
           isDesktop={isDesktop}
           currentFunction={currentFunction}
           setCurrentFunction={this.setCurrentFunction}
         />
-        <MainContent
-          isDesktop={isDesktop}
-          day={day}
-          currentFunction={currentFunction}
-        />
       </Paper>
-    ));
+    );
   }
 }
 
