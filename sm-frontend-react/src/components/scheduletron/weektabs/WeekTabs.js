@@ -5,11 +5,11 @@ import { Paper } from "@mui/material";
 import MainContent from "./MainContent";
 import TabPanels from "./TabPanels";
 
-const Tab = ({ weekday, date, index, value, changeTab }) => {
+const Tab = ({ weekday, date, index, value, changeTab, dayId }) => {
   const isActive = index === value;
   return (
     <button
-      onClick={() => changeTab(index)}
+      onClick={() => changeTab(index, dayId)}
       className={`tab ${isActive ? "active" : "inactive"}`}
     >
       {isActive && <p>{weekday} </p>}
@@ -25,6 +25,7 @@ function Tabs({ days, currentTab, changeTab }) {
         <Tab
           weekday={day.weekday}
           date={`${day.month}/${day.day}`}
+          dayId={day.id}
           index={index}
           value={currentTab}
           changeTab={(newTab) => newTab === currentTab || changeTab(newTab)}
@@ -36,12 +37,16 @@ function Tabs({ days, currentTab, changeTab }) {
 
 class TabsContainer extends Component {
   state = {
-    currentTab : 0,
+    currentTab: 0,
     day: this.props.day,
     days: this.props.days,
   };
 
-  changeTab = (newTab)=> this.setState({currentTab : newTab});
+  changeTab = (newTab, dayId) =>
+    this.setState({
+      currentTab: newTab,
+      day: this.state.days.find((d) => d.id === dayId),
+    });
 
   componentDidMount = () => {
     Boolean(this.props.day) === false &&
@@ -61,7 +66,6 @@ class TabsContainer extends Component {
     }
   };
 
- 
   render() {
     const isDesktop = this.props.screenWidth > 849;
     const { days, day, currentTab } = this.state;
@@ -69,8 +73,12 @@ class TabsContainer extends Component {
     return (
       day && (
         <div className="tabs-container">
-          <Tabs changeTab={this.changeTab} days={days} currentTab = {currentTab} />
-          <TabPanels days = {days} currentDay = {day} />
+          <Tabs
+            changeTab={this.changeTab}
+            days={days}
+            currentTab={currentTab}
+          />
+          <TabPanels days={days} currentDay={day} />
         </div>
       )
     );
