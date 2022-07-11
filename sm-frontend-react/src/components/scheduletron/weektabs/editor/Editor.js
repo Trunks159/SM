@@ -11,7 +11,7 @@ class Editor extends Component {
       this.props;
     return (
       <div hidden={hidden}>
-        <AddDrawer availableUsers={availableUsers} />
+        {/*<AddDrawer availableUsers={availableUsers} />*/}
         <Scheduled
           workblocks={workblocks}
           removeFromSchedule={removeFromSchedule}

@@ -85,9 +85,7 @@ class NavBar extends Component {
         className="main-nav"
         style={{
           zIndex: isOpen ? 2 : 1,
-          background: isOpen
-            ? "rgba(123, 136, 144, 1)"
-            : "rgba(123, 136, 144, .4)",
+          background: isOpen ? "#004F78" : "rgba(123, 136, 144, .4)",
           height: isOpen ? "100vh" : 70,
         }}
         onMouseEnter={this.handleMouseEnter}
@@ -119,17 +117,20 @@ class NavBar extends Component {
         <Collapse in={isOpen}>
           <div className="nav-links">
             <NavLink onClick={this.handleCollapse} className="nav-link" to="/">
-              <img src={homeIcon} />
+              <img style={{ margin: 5 }} src={homeIcon} />
+              Home
             </NavLink>
             <NavLink
               onClick={this.handleCollapse}
               className="nav-link"
               to="/scheduletron"
             >
-              <img src={scheduleIcon} />
+              <img style={{ margin: 5 }} src={scheduleIcon} />
+              Schedules
             </NavLink>
             <NavLink onClick={this.handleCollapse} className="nav-link" to="/">
               <img src={teamIcon} />
+              Team
             </NavLink>
             {currentUser.isAuthenticated && (
               <MyMenu

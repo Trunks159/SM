@@ -1,9 +1,10 @@
 .functions-drawer {
-    position: fixed;
+    position: absolute;
     display: flex;
     flex-direction: column;
     bottom: 0px;
-    right :10px;
+    top : 0px;
+    left : 0px;
     z-index: 1;
   }
 

@@ -19,7 +19,7 @@
     margin-top: 70px;
 }
 
-.nav-link {
+.side-navbar .nav-link {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -31,6 +31,11 @@
     text-decoration: none;
     padding: 10px 0px;
 
+}
+
+ 
+.side-navbar .nav-link p{
+    margin: 0px;
 }
 
 
@@ -63,8 +68,4 @@
 
 .nav-button:hover{
     opacity: 1;
-}
-
-.nav-link p{
-    margin: 0px;
 }

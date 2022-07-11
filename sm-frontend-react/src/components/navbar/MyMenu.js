@@ -40,7 +40,13 @@ class MyMenu extends Component {
     const open = Boolean(anchorEl);
     const { username, classes, handleCollapse } = this.props;
     return (
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         {this.state.redirect && <Redirect to={"/login"} />}
         <Button
           id="basic-button"
@@ -52,11 +58,14 @@ class MyMenu extends Component {
             textTransform: "none",
             padding: 0,
             margin: 0,
-            minWidth: 1,
+            minWidth: 0,
           }}
         >
           <img src={profileIcon} />
         </Button>
+        <p className="nav-link" style={{ margin: 8 }}>
+          Profile
+        </p>
         <Menu
           id="basic-menu"
           anchorEl={anchorEl}

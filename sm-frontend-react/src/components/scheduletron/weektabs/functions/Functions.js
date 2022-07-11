@@ -91,10 +91,6 @@ export default function Functions({
         orientation={"vertical"}
         onChange={setCurrentFunction}
         aria-label="basic tabs example"
-        sx={{
-          borderLeft: 1,
-          borderColor: "divider",
-        }}
       >
         <Tab
           value={0}
