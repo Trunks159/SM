@@ -23,8 +23,25 @@ class MainContent extends Component {
       scheduled.splice(
         scheduled.indexOf(scheduled.find((person) => person.wbId === wbId)),
         1
-      )
+      )[0]
     );
+    this.setState({ notScheduled: notScheduled, scheduled: scheduled });
+  };
+
+  addToSchedule = (userId) => {
+    let { notScheduled, scheduled } = this.state;
+    console.log("Scheduled: ", scheduled);
+    const user = notScheduled.splice(
+      notScheduled.indexOf(notScheduled.find((person) => person.id === userId)),
+      1
+    )[0];
+
+    console.log("Myuser: ", user);
+    scheduled.push({
+      user: user,
+      startTime: "08:00",
+      endTime: "16:00",
+    });
     this.setState({ notScheduled: notScheduled, scheduled: scheduled });
   };
 
@@ -59,6 +76,7 @@ class MainContent extends Component {
             removeFromSchedule={this.removeFromSchedule}
             allUsers={allUsers}
             availableUsers={this.state.notScheduled}
+            addToSchedule={this.addToSchedule}
           />
           <div hidden={currentFunction !== 2}>Metrics</div>
           <div hidden={currentFunction !== 3}>Save</div>

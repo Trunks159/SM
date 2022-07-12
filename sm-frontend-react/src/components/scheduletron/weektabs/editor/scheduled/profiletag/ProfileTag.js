@@ -51,7 +51,7 @@ const ProfileTag = ({
         <Button
           className={classes.deleteBtn}
           onClick={() => {
-            return removeFromSchedule(wbId);
+            return removeFromSchedule(user.id);
           }}
         >
           <img src={removeIcon} />
