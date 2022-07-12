@@ -20,12 +20,12 @@ class Visualizer extends Component {
     const { shiftFilter } = this.state;
     return (
       <div className="visualizer" hidden  = {hidden} >
-        <ShiftFilter
+        {/*<ShiftFilter
           handleShiftFilter={this.handleShiftFilter}
           handleSwitch={this.handleSwitch}
           shiftFilter={shiftFilter}
           isDesktop={isDesktop}
-        />
+    />*/}
         <TimeLine shiftFilter={shiftFilter} isDesktop={isDesktop} />
         <TimeSlots shiftFilter={shiftFilter} workblocks={workblocks} />
       </div>

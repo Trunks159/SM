@@ -25,13 +25,12 @@ const useStyles = makeStyles({
     flexShrink: 0,
   },
   tabsDesktop: {
-    borderBottom : '2px solid #D2D2D2',
-    position : 'sticky',
     "& .MuiTabs-indicator": {
+      right: 0,
     },
     "& .MuiTabs-flexContainer": {
-
-      justifyContent : 'space-evenly'
+      width: 70,
+      alignItems: "center",
     },
     flexShrink: 0,
   },
@@ -43,11 +42,11 @@ export default function Functions({
   setCurrentFunction,
 }) {
   const classes = useStyles();
-  return (
+  return isDesktop ? (
     <Tabs
       className={classes.tabsDesktop}
       value={currentFunction}
-      orientation={"horizontal"}
+      orientation={"vertical"}
       onChange={setCurrentFunction}
       aria-label="basic tabs example"
       sx={{
@@ -84,5 +83,48 @@ export default function Functions({
         icon={<img src={currentFunction === 3 ? saveIcon : saveIconInactive} />}
       />
     </Tabs>
+  ) : (
+    <FunctionsDrawer>
+      <Tabs
+        className={classes.tabs}
+        value={currentFunction}
+        orientation={"vertical"}
+        onChange={setCurrentFunction}
+        aria-label="basic tabs example"
+      >
+        <Tab
+          value={0}
+          icon={
+            <img
+              src={
+                currentFunction === 0 ? visualizerIcon : visualizerIconInactive
+              }
+            />
+          }
+        />
+        <Tab
+          value={1}
+          icon={
+            <img
+              src={currentFunction === 1 ? editorIcon : editorIconInactive}
+            />
+          }
+        />
+        <Tab
+          value={2}
+          icon={
+            <img
+              src={currentFunction === 2 ? metricsIcon : metricsIconInactive}
+            />
+          }
+        />
+        <Tab
+          value={3}
+          icon={
+            <img src={currentFunction === 3 ? saveIcon : saveIconInactive} />
+          }
+        />
+      </Tabs>
+    </FunctionsDrawer>
   );
 }
