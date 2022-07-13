@@ -4,9 +4,7 @@ import { Paper, Button } from "@material-ui/core";
 import MySlider from "./MySlider";
 import profileIcon from "./assets/Large Profile Icon.svg";
 import removeIcon from "./assets/Remove Icon.svg";
-
 import ProfileInfo from "./ProfileInfo";
-import { timeToValue } from "../../../../../TimeFunctions";
 import "./profiletag.css";
 
 const useStyles = makeStyles({
@@ -26,7 +24,6 @@ const useStyles = makeStyles({
 });
 
 const ProfileTag = ({
-  wbId,
   dayId,
   user,
   startTime,
@@ -68,9 +65,9 @@ const ProfileTag = ({
 
         <MySlider
           classes={classes.slider}
-          id={wbId}
+          userId={user.id}
           handleSlider={handleSlider}
-          value={[startTime, endTime].map((time) => timeToValue(time))}
+          value={[startTime, endTime]}
         />
       </div>
 

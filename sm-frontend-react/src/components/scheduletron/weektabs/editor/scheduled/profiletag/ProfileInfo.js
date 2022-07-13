@@ -59,6 +59,7 @@ class ProfileInfo extends Component {
           className={classes.expandBtn}
         >
           <img
+            alt={"expand"}
             style={{
               transitionDuration: ".3s",
               transform: expanded ? "rotate(180deg)" : "rotate(0deg",

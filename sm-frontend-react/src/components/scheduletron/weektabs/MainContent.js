@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Vizualizer from "./visualizer/Visualizer";
 import Editor from "./editor/Editor";
+import { timeToValue } from "../../TimeFunctions";
 
 class MainContent extends Component {
   state = {
@@ -17,7 +18,6 @@ class MainContent extends Component {
   };
 
   removeFromSchedule = (userId) => {
-    console.log("Come on baby: ", userId);
     let { notScheduled, scheduled } = this.state;
     notScheduled.push(
       scheduled.splice(
@@ -39,10 +39,30 @@ class MainContent extends Component {
     console.log("Myuser: ", user);
     scheduled.push({
       user: user,
-      startTime: "08:00",
-      endTime: "16:00",
+      startTime: timeToValue("08:00"),
+      endTime: timeToValue("16:00"),
     });
     this.setState({ notScheduled: notScheduled, scheduled: scheduled });
+  };
+
+  handleSlider = (new_value, userId) => {
+    let { scheduled } = this.state;
+    let theIndex = null;
+    let editedUser = scheduled.find((wb, index) => {
+      if (wb.user.id === userId) {
+        scheduled.splice(index, 1);
+        theIndex = index;
+        return true;
+      }
+    });
+    editedUser = {
+      ...editedUser,
+      startTime: new_value[0],
+      endTime: new_value[1],
+    };
+    scheduled.splice(theIndex, 0, editedUser);
+
+    this.setState({ scheduled: scheduled });
   };
 
   componentDidMount = () => {
@@ -51,7 +71,11 @@ class MainContent extends Component {
       .then(({ allUsers, scheduled, notScheduled }) => {
         this.setState({
           allUsers: allUsers,
-          scheduled: scheduled,
+          scheduled: scheduled.map((workblock) => ({
+            ...workblock,
+            startTime: timeToValue(workblock.startTime),
+            endTime: timeToValue(workblock.endTime),
+          })),
           notScheduled: notScheduled,
         });
       });
@@ -83,10 +107,10 @@ class MainContent extends Component {
             hidden={currentFunction !== 1}
             workblocks={scheduled}
             dayId={day.id}
-            removeFromSchedule={this.removeFromSchedule}
-            allUsers={allUsers}
             availableUsers={this.state.notScheduled}
             addToSchedule={this.addToSchedule}
+            removeFromSchedule={this.removeFromSchedule}
+            handleSlider={this.handleSlider}
           />
           <div hidden={currentFunction !== 2}>Metrics</div>
           <div hidden={currentFunction !== 3}>Save</div>

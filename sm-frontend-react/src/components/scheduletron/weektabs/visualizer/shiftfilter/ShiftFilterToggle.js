@@ -60,6 +60,7 @@ class ToggleButtons extends Component {
       >
         <ToggleButton className={classes.button} value={"day"}>
           <img
+            alt={"day"}
             style={{ paddingTop: 6 }}
             className={classes.img}
             src={dayIcon}
@@ -70,7 +71,7 @@ class ToggleButtons extends Component {
           value={"night"}
           style={{ paddingBottom: 1 }}
         >
-          <img src={nightIcon} />
+          <img alt={"night"} src={nightIcon} />
         </ToggleButton>
       </ToggleButtonGroup>
     );

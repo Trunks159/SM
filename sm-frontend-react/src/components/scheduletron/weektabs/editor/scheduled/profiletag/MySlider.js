@@ -32,7 +32,7 @@ const StyledSlider = styled(Slider)({
   },
 });
 
-const MySlider = ({ id, handleSlider, value, classes }) => {
+const MySlider = ({ userId, handleSlider, value, classes }) => {
   return (
     <StyledSlider
       /*I changed name to id so watch out bro */
@@ -45,7 +45,7 @@ const MySlider = ({ id, handleSlider, value, classes }) => {
       }
       step={null}
       valueLabelDisplay="auto"
-      onChange={(e, new_value) => handleSlider(e, new_value, id)}
+      onChange={(e, new_value) => handleSlider(new_value, userId)}
     />
   );
 };

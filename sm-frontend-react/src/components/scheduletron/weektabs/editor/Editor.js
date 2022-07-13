@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import { timeToValue } from "../../../TimeFunctions";
-import Available from "./available/Available";
 import Scheduled from "./scheduled/Scheduled";
-import AddDrawer from "./AddDrawer";
 import addIcon from "./assets/Add Icon.svg";
-import { Button, Collapse } from "@mui/material";
+import { Button } from "@mui/material";
 import "./editor.css";
-
 import AddTeam from "./AddTeam";
 
 class Editor extends Component {
@@ -23,18 +19,17 @@ class Editor extends Component {
       hidden,
       availableUsers,
       addToSchedule,
+      dayId,
+      handleSlider,
     } = this.props;
     return (
-      <div
-        
-        hidden={hidden}
-      >
-        {/*<AddDrawer availableUsers={availableUsers} />*/}
+      <div hidden={hidden}>
         <Scheduled
+          dayId={dayId}
           workblocks={workblocks}
           removeFromSchedule={removeFromSchedule}
+          handleSlider={handleSlider}
         />
-
         <Button
           onClick={this.handleAddTeam}
           style={{ position: "fixed", bottom: 10, right: 10 }}
@@ -47,8 +42,6 @@ class Editor extends Component {
           handleAddTeam={this.handleAddTeam}
           addToSchedule={addToSchedule}
         />
-
-        {/*<Available availableUsers={availableUsers} />*/}
       </div>
     );
   }

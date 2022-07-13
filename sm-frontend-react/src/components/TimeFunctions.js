@@ -1,5 +1,5 @@
 function timeToFloat(time) {
-  //Converts string time 00:00 to an float
+  //Converts string time 00:00 to hours float
   const d = new Date("January 1, 1980 " + time + ":00");
   return d.getHours() + d.getMinutes() / 60;
 }
