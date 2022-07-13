@@ -6,6 +6,7 @@ import profileIcon from "./assets/Large Profile Icon.svg";
 import removeIcon from "./assets/Remove Icon.svg";
 import ProfileInfo from "./ProfileInfo";
 import "./profiletag.css";
+import { floatToValue } from "../../../../../TimeFunctions";
 
 const useStyles = makeStyles({
   deleteBtn: {

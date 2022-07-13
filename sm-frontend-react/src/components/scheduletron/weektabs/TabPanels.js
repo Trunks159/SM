@@ -19,7 +19,7 @@ class TabPanels extends Component {
       <Paper
         style={{
           position: "relative",
-          
+          display : 'flex',
           background : '#EAEAEA'
         }}
       >

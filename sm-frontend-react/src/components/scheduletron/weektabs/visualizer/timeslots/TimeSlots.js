@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { timeToFloat } from "../../../../TimeFunctions";
+import { timeToFloat, valueToFloat, miliToReg, valueToDt } from "../../../../TimeFunctions";
 import TimeSlot from "./TimeSlot";
 import "./timeslots.css";
 
@@ -51,8 +51,8 @@ class TimeSlots extends Component {
           ];
 
           const workslot = [
-            timeToFloat(workblock.startTime),
-            timeToFloat(workblock.endTime),
+            valueToFloat(workblock.startTime),
+            valueToFloat(workblock.endTime)
           ];
 
           const isBetween = (value, range) =>
@@ -66,7 +66,8 @@ class TimeSlots extends Component {
                 workslot={workslot}
                 shiftFilter={shiftFilter}
                 user={workblock.user}
-                workblock={workblock}
+                startTime = {miliToReg(valueToDt(workblock.startTime).toTimeString().slice(0, 5))}
+                endTime = {miliToReg(valueToDt(workblock.endTime).toTimeString().slice(0, 5))}
               />
             )
           );

@@ -1,3 +1,11 @@
+function valueToFloat(value){
+  const maxHours = 24;
+  const timeRange = [7, 24]
+  const timeRangeDelta = timeRange[1] - timeRange[0];
+  const hours = (value/100 * timeRangeDelta) + timeRange[0]
+  return hours
+}
+
 function timeToFloat(time) {
   //Converts string time 00:00 to hours float
   const d = new Date("January 1, 1980 " + time + ":00");
@@ -91,4 +99,5 @@ export {
   miliToReg,
   getMarks,
   timeToFloat,
+  valueToFloat
 };

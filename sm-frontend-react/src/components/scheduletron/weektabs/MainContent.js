@@ -90,10 +90,10 @@ class MainContent extends Component {
           style={{
             display: "flex",
             position: "absolute",
-            top: 57,
+            top: isDesktop ? 0 :  57 ,
             bottom: 0,
             overflowY: "auto",
-            left: 0,
+            left:  isDesktop ? 57:  0,
             right: 0,
           }}
         >

@@ -44,13 +44,15 @@ const overflowSVG = (position, background) => {
   );
 };
 
-const TimeSlot = ({ availableTimes, workslot, user, workblock }) => {
+const TimeSlot = ({ availableTimes, workslot, user, startTime, endTime }) => {
   const [background, setBackground] = React.useState("#2B9DD9");
   const handleMouseEnter = () => setBackground("#00A7FF");
   const handleMouseLeave = () => setBackground("#2B9DD9");
 
   const { overflowLeft, overflowRight, width, marginLeft, hideSelf } =
     timeslotPosition(availableTimes, workslot);
+
+  console.log("Starttime: ", startTime);
 
   return (
     hideSelf || (
@@ -87,9 +89,7 @@ const TimeSlot = ({ availableTimes, workslot, user, workblock }) => {
             position: "absolute",
           }}
         >
-          {`${miliToReg(workblock.startTime)} - ${miliToReg(
-            workblock.endTime
-          )}`}
+          {`${startTime} - ${endTime}`}
         </p>
         {overflowLeft && overflowSVG("left", background)}
         {overflowRight && overflowSVG("right", background)}

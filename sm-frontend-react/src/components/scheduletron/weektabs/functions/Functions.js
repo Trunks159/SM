@@ -32,7 +32,6 @@ const useStyles = makeStyles({
       justifyContent : 'space-evenly'
     },
     flexShrink: 0,
-    height :55,
     width : '100%',
     alignItems : 'center'
   },
@@ -44,17 +43,19 @@ export default function Functions({
   setCurrentFunction,
 }) {
   const classes = useStyles();
+  console.log('IsDesktop: ', isDesktop)
   return (
   
     <Tabs
       className={classes.tabsDesktop}
       value={currentFunction}
-      orientation={"horizontal"}
+      orientation={isDesktop ? 'vertical' :  "horizontal"}
       onChange={setCurrentFunction}
       aria-label="basic tabs example"
       sx={{
         borderBottom: 1,
         borderColor: "divider",
+        height : isDesktop ? '100%' : 55,
       }}
     >
       <Tab

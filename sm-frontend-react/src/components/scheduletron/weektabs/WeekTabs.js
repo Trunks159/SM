@@ -78,7 +78,7 @@ class TabsContainer extends Component {
             days={days}
             currentTab={currentTab}
           />
-          <TabPanels days={days} currentDay={day} />
+          <TabPanels days={days} currentDay={day} isDesktop = {isDesktop}/>
         </div>
       )
     );
