@@ -16,14 +16,14 @@ class MainContent extends Component {
     return allUsers.filter(({ id }) => scheduledUsersIds.includes(id));
   };
 
-  removeFromSchedule = (wbId) => {
-    console.log("WBID: ", wbId);
+  removeFromSchedule = (userId) => {
+    console.log("Come on baby: ", userId);
     let { notScheduled, scheduled } = this.state;
     notScheduled.push(
       scheduled.splice(
-        scheduled.indexOf(scheduled.find((person) => person.wbId === wbId)),
+        scheduled.indexOf(scheduled.find((wb) => wb.user.id === userId)),
         1
-      )[0]
+      )[0].user
     );
     this.setState({ notScheduled: notScheduled, scheduled: scheduled });
   };
@@ -62,7 +62,17 @@ class MainContent extends Component {
     const { scheduled, allUsers } = this.state;
     return (
       allUsers && (
-        <>
+        <div
+          style={{
+            display: "flex",
+            position: "absolute",
+            top: 57,
+            bottom: 0,
+            overflowY: "auto",
+            left: 0,
+            right: 0,
+          }}
+        >
           <Vizualizer
             hidden={currentFunction !== 0}
             day={day}
@@ -80,7 +90,7 @@ class MainContent extends Component {
           />
           <div hidden={currentFunction !== 2}>Metrics</div>
           <div hidden={currentFunction !== 3}>Save</div>
-        </>
+        </div>
       )
     );
   }

@@ -4,8 +4,8 @@ import "./scheduled.css";
 
 const Scheduled = ({ workblocks, removeFromSchedule })=>(
 <div className="scheduled">
-        {workblocks.map((workblock) => (
-          <ProfileTag {...workblock} removeFromSchedule = {removeFromSchedule} />
+        {workblocks.map((workblock, index) => (
+          <ProfileTag key = {index} {...workblock} removeFromSchedule = {removeFromSchedule} />
         ))}
       </div>
 );

@@ -26,7 +26,7 @@ class Editor extends Component {
     } = this.props;
     return (
       <div
-        style={{ position: "relative", background: "red", flex: 1 }}
+        
         hidden={hidden}
       >
         {/*<AddDrawer availableUsers={availableUsers} />*/}

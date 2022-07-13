@@ -10,13 +10,14 @@ class AddTeam extends Component {
     return (
       <div
         style={{
-          background: "#AAAAAA",
+          background: "rgba(61,61,61, .86)",
           flexDirection: "column",
-          position: "absolute",
+          position: "fixed",
           right: 0,
           top: 0,
           bottom: 0,
           width: 134,
+          overflowY : 'auto',
           display: isOpen ? "flex" : "none",
         }}
       >

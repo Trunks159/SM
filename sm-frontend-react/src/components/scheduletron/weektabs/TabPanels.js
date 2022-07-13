@@ -16,8 +16,14 @@ class TabPanels extends Component {
     const { currentFunction } = this.state;
     const { days, isDesktop, currentDay } = this.props;
     return (
-      <Paper style={{ display: "flex", flexDirection : 'column' ,position: "relative" }}>
-            <Functions
+      <Paper
+        style={{
+          position: "relative",
+          
+          background : '#EAEAEA'
+        }}
+      >
+        <Functions
           isDesktop={isDesktop}
           currentFunction={currentFunction}
           setCurrentFunction={this.setCurrentFunction}
@@ -27,7 +33,6 @@ class TabPanels extends Component {
           day={currentDay}
           currentFunction={currentFunction}
         />
-    
       </Paper>
     );
   }

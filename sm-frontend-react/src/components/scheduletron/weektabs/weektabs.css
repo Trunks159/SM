@@ -5,12 +5,19 @@
   max-width: 1600px;
 }
 
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+
 .tabs {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  width : 100%;
   overflow-x: auto;
   display: flex;
   gap: 10px;
-  position: sticky;
-  top : 0;
+  top  :0px;
 }
 
 
@@ -26,14 +33,13 @@
   font-size: 32px;
   position: relative;
   border: none;
-  padding-top: 20px;
-  padding-bottom: 20px;
   text-align: center;
   transition-duration: 0.2s;
   overflow: hidden;
   border-radius: 7px 7px 0px 0px;
   color: #becacf;
   background-color: #627e8c;
+  height: 80px;
 }
 
 .tab.active {

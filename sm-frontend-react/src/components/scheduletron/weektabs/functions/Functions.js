@@ -25,8 +25,6 @@ const useStyles = makeStyles({
     flexShrink: 0,
   },
   tabsDesktop: {
-    borderBottom : '2px solid #D2D2D2',
-    position : 'sticky',
     "& .MuiTabs-indicator": {
     },
     "& .MuiTabs-flexContainer": {
@@ -34,6 +32,9 @@ const useStyles = makeStyles({
       justifyContent : 'space-evenly'
     },
     flexShrink: 0,
+    height :55,
+    width : '100%',
+    alignItems : 'center'
   },
 });
 
@@ -44,6 +45,7 @@ export default function Functions({
 }) {
   const classes = useStyles();
   return (
+  
     <Tabs
       className={classes.tabsDesktop}
       value={currentFunction}
@@ -51,12 +53,13 @@ export default function Functions({
       onChange={setCurrentFunction}
       aria-label="basic tabs example"
       sx={{
-        borderRight: 1,
+        borderBottom: 1,
         borderColor: "divider",
       }}
     >
       <Tab
         value={0}
+        style = {{background : 'red', borderBottom : "2px solid black"}}
         icon={
           <img
             src={
@@ -84,5 +87,6 @@ export default function Functions({
         icon={<img src={currentFunction === 3 ? saveIcon : saveIconInactive} />}
       />
     </Tabs>
+    
   );
 }
