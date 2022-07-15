@@ -20,7 +20,7 @@ class Tabs2 extends Component {
   };
 
   handleDays = (e, newValue, menuTitle) =>
-    this.props.selected && this.handleChange(e, newValue, menuTitle);
+    this.props.selectedWeek && this.handleChange(e, newValue, menuTitle);
 
   render() {
     const theTabs = [

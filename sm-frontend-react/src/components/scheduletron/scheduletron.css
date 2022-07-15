@@ -1,0 +1,9 @@
+.scheduletron {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  flex-grow: 1;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  justify-items: center;
+}

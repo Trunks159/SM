@@ -151,24 +151,24 @@ def edit_schedule(day_id):
     return jsonify({'success': True})
 
 
-
-
 @app.route('/get_schedule/<day_id>')
 def get_schedule(day_id):
     print("dayid: ", day_id)
+
     def filter(the_list, id):
         for item in the_list:
             if item.id == id:
-                the_list.remove(item) 
+                the_list.remove(item)
                 break
         return the_list
 
     users = User.query.all()
     not_scheduled = users[:]
     day = Day.query.filter_by(id=day_id).first()
-    for workblock in day.workblocks: filter(not_scheduled, workblock.user_id)
+    for workblock in day.workblocks:
+        filter(not_scheduled, workblock.user_id)
 
-    return jsonify({'notScheduled': [i.to_json() for i in not_scheduled], 'scheduled': [workblock.to_json() for workblock in day.workblocks], 'allUsers' : [user.to_json() for user in users] })
+    return jsonify({'notScheduled': [i.to_json() for i in not_scheduled], 'scheduled': [workblock.to_json() for workblock in day.workblocks], 'allUsers': [user.to_json() for user in users]})
 
 
 @app.route('/get_week_schedules/<todays_date>')
@@ -187,18 +187,16 @@ def get_week_schedules(todays_date):
     return jsonify(schedule_set)
 
 
-@app.route('/get_week_schedule/<day_id>')
-def get_week_schedule(day_id):
-    day = Day.query.filter_by(id=day_id).first()
-    print('Duh day: ', day_id)
-    if day:
-        week = day.week_schedule
+@app.route('/get_week_schedule/<week_id>')
+def get_week_schedule(week_id):
+    week = WeekSchedule.query.filter_by(id=week_id).first()
+    if week:
         set = complete_schedule_set(week)
         for item in set:
             item['schedule'] = item['schedule'].to_json()
-        return(jsonify({'weekSchedule': week.to_json(), 'day': day.to_json(), 'scheduleSet': set}))
+        return(jsonify({'weekSchedule': week.to_json(), 'scheduleSet': set}))
     else:
-        return (jsonify('Couldnt find the day man'))
+        return (jsonify({'weekSchedule': None}))
 
 
 @app.route('/get_day_schedule/<id>')
@@ -215,10 +213,10 @@ def profile_info(user_id, day_id):
 
     u = User.query.filter_by(id=user_id).first()
     print('Calendar: ', list(calendar.day_name)[0])
-    weekday = Day.query.filter_by(id = day_id).first().date.weekday()
+    weekday = Day.query.filter_by(id=day_id).first().date.weekday()
     weekday = list(calendar.day_name)[weekday]
     user = {'firstName': u.first_name, 'lastName': u.last_name,
-            'availability': getattr(u.availability, weekday.lower()) if u.availability else 'Free', 'shifts': 'test', 'position' : u.position}
+            'availability': getattr(u.availability, weekday.lower()) if u.availability else 'Free', 'shifts': 'test', 'position': u.position}
     return jsonify(user)
 
 

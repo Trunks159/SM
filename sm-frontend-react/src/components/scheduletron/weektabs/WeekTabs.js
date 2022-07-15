@@ -1,88 +1,126 @@
 import React, { Component } from "react";
 import "./weektabs.css";
-import Functions from "./functions/Functions";
-import { Paper } from "@mui/material";
-import MainContent from "./MainContent";
 import TabPanels from "./TabPanels";
+import { Switch, Route, Redirect, withRouter, Link } from "react-router-dom";
+import { Tabs, Tab } from "@mui/material";
+import { makeStyles } from "@material-ui/core";
 
-const Tab = ({ weekday, date, index, value, changeTab, dayId }) => {
+const useStyles = makeStyles({
+  root: {
+    justifyContent: "center",
+    background: "white",
+  },
+  scroller: {
+    flexGrow: "0",
+  },
+});
+
+const MyTab = ({ weekday, date, index, value, weekId, key }) => {
   const isActive = index === value;
+  console.log("index: ", index, "value: ", value, "isactive: ", isActive);
   return (
-    <button
-      onClick={() => changeTab(index, dayId)}
-      className={`tab ${isActive ? "active" : "inactive"}`}
-    >
-      {isActive && <p>{weekday} </p>}
-      <p>{date}</p>
-    </button>
+    <Link to={`/scheduletron/${weekId}/${index}`}>
+      <Tab
+        key={key}
+        value={index}
+        label={(isActive ? weekday : "") + date}
+        className={`tab ${isActive ? "active" : "inactive"}`}
+      />
+    </Link>
   );
 };
 
-function Tabs({ days, currentTab, changeTab }) {
+const MyTabs = ({ days, value, changeTab, weekId }) => {
+  const classes = useStyles();
+  console.log("Duh value: ", value);
   return (
-    <div className="tabs">
-      {days.map((day, index) => (
-        <Tab
+    <Tabs
+      classes={{ root: classes.root, scroller: classes.scroller }}
+      variant="scrollable"
+      scrollButtons
+      allowScrollButtonsMobile
+      value={value}
+      onChange={changeTab}
+    >
+      <Tab label={"Tab1"} value={0} />
+      <Tab label={"Tab2"} value={1} />
+      {/*days.map((day, index) => (
+        <MyTab
+          key={index}
           weekday={day.weekday}
           date={`${day.month}/${day.day}`}
-          dayId={day.id}
+          weekId={weekId}
           index={index}
-          value={currentTab}
-          changeTab={(newTab) => newTab === currentTab || changeTab(newTab)}
+          value={value}
+          changeTab={changeTab}
         />
-      ))}
-    </div>
+      ))*/}
+    </Tabs>
   );
-}
+};
 
 class TabsContainer extends Component {
   state = {
-    currentTab: 0,
-    day: this.props.day,
+    currentTab: this.props.dayIndex,
+    day: this.props.days && this.props.days[this.props.dayIndex],
     days: this.props.days,
+    redirect: false,
   };
 
-  changeTab = (newTab, dayId) =>
+  changeTab = (newTab, dayId) => {
+    console.log("Newtab: ", newTab);
     this.setState({
       currentTab: newTab,
       day: this.state.days.find((d) => d.id === dayId),
     });
+  };
 
   componentDidMount = () => {
-    Boolean(this.props.day) === false &&
-      fetch(`/get_week_schedule/${this.props.dayId}`)
+    const { week, weekId, setSelectedWeek } = this.props;
+    if (Boolean(week) === false) {
+      fetch(`/get_week_schedule/${weekId}`)
         .then((response) => response.json())
-        .then(({ day, weekSchedule, scheduleSet }) => {
-          const { handleSelect, setScheduleSet } = this.props;
-          this.setState({ day: day, days: weekSchedule.schedule });
-          handleSelect({ week: weekSchedule.schedule, id: weekSchedule.id });
-          setScheduleSet(scheduleSet);
+        .then((response) => {
+          if (response.weekSchedule) {
+            setSelectedWeek({
+              week: response.weekSchedule.schedule,
+              id: response.weekSchedule.id,
+            });
+          } else {
+            this.setState({ redirect: <Redirect to="/scheduletron" /> });
+          }
         });
+    }
   };
 
   componentDidUpdate = (prevProps) => {
-    if (prevProps.day !== this.props.day) {
-      this.setState({ day: this.props.day });
+    if (prevProps.days !== this.props.days) {
+      this.setState({
+        days: this.props.days,
+        day: this.props.days[this.props.dayIndex],
+      });
     }
   };
 
   render() {
-    const isDesktop = this.props.screenWidth > 849;
-    const { days, day, currentTab } = this.state;
-
+    const { screenWidth, match, weekId } = this.props;
+    const isDesktop = screenWidth > 849;
+    const { days, day, currentTab, redirect } = this.state;
     return (
-      day && (
+      redirect ||
+      (days && (
         <div className="tabs-container">
-          <Tabs
+          <MyTabs
             changeTab={this.changeTab}
             days={days}
-            currentTab={currentTab}
+            value={currentTab}
+            weekId={weekId}
           />
-          <TabPanels days={days} currentDay={day} isDesktop = {isDesktop}/>
+          <TabPanels days={days} currentDay={day} isDesktop={isDesktop} />
         </div>
-      )
+      ))
     );
   }
 }
 
-export default TabsContainer;
+export default withRouter(TabsContainer);

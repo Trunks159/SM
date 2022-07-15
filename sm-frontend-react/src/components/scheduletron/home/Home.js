@@ -9,41 +9,69 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button, TextField, withStyles } from "@material-ui/core";
 import ScheduleBtn from "./ScheduleBtn";
 import "./home.css";
+import { touchRippleClasses } from "@mui/material";
 
 class Home extends Component {
   state = {
-    isDesktop: false,
-    isLargeDesktop: false,
+    weeks: null,
   };
 
   componentDidMount = () => {
-    this.updatePredicate();
-    window.addEventListener("resize", this.updatePredicate);
+    /*This would request for today but not yet
+      it initializes the schedule set which is an array of
+      5 or so weekSchedules
+    */
+    fetch(`/get_week_schedules/${9}-${13}-${2021}`)
+      .then((response) => response.json())
+      .then((scheduleSet) => {
+        this.setWeeks(scheduleSet);
+      });
   };
 
-  componentWillUnmount = () => {
-    window.removeEventListener("resize", this.updatePredicate);
-  };
-
-  updatePredicate = () => {
-    this.setState({ isDesktop: window.innerWidth > 860 });
-    this.setState({ isLargeDesktop: window.innerWidth > 1160 });
+  setWeeks = (scheduleSet) => {
+    /* Used by DayBtn and of course ComponentDidMount
+        kinda self explanatory*/
+    const weeks = scheduleSet.map(({ schedule, timeFrame }) => ({
+      id: schedule.id,
+      week: schedule.schedule,
+      timeFrame: timeFrame,
+      staffing: schedule.staffing,
+    }));
+    this.setState({ weeks: weeks });
   };
 
   render() {
-    const { handleSelect, match, selected, schedules} = this.props;
+    const { match, selectedWeek, setSelectedWeek, screenWidth } = this.props;
+    const { weeks } = this.state;
+    let isDesktop = screenWidth > 860;
+    let isLargeDesktop = screenWidth > 1160;
     return (
-      <div className={"main"}>
-        <div className={"container1"}>
-          <p className={"header"}>
-            Let's get started! <br />
-            Select a schedule below to <b>view</b> or <b>edit</b>
-          </p>
-          {this.state.isDesktop && (
-            <div
-              style={this.state.isLargeDesktop ? { display: "none" } : null}
-              className={"search"}
-            >
+      weeks && (
+        <div className={"scheduletron-home"}>
+          <div className={"home-container1"}>
+            <p className={"home-header"}>
+              Let's get started! <br />
+              Select a schedule below to <b>view</b> or <b>edit</b>
+            </p>
+            {isDesktop && (
+              <div
+                style={isLargeDesktop ? { display: "none" } : null}
+                className={"home-search"}
+              >
+                <p>Looking for a schedule in particular?</p>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    label="Enter Date"
+                    value={"02/22/1998"}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </div>
+            )}
+          </div>
+
+          {isLargeDesktop && (
+            <div className="home-search2">
               <p>Looking for a schedule in particular?</p>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
@@ -52,171 +80,82 @@ class Home extends Component {
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
+
+              <ScheduleBtn
+                varient={"unknown"}
+                startDate={"?"}
+                endDate={"?"}
+                setSelectedWeek={setSelectedWeek}
+              />
             </div>
           )}
-        </div>
 
-        {this.state.isLargeDesktop && (
-          <div className={"search2"}>
-            <p>Looking for a schedule in particular?</p>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                label="Enter Date"
-                value={"02/22/1998"}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-
-            <ScheduleBtn
-              varient={"unknown"}
-              startDate={"?"}
-              endDate={"?"}
-              handleSelect={handleSelect}
-            />
-          </div>
-        )}
-
-        <div className={"container2"}>
-          <div className={"list"}>
-            {schedules.map(({ week, timeFrame, staffing, id }) => {
-              const startDate = `${week[0].month}/${week[0].day}`;
-              const endDate = `${week[6].month}/${week[6].day}`;
-              const completion = Math.round(
-                (staffing.actual / staffing.projected) * 100
-              );
-              return (
-                <div key={id} className={"schedule"}>
-                  <p
-                    style={{
-                      textTransform: "capitalize",
-                      fontSize: 11,
-                      margin: 0,
-                    }}
-                  >
-                    {timeFrame}
-                  </p>
-                  <ScheduleBtn
-                    week={week}
-                    startDate={startDate}
-                    endDate={endDate}
-                    completion={completion}
-                    id={id}
-                    handleSelect={handleSelect}
-                  />
-                </div>
-              );
-            })}
-          </div>
-          {this.state.isDesktop && (
-            <div className={"container2-actions"}>
-              <Button
-                style={{
-                  marginLeft: "auto",
-                  textTransform: "none",
-                  color: "white",
-                  background: "#606060",
-                  padding: "10px 20px",
-                }}
-                startIcon={<img alt="" style={{ width: 20 }} src={addIcon} />}
-              >
-                Add A Schedule
-              </Button>
-              <Link
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  textDecoration: "none",
-                  color: selected ? "#1897E6" : "#CBCBCB",
-                  pointerEvents: selected ? "auto" : "none",
-                }}
-                to={selected ? `${match.path}/${selected.id}` : "/"}
-              >
-                <img
-                  alt=""
+          <div className="home-container2">
+            <div className="home-list">
+              {weeks.map(({ week, timeFrame, staffing, id }) => {
+                const startDate = `${week[0].month}/${week[0].day}`;
+                const endDate = `${week[6].month}/${week[6].day}`;
+                const completion = Math.round(
+                  (staffing.actual / staffing.projected) * 100
+                );
+                return (
+                  <div key={id} className="home-schedule">
+                    <p className="timeframe">{timeFrame}</p>
+                    <ScheduleBtn
+                      key={id}
+                      week={week}
+                      startDate={startDate}
+                      endDate={endDate}
+                      completion={completion}
+                      id={id}
+                      setSelectedWeek={setSelectedWeek}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            {isDesktop && (
+              <div className={"home-container2-actions"}>
+                <Button
                   style={{
-                    filter: selected
-                      ? "invert(48%) sepia(80%) saturate(1387%) hue-rotate(174deg) brightness(92%) contrast(94%)"
-                      : "none",
+                    marginLeft: "auto",
+                    textTransform: "none",
+                    color: "white",
+                    background: "#606060",
+                    padding: "10px 20px",
                   }}
-                  src={openIconInactive}
-                />
-                Open{" "}
-                {selected
-                  ? `${selected.week[0].month}/${selected.week[0].day} - ${selected.week[6].month}/${selected.week[6].day}`
-                  : null}
-              </Link>
-            </div>
-          )}
-        </div>
-
-        {/*
-        <div style={{}}>
-          
-
-
-          <div style={{ display: "flex", padding: 25, gap: 15 }}>
-            <Button
-              style={{
-                marginLeft: "auto",
-                textTransform: "none",
-                color: "white",
-                background: "#606060",
-                padding: "10px 20px",
-              }}
-              startIcon={<img alt="" style={{ width: 20 }} src={addIcon} />}
-            >
-              Add A Schedule
-            </Button>
-            <Link
-              style={{
-                display: "flex",
-                alignItems: "center",
-                textDecoration: "none",
-                color: selected ? "#1897E6" : "#CBCBCB",
-                pointerEvents: selected ? "auto" : "none",
-              }}
-              to={selected ? `${match.path}/${selected.id}` : "/"}
-            >
-              <img
-                alt=""
-                style={{
-                  filter: selected
-                    ? "invert(48%) sepia(80%) saturate(1387%) hue-rotate(174deg) brightness(92%) contrast(94%)"
-                    : "none",
-                }}
-                src={openIconInactive}
-              />
-              Open{" "}
-              {selected
-                ? `${selected.week[0].month}/${selected.week[0].day} - ${selected.week[6].month}/${selected.week[6].day}`
-                : null}
-            </Link>
+                  startIcon={<img alt="" style={{ width: 20 }} src={addIcon} />}
+                >
+                  Add A Schedule
+                </Button>
+                <Link
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    textDecoration: "none",
+                    color: selectedWeek ? "#1897E6" : "#CBCBCB",
+                    pointerEvents: selectedWeek ? "auto" : "none",
+                  }}
+                  to={selectedWeek ? `${match.path}/${selectedWeek.id}` : "/"}
+                >
+                  <img
+                    alt=""
+                    style={{
+                      filter: selectedWeek
+                        ? "invert(48%) sepia(80%) saturate(1387%) hue-rotate(174deg) brightness(92%) contrast(94%)"
+                        : "none",
+                    }}
+                    src={openIconInactive}
+                  />
+                  Open{" "}
+                  {selectedWeek &&
+                    `${selectedWeek.week[0].month}/${selectedWeek.week[0].day} - ${selectedWeek.week[6].month}/${selectedWeek.week[6].day}`}
+                </Link>
+              </div>
+            )}
           </div>
         </div>
-
-        <div>
-          <p>Looking for a schedule in particular?</p>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              label="Enter Date"
-              value={"02/22/1998"}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-          <Button
-            style={{
-              background: "#DDDDDD",
-              color: "white",
-              borderRadius: "7px",
-            }}
-            classes={{ label: classes.label, root: classes.button }}
-          >
-            ?
-            <img alt="" style={{ width: 72 }} src={scheduleIconWhite} />?
-          </Button>
-        </div>
-          */}
-      </div>
+      )
     );
   }
 }

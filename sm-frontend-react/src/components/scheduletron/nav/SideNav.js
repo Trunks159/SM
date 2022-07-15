@@ -16,7 +16,7 @@ class SideNav extends Component {
   };
 
   render() {
-    const { dayId, selected, setDay } = this.props;
+    const { dayId, selectedWeek } = this.props;
     const { menu } = this.state;
     return (
       <>
@@ -26,15 +26,11 @@ class SideNav extends Component {
           <Tabs2
             dayId={dayId}
             changeMenu={this.changeMenu}
-            selected={selected}
+            selectedWeek={selectedWeek}
           />
           <Collapse in={Boolean(menu)}>
-            {selected && (
-              <WeekBar
-                hidden={menu === "weekbar"}
-                week={selected.week}
-                setDay={setDay}
-              />
+            {selectedWeek && (
+              <WeekBar hidden={menu === "weekbar"} week={selectedWeek.week} />
             )}
 
             <div hidden={menu === "search"}>Search</div>

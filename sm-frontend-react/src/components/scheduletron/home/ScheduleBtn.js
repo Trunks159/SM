@@ -5,10 +5,10 @@ import { makeStyles, Button } from "@material-ui/core";
 
 const ScheduleBtn = ({
   week,
-  completion = null,
+  completion,
   startDate,
   endDate,
-  handleSelect,
+  setSelectedWeek,
   id,
 }) => {
   const style = {
@@ -21,13 +21,13 @@ const ScheduleBtn = ({
   };
   return (
     <button
-      className="schedule-btn"
+      className="home-schedule-btn"
       style={completion ? style : { ...style, pointerEvents: "none" }}
-      onClick={() => handleSelect({ week: week, id: id })}
+      onClick={() => setSelectedWeek({ week: week, id: id })}
     >
-      <p style={{}}>{startDate}</p>
+      <p>{startDate}</p>
       <img style={{ width: "50%" }} src={scheduleIcon} />
-      <p style={{}}>{endDate}</p>
+      <p>{endDate}</p>
 
       {completion && (
         <p
