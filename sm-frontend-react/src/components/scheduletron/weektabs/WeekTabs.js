@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import "./weektabs.css";
 import TabPanels from "./TabPanels";
-import { Switch, Route, Redirect, withRouter, Link } from "react-router-dom";
+import { Redirect, withRouter, Link } from "react-router-dom";
 import { Tabs, Tab } from "@mui/material";
-import { makeStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 
-const useStyles = makeStyles({
+const styles = () => ({
   root: {
     justifyContent: "center",
     background: "white",
@@ -13,51 +13,38 @@ const useStyles = makeStyles({
   scroller: {
     flexGrow: "0",
   },
+  tab: {
+    textTransform : 'none',
+    transitionDuration : '.25s',
+    background: "#275C78",
+    margin : '0px 12.5px' ,
+    borderRadius : '7px 7px 0px 0px',
+
+  },
+  tabLink: {
+    flex : 1,
+    width : '100%',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textDecoration: "none",
+    color: "white",
+
+    fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+    fontSize : '32px',
+  },
+  tabs: {
+    stuff: 1,
+    
+    "& .MuiTabs-flexContainer": {
+      gap : 10,
+      height : '100%'
+    },
+    "& .MuiTabs-indicator": {
+      display : 'none'
+    },
+  },
 });
-
-const MyTab = ({ weekday, date, index, value, weekId, key }) => {
-  const isActive = index === value;
-  console.log("index: ", index, "value: ", value, "isactive: ", isActive);
-  return (
-    <Link to={`/scheduletron/${weekId}/${index}`}>
-      <Tab
-        key={key}
-        value={index}
-        label={(isActive ? weekday : "") + date}
-        className={`tab ${isActive ? "active" : "inactive"}`}
-      />
-    </Link>
-  );
-};
-
-const MyTabs = ({ days, value, changeTab, weekId }) => {
-  const classes = useStyles();
-  console.log("Duh value: ", value);
-  return (
-    <Tabs
-      classes={{ root: classes.root, scroller: classes.scroller }}
-      variant="scrollable"
-      scrollButtons
-      allowScrollButtonsMobile
-      value={value}
-      onChange={changeTab}
-    >
-      <Tab label={"Tab1"} value={0} />
-      <Tab label={"Tab2"} value={1} />
-      {/*days.map((day, index) => (
-        <MyTab
-          key={index}
-          weekday={day.weekday}
-          date={`${day.month}/${day.day}`}
-          weekId={weekId}
-          index={index}
-          value={value}
-          changeTab={changeTab}
-        />
-      ))*/}
-    </Tabs>
-  );
-};
 
 class TabsContainer extends Component {
   state = {
@@ -67,11 +54,11 @@ class TabsContainer extends Component {
     redirect: false,
   };
 
-  changeTab = (newTab, dayId) => {
-    console.log("Newtab: ", newTab);
+  changeTab = (e, newTab) => {
+    console.log("This.state.days: ", this.state.days);
     this.setState({
       currentTab: newTab,
-      day: this.state.days.find((d) => d.id === dayId),
+      day: this.state.days[newTab],
     });
   };
 
@@ -103,19 +90,44 @@ class TabsContainer extends Component {
   };
 
   render() {
-    const { screenWidth, match, weekId } = this.props;
+    const { screenWidth, match, weekId, classes } = this.props;
     const isDesktop = screenWidth > 849;
     const { days, day, currentTab, redirect } = this.state;
     return (
       redirect ||
       (days && (
         <div className="tabs-container">
-          <MyTabs
-            changeTab={this.changeTab}
-            days={days}
-            value={currentTab}
-            weekId={weekId}
+
+     <Tabs
+      variant="scrollable"
+      scrollButtons
+      allowScrollButtonsMobile
+      onChange={this.changeTab}
+      value={currentTab}
+      className = {classes.tabs}
+    >
+      {/*You might want to separate this but DONOT. For some reason 
+      the scrollbuttons dont work or the indicator*/}
+      {days.map((d, index) => {
+        const isActive = index === currentTab;
+        return (
+          <Tab
+          className={classes.tab}
+          value={index}
+          sx = {{width : isActive ? 300 : 150, opacity : isActive ? 1 : .5 }}
+            label={
+              <Link className={classes.tabLink} to={`/scheduletron/${weekId}/${index}`}>
+                {`${index === currentTab ? d.weekday : ""} ${d.month}/${d.day}`}
+              </Link>
+            }
+            
           />
+        );
+      })}
+    </Tabs>
+    
+
+         
           <TabPanels days={days} currentDay={day} isDesktop={isDesktop} />
         </div>
       ))
@@ -123,4 +135,4 @@ class TabsContainer extends Component {
   }
 }
 
-export default withRouter(TabsContainer);
+export default withRouter(withStyles(styles)  (TabsContainer));

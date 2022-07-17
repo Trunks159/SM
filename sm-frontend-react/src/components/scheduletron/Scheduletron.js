@@ -34,7 +34,7 @@ class Scheduletron extends Component {
     const { classes } = this.props;
     const { screenWidth, selectedWeek } = this.state;
     return (
-      <div className="scheduletron" style={{ background: "red" }}>
+      <div className="scheduletron" >
         <SideNav
           selectedWeek={selectedWeek}
           dayId={
