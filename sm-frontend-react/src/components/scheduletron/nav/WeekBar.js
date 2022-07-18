@@ -72,7 +72,7 @@ class WeekBar extends Component {
   render() {
     const { week, classes, path, setDay } = this.props;
     return (
-      <div style={{ width: "100%" }}>
+      <div style={{}}>
         {week.map(({ weekday, staffing, month, day, id }) => (
           <DayBtn
             weekday={weekday}

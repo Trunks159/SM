@@ -21,6 +21,7 @@ class Editor extends Component {
       addToSchedule,
       dayId,
       handleSlider,
+      day,
     } = this.props;
     return (
       <div hidden={hidden}>

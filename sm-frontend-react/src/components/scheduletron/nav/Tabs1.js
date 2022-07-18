@@ -53,7 +53,7 @@ class Tabs1 extends Component {
               background: "white",
               width: 2,
               height: "100%",
-              right: 0,
+              left: 0,
               transition: "opacity .25s",
               top: 0,
             }}
@@ -77,7 +77,7 @@ class Tabs1 extends Component {
               background: "white",
               width: 2,
               height: "100%",
-              right: 0,
+              left: 0,
               transition: "opacity .25s",
               top: 0,
             }}

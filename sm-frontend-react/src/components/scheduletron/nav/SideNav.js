@@ -18,23 +18,46 @@ class SideNav extends Component {
   render() {
     const { dayId, selectedWeek } = this.props;
     const { menu } = this.state;
+    console.log("Menu: ", menu);
     return (
       <>
         <div className="placeholder-nav"></div>
-        <div className="side-navbar">
-          <Tabs1 dayId={dayId} />
-          <Tabs2
-            dayId={dayId}
-            changeMenu={this.changeMenu}
-            selectedWeek={selectedWeek}
-          />
-          <Collapse in={Boolean(menu)}>
-            {selectedWeek && (
-              <WeekBar hidden={menu === "weekbar"} week={selectedWeek.week} />
-            )}
+        <div className="side-navbar" style={{}}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              width: 70,
+              background: "#51636D",
+            }}
+          >
+            <Tabs1 dayId={dayId} />
+            <Tabs2
+              dayId={dayId}
+              changeMenu={this.changeMenu}
+              selectedWeek={selectedWeek}
+            />
+          </div>
 
-            <div hidden={menu === "search"}>Search</div>
-            <div hidden={menu === "settings"}>Settings</div>
+          <Collapse in={Boolean(menu)} orientation={"horizontal"}>
+            <div
+              style={{
+                position: "absolute",
+                left: 70,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                background: "red",
+              }}
+            >
+              {selectedWeek && (
+                <WeekBar hidden={menu === "weekbar"} week={selectedWeek.week} />
+              )}
+
+              <div hidden={menu === "search"}>Search</div>
+              <div hidden={menu === "settings"}>Settings</div>
+            </div>
           </Collapse>
         </div>
       </>

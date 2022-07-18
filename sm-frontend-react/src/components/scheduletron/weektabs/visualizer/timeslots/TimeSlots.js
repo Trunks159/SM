@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { timeToFloat, valueToFloat, miliToReg, valueToDt } from "../../../../TimeFunctions";
+import {
+  timeToFloat,
+  valueToFloat,
+  miliToReg,
+  valueToDt,
+} from "../../../../TimeFunctions";
 import TimeSlot from "./TimeSlot";
 import "./timeslots.css";
 
@@ -26,7 +31,6 @@ class TimeSlots extends Component {
     const trueWidth = workslot[1] - workslot[0];
     const width = trueWidth - overflowLeft - overflowRight;
     const toPercentage = (item) => (item / availableTimesDiff) * 100 + "%";
-    console.log("Get stuff: ", width / availableTimesDiff);
     return {
       width: toPercentage(width),
       marginLeft: marginLeft < 0 ? "0%" : toPercentage(marginLeft),
@@ -52,7 +56,7 @@ class TimeSlots extends Component {
 
           const workslot = [
             valueToFloat(workblock.startTime),
-            valueToFloat(workblock.endTime)
+            valueToFloat(workblock.endTime),
           ];
 
           const isBetween = (value, range) =>
@@ -66,8 +70,12 @@ class TimeSlots extends Component {
                 workslot={workslot}
                 shiftFilter={shiftFilter}
                 user={workblock.user}
-                startTime = {miliToReg(valueToDt(workblock.startTime).toTimeString().slice(0, 5))}
-                endTime = {miliToReg(valueToDt(workblock.endTime).toTimeString().slice(0, 5))}
+                startTime={miliToReg(
+                  valueToDt(workblock.startTime).toTimeString().slice(0, 5)
+                )}
+                endTime={miliToReg(
+                  valueToDt(workblock.endTime).toTimeString().slice(0, 5)
+                )}
               />
             )
           );

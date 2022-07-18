@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./weektabs.css";
 import TabPanels from "./TabPanels";
 import { Redirect, withRouter, Link } from "react-router-dom";
-import { Tabs, Tab } from "@mui/material";
+import { Tabs, Tab, Collapse } from "@mui/material";
 import { withStyles } from "@material-ui/core";
 
 const styles = () => ({
@@ -14,34 +14,34 @@ const styles = () => ({
     flexGrow: "0",
   },
   tab: {
-    textTransform : 'none',
-    transitionDuration : '.25s',
+    textTransform: "none",
+    transitionDuration: ".25s",
     background: "#275C78",
-    margin : '0px 12.5px' ,
-    borderRadius : '7px 7px 0px 0px',
-
+    margin: "0px 12.5px",
+    borderRadius: "7px 7px 0px 0px",
+    minWidth: 150,
+    padding: "0px 20px",
   },
   tabLink: {
-    flex : 1,
-    width : '100%',
+    flex: 1,
+    width: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     textDecoration: "none",
     color: "white",
-
     fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-    fontSize : '32px',
+    fontSize: "32px",
   },
   tabs: {
     stuff: 1,
-    
+
     "& .MuiTabs-flexContainer": {
-      gap : 10,
-      height : '100%'
+      gap: 10,
+      height: "100%",
     },
     "& .MuiTabs-indicator": {
-      display : 'none'
+      display: "none",
     },
   },
 });
@@ -49,16 +49,15 @@ const styles = () => ({
 class TabsContainer extends Component {
   state = {
     currentTab: this.props.dayIndex,
-    day: this.props.days && this.props.days[this.props.dayIndex],
+    currentDay: this.props.days && this.props.days[this.props.dayIndex],
     days: this.props.days,
     redirect: false,
   };
 
   changeTab = (e, newTab) => {
-    console.log("This.state.days: ", this.state.days);
     this.setState({
       currentTab: newTab,
-      day: this.state.days[newTab],
+      currentDay: this.state.days[newTab],
     });
   };
 
@@ -84,7 +83,7 @@ class TabsContainer extends Component {
     if (prevProps.days !== this.props.days) {
       this.setState({
         days: this.props.days,
-        day: this.props.days[this.props.dayIndex],
+        currentDay: this.props.days[this.props.dayIndex],
       });
     }
   };
@@ -92,47 +91,56 @@ class TabsContainer extends Component {
   render() {
     const { screenWidth, match, weekId, classes } = this.props;
     const isDesktop = screenWidth > 849;
-    const { days, day, currentTab, redirect } = this.state;
+    const { days, currentDay, currentTab, redirect } = this.state;
     return (
       redirect ||
       (days && (
         <div className="tabs-container">
-
-     <Tabs
-      variant="scrollable"
-      scrollButtons
-      allowScrollButtonsMobile
-      onChange={this.changeTab}
-      value={currentTab}
-      className = {classes.tabs}
-    >
-      {/*You might want to separate this but DONOT. For some reason 
+          <Tabs
+            variant="scrollable"
+            scrollButtons
+            allowScrollButtonsMobile
+            onChange={this.changeTab}
+            value={currentTab}
+            className={classes.tabs}
+          >
+            {/*You might want to separate this but DONOT. For some reason 
       the scrollbuttons dont work or the indicator*/}
-      {days.map((d, index) => {
-        const isActive = index === currentTab;
-        return (
-          <Tab
-          className={classes.tab}
-          value={index}
-          sx = {{width : isActive ? 300 : 150, opacity : isActive ? 1 : .5 }}
-            label={
-              <Link className={classes.tabLink} to={`/scheduletron/${weekId}/${index}`}>
-                {`${index === currentTab ? d.weekday : ""} ${d.month}/${d.day}`}
-              </Link>
-            }
-            
-          />
-        );
-      })}
-    </Tabs>
-    
+            {days.map((d, index) => {
+              const isActive = index === currentTab;
+              return (
+                <Tab
+                  className={classes.tab}
+                  value={index}
+                  sx={{
+                    opacity: isActive ? 1 : 0.5,
+                  }}
+                  label={
+                    <Link
+                      className={classes.tabLink}
+                      to={`/scheduletron/${weekId}/${index}`}
+                    >
+                      <Collapse orientation={"horizontal"} in={isActive}>
+                        <p style={{ marginRight: 7 }}>{d.weekday} </p>
+                      </Collapse>
 
-         
-          <TabPanels days={days} currentDay={day} isDesktop={isDesktop} />
+                      <p>{`${d.month}/${d.day}`}</p>
+                    </Link>
+                  }
+                />
+              );
+            })}
+          </Tabs>
+
+          <TabPanels
+            days={days}
+            currentDay={currentDay}
+            isDesktop={isDesktop}
+          />
         </div>
       ))
     );
   }
 }
 
-export default withRouter(withStyles(styles)  (TabsContainer));
+export default withRouter(withStyles(styles)(TabsContainer));

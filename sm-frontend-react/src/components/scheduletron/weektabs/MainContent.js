@@ -30,13 +30,11 @@ class MainContent extends Component {
 
   addToSchedule = (userId) => {
     let { notScheduled, scheduled } = this.state;
-    console.log("Scheduled: ", scheduled);
     const user = notScheduled.splice(
       notScheduled.indexOf(notScheduled.find((person) => person.id === userId)),
       1
     )[0];
 
-    console.log("Myuser: ", user);
     scheduled.push({
       user: user,
       startTime: timeToValue("08:00"),
@@ -66,6 +64,11 @@ class MainContent extends Component {
   };
 
   componentDidMount = () => {
+    console.log("Im mounting");
+    this.setUpState();
+  };
+
+  setUpState = () => {
     fetch(`/get_schedule/${this.props.day.id}`)
       .then((response) => response.json())
       .then(({ allUsers, scheduled, notScheduled }) => {
@@ -81,6 +84,12 @@ class MainContent extends Component {
       });
   };
 
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.day !== this.props.day) {
+      this.setUpState();
+    }
+  };
+
   render() {
     const { day, isDesktop, currentFunction } = this.props;
     const { scheduled, allUsers } = this.state;
@@ -90,10 +99,10 @@ class MainContent extends Component {
           style={{
             display: "flex",
             position: "absolute",
-            top: isDesktop ? 0 :  57 ,
+            top: isDesktop ? 0 : 57,
             bottom: 0,
             overflowY: "auto",
-            left:  isDesktop ? 57:  0,
+            left: isDesktop ? 57 : 0,
             right: 0,
           }}
         >
@@ -106,6 +115,7 @@ class MainContent extends Component {
           <Editor
             hidden={currentFunction !== 1}
             workblocks={scheduled}
+            day={day}
             dayId={day.id}
             availableUsers={this.state.notScheduled}
             addToSchedule={this.addToSchedule}

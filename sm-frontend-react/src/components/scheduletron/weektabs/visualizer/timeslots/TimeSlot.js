@@ -15,7 +15,6 @@ const timeslotPosition = (availableTimes = [6, 15], workslot = [2, 17]) => {
   const trueWidth = workslot[1] - workslot[0];
   const width = trueWidth - overflowLeft - overflowRight;
   const toPercentage = (item) => (item / availableTimesDiff) * 100 + "%";
-  console.log("Get stuff: ", width / availableTimesDiff);
   return {
     width: toPercentage(width),
     marginLeft: marginLeft < 0 ? "0%" : toPercentage(marginLeft),
@@ -51,8 +50,6 @@ const TimeSlot = ({ availableTimes, workslot, user, startTime, endTime }) => {
 
   const { overflowLeft, overflowRight, width, marginLeft, hideSelf } =
     timeslotPosition(availableTimes, workslot);
-
-  console.log("Starttime: ", startTime);
 
   return (
     hideSelf || (

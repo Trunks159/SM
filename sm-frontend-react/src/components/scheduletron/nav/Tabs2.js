@@ -81,7 +81,7 @@ class Tabs2 extends Component {
                     background: "#51636D",
                     width: 2,
                     height: "100%",
-                    right: 0,
+                    left: 0,
                     transition: "opacity .25s",
                   }}
                 />

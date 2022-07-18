@@ -15,25 +15,31 @@ import "./functions.css";
 
 const useStyles = makeStyles({
   tabs: {
-    "& .MuiTabs-indicator": {
-      left: 0,
+    "@media(min-width : 600px)": {
+      border: "none",
+      "& .MuiTabs-flexContainer": {
+        justifyContent: "space-evenly",
+      },
+      width: 56,
+      "& .MuiTabs-indicator": {
+        left: 0,
+      },
+      height: "100%",
     },
-    "& .MuiTabs-flexContainer": {
-      width: 60,
-      alignItems: "center",
-    },
-    flexShrink: 0,
-  },
-  tabsDesktop: {
-    "& .MuiTabs-indicator": {
-    },
-    "& .MuiTabs-flexContainer": {
 
-      justifyContent : 'space-evenly'
+    "& .MuiTabs-indicator": {
+      background: "#54DCF2",
     },
-    flexShrink: 0,
-    width : '100%',
-    alignItems : 'center'
+    "& .MuiTabs-flexContainer": {
+      justifyContent: "space-evenly",
+    },
+    overflowX: "auto",
+    minWidth: 0,
+    alignItems: "center",
+  },
+  tab: {
+    minWidth: 0,
+    flex: 1,
   },
 });
 
@@ -43,51 +49,48 @@ export default function Functions({
   setCurrentFunction,
 }) {
   const classes = useStyles();
-  console.log('IsDesktop: ', isDesktop)
+  const tabIcons = [
+    { active: visualizerIcon, inactive: visualizerIconInactive },
+    { active: editorIcon, inactive: editorIconInactive },
+    { active: metricsIcon, inactive: metricsIconInactive },
+    { active: saveIcon, inactive: saveIconInactive },
+  ];
   return (
-  
     <Tabs
-      className={classes.tabsDesktop}
+      className={classes.tabs}
       value={currentFunction}
-      orientation={isDesktop ? 'vertical' :  "horizontal"}
+      orientation={isDesktop ? "vertical" : "horizontal"}
       onChange={setCurrentFunction}
       aria-label="basic tabs example"
       sx={{
         borderBottom: 1,
         borderColor: "divider",
-        height : isDesktop ? '100%' : 55,
       }}
     >
-      <Tab
-        value={0}
-        style = {{background : 'red', borderBottom : "2px solid black"}}
-        icon={
-          <img
-            src={
-              currentFunction === 0 ? visualizerIcon : visualizerIconInactive
+      {tabIcons.map((icons, index) => {
+        const isActive = index === currentFunction;
+        return (
+          <Tab
+            className={classes.tab}
+            value={index}
+            style={{
+              transition: ".2s",
+              opacity: 1,
+              height: 70,
+              padding: "15px 10px",
+            }}
+            icon={
+              <img
+                style={{
+                  width: isActive ? 42 : 33,
+                  transitionDuration: ".2s",
+                }}
+                src={isActive ? icons.active : icons.inactive}
+              />
             }
           />
-        }
-      />
-      <Tab
-        value={1}
-        icon={
-          <img src={currentFunction === 1 ? editorIcon : editorIconInactive} />
-        }
-      />
-      <Tab
-        value={2}
-        icon={
-          <img
-            src={currentFunction === 2 ? metricsIcon : metricsIconInactive}
-          />
-        }
-      />
-      <Tab
-        value={3}
-        icon={<img src={currentFunction === 3 ? saveIcon : saveIconInactive} />}
-      />
+        );
+      })}
     </Tabs>
-    
   );
 }
