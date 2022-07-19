@@ -1,31 +1,19 @@
-.dashboard {
-  flex: 1;
-  display: flex;
-  background: white;
-  flex-direction: column;
+.dash-header {
+  margin: 15px;
 }
 
-
-.dashboard-header{
-  margin: 8px;
-  font-size: .9em;
-  color: #275c78;
+.dash-header h1 {
+  margin: 5px 0px 3px 0px;
+  font-weight: normal;
 }
 
-
-
-.dashboard-schedule {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 840;
-  width: 100%;
-  justify-self: center;
+.dash-divider1 {
+  width: 162px;
+  background: #d9d9d9;
+}
+.dash-divider2 {
+  width: 73px;
+  background: #54DCF2;
 }
 
-.mainFlex {
-  display: grid;
-  flex: 1;
-  background-color: green;
-}
 

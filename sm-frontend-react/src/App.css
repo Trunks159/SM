@@ -1,6 +1,5 @@
 .App {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  position: absolute;
   min-height: 100vh;
   width : 100vw;
   display: flex;

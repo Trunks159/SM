@@ -1,149 +1,77 @@
 import React, { Component } from "react";
-import { Paper, withStyles } from "@material-ui/core";
-import SchedulePaper from "../schedulePaper/SchedulePaper";
-import scheduleIcon from "../../assets/images/Schedule Icon White.svg";
-import { Link, Redirect } from "react-router-dom";
+import Divider from "@mui/material/Divider";
+import { Paper, styled } from "@mui/material";
 import "./dashboard.css";
 
-const styles = () => ({
-  mainFlex: {
-    display: "grid",
-    gridTemplateColumns: "3fr 1fr",
-    columnGap: "10px",
-    rowGap: "10px",
-    "@media (max-width : 700px)": {
-      gridTemplateColumns: "1fr",
-    },
-  },
-  container2: {
-    display: "flex",
-    flexWrap: "wrap",
-    alignSelf: "start",
-  },
-
-  mainAction: {
-    background: "#1897E6",
-    padding: 5,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    borderRadius: 7,
-    textDecoration: "none",
-    color: "white",
-    marginLeft: "auto",
-    width: 250,
-    "& img": {
-      width: 48,
-    },
-    "& p": {
-      fontSize: 14,
-      fontWeight: "bold",
-    },
-  },
+const StyledPaper = styled(Paper)({
+  display: "grid",
+  gridTemplateRows: "40px 1fr",
 });
 
+const DashHeader = () => (
+  <div className="dash-header">
+    <h1>Dashboard</h1>
+    <Divider style={{ margin: "5px 0px" }} className="dash-divider1" />
+    <Divider style={{ margin: "5px 0px" }} className="dash-divider2" />
+  </div>
+);
+
+const DashSchedule = () => {
+  return <div></div>;
+};
+
+const UpcomingShifts = () => {
+  return (
+    <StyledPaper>
+      <Paper
+        style={{
+          background: "#F6F6F6",
+          borderRadius: "7px 7px 0px 0px",
+        }}
+      >
+        <p
+          style={{
+            background: "#275C78",
+            margin: 0,
+            height: "100%",
+            width: "max-content",
+            padding: "0px 10px",
+            borderRadius: "7px 0px 0px 0px",
+            color: "white",
+          }}
+        >
+          My Upcoming Shifts
+        </p>
+      </Paper>
+      <p>
+        Ea et aliquip magna esse. Officia nostrud esse nisi excepteur. Aliquip
+        aliquip in fugiat magna incididunt ad labore esse dolor. Anim pariatur
+        esse pariatur ullamco occaecat. Voluptate aliquip quis fugiat occaecat
+        mollit non aute id veniam sint nisi qui. Est incididunt in non
+        consectetur incididunt fugiat consequat veniam.
+      </p>
+    </StyledPaper>
+  );
+};
+
+const UpcomingReqOffs = () => {
+  return <div></div>;
+};
+
 class Dashboard extends Component {
-  state = {
-    schedule: null,
-    redirect: null,
-  };
-
-  componentDidMount = () => {
-    /*When the site actually works, the date wont be passed in
-    instead, we'll just get today date */
-    const today = { day: 13, month: 9, year: 2021 };
-    fetch(`get_day/${today.month}-${today.day}-${today.year}`)
-      .then((response) => response.json())
-      .then((schedule) => {
-        this.setState({ schedule: schedule });
-      });
-  };
-
+  state = {};
   render() {
-    const { classes, currentUser } = this.props;
-    const { schedule } = this.state;
-
     return (
-      schedule && (
-        <div className="dashboard">
-          <h1 className="dashboard-header">Dashboard</h1>
-          <div className="mainFlex">
-            <SchedulePaper schedule={schedule} />
-            {/*
-            <div className='dashboard-schedule'>
-              <h2 >Today's Schedule</h2>
-              <div style={{ display: "flex", height: 342, maxWidth: 840 }}>
-                <SchedulePaper header={true} schedule={this.state.schedule} />
-              </div>
-  
-              <Link to="/scheduletron" style={{ textDecoration: "none" }}>
-                <Paper elevation={2} className={classes.mainAction}>
-                  <p>View and Edit Schedules</p>
-                  <img alt="" src={scheduleIcon} />
-                </Paper>
-              </Link>
-            </div>
-            <div className={classes.container2}>
-              <div>
-                <p>My Upcoming Shifts</p>
-                <div style={{ display: "flex", flexWrap: "wrap" }}>
-                  {currentUser.upcomingShifts.map(
-                    ({ date, startTime, endTime }) => (
-                      <Paper
-                        style={{
-                          width: 90,
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                        }}
-                      >
-                        <p
-                          style={{
-                            fontSize: 21,
-                            textAlign: "center",
-                            marginBottom: 0,
-                            marginTop: 10,
-                          }}
-                        >{`${date.month}/${date.day}`}</p>
-                        <p
-                          style={{ fontSize: 9, textAlign: "center" }}
-                        >{`${startTime} - ${endTime}`}</p>
-                      </Paper>
-                    )
-                  )}
-                </div>
-              </div>
-              <div>
-                <p>My Upcoming Request Offs</p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-                  {currentUser.upcomingRequestOffs.map(({ date }) => (
-                    <Paper
-                      elevation={2}
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                      }}
-                    >
-                      <p
-                        style={{
-                          fontSize: 21,
-                          textAlign: "center",
-                          margin: 5,
-                        }}
-                      >
-                        {date}
-                      </p>
-                    </Paper>
-                  ))}
-                </div>
-              </div>
-            </div>*/}
-          </div>
+      <div style={{ margin: "0px 80px", flex: 1 }}>
+        <DashHeader />
+        <div className="dash-content">
+          <DashSchedule />
+          <UpcomingShifts />
+          <UpcomingReqOffs />
         </div>
-      )
+      </div>
     );
   }
 }
 
-export default withStyles(styles)(Dashboard);
+export default Dashboard;
