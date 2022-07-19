@@ -23,6 +23,7 @@ class Editor extends Component {
       handleSlider,
       day,
     } = this.props;
+    const { addTeam } = this.state;
     return (
       <div hidden={hidden}>
         <Scheduled
@@ -34,12 +35,13 @@ class Editor extends Component {
         <Button
           onClick={this.handleAddTeam}
           style={{ position: "fixed", bottom: 10, right: 10 }}
+
         >
           <img src={addIcon} />
         </Button>
         <AddTeam
           availableUsers={availableUsers}
-          isOpen={this.state.addTeam}
+          isOpen={addTeam}
           handleAddTeam={this.handleAddTeam}
           addToSchedule={addToSchedule}
         />
