@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import Divider from "@mui/material/Divider";
-import { Paper, styled } from "@mui/material";
+import { Button, Paper, styled } from "@mui/material";
 import "./dashboard.css";
 import Visualizer from "../scheduletron/weektabs/visualizer/Visualizer";
 import { timeToValue } from "../TimeFunctions";
+import launchIcon from "./assets/Launch Icon.svg";
 
 const StyledPaper = styled(Paper)({
   display: "grid",
   gridTemplateRows: "40px 1fr",
+  height: 270,
 });
 
 const DashHeader = () => (
@@ -35,7 +37,37 @@ class DashSchedule extends Component {
     const { day } = this.state;
     return (
       day && (
-        <Paper>
+        <Paper style={{ maxWidth: 860, position: "relative" }}>
+          <div
+            style={{
+              background: "#F6F6F6",
+              height: 60,
+              display: "flex",
+              alignItems: "center",
+              borderRadius: "7px 7px 0px 0px",
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                color: "white",
+                fontWeight: "normal",
+                background: "#275C78",
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+                borderRadius: "7px 7px 0px 0px",
+                padding: "0px 20px",
+              }}
+            >
+              <h2
+                style={{
+                  fontWeight: "normal",
+                }}
+              >{`${day.weekday} ${day.month}/${day.day}`}</h2>
+            </div>
+          </div>
+
           <Visualizer
             day={day}
             workblocks={day.workblocks.map(({ user, startTime, endTime }) => ({
@@ -43,8 +75,21 @@ class DashSchedule extends Component {
               endTime: timeToValue(endTime),
               user: user,
             }))}
-            isDesktop = {true}
+            isDesktop={true}
           />
+          <Button
+            style={{
+              background: "#275C78",
+              position: "absolute",
+              bottom: 15,
+              right: 15,
+              borderRadius: 7,
+              width: 61,
+              height: 61,
+            }}
+          >
+            <img src={launchIcon} />
+          </Button>
         </Paper>
       )
     );
@@ -54,27 +99,37 @@ class DashSchedule extends Component {
 const UpcomingShifts = () => {
   return (
     <StyledPaper>
-      <Paper
+      <div
         style={{
           background: "#F6F6F6",
           borderRadius: "7px 7px 0px 0px",
+          display: "flex",
+          height: 50,
         }}
       >
-        <p
+        <div
           style={{
+            display: "flex",
+            alignItems: "center",
             background: "#275C78",
-            margin: 0,
-            height: "100%",
             width: "max-content",
-            padding: "0px 10px",
-            borderRadius: "7px 0px 0px 0px",
-            color: "white",
+            borderRadius: "7px 7px 0px 0px",
+            padding: "0px 15px",
           }}
         >
-          My Upcoming Shifts
-        </p>
-      </Paper>
-      <p>
+          <h3
+            style={{
+              padding: "0px 10px",
+              borderRadius: "7px 0px 0px 0px",
+              color: "white",
+              fontWeight: "normal",
+            }}
+          >
+            My Upcoming Shifts
+          </h3>
+        </div>
+      </div>
+      <p style={{ overflowY: "auto" }}>
         Ea et aliquip magna esse. Officia nostrud esse nisi excepteur. Aliquip
         aliquip in fugiat magna incididunt ad labore esse dolor. Anim pariatur
         esse pariatur ullamco occaecat. Voluptate aliquip quis fugiat occaecat

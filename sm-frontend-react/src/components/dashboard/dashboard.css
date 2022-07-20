@@ -13,7 +13,18 @@
 }
 .dash-divider2 {
   width: 73px;
-  background: #54DCF2;
+  background: #54dcf2;
 }
 
+.dash-content  {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+}
 
+@media (min-width: 800px) {
+  .dash-content {
+    grid-template-columns: minmax(400px, 1000px) 350px;
+    gap : 10px 20px;
+  }
+}
