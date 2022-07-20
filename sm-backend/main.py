@@ -113,13 +113,16 @@ def user_login():
 
 @app.route('/get_day/<date>')
 def get_day(date):
+    
     date = [int(i) for i in date.split('-')]
     month, day, year = date
     days = Day.query.all()
+    print('The date: ', days)
     found_day = None
     for item in days:
         if (item.date.month == month) & (item.date.day == day) & (item.date.year == year):
             found_day = item
+
             break
     if found_day == None:
         found_day = Day(date=datetime(year, month, day))

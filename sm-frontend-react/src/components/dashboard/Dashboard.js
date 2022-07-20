@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Divider from "@mui/material/Divider";
 import { Paper, styled } from "@mui/material";
 import "./dashboard.css";
+import Visualizer from "../scheduletron/weektabs/visualizer/Visualizer";
+import { timeToValue } from "../TimeFunctions";
 
 const StyledPaper = styled(Paper)({
   display: "grid",
@@ -16,9 +18,38 @@ const DashHeader = () => (
   </div>
 );
 
-const DashSchedule = () => {
-  return <div></div>;
-};
+class DashSchedule extends Component {
+  state = {
+    day: null,
+  };
+
+  componentDidMount = () => {
+    fetch(`/get_day/${9}-${13}-${2021}`)
+      .then((response) => response.json())
+      .then((theDay) => {
+        this.setState({ day: theDay });
+      });
+  };
+
+  render() {
+    const { day } = this.state;
+    return (
+      day && (
+        <Paper>
+          <Visualizer
+            day={day}
+            workblocks={day.workblocks.map(({ user, startTime, endTime }) => ({
+              startTime: timeToValue(startTime),
+              endTime: timeToValue(endTime),
+              user: user,
+            }))}
+            isDesktop = {true}
+          />
+        </Paper>
+      )
+    );
+  }
+}
 
 const UpcomingShifts = () => {
   return (
@@ -59,7 +90,10 @@ const UpcomingReqOffs = () => {
 };
 
 class Dashboard extends Component {
-  state = {};
+  state = {
+    day: null,
+  };
+
   render() {
     return (
       <div style={{ margin: "0px 80px", flex: 1 }}>
