@@ -1,0 +1,16 @@
+.tab-maincontent {
+  display: flex;
+  position: absolute;
+  top: 65px;
+  bottom: 0px;
+  overflow-y: auto;
+  left: 0px;
+  right: 0px;
+}
+
+@media (min-width: 600px) {
+  .tab-maincontent {
+    top: 0px;
+    left: 65px;
+  }
+}

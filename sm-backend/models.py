@@ -138,10 +138,12 @@ class Day(db.Model):
             'month': self.date.month,
             'day': self.date.day,
             'weekday': list(calendar.day_name)[self.date.weekday()],
+            'index':self.date.weekday(),
             'date': self.date.isoformat(),
             'projectedSales': self.projected_sales,
             'workblocks': [workblock.to_json() for workblock in self.workblocks],
             'staffing': {'actual': 6, 'projected': 20},
+            'weekId' : self.week_id,
         }
 
     def shiftData(self):

@@ -90,7 +90,7 @@ class TabsContainer extends Component {
 
   render() {
     const { screenWidth, match, weekId, classes } = this.props;
-    const isDesktop = screenWidth > 849;
+    const isDesktop = screenWidth > 600;
     const { days, currentDay, currentTab, redirect } = this.state;
     return (
       redirect ||

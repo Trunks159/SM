@@ -5,6 +5,7 @@ import "./dashboard.css";
 import Visualizer from "../scheduletron/weektabs/visualizer/Visualizer";
 import { timeToValue } from "../TimeFunctions";
 import launchIcon from "./assets/Launch Icon.svg";
+import { Link } from "react-router-dom";
 
 const StyledPaper = styled(Paper)({
   display: "grid",
@@ -37,7 +38,7 @@ class DashSchedule extends Component {
     const { day } = this.state;
     return (
       day && (
-        <Paper style={{ maxWidth: 860, position: "relative" }}>
+        <Paper className = 'dash-schedule'  style={{ maxWidth: 860, position: "relative" }}>
           <div
             style={{
               background: "#F6F6F6",
@@ -77,19 +78,12 @@ class DashSchedule extends Component {
             }))}
             isDesktop={true}
           />
-          <Button
-            style={{
-              background: "#275C78",
-              position: "absolute",
-              bottom: 15,
-              right: 15,
-              borderRadius: 7,
-              width: 61,
-              height: 61,
-            }}
+          <Link
+          to = {`/scheduletron/${day.weekId}/${day.index}`}
+          className="dash-schedule-link"
           >
             <img src={launchIcon} />
-          </Button>
+          </Link>
         </Paper>
       )
     );

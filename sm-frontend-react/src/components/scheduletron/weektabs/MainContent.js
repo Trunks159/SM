@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Vizualizer from "./visualizer/Visualizer";
 import Editor from "./editor/Editor";
 import { timeToValue } from "../../TimeFunctions";
+import './maincontent.css'
 
 class MainContent extends Component {
   state = {
@@ -96,15 +97,8 @@ class MainContent extends Component {
     return (
       allUsers && (
         <div
-          style={{
-            display: "flex",
-            position: "absolute",
-            top: isDesktop ? 0 : 57,
-            bottom: 0,
-            overflowY: "auto",
-            left: isDesktop ? 57 : 0,
-            right: 0,
-          }}
+        className="tab-maincontent"
+
         >
           <Vizualizer
             hidden={currentFunction !== 0}

@@ -16,15 +16,30 @@
   background: #54dcf2;
 }
 
-.dash-content  {
+.dash-content {
   display: grid;
   grid-template-columns: 1fr;
   justify-content: center;
 }
 
-@media (min-width: 800px) {
+.dash-schedule-link {
+  background-color: #275c78;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  border-radius: 7px;
+  width: 61px;
+  height: 61px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+@media (min-width: 1200px) {
   .dash-content {
     grid-template-columns: minmax(400px, 1000px) 350px;
-    gap : 10px 20px;
+    gap: 10px 20px;
   }
 }

@@ -20,7 +20,7 @@ const useStyles = makeStyles({
       "& .MuiTabs-flexContainer": {
         justifyContent: "space-evenly",
       },
-      width: 56,
+      width: 60,
       "& .MuiTabs-indicator": {
         left: 0,
       },
@@ -29,6 +29,7 @@ const useStyles = makeStyles({
 
     "& .MuiTabs-indicator": {
       background: "#54DCF2",
+      bottom : 0,
     },
     "& .MuiTabs-flexContainer": {
       justifyContent: "space-evenly",
@@ -36,6 +37,7 @@ const useStyles = makeStyles({
     overflowX: "auto",
     minWidth: 0,
     alignItems: "center",
+    height : 60,
   },
   tab: {
     minWidth: 0,
