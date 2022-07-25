@@ -38,7 +38,10 @@ class DashSchedule extends Component {
     const { day } = this.state;
     return (
       day && (
-        <Paper className = 'dash-schedule'  style={{ maxWidth: 860, position: "relative" }}>
+        <Paper
+          className="dash-schedule"
+          style={{ maxWidth: 860, position: "relative" }}
+        >
           <div
             style={{
               background: "#F6F6F6",
@@ -79,8 +82,8 @@ class DashSchedule extends Component {
             isDesktop={true}
           />
           <Link
-          to = {`/scheduletron/${day.weekId}/${day.index}`}
-          className="dash-schedule-link"
+            to={`/scheduletron/${day.weekId}/${day.index}`}
+            className="dash-schedule-link"
           >
             <img src={launchIcon} />
           </Link>
@@ -145,7 +148,7 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div style={{ margin: "0px 80px", flex: 1 }}>
+      <div className="dashboard">
         <DashHeader />
         <div className="dash-content">
           <DashSchedule />

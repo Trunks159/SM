@@ -24,6 +24,7 @@ class App extends Component {
     currentUser: { isAuthenticated: false },
     message: null,
     isDesktop: false,
+    screenWidth : 0,
   };
 
   /*Fetches Users adds listener that will let React
@@ -128,6 +129,7 @@ class App extends Component {
                     users={users}
                     notifyUser={this.notifyUser}
                     postReq={this.postReq}
+                    screenWidth = {0}
                   />
                 );
               }}

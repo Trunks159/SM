@@ -1,5 +1,6 @@
 .dash-header {
   margin: 15px;
+  margin-left : 70px;
 }
 
 .dash-header h1 {
@@ -35,7 +36,20 @@
   justify-content: center;
 }
 
+.dashboard {
+  flex: 1;
+  margin : 0px 10px;
+}
 
+@media (min-width: 600px) {
+  .dashboard {
+    margin: 0px 80px;
+  }
+
+  .dash-header{
+    margin-left: 15px;
+  }
+}
 
 @media (min-width: 1200px) {
   .dash-content {
