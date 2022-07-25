@@ -14,5 +14,4 @@ const Scheduled = ({ workblocks, removeFromSchedule, dayId, handleSlider }) => (
     ))}
   </div>
 );
-
 export default Scheduled;

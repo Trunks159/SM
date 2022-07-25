@@ -40,12 +40,18 @@ class DashSchedule extends Component {
       day && (
         <Paper
           className="dash-schedule"
-          style={{ maxWidth: 860, position: "relative" }}
+          style={{
+            maxWidth: 1000,
+            position: "relative",
+            height: 540,
+            display: "flex",
+            flexDirection: "column",
+          }}
         >
           <div
             style={{
               background: "#F6F6F6",
-              height: 60,
+              height: 40,
               display: "flex",
               alignItems: "center",
               borderRadius: "7px 7px 0px 0px",
@@ -55,7 +61,6 @@ class DashSchedule extends Component {
             <div
               style={{
                 color: "white",
-                fontWeight: "normal",
                 background: "#275C78",
                 height: "100%",
                 display: "flex",
@@ -64,11 +69,12 @@ class DashSchedule extends Component {
                 padding: "0px 20px",
               }}
             >
-              <h2
-                style={{
-                  fontWeight: "normal",
-                }}
-              >{`${day.weekday} ${day.month}/${day.day}`}</h2>
+              <h6 style={{ paddingRight: 10, fontWeight: "normal" }}>
+                Here's today's schedule:
+              </h6>
+              <h3
+                style={{ fontWeight: 600 }}
+              >{`${day.weekday} ${day.month}/${day.day}`}</h3>
             </div>
           </div>
 
@@ -79,7 +85,7 @@ class DashSchedule extends Component {
               endTime: timeToValue(endTime),
               user: user,
             }))}
-            isDesktop={true}
+            isDesktop={this.props.isDesktop}
           />
           <Link
             to={`/scheduletron/${day.weekId}/${day.index}`}
@@ -147,11 +153,12 @@ class Dashboard extends Component {
   };
 
   render() {
+    const { currentUser, isDesktop } = this.props;
     return (
       <div className="dashboard">
         <DashHeader />
         <div className="dash-content">
-          <DashSchedule />
+          <DashSchedule isDesktop={isDesktop} />
           <UpcomingShifts />
           <UpcomingReqOffs />
         </div>

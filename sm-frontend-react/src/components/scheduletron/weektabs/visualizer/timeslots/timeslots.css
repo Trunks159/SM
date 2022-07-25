@@ -2,4 +2,29 @@
     display: flex;
     flex-direction: column;
     gap : 10px;
+    position: absolute;
+    top : 100px;
+    bottom : 0px;
+    right: 0px;
+    left: 0px;
+    overflow-y: auto;
+    overflow-x: auto;
 }
+
+.time-slot{
+    min-height: 66px;
+    background: #2B9DD9;
+    width:200px;
+    color: white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 7px;
+    margin-top:20px ;
+  }
+  
+  .time-slot:hover{
+    background-color: #00A7FF;
+  }
+  

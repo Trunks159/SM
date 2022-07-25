@@ -2,13 +2,13 @@
   flex :1;
   margin :20px;
   margin-top: 10px;
+  position: relative;
 }
 
 .timeline {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  box-sizing: border-box;
+  margin: 0px 20px;
 }
 
 .timeline-labels {

@@ -4,6 +4,9 @@ import TimeLine from "./TimeLine";
 import TimeSlots from "./timeslots/TimeSlots";
 import "./visualizer.css";
 
+//Timeslot overflow feature isn't working properly rn
+//maybe use a gradient?
+
 class Visualizer extends Component {
   state = {
     shiftFilter: { day: true, night: true },
@@ -19,15 +22,21 @@ class Visualizer extends Component {
     const { isDesktop, day, hidden, workblocks } = this.props;
     const { shiftFilter } = this.state;
     return (
-      <div className="visualizer" hidden  = {hidden} >
-        {/*<ShiftFilter
+      <div
+        className="visualizer"
+        style={{ display: hidden ? "none" : "flex", flexDirection: "column" }}
+        hidden={hidden}
+      >
+        <ShiftFilter
           handleShiftFilter={this.handleShiftFilter}
           handleSwitch={this.handleSwitch}
           shiftFilter={shiftFilter}
           isDesktop={isDesktop}
-    />*/}
-        <TimeLine shiftFilter={shiftFilter} isDesktop={isDesktop} />
-        <TimeSlots shiftFilter={shiftFilter} workblocks={workblocks} />
+        />
+        <div>
+          <TimeLine shiftFilter={shiftFilter} isDesktop={isDesktop} />
+          <TimeSlots shiftFilter={shiftFilter} workblocks={workblocks} />
+        </div>
       </div>
     );
   }
