@@ -32,17 +32,10 @@ class Scheduletron extends Component {
 
   render() {
     const { classes } = this.props;
-    const { screenWidth, selectedWeek } = this.state;
+    const { screenWidth, selectedWeek, weeks } = this.state;
     return (
-      <div className="scheduletron" >
-        <SideNav
-          selectedWeek={selectedWeek}
-          dayId={
-            selectedWeek && selectedWeek.week[0].id
-            /*: weeks.find(({ timeFrame }) => timeFrame === "this week").week[0]
-                  .id*/
-          }
-        />
+      <div className="scheduletron">
+        <SideNav selectedWeek={selectedWeek} />
 
         <Switch>
           <Route exact path={"/scheduletron"}>
@@ -69,6 +62,7 @@ class Scheduletron extends Component {
                   screenWidth={screenWidth}
                   setSelectedWeek={this.setSelectedWeek}
                   dayIndex={parseInt(match.params.dayIndex)}
+                  weeks={weeks}
                 />
               ) : (
                 <Redirect to={`${match.url}/0`} />

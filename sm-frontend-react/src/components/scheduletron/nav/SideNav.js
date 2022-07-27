@@ -16,9 +16,9 @@ class SideNav extends Component {
   };
 
   render() {
-    const { dayId, selectedWeek } = this.props;
+    const { selectedWeek } = this.props;
     const { menu } = this.state;
-    console.log("Menu: ", menu);
+    console.log("Menu: ", selectedWeek);
     return (
       <>
         <div className="placeholder-nav"></div>
@@ -32,12 +32,8 @@ class SideNav extends Component {
               background: "#51636D",
             }}
           >
-            <Tabs1 dayId={dayId} />
-            <Tabs2
-              dayId={dayId}
-              changeMenu={this.changeMenu}
-              selectedWeek={selectedWeek}
-            />
+            <Tabs1 dayIndex={0} weekId={selectedWeek && selectedWeek.id} />
+            <Tabs2 changeMenu={this.changeMenu} selectedWeek={selectedWeek} />
           </div>
 
           <Collapse in={Boolean(menu)} orientation={"horizontal"}>

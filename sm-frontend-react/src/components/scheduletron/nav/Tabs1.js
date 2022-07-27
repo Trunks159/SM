@@ -24,7 +24,7 @@ class Tabs1 extends Component {
   };
 
   render() {
-    const { dayId, location } = this.props;
+    const { dayIndex, location, weekId } = this.props;
 
     return (
       <div
@@ -59,12 +59,15 @@ class Tabs1 extends Component {
             }}
           />
         </NavLink>
-        <NavLink to={`/scheduletron/${dayId}`} className={"nav-link"}>
+        <NavLink
+          to={`/scheduletron/${weekId}/${dayIndex}`}
+          className={"nav-link"}
+        >
           <img
             className={`jordan ${
               this.state.value !== "/scheduletron" ? "active" : "inactive"
             }`}
-            alt="Open"
+            alt="Actual Schedule"
             src={scheduleIcon}
           />
           <p style={{ opacity: this.state.value !== "/scheduletron" ? 1 : 0 }}>

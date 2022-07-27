@@ -62,35 +62,48 @@ class TabsContainer extends Component {
   };
 
   componentDidMount = () => {
-    const { week, weekId, setSelectedWeek } = this.props;
-    console.log('WeekId: ', )
+    const { week, weekId } = this.props;
+    console.log("WeekId: ");
     if (Boolean(week) === false) {
-      fetch(`/get_week_schedule/${weekId}`)
-        .then((response) => response.json())
-        .then((response) => {
-          if (response.weekSchedule) {
-            setSelectedWeek({
-              week: response.weekSchedule.schedule,
-              id: response.weekSchedule.id,
-            });
-          } else {
-            this.setState({ redirect: <Redirect to="/scheduletron" /> });
-          }
-        });
+      this.fetchWeekSchedule(weekId);
     }
   };
 
+  fetchWeekSchedule = (weekId) => {
+    fetch(`/get_week_schedule/${weekId}`)
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.weekSchedule) {
+          this.props.setSelectedWeek({
+            week: response.weekSchedule.schedule,
+            id: response.weekSchedule.id,
+          });
+        } else {
+          this.setState({ redirect: <Redirect to="/scheduletron" /> });
+        }
+      });
+  };
+
   componentDidUpdate = (prevProps) => {
+    const { weekId, dayIndex, days, weeks } = this.props;
     if (prevProps.days !== this.props.days) {
       this.setState({
-        days: this.props.days,
-        currentDay: this.props.days[this.props.dayIndex],
+        days: days,
+        currentDay: days[dayIndex],
       });
+    }
+    if (prevProps.selectedWeek && prevProps.selectedWeek.id !== weekId) {
+      const theWeek = weeks.find((w) => (w.id = weekId));
+      if (theWeek) {
+        this.props.setSelectedWeek(theWeek);
+      } else {
+        this.fetchWeekSchedule(weekId);
+      }
     }
   };
 
   render() {
-    const { screenWidth, match, weekId, classes } = this.props;
+    const { screenWidth, match, weekId, classes, weeks } = this.props;
     const isDesktop = screenWidth > 600;
     const { days, currentDay, currentTab, redirect } = this.state;
     return (
