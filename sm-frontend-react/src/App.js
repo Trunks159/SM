@@ -13,7 +13,6 @@ import {
   Switch,
 } from "react-router-dom";
 import Scheduletron from "./components/scheduletron/Scheduletron";
-import Dashboard from "./components/dashboard/Dashboard";
 import Notification from "./components/Notification";
 import { Collapse } from "@material-ui/core";
 
@@ -112,11 +111,7 @@ class App extends Component {
               path="/"
               render={() =>
                 currentUser.isAuthenticated ? (
-                  <Dashboard
-                    users={users}
-                    currentUser={currentUser}
-                    isDesktop={isDesktop}
-                  />
+                  <Redirect to = '/scheduletron'/>
                 ) : (
                   <Redirect to="/login" />
                 )

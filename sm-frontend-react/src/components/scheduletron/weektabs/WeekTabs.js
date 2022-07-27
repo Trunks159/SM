@@ -63,6 +63,7 @@ class TabsContainer extends Component {
 
   componentDidMount = () => {
     const { week, weekId, setSelectedWeek } = this.props;
+    console.log('WeekId: ', )
     if (Boolean(week) === false) {
       fetch(`/get_week_schedule/${weekId}`)
         .then((response) => response.json())

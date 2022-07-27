@@ -185,6 +185,7 @@ def get_week_schedules(todays_date):
     if not create a week for that day and return schedule set'''
     week = day.week_schedule if day else create_week(dt)
     schedule_set = complete_schedule_set(week)
+    print('Scheduleset: ', schedule_set)
     for item in schedule_set:
         item['schedule'] = item['schedule'].to_json()
     return jsonify(schedule_set)
@@ -192,6 +193,7 @@ def get_week_schedules(todays_date):
 
 @app.route('/get_week_schedule/<week_id>')
 def get_week_schedule(week_id):
+    print('Weekid: ', week_id)
     week = WeekSchedule.query.filter_by(id=week_id).first()
     if week:
         set = complete_schedule_set(week)

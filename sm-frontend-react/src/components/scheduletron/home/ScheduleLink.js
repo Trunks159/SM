@@ -2,8 +2,9 @@ import React from "react";
 import scheduleIcon from "../../../assets/images/Schedule Icon.svg";
 import "./home.css";
 import { makeStyles, Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
-const ScheduleBtn = ({
+const ScheduleLink = ({
   week,
   completion,
   startDate,
@@ -20,10 +21,10 @@ const ScheduleBtn = ({
     },
   };
   return (
-    <button
-      className="home-schedule-btn"
+    <Link
+    to = {`/scheduletron/${id}`}
+      className="home-schedule-link"
       style={completion ? style : { ...style, pointerEvents: "none" }}
-      onClick={() => setSelectedWeek({ week: week, id: id })}
     >
       <p>{startDate}</p>
       <img style={{ width: "50%" }} src={scheduleIcon} />
@@ -41,8 +42,8 @@ const ScheduleBtn = ({
           {completion}% Complete
         </p>
       )}
-    </button>
+    </Link>
   );
 };
 
-export default ScheduleBtn;
+export default ScheduleLink;

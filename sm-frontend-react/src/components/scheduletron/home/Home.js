@@ -7,7 +7,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button, TextField, withStyles } from "@material-ui/core";
-import ScheduleBtn from "./ScheduleBtn";
+import ScheduleBtn from "./ScheduleLink";
 import "./home.css";
 import { touchRippleClasses } from "@mui/material";
 
@@ -114,45 +114,21 @@ class Home extends Component {
                 );
               })}
             </div>
-            {isDesktop && (
-              <div className={"home-container2-actions"}>
-                <Button
-                  style={{
-                    marginLeft: "auto",
-                    textTransform: "none",
-                    color: "white",
-                    background: "#606060",
-                    padding: "10px 20px",
-                  }}
-                  startIcon={<img alt="" style={{ width: 20 }} src={addIcon} />}
-                >
-                  Add A Schedule
-                </Button>
-                <Link
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    textDecoration: "none",
-                    color: selectedWeek ? "#1897E6" : "#CBCBCB",
-                    pointerEvents: selectedWeek ? "auto" : "none",
-                  }}
-                  to={selectedWeek ? `${match.path}/${selectedWeek.id}` : "/"}
-                >
-                  <img
-                    alt=""
-                    style={{
-                      filter: selectedWeek
-                        ? "invert(48%) sepia(80%) saturate(1387%) hue-rotate(174deg) brightness(92%) contrast(94%)"
-                        : "none",
-                    }}
-                    src={openIconInactive}
-                  />
-                  Open{" "}
-                  {selectedWeek &&
-                    `${selectedWeek.week[0].month}/${selectedWeek.week[0].day} - ${selectedWeek.week[6].month}/${selectedWeek.week[6].day}`}
-                </Link>
-              </div>
-            )}
+
+ 
+              <Button
+                style={{
+                  marginLeft: "auto",
+                  marginRight : 'auto',
+                  textTransform: "none",
+                  color: "white",
+                  background: "#606060",
+                  padding: "10px 20px",
+                }}
+                startIcon={<img alt="" style={{ width: 20 }} src={addIcon} />}
+              >
+                Add A Schedule
+              </Button>
           </div>
         </div>
       )
