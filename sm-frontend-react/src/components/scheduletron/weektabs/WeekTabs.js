@@ -92,8 +92,9 @@ class TabsContainer extends Component {
         currentDay: days[dayIndex],
       });
     }
-    if (prevProps.selectedWeek && prevProps.selectedWeek.id !== weekId) {
+    if (prevProps.selectedWeek && prevProps.weekId !== weekId) {
       const theWeek = weeks.find((w) => (w.id = weekId));
+      console.log('Get outa here')
       if (theWeek) {
         this.props.setSelectedWeek(theWeek);
       } else {

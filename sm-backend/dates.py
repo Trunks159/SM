@@ -54,7 +54,7 @@ def with_added_labels(schedule_set, this_week):
             (schedule.monday_date - this_week.monday_date).days / 7)
         if difference < 0:
             word = 'last week' if difference == - \
-                1 else '{number} weeks ago'.format(p.number_to_words(abs(difference)/7))
+                1 else '{} weeks ago'.format(p.number_to_words(abs(difference)/7))
         elif difference == 0:
             word = 'this week'
         else:
