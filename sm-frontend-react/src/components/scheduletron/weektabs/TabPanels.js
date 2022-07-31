@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Paper } from "@mui/material";
 import Functions from "./functions/Functions";
 import MainContent from "./MainContent";
+import TimeLine from "./visualizer/TimeLine";
 
 class TabPanels extends Component {
   state = {
@@ -32,23 +33,20 @@ class TabPanels extends Component {
       return (
         <Paper
           key={day.id}
+          elevation = {0}
           style={{
             position: "relative",
             display: isActive ? "flex" : "none",
-            background: "#EAEAEA",
             flexDirection: "column",
+            flex : 1,
+            background : 'none'
           }}
         >
-          <Functions
-            isDesktop={isDesktop}
-            currentFunction={currentFunction}
-            setCurrentFunction={this.setCurrentFunction}
-          />
-          <MainContent
-            isDesktop={isDesktop}
-            day={day}
-            currentFunction={currentFunction}
-          />
+        <TimeLine shiftFilter={{day : true, night : false}}/>
+          <Paper>
+            <p>Jordan Bless</p>
+            <p>2AM - 1PM</p>
+          </Paper>
         </Paper>
       );
     });

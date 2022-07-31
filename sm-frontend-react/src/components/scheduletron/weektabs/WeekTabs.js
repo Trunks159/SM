@@ -34,8 +34,7 @@ const styles = () => ({
     fontSize: "32px",
   },
   tabs: {
-    stuff: 1,
-
+    height : 80,
     "& .MuiTabs-flexContainer": {
       gap: 10,
       height: "100%",
@@ -118,6 +117,7 @@ class TabsContainer extends Component {
             onChange={this.changeTab}
             value={currentTab}
             className={classes.tabs}
+            style = {{display : isDesktop ? 'flex': 'none', }}
           >
             {/*You might want to separate this but DONOT. For some reason 
       the scrollbuttons dont work or the indicator*/}
