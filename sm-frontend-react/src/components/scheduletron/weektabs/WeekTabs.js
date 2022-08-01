@@ -34,7 +34,7 @@ const styles = () => ({
     fontSize: "32px",
   },
   tabs: {
-    height : 80,
+    height: 80,
     "& .MuiTabs-flexContainer": {
       gap: 10,
       height: "100%",
@@ -93,7 +93,7 @@ class TabsContainer extends Component {
     }
     if (prevProps.selectedWeek && prevProps.weekId !== weekId) {
       const theWeek = weeks.find((w) => (w.id = weekId));
-      console.log('Get outa here')
+      console.log("Get outa here");
       if (theWeek) {
         this.props.setSelectedWeek(theWeek);
       } else {
@@ -117,7 +117,7 @@ class TabsContainer extends Component {
             onChange={this.changeTab}
             value={currentTab}
             className={classes.tabs}
-            style = {{display : isDesktop ? 'flex': 'none', }}
+            style={{ display: isDesktop ? "flex" : "none" }}
           >
             {/*You might want to separate this but DONOT. For some reason 
       the scrollbuttons dont work or the indicator*/}

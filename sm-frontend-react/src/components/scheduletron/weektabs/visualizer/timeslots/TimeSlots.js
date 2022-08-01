@@ -7,8 +7,16 @@ import {
 } from "../../../../TimeFunctions";
 import TimeSlot from "./TimeSlot";
 import "./timeslots.css";
+import Draggable from "react-draggable";
+import stretchIcon from "./assets/Stretch Icon.svg";
+import { Button, Paper } from "@material-ui/core";
 
 class TimeSlots extends Component {
+  state = {
+    draga: 0,
+    dragb: 200,
+  };
+
   getTimelineRange = ({ day, night }) => {
     if (day && night) {
       return ["6:00", "23:59"];
@@ -44,9 +52,67 @@ class TimeSlots extends Component {
 
   render() {
     const { workblocks, shiftFilter } = this.props;
+    const { draga, dragb } = this.state;
     const timelineRange = this.getTimelineRange(shiftFilter);
     return (
       <div className="timeslots">
+        <Draggable
+          axis="x"
+          defaultPosition={{ x: 200, y: 0 }}
+          onDrag={(e, y) => {
+            console.log("Change: ", this.state.dragb);
+            return this.setState({ dragb: y.x });
+          }}
+        >
+          <Button
+            style={{
+              position: "absolute",
+              background: "rgba(24, 151, 230, .7)",
+              borderRadius: 3,
+              minWidth: 0,
+              top: "35%",
+              zIndex: 20,
+            }}
+          >
+            <img style={{ width: 20 }} src={stretchIcon} />
+          </Button>
+        </Draggable>
+        <Draggable
+          axis="x"
+          onDrag={(e, y) => {
+            console.log("Change: ", this.state.draga);
+            return this.setState({ draga: y.x });
+          }}
+          defaultPosition={{ x: 0, y: 0 }}
+        >
+          <Button
+            style={{
+              position: "absolute",
+              background: "rgba(24, 151, 230, .7)",
+              borderRadius: 3,
+              minWidth: 0,
+              top: "35%",
+              zIndex: 20,
+            }}
+          >
+            <img style={{ width: 20 }} src={stretchIcon} />
+          </Button>
+        </Draggable>
+
+        <Paper
+          style={{
+            position: "absolute",
+            top: "35%",
+            zIndex: 19,
+            width: dragb - draga,
+            marginLeft: draga + 10,
+            minWidth: 200,
+            height: 55,
+          }}
+        >
+          Jordan Bless startTime : {draga}, endtime: {dragb}
+        </Paper>
+
         {workblocks.map((workblock) => {
           const availableTimes = timelineRange.map((av) => timeToFloat(av));
           const workslot2 = [

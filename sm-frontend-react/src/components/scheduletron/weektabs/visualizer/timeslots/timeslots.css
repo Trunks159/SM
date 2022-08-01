@@ -13,9 +13,8 @@
 
 .time-slot{
     min-height: 66px;
-    background: #2B9DD9;
+    background: white;
     width:200px;
-    color: white;
     position: relative;
     display: flex;
     flex-direction: column;

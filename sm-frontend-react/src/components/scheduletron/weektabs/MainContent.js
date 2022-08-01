@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Vizualizer from "./visualizer/Visualizer";
 import Editor from "./editor/Editor";
 import { timeToValue } from "../../TimeFunctions";
-import './maincontent.css'
+import "./maincontent.css";
 
 class MainContent extends Component {
   state = {
@@ -96,10 +96,7 @@ class MainContent extends Component {
     const { scheduled, allUsers } = this.state;
     return (
       allUsers && (
-        <div
-        className="tab-maincontent"
-
-        >
+        <div className="tab-maincontent">
           <Vizualizer
             hidden={currentFunction !== 0}
             day={day}
@@ -116,8 +113,6 @@ class MainContent extends Component {
             removeFromSchedule={this.removeFromSchedule}
             handleSlider={this.handleSlider}
           />
-          <div hidden={currentFunction !== 2}>Metrics</div>
-          <div hidden={currentFunction !== 3}>Save</div>
         </div>
       )
     );

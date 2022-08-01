@@ -25,7 +25,7 @@ const TimeLine = ({ shiftFilter }) => {
           <p
             key={index}
             style={{
-              fontSize: index % 2 !== 0 ? ".75rem" : "1rem",
+              fontSize: index % 2 !== 0 ? "10px" : "14px",
               marginTop: index % 2 !== 0 ? "auto" : 0,
             }}
           >

@@ -6,7 +6,7 @@ import TimeLine from "./visualizer/TimeLine";
 
 class TabPanels extends Component {
   state = {
-    currentFunction: 1,
+    currentFunction: 0,
     currentDay: this.props.currentDay,
   };
 
@@ -33,20 +33,20 @@ class TabPanels extends Component {
       return (
         <Paper
           key={day.id}
-          elevation = {0}
+          elevation={0}
           style={{
             position: "relative",
             display: isActive ? "flex" : "none",
             flexDirection: "column",
-            flex : 1,
-            background : 'none'
+            flex: 1,
+            background: "none",
           }}
         >
-        <TimeLine shiftFilter={{day : true, night : false}}/>
-          <Paper>
-            <p>Jordan Bless</p>
-            <p>2AM - 1PM</p>
-          </Paper>
+          <MainContent
+            day={day}
+            isDesktop={isDesktop}
+            currentFunction={currentFunction}
+          />
         </Paper>
       );
     });

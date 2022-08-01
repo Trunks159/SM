@@ -18,5 +18,7 @@
 
 .timeline-labels p {
   text-transform: uppercase;
-  color: #888888;
+  opacity: .63;
+  font-weight: 250;
+  font-style: italic;
 }

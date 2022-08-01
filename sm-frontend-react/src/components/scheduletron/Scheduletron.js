@@ -33,8 +33,9 @@ class Scheduletron extends Component {
   render() {
     const { classes } = this.props;
     const { screenWidth, selectedWeek, weeks } = this.state;
+    const isDesktop = screenWidth >= 600;
     return (
-      <div className="scheduletron" >
+      <div className="scheduletron">
         <SideNav selectedWeek={selectedWeek} />
 
         <Switch>

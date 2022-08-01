@@ -1,5 +1,7 @@
+import { Paper } from "@mui/material";
 import React from "react";
 import { miliToReg } from "../../../../TimeFunctions";
+
 //***I have the idea to hide text depending on name character length
 
 const timeslotPosition = (availableTimes = [6, 15], workslot = [2, 17]) => {
@@ -53,7 +55,7 @@ const TimeSlot = ({ availableTimes, workslot, user, startTime, endTime }) => {
 
   return (
     hideSelf || (
-      <div
+      <Paper
         className="time-slot"
         style={{
           width: width,
@@ -68,7 +70,6 @@ const TimeSlot = ({ availableTimes, workslot, user, startTime, endTime }) => {
         <p
           style={{
             textTransform: "capitalize",
-            fontWeight: "bold",
             position: "absolute",
             margin: 0,
             top: "18%",
@@ -77,20 +78,22 @@ const TimeSlot = ({ availableTimes, workslot, user, startTime, endTime }) => {
         >
           {user.firstName} {user.lastName.charAt(0)}.
         </p>
-        <p
+        <i
           style={{
             textTransform: "lowercase",
             fontSize: ".8rem",
             margin: 0,
             bottom: "17%",
             position: "absolute",
+            fontWeight: "lighter",
           }}
         >
           {`${startTime} - ${endTime}`}
-        </p>
+        </i>
+
         {overflowLeft && overflowSVG("left", background)}
         {overflowRight && overflowSVG("right", background)}
-      </div>
+      </Paper>
     )
   );
 };
