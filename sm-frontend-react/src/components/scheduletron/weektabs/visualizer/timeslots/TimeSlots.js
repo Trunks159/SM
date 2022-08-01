@@ -59,6 +59,7 @@ class TimeSlots extends Component {
         <Draggable
           axis="x"
           defaultPosition={{ x: 200, y: 0 }}
+          grid={[25, 0]}
           onDrag={(e, y) => {
             console.log("Change: ", this.state.dragb);
             return this.setState({ dragb: y.x });
