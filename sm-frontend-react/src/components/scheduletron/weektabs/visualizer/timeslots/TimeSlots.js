@@ -57,28 +57,14 @@ class TimeSlots extends Component {
     return (
       <div className="timeslots">
         <Draggable
-          axis="x"
-          defaultPosition={{ x: 200, y: 0 }}
-          grid={[25, 0]}
-          onDrag={(e, y) => {
-            console.log("Change: ", this.state.dragb);
-            return this.setState({ dragb: y.x });
-          }}
+    
         >
-          <Button
-            style={{
-              position: "absolute",
-              background: "rgba(24, 151, 230, .7)",
-              borderRadius: 3,
-              minWidth: 0,
-              top: "35%",
-              zIndex: 20,
-            }}
-          >
-            <img style={{ width: 20 }} src={stretchIcon} />
-          </Button>
+ 
+            <img style={{ width: 20, background : 'red' }} src={stretchIcon} />
+
         </Draggable>
         <Draggable
+        
           axis="x"
           onDrag={(e, y) => {
             console.log("Change: ", this.state.draga);
