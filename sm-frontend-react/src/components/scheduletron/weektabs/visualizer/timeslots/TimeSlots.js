@@ -57,33 +57,68 @@ class TimeSlots extends Component {
     return (
       <div className="timeslots">
         <Draggable
-    
-        >
- 
-            <img style={{ width: 20, background : 'red' }} src={stretchIcon} />
-
-        </Draggable>
-        <Draggable
-        
           axis="x"
+          grid={[25, 0]}
+          position={{ x: draga, y: 0 }}
+          bound={{ left: 0 }}
           onDrag={(e, y) => {
-            console.log("Change: ", this.state.draga);
+            if (dragb - y.x < 200) {
+              console.log("Error, too small");
+              return null;
+            }
             return this.setState({ draga: y.x });
           }}
-          defaultPosition={{ x: 0, y: 0 }}
         >
-          <Button
+          <div
             style={{
-              position: "absolute",
               background: "rgba(24, 151, 230, .7)",
-              borderRadius: 3,
-              minWidth: 0,
-              top: "35%",
-              zIndex: 20,
+              height: 30,
+              width: 40,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 4,
             }}
           >
-            <img style={{ width: 20 }} src={stretchIcon} />
-          </Button>
+            <img
+              style={{
+                width: 20,
+                pointerEvents: "none",
+              }}
+              src={stretchIcon}
+            />
+          </div>
+        </Draggable>
+        <Draggable
+          axis="x"
+          position={{ x: dragb, y: 0 }}
+          onDrag={(e, y) => {
+            if (y.x - draga < 200) {
+              console.log("Error, too small");
+              return null;
+            }
+            return this.setState({ dragb: y.x });
+          }}
+        >
+          <div
+            style={{
+              background: "rgba(24, 151, 230, .7)",
+              height: 30,
+              width: 40,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 4,
+            }}
+          >
+            <img
+              style={{
+                width: 20,
+                pointerEvents: "none",
+              }}
+              src={stretchIcon}
+            />
+          </div>
         </Draggable>
 
         <Paper
