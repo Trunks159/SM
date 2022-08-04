@@ -7,15 +7,11 @@ import {
 } from "../../../../TimeFunctions";
 import TimeSlot from "./TimeSlot";
 import "./timeslots.css";
-import Draggable from "react-draggable";
-import stretchIcon from "./assets/Stretch Icon.svg";
-import { Button, Paper } from "@material-ui/core";
+
+
 
 class TimeSlots extends Component {
-  state = {
-    draga: 0,
-    dragb: 200,
-  };
+
 
   getTimelineRange = ({ day, night }) => {
     if (day && night) {
@@ -52,89 +48,11 @@ class TimeSlots extends Component {
 
   render() {
     const { workblocks, shiftFilter } = this.props;
-    const { draga, dragb } = this.state;
     const timelineRange = this.getTimelineRange(shiftFilter);
     return (
       <div className="timeslots">
-        <Draggable
-          axis="x"
-          grid={[25, 0]}
-          position={{ x: draga, y: 0 }}
-          bound={{ left: 0 }}
-          onDrag={(e, y) => {
-            if (dragb - y.x < 200) {
-              console.log("Error, too small");
-              return null;
-            }
-            return this.setState({ draga: y.x });
-          }}
-        >
-          <div
-            style={{
-              background: "rgba(24, 151, 230, .7)",
-              height: 30,
-              width: 40,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 4,
-            }}
-          >
-            <img
-              style={{
-                width: 20,
-                pointerEvents: "none",
-              }}
-              src={stretchIcon}
-            />
-          </div>
-        </Draggable>
-        <Draggable
-          axis="x"
-          position={{ x: dragb, y: 0 }}
-          onDrag={(e, y) => {
-            if (y.x - draga < 200) {
-              console.log("Error, too small");
-              return null;
-            }
-            return this.setState({ dragb: y.x });
-          }}
-        >
-          <div
-            style={{
-              background: "rgba(24, 151, 230, .7)",
-              height: 30,
-              width: 40,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 4,
-            }}
-          >
-            <img
-              style={{
-                width: 20,
-                pointerEvents: "none",
-              }}
-              src={stretchIcon}
-            />
-          </div>
-        </Draggable>
-
-        <Paper
-          style={{
-            position: "absolute",
-            top: "35%",
-            zIndex: 19,
-            width: dragb - draga,
-            marginLeft: draga + 10,
-            minWidth: 200,
-            height: 55,
-          }}
-        >
-          Jordan Bless startTime : {draga}, endtime: {dragb}
-        </Paper>
-
+        
+      
         {workblocks.map((workblock) => {
           const availableTimes = timelineRange.map((av) => timeToFloat(av));
           const workslot2 = [
