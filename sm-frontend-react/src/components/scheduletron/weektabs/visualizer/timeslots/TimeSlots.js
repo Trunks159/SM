@@ -8,8 +8,6 @@ import {
 import TimeSlot from "./TimeSlot";
 import "./timeslots.css";
 
-
-
 class TimeSlots extends Component {
 
 
@@ -51,8 +49,6 @@ class TimeSlots extends Component {
     const timelineRange = this.getTimelineRange(shiftFilter);
     return (
       <div className="timeslots">
-        
-      
         {workblocks.map((workblock) => {
           const availableTimes = timelineRange.map((av) => timeToFloat(av));
           const workslot2 = [
