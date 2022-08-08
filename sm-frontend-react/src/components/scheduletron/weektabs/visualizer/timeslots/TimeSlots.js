@@ -9,8 +9,6 @@ import TimeSlot from "./TimeSlot";
 import "./timeslots.css";
 
 class TimeSlots extends Component {
-
-
   getTimelineRange = ({ day, night }) => {
     if (day && night) {
       return ["6:00", "23:59"];
@@ -20,30 +18,6 @@ class TimeSlots extends Component {
     return ["15:00", "23:59"];
   };
 
-  timeslotPosition = (availableTimes = [6, 15], workslot = [2, 17]) => {
-    /*Returns marginleft and width of the timeslot and lets
-      react know whether theres overflow or not
-    */
-
-    const availableTimesDiff = availableTimes[1] - availableTimes[0];
-    const marginLeft = workslot[0] - availableTimes[0];
-    const marginRight = availableTimes[1] - workslot[1];
-    const overflowLeft = marginLeft < 0 ? Math.abs(marginLeft) : 0;
-    const overflowRight = marginRight < 0 ? Math.abs(marginRight) : 0;
-    const trueWidth = workslot[1] - workslot[0];
-    const width = trueWidth - overflowLeft - overflowRight;
-    const toPercentage = (item) => (item / availableTimesDiff) * 100 + "%";
-    return {
-      width: toPercentage(width),
-      marginLeft: marginLeft < 0 ? "0%" : toPercentage(marginLeft),
-      overflowLeft: overflowLeft !== 0,
-      overflowRight: overflowRight !== 0,
-      //if > 70% of the shift is within the current filter
-      //display it
-      hideSelf: width / trueWidth < 0.3,
-    };
-  };
-
   render() {
     const { workblocks, shiftFilter } = this.props;
     const timelineRange = this.getTimelineRange(shiftFilter);
@@ -51,14 +25,10 @@ class TimeSlots extends Component {
       <div className="timeslots">
         {workblocks.map((workblock) => {
           const availableTimes = timelineRange.map((av) => timeToFloat(av));
-          const workslot2 = [
-            workblock.startTime * 0.16,
-            workblock.endTime * 0.16,
-          ];
 
           const workslot = [
-            valueToFloat(workblock.startTime),
-            valueToFloat(workblock.endTime),
+            timeToFloat(workblock.startTime),
+            timeToFloat(workblock.endTime),
           ];
 
           const isBetween = (value, range) =>

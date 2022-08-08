@@ -38,8 +38,8 @@ class MainContent extends Component {
 
     scheduled.push({
       user: user,
-      startTime: timeToValue("08:00"),
-      endTime: timeToValue("16:00"),
+      startTime: "08:00",
+      endTime: "16:00",
     });
     this.setState({ notScheduled: notScheduled, scheduled: scheduled });
   };
@@ -75,11 +75,7 @@ class MainContent extends Component {
       .then(({ allUsers, scheduled, notScheduled }) => {
         this.setState({
           allUsers: allUsers,
-          scheduled: scheduled.map((workblock) => ({
-            ...workblock,
-            startTime: timeToValue(workblock.startTime),
-            endTime: timeToValue(workblock.endTime),
-          })),
+          scheduled: scheduled,
           notScheduled: notScheduled,
         });
       });

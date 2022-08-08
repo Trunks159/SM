@@ -1,24 +1,33 @@
-function valueToFloat(value){
-  const maxHours = 24;
-  const timeRange = [7, 24]
-  const timeRangeDelta = timeRange[1] - timeRange[0];
-  const hours = (value/100 * timeRangeDelta) + timeRange[0]
-  return hours
-}
+const timeToPixels = (hrs, width, timerange) =>
+  floatToPerc(hrs, timerange) * width;
 
+/*Converts time in hours format to 
+  a percentage */
+const floatToPerc = (time, timerange) =>
+  (time - timerange[0]) / (timerange[1] - timerange[0]);
+
+/*Converts a percentage to a number of hours */
+const percToFloat = (perc, timerange) =>
+  perc * (timerange[1] - timerange[0]) + timerange[0];
+
+/*Converts a value which is just a number between 0 and 100 to a number of hours */
+const valueToFloat = (value, timerange = [7, 24]) => {
+  return percToFloat(value / 100, timerange);
+};
+
+//Converts string time 00:00 to hours float
 function timeToFloat(time) {
-  //Converts string time 00:00 to hours float
   const d = new Date("January 1, 1980 " + time + ":00");
   return d.getHours() + d.getMinutes() / 60;
 }
 
-function arrayOfDates() {
-  /*Returns Array of Dates ranging from 7:00AM to 11:30PM */
+function arrayOfDates(start = 6, end = 23) {
+  /*Returns Array of Dates ranging from 6:00AM to 11:30PM */
   let t = new Date();
   t.setHours(0, 0, 0, 0);
-  t.setHours(7);
+  t.setHours(start);
   let x = [];
-  while (t.getHours() <= 22) {
+  while (t.getHours() <= end) {
     x.push(new Date(t));
     t.setMinutes(t.getMinutes() + 30);
   }
@@ -65,6 +74,7 @@ function miliToReg(time) {
   } else if (h === 12) {
     return h.toString() + ":" + convertMin(m) + "PM";
   }
+  console.log("Time: ", time);
   return h.toString() + ":" + convertMin(m) + "AM";
 }
 
@@ -99,5 +109,8 @@ export {
   miliToReg,
   getMarks,
   timeToFloat,
-  valueToFloat
+  valueToFloat,
+  floatToPerc,
+  timeToPixels,
+  percToFloat,
 };
