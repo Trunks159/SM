@@ -1,3 +1,13 @@
+const floatToString = (hours) => {
+  console.log("People: ", hours);
+  let t = new Date();
+  const mins = (hours - Math.floor(hours)) * 60;
+  t.setHours(0, 0, 0, 0);
+  t.setHours(Math.floor(hours));
+  t.setMinutes(mins);
+  return miliToReg(t.toTimeString().slice(0, 5));
+};
+
 const timeToPixels = (hrs, width, timerange) =>
   floatToPerc(hrs, timerange) * width;
 
@@ -21,7 +31,7 @@ function timeToFloat(time) {
   return d.getHours() + d.getMinutes() / 60;
 }
 
-function arrayOfDates(start = 6, end = 23) {
+function arrayOfDates(start = 6, end = 22) {
   /*Returns Array of Dates ranging from 6:00AM to 11:30PM */
   let t = new Date();
   t.setHours(0, 0, 0, 0);
@@ -113,4 +123,5 @@ export {
   floatToPerc,
   timeToPixels,
   percToFloat,
+  floatToString,
 };

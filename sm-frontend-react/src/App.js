@@ -100,6 +100,7 @@ class App extends Component {
 
   render() {
     const { users, message, currentUser, isDesktop } = this.state;
+    console.log("App.j");
     return users ? (
       <Router>
         <div className="App">
@@ -111,7 +112,7 @@ class App extends Component {
               path="/"
               render={() =>
                 currentUser.isAuthenticated ? (
-                  <Redirect to = '/scheduletron'/>
+                  <Redirect to="/scheduletron" />
                 ) : (
                   <Redirect to="/login" />
                 )

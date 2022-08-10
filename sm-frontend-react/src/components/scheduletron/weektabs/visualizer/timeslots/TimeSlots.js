@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  timeToFloat,
-  valueToFloat,
-  miliToReg,
-  valueToDt,
-} from "../../../../TimeFunctions";
+import { timeToFloat } from "../../../../TimeFunctions";
 import TimeSlot from "./TimeSlot";
 import "./timeslots.css";
 
@@ -39,15 +34,10 @@ class TimeSlots extends Component {
               isBetween(workslot[1], availableTimes)) && (
               <TimeSlot
                 availableTimes={availableTimes}
-                workslot={workslot}
+                startTime={workslot[0]}
+                endTime={workslot[1]}
                 shiftFilter={shiftFilter}
                 user={workblock.user}
-                startTime={miliToReg(
-                  valueToDt(workblock.startTime).toTimeString().slice(0, 5)
-                )}
-                endTime={miliToReg(
-                  valueToDt(workblock.endTime).toTimeString().slice(0, 5)
-                )}
               />
             )
           );

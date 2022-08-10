@@ -33,7 +33,7 @@ class Visualizer extends Component {
           shiftFilter={shiftFilter}
           isDesktop={isDesktop}
         />
-        <div style = {{margin : '0px 20px'}}>
+        <div style={{ margin: "0px 20px" }}>
           <TimeLine shiftFilter={shiftFilter} isDesktop={isDesktop} />
           <TimeSlots shiftFilter={shiftFilter} workblocks={workblocks} />
         </div>

@@ -99,7 +99,9 @@ class MainContent extends Component {
             workblocks={scheduled}
             isDesktop={isDesktop}
           />
-          <Editor
+          {/*
+    this bricks the app
+    <Editor
             hidden={currentFunction !== 1}
             workblocks={scheduled}
             day={day}
@@ -108,7 +110,7 @@ class MainContent extends Component {
             addToSchedule={this.addToSchedule}
             removeFromSchedule={this.removeFromSchedule}
             handleSlider={this.handleSlider}
-          />
+      />*/}
         </div>
       )
     );
