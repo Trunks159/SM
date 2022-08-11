@@ -19,18 +19,21 @@ class TimeSlot extends Component {
     width: 0,
   };
 
-  roundIt = (newValue, width, timerange) => {
-    let a = arrayOfDates.map((item) =>
+  convertDates = (dates, width, timerange) =>
+    dates.map((item) =>
       timeToPixels(item.getHours() + item.getMinutes() / 60, width, timerange)
     );
-    let difference = Math.abs( newValue - a[0]);
+
+  roundIt = (newValue, dates) => {
+    let difference = Math.abs(newValue - dates[0]);
     let found = null;
-    for (let i = 1; i < a.length(); i++) {
-      if( difference > Math.abs( newValue - a[i]) ) {
-        difference = Math.abs( newValue - a[i])
+    for (let i = 1; i < dates.length; i++) {
+      if (difference > Math.abs(newValue - dates[i])) {
+        difference = Math.abs(newValue - dates[i]);
         found = i;
-      }  
+      }
     }
+    return dates[found];
   };
 
   pixToString = (pix, width, timerange) => {
@@ -50,9 +53,10 @@ class TimeSlot extends Component {
     width / ((timerange[1] - timerange[0]) / 0.5);
 
   componentDidMount = () => {
-    const { startTime, endTime, availableTimes } = this.props;
+    let { startTime, endTime, availableTimes, dates } = this.props;
+    availableTimes = [6, 23];
     const width = this.myRef.current.parentElement.clientWidth;
-    this.setState({
+    dates = this.setState({
       width: width,
       startTime: {
         ...this.state.startTime,
@@ -80,8 +84,12 @@ class TimeSlot extends Component {
 
   render() {
     const { startTime, endTime, width } = this.state;
-    const { availableTimes, user } = this.props;
+    let { availableTimes, user, dates } = this.props;
+    availableTimes = [6, 23];
     const thirtyMin = this.thirtyMin(availableTimes, width);
+    console.log("Dates: ", availableTimes);
+    dates = this.convertDates(dates, this.state.width, availableTimes);
+
     return (
       <div ref={this.myRef} style={{ position: "relative" }}>
         <Paper
@@ -94,8 +102,17 @@ class TimeSlot extends Component {
           }}
         >
           {user.firstName} {user.lastName} startTime :
-          {this.pixToString(startTime.pix, width, availableTimes)}, endtime:
-          {this.pixToString(endTime.pix, width, availableTimes)}
+          {this.pixToString(
+            this.roundIt(startTime.pix, dates),
+            width,
+            availableTimes
+          )}
+          , endtime:
+          {this.pixToString(
+            this.roundIt(endTime.pix, dates),
+            width,
+            availableTimes
+          )}
         </Paper>
         <Draggable
           axis="x"

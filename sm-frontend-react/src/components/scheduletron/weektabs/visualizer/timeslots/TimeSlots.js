@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { timeToFloat } from "../../../../TimeFunctions";
+import { arrayOfDates, timeToFloat } from "../../../../TimeFunctions";
 import TimeSlot from "./TimeSlot";
 import "./timeslots.css";
 
@@ -33,6 +33,7 @@ class TimeSlots extends Component {
             (isBetween(workslot[0], availableTimes) ||
               isBetween(workslot[1], availableTimes)) && (
               <TimeSlot
+                dates={arrayOfDates()}
                 availableTimes={availableTimes}
                 startTime={workslot[0]}
                 endTime={workslot[1]}
