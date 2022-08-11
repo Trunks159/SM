@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import Draggable from "react-draggable";
 import stretchIcon from "./assets/Stretch Icon.svg";
 import { Paper } from "@material-ui/core";
-import { timeToPixels, floatToString } from "../../../../TimeFunctions";
+import {
+  timeToPixels,
+  floatToString,
+  miliToReg,
+  percToFloat,
+  arrayOfDates,
+} from "../../../../TimeFunctions";
 
 class TimeSlot extends Component {
   myRef = React.createRef();
@@ -10,11 +16,38 @@ class TimeSlot extends Component {
   state = {
     startTime: { pix: 0, hours: this.props.startTime },
     endTime: { pix: 200, hours: this.props.endTime },
-    parentWidth: 0,
+    width: 0,
+  };
+
+  roundIt = (newValue, width, timerange) => {
+    let a = arrayOfDates.map((item) =>
+      timeToPixels(item.getHours() + item.getMinutes() / 60, width, timerange)
+    );
+    let difference = Math.abs( newValue - a[0]);
+    let found = null;
+    for (let i = 1; i < a.length(); i++) {
+      if( difference > Math.abs( newValue - a[i]) ) {
+        difference = Math.abs( newValue - a[i])
+        found = i;
+      }  
+    }
+  };
+
+  pixToString = (pix, width, timerange) => {
+    //pix to a percent, than a perc to hrs then hrs to date then date to string
+    const perc = pix / width;
+    const hrs = percToFloat(perc, timerange);
+    const mins = (hrs - Math.floor(hrs)) * 60;
+
+    let t = new Date();
+    t.setHours(0, 0, 0, 0);
+    t.setHours(Math.floor(hrs));
+    t.setMinutes(mins);
+    return miliToReg(t.toTimeString().slice(0, 5));
   };
 
   thirtyMin = (timerange, width) =>
-    (0.5 / (timerange[1] - timerange[0])) * width;
+    width / ((timerange[1] - timerange[0]) / 0.5);
 
   componentDidMount = () => {
     const { startTime, endTime, availableTimes } = this.props;
@@ -61,8 +94,8 @@ class TimeSlot extends Component {
           }}
         >
           {user.firstName} {user.lastName} startTime :
-          {floatToString(startTime.hours)}, endtime:
-          {floatToString(endTime.hours)}
+          {this.pixToString(startTime.pix, width, availableTimes)}, endtime:
+          {this.pixToString(endTime.pix, width, availableTimes)}
         </Paper>
         <Draggable
           axis="x"
