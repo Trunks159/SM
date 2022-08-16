@@ -20,7 +20,7 @@ class TimeSlots extends Component {
       <div className="timeslots">
         {workblocks.map((workblock) => {
           const availableTimes = timelineRange.map((av) => timeToFloat(av));
-
+          console.log("ME: ", workblock.startTime.hours());
           const workslot = [
             timeToFloat(workblock.startTime),
             timeToFloat(workblock.endTime),

@@ -258,21 +258,11 @@ class WorkBlock(db.Model):
     def to_json(self):
         return {
             'wbId': self.id,
-            'user': self.get_user_json(),
-            'startTime': self.start_time,
-            'endTime': self.end_time,
-            'date': self.get_date(),
+            'userId': self.user_id,
             'dayId': self.day_id,
+            'startTime': self.start_time.isoformat(' '),
+            'endTime':  self.end_time.isoformat(' '),
         }
-
-    def get_date(self):
-        return {'month': self.start_time.month, 'day': self.start_time.day, 'year': self.start_time.year}
-
-    def get_user_json(self):
-        user = User.query.filter_by(id=self.user_id).first()
-        return {'firstName': user.first_name, 'lastName': user.last_name, 'id': user.id, 'position': user.position}
-
-   
 
 
 class RequestOff(db.Model):
@@ -290,11 +280,13 @@ class RequestOff(db.Model):
 
 
 def test():
-    wb = WorkBlock.query.first()
     d = Day.query.first()
-    wb.end_time = d.date.replace(hour = 16)
-    db.session.commi
-    return wb
+    u = User.query.first()
+    w = WorkBlock(user=u, day=d, start_time=d.date.replace(
+        hour=8),  end_time=d.date.replace(hour=8))
+    db.session.add(w)
+    db.session.commit()
+    return w
 
 
 @login.user_loader

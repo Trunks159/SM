@@ -3,6 +3,7 @@ import Vizualizer from "./visualizer/Visualizer";
 import Editor from "./editor/Editor";
 import { timeToValue } from "../../TimeFunctions";
 import "./maincontent.css";
+import moment from "moment";
 
 class MainContent extends Component {
   state = {
@@ -74,7 +75,13 @@ class MainContent extends Component {
       .then(({ allUsers, scheduled, notScheduled }) => {
         this.setState({
           allUsers: allUsers,
-          scheduled: scheduled,
+          scheduled: scheduled.map((person) => {
+            return {
+              ...person,
+              startTime: moment(person.startTime, moment.ISO_8601),
+              endTime: moment(person.endTime, moment.ISO_8601),
+            };
+          }),
           notScheduled: notScheduled,
         });
       });
