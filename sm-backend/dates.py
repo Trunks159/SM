@@ -8,18 +8,7 @@ linked to a weekschedule  in the db
 '''
 
 
-def create_week(date):
-    monday = date - timedelta(date.weekday())
-    week = []
-    ws = WeekSchedule(monday_date=monday)
-    for i in range(7):
-        day = Day(date=monday + timedelta(i), week_schedule=ws)
-        db.session.add(day)
-        week.append(day)
-    db.session.add(ws)
-    db.session.commit()
-    '''returns weekSchedule instead of list of days in week'''
-    return ws
+
 
 
 def complete_schedule_set(week):
@@ -64,9 +53,3 @@ def with_added_labels(schedule_set, this_week):
     return finished_set
 
 
-def fake():
-    d = datetime(2021, 9, 6)
-    week = create_week(d)
-    d = datetime(2021, 9, 20)
-    create_week(d)
-    return complete_schedule_set(week)

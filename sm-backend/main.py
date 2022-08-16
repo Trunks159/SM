@@ -1,16 +1,10 @@
 import calendar
-from email.policy import default
-import json
-import this
-from turtle import position
 from flask import request, jsonify
-from matplotlib.style import available
-from sqlalchemy import false
 from config import app, db
-from models import User, Day, WorkBlock, Availability, WeekSchedule
+from models import User, Day, Availability, WeekSchedule, WorkBlock
 from flask_login import current_user, login_user, login_required, logout_user
 from datetime import datetime, timedelta
-from dates import create_week, complete_schedule_set
+from dates import complete_schedule_set
 
 
 @app.route('/')
@@ -59,7 +53,7 @@ def add_user():
     if current_user.position == 'manager':
         user = request.get_json()
         if User.query.filter_by(first_name=user['first_name'], last_name=user['last_name']).first():
-            return(jsonify({'success': False, 'message': 'User {} {} already in database'.format(user['first_name'], user['last_name'])}))
+            return (jsonify({'success': False, 'message': 'User {} {} already in database'.format(user['first_name'], user['last_name'])}))
         else:
             db.session.add(User(
                 first_name=user['first_name'], last_name=user['last_name'], position=user['position']))
@@ -67,7 +61,7 @@ def add_user():
             return jsonify({'success': True})
     else:
         print('Must be a manager to access this')
-        return(jsonify({'success': False, 'message': 'Must be a manager to access this.'}))
+        return (jsonify({'success': False, 'message': 'Must be a manager to access this.'}))
 
 
 @app.route('/register/<first_name>-<last_name>', methods=['GET', 'POST'])
@@ -113,7 +107,7 @@ def user_login():
 
 @app.route('/get_day/<date>')
 def get_day(date):
-    
+
     date = [int(i) for i in date.split('-')]
     month, day, year = date
     days = Day.query.all()
@@ -183,9 +177,11 @@ def get_week_schedules(todays_date):
 
     '''If day is found , take that day's weekschedule and create a scheduleset
     if not create a week for that day and return schedule set'''
-    week = day.week_schedule if day else create_week(dt)
+    if day:
+        week = day.week_schedule if day.week_schedule else WeekSchedule().initialize(dt)
+    else:
+        week = WeekSchedule().initialize(dt)
     schedule_set = complete_schedule_set(week)
-    print('Scheduleset: ', schedule_set)
     for item in schedule_set:
         item['schedule'] = item['schedule'].to_json()
     return jsonify(schedule_set)
@@ -199,7 +195,7 @@ def get_week_schedule(week_id):
         set = complete_schedule_set(week)
         for item in set:
             item['schedule'] = item['schedule'].to_json()
-        return(jsonify({'weekSchedule': week.to_json(), 'scheduleSet': set}))
+        return (jsonify({'weekSchedule': week.to_json(), 'scheduleSet': set}))
     else:
         return (jsonify({'weekSchedule': None}))
 

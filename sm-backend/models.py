@@ -1,7 +1,8 @@
+from curses.ascii import US
 from time import time
 from config import db, login
 from werkzeug.security import check_password_hash, generate_password_hash
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask_login import UserMixin
 import calendar
 
@@ -13,8 +14,6 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(20), index=True)
     position = db.Column(db.Integer, index=True)
     password_hash = db.Column(db.String(128))
-    color = db.Column(db.String(20), index=True, unique=True)
-    slug = db.Column(db.String(20), index=True, unique=True)
     workblocks = db.relationship('WorkBlock', backref='user', lazy=True)
     availability = db.relationship(
         'Availability', uselist=False, backref='user', lazy=True)
@@ -25,14 +24,12 @@ class User(UserMixin, db.Model):
         self.set_color()
 
     def to_json(self):
-        return{
+        return {
             'username': self.username,
             'firstName': self.first_name,
             'lastName': self.last_name,
             'position': self.position,
-            'color': self.color,
             'id': self.id,
-            'slug': self.slug,
             'isAuthenticated': True,
             # this is a placeholder, isAvailable shouldnt be in the final product
             'isAvailable': True,
@@ -66,21 +63,6 @@ class User(UserMixin, db.Model):
         if self.position:
             return 'manager'
         return 'crew'
-
-    def set_color(self):
-        import random
-        import matplotlib
-        while True:
-            r = random.randint(0, 255)/255
-            g = random.randint(0, 255)/255
-            b = random.randint(0, 255)/255
-            color = matplotlib.colors.to_hex([r, g, b])
-            if User.query.filter_by(color=color).all():
-                continue
-            else:
-                break
-        self.color = color
-        db.session.commit()
 
 
 class Availability(db.Model):
@@ -131,19 +113,31 @@ class Day(db.Model):
         for key in json:
             setattr(self, key, json[key])
 
+    def get_week_id(self):
+        if self.week_id:
+            return self.week_id
+        else:
+            w = WeekSchedule.query.filter_by(
+                monday_date=self.date - timedelta(self.date.weekday))
+            if w:
+                self.week_id = w.id
+            else:
+                w = WeekSchedule()
+                w.initialize(self.date)
+
     def to_json(self):
-        return{
+        return {
             'id': self.id,
             'year': self.date.year,
             'month': self.date.month,
             'day': self.date.day,
             'weekday': list(calendar.day_name)[self.date.weekday()],
-            'index':self.date.weekday(),
+            'index': self.date.weekday(),
             'date': self.date.isoformat(),
             'projectedSales': self.projected_sales,
             'workblocks': [workblock.to_json() for workblock in self.workblocks],
             'staffing': {'actual': 6, 'projected': 20},
-            'weekId' : self.week_id,
+            'weekId': self.week_id,
         }
 
     def shiftData(self):
@@ -236,23 +230,33 @@ class WeekSchedule(db.Model):
 
     def to_json(self):
         week = sorted(self.week, key=lambda x: x.date)
-        return({
+        return ({
             'id': self.id,
             'schedule': [day.to_json() for day in week],
             'staffing': {'actual': 6, 'projected': 7},
         })
+
+    def create_week(self, date):
+        monday = date - timedelta(date.weekday())
+        for i in range(7):
+            day = Day(date=monday + timedelta(i), week_schedule=self)
+            db.session.add(day)
+        db.session.commit()
+        return self
+
+    def initialize(self, date):
+        return self.create_week(date)
 
 
 class WorkBlock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
-    # time is stored in 00:00-12:00 format
-    start_time = db.Column(db.String(30))
-    end_time = db.Column(db.String(30))
+    start_time = db.Column(db.DateTime)
+    end_time = db.Column(db.DateTime)
 
     def to_json(self):
-        return{
+        return {
             'wbId': self.id,
             'user': self.get_user_json(),
             'startTime': self.start_time,
@@ -262,16 +266,13 @@ class WorkBlock(db.Model):
         }
 
     def get_date(self):
-        day = Day.query.filter_by(id=self.day_id).first()
-        return {'month': day.date.month, 'day': day.date.day, 'year': day.date.year}
+        return {'month': self.start_time.month, 'day': self.start_time.day, 'year': self.start_time.year}
 
     def get_user_json(self):
         user = User.query.filter_by(id=self.user_id).first()
         return {'firstName': user.first_name, 'lastName': user.last_name, 'id': user.id, 'position': user.position}
 
-
-    def __repr__(self):
-        return 'Workblock, UserID:{} Start and End Time: {}'.format(self.user_id, self.start_time + '-' + self.end_time)
+   
 
 
 class RequestOff(db.Model):
@@ -286,6 +287,14 @@ class RequestOff(db.Model):
         return {
             'date': self.date,
         }
+
+
+def test():
+    wb = WorkBlock.query.first()
+    d = Day.query.first()
+    wb.end_time = d.date.replace(hour = 16)
+    db.session.commi
+    return wb
 
 
 @login.user_loader

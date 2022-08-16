@@ -4,22 +4,22 @@ import stretchIcon from "./assets/Stretch Icon.svg";
 import { Paper } from "@material-ui/core";
 import {
   timeToPixels,
-  floatToString,
   miliToReg,
   percToFloat,
-  arrayOfDates,
 } from "../../../../TimeFunctions";
 
 class TimeSlot extends Component {
   myRef = React.createRef();
 
   state = {
-    startTime: { pix: 0, hours: this.props.startTime },
-    endTime: { pix: 200, hours: this.props.endTime },
+    startTime: 0,
+    endTime: 200,
     width: 0,
   };
 
   convertDates = (dates, width, timerange) =>
+    //Takes the date objects in an array and converts them
+    //to an array of pixel values
     dates.map((item) =>
       timeToPixels(item.getHours() + item.getMinutes() / 60, width, timerange)
     );
@@ -49,77 +49,52 @@ class TimeSlot extends Component {
     return miliToReg(t.toTimeString().slice(0, 5));
   };
 
-  thirtyMin = (timerange, width) =>
-    width / ((timerange[1] - timerange[0]) / 0.5);
-
-  componentDidMount = () => {
-    let { startTime, endTime, availableTimes, dates } = this.props;
-    availableTimes = [6, 23];
-    const width = this.myRef.current.parentElement.clientWidth;
-    dates = this.setState({
-      width: width,
-      startTime: {
-        ...this.state.startTime,
-        pix: timeToPixels(startTime, width, availableTimes),
-      },
-      endTime: {
-        ...this.state.endTime,
-        pix: timeToPixels(endTime, width, availableTimes),
-      },
-    });
+  thirtyMin = (
+    pix,
+    width = this.state.width,
+    timerange = this.props.availableTimes
+  ) => {
+    let hours = percToFloat(pix / width, timerange);
+    hours = hours + 0.5;
+    const pix2 = timeToPixels(hours, width, timerange);
+    return pix2 - pix;
   };
 
-  handleDrag = (newValue, propName) => {
-    let time = this.state[propName];
-    let value = null;
-    if (newValue > time.pix) {
-      value = time.hours + 0.5;
-    } else if (newValue < time.pix) {
-      value = time.hours - 0.5;
-    } else {
-      value = time.hours;
-    }
-    this.setState({ [propName]: { pix: newValue, hours: value } });
+  componentDidMount = () => {
+    const { startTime, endTime, availableTimes } = this.props;
+    const width = this.myRef.current.parentElement.clientWidth;
+    this.setState({
+      width: width,
+      startTime: timeToPixels(startTime, width, availableTimes),
+      endTime: timeToPixels(endTime, width, availableTimes),
+    });
   };
 
   render() {
     const { startTime, endTime, width } = this.state;
-    let { availableTimes, user, dates } = this.props;
-    availableTimes = [6, 23];
-    const thirtyMin = this.thirtyMin(availableTimes, width);
-    console.log("Dates: ", availableTimes);
-    dates = this.convertDates(dates, this.state.width, availableTimes);
-
+    const { availableTimes, user } = this.props;
+    console.log('Times: ', availableTimes)
     return (
       <div ref={this.myRef} style={{ position: "relative" }}>
         <Paper
           className="timeslot"
           style={{
-            width: endTime.pix - startTime.pix,
-            marginLeft: startTime.pix + 20,
+            width: endTime - startTime,
+            marginLeft: startTime + 20,
             minWidth: 200,
             height: 55,
           }}
         >
           {user.firstName} {user.lastName} startTime :
-          {this.pixToString(
-            this.roundIt(startTime.pix, dates),
-            width,
-            availableTimes
-          )}
-          , endtime:
-          {this.pixToString(
-            this.roundIt(endTime.pix, dates),
-            width,
-            availableTimes
-          )}
+          {this.pixToString(startTime, width, availableTimes)}, endtime:
+          {this.pixToString(endTime, width, availableTimes)}
         </Paper>
         <Draggable
           axis="x"
-          grid={[thirtyMin, 0]}
-          position={{ x: startTime.pix, y: 0 }}
-          bounds={{ left: 0, right: endTime.pix - 200 }}
-          onDrag={(e, newValue) => this.handleDrag(newValue.x, "startTime")}
+          grid={[this.thirtyMin(startTime), 0]}
+          position={{ x: startTime, y: 0 }}
+          bounds={{ left: 0, right: endTime - 200 }}
+          onDrag={(e, newValue) => this.setState({ startTime: newValue.x })}
         >
           <div className="stretch-btn">
             <img
@@ -133,10 +108,10 @@ class TimeSlot extends Component {
         </Draggable>
         <Draggable
           axis="x"
-          grid={[thirtyMin, 0]}
-          bounds={{ left: startTime.pix + 200, right: width }}
-          position={{ x: endTime.pix, y: 0 }}
-          onDrag={(e, newValue) => this.handleDrag(newValue.x, "endTime")}
+          grid={[this.thirtyMin(endTime), 0]}
+          bounds={{ left: startTime + 200, right: width }}
+          position={{ x: endTime, y: 0 }}
+          onDrag={(e, newValue) => this.setState({ endTime: newValue.x })}
         >
           <div className="stretch-btn">
             <img

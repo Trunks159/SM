@@ -65,7 +65,6 @@ class MainContent extends Component {
   };
 
   componentDidMount = () => {
-    console.log("Im mounting");
     this.setUpState();
   };
 
