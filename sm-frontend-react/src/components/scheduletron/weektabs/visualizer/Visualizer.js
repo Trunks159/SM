@@ -3,6 +3,7 @@ import ShiftFilter from "./shiftfilter/ShiftFilter";
 import TimeLine from "./TimeLine";
 import TimeSlots from "./timeslots/TimeSlots";
 import "./visualizer.css";
+import moment from "moment";
 
 //Timeslot overflow feature isn't working properly rn
 //maybe use a gradient?
@@ -35,7 +36,7 @@ class Visualizer extends Component {
         />
         <div style={{ margin: "0px 20px" }}>
           <TimeLine shiftFilter={shiftFilter} isDesktop={isDesktop} />
-          <TimeSlots shiftFilter={shiftFilter} workblocks={workblocks} />
+          <TimeSlots shiftFilter={shiftFilter} workblocks={workblocks}  theDate = {moment(day.date, moment.ISO_8601)}/>
         </div>
       </div>
     );

@@ -3,19 +3,31 @@ import { arrayOfDates, timeToFloat } from "../../../../TimeFunctions";
 import TimeSlot from "./TimeSlot";
 import "./timeslots.css";
 
+/*We're trying to take a date and get that date but
+at 12AM
+
+So same date, different time*/
+
 class TimeSlots extends Component {
   getTimelineRange = ({ day, night }) => {
+    const {theDate} = this.props;
+    const set = [
+      theDate.clone().set({ h: 8, m: 0 }),
+      theDate.clone().set({ h: 16, m: 0 }),
+      theDate.clone().set({ h: 0, m: 0 }).add(1, "days"),
+    ];
     if (day && night) {
-      return ["6:00", "23:59"];
+      return [set[0], set[2]];
     } else if (day === true) {
-      return ["6:00", "15:00"];
+      return [set[0], set[1]];
     }
-    return ["15:00", "23:59"];
+    return [set[1], set[2]];
   };
 
   render() {
-    const { workblocks, shiftFilter } = this.props;
+    const { workblocks, shiftFilter, theDate } = this.props;
     const timelineRange = this.getTimelineRange(shiftFilter);
+    console.log('Timelinerange: ', timelineRange)
     return (
       <div className="timeslots">
         {workblocks.map((workblock) => {
