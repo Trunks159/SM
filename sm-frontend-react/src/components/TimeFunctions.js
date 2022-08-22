@@ -8,13 +8,6 @@ const floatToString = (hours) => {
   return miliToReg(t.toTimeString().slice(0, 5));
 };
 
-const timeToPixels = (hrs, width, timerange) =>
-  floatToPerc(hrs, timerange) * width;
-
-/*Converts time in hours format to 
-  a percentage */
-const floatToPerc = (time, timerange) =>
-  (time - timerange[0]) / (timerange[1] - timerange[0]);
 
 /*Converts a percentage to a number of hours */
 const percToFloat = (perc, timerange) =>
@@ -120,8 +113,6 @@ export {
   getMarks,
   timeToFloat,
   valueToFloat,
-  floatToPerc,
-  timeToPixels,
   percToFloat,
   floatToString,
 };

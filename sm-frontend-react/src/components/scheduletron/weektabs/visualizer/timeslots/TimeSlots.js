@@ -10,7 +10,7 @@ So same date, different time*/
 
 class TimeSlots extends Component {
   getTimelineRange = ({ day, night }) => {
-    const {theDate} = this.props;
+    const { theDate } = this.props;
     const set = [
       theDate.clone().set({ h: 8, m: 0 }),
       theDate.clone().set({ h: 16, m: 0 }),
@@ -27,28 +27,26 @@ class TimeSlots extends Component {
   render() {
     const { workblocks, shiftFilter, theDate } = this.props;
     const timelineRange = this.getTimelineRange(shiftFilter);
-    console.log('Timelinerange: ', timelineRange)
     return (
       <div className="timeslots">
         {workblocks.map((workblock) => {
-          const availableTimes = timelineRange.map((av) => timeToFloat(av));
-          console.log("ME: ", workblock.startTime.hours());
-          const workslot = [
-            timeToFloat(workblock.startTime),
-            timeToFloat(workblock.endTime),
-          ];
-
-          const isBetween = (value, range) =>
-            value > range[0] && value < range[1];
+          
+          console.log('TheWorkblock: ', timelineRange[0].toString())
           return (
             //if the user works outside of the time range dont render them
-            (isBetween(workslot[0], availableTimes) ||
-              isBetween(workslot[1], availableTimes)) && (
+            (workblock.startTime.isBetween(
+              timelineRange[0],
+              timelineRange[1]
+            ) ||
+              workblock.endTime.isBetween(
+                timelineRange[0],
+                timelineRange[1]
+              )) && (
               <TimeSlot
                 dates={arrayOfDates()}
-                availableTimes={availableTimes}
-                startTime={workslot[0]}
-                endTime={workslot[1]}
+                availableTimes={timelineRange}
+                startTime={workblock.startTime}
+                endTime={workblock.endTime}
                 shiftFilter={shiftFilter}
                 user={workblock.user}
               />

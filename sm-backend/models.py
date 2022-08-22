@@ -256,9 +256,11 @@ class WorkBlock(db.Model):
     end_time = db.Column(db.DateTime)
 
     def to_json(self):
+        user = User.query.filter_by(id = self.user_id).first()
         return {
             'wbId': self.id,
             'userId': self.user_id,
+            'user':{'id' : self.user_id, 'firstName' : user.first_name, 'lastName': user.last_name},
             'dayId': self.day_id,
             'startTime': self.start_time.isoformat(' '),
             'endTime':  self.end_time.isoformat(' '),

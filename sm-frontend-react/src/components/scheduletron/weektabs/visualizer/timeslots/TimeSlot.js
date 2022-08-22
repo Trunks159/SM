@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import Draggable from "react-draggable";
 import stretchIcon from "./assets/Stretch Icon.svg";
 import { Paper } from "@material-ui/core";
-import {
-  timeToPixels,
-  miliToReg,
-  percToFloat,
-} from "../../../../TimeFunctions";
+import { miliToReg, percToFloat } from "../../../../TimeFunctions";
 
 class TimeSlot extends Component {
   myRef = React.createRef();
@@ -17,11 +13,38 @@ class TimeSlot extends Component {
     width: 0,
   };
 
+  timeToPix = (
+    time,
+    width = this.state.width,
+  ) => {
+    const timerange = this.props.availableTimes;
+    //Get from moment to a percentage, then multiply that by the width
+    console.log('Widthy: ',timerange[0].toString())
+    const perc =
+      time.diff(timerange[0], "hours", true) /
+      timerange[1].diff(timerange[0], "hours", true);
+    return perc * width;
+  };
+
+  pixToTime = (
+    pix,
+    width = this.state.width,
+    timerange = this.props.availableTimes
+  ) =>{
+
+    return ( timerange[0].add(
+      (pix / width) * timerange[1].diff(timerange[0], "hours", true),
+      "hours"
+    ))
+  }
+    //take pix and spit out a moment, the inverse of the above method
+   
+
   convertDates = (dates, width, timerange) =>
     //Takes the date objects in an array and converts them
     //to an array of pixel values
     dates.map((item) =>
-      timeToPixels(item.getHours() + item.getMinutes() / 60, width, timerange)
+      this.timeToPix(item.getHours() + item.getMinutes() / 60, width, timerange)
     );
 
   roundIt = (newValue, dates) => {
@@ -36,44 +59,33 @@ class TimeSlot extends Component {
     return dates[found];
   };
 
-  pixToString = (pix, width, timerange) => {
-    //pix to a percent, than a perc to hrs then hrs to date then date to string
-    const perc = pix / width;
-    const hrs = percToFloat(perc, timerange);
-    const mins = (hrs - Math.floor(hrs)) * 60;
+  pixToString = (pix) =>
+    //pix to moment, then moment to string\
+    this.pixToTime(pix).format("h:mm a");
 
-    let t = new Date();
-    t.setHours(0, 0, 0, 0);
-    t.setHours(Math.floor(hrs));
-    t.setMinutes(mins);
-    return miliToReg(t.toTimeString().slice(0, 5));
-  };
-
-  thirtyMin = (
-    pix,
-    width = this.state.width,
-    timerange = this.props.availableTimes
-  ) => {
-    let hours = percToFloat(pix / width, timerange);
-    hours = hours + 0.5;
-    const pix2 = timeToPixels(hours, width, timerange);
+  thirtyMin = (pix) => {
+    //convert pix to time, add 30 min then convert back to pix
+    const time = this.pixToTime(pix);
+    console.log('PixToTime: ', time.toString())
+    const pix2 = this.timeToPix(time.add(30, "minutes"));
     return pix2 - pix;
   };
 
   componentDidMount = () => {
-    const { startTime, endTime, availableTimes } = this.props;
+    const { startTime, endTime } = this.props;
+
     const width = this.myRef.current.parentElement.clientWidth;
+    console.log('STart: ', this.props.availableTimes[0].toString())
     this.setState({
       width: width,
-      startTime: timeToPixels(startTime, width, availableTimes),
-      endTime: timeToPixels(endTime, width, availableTimes),
+      startTime: this.timeToPix(startTime, width),
+      endTime: this.timeToPix(endTime, width),
     });
   };
 
   render() {
     const { startTime, endTime, width } = this.state;
     const { availableTimes, user } = this.props;
-    console.log('Times: ', availableTimes)
     return (
       <div ref={this.myRef} style={{ position: "relative" }}>
         <Paper
@@ -86,8 +98,8 @@ class TimeSlot extends Component {
           }}
         >
           {user.firstName} {user.lastName} startTime :
-          {this.pixToString(startTime, width, availableTimes)}, endtime:
-          {this.pixToString(endTime, width, availableTimes)}
+          {this.pixToString(startTime)}, endtime:
+          {this.pixToString(endTime)}
         </Paper>
         <Draggable
           axis="x"
