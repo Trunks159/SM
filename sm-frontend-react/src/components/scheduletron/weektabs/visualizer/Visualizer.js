@@ -36,7 +36,7 @@ class Visualizer extends Component {
         />
         <div style={{ margin: "0px 20px" }}>
           <TimeLine shiftFilter={shiftFilter} isDesktop={isDesktop} />
-          <TimeSlots shiftFilter={shiftFilter} workblocks={workblocks}  theDate = {moment(day.date, moment.ISO_8601)}/>
+          <TimeSlots shiftFilter={shiftFilter} workblocks={workblocks}  theDate = {day.date}/>
         </div>
       </div>
     );

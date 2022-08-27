@@ -86,6 +86,7 @@ class TimeSlot extends Component {
   render() {
     const { startTime, endTime, width } = this.state;
     const { availableTimes, user } = this.props;
+    console.log('AvailableTimes: ', availableTimes)
     return (
       <div ref={this.myRef} style={{ position: "relative" }}>
         <Paper

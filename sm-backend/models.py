@@ -133,7 +133,7 @@ class Day(db.Model):
             'day': self.date.day,
             'weekday': list(calendar.day_name)[self.date.weekday()],
             'index': self.date.weekday(),
-            'date': self.date.isoformat(),
+            'date': self.date.isoformat(' '),
             'projectedSales': self.projected_sales,
             'workblocks': [workblock.to_json() for workblock in self.workblocks],
             'staffing': {'actual': 6, 'projected': 20},

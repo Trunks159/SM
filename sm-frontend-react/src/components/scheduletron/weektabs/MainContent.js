@@ -75,13 +75,8 @@ class MainContent extends Component {
       .then(({ allUsers, scheduled, notScheduled }) => {
         this.setState({
           allUsers: allUsers,
-          scheduled: scheduled.map((person) => {
-            return {
-              ...person,
-              startTime: moment(person.startTime, moment.ISO_8601),
-              endTime: moment(person.endTime, moment.ISO_8601),
-            };
-          }),
+          scheduled: scheduled,
+          
           notScheduled: notScheduled,
         });
       });
