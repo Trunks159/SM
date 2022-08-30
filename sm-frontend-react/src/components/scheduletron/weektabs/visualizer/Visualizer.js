@@ -25,7 +25,10 @@ class Visualizer extends Component {
     return (
       <div
         className="visualizer"
-        style={{ display: hidden ? "none" : "flex", flexDirection: "column" }}
+        style={{
+          display: hidden ? "none" : "flex",
+          flexDirection: "column",
+        }}
         hidden={hidden}
       >
         <ShiftFilter
@@ -34,9 +37,13 @@ class Visualizer extends Component {
           shiftFilter={shiftFilter}
           isDesktop={isDesktop}
         />
-        <div style={{ margin: "0px 20px" }}>
+        <div style={{ margin: "0px 80px" }}>
           <TimeLine shiftFilter={shiftFilter} isDesktop={isDesktop} />
-          <TimeSlots shiftFilter={shiftFilter} workblocks={workblocks}  theDate = {day.date}/>
+          <TimeSlots
+            shiftFilter={shiftFilter}
+            workblocks={workblocks}
+            theDate={day.date}
+          />
         </div>
       </div>
     );

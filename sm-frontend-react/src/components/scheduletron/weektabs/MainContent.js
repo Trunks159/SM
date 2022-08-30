@@ -4,6 +4,7 @@ import Editor from "./editor/Editor";
 import { timeToValue } from "../../TimeFunctions";
 import "./maincontent.css";
 import moment from "moment";
+import Functions from "./functions/Functions";
 
 class MainContent extends Component {
   state = {
@@ -76,7 +77,7 @@ class MainContent extends Component {
         this.setState({
           allUsers: allUsers,
           scheduled: scheduled,
-          
+
           notScheduled: notScheduled,
         });
       });
@@ -100,6 +101,7 @@ class MainContent extends Component {
             workblocks={scheduled}
             isDesktop={isDesktop}
           />
+          <Functions />
           {/*
     this bricks the app
     <Editor

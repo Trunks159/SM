@@ -11,20 +11,40 @@ So same date, different time*/
 
 class TimeSlots extends Component {
   getTimelineRange = ({ day, night }) => {
-    
-    let { theDate } = moment('2021-09-13 08:00:00', 'YYYY-MM-DD hh:mm:ss');
-    console.log('MyDate: ',theDate)
+    let theDate = moment(this.props.theDate);
+    console.log("MyDate: ", theDate);
     const set = [
-      theDate.clone().set({h:8, m:0}),
-      theDate.clone().set({ h: 16, m: 0 }),
+      theDate.clone().set({ h: 6, m: 0 }),
+      theDate.clone().set({ h: 15, m: 0 }),
       theDate.clone().set({ h: 0, m: 0 }).add(1, "days"),
     ];
+    //for some reason when you omit the a at the end
+    // it gets translated back to 12PM dude idk...
     if (day && night) {
-      return [set[0].format('YYYY-MM-DD hh:mm:ss'), set[2].format('YYYY-MM-DD hh:mm:ss')];
+      return [
+        set[0].format("YYYY-MM-DD hh:mm:ss a"),
+        set[2].format("YYYY-MM-DD hh:mm:ss a"),
+      ];
     } else if (day === true) {
-      return [set[0].format('YYYY-MM-DD hh:mm:ss'), set[1].format('YYYY-MM-DD hh:mm:ss')];
+      return [
+        set[0].format("YYYY-MM-DD hh:mm:ss a"),
+        set[1].format("YYYY-MM-DD hh:mm:ss a"),
+      ];
     }
-    return [set[1].format('YYYY-MM-DD hh:mm:ss'), set[2].format('YYYY-MM-DD hh:mm:ss')];
+
+    return [
+      set[1].format("YYYY-MM-DD hh:mm:ss a"),
+      set[2].format("YYYY-MM-DD hh:mm:ss a"),
+    ];
+  };
+
+  isBetween = (workblock, timelineRange) => {
+    const startTime = moment(workblock.startTime);
+    const endTime = moment(workblock.endTime);
+    return (
+      startTime.isBetween(moment(timelineRange[0]), moment(timelineRange[1])) ||
+      endTime.isBetween(moment(timelineRange[0]), moment(timelineRange[1]))
+    );
   };
 
   render() {
@@ -33,18 +53,10 @@ class TimeSlots extends Component {
     return (
       <div className="timeslots">
         {workblocks.map((workblock) => {
-          
-          console.log('TheWorkblock: ', timelineRange[0].toString())
+          console.log("TheWorkblock: ", timelineRange[0].toString());
           return (
             //if the user works outside of the time range dont render them
-            (workblock.startTime.isBetween(
-              moment(timelineRange[0]),
-              moment(timelineRange[1])
-            ) ||
-              workblock.endTime.isBetween(
-                moment(timelineRange[0]),
-                moment(timelineRange[1])
-              )) && (
+            this.isBetween(workblock, timelineRange) && (
               <TimeSlot
                 dates={arrayOfDates()}
                 availableTimes={timelineRange}

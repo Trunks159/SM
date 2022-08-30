@@ -3,8 +3,11 @@
   flex-direction: column;
   margin: 10px 10px 0px 10px;
   max-width: 1600px;
-  background-color: #F6F6F6;
-  flex : 1;
+  background-color: white;
+  position: absolute;
+  left : 70px;
+  right : 0px;
+  min-height: 100%;
 }
 
 .tabs::-webkit-scrollbar {

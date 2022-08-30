@@ -39,7 +39,7 @@ class TabPanels extends Component {
             display: isActive ? "flex" : "none",
             flexDirection: "column",
             flex: 1,
-            background: "none",
+            background: "#F5F5F5",
           }}
         >
           <MainContent

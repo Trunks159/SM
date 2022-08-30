@@ -3,7 +3,7 @@ import "./weektabs.css";
 import TabPanels from "./TabPanels";
 import { Redirect, withRouter, Link } from "react-router-dom";
 import { Tabs, Tab, Collapse } from "@mui/material";
-import { withStyles } from "@material-ui/core";
+import { Paper, withStyles } from "@material-ui/core";
 
 const styles = () => ({
   root: {
@@ -92,7 +92,6 @@ class TabsContainer extends Component {
     }
     if (prevProps.selectedWeek && prevProps.weekId !== weekId) {
       const theWeek = weeks.find((w) => (w.id = weekId));
-      console.log("Get outa here");
       if (theWeek) {
         this.props.setSelectedWeek(theWeek);
       } else {
@@ -108,7 +107,7 @@ class TabsContainer extends Component {
     return (
       redirect ||
       (days && (
-        <div className="tabs-container">
+        <Paper className="tabs-container">
           <Tabs
             variant="scrollable"
             scrollButtons
@@ -151,7 +150,7 @@ class TabsContainer extends Component {
             currentDay={currentDay}
             isDesktop={isDesktop}
           />
-        </div>
+        </Paper>
       ))
     );
   }

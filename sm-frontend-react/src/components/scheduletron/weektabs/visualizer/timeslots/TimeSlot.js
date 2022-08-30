@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Draggable from "react-draggable";
 import stretchIcon from "./assets/Stretch Icon.svg";
 import { Paper } from "@material-ui/core";
-import { miliToReg, percToFloat } from "../../../../TimeFunctions";
+import moment from "moment";
 
 class TimeSlot extends Component {
   myRef = React.createRef();
@@ -13,32 +13,36 @@ class TimeSlot extends Component {
     width: 0,
   };
 
-  timeToPix = (
-    time,
-    width = this.state.width,
-  ) => {
-    const timerange = this.props.availableTimes;
+  timeToPix = (time, width = this.state.width) => {
+    const timerange = this.props.availableTimes.map((t) => moment(t));
     //Get from moment to a percentage, then multiply that by the width
-    console.log('Widthy: ',timerange[0].toString())
-    const perc =
-      time.diff(timerange[0], "hours", true) /
-      timerange[1].diff(timerange[0], "hours", true);
-    return perc * width;
+    time = moment(time);
+    const overflowLeft = time.diff(timerange[0], "hours", true) < 0;
+    const overflowRight = time.diff(timerange[1], "hours", true) > 0;
+    if (overflowLeft) {
+      return 0;
+    } else if (overflowRight) {
+      return width;
+    } else {
+      const perc =
+        time.diff(timerange[0], "hours", true) /
+        timerange[1].diff(timerange[0], "hours", true);
+      return perc * width;
+    }
   };
 
   pixToTime = (
     pix,
     width = this.state.width,
     timerange = this.props.availableTimes
-  ) =>{
-
-    return ( timerange[0].add(
+  ) => {
+    timerange = timerange.map((t) => moment(t));
+    return timerange[0].add(
       (pix / width) * timerange[1].diff(timerange[0], "hours", true),
       "hours"
-    ))
-  }
-    //take pix and spit out a moment, the inverse of the above method
-   
+    );
+  };
+  //take pix and spit out a moment, the inverse of the above method
 
   convertDates = (dates, width, timerange) =>
     //Takes the date objects in an array and converts them
@@ -66,7 +70,6 @@ class TimeSlot extends Component {
   thirtyMin = (pix) => {
     //convert pix to time, add 30 min then convert back to pix
     const time = this.pixToTime(pix);
-    console.log('PixToTime: ', time.toString())
     const pix2 = this.timeToPix(time.add(30, "minutes"));
     return pix2 - pix;
   };
@@ -75,7 +78,6 @@ class TimeSlot extends Component {
     const { startTime, endTime } = this.props;
 
     const width = this.myRef.current.parentElement.clientWidth;
-    console.log('STart: ', this.props.availableTimes[0].toString())
     this.setState({
       width: width,
       startTime: this.timeToPix(startTime, width),
@@ -83,17 +85,25 @@ class TimeSlot extends Component {
     });
   };
 
+  //what methods
+  //1 if check each time whether theres overflow, if so just cutoff the timeslot,
+  //2. width = timerange[1] - end - start
+  // if its negative, then
+  // x= end - start, width = x - timerange[1],
+  //alkternatively i could use left and right,
+  // so left = startTime, left = timerange[1] - endtime
+
   render() {
     const { startTime, endTime, width } = this.state;
-    const { availableTimes, user } = this.props;
-    console.log('AvailableTimes: ', availableTimes)
+    const { user, availableTimes } = this.props;
+
     return (
       <div ref={this.myRef} style={{ position: "relative" }}>
         <Paper
           className="timeslot"
           style={{
-            width: endTime - startTime,
-            marginLeft: startTime + 20,
+            left: startTime,
+            right: width - endTime < 0 ? 0 : width - endTime,
             minWidth: 200,
             height: 55,
           }}
