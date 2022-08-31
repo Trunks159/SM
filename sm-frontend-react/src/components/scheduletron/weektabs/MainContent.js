@@ -5,6 +5,7 @@ import { timeToValue } from "../../TimeFunctions";
 import "./maincontent.css";
 import moment from "moment";
 import Functions from "./functions/Functions";
+import TheDrawer from "./TheDrawer";
 
 class MainContent extends Component {
   state = {
@@ -102,6 +103,7 @@ class MainContent extends Component {
             isDesktop={isDesktop}
           />
           <Functions />
+          <TheDrawer/>
           {/*
     this bricks the app
     <Editor
