@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import editIcon from "./assets/Edit Icon.svg";
 import addIcon from "./assets/Add Icon.svg";
 import saveIcon from "./assets/Save Icon.svg";
+import moment from "moment";
 
 class TheDrawer extends Component {
   state = {
@@ -17,8 +18,9 @@ class TheDrawer extends Component {
   };
 
   render() {
-    const { month, weekday, day, teamMembers } = this.props;
+    const {teamMembers } = this.props;
     const { currentTab } = this.state;
+    const date = moment(this.props.date);
     return (
       <Collapse in={this.state.open}>
         <div
