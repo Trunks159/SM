@@ -92,7 +92,8 @@ class MainContent extends Component {
 
   render() {
     const { day, isDesktop, currentFunction } = this.props;
-    const { scheduled, allUsers } = this.state;
+    const { scheduled, allUsers, notScheduled } = this.state;
+    console.log('Notscheduled: ', day)
     return (
       allUsers && (
         <div className="tab-maincontent">
@@ -103,7 +104,7 @@ class MainContent extends Component {
             isDesktop={isDesktop}
           />
           <Functions />
-          <TheDrawer/>
+          <TheDrawer theDate = {day.date} teamMembers = {notScheduled}/>
           {/*
     this bricks the app
     <Editor
