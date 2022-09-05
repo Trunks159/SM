@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import saveIcon from "./assets/Save Icon.svg ";
+import saveIcon from "./assets/Save Icon.svg";
 import { Button } from "@mui/material";
 
 class SavePrompt extends Component {
