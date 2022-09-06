@@ -70,9 +70,9 @@ const styles = () => ({
 
 class WeekBar extends Component {
   render() {
-    const { week, classes, path, setDay } = this.props;
+    const { week, classes, path, setDay, menu } = this.props;
     return (
-      <div style={{}}>
+      <div style={{display : menu === 'weekbar' ?  'flex' : 'none', flexDirection : 'column'}}>
         {week.map(({ weekday, staffing, month, day, id }) => (
           <DayBtn
             weekday={weekday}
