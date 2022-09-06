@@ -1,4 +1,4 @@
-import { Tabs, Tab, Collapse, Button , Divider} from "@mui/material";
+import { Tabs, Tab, Collapse, Button, Divider } from "@mui/material";
 import React, { Component } from "react";
 import editIcon from "./assets/Edit Icon.svg";
 import addIcon from "./assets/Add Icon.svg";
@@ -7,27 +7,25 @@ import moment from "moment";
 import { withStyles } from "@material-ui/core";
 import AddPrompt from "./AddPrompt";
 import SavePrompt from "./SavePrompt";
-import './thedrawer.css'
+import "./thedrawer.css";
 import EditPrompt from "./EditPrompt";
 
 const styles = () => ({
   tab: {
     textTransform: "none",
     transitionDuration: ".25s",
-    margin: "0px 12.5px",
-    minWidth: 150,
+    minWidth: 0,
     padding: "0px 20px",
     opacity: 0.75,
-    minWidth : 0,
-    fontSize : 14,
-    height : 70,
-    width : 70,
-    fontWeight : '400',
-    '& .MuiTab-iconWrapper':{
-      marginBottom : 8
+    minWidth: 0,
+    fontSize: 12,
+    fontWeight: "400",
+    "& .MuiTab-iconWrapper": {
+      marginBottom: 8,
     },
   },
   tabs: {
+    width: 190,
     "& .MuiTabs-indicator": {
       background: "white",
     },
@@ -36,19 +34,17 @@ const styles = () => ({
       color: "white",
     },
     "& .MuiTabs-flexContainer": {
-      justifyContent : 'center',
+      justifyContent: "center",
     },
-    background : 'blue', 
-    width : 'min-content', 
-    marginLeft : 'auto',
-    marginRight : 'auto', 
-    marginTop : 20
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: 20,
   },
 });
 
 class TheDrawer extends Component {
   state = {
-    open: false,
+    open: true,
     currentTab: 0,
   };
 
@@ -66,7 +62,7 @@ class TheDrawer extends Component {
     return (
       <Collapse in={this.state.open}>
         <div
-        className="drawer"
+          className="drawer"
           style={{
             position: "fixed",
             top: 0,
@@ -75,14 +71,23 @@ class TheDrawer extends Component {
             left: 70,
             background: "rgba(0,0,0,.75)",
             color: "white",
-            display : 'flex',
-            flexDirection : 'column'
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <h1>
+          <h1
+            style={{
+              color: "rgb(235, 235, 235)",
+              fontSize: 33,
+              margin: "25px 10px",
+              fontWeight: 200,
+            }}
+          >
             {date.format("dddd")} {`${date.month() + 1}/${date.date()}`}
           </h1>
-          <Divider style = {{height : .5, width : '100%', background : '#707070'}} />
+          <Divider
+            style={{ height: 0.5, width: "100%", background: "#707070" }}
+          />
           <Tabs
             className={classes.tabs}
             onChange={this.changeTab}
@@ -107,14 +112,23 @@ class TheDrawer extends Component {
               icon={<img src={saveIcon} />}
             />
           </Tabs>
-          <div style={{ border: ".5px solid #BFBFBF", margin: "0px 15px",height : 413, overflowY : 'auto' }}>
+          <div
+            style={{
+              border: ".5px solid #BFBFBF",
+              borderRadius: 4,
+              margin: "0px 10px",
+              height: 500,
+              overflowY: "auto",
+              padding: 5,
+            }}
+          >
+            <EditPrompt index={0} currentTab={currentTab} />
             <AddPrompt
               teamMembers={teamMembers}
               index={1}
               currentTab={currentTab}
             />
             <SavePrompt index={2} currentTab={currentTab} />
-            <EditPrompt/>
           </div>
         </div>
       </Collapse>

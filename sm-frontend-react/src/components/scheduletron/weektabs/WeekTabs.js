@@ -118,7 +118,7 @@ class TabsContainer extends Component {
             style={{ display: isDesktop ? "flex" : "none" }}
           >
             {/*You might want to separate this but DONOT. For some reason 
-      the scrollbuttons dont work or the indicator*/}
+    the scrollbuttons dont work or the indicator*/}
             {days.map((d, index) => {
               const isActive = index === currentTab;
               return (

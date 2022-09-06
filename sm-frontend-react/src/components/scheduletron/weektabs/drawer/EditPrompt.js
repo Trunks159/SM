@@ -2,8 +2,9 @@ import React, { Component } from "react";
 class EditPrompt extends Component {
   state = {};
   render() {
+    const { currentTab, index } = this.props;
     return (
-      <div>
+      <div style={{ display: currentTab === index ? "flex" : "none" }}>
         Lorem excepteur id ullamco do aliquip consequat aliqua esse qui
         consectetur ut anim occaecat culpa. Nisi incididunt reprehenderit
         commodo consequat. Non aute reprehenderit deserunt et minim duis nisi.
