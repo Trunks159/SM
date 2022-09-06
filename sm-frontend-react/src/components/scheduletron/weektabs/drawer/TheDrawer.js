@@ -25,9 +25,9 @@ const styles = () => ({
     },
   },
   tabs: {
-    width: 190,
     "& .MuiTabs-indicator": {
       background: "white",
+      left: 0,
     },
     "& .Mui-selected": {
       opacity: 1,
@@ -36,9 +36,15 @@ const styles = () => ({
     "& .MuiTabs-flexContainer": {
       justifyContent: "center",
     },
-    marginLeft: "auto",
-    marginRight: "auto",
-    marginTop: 20,
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+  },
+  closeBtn: {
+    color: "white",
+    position: "absolute",
+    top: 10,
+    right: 10,
   },
 });
 
@@ -69,31 +75,35 @@ class TheDrawer extends Component {
             bottom: 0,
             right: 0,
             left: 70,
-            background: "rgba(0,0,0,.75)",
+            background: "rgba(23,53,69,.92)",
             color: "white",
             display: "flex",
             flexDirection: "column",
           }}
         >
-          <h1
-            style={{
-              color: "rgb(235, 235, 235)",
-              fontSize: 33,
-              margin: "25px 10px",
-              fontWeight: 200,
-            }}
+          <Button
+            onClick={() => this.setState({ open: false })}
+            className={classes.closeBtn}
           >
-            {date.format("dddd")} {`${date.month() + 1}/${date.date()}`}
-          </h1>
-          <Divider
-            style={{ height: 0.5, width: "100%", background: "#707070" }}
-          />
+            Close
+          </Button>
+          <div className="drawer-header">
+            <h1>
+              {date.format("dddd")} {`${date.month() + 1}/${date.date()}`}
+            </h1>
+            <Divider
+              style={{ height: 0.5, width: "100%", background: "#707070" }}
+            />
+          </div>
+
           <Tabs
             className={classes.tabs}
             onChange={this.changeTab}
             value={currentTab}
+            orientation={"vertical"}
           >
             <Tab
+              style={{ marginTop: "auto" }}
               className={classes.tab}
               value={0}
               label="Edit"
@@ -112,16 +122,8 @@ class TheDrawer extends Component {
               icon={<img src={saveIcon} />}
             />
           </Tabs>
-          <div
-            style={{
-              border: ".5px solid #BFBFBF",
-              borderRadius: 4,
-              margin: "0px 10px",
-              height: 500,
-              overflowY: "auto",
-              padding: 5,
-            }}
-          >
+
+          <div className="drawer-content">
             <EditPrompt index={0} currentTab={currentTab} />
             <AddPrompt
               teamMembers={teamMembers}

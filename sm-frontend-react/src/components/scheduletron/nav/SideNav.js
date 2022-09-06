@@ -22,7 +22,7 @@ class SideNav extends Component {
     return (
       <>
         <div className="placeholder-nav"></div>
-        <div className="side-navbar" >
+        <div className="side-navbar">
           <div
             style={{
               display: "flex",
@@ -36,13 +36,13 @@ class SideNav extends Component {
             <Tabs2 changeMenu={this.changeMenu} selectedWeek={selectedWeek} />
           </div>
 
-          <Collapse in={Boolean(menu)} orientation={"horizontal"}>
-            <div className="nav-menu" >
+          <Collapse in={Boolean(menu)} orientation={"horizontal"} timeout={70}>
+            <div className="nav-menu">
               {selectedWeek && <WeekBar menu={menu} week={selectedWeek.week} />}
 
               <div style={{ display: menu === "search" ? "flex" : "none" }}>
                 Search
-                <div >
+                <div>
                   Officia elit ipsum ut consectetur ut occaecat esse ea aliquip
                   qui reprehenderit ullamco duis laboris. Exercitation culpa
                   dolor sint id cillum. In eu pariatur cupidatat minim labore

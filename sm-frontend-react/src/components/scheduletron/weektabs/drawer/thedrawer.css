@@ -1,5 +1,21 @@
-.drawer h1{
+
+
+
+
+.drawer-header h1{
     margin : 40px auto 40px 20px;
     font-weight: 200;
     font-size: 40px;
+    color: rgb(235, 235, 235);
+    font-weight: 200;
+}
+
+.drawer-content{
+    margin-right: 70px;
+    padding : 20px;}
+
+@media (min-width : 600px){
+    .drawer-header{
+        display: none;
+    }
 }
