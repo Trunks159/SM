@@ -1,14 +1,11 @@
-import { Tabs, Tab, Collapse, Button, Divider } from "@mui/material";
+import { Collapse, Button, Divider } from "@mui/material";
 import React, { Component } from "react";
-import editIcon from "./assets/Edit Icon.svg";
-import addIcon from "./assets/Add Icon.svg";
-import saveIcon from "./assets/Save Icon.svg";
 import moment from "moment";
 import { withStyles } from "@material-ui/core";
 import AddPrompt from "./AddPrompt";
 import SavePrompt from "./SavePrompt";
-import "./thedrawer.css";
 import EditPrompt from "./EditPrompt";
+import "./thedrawer.css";
 
 const styles = () => ({
   tab: {
@@ -50,23 +47,16 @@ const styles = () => ({
 
 class TheDrawer extends Component {
   state = {
-    open: true,
     currentTab: 0,
   };
 
-  changeTab = (e, newTab) => {
-    this.setState({
-      currentTab: newTab,
-    });
-  };
 
   render() {
-    const { teamMembers, classes } = this.props;
-    const { currentTab } = this.state;
+    const { teamMembers, classes, currentFunction } = this.props;
     const date = moment(this.props.date);
-    console.log("Currenttabb: ", currentTab);
+    const isOpen = Boolean(currentFunction);
     return (
-      <Collapse in={this.state.open}>
+      <Collapse in={isOpen}>
         <div
           className="drawer"
           style={{
@@ -82,7 +72,7 @@ class TheDrawer extends Component {
           }}
         >
           <Button
-            onClick={() => this.setState({ open: false })}
+            onClick={(e) => this.props.changeCurrentFunction(e, null)}
             className={classes.closeBtn}
           >
             Close
@@ -96,41 +86,15 @@ class TheDrawer extends Component {
             />
           </div>
 
-          <Tabs
-            className={classes.tabs}
-            onChange={this.changeTab}
-            value={currentTab}
-            orientation={"vertical"}
-          >
-            <Tab
-              style={{ marginTop: "auto" }}
-              className={classes.tab}
-              value={0}
-              label="Edit"
-              icon={<img src={editIcon} />}
-            />
-            <Tab
-              className={classes.tab}
-              value={1}
-              label="Add"
-              icon={<img src={addIcon} />}
-            />
-            <Tab
-              className={classes.tab}
-              value={2}
-              label="Save"
-              icon={<img src={saveIcon} />}
-            />
-          </Tabs>
-
+         
           <div className="drawer-content">
-            <EditPrompt index={0} currentTab={currentTab} />
+            <EditPrompt index={0} currentFunction={currentFunction} />
             <AddPrompt
               teamMembers={teamMembers}
               index={1}
-              currentTab={currentTab}
+              currentFunction={currentFunction}
             />
-            <SavePrompt index={2} currentTab={currentTab} />
+            <SavePrompt index={2} currentFunction={currentFunction} />
           </div>
         </div>
       </Collapse>

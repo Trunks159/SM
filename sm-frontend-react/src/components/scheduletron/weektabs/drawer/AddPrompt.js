@@ -40,11 +40,11 @@ const styles = () => ({
 class AddPrompt extends Component {
   state = {};
   render() {
-    const { teamMembers, currentTab, index, classes } = this.props;
+    const { teamMembers, currentFunction, index, classes } = this.props;
     return (
       <div
         style={{
-          display: currentTab === index ? "flex" : "none",
+          display: currentFunction === index ? "flex" : "none",
           flexDirection: "column",
         }}
       >

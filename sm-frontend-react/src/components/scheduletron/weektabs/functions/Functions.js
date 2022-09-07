@@ -1,33 +1,82 @@
-import React from "react";
-import addIcon from "./assets/Add Icon.svg";
-import submitIcon from "./assets/Submit Icon.svg";
+
+import React, { Component } from "react";
+import greyAddIcon from "./assets/Add Icon Grey.svg";
+import greySaveIcon from "./assets/Save Icon Grey.svg";
+import greyEditIcon from "./assets/Edit Icon Grey.svg";
 import editIcon from "./assets/Edit Icon.svg";
-import { Button } from "@material-ui/core";
+import addIcon from "./assets/Add Icon.svg";
+import saveIcon from "./assets/Save Icon.svg";
+import { withStyles} from "@material-ui/core";
+import { Tabs, Tab, Collapse, Button, Divider } from "@mui/material";
 
-const Functions = () => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        position: "absolute",
-        right: 0,
-        bottom: 10,
-        gap: 20,
-        margin: "20px 0px",
-      }}
+const styles = () => ({
+  tab: {
+    textTransform: "none",
+    transitionDuration: ".25s",
+    minWidth: 0,
+    padding: "0px 20px",
+    opacity: 0.75,
+    minWidth: 0,
+    fontSize: 12,
+    fontWeight: "400",
+    "& .MuiTab-iconWrapper": {
+      marginBottom: 8,
+    },
+  },
+  tabs: {
+    "& .MuiTabs-indicator": {
+      background: "white",
+      left: 0,
+    },
+    "& .Mui-selected": {
+      opacity: 1,
+      color: "white",
+    },
+    "& .MuiTabs-flexContainer": {
+      justifyContent: "center",
+    },
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+  },
+});
+
+class Functions extends Component {
+
+ 
+
+  render() { 
+    const {classes, currentFunction} = this.props;
+    return (
+      <Tabs
+      className={classes.tabs}
+      onChange={this.props.changeCurrentFunction}
+      value={currentFunction}
+      orientation={"vertical"}
     >
-      <Button>
-        <img src={addIcon} />
-      </Button>
-      <Button>
-        <img src={editIcon} />
-      </Button>
-      <Button>
-        <img src={submitIcon} />
-      </Button>
-    </div>
-  );
-};
+      <Tab
+        style={{ marginTop: "auto" }}
+        className={classes.tab}
+        value={0}
+        label="Edit"
+        icon={<img src={greyEditIcon} />}
+      />
+      <Tab
+        className={classes.tab}
+        value={1}
+        label="Add"
+        icon={<img src={greyAddIcon} />}
+      />
+      <Tab
+        className={classes.tab}
+        value={2}
+        label="Save"
+        icon={<img src={greySaveIcon} />}
+      />
+    </Tabs>
 
-export default Functions;
+    );
+  }
+}
+ 
+export default withStyles(styles)(Functions);
