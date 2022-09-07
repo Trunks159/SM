@@ -6,16 +6,7 @@ import TimeLine from "./visualizer/TimeLine";
 
 class TabPanels extends Component {
   state = {
-    currentFunction: 0,
     currentDay: this.props.currentDay,
-  };
-
-  setCurrentFunction = (e, newValue) => {
-    console.log("Newval: ", newValue);
-    return (
-      newValue !== this.state.currentFunction &&
-      this.setState({ currentFunction: newValue })
-    );
   };
 
   componentDidUpdate = (prevProps) => {
@@ -25,7 +16,7 @@ class TabPanels extends Component {
   };
 
   render() {
-    const { currentFunction, currentDay } = this.state;
+    const { currentDay } = this.state;
     const { isDesktop, days } = this.props;
 
     return days.map((day) => {
@@ -42,11 +33,7 @@ class TabPanels extends Component {
             background: "#F5F5F5",
           }}
         >
-          <MainContent
-            day={day}
-            isDesktop={isDesktop}
-            currentFunction={currentFunction}
-          />
+          <MainContent day={day} isDesktop={isDesktop} />
         </Paper>
       );
     });

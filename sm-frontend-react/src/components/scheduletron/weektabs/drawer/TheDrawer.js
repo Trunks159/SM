@@ -6,6 +6,7 @@ import AddPrompt from "./AddPrompt";
 import SavePrompt from "./SavePrompt";
 import EditPrompt from "./EditPrompt";
 import "./thedrawer.css";
+import Functions from "../functions/Functions";
 
 const styles = () => ({
   tab: {
@@ -50,11 +51,10 @@ class TheDrawer extends Component {
     currentTab: 0,
   };
 
-
   render() {
     const { teamMembers, classes, currentFunction } = this.props;
     const date = moment(this.props.date);
-    const isOpen = Boolean(currentFunction);
+    const isOpen = Number.isInteger(currentFunction);
     return (
       <Collapse in={isOpen}>
         <div
@@ -86,7 +86,6 @@ class TheDrawer extends Component {
             />
           </div>
 
-         
           <div className="drawer-content">
             <EditPrompt index={0} currentFunction={currentFunction} />
             <AddPrompt
@@ -96,6 +95,10 @@ class TheDrawer extends Component {
             />
             <SavePrompt index={2} currentFunction={currentFunction} />
           </div>
+          <Functions
+            changeCurrentFunction={this.props.changeCurrentFunction}
+            currentFunction={currentFunction}
+          />
         </div>
       </Collapse>
     );

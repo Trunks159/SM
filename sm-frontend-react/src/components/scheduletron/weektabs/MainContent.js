@@ -12,13 +12,12 @@ class MainContent extends Component {
     allUsers: [],
     scheduled: [],
     notScheduled: [],
-    currentFunction : null,
+    currentFunction: null,
   };
 
-  changeCurrentFunction = (e, newVal)=>{
-    this.setState({currentFunction : newVal});
-  }
-
+  changeCurrentFunction = (e, newVal) => {
+    this.setState({ currentFunction: newVal });
+  };
 
   getAvailableUsers = () => {
     const { allUsers, scheduledBlocks } = this.state;
@@ -103,14 +102,17 @@ class MainContent extends Component {
     return (
       allUsers && (
         <div className="tab-maincontent">
-          <Vizualizer
-            hidden={currentFunction !== 0}
-            day={day}
-            workblocks={scheduled}
-            isDesktop={isDesktop}
+          <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop} />
+          <Functions
+            changeCurrentFunction={this.changeCurrentFunction}
+            currentFunction={currentFunction}
           />
-          <Functions changeCurrentFunction = {this.changeCurrentFunction} currentFunction = {currentFunction}/>
-          <TheDrawer date={day.date} teamMembers={notScheduled} changeCurrentFunction = {this.changeCurrentFunction} currentFunction = {currentFunction} />
+          <TheDrawer
+            date={day.date}
+            teamMembers={notScheduled}
+            changeCurrentFunction={this.changeCurrentFunction}
+            currentFunction={currentFunction}
+          />
           {/*
     this bricks the app
     <Editor

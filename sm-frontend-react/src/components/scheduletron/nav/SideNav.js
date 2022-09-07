@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Tabs1 from "./Tabs1";
 import Tabs2 from "./Tabs2";
 import "./nav.css";
-import { Collapse } from "@mui/material";
+import { Collapse, Paper } from "@mui/material";
 import WeekBar from "./WeekBar";
 
 class SideNav extends Component {
@@ -37,7 +37,10 @@ class SideNav extends Component {
           </div>
 
           <Collapse in={Boolean(menu)} orientation={"horizontal"} timeout={70}>
-            <div className="nav-menu">
+            <Paper
+              className="nav-menu"
+              style={{ borderRadius: "0px 4px 4px 0px", background: "#EFF1F2" }}
+            >
               {selectedWeek && <WeekBar menu={menu} week={selectedWeek.week} />}
 
               <div style={{ display: menu === "search" ? "flex" : "none" }}>
@@ -103,7 +106,7 @@ class SideNav extends Component {
               <div style={{ display: menu === "settings" ? "flex" : "none" }}>
                 Settings
               </div>
-            </div>
+            </Paper>
           </Collapse>
         </div>
       </>

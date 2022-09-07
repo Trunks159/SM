@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import greyAddIcon from "./assets/Add Icon Grey.svg";
 import greySaveIcon from "./assets/Save Icon Grey.svg";
@@ -6,7 +5,7 @@ import greyEditIcon from "./assets/Edit Icon Grey.svg";
 import editIcon from "./assets/Edit Icon.svg";
 import addIcon from "./assets/Add Icon.svg";
 import saveIcon from "./assets/Save Icon.svg";
-import { withStyles} from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import { Tabs, Tab, Collapse, Button, Divider } from "@mui/material";
 
 const styles = () => ({
@@ -42,41 +41,38 @@ const styles = () => ({
 });
 
 class Functions extends Component {
-
- 
-
-  render() { 
-    const {classes, currentFunction} = this.props;
+  render() {
+    const { classes, currentFunction } = this.props;
+    const isOpen = Number.isInteger(currentFunction);
     return (
       <Tabs
-      className={classes.tabs}
-      onChange={this.props.changeCurrentFunction}
-      value={currentFunction}
-      orientation={"vertical"}
-    >
-      <Tab
-        style={{ marginTop: "auto" }}
-        className={classes.tab}
-        value={0}
-        label="Edit"
-        icon={<img src={greyEditIcon} />}
-      />
-      <Tab
-        className={classes.tab}
-        value={1}
-        label="Add"
-        icon={<img src={greyAddIcon} />}
-      />
-      <Tab
-        className={classes.tab}
-        value={2}
-        label="Save"
-        icon={<img src={greySaveIcon} />}
-      />
-    </Tabs>
-
+        className={classes.tabs}
+        onChange={this.props.changeCurrentFunction}
+        value={currentFunction}
+        orientation={"vertical"}
+      >
+        <Tab
+          style={{ marginTop: "auto" }}
+          className={classes.tab}
+          value={0}
+          label="Edit"
+          icon={<img src={isOpen ? editIcon : greyEditIcon} />}
+        />
+        <Tab
+          className={classes.tab}
+          value={1}
+          label="Add"
+          icon={<img src={isOpen ? addIcon : greyAddIcon} />}
+        />
+        <Tab
+          className={classes.tab}
+          value={2}
+          label="Save"
+          icon={<img src={isOpen ? saveIcon : greySaveIcon} />}
+        />
+      </Tabs>
     );
   }
 }
- 
+
 export default withStyles(styles)(Functions);
