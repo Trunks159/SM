@@ -121,10 +121,6 @@ class TimeSlot extends Component {
         >
           <div className="stretch-btn">
             <img
-              style={{
-                width: 20,
-                pointerEvents: "none",
-              }}
               src={stretchIcon}
             />
           </div>
@@ -138,10 +134,6 @@ class TimeSlot extends Component {
         >
           <div className="stretch-btn">
             <img
-              style={{
-                width: 20,
-                pointerEvents: "none",
-              }}
               src={stretchIcon}
             />
           </div>

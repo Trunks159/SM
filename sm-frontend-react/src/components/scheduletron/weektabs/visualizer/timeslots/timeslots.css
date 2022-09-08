@@ -3,12 +3,16 @@
     flex-direction: column;
     gap : 10px;
     position: absolute;
-    top : 100px;
+    top : 40px;
     bottom : 0px;
-    right: 20px;
-    left: 20px;
+    right: 0px;
+    left: 0px;
     overflow-y: auto;
     overflow-x: auto;
+    background-color: rgba(175, 175, 175, .15);
+    padding: 20px 0px;
+    box-shadow: inset 0px 3px 6px rgba(0, 0, 0, .16);
+
 }
 
 .timeslot{
@@ -27,15 +31,20 @@
 
   .stretch-btn{
     position : absolute;
-    left: -20px;
-    background: rgba(24, 151, 230, .7);
+    left: -15px;
+    background: rgba(0, 0, 0, .65);
     top : 18px;
-    height: 30px;
-    width: 40px;
+    height: 25px;
+    width: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 4px;
+  }
+
+  .stretch-btn img{
+    pointer-events: none;
+    width : 15px;
   }
   
   

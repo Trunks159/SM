@@ -57,20 +57,7 @@ class TheDrawer extends Component {
     const isOpen = Number.isInteger(currentFunction);
     return (
       <Collapse in={isOpen}>
-        <div
-          className="drawer"
-          style={{
-            position: "fixed",
-            top: 0,
-            bottom: 0,
-            right: 0,
-            left: 70,
-            background: "rgba(23,53,69,.92)",
-            color: "white",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <div className="drawer">
           <Button
             onClick={(e) => this.props.changeCurrentFunction(e, null)}
             className={classes.closeBtn}

@@ -1,21 +1,38 @@
-
-
-
-
-.drawer-header h1{
-    margin : 40px auto 40px 20px;
-    font-weight: 200;
-    font-size: 40px;
-    color: rgb(235, 235, 235);
-    font-weight: 200;
+.drawer {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 70px;
+  background: rgba(23, 53, 69, 0.92);
+  color: white;
+  display: flex;
+  flex-direction: column;
 }
 
-.drawer-content{
-    margin-right: 70px;
-    padding : 20px;}
+.drawer-header h1 {
+  margin: 40px auto 40px 20px;
+  font-weight: 200;
+  font-size: 40px;
+  color: rgb(235, 235, 235);
+  font-weight: 200;
+}
 
-@media (min-width : 600px){
-    .drawer-header{
-        display: none;
-    }
+.drawer-content {
+  margin-right: 70px;
+  padding: 20px;
+}
+
+@media (min-width: 600px) {
+
+.drawer{
+    position: absolute;
+    width : 320px;
+    left : auto;
+    border-radius:7px 0px 0px 7px;
+}
+
+  .drawer-header {
+    display: none;
+  }
 }
