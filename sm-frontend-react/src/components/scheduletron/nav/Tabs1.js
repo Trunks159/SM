@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import scheduleIcon from "../../../assets/images/Schedule Icon.svg";
-import openIcon from "../../../assets/images/Open Icon.svg";
+import scheduleIcon from "./assets/Schedule Icon.svg";
+import openIcon from "./assets/Open Icon.svg";
 import { Divider, Tooltip } from "@mui/material";
 import { NavLink, useLocation } from "react-router-dom";
 

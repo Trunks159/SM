@@ -61,19 +61,3 @@
   opacity: 1;
 }
 
-.nav-menu {
-  position: fixed;
-  top: 0;
-  left: 70px;
-  right: 0;
-  bottom: 0;
-  background: red;
-}
-
-@media (min-width : 600px){
-    .nav-menu{
-        position: static;
-        width: 257px;
-        height : 100%;
-    }
-}

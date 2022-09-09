@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import daysIcon from "../../../assets/images/Days Icon.svg";
-import searchIcon from "../../../assets/images/Search Icon.svg";
-import settingsIcon from "../../../assets/images/Settings Icon.svg";
-import { Button } from "@mui/material";
+import daysIcon from "./assets/Days Icon.svg";
+import searchIcon from "./assets/Search Icon.svg";
+import settingsIcon from "./assets/Settings Icon.svg";
 import { Divider } from "@mui/material";
 
 class Tabs2 extends Component {
@@ -28,7 +27,7 @@ class Tabs2 extends Component {
         src: daysIcon,
         label: "Days",
         index: 0,
-        menuTitle: "weekbar",
+        menuTitle: "days",
         handle: this.handleDays,
       },
       {
