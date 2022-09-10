@@ -106,6 +106,7 @@ class MainContent extends Component {
           <Functions
             changeCurrentFunction={this.changeCurrentFunction}
             currentFunction={currentFunction}
+            isStatic
           />
           <TheDrawer
             date={day.date}

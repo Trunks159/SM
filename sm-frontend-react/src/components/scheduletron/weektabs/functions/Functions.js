@@ -14,7 +14,6 @@ const styles = () => ({
     transitionDuration: ".25s",
     minWidth: 0,
     padding: "0px 20px",
-    opacity: 0.75,
     minWidth: 0,
     fontSize: 12,
     fontWeight: "400",
@@ -42,7 +41,7 @@ const styles = () => ({
 
 class Functions extends Component {
   render() {
-    const { classes, currentFunction } = this.props;
+    const { classes, currentFunction, isStatic } = this.props;
     const isOpen = Number.isInteger(currentFunction);
     return (
       <Tabs
@@ -52,19 +51,21 @@ class Functions extends Component {
         orientation={"vertical"}
       >
         <Tab
-          style={{ marginTop: "auto" }}
+          style={{ marginTop: "auto", opacity  : isStatic ? 1 : .75 }}
           className={classes.tab}
           value={0}
           label="Edit"
           icon={<img src={isOpen ? editIcon : greyEditIcon} />}
         />
         <Tab
+        style = {{opacity  : isStatic ? 1 : .75}}
           className={classes.tab}
           value={1}
           label="Add"
           icon={<img src={isOpen ? addIcon : greyAddIcon} />}
         />
         <Tab
+        style = {{opacity  : isStatic ? 1 : .75}}
           className={classes.tab}
           value={2}
           label="Save"

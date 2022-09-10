@@ -18,8 +18,8 @@ const DayBtn = ({ weekday, date, completion, disabled, id, path, setDay }) => {
     <Link
       to={`/scheduletron/${id}`}
       style={{
-        height: 66,
-        width: 66,
+        height: 155,
+        width: 155,
         color: "white",
         background: "#738D9B",
         borderRadius: 7,
@@ -41,15 +41,15 @@ const DayBtn = ({ weekday, date, completion, disabled, id, path, setDay }) => {
         }}
       ></div>
       <div style={{ width: "100%", height: "100%", position: "absolute" }}>
-        <p
-          style={{ fontSize: 16, margin: 0, marginTop: "18%", fontWeight: 700 }}
+        <h1
+          style={{ fontSize: 31, margin: 0, marginTop: "18%", fontWeight: 700 }}
         >
           {abreviated[weekday]}
-        </p>
-        <p style={{ fontSize: 11, margin: 0 }}>{date}</p>
-        <p style={{ fontSize: 8, marginTop: 5, marginBottom: 0 }}>
+        </h1>
+        <h3 style={{ fontSize: 25, margin: 0, fontWeight : 400 }}>{date}</h3>
+        <small style={{ fontSize: 7,  marginBottom: 0 }}>
           {completion}% Complete
-        </p>
+        </small>
       </div>
     </Link>
   );
@@ -62,9 +62,7 @@ const styles = () => ({
     alignItems: "center",
     background: "#E1E9EE",
     justifyContent: "space-evenly",
-    padding: "0px 15px",
     height: "100%",
-    width: 120,
   },
 });
 
@@ -77,6 +75,8 @@ class WeekBar extends Component {
         style={{
           display: menu === value ? "flex" : "none",
           flexDirection: "column",
+          gap: 40,
+          alignItems: "center",
         }}
       >
         {week.map(({ weekday, staffing, month, day, id }) => (
