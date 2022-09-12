@@ -51,21 +51,18 @@ class Functions extends Component {
         orientation={"vertical"}
       >
         <Tab
-          style={{ marginTop: "auto", opacity  : isStatic ? 1 : .75 }}
           className={classes.tab}
           value={0}
           label="Edit"
           icon={<img src={isOpen ? editIcon : greyEditIcon} />}
         />
         <Tab
-        style = {{opacity  : isStatic ? 1 : .75}}
           className={classes.tab}
           value={1}
           label="Add"
           icon={<img src={isOpen ? addIcon : greyAddIcon} />}
         />
         <Tab
-        style = {{opacity  : isStatic ? 1 : .75}}
           className={classes.tab}
           value={2}
           label="Save"

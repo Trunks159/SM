@@ -43,21 +43,4 @@
   opacity: 1;
 }
 
-.nav-button {
-  color: #51636d;
-  width: 100%;
-  position: relative;
-  font-size: 9px;
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: none;
-  border: none;
-  padding-top: 10px;
-}
-
-.nav-button:hover {
-  opacity: 1;
-}
 

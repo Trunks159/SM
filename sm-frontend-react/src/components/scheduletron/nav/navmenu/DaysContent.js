@@ -13,10 +13,10 @@ const abreviated = {
   Sunday: "Sun.",
 };
 
-const DayBtn = ({ weekday, date, completion, disabled, id, path, setDay }) => {
+const DayBtn = ({ weekday, date, completion, disabled, id, path, weekId }) => {
   return (
     <Link
-      to={`/scheduletron/${id}`}
+      to={`/scheduletron/${weekId}/${id}`}
       style={{
         height: 155,
         width: 155,
@@ -29,7 +29,6 @@ const DayBtn = ({ weekday, date, completion, disabled, id, path, setDay }) => {
         pointerEvents: disabled ? "none" : "auto",
         position: "relative",
       }}
-      onClick={() => setDay(id)}
     >
       <div
         style={{
@@ -46,8 +45,8 @@ const DayBtn = ({ weekday, date, completion, disabled, id, path, setDay }) => {
         >
           {abreviated[weekday]}
         </h1>
-        <h3 style={{ fontSize: 25, margin: 0, fontWeight : 400 }}>{date}</h3>
-        <small style={{ fontSize: 7,  marginBottom: 0 }}>
+        <h3 style={{ fontSize: 25, margin: 0, fontWeight: 400 }}>{date}</h3>
+        <small style={{ fontSize: 7, marginBottom: 0 }}>
           {completion}% Complete
         </small>
       </div>
@@ -68,7 +67,7 @@ const styles = () => ({
 
 class WeekBar extends Component {
   render() {
-    const { week, path, setDay, menu, value } = this.props;
+    const { week, path, setDay, menu, value, weekId } = this.props;
 
     return (
       <div
@@ -81,6 +80,7 @@ class WeekBar extends Component {
       >
         {week.map(({ weekday, staffing, month, day, id }) => (
           <DayBtn
+            weekId={weekId}
             weekday={weekday}
             completion={Math.round(
               (staffing.actual / staffing.projected) * 100
@@ -88,7 +88,6 @@ class WeekBar extends Component {
             date={`${month}/${day}`}
             id={id}
             path={path}
-            setDay={setDay}
           />
         ))}
       </div>

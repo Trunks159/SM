@@ -40,9 +40,14 @@ class NavMenu extends Component {
           >
             <img src={closeIcon} />
           </Button>
-          <div style = {{overflowY : 'auto', height :'100%'}}>
+          <div style={{ overflowY: "auto", height: "100%" }}>
             {selectedWeek && (
-              <DaysContent menu={menu} week={selectedWeek.week} value="days" />
+              <DaysContent
+                menu={menu}
+                week={selectedWeek.week}
+                weekId={selectedWeek.id}
+                value="days"
+              />
             )}
             <SearchContent menu={menu} value="search" />
             <SettingsContent menu={menu} value="settings" />

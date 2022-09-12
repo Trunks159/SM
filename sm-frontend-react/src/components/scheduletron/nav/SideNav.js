@@ -9,8 +9,11 @@ class SideNav extends Component {
     menu: null,
   };
 
-  changeMenu = (menuTitle) =>
-    this.setState({ menu: this.state.menu === menuTitle ? null : menuTitle });
+  changeMenu = (e, newValue) => {
+    console.log("Changes: ", newValue);
+    this.setState({ menu: this.state.menu === newValue ? null : newValue });
+  };
+
   render() {
     const { selectedWeek } = this.props;
     const { menu } = this.state;
@@ -29,7 +32,11 @@ class SideNav extends Component {
             }}
           >
             <Tabs1 dayIndex={0} weekId={selectedWeek && selectedWeek.id} />
-            <Tabs2 changeMenu={this.changeMenu} selectedWeek={selectedWeek} />
+            <Tabs2
+              changeMenu={this.changeMenu}
+              selectedWeek={selectedWeek}
+              menu={menu}
+            />
           </div>
           <NavMenu
             selectedWeek={selectedWeek}
