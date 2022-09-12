@@ -37,12 +37,19 @@ class Visualizer extends Component {
           shiftFilter={shiftFilter}
           isDesktop={isDesktop}
         />
-        <div style={{ margin: "0px 80px 27px 80px", position : 'relative', flex : 1}}>
+        <div
+          style={{
+            margin: "0px 80px 27px 80px",
+            position: "relative",
+            flex: 1,
+          }}
+        >
           <TimeLine shiftFilter={shiftFilter} isDesktop={isDesktop} />
           <TimeSlots
             shiftFilter={shiftFilter}
             workblocks={workblocks}
             theDate={day.date}
+            isMobile={!isDesktop}
           />
         </div>
       </div>

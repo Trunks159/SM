@@ -75,14 +75,30 @@ class TimeSlot extends Component {
   };
 
   componentDidMount = () => {
-    const { startTime, endTime } = this.props;
+    const { startTime, endTime, isMobile } = this.props;
 
     const width = this.myRef.current.parentElement.clientWidth;
+    const height = this.myRef.current.parentElement.clientHeight;
+
     this.setState({
       width: width,
+      height: height,
+      containerSize: isMobile ? height : width,
       startTime: this.timeToPix(startTime, width),
       endTime: this.timeToPix(endTime, width),
     });
+  };
+
+  componentDidUpdate = (prevProps) => {
+    /*When in mobile use height as the main measure, when in desktop
+    use width */
+    if (prevProps.isMobile !== this.props.isMobile) {
+      const containerSize = this.props.isMobile
+        ? this.myRef.current.parentElement.clientHeight
+        : this.myRef.current.parentElement.clientWidth;
+      //convert current pix to time then back to pix based on the containersize
+      this.setState({ containerSize: containerSize });
+    }
   };
 
   //what methods
@@ -120,9 +136,7 @@ class TimeSlot extends Component {
           onDrag={(e, newValue) => this.setState({ startTime: newValue.x })}
         >
           <div className="stretch-btn">
-            <img
-              src={stretchIcon}
-            />
+            <img src={stretchIcon} />
           </div>
         </Draggable>
         <Draggable
@@ -133,9 +147,7 @@ class TimeSlot extends Component {
           onDrag={(e, newValue) => this.setState({ endTime: newValue.x })}
         >
           <div className="stretch-btn">
-            <img
-              src={stretchIcon}
-            />
+            <img src={stretchIcon} />
           </div>
         </Draggable>
       </div>

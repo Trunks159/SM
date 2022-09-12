@@ -48,7 +48,7 @@ class TimeSlots extends Component {
   };
 
   render() {
-    const { workblocks, shiftFilter, theDate } = this.props;
+    const { workblocks, shiftFilter, theDate, isMobile } = this.props;
     const timelineRange = this.getTimelineRange(shiftFilter);
     return (
       <div className="timeslots">
@@ -64,6 +64,7 @@ class TimeSlots extends Component {
                 endTime={workblock.endTime}
                 shiftFilter={shiftFilter}
                 user={workblock.user}
+                isMobile={isMobile}
               />
             )
           );
