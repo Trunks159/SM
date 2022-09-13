@@ -48,12 +48,13 @@ const styles = () => ({
 class TabsContainer extends Component {
   state = {
     currentTab: this.props.dayIndex,
-    currentDay: this.props.days && this.props.days[this.props.dayIndex],
+    currentDay: this.props.days && this.props.days[this.props.dayId],
     days: this.props.days,
     redirect: false,
   };
 
   changeTab = (e, newTab) => {
+    console.log('Newtab: ', newTab)
     this.setState({
       currentTab: newTab,
       currentDay: this.state.days[newTab],
@@ -83,11 +84,12 @@ class TabsContainer extends Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    const { weekId, dayIndex, days, weeks } = this.props;
+    const { weekId, dayId, days, weeks } = this.props;
+    console.log('The weekid: ', dayId)
     if (prevProps.days !== this.props.days) {
       this.setState({
         days: days,
-        currentDay: days[dayIndex],
+        currentDay: days.find((d)=>d.id = dayId),
       });
     }
     if (prevProps.selectedWeek && prevProps.weekId !== weekId) {
@@ -98,6 +100,11 @@ class TabsContainer extends Component {
         this.fetchWeekSchedule(weekId);
       }
     }
+
+    if(prevProps.dayId !== this.props.dayId){
+      this.changeTab(0, 4);
+    }
+
   };
 
   render() {
@@ -131,7 +138,7 @@ class TabsContainer extends Component {
                   label={
                     <Link
                       className={classes.tabLink}
-                      to={`/scheduletron/${weekId}/${index}`}
+                      to={`/scheduletron/${weekId}/${d.id}`}
                     >
                       <Collapse orientation={"horizontal"} in={isActive}>
                         <p style={{ marginRight: 7 }}>{d.weekday} </p>
