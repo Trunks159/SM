@@ -13,10 +13,10 @@ const abreviated = {
   Sunday: "Sun.",
 };
 
-const DayBtn = ({ weekday, date, completion, disabled, id, path, weekId }) => {
+const DayBtn = ({ weekday, date, completion, disabled, id, path, weekId, dayIndex }) => {
   return (
     <Link
-      to={`/scheduletron/${weekId}/${id}`}
+      to={`/scheduletron/${weekId}/${dayIndex}`}
       style={{
         height: 155,
         width: 155,
@@ -78,7 +78,7 @@ class WeekBar extends Component {
           alignItems: "center",
         }}
       >
-        {week.map(({ weekday, staffing, month, day, id }) => (
+        {week.map(({ weekday, staffing, month, day, id }, index) => (
           <DayBtn
             weekId={weekId}
             weekday={weekday}
@@ -88,6 +88,7 @@ class WeekBar extends Component {
             date={`${month}/${day}`}
             id={id}
             path={path}
+            dayIndex = {index}
           />
         ))}
       </div>

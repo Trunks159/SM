@@ -62,7 +62,7 @@ class Scheduletron extends Component {
                   days={selectedWeek && selectedWeek.week}
                   screenWidth={screenWidth}
                   setSelectedWeek={this.setSelectedWeek}
-                  dayIndex = {match.params.dayIndex}
+                  dayIndex = {parseInt(match.params.dayIndex)}
                   weeks={weeks}
                 />
               ) : (

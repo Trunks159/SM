@@ -1,4 +1,5 @@
 import calendar
+import json
 from flask import request, jsonify
 from config import app, db
 from models import User, Day, Availability, WeekSchedule, WorkBlock
@@ -150,23 +151,25 @@ def edit_schedule(day_id):
 
 @app.route('/get_schedule/<day_id>')
 def get_schedule(day_id):
-    print("dayid: ", day_id)
-
-    def filter(the_list, id):
-        for item in the_list:
-            if item.id == id:
-                the_list.remove(item)
-                break
-        return the_list
-
-    users = User.query.all()
-    not_scheduled = users[:]
     day = Day.query.filter_by(id=day_id).first()
-    for workblock in day.workblocks:
-        filter(not_scheduled, workblock.user_id)
+    if day:
 
-    return jsonify({'notScheduled': [i.to_json() for i in not_scheduled], 'scheduled': [workblock.to_json() for workblock in day.workblocks], 'allUsers': [user.to_json() for user in users]})
+        def filter(the_list, id):
+            for item in the_list:
+                if item.id == id:
+                    the_list.remove(item)
+                    break
+            return the_list
 
+        users = User.query.all()
+        not_scheduled = users[:]
+        
+        for workblock in day.workblocks:
+            filter(not_scheduled, workblock.user_id)
+
+        return jsonify({'notScheduled': [i.to_json() for i in not_scheduled], 'scheduled': [workblock.to_json() for workblock in day.workblocks], 'allUsers': [user.to_json() for user in users]})
+    else:
+        return jsonify(False)
 
 @app.route('/get_week_schedules/<todays_date>')
 def get_week_schedules(todays_date):

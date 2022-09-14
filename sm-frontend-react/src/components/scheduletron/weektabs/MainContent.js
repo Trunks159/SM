@@ -6,6 +6,8 @@ import "./maincontent.css";
 import moment from "moment";
 import Functions from "./functions/Functions";
 import TheDrawer from "./drawer/TheDrawer";
+import { Redirect } from "react-router-dom";
+import { red } from "@material-ui/core/colors";
 
 class MainContent extends Component {
   state = {
@@ -13,6 +15,7 @@ class MainContent extends Component {
     scheduled: [],
     notScheduled: [],
     currentFunction: null,
+    redirect: null,
   };
 
   changeCurrentFunction = (e, newVal) => {
@@ -79,13 +82,17 @@ class MainContent extends Component {
   setUpState = () => {
     fetch(`/get_schedule/${this.props.day.id}`)
       .then((response) => response.json())
-      .then(({ allUsers, scheduled, notScheduled }) => {
-        this.setState({
-          allUsers: allUsers,
-          scheduled: scheduled,
-
-          notScheduled: notScheduled,
-        });
+      .then((res) => {
+        if (res) {
+          const { allUsers, scheduled, notScheduled } = res;
+          this.setState({
+            allUsers: allUsers,
+            scheduled: scheduled,
+            notScheduled: notScheduled,
+          });
+        } else {
+          this.setState({ redirect: true });
+        }
       });
   };
 
@@ -97,11 +104,13 @@ class MainContent extends Component {
 
   render() {
     const { day, isDesktop } = this.props;
-    const { scheduled, allUsers, notScheduled, currentFunction } = this.state;
+    const { scheduled, allUsers, notScheduled, currentFunction, redirect } =
+      this.state;
 
     return (
       allUsers && (
         <div className="tab-maincontent">
+          {redirect && <Redirect to={"/scheduletron"} />}
           <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop} />
           <Functions
             changeCurrentFunction={this.changeCurrentFunction}

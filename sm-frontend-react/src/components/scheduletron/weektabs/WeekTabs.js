@@ -45,16 +45,37 @@ const styles = () => ({
   },
 });
 
+/*
+  lets get this working on desktop before mobile because its 
+  juust going to take too long to consider everything
+
+  Need to make sure the timeslots respond to when the screen size changes
+  Need the timeslots to be responsive to shiftfilter change
+  
+  Its kinda impossible to keep the actual time value in state
+  it needs to be stored 100% as pixel and just kept that way.
+  So i guess when theres overflow the time can be stored but...
+  
+  Perhaps we could deal with negative pixels?
+
+  Lets say the filter is 3pm - 12AM
+  and shift starts 1t 11AM and ends at 8PM
+  How would you convert 11AM to pixels
+  Could it be represented as -300px, 200px?
+  This is tough.
+
+  When there is overflow It'll be hidden of course and replaced with an dashed line
+*/
+
 class TabsContainer extends Component {
   state = {
     currentTab: this.props.dayIndex,
-    currentDay: this.props.days && this.props.days[this.props.dayId],
+    currentDay: this.props.days && this.props.days[this.props.dayIndex],
     days: this.props.days,
     redirect: false,
   };
 
   changeTab = (e, newTab) => {
-    console.log('Newtab: ', newTab)
     this.setState({
       currentTab: newTab,
       currentDay: this.state.days[newTab],
@@ -84,12 +105,11 @@ class TabsContainer extends Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    const { weekId, dayId, days, weeks } = this.props;
-    console.log('The weekid: ', dayId)
+    const { weekId, dayIndex, days, weeks } = this.props;
     if (prevProps.days !== this.props.days) {
       this.setState({
         days: days,
-        currentDay: days.find((d)=>d.id = dayId),
+        currentDay: days[dayIndex],
       });
     }
     if (prevProps.selectedWeek && prevProps.weekId !== weekId) {
@@ -101,14 +121,16 @@ class TabsContainer extends Component {
       }
     }
 
-    if(prevProps.dayId !== this.props.dayId){
-      this.changeTab(0, 4);
+    if(prevProps.dayIndex !== this.props.dayIndex){
+      this.changeTab(0, this.props.dayIndex);
     }
+
+  
 
   };
 
   render() {
-    const { screenWidth, match, weekId, classes, weeks } = this.props;
+    const { screenWidth, match, weekId, classes, weeks , dayIndex} = this.props;
     const isDesktop = screenWidth > 600;
     const { days, currentDay, currentTab, redirect } = this.state;
     return (
@@ -127,7 +149,7 @@ class TabsContainer extends Component {
             {/*You might want to separate this but DONOT. For some reason 
     the scrollbuttons dont work or the indicator*/}
             {days.map((d, index) => {
-              const isActive = index === currentTab;
+              const isActive = index === dayIndex;
               return (
                 <Tab
                   className={classes.tab}
@@ -138,7 +160,7 @@ class TabsContainer extends Component {
                   label={
                     <Link
                       className={classes.tabLink}
-                      to={`/scheduletron/${weekId}/${d.id}`}
+                      to={`/scheduletron/${weekId}/${index}`}
                     >
                       <Collapse orientation={"horizontal"} in={isActive}>
                         <p style={{ marginRight: 7 }}>{d.weekday} </p>
