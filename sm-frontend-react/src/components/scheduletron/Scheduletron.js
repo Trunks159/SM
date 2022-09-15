@@ -31,9 +31,7 @@ class Scheduletron extends Component {
     });
 
   render() {
-    const { classes } = this.props;
     const { screenWidth, selectedWeek, weeks } = this.state;
-    const isDesktop = screenWidth >= 600;
     return (
       <div className="scheduletron">
         <SideNav selectedWeek={selectedWeek} />
@@ -50,12 +48,6 @@ class Scheduletron extends Component {
           <Route
             path={"/scheduletron/:weekId/:dayIndex?"}
             render={({ match }) => {
-              /* const day = selected
-                  ? selected.week.find(
-                      ({ id }) => id === parseInt(match.params.day)
-                    )
-                  : null;*/
-
               return match.params.dayIndex ? (
                 <WeekTabs
                   weekId={match.params.weekId}

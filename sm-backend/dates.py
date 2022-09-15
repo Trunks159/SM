@@ -12,6 +12,7 @@ linked to a weekschedule  in the db
 
 
 def complete_schedule_set(week):
+    print('Week date: ', week.monday_date  - timedelta(days = 7))
     schedule_set = [week]
     '''
     takes a week and returns the weeks surrounding it if they exist of course'''
@@ -20,15 +21,26 @@ def complete_schedule_set(week):
     if next_weeks:
         for schedule in next_weeks:
             schedule_set.append(schedule)
+    else:
+        ws = WeekSchedule().initialize(week.monday_date + timedelta(days = 7))
+        schedule_set.append(ws)
 
     last_week = WeekSchedule.query.filter(
         WeekSchedule.monday_date == week.monday_date - timedelta(days=7)).first()
+
     two_weeks_ago = WeekSchedule.query.filter(
         WeekSchedule.monday_date == week.monday_date - timedelta(days=14)).first()
     if last_week:
         schedule_set.append(last_week)
+    else:
+        ws = WeekSchedule().initialize(week.monday_date - timedelta(days=7))
+        schedule_set.append(ws)
+    
     if two_weeks_ago:
         schedule_set.append(two_weeks_ago)
+    else:
+        ws = WeekSchedule().initialize(week.monday_date - timedelta(days=7))
+        schedule_set.append(ws)
 
     sorted_set = sorted(schedule_set, key=lambda x: x.monday_date)
     return with_added_labels(sorted_set, week)

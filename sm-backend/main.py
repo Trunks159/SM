@@ -112,7 +112,6 @@ def get_day(date):
     date = [int(i) for i in date.split('-')]
     month, day, year = date
     days = Day.query.all()
-    print('The date: ', days)
     found_day = None
     for item in days:
         if (item.date.month == month) & (item.date.day == day) & (item.date.year == year):
@@ -139,7 +138,6 @@ def edit_schedule(day_id):
             db.session.delete(wb)
 
     # replace them with the ones that just came in
-    print('IDK man: ', schedule)
     for item in schedule:
         workblock = WorkBlock(day_id=day_id, user_id=item['user_id'],
                               start_time=item['start_time'], end_time=item['end_time'])
@@ -172,6 +170,8 @@ def get_schedule(day_id):
         return jsonify(False)
 
 @app.route('/get_week_schedules/<todays_date>')
+#takes a date and creates or finds a set of schedules
+#surrounding that date
 def get_week_schedules(todays_date):
     date = [int(string) for string in todays_date.split('-')]
     '''So we get the date and with that we first get the schedule set that has that day'''
@@ -192,7 +192,6 @@ def get_week_schedules(todays_date):
 
 @app.route('/get_week_schedule/<week_id>')
 def get_week_schedule(week_id):
-    print('Weekid: ', week_id)
     week = WeekSchedule.query.filter_by(id=week_id).first()
     if week:
         set = complete_schedule_set(week)
@@ -216,7 +215,6 @@ def get_day_schedule(id):
 def profile_info(user_id, day_id):
 
     u = User.query.filter_by(id=user_id).first()
-    print('Calendar: ', list(calendar.day_name)[0])
     weekday = Day.query.filter_by(id=day_id).first().date.weekday()
     weekday = list(calendar.day_name)[weekday]
     user = {'firstName': u.first_name, 'lastName': u.last_name,

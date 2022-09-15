@@ -238,6 +238,7 @@ class WeekSchedule(db.Model):
 
     def create_week(self, date):
         monday = date - timedelta(date.weekday())
+        self.monday_date = monday
         for i in range(7):
             day = Day(date=monday + timedelta(i), week_schedule=self)
             db.session.add(day)
