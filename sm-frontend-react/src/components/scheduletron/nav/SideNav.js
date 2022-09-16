@@ -10,7 +10,6 @@ class SideNav extends Component {
   };
 
   changeMenu = (e, newValue) => {
-    console.log("Changes: ", newValue);
     this.setState({ menu: this.state.menu === newValue ? null : newValue });
   };
 

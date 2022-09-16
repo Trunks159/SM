@@ -17,6 +17,16 @@ class Tabs1 extends Component {
     this.setState({ value: newValue });
   };
 
+  getThisWeek = () => {
+    const today = "9-13-2021";
+    //Yes this is the wrong today
+    fetch(`/get_schedule?date=${today}`)
+      .then((response) => response.json())
+      .then((response) => {});
+  };
+
+  todaysDate = () => "9-13-2021";
+
   componentDidUpdate = (prevProps) => {
     if (this.props.location.pathname !== prevProps.location.pathname) {
       this.setState({ value: this.props.location.pathname });
@@ -24,8 +34,7 @@ class Tabs1 extends Component {
   };
 
   render() {
-    const { dayIndex, location, weekId } = this.props;
-
+    const { weekId, dayIndex } = this.props;
     return (
       <div
         style={{
@@ -60,7 +69,11 @@ class Tabs1 extends Component {
           />
         </NavLink>
         <NavLink
-          to={`/scheduletron/${weekId}/${dayIndex}`}
+          to={
+            weekId
+              ? `/scheduletron/viewer/${weekId}/${0}`
+              : `/scheduletron/?date=${this.todaysDate()}`
+          }
           className={"nav-link"}
         >
           <img

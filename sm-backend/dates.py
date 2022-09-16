@@ -8,11 +8,8 @@ linked to a weekschedule  in the db
 '''
 
 
-
-
-
 def complete_schedule_set(week):
-    print('Week date: ', week.monday_date  - timedelta(days = 7))
+    print('Week date: ', week.monday_date - timedelta(days=7))
     schedule_set = [week]
     '''
     takes a week and returns the weeks surrounding it if they exist of course'''
@@ -22,7 +19,7 @@ def complete_schedule_set(week):
         for schedule in next_weeks:
             schedule_set.append(schedule)
     else:
-        ws = WeekSchedule().initialize(week.monday_date + timedelta(days = 7))
+        ws = WeekSchedule().initialize(week.monday_date + timedelta(days=7))
         schedule_set.append(ws)
 
     last_week = WeekSchedule.query.filter(
@@ -35,7 +32,7 @@ def complete_schedule_set(week):
     else:
         ws = WeekSchedule().initialize(week.monday_date - timedelta(days=7))
         schedule_set.append(ws)
-    
+
     if two_weeks_ago:
         schedule_set.append(two_weeks_ago)
     else:
@@ -54,8 +51,9 @@ def with_added_labels(schedule_set, this_week):
         difference = int(
             (schedule.monday_date - this_week.monday_date).days / 7)
         if difference < 0:
-            word = 'last week' if difference == - \
-                1 else '{} weeks ago'.format(p.number_to_words(abs(difference)/7))
+            print('Diff: ', difference)
+            word = 'last week' if abs(difference) == 1 else '{} weeks ago'.format(
+                p.number_to_words(abs(difference)))
         elif difference == 0:
             word = 'this week'
         else:
@@ -63,5 +61,3 @@ def with_added_labels(schedule_set, this_week):
                 p.number_to_words(difference))
         finished_set.append({'timeFrame': word, 'schedule': schedule})
     return finished_set
-
-

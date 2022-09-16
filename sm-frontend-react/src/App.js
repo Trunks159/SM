@@ -138,7 +138,7 @@ class App extends Component {
               path="/scheduletron"
               render={() => {
                 return currentUser.isAuthenticated ? (
-                  <Scheduletron />
+                  <Scheduletron notifyUser={this.notifyUser} />
                 ) : (
                   <Redirect to="/login" />
                 );

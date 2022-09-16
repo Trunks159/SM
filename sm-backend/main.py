@@ -1,5 +1,6 @@
 import calendar
 import json
+from select import select
 from flask import request, jsonify
 from config import app, db
 from models import User, Day, Availability, WeekSchedule, WorkBlock
@@ -161,7 +162,7 @@ def get_schedule(day_id):
 
         users = User.query.all()
         not_scheduled = users[:]
-        
+
         for workblock in day.workblocks:
             filter(not_scheduled, workblock.user_id)
 
@@ -169,9 +170,10 @@ def get_schedule(day_id):
     else:
         return jsonify(False)
 
+
 @app.route('/get_week_schedules/<todays_date>')
-#takes a date and creates or finds a set of schedules
-#surrounding that date
+# takes a date and creates or finds a set of schedules
+# surrounding that date
 def get_week_schedules(todays_date):
     date = [int(string) for string in todays_date.split('-')]
     '''So we get the date and with that we first get the schedule set that has that day'''
@@ -190,16 +192,32 @@ def get_week_schedules(todays_date):
     return jsonify(schedule_set)
 
 
-@app.route('/get_week_schedule/<week_id>')
-def get_week_schedule(week_id):
-    week = WeekSchedule.query.filter_by(id=week_id).first()
+def find_week_schedule(date):
+    # take a date and get the weekschedule associated with
+    # that date
+    wss = WeekSchedule.query.all()
+    for ws in wss:
+        if ws.has_date(date):
+            return ws
+            break
+    return False
+
+
+@app.route('/get_week_schedule')
+def get_week_schedule():
+    week_id = request.args.get('week-id')
+    date = request.args.get('date')
+    if week_id:
+        week = WeekSchedule.query.filter_by(id=week_id).first()
+    elif date:
+        date = [int(i) for i in date.split('-')]
+        date = datetime(date[2], date[0], date[1])
+        week = find_week_schedule(date)
+
     if week:
-        set = complete_schedule_set(week)
-        for item in set:
-            item['schedule'] = item['schedule'].to_json()
-        return (jsonify({'weekSchedule': week.to_json(), 'scheduleSet': set}))
+        return jsonify(week.to_json())
     else:
-        return (jsonify({'weekSchedule': None}))
+        return (jsonify(None))
 
 
 @app.route('/get_day_schedule/<id>')

@@ -83,20 +83,21 @@ class TabsContainer extends Component {
   };
 
   componentDidMount = () => {
-    const { week, weekId } = this.props;
-    if (Boolean(week) === false) {
+    const { weekSchedule, weekId } = this.props;
+
+    if (Boolean(weekSchedule) === false) {
       this.fetchWeekSchedule(weekId);
     }
   };
 
   fetchWeekSchedule = (weekId) => {
-    fetch(`/get_week_schedule/${weekId}`)
+    fetch(`/get_week_schedule?week-id=${weekId}`)
       .then((response) => response.json())
       .then((response) => {
-        if (response.weekSchedule) {
+        if (response) {
           this.props.setSelectedWeek({
-            week: response.weekSchedule.schedule,
-            id: response.weekSchedule.id,
+            week: response.week,
+            id: response.id,
           });
         } else {
           this.setState({ redirect: <Redirect to="/scheduletron" /> });
@@ -121,16 +122,15 @@ class TabsContainer extends Component {
       }
     }
 
-    if(prevProps.dayIndex !== this.props.dayIndex){
+    if (prevProps.dayIndex !== this.props.dayIndex) {
       this.changeTab(0, this.props.dayIndex);
     }
-
-  
-
   };
 
   render() {
-    const { screenWidth, match, weekId, classes, weeks , dayIndex} = this.props;
+    console.log("Duh props: ", this.props);
+    const { screenWidth, classes, weekId, dayIndex } = this.props;
+
     const isDesktop = screenWidth > 600;
     const { days, currentDay, currentTab, redirect } = this.state;
     return (
@@ -160,7 +160,7 @@ class TabsContainer extends Component {
                   label={
                     <Link
                       className={classes.tabLink}
-                      to={`/scheduletron/${weekId}/${index}`}
+                      to={`/scheduletron/viewer/${weekId}/${index}`}
                     >
                       <Collapse orientation={"horizontal"} in={isActive}>
                         <p style={{ marginRight: 7 }}>{d.weekday} </p>

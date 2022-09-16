@@ -6,10 +6,9 @@ import { Link, withRouter } from "react-router-dom";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Button, TextField, withStyles } from "@material-ui/core";
-import ScheduleBtn from "./ScheduleLink";
+import { Button, TextField } from "@material-ui/core";
+import ScheduleLink from "./ScheduleLink";
 import "./home.css";
-import { touchRippleClasses } from "@mui/material";
 
 class Home extends Component {
   state = {
@@ -33,7 +32,7 @@ class Home extends Component {
         kinda self explanatory*/
     const weeks = scheduleSet.map(({ schedule, timeFrame }) => ({
       id: schedule.id,
-      week: schedule.schedule,
+      week: schedule.week,
       timeFrame: timeFrame,
       staffing: schedule.staffing,
     }));
@@ -43,6 +42,7 @@ class Home extends Component {
   render() {
     const { match, selectedWeek, setSelectedWeek, screenWidth } = this.props;
     const { weeks } = this.state;
+    console.log("The weeks: ", weeks);
     let isDesktop = screenWidth > 860;
     let isLargeDesktop = screenWidth > 1160;
     return (
@@ -81,7 +81,7 @@ class Home extends Component {
                 />
               </LocalizationProvider>
 
-              <ScheduleBtn
+              <ScheduleLink
                 varient={"unknown"}
                 startDate={"?"}
                 endDate={"?"}
@@ -101,7 +101,7 @@ class Home extends Component {
                 return (
                   <div key={id} className="home-schedule">
                     <p className="timeframe">{timeFrame}</p>
-                    <ScheduleBtn
+                    <ScheduleLink
                       key={id}
                       week={week}
                       startDate={startDate}
@@ -115,20 +115,19 @@ class Home extends Component {
               })}
             </div>
 
- 
-              <Button
-                style={{
-                  marginLeft: "auto",
-                  marginRight : 'auto',
-                  textTransform: "none",
-                  color: "white",
-                  background: "#606060",
-                  padding: "10px 20px",
-                }}
-                startIcon={<img alt="" style={{ width: 20 }} src={addIcon} />}
-              >
-                Add A Schedule
-              </Button>
+            <Button
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                textTransform: "none",
+                color: "white",
+                background: "#606060",
+                padding: "10px 20px",
+              }}
+              startIcon={<img alt="" style={{ width: 20 }} src={addIcon} />}
+            >
+              Add A Schedule
+            </Button>
           </div>
         </div>
       )

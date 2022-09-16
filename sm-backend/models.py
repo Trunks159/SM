@@ -228,11 +228,18 @@ class WeekSchedule(db.Model):
     monday_date = db.Column(db.DateTime)
     week = db.relationship('Day', backref='week_schedule', lazy=True)
 
+    def has_date(self, d):
+        for item in self.week:
+            if d == item.date:
+                return True
+            break
+        return False
+
     def to_json(self):
         week = sorted(self.week, key=lambda x: x.date)
         return ({
             'id': self.id,
-            'schedule': [day.to_json() for day in week],
+            'week': [day.to_json() for day in week],
             'staffing': {'actual': 6, 'projected': 7},
         })
 
@@ -257,11 +264,11 @@ class WorkBlock(db.Model):
     end_time = db.Column(db.DateTime)
 
     def to_json(self):
-        user = User.query.filter_by(id = self.user_id).first()
+        user = User.query.filter_by(id=self.user_id).first()
         return {
             'wbId': self.id,
             'userId': self.user_id,
-            'user':{'id' : self.user_id, 'firstName' : user.first_name, 'lastName': user.last_name},
+            'user': {'id': self.user_id, 'firstName': user.first_name, 'lastName': user.last_name},
             'dayId': self.day_id,
             'startTime': self.start_time.isoformat(' '),
             'endTime':  self.end_time.isoformat(' '),

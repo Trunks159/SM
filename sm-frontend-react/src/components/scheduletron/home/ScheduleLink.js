@@ -1,7 +1,6 @@
 import React from "react";
-import scheduleIcon from "../../../assets/images/Schedule Icon.svg";
+import scheduleIcon from "./assets/Schedule Icon.svg";
 import "./home.css";
-import { makeStyles, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 const ScheduleLink = ({
@@ -22,7 +21,7 @@ const ScheduleLink = ({
   };
   return (
     <Link
-    to = {`/scheduletron/${id}`}
+      to={`/scheduletron/viewer/${id}/0`}
       className="home-schedule-link"
       style={completion ? style : { ...style, pointerEvents: "none" }}
     >
