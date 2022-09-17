@@ -135,10 +135,10 @@ class App extends Component {
               }}
             />
             <Route
-              path="/scheduletron"
-              render={() => {
+              path="/scheduletron/:weekId?/:dayId?"
+              render={({ match }) => {
                 return currentUser.isAuthenticated ? (
-                  <Scheduletron notifyUser={this.notifyUser} />
+                  <Scheduletron notifyUser={this.notifyUser} match={match} />
                 ) : (
                   <Redirect to="/login" />
                 );

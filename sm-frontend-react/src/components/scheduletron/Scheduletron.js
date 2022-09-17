@@ -80,6 +80,7 @@ class Scheduletron extends Component {
             render={({ match }) => {
               return (
                 <WeekTabs
+                  match={match}
                   weekId={parseInt(match.params.weekId)}
                   days={selectedWeek && selectedWeek.week}
                   screenWidth={screenWidth}

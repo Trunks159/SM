@@ -83,9 +83,12 @@ class TabsContainer extends Component {
   };
 
   componentDidMount = () => {
+    console.log("Unmounting1234:");
     const { weekSchedule, weekId } = this.props;
 
     if (Boolean(weekSchedule) === false) {
+      this.fetchWeekSchedule(weekId);
+    } else if (weekSchedule.id !== weekId) {
       this.fetchWeekSchedule(weekId);
     }
   };
@@ -106,14 +109,18 @@ class TabsContainer extends Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    const { weekId, dayIndex, days, weeks } = this.props;
+    const { weekId, dayIndex, days, weeks, selectedWeek } = this.props;
     if (prevProps.days !== this.props.days) {
       this.setState({
         days: days,
         currentDay: days[dayIndex],
       });
     }
-    if (prevProps.selectedWeek && prevProps.weekId !== weekId) {
+    if (
+      prevProps.selectedWeek !== selectedWeek ||
+      prevProps.weekId !== weekId
+    ) {
+      console.log("I run bro");
       const theWeek = weeks.find((w) => (w.id = weekId));
       if (theWeek) {
         this.props.setSelectedWeek(theWeek);

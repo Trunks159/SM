@@ -25,6 +25,9 @@
 
 .add-prompt ul{
   padding : 0px;
+  display: flex;
+  flex-direction: column;
+  gap : 28px;
 }
 
 .add-prompt ul li{

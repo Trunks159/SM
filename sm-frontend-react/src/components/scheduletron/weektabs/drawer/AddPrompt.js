@@ -1,7 +1,7 @@
-import { Button , Paper} from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import React, { Component } from "react";
 import detailsIcon from "./assets/Details Icon.svg";
-import addIcon from './assets/Add Icon.svg'
+import addIcon from "./assets/Add Icon.svg";
 import { withStyles } from "@material-ui/core";
 
 const styles = () => ({
@@ -27,6 +27,7 @@ const styles = () => ({
       top: 0,
       right: 0,
       minWidth: 0,
+      padding: "1px",
     },
     border: "1px solid #F1F1F1",
     "&:hover": {
@@ -44,7 +45,7 @@ class AddPrompt extends Component {
     const { teamMembers, currentFunction, index, classes } = this.props;
     return (
       <div
-      className="add-prompt"
+        className="add-prompt"
         style={{
           display: currentFunction === index ? "flex" : "none",
           flexDirection: "column",
@@ -58,7 +59,7 @@ class AddPrompt extends Component {
           {teamMembers.map((tm, i) => (
             <li key={i}>
               <Button>
-                <img src = {addIcon}/>
+                <img src={addIcon} />
               </Button>
               <Paper className={classes.paper}>
                 <p>
