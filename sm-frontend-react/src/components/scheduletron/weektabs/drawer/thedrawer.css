@@ -23,6 +23,22 @@
   padding: 20px;
 }
 
+.add-prompt ul{
+  padding : 0px;
+}
+
+.add-prompt ul li{
+  list-style-type: none;
+  display: flex;
+  
+}
+
+.add-prompt ul li img:hover{
+  opacity: .75;
+}
+
+
+
 @media (min-width: 600px) {
 
 .drawer{

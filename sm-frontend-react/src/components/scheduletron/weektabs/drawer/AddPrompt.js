@@ -1,15 +1,16 @@
-import { Button } from "@mui/material";
+import { Button , Paper} from "@mui/material";
 import React, { Component } from "react";
 import detailsIcon from "./assets/Details Icon.svg";
+import addIcon from './assets/Add Icon.svg'
 import { withStyles } from "@material-ui/core";
 
 const styles = () => ({
-  btn: {
+  paper: {
     color: "black",
     textTransform: "capitalize",
     background: "#F1F1F1",
-    width: 150,
-    height: 50,
+    width: 110,
+    height: 82,
     fontWeight: "normal",
     position: "relative",
     "& p": {
@@ -43,6 +44,7 @@ class AddPrompt extends Component {
     const { teamMembers, currentFunction, index, classes } = this.props;
     return (
       <div
+      className="add-prompt"
         style={{
           display: currentFunction === index ? "flex" : "none",
           flexDirection: "column",
@@ -52,10 +54,13 @@ class AddPrompt extends Component {
           Select team members you'd like to add to the schedule
         </p>
 
-        <ul>
+        <ul className="add-member-list">
           {teamMembers.map((tm, i) => (
             <li key={i}>
-              <Button className={classes.btn}>
+              <Button>
+                <img src = {addIcon}/>
+              </Button>
+              <Paper className={classes.paper}>
                 <p>
                   {tm.firstName} {tm.lastName}{" "}
                 </p>
@@ -63,7 +68,7 @@ class AddPrompt extends Component {
                 <Button className="details">
                   <img src={detailsIcon} />
                 </Button>
-              </Button>
+              </Paper>
             </li>
           ))}
         </ul>
