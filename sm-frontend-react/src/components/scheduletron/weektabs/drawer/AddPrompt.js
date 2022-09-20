@@ -9,31 +9,31 @@ const styles = () => ({
     color: "black",
     textTransform: "capitalize",
     background: "#F1F1F1",
-    width: 135,
+    width: 155,
     height: 100,
     fontWeight: "normal",
     position: "relative",
     border: "1px solid #F1F1F1",
-    padding : 10,
-    borderRadius : 7,
+    padding: 10,
+    borderRadius: 7,
     "& p": {
       margin: 10,
-      fontSize: 19,
-
+      fontSize: 22,
+      textAlign: "center",
     },
     "& i": {
       fontWeight: 200,
-      margin: 10,
-      fontSize: 13,
+      margin: 5,
+      fontSize: 15,
+      textAlign: "center",
     },
     "& .details": {
       position: "absolute",
       top: 0,
       right: 0,
       minWidth: 0,
-      padding: 12,
+      padding: 15,
     },
-    
 
     display: "flex",
     flexDirection: "column",
@@ -59,12 +59,14 @@ class AddPrompt extends Component {
         <ul className="add-member-list">
           {teamMembers.map((tm, i) => (
             <li key={i}>
-              <Button>
+              <Button style={{ minWidth: 0 }}>
                 <img src={addIcon} />
               </Button>
               <Paper className={classes.paper}>
                 <p>
-                  {tm.firstName} {tm.lastName}{" "}
+                  {tm.firstName}
+                  <br />
+                  {tm.lastName}
                 </p>
                 <i> {tm.position}</i>
                 <Button className="details">

@@ -43,6 +43,9 @@ const styles = () => ({
     position: "absolute",
     top: 10,
     right: 10,
+    "&:hover": {
+      opacity: 0.75,
+    },
   },
 });
 
