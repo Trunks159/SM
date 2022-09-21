@@ -114,14 +114,16 @@ class TimeSlot extends Component {
     const { user, availableTimes } = this.props;
 
     return (
-      <div ref={this.myRef} style={{ position: "relative" }}>
+      <div ref={this.myRef} style={{ position: "relative", height : '100%'}}>
         <Paper
           className="timeslot"
           style={{
+            top : 0,
+            bottom : 0,
+            margin : '6px 0px 6px 0px',
             left: startTime,
             right: width - endTime < 0 ? 0 : width - endTime,
             minWidth: 200,
-            height: 55,
           }}
         >
           {user.firstName} {user.lastName} startTime :

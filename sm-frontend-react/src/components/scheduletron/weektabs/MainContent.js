@@ -16,6 +16,7 @@ class MainContent extends Component {
     notScheduled: [],
     currentFunction: null,
     redirect: null,
+    timeslotsWidth : 0,
   };
 
   changeCurrentFunction = (e, newVal) => {
@@ -28,6 +29,10 @@ class MainContent extends Component {
 
     return allUsers.filter(({ id }) => scheduledUsersIds.includes(id));
   };
+
+  saveSchedule = ()=>{
+    
+  }
 
   removeFromSchedule = (userId) => {
     let { notScheduled, scheduled } = this.state;
@@ -42,6 +47,7 @@ class MainContent extends Component {
 
   addToSchedule = (userId) => {
     let { notScheduled, scheduled } = this.state;
+    const {day} = this.props
     const user = notScheduled.splice(
       notScheduled.indexOf(notScheduled.find((person) => person.id === userId)),
       1
@@ -49,8 +55,10 @@ class MainContent extends Component {
 
     scheduled.push({
       user: user,
-      startTime: "08:00",
-      endTime: "16:00",
+      startTime: moment(day.date).set('hour', 8),
+      endTime: moment(day.date).set('hour' , 16),
+      userId : user.id,
+      dayId : day.id,
     });
     this.setState({ notScheduled: notScheduled, scheduled: scheduled });
   };
@@ -79,6 +87,24 @@ class MainContent extends Component {
     this.setUpState();
   };
 
+  timeToPix = (time, width = this.state.timeslotsWidth) => {
+    const timerange = this.props.availableTimes.map((t) => moment(t));
+    //Get from moment to a percentage, then multiply that by the width
+    time = moment(time);
+    const overflowLeft = time.diff(timerange[0], "hours", true) < 0;
+    const overflowRight = time.diff(timerange[1], "hours", true) > 0;
+    if (overflowLeft) {
+      return 0;
+    } else if (overflowRight) {
+      return width;
+    } else {
+      const perc =
+        time.diff(timerange[0], "hours", true) /
+        timerange[1].diff(timerange[0], "hours", true);
+      return perc * width;
+    }
+  };
+
   setUpState = () => {
     fetch(`/get_schedule/${this.props.day.id}`)
       .then((response) => response.json())
@@ -87,7 +113,10 @@ class MainContent extends Component {
           const { allUsers, scheduled, notScheduled } = res;
           this.setState({
             allUsers: allUsers,
-            scheduled: scheduled,
+            scheduled: scheduled.map((teamMember)=>{
+              //convert the time of each user to pixels
+
+            }),
             notScheduled: notScheduled,
           });
         } else {
@@ -107,6 +136,7 @@ class MainContent extends Component {
     const { scheduled, allUsers, notScheduled, currentFunction, redirect } =
       this.state;
 
+
     return (
       allUsers && (
         <div className="tab-maincontent">
@@ -118,6 +148,7 @@ class MainContent extends Component {
             isStatic
           />
           <TheDrawer
+          addToSchedule = {this.addToSchedule}
             date={day.date}
             teamMembers={notScheduled}
             changeCurrentFunction={this.changeCurrentFunction}

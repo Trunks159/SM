@@ -12,7 +12,6 @@ So same date, different time*/
 class TimeSlots extends Component {
   getTimelineRange = ({ day, night }) => {
     let theDate = moment(this.props.theDate);
-    console.log("MyDate: ", theDate);
     const set = [
       theDate.clone().set({ h: 6, m: 0 }),
       theDate.clone().set({ h: 15, m: 0 }),
@@ -51,13 +50,15 @@ class TimeSlots extends Component {
     const { workblocks, shiftFilter, theDate, isMobile } = this.props;
     const timelineRange = this.getTimelineRange(shiftFilter);
     return (
-      <div className="timeslots">
-        {workblocks.map((workblock) => {
+      <ul className="timeslots">
+        {workblocks.map((workblock, index) => {
           console.log("TheWorkblock: ", timelineRange[0].toString());
           return (
             //if the user works outside of the time range dont render them
             this.isBetween(workblock, timelineRange) && (
+              <li key = {workblock.wbId}>
               <TimeSlot
+              index = {index}
                 dates={arrayOfDates()}
                 availableTimes={timelineRange}
                 startTime={workblock.startTime}
@@ -66,10 +67,11 @@ class TimeSlots extends Component {
                 user={workblock.user}
                 isMobile={isMobile}
               />
+              </li>
             )
           );
         })}
-      </div>
+      </ul>
     );
   }
 }

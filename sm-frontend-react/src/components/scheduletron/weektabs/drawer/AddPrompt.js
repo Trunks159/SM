@@ -43,7 +43,7 @@ const styles = () => ({
 class AddPrompt extends Component {
   state = {};
   render() {
-    const { teamMembers, currentFunction, index, classes } = this.props;
+    const { teamMembers, currentFunction, index, classes , addToSchedule} = this.props;
     return (
       <div
         className="add-prompt"
@@ -59,7 +59,7 @@ class AddPrompt extends Component {
         <ul className="add-member-list">
           {teamMembers.map((tm, i) => (
             <li key={i}>
-              <Button style={{ minWidth: 0 }}>
+              <Button style={{ minWidth: 0 }} onClick = {()=>addToSchedule(tm.id)}>
                 <img src={addIcon} />
               </Button>
               <Paper className={classes.paper}>
