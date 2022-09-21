@@ -16,7 +16,7 @@ class MainContent extends Component {
     notScheduled: [],
     currentFunction: null,
     redirect: null,
-    timeslotsWidth : 0,
+    timeslotsWidth: 0,
   };
 
   changeCurrentFunction = (e, newVal) => {
@@ -30,9 +30,7 @@ class MainContent extends Component {
     return allUsers.filter(({ id }) => scheduledUsersIds.includes(id));
   };
 
-  saveSchedule = ()=>{
-    
-  }
+  saveSchedule = () => {};
 
   removeFromSchedule = (userId) => {
     let { notScheduled, scheduled } = this.state;
@@ -47,7 +45,7 @@ class MainContent extends Component {
 
   addToSchedule = (userId) => {
     let { notScheduled, scheduled } = this.state;
-    const {day} = this.props
+    const { day } = this.props;
     const user = notScheduled.splice(
       notScheduled.indexOf(notScheduled.find((person) => person.id === userId)),
       1
@@ -55,10 +53,10 @@ class MainContent extends Component {
 
     scheduled.push({
       user: user,
-      startTime: moment(day.date).set('hour', 8),
-      endTime: moment(day.date).set('hour' , 16),
-      userId : user.id,
-      dayId : day.id,
+      startTime: moment(day.date).set("hour", 8),
+      endTime: moment(day.date).set("hour", 16),
+      userId: user.id,
+      dayId: day.id,
     });
     this.setState({ notScheduled: notScheduled, scheduled: scheduled });
   };
@@ -113,10 +111,7 @@ class MainContent extends Component {
           const { allUsers, scheduled, notScheduled } = res;
           this.setState({
             allUsers: allUsers,
-            scheduled: scheduled.map((teamMember)=>{
-              //convert the time of each user to pixels
-
-            }),
+            scheduled: scheduled,
             notScheduled: notScheduled,
           });
         } else {
@@ -136,7 +131,6 @@ class MainContent extends Component {
     const { scheduled, allUsers, notScheduled, currentFunction, redirect } =
       this.state;
 
-
     return (
       allUsers && (
         <div className="tab-maincontent">
@@ -148,7 +142,7 @@ class MainContent extends Component {
             isStatic
           />
           <TheDrawer
-          addToSchedule = {this.addToSchedule}
+            addToSchedule={this.addToSchedule}
             date={day.date}
             teamMembers={notScheduled}
             changeCurrentFunction={this.changeCurrentFunction}

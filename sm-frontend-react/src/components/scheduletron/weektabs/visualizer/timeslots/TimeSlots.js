@@ -52,21 +52,20 @@ class TimeSlots extends Component {
     return (
       <ul className="timeslots">
         {workblocks.map((workblock, index) => {
-          console.log("TheWorkblock: ", timelineRange[0].toString());
           return (
             //if the user works outside of the time range dont render them
             this.isBetween(workblock, timelineRange) && (
-              <li key = {workblock.wbId}>
-              <TimeSlot
-              index = {index}
-                dates={arrayOfDates()}
-                availableTimes={timelineRange}
-                startTime={workblock.startTime}
-                endTime={workblock.endTime}
-                shiftFilter={shiftFilter}
-                user={workblock.user}
-                isMobile={isMobile}
-              />
+              <li key={workblock.wbId}>
+                <TimeSlot
+                  index={index}
+                  dates={arrayOfDates()}
+                  availableTimes={timelineRange}
+                  startTime={workblock.startTime}
+                  endTime={workblock.endTime}
+                  shiftFilter={shiftFilter}
+                  user={workblock.user}
+                  isMobile={isMobile}
+                />
               </li>
             )
           );

@@ -4,57 +4,69 @@ import TimeLine from "./TimeLine";
 import TimeSlots from "./timeslots/TimeSlots";
 import "./visualizer.css";
 import moment from "moment";
+import { useSelector, useDispatch } from "react-redux";
+import Scheduled from "../editor/scheduled/Scheduled";
+import { Button } from "@mui/material";
 
 //Timeslot overflow feature isn't working properly rn
 //maybe use a gradient?
 
-class Visualizer extends Component {
-  state = {
-    shiftFilter: { day: true, night: true },
+//ACTIONS
+const add = (message) => {
+  return {
+    type: "ADD",
+    payLoad: message,
   };
+};
 
-  handleShiftFilter = (newValue) => this.setState({ shiftFilter: newValue });
-  handleSwitch = (newValue, name) =>
-    this.setState({
-      shiftFilter: { ...this.state.shiftFilter, [name]: newValue },
+const Visualizer = ({ isDesktop, day, hidden, workblocks }) => {
+  const [shiftFilter, setShiftFilter] = React.useState({
+    day: true,
+    night: true,
+  });
+  const scheduled = useSelector((state) => state.scheduled);
+  const handleShiftFilter = (newValue) =>
+    setShiftFilter({ shiftFilter: newValue });
+  const handleSwitch = (newValue, name) =>
+    setShiftFilter({
+      shiftFilter: { ...shiftFilter, [name]: newValue },
     });
+  const dispatch = useDispatch();
 
-  render() {
-    const { isDesktop, day, hidden, workblocks } = this.props;
-    const { shiftFilter } = this.state;
-    return (
+  return (
+    <div
+      className="visualizer"
+      style={{
+        display: hidden ? "none" : "flex",
+        flexDirection: "column",
+      }}
+      hidden={hidden}
+    >
+      <ShiftFilter
+        handleShiftFilter={handleShiftFilter}
+        handleSwitch={handleSwitch}
+        shiftFilter={shiftFilter}
+        isDesktop={isDesktop}
+      />
       <div
-        className="visualizer"
         style={{
-          display: hidden ? "none" : "flex",
-          flexDirection: "column",
+          margin: "0px 80px 27px 80px",
+          position: "relative",
+          flex: 1,
         }}
-        hidden={hidden}
       >
-        <ShiftFilter
-          handleShiftFilter={this.handleShiftFilter}
-          handleSwitch={this.handleSwitch}
+        Scheduled : {scheduled}
+        <Button onClick={() => dispatch(add("Bobby"))}>+</Button>
+        <TimeLine shiftFilter={shiftFilter} isDesktop={isDesktop} />
+        <TimeSlots
           shiftFilter={shiftFilter}
-          isDesktop={isDesktop}
+          workblocks={workblocks}
+          theDate={day.date}
+          isMobile={!isDesktop}
         />
-        <div
-          style={{
-            margin: "0px 80px 27px 80px",
-            position: "relative",
-            flex: 1,
-          }}
-        >
-          <TimeLine shiftFilter={shiftFilter} isDesktop={isDesktop} />
-          <TimeSlots
-            shiftFilter={shiftFilter}
-            workblocks={workblocks}
-            theDate={day.date}
-            isMobile={!isDesktop}
-          />
-        </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Visualizer;

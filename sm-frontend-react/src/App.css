@@ -5,6 +5,10 @@
   display: flex;
 }
 
+body { 
+  margin: 0;
+}
+
 main {
   justify-content: center;
   display: flex;
