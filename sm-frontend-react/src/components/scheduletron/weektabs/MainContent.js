@@ -1,37 +1,65 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Vizualizer from "./visualizer/Visualizer";
-import Editor from "./editor/Editor";
-import { timeToValue } from "../../TimeFunctions";
 import "./maincontent.css";
-import moment from "moment";
 import Functions from "./functions/Functions";
 import TheDrawer from "./drawer/TheDrawer";
 import { Redirect } from "react-router-dom";
-import { red } from "@material-ui/core/colors";
+import { useSelector, useDispatch } from "react-redux";
 
-class MainContent extends Component {
-  state = {
-    allUsers: [],
-    scheduled: [],
-    notScheduled: [],
-    currentFunction: null,
-    redirect: null,
-    timeslotsWidth: 0,
+const MainContent = ({ day, isDesktop }) => {
+  const [redirect, setRedirect] = useState(null);
+  const [currentFunction, setCurrentFunction] = useState(null);
+
+  const allUsers = useSelector((state) => state.allUsers);
+  const scheduled = useSelector((state) => state.scheduled);
+  const notScheduled = useSelector((state) => state.notScheduled);
+
+  const dispatch = useDispatch();
+
+  const setUpState = () => {
+    fetch(`/get_schedule/${day.id}`)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res) {
+          const { allUsers, scheduled, notScheduled } = res;
+          this.setState({
+            allUsers: allUsers,
+            scheduled: scheduled,
+            notScheduled: notScheduled,
+          });
+        } else {
+          setRedirect(true);
+        }
+      });
   };
 
-  changeCurrentFunction = (e, newVal) => {
-    this.setState({ currentFunction: newVal });
-  };
+  useEffect(() => {
+    console.log('Hey guys')
+    setUpState();
+  }, [day]);
+  return (
+    allUsers && (
+      <div className="tab-maincontent">
+        {redirect && <Redirect to={"/scheduletron"} />}
+       {/*     <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop} />
+        <Functions
+          changeCurrentFunction={setCurrentFunction}
+          currentFunction={currentFunction}
+          isStatic
+        />
+        <TheDrawer
+          date={day.date}
+          teamMembers={notScheduled}
+          changeCurrentFunction={setCurrentFunction}
+          currentFunction={currentFunction}
+        /> */}
+   
+      </div>
+    )
+  );
+};
 
-  getAvailableUsers = () => {
-    const { allUsers, scheduledBlocks } = this.state;
-    const scheduledUsersIds = scheduledBlocks.map(({ user }) => user.id);
-
-    return allUsers.filter(({ id }) => scheduledUsersIds.includes(id));
-  };
-
-  saveSchedule = () => {};
-
+/*
   removeFromSchedule = (userId) => {
     let { notScheduled, scheduled } = this.state;
     notScheduled.push(
@@ -60,110 +88,6 @@ class MainContent extends Component {
     });
     this.setState({ notScheduled: notScheduled, scheduled: scheduled });
   };
-
-  handleSlider = (new_value, userId) => {
-    let { scheduled } = this.state;
-    let theIndex = null;
-    let editedUser = scheduled.find((wb, index) => {
-      if (wb.user.id === userId) {
-        scheduled.splice(index, 1);
-        theIndex = index;
-        return true;
-      }
-    });
-    editedUser = {
-      ...editedUser,
-      startTime: new_value[0],
-      endTime: new_value[1],
-    };
-    scheduled.splice(theIndex, 0, editedUser);
-
-    this.setState({ scheduled: scheduled });
-  };
-
-  componentDidMount = () => {
-    this.setUpState();
-  };
-
-  timeToPix = (time, width = this.state.timeslotsWidth) => {
-    const timerange = this.props.availableTimes.map((t) => moment(t));
-    //Get from moment to a percentage, then multiply that by the width
-    time = moment(time);
-    const overflowLeft = time.diff(timerange[0], "hours", true) < 0;
-    const overflowRight = time.diff(timerange[1], "hours", true) > 0;
-    if (overflowLeft) {
-      return 0;
-    } else if (overflowRight) {
-      return width;
-    } else {
-      const perc =
-        time.diff(timerange[0], "hours", true) /
-        timerange[1].diff(timerange[0], "hours", true);
-      return perc * width;
-    }
-  };
-
-  setUpState = () => {
-    fetch(`/get_schedule/${this.props.day.id}`)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res) {
-          const { allUsers, scheduled, notScheduled } = res;
-          this.setState({
-            allUsers: allUsers,
-            scheduled: scheduled,
-            notScheduled: notScheduled,
-          });
-        } else {
-          this.setState({ redirect: true });
-        }
-      });
-  };
-
-  componentDidUpdate = (prevProps) => {
-    if (prevProps.day !== this.props.day) {
-      this.setUpState();
-    }
-  };
-
-  render() {
-    const { day, isDesktop } = this.props;
-    const { scheduled, allUsers, notScheduled, currentFunction, redirect } =
-      this.state;
-
-    return (
-      allUsers && (
-        <div className="tab-maincontent">
-          {redirect && <Redirect to={"/scheduletron"} />}
-          <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop} />
-          <Functions
-            changeCurrentFunction={this.changeCurrentFunction}
-            currentFunction={currentFunction}
-            isStatic
-          />
-          <TheDrawer
-            addToSchedule={this.addToSchedule}
-            date={day.date}
-            teamMembers={notScheduled}
-            changeCurrentFunction={this.changeCurrentFunction}
-            currentFunction={currentFunction}
-          />
-          {/*
-    this bricks the app
-    <Editor
-            hidden={currentFunction !== 1}
-            workblocks={scheduled}
-            day={day}
-            dayId={day.id}
-            availableUsers={this.state.notScheduled}
-            addToSchedule={this.addToSchedule}
-            removeFromSchedule={this.removeFromSchedule}
-            handleSlider={this.handleSlider}
-      />*/}
-        </div>
-      )
-    );
-  }
-}
+*/
 
 export default MainContent;
