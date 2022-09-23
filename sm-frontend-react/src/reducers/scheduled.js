@@ -1,8 +1,7 @@
 const scheduledReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD":
-      state.push(action.payLoad);
-      return state;
+      return [...state, action.payLoad];
     default:
       return state;
   }
