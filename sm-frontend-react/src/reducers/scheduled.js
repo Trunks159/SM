@@ -1,7 +1,10 @@
 const scheduledReducer = (state = [], action) => {
   switch (action.type) {
-    case "ADD":
-      return [...state, action.payLoad];
+    case "UPDATE_SCHEDULED":
+      console.log("Redux: ", action.newScheduled);
+      return action.payLoad;
+    case "ADD_SCHEDULED":
+      return [...state, action.newScheduled];
     default:
       return state;
   }

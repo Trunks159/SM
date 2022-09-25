@@ -41,12 +41,12 @@ const styles = () => ({
 
 class Functions extends Component {
   render() {
-    const { classes, currentFunction, isStatic } = this.props;
+    const { classes, currentFunction, isStatic , changeCurrentFunction} = this.props;
     const isOpen = Number.isInteger(currentFunction);
     return (
       <Tabs
         className={classes.tabs}
-        onChange={this.props.changeCurrentFunction}
+        onChange={(e, newVal) => changeCurrentFunction(newVal)}
         value={currentFunction}
         orientation={"vertical"}
       >

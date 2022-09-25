@@ -1,8 +1,7 @@
-const allUsersReducer = (state = [], action) => {
+const allUsersReducer = (state = null, action) => {
     switch (action.type) {
-      case "ADD":
-        state.push(action.payLoad);
-        return state;
+      case "UPDATE_ALL_USERS":
+        return action.payLoad;
       default:
         return state;
     }

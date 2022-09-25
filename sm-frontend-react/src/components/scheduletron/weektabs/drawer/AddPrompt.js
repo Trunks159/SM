@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import detailsIcon from "./assets/Details Icon.svg";
 import addIcon from "./assets/Add Icon.svg";
 import { withStyles } from "@material-ui/core";
+import moment from "moment";
 
 const styles = () => ({
   paper: {
@@ -42,6 +43,21 @@ const styles = () => ({
 
 class AddPrompt extends Component {
   state = {};
+
+  addToSchedule = (scheduled, notScheduled, day, index) => {
+    const user = notScheduled.splice( index,1 )[0];
+
+    scheduled.push({
+      user: user,
+      startTime: moment(day.date).set("hour", 8),
+      endTime: moment(day.date).set("hour", 16),
+      userId: user.id,
+      dayId: day.id,
+    });
+    dispatch(updateScheduled())
+    return {scheduled : scheduled, notScheduled : notScheduled};
+  };
+
   render() {
     const { teamMembers, currentFunction, index, classes , addToSchedule} = this.props;
     return (

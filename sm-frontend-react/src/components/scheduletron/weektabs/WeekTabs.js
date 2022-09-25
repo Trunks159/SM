@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./weektabs.css";
-import TabPanels from "./TabPanels";
+import TabPanel from "./TabPanel";
 import { Redirect, withRouter, Link } from "react-router-dom";
 import { Tabs, Tab, Collapse } from "@mui/material";
 import { Paper, withStyles } from "@material-ui/core";
@@ -181,7 +181,7 @@ class TabsContainer extends Component {
             })}
           </Tabs>
 
-          <TabPanels
+          <TabPanel
             days={days}
             currentDay={currentDay}
             isDesktop={isDesktop}

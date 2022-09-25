@@ -55,14 +55,14 @@ class TheDrawer extends Component {
   };
 
   render() {
-    const { teamMembers, classes, currentFunction , addToSchedule} = this.props;
+    const { teamMembers, classes, currentFunction ,changeCurrentFunction} = this.props;
     const date = moment(this.props.date);
     const isOpen = Number.isInteger(currentFunction);
     return (
       <Collapse in={isOpen}>
         <div className="drawer">
           <Button
-            onClick={(e) => this.props.changeCurrentFunction(e, null)}
+            onClick={() => changeCurrentFunction(null)}
             className={classes.closeBtn}
           >
             Close
@@ -79,7 +79,6 @@ class TheDrawer extends Component {
           <div className="drawer-content">
             <EditPrompt index={0} currentFunction={currentFunction} />
             <AddPrompt
-            addToSchedule = {addToSchedule}
               teamMembers={teamMembers}
               index={1}
               currentFunction={currentFunction}

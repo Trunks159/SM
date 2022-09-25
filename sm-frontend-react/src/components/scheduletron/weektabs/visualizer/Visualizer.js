@@ -11,13 +11,7 @@ import { Button } from "@mui/material";
 //Timeslot overflow feature isn't working properly rn
 //maybe use a gradient?
 
-//ACTIONS
-const add = (message) => {
-  return {
-    type: "ADD",
-    payLoad: message,
-  };
-};
+
 
 const Visualizer = ({ isDesktop, day, hidden, workblocks }) => {
   const [shiftFilter, setShiftFilter] = React.useState({
@@ -55,8 +49,7 @@ const Visualizer = ({ isDesktop, day, hidden, workblocks }) => {
           flex: 1,
         }}
       >
-        Scheduled : {scheduled}
-        <Button onClick={() => dispatch(add("Bobby"))}>+</Button>
+     
         <TimeLine shiftFilter={shiftFilter} isDesktop={isDesktop} />
         <TimeSlots
           shiftFilter={shiftFilter}

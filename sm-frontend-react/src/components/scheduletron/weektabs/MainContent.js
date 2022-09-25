@@ -6,6 +6,28 @@ import TheDrawer from "./drawer/TheDrawer";
 import { Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
+//ACTIONS
+const updateUsers = (newUsers) => {
+  return {
+    type: "UPDATE_ALL_USERS",
+    payLoad: newUsers,
+  };
+};
+
+const updateScheduled = (newScheduled) => {
+  return {
+    type: "UPDATE_SCHEDULED",
+    payLoad: newScheduled,
+  };
+};
+
+const updateNotScheduled = (newNotScheduled) => {
+  return {
+    type: "UPDATE_NOT_SCHEDULED",
+    payLoad: newNotScheduled,
+  };
+};
+
 const MainContent = ({ day, isDesktop }) => {
   const [redirect, setRedirect] = useState(null);
   const [currentFunction, setCurrentFunction] = useState(null);
@@ -15,18 +37,16 @@ const MainContent = ({ day, isDesktop }) => {
   const notScheduled = useSelector((state) => state.notScheduled);
 
   const dispatch = useDispatch();
-
+  console.log('Changecurrent: ', currentFunction)
   const setUpState = () => {
     fetch(`/get_schedule/${day.id}`)
       .then((response) => response.json())
       .then((res) => {
         if (res) {
           const { allUsers, scheduled, notScheduled } = res;
-          this.setState({
-            allUsers: allUsers,
-            scheduled: scheduled,
-            notScheduled: notScheduled,
-          });
+          dispatch(updateUsers(allUsers));
+          dispatch(updateScheduled(scheduled));
+          dispatch(updateNotScheduled(notScheduled));
         } else {
           setRedirect(true);
         }
@@ -34,14 +54,15 @@ const MainContent = ({ day, isDesktop }) => {
   };
 
   useEffect(() => {
-    console.log('Hey guys')
     setUpState();
   }, [day]);
+
   return (
     allUsers && (
       <div className="tab-maincontent">
         {redirect && <Redirect to={"/scheduletron"} />}
-       {/*     <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop} />
+
+        <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop} />
         <Functions
           changeCurrentFunction={setCurrentFunction}
           currentFunction={currentFunction}
@@ -52,8 +73,7 @@ const MainContent = ({ day, isDesktop }) => {
           teamMembers={notScheduled}
           changeCurrentFunction={setCurrentFunction}
           currentFunction={currentFunction}
-        /> */}
-   
+        />
       </div>
     )
   );
@@ -71,23 +91,7 @@ const MainContent = ({ day, isDesktop }) => {
     this.setState({ notScheduled: notScheduled, scheduled: scheduled });
   };
 
-  addToSchedule = (userId) => {
-    let { notScheduled, scheduled } = this.state;
-    const { day } = this.props;
-    const user = notScheduled.splice(
-      notScheduled.indexOf(notScheduled.find((person) => person.id === userId)),
-      1
-    )[0];
 
-    scheduled.push({
-      user: user,
-      startTime: moment(day.date).set("hour", 8),
-      endTime: moment(day.date).set("hour", 16),
-      userId: user.id,
-      dayId: day.id,
-    });
-    this.setState({ notScheduled: notScheduled, scheduled: scheduled });
-  };
 */
 
 export default MainContent;
