@@ -45,7 +45,7 @@ class AddPrompt extends Component {
   state = {};
 
   addToSchedule = (scheduled, notScheduled, day, index) => {
-    const user = notScheduled.splice( index,1 )[0];
+    const user = notScheduled.splice(index, 1)[0];
 
     scheduled.push({
       user: user,
@@ -54,12 +54,13 @@ class AddPrompt extends Component {
       userId: user.id,
       dayId: day.id,
     });
-    dispatch(updateScheduled())
-    return {scheduled : scheduled, notScheduled : notScheduled};
+    dispatch(updateScheduled());
+    return { scheduled: scheduled, notScheduled: notScheduled };
   };
 
   render() {
-    const { teamMembers, currentFunction, index, classes , addToSchedule} = this.props;
+    const { teamMembers, currentFunction, index, classes, addToSchedule } =
+      this.props;
     return (
       <div
         className="add-prompt"
@@ -75,7 +76,10 @@ class AddPrompt extends Component {
         <ul className="add-member-list">
           {teamMembers.map((tm, i) => (
             <li key={i}>
-              <Button style={{ minWidth: 0 }} onClick = {()=>addToSchedule(tm.id)}>
+              <Button
+                style={{ minWidth: 0 }}
+                onClick={() => addToSchedule(tm.id)}
+              >
                 <img src={addIcon} />
               </Button>
               <Paper className={classes.paper}>
