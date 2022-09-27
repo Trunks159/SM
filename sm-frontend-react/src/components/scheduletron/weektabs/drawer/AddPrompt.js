@@ -3,6 +3,7 @@ import React from "react";
 import detailsIcon from "./assets/Details Icon.svg";
 import addIcon from "./assets/Add Icon.svg";
 import { makeStyles } from "@material-ui/core";
+import { useSelector, useDispatch } from "react-redux";
 
 const userStyles = makeStyles({
   paper: {
@@ -41,6 +42,12 @@ const userStyles = makeStyles({
 });
 
 const AddPrompt = ({ teamMembers, currentFunction, index, classes }) => {
+
+  const notScheduled = useSelector((state) => state.notScheduled);
+  const scheduled = useSelector((state) => state.scheduled);
+  const dispatch = useDispatch();
+
+
   const addToSchedule = (scheduled, notScheduled, day, userIndex) => {
     const user = notScheduled.splice(userIndex, 1)[0];
     dispatch(addToScheduled({ user: user, day: day }));
