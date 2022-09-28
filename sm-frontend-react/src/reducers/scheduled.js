@@ -3,19 +3,19 @@ import moment from "moment";
 const scheduledReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_TO_SCHEDULED":
-      const { day, user } = action.payLoad;
+      const { date, user } = action.payLoad;
       return [
         ...state,
         {
           user: user,
-          startTime: moment(day.date).set("hour", 8),
-          endTime: moment(day.date).set("hour", 16),
+          startTime: moment(date).set("hour", 8),
+          endTime: moment(date).set("hour", 16),
           userId: user.id,
-          dayId: day.id,
+          date: date,
         },
       ];
-    case "ADD_SCHEDULED":
-      return [...state, action.newScheduled];
+    case "UPDATE_SCHEDULED":
+      return action.payLoad;
     default:
       return state;
   }

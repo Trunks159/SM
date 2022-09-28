@@ -34,10 +34,9 @@ const MainContent = ({ day, isDesktop }) => {
 
   const allUsers = useSelector((state) => state.allUsers);
   const scheduled = useSelector((state) => state.scheduled);
-  const notScheduled = useSelector((state) => state.notScheduled);
 
   const dispatch = useDispatch();
-  console.log('Changecurrent: ', currentFunction)
+
   const setUpState = () => {
     fetch(`/get_schedule/${day.id}`)
       .then((response) => response.json())
@@ -70,7 +69,6 @@ const MainContent = ({ day, isDesktop }) => {
         />
         <TheDrawer
           date={day.date}
-          teamMembers={notScheduled}
           changeCurrentFunction={setCurrentFunction}
           currentFunction={currentFunction}
         />

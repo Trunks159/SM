@@ -5,7 +5,21 @@ import addIcon from "./assets/Add Icon.svg";
 import { makeStyles } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 
-const userStyles = makeStyles({
+const addToScheduled = (info) => {
+  return {
+    type: "ADD_TO_SCHEDULED",
+    payLoad: info,
+  };
+};
+
+const updateNotScheduled = (newNotScheduled) => {
+  return {
+    type: "UPDATE_NOT_SCHEDULED",
+    payLoad: newNotScheduled,
+  };
+};
+
+const useStyles = makeStyles({
   paper: {
     color: "black",
     textTransform: "capitalize",
@@ -41,16 +55,14 @@ const userStyles = makeStyles({
   },
 });
 
-const AddPrompt = ({ teamMembers, currentFunction, index, classes }) => {
-
-  const notScheduled = useSelector((state) => state.notScheduled);
-  const scheduled = useSelector((state) => state.scheduled);
+const AddPrompt = ({ currentFunction, index, date }) => {
+  const teamMembers = useSelector((state) => state.notScheduled);
   const dispatch = useDispatch();
+  const classes = useStyles();
 
-
-  const addToSchedule = (scheduled, notScheduled, day, userIndex) => {
+  const handleAdd = (notScheduled, date, userIndex) => {
     const user = notScheduled.splice(userIndex, 1)[0];
-    dispatch(addToScheduled({ user: user, day: day }));
+    dispatch(addToScheduled({ user: user, date: date }));
     dispatch(updateNotScheduled(notScheduled));
   };
 
@@ -71,7 +83,7 @@ const AddPrompt = ({ teamMembers, currentFunction, index, classes }) => {
           <li key={i}>
             <Button
               style={{ minWidth: 0 }}
-              onClick={() => addToSchedule(tm.id)}
+              onClick={() => handleAdd(teamMembers, date, i)}
             >
               <img src={addIcon} />
             </Button>
