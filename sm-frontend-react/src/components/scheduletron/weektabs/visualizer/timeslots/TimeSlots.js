@@ -1,5 +1,5 @@
 import moment from "moment";
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { arrayOfDates } from "../../../../TimeFunctions";
 import TimeSlot from "./TimeSlot";
 import "./timeslots.css";
@@ -41,9 +41,18 @@ const isBetween = (workblock, timelineRange) => {
 };
 
 const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile }) => {
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
   const timelineRange = getTimelineRange(shiftFilter, theDate);
+  const myRef = useRef();
+
+  useEffect(() => {
+    setWidth(myRef.current.offsetWidth);
+    setHeight(myRef.current.offsetHeight);
+  }, [myRef.current.offsetWidth]);
+
   return (
-    <ul className="timeslots">
+    <ul className="timeslots" ref={myRef}>
       {workblocks.map((workblock, index) => {
         return (
           //if the user works outside of the time range dont render them
@@ -58,6 +67,7 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile }) => {
                 shiftFilter={shiftFilter}
                 user={workblock.user}
                 isMobile={isMobile}
+                containerWidth = {width}
               />
             </li>
           )
