@@ -21,16 +21,27 @@ const timeToPix = (time, width, availableTimes) => {
 const timeslotsReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_TIMESLOT":
-      let {startTime , endTime, containerWidth, availableTimes, user, dayId} = action.payLoad;
+      let { startTime, endTime, containerWidth, availableTimes, user, dayId } =
+        action.payLoad;
       //convert the times to pixels and add to array
 
-      return [...state,{
-        startTime : timeToPix(startTime, containerWidth, availableTimes),
-        endTime : timeToPix(endTime, containerWidth, availableTimes),
-        user : user,
-        userId : user.id,
-        dayId : dayId,
-      } ];
+      return [
+        ...state,
+        {
+          startTime: timeToPix(startTime, containerWidth, availableTimes),
+          endTime: timeToPix(endTime, containerWidth, availableTimes),
+          user: user,
+          userId: user.id,
+          dayId: dayId,
+        },
+      ];
+
+    case "UPDATE_TIME":
+      const { index, newVal, timeframe } = action.payLoad;
+      console.log("Action payload: ", newVal);
+      let timeslots = [...state];
+      timeslots[index][timeframe] = newVal;
+      return timeslots;
     default:
       return state;
   }

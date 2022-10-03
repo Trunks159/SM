@@ -1,15 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Draggable from "react-draggable";
 import stretchIcon from "./assets/Stretch Icon.svg";
 import { Paper } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  pixToTime,
-  convertDates,
-  roundIt,
-  pixToString,
-  thirtyMin,
-} from "./TimeFunctions";
+import { pixToString, thirtyMin } from "./TimeFunctions";
 
 //ACTIONS
 const addTimeslot = (timeslot) => ({
@@ -23,7 +17,7 @@ const updateTime = (timeslot) => ({
 });
 
 const TimeSlot = ({
-  isMobile,
+  screenWidth,
   index,
   user,
   availableTimes,
@@ -31,31 +25,34 @@ const TimeSlot = ({
   workblock,
   dayId,
 }) => {
-  console.log("Available Times: ", availableTimes);
+  const [contWidth, setContWidth] = useState(containerWidth);
   const dispatch = useDispatch();
   const timeslots = useSelector((state) => state.timeslots);
   const timeslot = timeslots.find((ts) => ts.userId === user.id);
   useEffect(() => {
-    dispatch(
-      addTimeslot({
-        startTime: workblock.startTime,
-        endTime: workblock.endTime,
-        containerWidth,
-        availableTimes,
-        user,
-        dayId,
-      })
-    );
-
-    /*
-    This is for when the timeslots becomes verticle in mobile
-
-    const containerSize = this.props.isMobile
-    ? this.myRef.current.parentElement.clientHeight
-    : this.myRef.current.parentElement.clientWidth;
-  //convert current pix to time then back to pix based on the containersize
-  this.setState({ containerSize: containerSize });*/
-  }, [isMobile]);
+    //On first render convert workblock
+    //After that each time the screenwidth changes update
+    //timeslot
+    if (timeslot) {
+      //we need to calculate the new pixel value for the screen size
+      //so convert the previous pixels to time then convert that time to
+      //pixels
+      //so past container width is contWidth
+      //new is containerWidth
+      dispatch(updateTime({ index }));
+    } else {
+      dispatch(
+        addTimeslot({
+          startTime: workblock.startTime,
+          endTime: workblock.endTime,
+          containerWidth,
+          availableTimes,
+          user,
+          dayId,
+        })
+      );
+    }
+  }, [containerWidth]);
 
   if (timeslot) {
     console.log("Timeslotboys: ", timeslot);
@@ -75,8 +72,8 @@ const TimeSlot = ({
               minWidth: 200,
             }}
           >
-            {user.firstName} {user.lastName} startTime :{pixToString(startTime, containerWidth, availableTimes)}
-            , endtime:
+            {user.firstName} {user.lastName} startTime :
+            {pixToString(startTime, containerWidth, availableTimes)}, endtime:
             {pixToString(endTime, containerWidth, availableTimes)}
           </Paper>
           <Draggable
@@ -85,7 +82,13 @@ const TimeSlot = ({
             position={{ x: startTime, y: 0 }}
             bounds={{ left: 0, right: endTime - 200 }}
             onDrag={(e, newValue) =>
-              dispatch(updateTime("startTime", newValue.x, index))
+              dispatch(
+                updateTime({
+                  timeframe: "startTime",
+                  newVal: newValue.x,
+                  index,
+                })
+              )
             }
           >
             <div className="stretch-btn">
@@ -97,9 +100,11 @@ const TimeSlot = ({
             grid={[thirtyMin(endTime, containerWidth, availableTimes), 0]}
             bounds={{ left: startTime + 200, right: containerWidth }}
             position={{ x: endTime, y: 0 }}
-            onDrag={(e, newValue) =>
-              dispatch(updateTime("endTime", newValue.x, index))
-            }
+            onDrag={(e, newValue) => {
+              return dispatch(
+                updateTime({ timeframe: "endTime", newVal: newValue.x, index })
+              );
+            }}
           >
             <div className="stretch-btn">
               <img src={stretchIcon} />
