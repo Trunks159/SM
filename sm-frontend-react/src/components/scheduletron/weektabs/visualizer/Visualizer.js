@@ -54,6 +54,7 @@ const Visualizer = ({ isDesktop, day, hidden, workblocks }) => {
         <TimeSlots
           shiftFilter={shiftFilter}
           workblocks={workblocks}
+          dayId = {day.id}
           theDate={day.date}
           isMobile={!isDesktop}
         />

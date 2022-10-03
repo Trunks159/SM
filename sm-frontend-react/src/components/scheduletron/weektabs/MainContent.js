@@ -61,7 +61,7 @@ const MainContent = ({ day, isDesktop }) => {
       <div className="tab-maincontent">
         {redirect && <Redirect to={"/scheduletron"} />}
 
-        <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop} />
+        <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop}/>
         <Functions
           changeCurrentFunction={setCurrentFunction}
           currentFunction={currentFunction}

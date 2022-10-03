@@ -46,15 +46,15 @@ const roundIt = (newValue, dates) => {
   return dates[found];
 };
 
-const pixToString = (pix) =>
+const pixToString = (pix, width, timerange) =>
   //pix to moment, then moment to string\
-  pixToTime(pix).format("h:mm a");
+  pixToTime(pix, width, timerange).format("h:mm a");
 
-const thirtyMin = (pix) => {
+const thirtyMin = (pix, width, timerange) => {
   //convert pix to time, add 30 min then convert back to pix
   //doesnt work well when u do this the easier way
-  const time = pixToTime(pix);
-  const pix2 = timeToPix(time.add(30, "minutes"));
+  const time = pixToTime(pix, width, timerange);
+  const pix2 = timeToPix(time.add(30, "minutes"), width, timerange);
   return pix2 - pix;
 };
 

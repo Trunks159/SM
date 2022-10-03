@@ -40,16 +40,16 @@ const isBetween = (workblock, timelineRange) => {
   );
 };
 
-const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile }) => {
+const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, dayId }) => {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const timelineRange = getTimelineRange(shiftFilter, theDate);
   const myRef = useRef();
 
   useEffect(() => {
-    setWidth(myRef.current.offsetWidth);
-    setHeight(myRef.current.offsetHeight);
-  }, [myRef.current.offsetWidth]);
+    setWidth(myRef.current.clientWidth);
+    setHeight(myRef.current.clientHeight);
+  }, [width]);
 
   return (
     <ul className="timeslots" ref={myRef}>
@@ -62,12 +62,12 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile }) => {
                 index={index}
                 dates={arrayOfDates()}
                 availableTimes={timelineRange}
-                startTime={workblock.startTime}
-                endTime={workblock.endTime}
+                workblock = {workblock}
                 shiftFilter={shiftFilter}
                 user={workblock.user}
                 isMobile={isMobile}
-                containerWidth = {width}
+                containerWidth={width}
+                dayId = {dayId}
               />
             </li>
           )
