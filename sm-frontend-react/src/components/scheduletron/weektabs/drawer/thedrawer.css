@@ -40,6 +40,9 @@
   opacity: .75;
 }
 
+.save-prompt{
+  flex-direction: column;
+}
 
 
 @media (min-width: 600px) {

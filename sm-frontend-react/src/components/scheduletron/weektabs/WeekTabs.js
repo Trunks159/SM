@@ -181,11 +181,7 @@ class TabsContainer extends Component {
             })}
           </Tabs>
 
-          <TabPanel
-            days={days}
-            currentDay={currentDay}
-            isDesktop={isDesktop}
-          />
+          <TabPanel days={days} currentDay={currentDay} isDesktop={isDesktop} />
         </Paper>
       ))
     );

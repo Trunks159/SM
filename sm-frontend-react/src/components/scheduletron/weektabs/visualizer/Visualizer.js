@@ -1,17 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import ShiftFilter from "./shiftfilter/ShiftFilter";
 import TimeLine from "./TimeLine";
 import TimeSlots from "./timeslots/TimeSlots";
 import "./visualizer.css";
-import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
-import Scheduled from "../editor/scheduled/Scheduled";
-import { Button } from "@mui/material";
 
 //Timeslot overflow feature isn't working properly rn
 //maybe use a gradient?
-
-
 
 const Visualizer = ({ isDesktop, day, hidden, workblocks }) => {
   const [shiftFilter, setShiftFilter] = React.useState({
@@ -49,12 +44,11 @@ const Visualizer = ({ isDesktop, day, hidden, workblocks }) => {
           flex: 1,
         }}
       >
-     
         <TimeLine shiftFilter={shiftFilter} isDesktop={isDesktop} />
         <TimeSlots
           shiftFilter={shiftFilter}
           workblocks={workblocks}
-          dayId = {day.id}
+          dayId={day.id}
           theDate={day.date}
           isMobile={!isDesktop}
         />
