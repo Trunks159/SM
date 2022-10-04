@@ -3,7 +3,7 @@ import Draggable from "react-draggable";
 import stretchIcon from "./assets/Stretch Icon.svg";
 import { Paper } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-import { pixToString, thirtyMin } from "./TimeFunctions";
+import { pixToString, thirtyMin, pixToTime, timeToPix } from "./TimeFunctions";
 
 //ACTIONS
 const addTimeslot = (timeslot) => ({
@@ -16,8 +16,12 @@ const updateTime = (timeslot) => ({
   payLoad: timeslot,
 });
 
+const updateTimeSlot = (newTimeslot)=>({
+  type : 'UPDATE_TIMESLOT',
+  payload : newTimeslot,
+}) 
+
 const TimeSlot = ({
-  screenWidth,
   index,
   user,
   availableTimes,
@@ -33,13 +37,33 @@ const TimeSlot = ({
     //On first render convert workblock
     //After that each time the screenwidth changes update
     //timeslot
+    console.log('RERENDER')
     if (timeslot) {
       //we need to calculate the new pixel value for the screen size
       //so convert the previous pixels to time then convert that time to
       //pixels
       //so past container width is contWidth
       //new is containerWidth
-      dispatch(updateTime({ index }));
+      
+      let { startTime, endTime } = timeslot;
+      startTime = pixToTime(startTime, contWidth, availableTimes);
+      const trueStartTime = timeToPix(
+        startTime,
+        containerWidth,
+        availableTimes
+      );
+      endTime = pixToTime(endTime, contWidth, availableTimes);
+      const trueEndTime = timeToPix(endTime, containerWidth, availableTimes);
+      dispatch(
+        updateTimeSlot({
+          timeslot: {
+            ...timeslot,
+            startTime: trueStartTime,
+            endTime: trueEndTime,
+          },
+          index : index
+        })
+      );
     } else {
       dispatch(
         addTimeslot({
@@ -52,6 +76,7 @@ const TimeSlot = ({
         })
       );
     }
+    setContWidth(containerWidth);
   }, [containerWidth]);
 
   if (timeslot) {

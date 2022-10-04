@@ -38,10 +38,15 @@ const timeslotsReducer = (state = [], action) => {
 
     case "UPDATE_TIME":
       const { index, newVal, timeframe } = action.payLoad;
-      console.log("Action payload: ", newVal);
+
       let timeslots = [...state];
       timeslots[index][timeframe] = newVal;
       return timeslots;
+    case "UPDATE_TIMESLOT":
+      console.log("hey im actually running")
+      let ts = [...state];
+      ts[action.payLoad.index] = action.payLoad.timeslot;
+      return ts;
     default:
       return state;
   }

@@ -41,16 +41,11 @@ const isBetween = (workblock, timelineRange) => {
 };
 
 const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, dayId }) => {
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
+
   const timelineRange = getTimelineRange(shiftFilter, theDate);
   const myRef = useRef();
-
-  useEffect(() => {
-    setWidth(myRef.current.clientWidth);
-    setHeight(myRef.current.clientHeight);
-  }, [width]);
-
+  const width = myRef.current ? myRef.current.clientWidth : 0;
+  console.log('Width : ', width)
   return (
     <ul className="timeslots" ref={myRef}>
       {workblocks.map((workblock, index) => {
