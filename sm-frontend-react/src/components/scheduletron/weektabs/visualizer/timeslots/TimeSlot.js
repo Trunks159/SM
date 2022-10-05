@@ -3,10 +3,7 @@ import Draggable from "react-draggable";
 import stretchIcon from "./assets/Stretch Icon.svg";
 import { Paper } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  pixToString,
-  thirtyMin,
-} from "../../../TimeFunctions";
+import { pixToString, thirtyMin } from "../../../TimeFunctions";
 
 //ACTIONS
 const addTimeslot = (timeslot) => ({
@@ -28,8 +25,12 @@ const TimeSlot = ({
   dayId,
 }) => {
   const dispatch = useDispatch();
-  const timeslot = useSelector((state) => state.timeslots.timeslots[index]);
-  console.log("gimme something gooD: ", timeslot);
+  const timeslots = useSelector((state) => state.timeslots);
+  const timeslot = timeslots.timeslots[index];
+  if (timeslot) {
+    console.log("Timeslot: ", timeslot.getStartTime());
+  }
+
   useEffect(() => {
     dispatch(
       addTimeslot({
@@ -55,8 +56,7 @@ const TimeSlot = ({
               bottom: 0,
               margin: "6px 0px 6px 0px",
               left: start,
-              right:
-                containerWidth - end < 0 ? 0 : containerWidth - end,
+              right: containerWidth - end < 0 ? 0 : containerWidth - end,
               minWidth: 200,
             }}
           >
