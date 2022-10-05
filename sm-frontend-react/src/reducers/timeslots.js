@@ -1,4 +1,5 @@
 import moment from "moment";
+import { pixToTime } from "../components/scheduletron/TimeFunctions";
 
 const timeToPix = (time, width, availableTimes) => {
   const timerange = availableTimes.map((t) => moment(t));
@@ -18,35 +19,42 @@ const timeToPix = (time, width, availableTimes) => {
   }
 };
 
-const timeslotsReducer = (state = [], action) => {
+const timeslotsReducer = (
+  state = {
+    timeslots: [],
+    timerange: [],
+    containerWidth: 1,
+    getStartTime: function () {
+      return pixToTime(this.startTime, this.containerWidth, this.timerange);
+    },
+  },
+  action
+) => {
+  let {timeslots} = state;
   switch (action.type) {
     case "ADD_TIMESLOT":
       let { startTime, endTime, containerWidth, availableTimes, user, dayId } =
         action.payLoad;
       //convert the times to pixels and add to array
-
-      return [
+      return {
         ...state,
-        {
-          startTime: timeToPix(startTime, containerWidth, availableTimes),
-          endTime: timeToPix(endTime, containerWidth, availableTimes),
-          user: user,
-          userId: user.id,
-          dayId: dayId,
-        },
-      ];
+        timeslots: [
+          ...state.timeslots,
+          {
+            start: timeToPix(startTime, containerWidth, availableTimes),
+            end: timeToPix(endTime, containerWidth, availableTimes),
+            user: user,
+            userId: user.id,
+            dayId: dayId,
+          },
+        ],
+      };
 
     case "UPDATE_TIME":
       const { index, newVal, timeframe } = action.payLoad;
-      let timeslots = [...state];
       timeslots[index][timeframe] = newVal;
-      return timeslots;
-
-    case "UPDATE_TIMESLOT":
-      console.log("Lets see the action: ", action);
-      let ts = [...state];
-      ts[action.payLoad.index] = action.payLoad.timeslot;
-      return ts;
+      return {...state, timeslots};
+      
     default:
       return state;
   }

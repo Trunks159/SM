@@ -6,8 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   pixToString,
   thirtyMin,
-  pixToTime,
-  timeToPix,
 } from "../../../TimeFunctions";
 
 //ACTIONS
@@ -30,8 +28,8 @@ const TimeSlot = ({
   dayId,
 }) => {
   const dispatch = useDispatch();
-  const timeslots = useSelector((state) => state.timeslots);
-  const timeslot = timeslots.find((ts) => ts.userId === user.id);
+  const timeslot = useSelector((state) => state.timeslots.timeslots[index]);
+  console.log("gimme something gooD: ", timeslot);
   useEffect(() => {
     dispatch(
       addTimeslot({
@@ -46,7 +44,7 @@ const TimeSlot = ({
   }, []);
 
   if (timeslot) {
-    const { startTime, endTime } = timeslot;
+    const { start, end } = timeslot;
     return (
       timeslot && (
         <div style={{ position: "relative", height: "100%" }}>
@@ -56,25 +54,25 @@ const TimeSlot = ({
               top: 0,
               bottom: 0,
               margin: "6px 0px 6px 0px",
-              left: startTime,
+              left: start,
               right:
-                containerWidth - endTime < 0 ? 0 : containerWidth - endTime,
+                containerWidth - end < 0 ? 0 : containerWidth - end,
               minWidth: 200,
             }}
           >
             {user.firstName} {user.lastName} startTime :
-            {pixToString(startTime, containerWidth, availableTimes)}, endtime:
-            {pixToString(endTime, containerWidth, availableTimes)}
+            {pixToString(start, containerWidth, availableTimes)}, endtime:
+            {pixToString(end, containerWidth, availableTimes)}
           </Paper>
           <Draggable
             axis="x"
-            grid={[thirtyMin(startTime, containerWidth, availableTimes), 0]}
-            position={{ x: startTime, y: 0 }}
-            bounds={{ left: 0, right: endTime - 200 }}
+            grid={[thirtyMin(start, containerWidth, availableTimes), 0]}
+            position={{ x: start, y: 0 }}
+            bounds={{ left: 0, right: end - 200 }}
             onDrag={(e, newValue) =>
               dispatch(
                 updateTime({
-                  timeframe: "startTime",
+                  timeframe: "start",
                   newVal: newValue.x,
                   index,
                 })
@@ -87,12 +85,12 @@ const TimeSlot = ({
           </Draggable>
           <Draggable
             axis="x"
-            grid={[thirtyMin(endTime, containerWidth, availableTimes), 0]}
-            bounds={{ left: startTime + 200, right: containerWidth }}
-            position={{ x: endTime, y: 0 }}
+            grid={[thirtyMin(end, containerWidth, availableTimes), 0]}
+            bounds={{ left: start + 200, right: containerWidth }}
+            position={{ x: end, y: 0 }}
             onDrag={(e, newValue) => {
               return dispatch(
-                updateTime({ timeframe: "endTime", newVal: newValue.x, index })
+                updateTime({ timeframe: "end", newVal: newValue.x, index })
               );
             }}
           >
