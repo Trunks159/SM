@@ -5,6 +5,7 @@ import Functions from "./functions/Functions";
 import TheDrawer from "./drawer/TheDrawer";
 import { Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { Paper } from "@material-ui/core";
 
 //ACTIONS
 const updateUsers = (newUsers) => {
@@ -58,6 +59,16 @@ const MainContent = ({ day, isDesktop }) => {
 
   return (
     allUsers && (
+      <Paper
+      key={day.id}
+      elevation={1}
+      style={{
+        position: "relative",
+        flexDirection: "column",
+        flex: 1,
+        background: "#F5F5F5",
+      }}
+    >
       <div className="tab-maincontent">
         {redirect && <Redirect to={"/scheduletron"} />}
 
@@ -73,23 +84,11 @@ const MainContent = ({ day, isDesktop }) => {
           currentFunction={currentFunction}
         />
       </div>
+      </Paper>
     )
   );
 };
 
-/*
-  removeFromSchedule = (userId) => {
-    let { notScheduled, scheduled } = this.state;
-    notScheduled.push(
-      scheduled.splice(
-        scheduled.indexOf(scheduled.find((wb) => wb.user.id === userId)),
-        1
-      )[0].user
-    );
-    this.setState({ notScheduled: notScheduled, scheduled: scheduled });
-  };
 
-
-*/
 
 export default MainContent;

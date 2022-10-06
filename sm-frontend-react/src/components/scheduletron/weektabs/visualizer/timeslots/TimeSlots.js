@@ -10,6 +10,10 @@ const updateContainerWidth = (newWidth) => ({
   type: "UPDATE_CONTAINER_WIDTH",
   payLoad: newWidth,
 });
+const updateTimeRange = (newVal) => ({
+  type: "UPDATE_TIMERANGE",
+  payLoad: newVal,
+});
 
 const getTimelineRange = ({ day, night }, theDate) => {
   theDate = moment(theDate);
@@ -57,6 +61,8 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, dayId }) => {
   useEffect(() => {
     if (width > 0) {
       dispatch(updateContainerWidth(width));
+      //short term solution to shiftfilter timerange stuff
+      dispatch(updateTimeRange(timelineRange));
       setMounted(true);
     }
   }, [width]);

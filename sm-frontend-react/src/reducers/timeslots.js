@@ -24,7 +24,7 @@ const pixToTime = (pix, width, timerange) => {
   return timerange[0].add(
     (pix / width) * timerange[1].diff(timerange[0], "hours", true),
     "hours"
-  );
+  ).format();
 };
 
 const timeslotsReducer = (
@@ -53,12 +53,14 @@ const timeslotsReducer = (
             userId: user.id,
             dayId: dayId,
             getStartTime: function () {
-              console.log("This.start: ", state.containerWidth);
               return pixToTime(
                 this.start,
                 state.containerWidth,
                 state.timerange
               );
+            },
+            getEndTime: function () {
+              return pixToTime(this.end, state.containerWidth, state.timerange);
             },
           },
         ],
@@ -74,6 +76,12 @@ const timeslotsReducer = (
       return {
         ...state,
         containerWidth: action.payLoad,
+      };
+
+    case "UPDATE_TIMERANGE":
+      return {
+        ...state,
+        timerange: action.payLoad,
       };
     default:
       return state;

@@ -2,13 +2,23 @@ import React from "react";
 import saveIcon from "./assets/Save Icon.svg";
 import { Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { pixToTime } from "../../TimeFunctions";
 
 const SavePrompt = ({ index, currentFunction }) => {
   const dispatch = useDispatch();
   const timeslots = useSelector((state) => state.timeslots);
   const handleSave = () => {
     //convert the pixels to times, send objects to python
+    const ts = timeslots.timeslots.map((timeslot) => {
+      const { userId, dayId } = timeslot;
+      return {
+        user_id: userId,
+        day_id: dayId,
+        startTime: timeslot.getStartTime(),
+        endTime: timeslot.getEndTime(),
+      };
+    });
+
+    fetch('/update_schedule', { method : 'POST', body : })
   };
 
   return (

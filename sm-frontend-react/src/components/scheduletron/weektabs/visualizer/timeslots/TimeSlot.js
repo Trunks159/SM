@@ -4,6 +4,7 @@ import stretchIcon from "./assets/Stretch Icon.svg";
 import { Paper } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { pixToString, thirtyMin } from "../../../TimeFunctions";
+import moment from "moment";
 
 //ACTIONS
 const addTimeslot = (timeslot) => ({
@@ -28,7 +29,7 @@ const TimeSlot = ({
   const timeslots = useSelector((state) => state.timeslots);
   const timeslot = timeslots.timeslots[index];
   if (timeslot) {
-    console.log("Timeslot: ", timeslot.getStartTime());
+    console.log("Timeslot: ", moment(timeslot.getStartTime()).toString());
   }
 
   useEffect(() => {
@@ -61,8 +62,8 @@ const TimeSlot = ({
             }}
           >
             {user.firstName} {user.lastName} startTime :
-            {pixToString(start, containerWidth, availableTimes)}, endtime:
-            {pixToString(end, containerWidth, availableTimes)}
+            {moment(timeslot.getStartTime()).format('h:mm a')}, endtime:
+            {moment(timeslot.getEndTime()).format('h:mm a')}
           </Paper>
           <Draggable
             axis="x"
