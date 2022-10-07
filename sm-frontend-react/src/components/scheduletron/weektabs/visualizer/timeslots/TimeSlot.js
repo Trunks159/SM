@@ -23,8 +23,9 @@ const TimeSlot = ({
   availableTimes,
   containerWidth,
   workblock,
-  dayId,
+  day,
 }) => {
+  console.log("Day changes: ", day);
   const dispatch = useDispatch();
   const timeslots = useSelector((state) => state.timeslots);
   const timeslot = timeslots.timeslots[index];
@@ -40,7 +41,7 @@ const TimeSlot = ({
         containerWidth,
         availableTimes,
         user,
-        dayId,
+        dayId: day.id,
       })
     );
   }, []);
@@ -62,8 +63,8 @@ const TimeSlot = ({
             }}
           >
             {user.firstName} {user.lastName} startTime :
-            {moment(timeslot.getStartTime()).format('h:mm a')}, endtime:
-            {moment(timeslot.getEndTime()).format('h:mm a')}
+            {moment(timeslot.getStartTime()).format("h:mm a")}, endtime:
+            {moment(timeslot.getEndTime()).format("h:mm a")}
           </Paper>
           <Draggable
             axis="x"

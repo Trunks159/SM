@@ -51,7 +51,7 @@ const isBetween = (workblock, timelineRange) => {
   );
 };
 
-const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, dayId }) => {
+const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, day }) => {
   const timelineRange = getTimelineRange(shiftFilter, theDate);
   const myRef = useRef();
   const dispatch = useDispatch();
@@ -84,7 +84,7 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, dayId }) => {
                   user={workblock.user}
                   isMobile={isMobile}
                   containerWidth={width}
-                  dayId={dayId}
+                  day={day}
                 />
               </li>
             )

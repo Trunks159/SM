@@ -1,11 +1,11 @@
 import React from "react";
 import saveIcon from "./assets/Save Icon.svg";
 import { Button } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const SavePrompt = ({ index, currentFunction }) => {
-  const dispatch = useDispatch();
   const timeslots = useSelector((state) => state.timeslots);
+
   const handleSave = () => {
     //convert the pixels to times, send objects to python
     const ts = timeslots.timeslots.map((timeslot) => {
@@ -13,12 +13,22 @@ const SavePrompt = ({ index, currentFunction }) => {
       return {
         user_id: userId,
         day_id: dayId,
-        startTime: timeslot.getStartTime(),
-        endTime: timeslot.getEndTime(),
+        start_time: timeslot.getStartTime(),
+        end_time: timeslot.getEndTime(),
       };
     });
-
-    fetch('/update_schedule', { method : 'POST', body : })
+    fetch("/update_schedule", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(ts),
+    })
+      .then((response) => response.json())
+      .then((answer) => {
+        console.log("THE ANSWER: ", answer);
+      });
   };
 
   return (

@@ -1,12 +1,11 @@
 import calendar
-import json
-from select import select
 from flask import request, jsonify
 from config import app, db
 from models import User, Day, Availability, WeekSchedule, WorkBlock
 from flask_login import current_user, login_user, login_required, logout_user
-from datetime import datetime, timedelta
+from datetime import datetime
 from dates import complete_schedule_set
+from dateutil import parser
 
 
 @app.route('/')
@@ -238,6 +237,27 @@ def profile_info(user_id, day_id):
     user = {'firstName': u.first_name, 'lastName': u.last_name,
             'availability': getattr(u.availability, weekday.lower()) if u.availability else 'Free', 'shifts': 'test', 'position': u.position}
     return jsonify(user)
+
+
+@app.route('/update_schedule', methods=['POST'])
+def update_schedule():
+
+    workblocks = request.get_json()
+    print('Dayid: ', workblocks[0]['day_id'])
+    '''
+        Delete all of the wbs currently in that day and upload a bunch of
+        new ones    
+    '''
+    day = Day.query.get(workblocks[0]['day_id'])
+    for item in day.workblocks:
+        db.session.delete(item)
+
+    for workblock in workblocks:
+        wb = WorkBlock(user=User.query.get(workblock['user_id']), day=day, start_time=parser.parse(
+            workblock['start_time']), end_time=parser.parse(workblock['end_time']))
+        db.session.add(wb)
+
+    return jsonify(True)
 
 
 @ login_required

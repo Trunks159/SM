@@ -1,11 +1,13 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import "./weektabs.css";
 import { Redirect, withRouter, Link } from "react-router-dom";
-import { Tabs, Tab, Collapse } from "@mui/material";
+import { Tabs, Tab, Collapse, makeStyles } from "@mui/material";
 import { Paper, withStyles } from "@material-ui/core";
 import MainContent from "./MainContent";
+import { useSelector, useDispatch } from "react-redux";
 
-const styles = () => ({
+
+const useStyles = makeStyles({
   root: {
     justifyContent: "center",
     background: "white",
@@ -43,29 +45,117 @@ const styles = () => ({
       display: "none",
     },
   },
-});
+})
 
-/*
-  lets get this working on desktop before mobile because its 
-  juust going to take too long to consider everything
-
-  Need to make sure the timeslots respond to when the screen size changes
-  Need the timeslots to be responsive to shiftfilter change
+const TabsContainer = (props)=>{
+  const {screenWidth, classes, weekId, dayIndex} = props;
+  const isDesktop = screenWidth > 600;
+  const { days, currentDay, currentTab, redirect } = this.state;
+  console.log("Duh props: ", currentDay);
   
-  Its kinda impossible to keep the actual time value in state
-  it needs to be stored 100% as pixel and just kept that way.
-  So i guess when theres overflow the time can be stored but...
-  
-  Perhaps we could deal with negative pixels?
+  const fetchWeekSchedule = (weekId) => {
+    fetch(`/get_week_schedule?week-id=${weekId}`)
+      .then((response) => response.json())
+      .then((response) => {
+        if (response) {
+          this.props.setSelectedWeek({
+            week: response.week,
+            id: response.id,
+          });
+        } else {
+          this.setState({ redirect: <Redirect to="/scheduletron" /> });
+        }
+      });
+  };
 
-  Lets say the filter is 3pm - 12AM
-  and shift starts 1t 11AM and ends at 8PM
-  How would you convert 11AM to pixels
-  Could it be represented as -300px, 200px?
-  This is tough.
+  useEffect(()=>{
+    const { weekId, dayIndex, days, weeks, selectedWeek } = props;
 
-  When there is overflow It'll be hidden of course and replaced with an dashed line
-*/
+    /*If days changes, update days and set current day to new dayindex
+      If weekID changes likely because of a route change, call parent function and set the week,
+      if u cant find the week make a api call
+
+      if dayindex changes, update the tabs and such
+
+      how can i  not be so reliant on these side effects?
+      possibly with redux?
+
+      If the selected week changes in redux, ill still have to update various components with side effects
+      
+    */
+    if (days !== props.days) {
+      setState({
+        days: days,
+        currentDay: days[dayIndex],
+      });
+      setDays(props.days);
+      setCurrentDay( props.days[dayIndex]);
+    }
+
+    if (
+      prevProps.weekId !== weekId
+    ) {
+      const theWeek = weeks.find((w) => (w.id = weekId));
+      if (theWeek) {
+        this.props.setSelectedWeek(theWeek);
+      } else {
+        this.fetchWeekSchedule(weekId);
+      }
+    }
+
+    if (prevProps.dayIndex !== this.props.dayIndex) {
+      this.changeTab(0, this.props.dayIndex);
+    }
+  }, [props.days])
+
+  return (
+    redirect ||
+    (days && (
+      <Paper className="tabs-container">
+        <Tabs
+          variant="scrollable"
+          scrollButtons
+          allowScrollButtonsMobile
+          onChange={this.changeTab}
+          value={currentTab}
+          className={classes.tabs}
+          style={{ display: isDesktop ? "flex" : "none" }}
+        >
+          {/*You might want to separate this but DONOT. For some reason 
+  the scrollbuttons dont work or the indicator*/}
+          {days.map((d, index) => {
+            const isActive = index === dayIndex;
+            return (
+              <Tab
+                className={classes.tab}
+                value={index}
+                sx={{
+                  opacity: isActive ? 1 : 0.5,
+                }}
+                label={
+                  <Link
+                    className={classes.tabLink}
+                    to={`/scheduletron/viewer/${weekId}/${index}`}
+                  >
+                    <Collapse orientation={"horizontal"} in={isActive}>
+                      <p style={{ marginRight: 7 }}>{d.weekday} </p>
+                    </Collapse>
+
+                    <p>{`${d.month}/${d.day}`}</p>
+                  </Link>
+                }
+              />
+            );
+          })}
+        </Tabs>
+
+        <MainContent day={currentDay} isDesktop={isDesktop} />
+      </Paper>
+    ))
+  );
+}
+
+
 
 class TabsContainer extends Component {
   state = {
@@ -93,99 +183,15 @@ class TabsContainer extends Component {
     }
   };
 
-  fetchWeekSchedule = (weekId) => {
-    fetch(`/get_week_schedule?week-id=${weekId}`)
-      .then((response) => response.json())
-      .then((response) => {
-        if (response) {
-          this.props.setSelectedWeek({
-            week: response.week,
-            id: response.id,
-          });
-        } else {
-          this.setState({ redirect: <Redirect to="/scheduletron" /> });
-        }
-      });
-  };
+
 
   componentDidUpdate = (prevProps) => {
-    const { weekId, dayIndex, days, weeks, selectedWeek } = this.props;
-    if (prevProps.days !== this.props.days) {
-      this.setState({
-        days: days,
-        currentDay: days[dayIndex],
-      });
-    }
-    if (
-      prevProps.selectedWeek !== selectedWeek ||
-      prevProps.weekId !== weekId
-    ) {
-      console.log("I run bro");
-      const theWeek = weeks.find((w) => (w.id = weekId));
-      if (theWeek) {
-        this.props.setSelectedWeek(theWeek);
-      } else {
-        this.fetchWeekSchedule(weekId);
-      }
-    }
 
-    if (prevProps.dayIndex !== this.props.dayIndex) {
-      this.changeTab(0, this.props.dayIndex);
-    }
   };
 
-  render() {
-    console.log("Duh props: ", this.props);
-    const { screenWidth, classes, weekId, dayIndex } = this.props;
 
-    const isDesktop = screenWidth > 600;
-    const { days, currentDay, currentTab, redirect } = this.state;
-    return (
-      redirect ||
-      (days && (
-        <Paper className="tabs-container">
-          <Tabs
-            variant="scrollable"
-            scrollButtons
-            allowScrollButtonsMobile
-            onChange={this.changeTab}
-            value={currentTab}
-            className={classes.tabs}
-            style={{ display: isDesktop ? "flex" : "none" }}
-          >
-            {/*You might want to separate this but DONOT. For some reason 
-    the scrollbuttons dont work or the indicator*/}
-            {days.map((d, index) => {
-              const isActive = index === dayIndex;
-              return (
-                <Tab
-                  className={classes.tab}
-                  value={index}
-                  sx={{
-                    opacity: isActive ? 1 : 0.5,
-                  }}
-                  label={
-                    <Link
-                      className={classes.tabLink}
-                      to={`/scheduletron/viewer/${weekId}/${index}`}
-                    >
-                      <Collapse orientation={"horizontal"} in={isActive}>
-                        <p style={{ marginRight: 7 }}>{d.weekday} </p>
-                      </Collapse>
 
-                      <p>{`${d.month}/${d.day}`}</p>
-                    </Link>
-                  }
-                />
-              );
-            })}
-          </Tabs>
-
-          <MainContent day={currentDay} isDesktop={isDesktop} />
-        </Paper>
-      ))
-    );
   }
 }
 
-export default withRouter(withStyles(styles)(TabsContainer));
+export default withRouter(TabsContainer);

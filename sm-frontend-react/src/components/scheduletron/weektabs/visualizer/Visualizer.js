@@ -13,14 +13,12 @@ const Visualizer = ({ isDesktop, day, hidden, workblocks }) => {
     day: true,
     night: true,
   });
-  const scheduled = useSelector((state) => state.scheduled);
   const handleShiftFilter = (newValue) =>
     setShiftFilter({ shiftFilter: newValue });
   const handleSwitch = (newValue, name) =>
     setShiftFilter({
       shiftFilter: { ...shiftFilter, [name]: newValue },
     });
-  const dispatch = useDispatch();
 
   return (
     <div
@@ -48,7 +46,7 @@ const Visualizer = ({ isDesktop, day, hidden, workblocks }) => {
         <TimeSlots
           shiftFilter={shiftFilter}
           workblocks={workblocks}
-          dayId={day.id}
+          day={day}
           theDate={day.date}
           isMobile={!isDesktop}
         />
