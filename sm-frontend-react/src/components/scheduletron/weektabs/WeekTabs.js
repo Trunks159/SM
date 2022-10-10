@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import "./weektabs.css";
 import { Redirect, withRouter, Link } from "react-router-dom";
-import { Tabs, Tab, Collapse, makeStyles } from "@mui/material";
+import { Tabs, Tab, Collapse, makeStyles, stepButtonClasses } from "@mui/material";
 import { Paper, withStyles } from "@material-ui/core";
 import MainContent from "./MainContent";
 import { useSelector, useDispatch } from "react-redux";
@@ -47,66 +47,46 @@ const useStyles = makeStyles({
   },
 })
 
-const TabsContainer = (props)=>{
-  const {screenWidth, classes, weekId, dayIndex} = props;
+const TabsContainer = ({weekId, dayIndex})=>{
+  const classes = useStyles();
+ 
+  const screenWidth = useSelector((state)=> state.screenWidth);
+  const selectedWeek = useSelector((state)=>state.selectedWeek);
+  const currentDay = useSelector((state)=>state.currentDay);
+  //pure conjecture
+  const currentTab = currentDay.index;
   const isDesktop = screenWidth > 600;
-  const { days, currentDay, currentTab, redirect } = this.state;
-  console.log("Duh props: ", currentDay);
+  const days = selectedWeek.week;
+
   
   const fetchWeekSchedule = (weekId) => {
     fetch(`/get_week_schedule?week-id=${weekId}`)
       .then((response) => response.json())
       .then((response) => {
         if (response) {
-          this.props.setSelectedWeek({
+          setSelectedWeek({
             week: response.week,
             id: response.id,
           });
         } else {
-          this.setState({ redirect: <Redirect to="/scheduletron" /> });
+          setRedirect({ redirect: <Redirect to="/scheduletron" /> });
         }
       });
   };
 
   useEffect(()=>{
     const { weekId, dayIndex, days, weeks, selectedWeek } = props;
-
-    /*If days changes, update days and set current day to new dayindex
-      If weekID changes likely because of a route change, call parent function and set the week,
-      if u cant find the week make a api call
-
-      if dayindex changes, update the tabs and such
-
-      how can i  not be so reliant on these side effects?
-      possibly with redux?
-
-      If the selected week changes in redux, ill still have to update various components with side effects
-      
+    if (selectedWeek.id !== weekId){
+      fetchWeekSchedule(weekId);
+    }
+    /*If weekid changes this likely means just the url changes,
+    which will likely require you to make an api call
     */
-    if (days !== props.days) {
-      setState({
-        days: days,
-        currentDay: days[dayIndex],
-      });
-      setDays(props.days);
-      setCurrentDay( props.days[dayIndex]);
-    }
-
-    if (
-      prevProps.weekId !== weekId
-    ) {
-      const theWeek = weeks.find((w) => (w.id = weekId));
-      if (theWeek) {
-        this.props.setSelectedWeek(theWeek);
-      } else {
-        this.fetchWeekSchedule(weekId);
-      }
-    }
 
     if (prevProps.dayIndex !== this.props.dayIndex) {
       this.changeTab(0, this.props.dayIndex);
     }
-  }, [props.days])
+  }, [weekId])
 
   return (
     redirect ||
@@ -173,7 +153,6 @@ class TabsContainer extends Component {
   };
 
   componentDidMount = () => {
-    console.log("Unmounting1234:");
     const { weekSchedule, weekId } = this.props;
 
     if (Boolean(weekSchedule) === false) {

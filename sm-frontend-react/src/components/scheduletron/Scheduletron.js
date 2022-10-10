@@ -1,100 +1,88 @@
-import React, { Component } from "react";
+import React, { Component , useState, useEffect} from "react";
 import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 import SideNav from "./nav/SideNav";
 import Home from "./home/Home";
 import WeekTabs from "./weektabs/WeekTabs";
 import "./scheduletron.css";
+import { useSelector, useDispatch } from "react-redux";
 
-const withLocation = (WhateverComponent) => {
-  return (props) => <WhateverComponent location={useLocation()} {...props} />;
-};
+//ACTIONS
+const updateSelectedWeek = (payload)=>
+({
+  type : 'UPDATE_SELECTED_WEEK',
+  payload
+});
 
-class Scheduletron extends Component {
-  state = {
-    weeks: null,
-    isDesktop: false,
-    screenWidth: 0,
-    selectedWeek: null,
-    redirect: null,
-  };
+
+const Scheduletron = ({notifyUser})=>{
+  const location = useLocation();
+  const qParams = new URLSearchParams(location.search);
+  const date = qParams.get("date");
+  const selectedWeek = useSelector((state)=>state.selectedWeek);
+  const dispatch = useDispatch();
+  const [redirect, setRedirect] = useState(null);
+  const [weeks, setWeeks] = useState([]);
+  const [screenWidth, setScreenWidth] = useState(0);
+  const isDesktop = window.innerWidth > 600;
+
+  updatePredicate = () =>{
+    setScreenWidth(window.innerWidth);
+  }
+
+  useEffect(()=>{
+    window.addEventListener("resize", updatePredicate);
+    updatePredicate();
+    return(
+      window.removeEventListener("resize", updatePredicate)
+    )
+  }, [])
 
   fetchWeekSchedule = (date) => {
     fetch(`/get_week_schedule?date=${date}`)
       .then((response) => response.json())
       .then((response) => {
         if (response) {
-          console.log("Respondse:", response);
-          this.setState({
-            selectedWeek: response,
-            redirect: (
-              <Redirect to={`/scheduletron/viewer/${response.id}/${0}`} />
-            ),
-          });
+          dispatch(updateSelectedWeek(response));
+          setRedirect(  <Redirect to={`/scheduletron/viewer/${response.id}/${0}`} />)
         } else {
-          this.setState({ redirect: <Redirect to={"/scheduletron"} /> });
+          setRedirect({ redirect: <Redirect to={"/scheduletron"} /> });
         }
       });
   };
 
-  setSelectedWeek = (week) => this.setState({ selectedWeek: week });
+  date && fetchWeekSchedule("9-13-2021");
+  
+  return(
+    <div className="scheduletron">
+    {redirect}
+    <SideNav selectedWeek={selectedWeek} />
 
-  componentDidMount = () => {
-    window.addEventListener("resize", this.updatePredicate);
-    this.updatePredicate();
-  };
+    <Switch>
+      <Route exact path={"/scheduletron"}>
+        <Home
+          setSelectedWeek={this.setSelectedWeek}
+          selectedWeek={selectedWeek}
+          screenWidth={screenWidth}
+        />
+      </Route>
 
-  componentWillUnmount = () => {
-    window.removeEventListener("resize", this.updatePredicate);
-  };
-
-  updatePredicate = () =>
-    this.setState({
-      isDesktop: window.innerWidth > 600,
-      screenWidth: window.innerWidth,
-    });
-
-  render() {
-    const { notifyUser, location } = this.props;
-    const qParams = new URLSearchParams(location.search);
-    const date = qParams.get("date");
-    if (date) {
-      this.fetchWeekSchedule("9-13-2021");
-    }
-    const { screenWidth, selectedWeek, weeks, redirect } = this.state;
-    return (
-      <div className="scheduletron">
-        {redirect}
-        <SideNav selectedWeek={selectedWeek} />
-
-        <Switch>
-          <Route exact path={"/scheduletron"}>
-            <Home
+      <Route
+        path={"/scheduletron/viewer/:weekId/:dayIndex"}
+        render={({ match }) => {
+          return (
+            <WeekTabs
+              match={match}
+              weekId={parseInt(match.params.weekId)}
               setSelectedWeek={this.setSelectedWeek}
-              selectedWeek={selectedWeek}
-              screenWidth={screenWidth}
+              dayIndex={parseInt(match.params.dayIndex)}
+              weekSchedule={selectedWeek}
             />
-          </Route>
-
-          <Route
-            path={"/scheduletron/viewer/:weekId/:dayIndex"}
-            render={({ match }) => {
-              return (
-                <WeekTabs
-                  match={match}
-                  weekId={parseInt(match.params.weekId)}
-                  days={selectedWeek && selectedWeek.week}
-                  screenWidth={screenWidth}
-                  setSelectedWeek={this.setSelectedWeek}
-                  dayIndex={parseInt(match.params.dayIndex)}
-                  weekSchedule={selectedWeek}
-                />
-              );
-            }}
-          />
-        </Switch>
-      </div>
-    );
-  }
+          );
+        }}
+      />
+    </Switch>
+  </div>
+  )
 }
 
-export default withLocation(Scheduletron);
+export default Scheduletron;
