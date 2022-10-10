@@ -1,11 +1,16 @@
 import React, { Component, useState, useEffect } from "react";
 import "./weektabs.css";
 import { Redirect, withRouter, Link } from "react-router-dom";
-import { Tabs, Tab, Collapse, makeStyles, stepButtonClasses } from "@mui/material";
+import {
+  Tabs,
+  Tab,
+  Collapse,
+  makeStyles,
+  stepButtonClasses,
+} from "@mui/material";
 import { Paper, withStyles } from "@material-ui/core";
 import MainContent from "./MainContent";
 import { useSelector, useDispatch } from "react-redux";
-
 
 const useStyles = makeStyles({
   root: {
@@ -45,20 +50,23 @@ const useStyles = makeStyles({
       display: "none",
     },
   },
-})
+});
 
-const TabsContainer = ({weekId, dayIndex})=>{
+const TabsContainer = ({ weekId, dayIndex }) => {
+  //the day is mostly controlled by the dayIndex. If that changes,
+  //so does the day, the day effectively never gets changed outside of
+  //a change in the url
+
   const classes = useStyles();
- 
-  const screenWidth = useSelector((state)=> state.screenWidth);
-  const selectedWeek = useSelector((state)=>state.selectedWeek);
-  const currentDay = useSelector((state)=>state.currentDay);
+
+  const screenWidth = useSelector((state) => state.screenWidth);
+  const selectedWeek = useSelector((state) => state.selectedWeek);
+  const currentDay = useSelector((state) => state.currentDay);
   //pure conjecture
   const currentTab = currentDay.index;
   const isDesktop = screenWidth > 600;
   const days = selectedWeek.week;
 
-  
   const fetchWeekSchedule = (weekId) => {
     fetch(`/get_week_schedule?week-id=${weekId}`)
       .then((response) => response.json())
@@ -74,9 +82,9 @@ const TabsContainer = ({weekId, dayIndex})=>{
       });
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const { weekId, dayIndex, days, weeks, selectedWeek } = props;
-    if (selectedWeek.id !== weekId){
+    if (selectedWeek.id !== weekId) {
       fetchWeekSchedule(weekId);
     }
     /*If weekid changes this likely means just the url changes,
@@ -86,7 +94,13 @@ const TabsContainer = ({weekId, dayIndex})=>{
     if (prevProps.dayIndex !== this.props.dayIndex) {
       this.changeTab(0, this.props.dayIndex);
     }
-  }, [weekId])
+  }, [weekId]);
+
+  useEffect(() => {
+    if (selectedWeek) {
+      dipatch(updateCurrentDay(selectedWeek[dayIndex]));
+    }
+  }, dayIndex);
 
   return (
     redirect ||
@@ -133,44 +147,6 @@ const TabsContainer = ({weekId, dayIndex})=>{
       </Paper>
     ))
   );
-}
+};
 
-
-
-class TabsContainer extends Component {
-  state = {
-    currentTab: this.props.dayIndex,
-    currentDay: this.props.days && this.props.days[this.props.dayIndex],
-    days: this.props.days,
-    redirect: false,
-  };
-
-  changeTab = (e, newTab) => {
-    this.setState({
-      currentTab: newTab,
-      currentDay: this.state.days[newTab],
-    });
-  };
-
-  componentDidMount = () => {
-    const { weekSchedule, weekId } = this.props;
-
-    if (Boolean(weekSchedule) === false) {
-      this.fetchWeekSchedule(weekId);
-    } else if (weekSchedule.id !== weekId) {
-      this.fetchWeekSchedule(weekId);
-    }
-  };
-
-
-
-  componentDidUpdate = (prevProps) => {
-
-  };
-
-
-
-  }
-}
-
-export default withRouter(TabsContainer);
+export default TabsContainer;
