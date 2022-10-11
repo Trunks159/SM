@@ -7,12 +7,11 @@ import "./scheduletron.css";
 import { useSelector, useDispatch } from "react-redux";
 
 //ACTIONS
-const updateSelectedWeek = (payload) => ({
-  type: "UPDATE_SELECTED_WEEK",
-  payload,
-});
+function updateSelectedWeek(newWeek) {
+  return { type: "UPDATE_SELECTED_WEEK", payload: newWeek };
+}
 
-const Scheduletron = ({ notifyUser }) => {
+function Scheduletron({ notifyUser }) {
   const location = useLocation();
   const qParams = new URLSearchParams(location.search);
   const date = qParams.get("date");
@@ -22,17 +21,11 @@ const Scheduletron = ({ notifyUser }) => {
   const [weeks, setWeeks] = useState([]);
   const [screenWidth, setScreenWidth] = useState(0);
 
-  updatePredicate = () => {
+  function updatePredicate() {
     setScreenWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", updatePredicate);
-    updatePredicate();
-    return window.removeEventListener("resize", updatePredicate);
-  }, []);
-
-  fetchWeekSchedule = (date) => {
+  }
+  
+  function fetchWeekSchedule(date) {
     fetch(`/get_week_schedule?date=${date}`)
       .then((response) => response.json())
       .then((response) => {
@@ -47,6 +40,13 @@ const Scheduletron = ({ notifyUser }) => {
       });
   };
 
+  useEffect(() => {
+    window.addEventListener("resize", updatePredicate);
+    updatePredicate();
+    return window.removeEventListener("resize", updatePredicate);
+  }, []);
+
+
   date && fetchWeekSchedule("9-13-2021");
 
   return (
@@ -57,8 +57,6 @@ const Scheduletron = ({ notifyUser }) => {
       <Switch>
         <Route exact path={"/scheduletron"}>
           <Home
-            setSelectedWeek={this.setSelectedWeek}
-            selectedWeek={selectedWeek}
             screenWidth={screenWidth}
           />
         </Route>
@@ -70,7 +68,6 @@ const Scheduletron = ({ notifyUser }) => {
               <WeekTabs
                 match={match}
                 weekId={parseInt(match.params.weekId)}
-                setSelectedWeek={this.setSelectedWeek}
                 dayIndex={parseInt(match.params.dayIndex)}
                 weekSchedule={selectedWeek}
                 screenWidth={screenWidth}
