@@ -257,6 +257,8 @@ def update_schedule():
             workblock['start_time']), end_time=parser.parse(workblock['end_time']))
         db.session.add(wb)
 
+    db.session.commit()
+
     return jsonify(True)
 
 

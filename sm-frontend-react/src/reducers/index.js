@@ -4,15 +4,15 @@ import notScheduledReducer from "./notScheduled";
 import timeslotsReducer from "./timeslots";
 import selectedWeekReducer from "./selectedWeek";
 import { combineReducers } from "redux";
-import currentDayReducer from "./currentDay";
+import currentDayIndexReducer from "./currentDayIndex";
 
 const allReducers = combineReducers({
   scheduled: scheduledReducer,
   allUsers: allUsersReducer,
   notScheduled: notScheduledReducer,
   timeslots: timeslotsReducer,
-  selectedWeek : selectedWeekReducer,
-  currentDay : currentDayReducer,
+  selectedWeek: selectedWeekReducer,
+  currentDayIndex: currentDayIndexReducer,
 });
 
 export default allReducers;

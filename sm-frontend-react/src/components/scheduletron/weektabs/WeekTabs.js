@@ -48,23 +48,22 @@ const useStyles = makeStyles({
 
 //ACTIONS
 function updateSelectedWeek(newWeek) {
-  return { type: "UPDATE_SELECTED_WEEK", payload: newWeek };
+  return { type: "UPDATE_SELECTED_WEEK", payLoad: newWeek };
 }
 
-function updateCurrentDay(newDay) {
-  return { type: "UPDATE_CURRENT_DAY", payload: newDay };
+function updateCurrentDayIndex(newIndex) {
+  return { type: "UPDATE_CURRENT_DAY_INDEX", payLoad: newIndex };
 }
 
-const TabsContainer = ({ weekId, dayIndex }) => {
+const TabsContainer = ({ weekId, dayIndex, screenWidth }) => {
   //dayIndex is the source for all day changes
 
   const classes = useStyles();
   const dispatch = useDispatch();
 
   //GLOBAL STATE
-  const screenWidth = useSelector((state) => state.screenWidth);
   const selectedWeek = useSelector((state) => state.selectedWeek);
-  const currentDay = useSelector((state) => state.currentDay);
+  const currentDayIndex = useSelector((state) => state.currentDayIndex);
 
   //STATE
   const [redirect, setRedirect] = useState(null);
@@ -86,23 +85,20 @@ const TabsContainer = ({ weekId, dayIndex }) => {
   useEffect(() => {
     if (Boolean(selectedWeek) === false) {
       fetchWeekSchedule(weekId);
-    }
-    else{
+    } else {
       if (selectedWeek.id !== weekId) {
         fetchWeekSchedule(weekId);
       }
     }
-  }, [weekId]);
 
-  useEffect(() => {
-    if (selectedWeek) {
-      dispatch(updateCurrentDay(selectedWeek[dayIndex]));
+    if (dayIndex !== currentDayIndex) {
+      dispatch(updateCurrentDayIndex(dayIndex));
     }
-  }, [dayIndex]);
+  }, [weekId, dayIndex]);
 
-  if (currentDay && selectedWeek) {
+  if (currentDayIndex !== null && selectedWeek !== null) {
     //STUFF DEPENDENT ON PROPS OR STATE
-    const currentTab = currentDay.index; //I GUESS?
+    const currentDay = selectedWeek.week[currentDayIndex];
     const isDesktop = screenWidth > 600;
     const days = selectedWeek.week;
     return (
@@ -113,15 +109,14 @@ const TabsContainer = ({ weekId, dayIndex }) => {
             variant="scrollable"
             scrollButtons
             allowScrollButtonsMobile
-            onChange={this.changeTab}
-            value={currentTab}
+            value={currentDayIndex}
             className={classes.tabs}
             style={{ display: isDesktop ? "flex" : "none" }}
           >
             {/*You might want to separate this but DONOT. For some reason 
     the scrollbuttons dont work or the indicator*/}
             {days.map((d, index) => {
-              const isActive = index === dayIndex;
+              const isActive = index === currentDayIndex;
               return (
                 <Tab
                   className={classes.tab}
