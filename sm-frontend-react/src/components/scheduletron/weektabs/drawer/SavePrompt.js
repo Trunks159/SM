@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import saveIcon from "./assets/Save Icon.svg";
 import { Button } from "@mui/material";
+import { makeStyles } from "@material-ui/core";
 import { useSelector } from "react-redux";
+
+const useStyles = makeStyles({
+  saveBtn : {
+    '&:hover':{
+      opacity : .7
+    },
+  },
+});
 
 const SavePrompt = ({ index, currentFunction }) => {
   const timeslots = useSelector((state) => state.timeslots);
+  const classes = useStyles();
 
   const handleSave = () => {
     //convert the pixels to times, send objects to python
@@ -59,6 +69,7 @@ const SavePrompt = ({ index, currentFunction }) => {
           height: 36,
           borderRadius: 4,
         }}
+        className = {classes.saveBtn}
         onClick={handleSave}
         endIcon={<img src={saveIcon} />}
       >

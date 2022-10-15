@@ -1,5 +1,5 @@
 import { Button, Paper } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import detailsIcon from "./assets/Details Icon.svg";
 import addIcon from "./assets/Add Icon.svg";
 import { makeStyles } from "@material-ui/core";
@@ -55,14 +55,69 @@ const useStyles = makeStyles({
   },
 });
 
+function UserThumb({
+  handleAdd,
+  classes,
+  firstName,
+  lastName,
+  position,
+  index,
+}) {
+  const [hovering, setHovering] = useState(false);
+  const style = {
+    minWidth: 0,
+    transition: 0.3,
+  };
+  return (
+    <>
+      <Button
+   
+        onMouseEnter={() => setHovering(true)}
+        onMouseLeave={() => setHovering(false)}
+        onClick={() => handleAdd(index)}
+      >
+        <img src={addIcon} />
+      </Button>
+      <Paper className={classes.paper}
+      
+      style={
+        hovering
+          ? {
+              ...style,
+              transform: "translateY(-5px)",
+              boxShadow: "0px 2px 4px 1px #33789e",
+            }
+          : style
+      }>
+  
+        <p>
+          {firstName}
+          <br />
+          {lastName}
+        </p>
+        <i> {position}</i>
+        <Button className="details">
+          <img src={detailsIcon} />
+        </Button>
+      </Paper>
+    </>
+  );
+}
+
 const AddPrompt = ({ currentFunction, index, date }) => {
   const teamMembers = useSelector((state) => state.notScheduled);
+  const dayIndex = useSelector((state) => state.currentDayIndex);
+  const selectedWeek = useSelector((state) => state.selectedWeek);
+  const dayId = selectedWeek.week[dayIndex].id;
+
+  const [hovering, setHovering] = useState(false);
+
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const handleAdd = (notScheduled, date, userIndex) => {
+  const handleAdd = (notScheduled = teamMembers, date = date, userIndex) => {
     const user = notScheduled.splice(userIndex, 1)[0];
-    dispatch(addToScheduled({ user: user, date: date }));
+    dispatch(addToScheduled({ user, date, dayId }));
     dispatch(updateNotScheduled(notScheduled));
   };
 
@@ -79,25 +134,15 @@ const AddPrompt = ({ currentFunction, index, date }) => {
       </p>
 
       <ul className="add-member-list">
-        {teamMembers.map((tm, i) => (
+        {teamMembers.map(({ firstName, lastName, position }, i) => (
           <li key={i}>
-            <Button
-              style={{ minWidth: 0 }}
-              onClick={() => handleAdd(teamMembers, date, i)}
-            >
-              <img src={addIcon} />
-            </Button>
-            <Paper className={classes.paper}>
-              <p>
-                {tm.firstName}
-                <br />
-                {tm.lastName}
-              </p>
-              <i> {tm.position}</i>
-              <Button className="details">
-                <img src={detailsIcon} />
-              </Button>
-            </Paper>
+            <UserThumb
+              firstName={firstName}
+              lastName={lastName}
+              position={position}
+              index={i}
+              classes={classes}
+            />
           </li>
         ))}
       </ul>

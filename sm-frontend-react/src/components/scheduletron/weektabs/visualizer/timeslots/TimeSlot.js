@@ -6,6 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { pixToString, thirtyMin } from "../../../TimeFunctions";
 import moment from "moment";
 
+//currently the minimun width for a timeslot is 200px. It should really just be like 2 hours or something.
+//Problem is it wont be exact, what you do is first you go and look 
+
 //ACTIONS
 const addTimeslot = (timeslot) => ({
   type: "ADD_TIMESLOT",
@@ -25,23 +28,20 @@ const TimeSlot = ({
   workblock,
   day,
 }) => {
-  console.log("Day changes: ", day);
   const dispatch = useDispatch();
   const timeslots = useSelector((state) => state.timeslots);
   const timeslot = timeslots.timeslots[index];
-  if (timeslot) {
-    console.log("Timeslot: ", moment(timeslot.getStartTime()).toString());
-  }
+
 
   useEffect(() => {
     dispatch(
       addTimeslot({
         startTime: workblock.startTime,
         endTime: workblock.endTime,
+        dayId: day.id,
         containerWidth,
         availableTimes,
         user,
-        dayId: day.id,
       })
     );
   }, []);
@@ -60,6 +60,7 @@ const TimeSlot = ({
               left: start,
               right: containerWidth - end < 0 ? 0 : containerWidth - end,
               minWidth: 200,
+
             }}
           >
             {user.firstName} {user.lastName} startTime :

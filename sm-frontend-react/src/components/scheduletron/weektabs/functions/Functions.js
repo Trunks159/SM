@@ -17,9 +17,18 @@ const styles = () => ({
     minWidth: 0,
     fontSize: 12,
     fontWeight: "400",
+    opacity : .6,
     "& .MuiTab-iconWrapper": {
       marginBottom: 8,
     },
+    "& Mui-selected":{
+      opacity : 1,
+    },
+    '&:hover':{
+      opacity  :.9
+    },
+    
+
   },
   tabs: {
     "& .MuiTabs-indicator": {
