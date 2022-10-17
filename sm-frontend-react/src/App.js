@@ -134,6 +134,17 @@ class App extends Component {
                 );
               }}
             />
+
+            <Route
+              path="/register"
+              render={() => {
+                return currentUser.isAuthenticated ? (
+                  <Redirect to="/" />
+                ) : (
+                  <Register />
+                );
+              }}
+            />
             <Route
               path="/scheduletron/:weekId?/:dayId?"
               render={({ match }) => {

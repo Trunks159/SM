@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Alert } from "@material-ui/lab";
 import { withStyles } from "@material-ui/core/styles";
 import {
   TextField,
   Checkbox,
   FormControlLabel,
   Paper,
+  Button,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
@@ -34,6 +34,26 @@ const styles = () => ({
   rememberMe: {
     marginTop: 20,
     width: "max-content",
+  },
+  submit: {
+    borderRadius: 7,
+    background: "rgba(0, 115, 144, 1)",
+    transitionDuration: "1s",
+    opacity: 1,
+    "&:hover": {
+      opacity: 0.8,
+      background: "rgba(0, 203, 255, 1)",
+    },
+    width: 145,
+    height: 45,
+    marginLeft: "auto",
+    marginTop: 50,
+    "& .MuiButton-label": {
+      textTransform: "none",
+      fontWeight: 700,
+      fontSize: 20,
+      color: "white",
+    },
   },
 });
 
@@ -111,67 +131,52 @@ class Login extends Component {
     const { username_errors, password_errors } = this.state;
     return (
       <form className="login-form" onSubmit={this.handleSubmit}>
-        <div style={{margin : '70px 35px' }}>
-          <header>
-            <h1>Sign In</h1>
-            <FancyDivider />
-          </header>
-          <TextField
-            required
-            error={username_errors}
-            variant="outlined"
-            className={classes.input}
-            name="username"
-            label="Enter Username"
-            onChange={this.handleChange}
-            helperText={username_errors}
-          />
-          <TextField
-            error={password_errors}
-            required
-            variant="outlined"
-            className={classes.input}
-            name="password"
-            label="Enter Password"
-            onChange={this.handleChange}
-            type="password"
-            helperText={password_errors}
-          />
-          <Link className="forgotPassword" to="/">
-            Forgot Password?
-          </Link>
-          <FormControlLabel
-            className={classes.rememberMe}
-            control={
-              <Checkbox
-                checked={this.state.remember}
-                onChange={this.handleCheckbox}
-                name="remember"
-                primary
-              />
-            }
-            label="Remember Me"
-          />
-          <Paper
-            style={{
-              display: "flex",
-              width: 150,
-              background: "#00CBFF",
-              borderRadius: 7,
-              marginLeft: "auto",
-              marginTop: 50,
-            }}
-          >
-            <button
-              className="login-submitButton"
-              type="submit"
-              variant="contained"
-              color="primary"
-              endIcon={<LockIcon />}
-            >
-              Login
-            </button>
-          </Paper>
+        <header>
+          <h1>Sign In</h1>
+          <FancyDivider />
+        </header>
+        <TextField
+          required
+          error={username_errors}
+          variant="outlined"
+          className={classes.input}
+          name="username"
+          label="Enter Username"
+          onChange={this.handleChange}
+          helperText={username_errors}
+        />
+        <TextField
+          error={password_errors}
+          required
+          variant="outlined"
+          className={classes.input}
+          name="password"
+          label="Enter Password"
+          onChange={this.handleChange}
+          type="password"
+          helperText={password_errors}
+        />
+        <Link className="forgotPassword" to="/">
+          Forgot Password?
+        </Link>
+        <FormControlLabel
+          className={classes.rememberMe}
+          control={
+            <Checkbox
+              checked={this.state.remember}
+              onChange={this.handleCheckbox}
+              name="remember"
+              primary
+            />
+          }
+          label="Remember Me"
+        />
+        <Button className={classes.submit} type="submit" endIcon={<LockIcon />}>
+          Login
+        </Button>
+        <div style={{ display: "flex" }}>
+          <p>Don't have an account? Register Here!</p>
+          <Link to="/register">Register</Link>
         </div>
       </form>
     );
