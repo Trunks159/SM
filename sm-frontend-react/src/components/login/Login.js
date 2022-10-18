@@ -6,11 +6,26 @@ import {
   FormControlLabel,
   Paper,
   Button,
+  styled,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
 import "./login.css";
 import FancyDivider from "./FancyDivider";
+
+const StyledButton = styled(Button)({
+  borderRadius: 4,
+  transitionDuration: ".2s",
+  opacity: 1,
+  width: 145,
+  height: 45,
+  "& .MuiButton-label": {
+    textTransform: "none",
+    fontWeight: 700,
+    fontSize: 20,
+    color: "white",
+  },
+});
 
 const styles = () => ({
   divider: {
@@ -20,39 +35,35 @@ const styles = () => ({
   },
   input: {
     maxWidth: 260,
-    margin: "10px 0px",
-    marginBottom: 25,
+    margin: "0px 0px",
     "& .MuiFormHelperText-root": {
       position: "absolute",
       bottom: -20,
     },
   },
-  forgot: {
-    textDecoration: "none",
-    fontSize: 12,
-  },
   rememberMe: {
-    marginTop: 20,
+    margin: "7px 0px",
+
     width: "max-content",
+    "& .MuiTypography-root": {
+      fontSize: 12,
+    },
   },
   submit: {
-    borderRadius: 7,
     background: "rgba(7, 145, 182, 1)",
-    transitionDuration: ".2s",
-    opacity: 1,
+    margin: "20px 0px 20px auto",
     "&:hover": {
       opacity: 0.8,
       background: "rgba(0, 203, 255, 1)",
     },
-    width: 145,
-    height: 45,
-    marginLeft: "auto",
-    marginTop: 50,
+  },
+  register: {
+    textTransform: "none",
+    borderColor: "rgba(7, 145, 182, 1)",
+    borderWidth: 1.5,
     "& .MuiButton-label": {
-      textTransform: "none",
-      fontWeight: 700,
-      fontSize: 20,
-      color: "white",
+      fontWeight: "normal",
+      color: "rgba(7, 145, 182, 1)",
     },
   },
 });
@@ -146,10 +157,11 @@ class Login extends Component {
           helperText={usernameErrors}
         />
         <TextField
+          style={{ marginTop: 25 }}
           error={passwordErrors}
           required
           variant="outlined"
-          className={classes.input}
+          className={classes.input + " password"}
           name="password"
           label="Enter Password"
           onChange={this.handleChange}
@@ -171,13 +183,21 @@ class Login extends Component {
           }
           label="Remember Me"
         />
-        <Button className={classes.submit} type="submit" endIcon={<LockIcon />}>
+        <StyledButton
+          className={classes.submit}
+          type="submit"
+          endIcon={<LockIcon />}
+        >
           Sign In
-        </Button>
-        <div style={{ display: "flex" }}>
-          <p>Don't have an account? Register Here!</p>
-          <Link to="/register">Register</Link>
-        </div>
+        </StyledButton>
+        <p style={{ fontWeight: 300, fontSize: 13, marginTop: 40 }}>
+          Haven't made an account yet?
+        </p>
+        <Link style={{ textDecoration: "none" }} to="/register">
+          <StyledButton className={classes.register} variant="outlined">
+            Register
+          </StyledButton>
+        </Link>
       </form>
     );
   }
