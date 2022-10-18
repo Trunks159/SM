@@ -2,7 +2,7 @@ import React from "react";
 
 function FancyDivider() {
   return (
-    <svg style={{ height: 30, width: "100%" }}>
+    <svg style={{ height: 30, width: "100%", margin : '15px 0px' }}>
       <line
         style={{}}
         stroke={"#A3A3A3"}

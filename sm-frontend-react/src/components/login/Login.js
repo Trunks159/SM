@@ -37,8 +37,8 @@ const styles = () => ({
   },
   submit: {
     borderRadius: 7,
-    background: "rgba(0, 115, 144, 1)",
-    transitionDuration: "1s",
+    background: "rgba(7, 145, 182, 1)",
+    transitionDuration: ".2s",
     opacity: 1,
     "&:hover": {
       opacity: 0.8,
@@ -62,8 +62,8 @@ class Login extends Component {
     username: "",
     password: "",
     remember: false,
-    username_errors: null,
-    password_errors: null,
+    usernameErrors: null,
+    passwordErrors: null,
   };
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -110,25 +110,25 @@ class Login extends Component {
 
   handleBadPassword = () => {
     this.setState({
-      password_errors: "Incorrect password",
+      passwordErrors: "Incorrect password",
     });
     setTimeout(() => {
-      this.setState({ password_errors: null });
+      this.setState({ passwordErrors: null });
     }, 4000);
   };
 
   handleBadUsername = () => {
     this.setState({
-      username_errors: "This username wasn't found in our database",
+      usernameErrors: "This username wasn't found in our database",
     });
     setTimeout(() => {
-      this.setState({ username_errors: null });
+      this.setState({ usernameErrors: null });
     }, 4000);
   };
 
   render() {
     const { classes } = this.props;
-    const { username_errors, password_errors } = this.state;
+    const { usernameErrors, passwordErrors } = this.state;
     return (
       <form className="login-form" onSubmit={this.handleSubmit}>
         <header>
@@ -137,16 +137,16 @@ class Login extends Component {
         </header>
         <TextField
           required
-          error={username_errors}
+          error={usernameErrors}
           variant="outlined"
           className={classes.input}
           name="username"
           label="Enter Username"
           onChange={this.handleChange}
-          helperText={username_errors}
+          helperText={usernameErrors}
         />
         <TextField
-          error={password_errors}
+          error={passwordErrors}
           required
           variant="outlined"
           className={classes.input}
@@ -154,9 +154,9 @@ class Login extends Component {
           label="Enter Password"
           onChange={this.handleChange}
           type="password"
-          helperText={password_errors}
+          helperText={passwordErrors}
         />
-        <Link className="forgotPassword" to="/">
+        <Link className="forgot-password" to="/">
           Forgot Password?
         </Link>
         <FormControlLabel
@@ -172,7 +172,7 @@ class Login extends Component {
           label="Remember Me"
         />
         <Button className={classes.submit} type="submit" endIcon={<LockIcon />}>
-          Login
+          Sign In
         </Button>
         <div style={{ display: "flex" }}>
           <p>Don't have an account? Register Here!</p>
