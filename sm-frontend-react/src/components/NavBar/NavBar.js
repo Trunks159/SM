@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import { NavLink } from "react-router-dom";
 import logo from "../../assets/images/ScheduleTron Icon.svg";
 import logoActive from "../../assets/images/ScheduleTron Icon Active.svg";
 import teamIcon from "../../assets/images/Team Icon.svg";
@@ -8,54 +7,7 @@ import scheduleIcon from "../../assets/images/Schedule Icon.svg";
 import homeIcon from "../../assets/images/Home Icon.svg";
 import MyMenu from "./MyMenu";
 import "./navbar.css";
-import { Collapse, Button } from "@mui/material";
-const useStyles = makeStyles({
-  logo: {
-    "@media (max-width :600px)": { display: "none" },
-  },
-  home: {
-    "@media (min-width :600px)": { display: "none" },
-  },
-  links: {
-    marginLeft: "auto",
-    marginRight: 40,
-    display: "flex",
-  },
-  link: {
-    textDecoration: "none",
-    color: "black",
-    fontSize: 14,
-    margin: 20,
-    display: "flex",
-    "& img": {
-      margin: 6,
-    },
-    fontWeight: "500",
-  },
-  customLink: {
-    textDecoration: "none",
-    color: "black",
-    fontSize: 14,
-    margin: 20,
-    display: "flex",
-    "& img": {
-      margin: 6,
-      width: 31,
-    },
-    "& p": {
-      display: "none",
-    },
-    fontWeight: "500",
-    "@media (min-width : 600px)": {
-      "& p": {
-        display: "block",
-      },
-      "& img": {
-        width: "auto",
-      },
-    },
-  },
-});
+import { Divider, Collapse } from "@material-ui/core";
 
 class NavBar extends Component {
   state = {
@@ -63,7 +15,6 @@ class NavBar extends Component {
   };
 
   handleCollapse = () => this.setState({ isOpen: false });
-
   handleMouseEnter = () => this.setState({ isOpen: true });
   handleMouseLeave = () => this.setState({ isOpen: false });
 
@@ -116,6 +67,51 @@ class NavBar extends Component {
 
         <Collapse in={isOpen}>
           <div className="nav-links">
+            {currentUser.isAuthenticated ? (
+              <MyMenu
+                username={currentUser.username}
+                id={currentUser.id}
+                handleLogout={handleLogout}
+                handleCollapse={this.handleCollapse}
+              />
+            ) : (
+              <>
+                <NavLink
+                  style={{
+                    fontSize: 13,
+                    fontWeight: "normal",
+                    textDecoration: "none",
+                    color: "white",
+                    margin: "10px 0px",
+                  }}
+                  to={"/login"}
+                >
+                  Sign In
+                </NavLink>
+
+                <NavLink
+                  style={{
+                    fontSize: 13,
+                    fontWeight: "normal",
+                    textDecoration: "none",
+                    color: "white",
+                    margin: "20px 10px",
+                  }}
+                  to={"/register"}
+                >
+                  Register
+                </NavLink>
+              </>
+            )}
+
+            <Divider
+              style={{
+                margin: "10px 0px",
+                background: "white",
+                width: "90%",
+                opacity: 0.3,
+              }}
+            />
             <NavLink onClick={this.handleCollapse} className="nav-link" to="/">
               <img style={{ margin: 5 }} src={homeIcon} />
               Home
@@ -132,14 +128,6 @@ class NavBar extends Component {
               <img src={teamIcon} />
               Team
             </NavLink>
-            {currentUser.isAuthenticated && (
-              <MyMenu
-                username={currentUser.username}
-                id={currentUser.id}
-                handleLogout={handleLogout}
-                handleCollapse={this.handleCollapse}
-              />
-            )}
           </div>
         </Collapse>
       </nav>

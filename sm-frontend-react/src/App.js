@@ -128,7 +128,6 @@ class App extends Component {
                   <Login
                     users={users}
                     notifyUser={this.notifyUser}
-                    postReq={this.postReq}
                     screenWidth={0}
                   />
                 );
