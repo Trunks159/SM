@@ -5,6 +5,13 @@
   display: flex;
 }
 
+@media (min-width : 600px) {
+  .App{
+    background-color: #F6F6F6;
+  }
+
+}
+
 body { 
   margin: 0;
 }

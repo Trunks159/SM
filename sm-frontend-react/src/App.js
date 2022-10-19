@@ -4,7 +4,7 @@ import Message from "./components/Message";
 import NavBar from "./components/navbar/NavBar";
 import User from "./components/user/User";
 import AvailabilityForm from "./components/user/UserAvailability";
-import Login from "./components/login/Login";
+import Login from "./components/forms/login/Login";
 import Register from "./components/register/Register";
 import {
   BrowserRouter as Router,
@@ -14,7 +14,6 @@ import {
 } from "react-router-dom";
 import Scheduletron from "./components/scheduletron/Scheduletron";
 import Notification from "./components/Notification";
-import { Collapse } from "@material-ui/core";
 
 class App extends Component {
   state = {

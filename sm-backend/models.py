@@ -1,5 +1,3 @@
-from curses.ascii import US
-from time import time
 from config import db, login
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime, timedelta

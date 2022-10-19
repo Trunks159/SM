@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import {useStyles, StyledButton} from './LoginStyles'
-import {
-  TextField,
-  Checkbox,
-  FormControlLabel
-} from "@material-ui/core";
+import { TextField, Checkbox, FormControlLabel } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
-import "./login.css";
-import FancyDivider from "./FancyDivider";
-
+import "../forms.css";
+import FancyDivider from "../FancyDivider";
+import { useStyles, StyledButton } from "../StyledComponents";
 
 function Login({ users, notifyUser }) {
   const [state, setState] = useState({
