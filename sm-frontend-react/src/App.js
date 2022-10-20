@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import "./App.css";
-import Message from "./components/Message";
 import NavBar from "./components/navbar/NavBar";
 import User from "./components/user/User";
 import AvailabilityForm from "./components/user/UserAvailability";
 import Login from "./components/forms/login/Login";
-import Register from "./components/register/Register";
+import Register from "./components/forms/register/Register";
 import {
   BrowserRouter as Router,
   Route,
@@ -139,7 +138,7 @@ class App extends Component {
                 return currentUser.isAuthenticated ? (
                   <Redirect to="/" />
                 ) : (
-                  <Register />
+                  <Register users notifyUser/>
                 );
               }}
             />

@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { TextField, Checkbox, FormControlLabel } from "@material-ui/core";
+import { Checkbox } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
 import "../forms.css";
-import FancyDivider from "../FancyDivider";
-import { useStyles, StyledButton } from "../StyledComponents";
+import {
+  SolidButton,
+  OutlinedButton,
+  MyInput,
+  RememberMe,
+  Header,
+} from "../StyledComponents";
 
 function Login({ users, notifyUser }) {
   const [state, setState] = useState({
@@ -16,7 +21,6 @@ function Login({ users, notifyUser }) {
   });
   const { username, password, remember, usernameErrors, passwordErrors } =
     state;
-  const classes = useStyles();
 
   function handleChange(e) {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -82,26 +86,21 @@ function Login({ users, notifyUser }) {
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
-      <header>
-        <h1>Sign In</h1>
-        <FancyDivider />
-      </header>
-      <TextField
+      <Header>Sign In</Header>
+      <MyInput
         required
         error={usernameErrors}
         variant="outlined"
-        className={classes.input}
         name="username"
         label="Enter Username"
         onChange={handleChange}
         helperText={usernameErrors}
       />
-      <TextField
+      <MyInput
         style={{ marginTop: 25 }}
         error={passwordErrors}
         required
         variant="outlined"
-        className={classes.input + " password"}
         name="password"
         label="Enter Password"
         onChange={handleChange}
@@ -111,8 +110,7 @@ function Login({ users, notifyUser }) {
       <Link className="forgot-password" to="/">
         Forgot Password?
       </Link>
-      <FormControlLabel
-        className={classes.rememberMe}
+      <RememberMe
         control={
           <Checkbox
             checked={remember}
@@ -123,20 +121,14 @@ function Login({ users, notifyUser }) {
         }
         label="Remember Me"
       />
-      <StyledButton
-        className={classes.submit}
-        type="submit"
-        endIcon={<LockIcon />}
-      >
+      <SolidButton type="submit" endIcon={<LockIcon />}>
         Sign In
-      </StyledButton>
+      </SolidButton>
       <p style={{ fontWeight: 300, fontSize: 13, marginTop: 40 }}>
         Haven't made an account yet?
       </p>
       <Link style={{ textDecoration: "none" }} to="/register">
-        <StyledButton className={classes.register} variant="outlined">
-          Register
-        </StyledButton>
+        <OutlinedButton variant="outlined">Register</OutlinedButton>
       </Link>
     </form>
   );

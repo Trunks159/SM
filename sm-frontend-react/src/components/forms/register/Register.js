@@ -1,12 +1,19 @@
 import React, { useState } from "react";
-import { TextField, Checkbox, FormControlLabel } from "@material-ui/core";
-import { Link, Redirect } from "react-router-dom";
-import LockIcon from "@material-ui/icons/Lock";
+import { Redirect } from "react-router-dom";
 import "../forms.css";
-import FancyDivider from "../FancyDivider";
-import { useStyles, StyledButton } from "../StyledComponents";
+import {
+  OutlinedButton,
+  SolidButton,
+  MyInput,
+  Header,
+} from "../StyledComponents";
 
-function RegisterPart1({ users, notifyUser, classes }) {
+//form styles are the same so just a classname
+//inputs are styled by styled components
+//They are spaced by margins
+//Buttons are styled buttons
+
+function RegisterPart1({ users, notifyUser }) {
   const [state, setState] = useState({
     firstName: "",
     lastName: "",
@@ -50,44 +57,37 @@ function RegisterPart1({ users, notifyUser, classes }) {
   }
   return (
     <form onSubmit={handleSubmit}>
-      <header>
-        <h1>Link Your Account</h1>
-        <FancyDivider />
-      </header>
+      <Header>Link Your Account</Header>
 
-      <TextField
+      <MyInput
         required
         error={errors}
         variant="outlined"
-        className={classes.input}
         name="firstName"
         label="Enter First Name"
         onChange={handleChange}
       />
-      <TextField
+      <MyInput
         required
         error={errors}
         variant="outlined"
-        className={classes.input}
         name="lastName"
         label="Enter Last Name"
         onChange={handleChange}
       />
-      <StyledButton
-        className={classes.register}
-        variant="outlined"
-        type="submit"
-      >
+      <OutlinedButton variant="outlined" type="submit">
         Next
-      </StyledButton>
+      </OutlinedButton>
     </form>
   );
 }
 
-function Register({ users, notifyUser }) {
-  const classes = useStyles();
+function Register(props) {
+  return (
 
-  return <div></div>;
+      <RegisterPart1 {...props} />
+
+  );
 }
 
 export default Register;
