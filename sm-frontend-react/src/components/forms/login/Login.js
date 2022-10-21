@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Checkbox } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
 import "../forms.css";
 import {
@@ -10,6 +10,13 @@ import {
   RememberMe,
   Header,
 } from "../StyledComponents";
+import { useDispatch } from "react-redux";
+
+//ACTIONS
+const updateCurrentUser = (newUser) => ({
+  type: "UPDATE_CURRENT_USER",
+  payLoad: newUser,
+});
 
 function Login({ users, notifyUser }) {
   const [state, setState] = useState({
@@ -18,9 +25,18 @@ function Login({ users, notifyUser }) {
     remember: false,
     usernameErrors: null,
     passwordErrors: null,
+    redirect: null,
   });
-  const { username, password, remember, usernameErrors, passwordErrors } =
-    state;
+  const {
+    username,
+    password,
+    remember,
+    usernameErrors,
+    passwordErrors,
+    redirect,
+  } = state;
+
+  const dispatch = useDispatch();
 
   function handleChange(e) {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -30,12 +46,13 @@ function Login({ users, notifyUser }) {
     setState({ ...state, remember: e.target.checked });
   }
 
-  function handleSuccessfulLogin() {
+  function handleSuccessfulLogin(newUser) {
     notifyUser({
       content: username + " is now logged in!",
       title: "Login Successful",
       severity: "success",
     });
+    dispatch(updateCurrentUser(newUser));
   }
 
   function handleBadPassword() {
@@ -73,7 +90,7 @@ function Login({ users, notifyUser }) {
       }).then((data) =>
         data.json().then((current_user) => {
           if (current_user.isAuthenticated) {
-            handleSuccessfulLogin();
+            handleSuccessfulLogin(current_user);
           } else {
             handleBadPassword();
           }
@@ -97,7 +114,6 @@ function Login({ users, notifyUser }) {
         helperText={usernameErrors}
       />
       <MyInput
-        style={{ marginTop: 25 }}
         error={passwordErrors}
         required
         variant="outlined"
@@ -121,9 +137,7 @@ function Login({ users, notifyUser }) {
         }
         label="Remember Me"
       />
-      <SolidButton type="submit" endIcon={<LockIcon />}>
-        Sign In
-      </SolidButton>
+      <SolidButton endIcon={<LockIcon />}>Sign In</SolidButton>
       <p style={{ fontWeight: 300, fontSize: 13, marginTop: 40 }}>
         Haven't made an account yet?
       </p>

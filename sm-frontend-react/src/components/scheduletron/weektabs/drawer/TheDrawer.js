@@ -1,14 +1,15 @@
-import { Collapse, Button, Divider } from "@mui/material";
-import React, { Component } from "react";
+import { Collapse, Divider } from "@mui/material";
+import { Button } from "@material-ui/core";
+import React, { useState } from "react";
 import moment from "moment";
-import { withStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import AddPrompt from "./AddPrompt";
 import SavePrompt from "./SavePrompt";
 import EditPrompt from "./EditPrompt";
 import "./thedrawer.css";
 import Functions from "../functions/Functions";
 
-const styles = () => ({
+const useStyles = makeStyles({
   tab: {
     textTransform: "none",
     transitionDuration: ".25s",
@@ -49,50 +50,41 @@ const styles = () => ({
   },
 });
 
-class TheDrawer extends Component {
-  state = {
-    currentTab: 0,
-  };
-
-  render() {
-    const { classes, currentFunction, changeCurrentFunction } = this.props;
-    const date = moment(this.props.date);
-    const isOpen = Number.isInteger(currentFunction);
-    return (
-      <Collapse in={isOpen}>
-        <div className="drawer">
-          <Button
-            onClick={() => changeCurrentFunction(null)}
-            className={classes.closeBtn}
-          >
-            Close
-          </Button>
-          <div className="drawer-header">
-            <h1>
-              {date.format("dddd")} {`${date.month() + 1}/${date.date()}`}
-            </h1>
-            <Divider
-              style={{ height: 0.5, width: "100%", background: "#707070" }}
-            />
-          </div>
-
-          <div className="drawer-content">
-            <EditPrompt index={0} currentFunction={currentFunction} />
-            <AddPrompt
-              index={1}
-              currentFunction={currentFunction}
-              date={date}
-            />
-            <SavePrompt index={2} currentFunction={currentFunction} />
-          </div>
-          <Functions
-            changeCurrentFunction={this.props.changeCurrentFunction}
-            currentFunction={currentFunction}
+function TheDrawer(props) {
+  const { currentFunction, changeCurrentFunction } = props;
+  let date = moment(props.date);
+  const isOpen = Number.isInteger(currentFunction);
+  const classes = useStyles();
+  return (
+    <Collapse in={isOpen}>
+      <div className="drawer">
+        <Button
+          onClick={() => changeCurrentFunction(null)}
+          className={classes.closeBtn}
+        >
+          Close
+        </Button>
+        <div className="drawer-header">
+          <h1>
+            {date.format("dddd")} {`${date.month() + 1}/${date.date()}`}
+          </h1>
+          <Divider
+            style={{ height: 0.5, width: "100%", background: "#707070" }}
           />
         </div>
-      </Collapse>
-    );
-  }
+
+        <div className="drawer-content">
+          <EditPrompt index={0} currentFunction={currentFunction} />
+          <AddPrompt index={1} currentFunction={currentFunction} date={date} />
+          <SavePrompt index={2} currentFunction={currentFunction} />
+        </div>
+        <Functions
+          changeCurrentFunction={changeCurrentFunction}
+          currentFunction={currentFunction}
+        />
+      </div>
+    </Collapse>
+  );
 }
 
-export default withStyles(styles)(TheDrawer);
+export default TheDrawer;

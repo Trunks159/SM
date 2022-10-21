@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import NavBar from "./components/navbar/NavBar";
 import User from "./components/user/User";
@@ -13,198 +13,175 @@ import {
 } from "react-router-dom";
 import Scheduletron from "./components/scheduletron/Scheduletron";
 import Notification from "./components/Notification";
+import { useDispatch, useSelector } from "react-redux";
 
-class App extends Component {
-  state = {
-    users: null,
-    //logged in user, the user logged in in Flask also
-    currentUser: { isAuthenticated: false },
-    message: null,
-    isDesktop: false,
-    screenWidth: 0,
-  };
+//ACTIONS
+const updateCurrentUser = (newUser) => ({
+  type: "UPDATE_CURRENT_USER",
+  payLoad: newUser,
+});
 
-  /*Fetches Users adds listener that will let React
-  know what size the screen is at any time*/
-  componentDidMount = () => {
-    this.fetchUsers();
-    this.updatePredicate();
-    window.addEventListener("resize", this.updatePredicate);
-  };
+const updateScreenWidth = (newWidth) => ({
+  type: "UPDATE_SCREEN_WIDTH",
+  payLoad: newWidth,
+});
 
-  componentWillUnmount = () => {
-    window.removeEventListener("resize", this.updatePredicate);
-  };
+const updateAllUsers = (newUsers) => ({
+  type: "UPDATE_ALL_USERS",
+  payLoad: newUsers,
+});
 
-  /*API Call that gets users and puts them in state
-    and gets the Logged in user
-  */
-  fetchUsers = () => {
+function App() {
+  const [message, setMessage] = useState(null);
+  const dispatch = useDispatch();
+
+  const currentUser = useSelector((state) => state.currentUser);
+  const users = useSelector((state) => state.allUsers);
+
+  function fetchUsers() {
     fetch("/users")
       .then((response) => response.json())
-      .then(({ users, currentUser }) => {
+      .then((newData) => {
         if (
           /*if the data from the api call is different
           than the data we have, update state*/
-          this.state.users !== users ||
-          this.state.currentUser !== currentUser
+          users !== newData.users ||
+          currentUser !== newData.currentUser
         ) {
-          this.setState({ users: users, currentUser: currentUser });
+          dispatch(updateCurrentUser(newData.currentUser));
+          dispatch(updateAllUsers(newData.users));
         }
       });
-  };
+  }
 
-  /*Most POST Requests Go Through This
-    Fetches Users After Each Request*/
-  postReq = async (url, content) => {
-    const rawResponse = await fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(content),
-    });
+  function updatePredicate() {
+    dispatch(updateScreenWidth(window.innerWidth));
+  }
 
-    this.fetchUsers();
-    return rawResponse;
-  };
-
-  //Places an alert of some kind at the top of the screen
-  notifyUser = (message) => {
-    this.setState({
-      message: message,
-    });
+  function notifyUser(message) {
+    setMessage(message);
     setTimeout(() => {
-      this.setState({ message: null });
+      setMessage(null);
     }, 4000);
-  };
+  }
 
-  //Updates state to what the screen size is
-  updatePredicate = () => {
-    this.setState({ isDesktop: window.innerWidth > 600 });
-  };
-
-  /*Logs the user out in flask via get req and calss
-  fetchUsers to refresh the currentUser*/
-  handleLogout = () => {
+  function handleLogout() {
     fetch("/logout")
       .then((response) => response.json())
       .then(() => {
-        this.fetchUsers();
-        this.notifyUser();
+        fetchUsers();
+        notifyUser();
       });
-  };
+  }
 
-  render() {
-    const { users, message, currentUser, isDesktop } = this.state;
-    console.log("App.j");
-    return users ? (
-      <Router>
-        <div className="App">
-          <NavBar currentUser={currentUser} handleLogout={this.handleLogout} />
-          <Notification message={message} />
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={() =>
-                currentUser.isAuthenticated ? (
-                  <Redirect to="/scheduletron" />
-                ) : (
-                  <Redirect to="/login" />
-                )
-              }
-            />
-            <Route
-              path="/login"
-              render={() => {
-                if (currentUser.isAuthenticated) {
-                  return <Redirect to="/" />;
-                }
-                return (
-                  <Login
-                    users={users}
-                    notifyUser={this.notifyUser}
-                    screenWidth={0}
-                  />
-                );
-              }}
-            />
+  useEffect(() => {
+    fetchUsers();
+    updatePredicate();
+    window.addEventListener("resize", updatePredicate);
+    return () => {
+      window.removeEventListener("resize", updatePredicate);
+    };
+  }, []);
 
-            <Route
-              path="/register"
-              render={() => {
-                return currentUser.isAuthenticated ? (
-                  <Redirect to="/" />
-                ) : (
-                  <Register users notifyUser/>
-                );
-              }}
-            />
-            <Route
-              path="/scheduletron/:weekId?/:dayId?"
-              render={({ match }) => {
-                return currentUser.isAuthenticated ? (
-                  <Scheduletron notifyUser={this.notifyUser} match={match} />
-                ) : (
-                  <Redirect to="/login" />
-                );
-              }}
-            />
-          </Switch>
-
+  return users ? (
+    <Router>
+      <div className="App">
+        <NavBar currentUser={currentUser} handleLogout={handleLogout} />
+        <Notification message={message} />
+        <Switch>
           <Route
             exact
-            path="/user/:username"
-            render={(props) => {
-              const user = users.find(
-                (user) => user.username === props.match.params.username
+            path="/"
+            render={() => {
+              return currentUser.isAuthenticated ? (
+                <Redirect to="/scheduletron" />
+              ) : (
+                <Redirect to="/login" />
               );
-              if (user) {
-                return <User user={user} currentUser={currentUser} />;
-              } else {
-                this.notifyUser({
-                  content: "Couldn't find user...",
-                  severity: "error",
-                  title: "error",
-                });
-                return <Redirect to="/" />;
-              }
             }}
           />
           <Route
-            path="/user/:username/availability"
-            render={(props) => {
-              const user = users.find(
-                (user) => user.username === props.match.params.username
-              );
-              if (user) {
-                return (
-                  <AvailabilityForm
-                    user={user}
-                    currentUser={currentUser.isAuthenticated}
-                    postReq={this.postReq}
-                    notifyUser={this.notifyUser}
-                    availability={user.availability}
-                  />
-                );
-              } else {
-                this.notifyUser({
-                  content: "Couldn't find user...",
-                  severity: "error",
-                  title: "error",
-                });
+            path="/login"
+            render={() => {
+              if (currentUser.isAuthenticated) {
                 return <Redirect to="/" />;
               }
+              return (
+                <Login users={users} notifyUser={notifyUser} screenWidth={0} />
+              );
             }}
           />
-        </div>
-      </Router>
-    ) : (
-      <p>Loading Right Now...</p>
-    );
-  }
+
+          <Route
+            path="/register"
+            render={({ match }) => {
+              return currentUser.isAuthenticated ? (
+                <Redirect to="/" />
+              ) : (
+                <Register users={users} notifyUser={notifyUser} match={match} />
+              );
+            }}
+          />
+          <Route
+            path="/scheduletron/:weekId?/:dayId?"
+            render={({ match }) => {
+              return currentUser.isAuthenticated ? (
+                <Scheduletron notifyUser={notifyUser} match={match} />
+              ) : (
+                <Redirect to="/login" />
+              );
+            }}
+          />
+        </Switch>
+
+        <Route
+          exact
+          path="/user/:username"
+          render={(props) => {
+            const user = users.find(
+              (user) => user.username === props.match.params.username
+            );
+            if (user) {
+              return <User user={user} currentUser={currentUser} />;
+            } else {
+              this.notifyUser({
+                content: "Couldn't find user...",
+                severity: "error",
+                title: "error",
+              });
+              return <Redirect to="/" />;
+            }
+          }}
+        />
+        <Route
+          path="/user/:username/availability"
+          render={(props) => {
+            const user = users.find(
+              (user) => user.username === props.match.params.username
+            );
+            if (user) {
+              return (
+                <AvailabilityForm
+                  user={user}
+                  currentUser={currentUser.isAuthenticated}
+                  notifyUser={notifyUser}
+                />
+              );
+            } else {
+              this.notifyUser({
+                content: "Couldn't find user...",
+                severity: "error",
+                title: "error",
+              });
+              return <Redirect to="/" />;
+            }
+          }}
+        />
+      </div>
+    </Router>
+  ) : (
+    <p>Loading Right Now...</p>
+  );
 }
 
 export default App;

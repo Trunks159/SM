@@ -22,9 +22,10 @@ function Scheduletron({ notifyUser }) {
   const [screenWidth, setScreenWidth] = useState(0);
 
   function updatePredicate() {
+    console.log("dude im running");
     setScreenWidth(window.innerWidth);
   }
-  
+
   function fetchWeekSchedule(date) {
     fetch(`/get_week_schedule?date=${date}`)
       .then((response) => response.json())
@@ -38,14 +39,15 @@ function Scheduletron({ notifyUser }) {
           setRedirect({ redirect: <Redirect to={"/scheduletron"} /> });
         }
       });
-  };
+  }
 
   useEffect(() => {
     window.addEventListener("resize", updatePredicate);
     updatePredicate();
-    return window.removeEventListener("resize", updatePredicate);
+    return () => {
+      window.removeEventListener("resize", updatePredicate);
+    };
   }, []);
-
 
   date && fetchWeekSchedule("9-13-2021");
 
@@ -56,9 +58,7 @@ function Scheduletron({ notifyUser }) {
 
       <Switch>
         <Route exact path={"/scheduletron"}>
-          <Home
-            screenWidth={screenWidth}
-          />
+          <Home screenWidth={screenWidth} />
         </Route>
 
         <Route
@@ -78,6 +78,6 @@ function Scheduletron({ notifyUser }) {
       </Switch>
     </div>
   );
-};
+}
 
 export default Scheduletron;

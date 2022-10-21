@@ -1,92 +1,88 @@
-import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import React from "react";
+import { Redirect, Switch, Route } from "react-router-dom";
 import "../forms.css";
-import {
-  OutlinedButton,
-  SolidButton,
-  MyInput,
-  Header,
-} from "../StyledComponents";
+import { AnimatePresence, motion } from "framer-motion";
+import RegisterPart1 from "./RegisterPart1";
+import RegisterPart2 from "./RegisterPart2";
 
 //form styles are the same so just a classname
 //inputs are styled by styled components
 //They are spaced by margins
 //Buttons are styled buttons
 
-function RegisterPart1({ users, notifyUser }) {
-  const [state, setState] = useState({
-    firstName: "",
-    lastName: "",
-    errors: null,
-  });
-  const { firstName, lastName, errors } = state;
+const pageVariant = {
+  in: {
+    opacity: 1,
+    x: 0,
+  },
+  out: {
+    opacity: 0,
+    x: "-100vw",
+  },
+};
 
-  function handleChange(e) {
-    setState({ ...state, [e.target.name]: e.target.value });
-  }
+const pageTransition = {
+  duration: 0.2,
+  transition: "linear",
+};
 
-  function alertUser(message) {
-    setState({
-      ...state,
-      errors: message,
-    });
-    setTimeout(() => {
-      setState({ ...state, errors: null });
-    }, 4000);
-  }
-
-  function handleSubmit(e) {
-    //search through all users
-    //if you find the user, see if they have a username
-    // if so notify user that they are already in the system
-    //if no username then redirect i guess to 'register/bob-marley'
-    //This will go to form 2 basically
-    e.preventDefault();
-    const user = users.find(
-      (user) => firstName === user.firstName && lastName === user.lastName
-    );
-    if (user) {
-      if (user.username) {
-        alertUser("It seems you've already been registered");
-      } else {
-        return <Redirect to={`/register/${firstName}/${lastName}`} />;
-      }
-    } else {
-      alertUser("Sorry your manager(s) haven't added you to our system yet");
-    }
-  }
+function Register({ match, users, notifyUser }) {
   return (
-    <form onSubmit={handleSubmit}>
-      <Header>Link Your Account</Header>
-
-      <MyInput
-        required
-        error={errors}
-        variant="outlined"
-        name="firstName"
-        label="Enter First Name"
-        onChange={handleChange}
+    <Switch>
+      <Route
+        exact
+        path={match.path}
+        render={() => (
+          <AnimatePresence exitBeforeEnter>
+            <motion.div
+              initial="out"
+              animate="in"
+              exit="out"
+              variants={pageVariant}
+              transition={pageTransition}
+              style={{ flex: 1, display: "flex" }}
+            >
+              <RegisterPart1 users={users} notifyUser={notifyUser} />
+            </motion.div>
+          </AnimatePresence>
+        )}
       />
-      <MyInput
-        required
-        error={errors}
-        variant="outlined"
-        name="lastName"
-        label="Enter Last Name"
-        onChange={handleChange}
+
+      <Route
+        path={`/register/:firstName/:lastName`}
+        render={(props) => {
+          const found = users.find(
+            (u) =>
+              u.firstName === props.match.params.firstName &&
+              u.lastName === props.match.params.lastName
+          );
+          if (found) {
+            if (found.username) {
+              return <Redirect to={match.path} />;
+            } else {
+              return (
+                <motion.div
+                  initial="out"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariant}
+                  transition={pageTransition}
+                  style={{ flex: 1, display: "flex" }}
+                >
+                  <RegisterPart2
+                    firstName={props.match.params.firstName}
+                    lastName={props.match.params.lastName}
+                    notifyUser={notifyUser}
+                  />
+                </motion.div>
+              );
+            }
+          } else {
+            return <Redirect to={"/register"} />;
+          }
+        }}
       />
-      <OutlinedButton variant="outlined" type="submit">
-        Next
-      </OutlinedButton>
-    </form>
-  );
-}
-
-function Register(props) {
-  return (
-
-      <RegisterPart1 {...props} />
-
+    </Switch>
   );
 }
 

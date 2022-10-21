@@ -25,7 +25,7 @@ function Header({ children }) {
   );
 }
 
-const SolidButton = styled(Button)({
+const StyledSolidButton = styled(Button)({
   ...buttonStyles,
   background: "rgba(7, 145, 182, 1)",
   margin: "20px 0px 20px auto",
@@ -35,7 +35,9 @@ const SolidButton = styled(Button)({
   },
 });
 
-const OutlinedButton = styled(Button)({
+const SolidButton = (props) => <StyledSolidButton type={"submit"} {...props} />;
+
+const StyledOutlinedButton = styled(Button)({
   ...buttonStyles,
   textTransform: "none",
   borderColor: "rgba(7, 145, 182, 1)",
@@ -46,8 +48,12 @@ const OutlinedButton = styled(Button)({
   },
 });
 
+const OutlinedButton = (props) => (
+  <StyledOutlinedButton variant="outlined" type={"submit"} {...props} />
+);
+
 const MyInput = styled(TextField)({
-  marginBottom: 10,
+  margin: "15px 0px",
   "& .MuiFormHelperText-root": {
     position: "absolute",
     bottom: -20,
