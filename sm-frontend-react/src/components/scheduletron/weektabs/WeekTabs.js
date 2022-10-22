@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./weektabs.css";
 import { Redirect, Link } from "react-router-dom";
 import {styled} from "@material-ui/core";
-import { Tabs, Tab, Collapse, Paper } from "@material-ui/core";
+import { Tabs, Tab, Paper } from "@material-ui/core";
+import { Collapse } from "@mui/material";
 import MainContent from "./MainContent";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -16,15 +17,7 @@ const styles = ()=>({
   },
 
   tabLink: {
-    flex: 1,
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    textDecoration: "none",
-    color: "white",
-    fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-    fontSize: "32px",
+
   },
 });
 
@@ -47,6 +40,21 @@ const StyledTab = styled(Tab)({
   borderRadius: "7px 7px 0px 0px",
   minWidth: 150,
   padding: "0px 20px",
+  '&:hover':{
+    opacity : 1
+  },
+  '& .tab-link':{
+    flex: 1,
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textDecoration: "none",
+    color: "white",
+    fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+    fontSize: "32px",
+  },
+
 })
 
 
@@ -132,8 +140,7 @@ const TabsContainer = ({ weekId, dayIndex, screenWidth }) => {
                   }}
                   label={
                     <Link
-                      className={classes.tabLink}
-                      sx = {classes.tabLink}
+                      className='tab-link'
                       to={`/scheduletron/viewer/${weekId}/${index}`}
                     >
                       <Collapse orientation={"horizontal"} in={isActive}>

@@ -1,6 +1,6 @@
-import * as React from "react";
-import { alpha, styled } from "@mui/material/styles";
-import Switch from "@mui/material/Switch";
+import React from "react";
+import { styled } from "@material-ui/core";
+import Switch from '@mui/material/Switch';
 import dayIcon from "../../../../../assets/images/Day Icon Desktop.svg";
 import nightIcon from "../../../../../assets/images/Night Icon Desktop.svg";
 
