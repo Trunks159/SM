@@ -1,5 +1,10 @@
-import { styled } from "@material-ui/core/styles";
-import { Tabs, Tab } from "@mui/material";
+import { styled, Tabs, Tab, Divider } from "@material-ui/core";
+
+const StyledDivider = styled(Divider)({
+  background: "#71828B",
+  width: "90%",
+  marginBottom: 15,
+});
 
 const StyledTabs = styled(Tabs)({
   "& .MuiTabs-indicator": {
@@ -7,20 +12,23 @@ const StyledTabs = styled(Tabs)({
     left: 0,
   },
   width: "100%",
-
-  "& .MuiTab-labelIcon": {
-    color: "white",
-  },
   marginTop: "auto",
 });
 
-const StyledTab = styled(Tab)({
-  textTransform: "capitalize",
-  minWidth: 0,
-  "& p": {
-    margin: 0,
+const StyledTab = styled(Tab, {
+  shouldForwardProp: (prop) => prop !== "color",
+})(({ currentMenu, label }) => {
+  const isActive = currentMenu === label.toLowerCase();
+  return {
+    textTransform: "capitalize",
+    minWidth: 0,
     fontSize: 12,
-  },
+    color: isActive ? "white" : "transparent",
+    "&:hover": {
+      opacity: 1,
+      color: "white",
+    },
+  };
 });
 
-export { StyledTabs, StyledTab };
+export { StyledTabs, StyledTab, StyledDivider };

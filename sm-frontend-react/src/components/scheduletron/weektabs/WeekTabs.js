@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./weektabs.css";
 import { Redirect, Link } from "react-router-dom";
-import {styled} from "@material-ui/core";
-import { Tabs, Tab, Paper } from "@material-ui/core";
+import { styled, Tabs, Tab, Paper } from "@material-ui/core";
 import { Collapse } from "@mui/material";
 import MainContent from "./MainContent";
 import { useSelector, useDispatch } from "react-redux";
 
-const styles = ()=>({
+const styles = () => ({
   root: {
     justifyContent: "center",
     background: "white",
@@ -16,9 +15,7 @@ const styles = ()=>({
     flexGrow: "0",
   },
 
-  tabLink: {
-
-  },
+  tabLink: {},
 });
 
 const StyledTabs = styled(Tabs)({
@@ -40,10 +37,10 @@ const StyledTab = styled(Tab)({
   borderRadius: "7px 7px 0px 0px",
   minWidth: 150,
   padding: "0px 20px",
-  '&:hover':{
-    opacity : 1
+  "&:hover": {
+    opacity: 1,
   },
-  '& .tab-link':{
+  "& .tab-link": {
     flex: 1,
     width: "100%",
     display: "flex",
@@ -54,10 +51,7 @@ const StyledTab = styled(Tab)({
     fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
     fontSize: "32px",
   },
-
-})
-
-
+});
 
 //ACTIONS
 function updateSelectedWeek(newWeek) {
@@ -123,7 +117,6 @@ const TabsContainer = ({ weekId, dayIndex, screenWidth }) => {
             scrollButtons
             allowScrollButtonsMobile
             value={currentDayIndex}
-     
             style={{ display: isDesktop ? "flex" : "none" }}
           >
             {/*You might want to separate this but DONOT. For some reason 
@@ -132,15 +125,13 @@ const TabsContainer = ({ weekId, dayIndex, screenWidth }) => {
               const isActive = index === currentDayIndex;
               return (
                 <StyledTab
-                  
                   value={index}
                   sx={{
-        
                     opacity: isActive ? 1 : 0.5,
                   }}
                   label={
                     <Link
-                      className='tab-link'
+                      className="tab-link"
                       to={`/scheduletron/viewer/${weekId}/${index}`}
                     >
                       <Collapse orientation={"horizontal"} in={isActive}>

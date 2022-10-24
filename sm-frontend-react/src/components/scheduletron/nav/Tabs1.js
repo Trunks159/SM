@@ -1,107 +1,45 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import scheduleIcon from "./assets/Schedule Icon.svg";
 import openIcon from "./assets/Open Icon.svg";
-import { Divider, Tooltip } from "@mui/material";
 import { NavLink, useLocation } from "react-router-dom";
+import { StyledTabs, StyledTab } from "./StyledTabs";
+//So everything is based on location i guess
+//If we're at scheduletron it
 
-const withLocation = (WhateverComponent) => {
-  return (props) => <WhateverComponent location={useLocation()} {...props} />;
-};
+function Tabs1({ weekId }) {
+  const location = useLocation();
+  console.log("Locate me: ", location);
+  const [value, setValue] = useState(
+    location.pathname === "/scheduletron" ? "open" : "schedule"
+  );
+  const handleChange = (e, newVal) => setValue(newVal);
 
-class Tabs1 extends Component {
-  state = {
-    value: this.props.location.pathname,
-  };
-
-  handleChange = (event, newValue) => {
-    this.setState({ value: newValue });
-  };
-
-  getThisWeek = () => {
-    const today = "9-13-2021";
-    //Yes this is the wrong today
-    fetch(`/get_schedule?date=${today}`)
-      .then((response) => response.json())
-      .then((response) => {});
-  };
-
-  todaysDate = () => "9-13-2021";
-
-  componentDidUpdate = (prevProps) => {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
-      this.setState({ value: this.props.location.pathname });
-    }
-  };
-
-  render() {
-    const { weekId, dayIndex } = this.props;
-    return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          width: "100%",
-        }}
+  return (
+    <StyledTabs onChange={handleChange} value={value} orientation="vertical">
+      <NavLink to="/scheduletron">
+        <StyledTab
+          label="Open"
+          value="open"
+          currentMenu={value}
+          icon={<img src={openIcon} />}
+        />
+      </NavLink>
+      <NavLink
+        to={
+          weekId
+            ? `/scheduletron/viewer/${weekId}/${0}`
+            : `/scheduletron/?date=${"9-13-2021"}`
+        }
       >
-        <NavLink to={"/scheduletron"} className={"nav-link"}>
-          <img
-            className={`jordan ${
-              this.state.value === "/scheduletron" ? "active" : "inactive"
-            }`}
-            alt="Open"
-            src={openIcon}
-          />
-          <p style={{ opacity: this.state.value === "/scheduletron" ? 1 : 0 }}>
-            Open
-          </p>
-          <Divider
-            style={{
-              opacity: this.state.value === "/scheduletron" ? 1 : 0,
-              position: "absolute",
-              background: "white",
-              width: 2,
-              height: "100%",
-              left: 0,
-              transition: "opacity .25s",
-              top: 0,
-            }}
-          />
-        </NavLink>
-        <NavLink
-          to={
-            weekId
-              ? `/scheduletron/viewer/${weekId}/${0}`
-              : `/scheduletron/?date=${this.todaysDate()}`
-          }
-          className={"nav-link"}
-        >
-          <img
-            className={`jordan ${
-              this.state.value !== "/scheduletron" ? "active" : "inactive"
-            }`}
-            alt="Actual Schedule"
-            src={scheduleIcon}
-          />
-          <p style={{ opacity: this.state.value !== "/scheduletron" ? 1 : 0 }}>
-            Actual Schedule
-          </p>
-          <Divider
-            style={{
-              opacity: this.state.value !== "/scheduletron" ? 1 : 0,
-              position: "absolute",
-              background: "white",
-              width: 2,
-              height: "100%",
-              left: 0,
-              transition: "opacity .25s",
-              top: 0,
-            }}
-          />
-        </NavLink>
-      </div>
-    );
-  }
+        <StyledTab
+          label="Schedule"
+          value="schedule"
+          currentMenu={value}
+          icon={<img src={scheduleIcon} />}
+        />
+      </NavLink>
+    </StyledTabs>
+  );
 }
 
-export default withLocation(Tabs1);
+export default Tabs1;

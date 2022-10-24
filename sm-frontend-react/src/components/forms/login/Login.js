@@ -39,6 +39,7 @@ function Login({ users, notifyUser }) {
   const dispatch = useDispatch();
 
   function handleChange(e) {
+    console.log("Newval: ", e.target.value);
     setState({ ...state, [e.target.name]: e.target.value });
   }
 
@@ -111,6 +112,7 @@ function Login({ users, notifyUser }) {
         name="username"
         label="Enter Username"
         onChange={handleChange}
+        value={username}
         helperText={usernameErrors}
       />
       <MyInput
@@ -122,6 +124,7 @@ function Login({ users, notifyUser }) {
         onChange={handleChange}
         type="password"
         helperText={passwordErrors}
+        value={password}
       />
       <Link className="forgot-password" to="/">
         Forgot Password?

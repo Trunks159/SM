@@ -71,6 +71,7 @@ function RegisterPart1({ users, notifyUser }) {
           name="firstName"
           label="Enter First Name"
           onChange={handleChange}
+          value={"lastName"}
         />
         <MyInput
           required
@@ -79,6 +80,7 @@ function RegisterPart1({ users, notifyUser }) {
           name="lastName"
           label="Enter Last Name"
           onChange={handleChange}
+          value={lastName}
         />
         <OutlinedButton style={{ marginLeft: "auto", marginTop: 90 }}>
           Next
