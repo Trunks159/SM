@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 //ACTIONS
 function updateSelectedWeek(newWeek) {
-  return { type: "UPDATE_SELECTED_WEEK", payload: newWeek };
+  return { type: "UPDATE_SELECTED_WEEK", payLoad: newWeek };
 }
 
 function Scheduletron({ notifyUser }) {
@@ -31,6 +31,7 @@ function Scheduletron({ notifyUser }) {
       .then((response) => response.json())
       .then((response) => {
         if (response) {
+          console.log('Response: ')
           dispatch(updateSelectedWeek(response));
           setRedirect(
             <Redirect to={`/scheduletron/viewer/${response.id}/${0}`} />
