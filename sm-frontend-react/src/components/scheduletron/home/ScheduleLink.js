@@ -3,14 +3,7 @@ import scheduleIcon from "./assets/Schedule Icon.svg";
 import "./home.css";
 import { Link } from "react-router-dom";
 
-const ScheduleLink = ({
-  week,
-  completion,
-  startDate,
-  endDate,
-  setSelectedWeek,
-  id,
-}) => {
+const ScheduleLink = ({ completion, startDate, endDate, id }) => {
   const style = {
     background: `linear-gradient(90deg, rgba(240,240,240,1) ${
       completion || 0

@@ -5,7 +5,12 @@ import settingsIcon from "./assets/Settings Icon.svg";
 import { StyledTabs, StyledTab, StyledDivider } from "./StyledTabs";
 
 const Tabs2 = ({ menu, changeMenu }) => (
-  <StyledTabs onChange={changeMenu} value={menu} orientation={"vertical"}>
+  <StyledTabs
+    style={{ marginTop: "auto" }}
+    onChange={changeMenu}
+    value={menu}
+    orientation={"vertical"}
+  >
     <StyledDivider />
     <StyledTab
       label={"Days"}

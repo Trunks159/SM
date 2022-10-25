@@ -103,12 +103,10 @@ class Home extends Component {
                     <p className="timeframe">{timeFrame}</p>
                     <ScheduleLink
                       key={id}
-                      week={week}
                       startDate={startDate}
                       endDate={endDate}
                       completion={completion}
                       id={id}
-                      setSelectedWeek={setSelectedWeek}
                     />
                   </div>
                 );

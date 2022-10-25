@@ -1,4 +1,5 @@
-import { styled, Tabs, Tab, Divider } from "@material-ui/core";
+import { Tabs, Tab, Divider } from "@material-ui/core";
+import styled from "@emotion/styled";
 
 const StyledDivider = styled(Divider)({
   background: "#71828B",
@@ -12,7 +13,6 @@ const StyledTabs = styled(Tabs)({
     left: 0,
   },
   width: "100%",
-  marginTop: "auto",
 });
 
 const StyledTab = styled(Tab, {
@@ -23,6 +23,7 @@ const StyledTab = styled(Tab, {
     textTransform: "capitalize",
     minWidth: 0,
     fontSize: 12,
+    padding: "15px 0px",
     color: isActive ? "white" : "transparent",
     "&:hover": {
       opacity: 1,
