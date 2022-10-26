@@ -66,11 +66,13 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, day }) => {
       setMounted(true);
     }
   }, [width]);
-
+  console.log("Cmon baby: ", workblocks);
   return (
     <ul className="timeslots" ref={myRef}>
       {mounted &&
         workblocks.map((workblock, index) => {
+            const x = isBetween(workblock, timelineRange);
+            console.log('The Workblock is: ', workblock, 'And: ', x)
           return (
             //if the user works outside of the time range dont render them
             isBetween(workblock, timelineRange) && (

@@ -76,7 +76,6 @@ const MainContent = ({ day, isDesktop }) => {
         <Functions
           changeCurrentFunction={setCurrentFunction}
           currentFunction={currentFunction}
-          isStatic
         />
         <TheDrawer
           date={day.date}

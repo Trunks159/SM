@@ -66,7 +66,7 @@ function UserThumb({
   const [hovering, setHovering] = useState(false);
   const style = {
     minWidth: 0,
-    transition: 0.3,
+    transitionDuration: '1s',
   };
   return (
     <>
@@ -104,20 +104,17 @@ function UserThumb({
   );
 }
 
-const AddPrompt = ({ currentFunction, index, date }) => {
+function AddPrompt({currentFunction, index, date}){
   const teamMembers = useSelector((state) => state.notScheduled);
   const dayIndex = useSelector((state) => state.currentDayIndex);
   const selectedWeek = useSelector((state) => state.selectedWeek);
   const dayId = selectedWeek.week[dayIndex].id;
-
-  const [hovering, setHovering] = useState(false);
-
+  console.log('Notscheduled: ', )
   const dispatch = useDispatch();
   const classes = useStyles();
-
-  const handleAdd = (notScheduled = teamMembers, date = date, userIndex) => {
+  function handleAdd(userIndex, notScheduled = teamMembers, theDate = date){
     const user = notScheduled.splice(userIndex, 1)[0];
-    dispatch(addToScheduled({ user, date, dayId }));
+    dispatch(addToScheduled({ user, theDate, dayId }));
     dispatch(updateNotScheduled(notScheduled));
   };
 
@@ -142,6 +139,7 @@ const AddPrompt = ({ currentFunction, index, date }) => {
               position={position}
               index={i}
               classes={classes}
+              handleAdd = {handleAdd}
             />
           </li>
         ))}

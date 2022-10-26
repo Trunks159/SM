@@ -4,7 +4,6 @@ const scheduledReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_TO_SCHEDULED":
       const { date, user , dayId} = action.payLoad;
-      console.log('DayId bro cmon man: ', dayId);
       return [
         ...state,
         {
