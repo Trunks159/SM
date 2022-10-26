@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./weektabs.css";
 import { Redirect, Link } from "react-router-dom";
-import { Tabs, Tab, Paper } from "@material-ui/core";
-import styled from "@emotion/styled";
+import { styled, Tabs, Tab, Paper } from "@material-ui/core";
+import { Collapse } from "@mui/material";
 import MainContent from "./MainContent";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -29,28 +29,29 @@ const StyledTabs = styled(Tabs)({
   },
 });
 
-const StyledTab = styled(Tab)(({ currentDayIndex, value }) => {
-  const isActive = currentDayIndex === value;
-  console.log("Isactive : ", value);
+const StyledTab = styled(Tab)(({ something }) => {
+  const x = something;
   return {
-    opacity: isActive ? 1 : 0.5,
     textTransform: "none",
-    textDecoration: "none",
-    transition: "opacity .25s",
+    transitionDuration: ".25s",
     background: "#275C78",
     margin: "0px 12.5px",
     borderRadius: "7px 7px 0px 0px",
     minWidth: 150,
     padding: "0px 20px",
-    fontSize: "32px",
-    fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-    color: "white",
     "&:hover": {
       opacity: 1,
     },
-    "& .weekday": {
-      display: isActive ? "inline" : "none",
-      paddingRight: "7px",
+    "& .tab-link": {
+      flex: 1,
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      textDecoration: "none",
+      color: "white",
+      fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+      fontSize: "32px",
     },
   };
 });
@@ -121,22 +122,31 @@ const TabsContainer = ({ weekId, dayIndex, screenWidth }) => {
             value={currentDayIndex}
             style={{ display: isDesktop ? "flex" : "none" }}
           >
-            {/*You might want to separate this and define the Tabs above but DONOT. For some reason 
+            {/*You might want to separate this but DONOT. For some reason 
     the scrollbuttons dont work or the indicator*/}
-            {days.map((d, index) => (
-              <StyledTab
-                value={index}
-                currentDayIndex={currentDayIndex}
-                component={Link}
-                to={`/scheduletron/viewer/${weekId}/${index}`}
-                label={
-                  <p>
-                    <span className="weekday">{d.weekday}</span>
-                    {d.month}/{d.day}
-                  </p>
-                }
-              />
-            ))}
+            {days.map((d, index) => {
+              const isActive = index === currentDayIndex;
+              return (
+                <StyledTab
+                  value={index}
+                  sx={{
+                    opacity: isActive ? 1 : 0.5,
+                  }}
+                  label={
+                    <Link
+                      className="tab-link"
+                      to={`/scheduletron/viewer/${weekId}/${index}`}
+                    >
+                      <Collapse orientation={"horizontal"} in={isActive}>
+                        <p style={{ marginRight: 7 }}>{d.weekday} </p>
+                      </Collapse>
+
+                      <p>{`${d.month}/${d.day}`}</p>
+                    </Link>
+                  }
+                />
+              );
+            })}
           </StyledTabs>
 
           <MainContent day={currentDay} isDesktop={isDesktop} />
