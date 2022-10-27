@@ -20,6 +20,7 @@ const SavePrompt = ({ index, currentFunction }) => {
     //convert the pixels to times, send objects to python
     const ts = timeslots.timeslots.map((timeslot) => {
       const { userId, dayId } = timeslot;
+      console.log('Dayid my boi: ', dayId)
       return {
         user_id: userId,
         day_id: dayId,
