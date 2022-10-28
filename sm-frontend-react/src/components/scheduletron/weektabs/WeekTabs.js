@@ -6,18 +6,6 @@ import styled from "@emotion/styled";
 import MainContent from "./MainContent";
 import { useSelector, useDispatch } from "react-redux";
 
-const styles = () => ({
-  root: {
-    justifyContent: "center",
-    background: "white",
-  },
-  scroller: {
-    flexGrow: "0",
-  },
-
-  tabLink: {},
-});
-
 const StyledTabs = styled(Tabs)({
   height: 80,
   "& .MuiTabs-flexContainer": {
@@ -31,7 +19,6 @@ const StyledTabs = styled(Tabs)({
 
 const StyledTab = styled(Tab)(({ currentDayIndex, value }) => {
   const isActive = currentDayIndex === value;
-  console.log("Isactive : ", value);
   return {
     opacity: isActive ? 1 : 0.5,
     textTransform: "none",
@@ -67,7 +54,6 @@ function updateCurrentDayIndex(newIndex) {
 const TabsContainer = ({ weekId, dayIndex, screenWidth }) => {
   //dayIndex is the source for all day changes
 
-  const classes = styles();
   const dispatch = useDispatch();
 
   //GLOBAL STATE

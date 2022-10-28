@@ -1,5 +1,4 @@
 const floatToString = (hours) => {
-  console.log("People: ", hours);
   let t = new Date();
   const mins = (hours - Math.floor(hours)) * 60;
   t.setHours(0, 0, 0, 0);
@@ -7,7 +6,6 @@ const floatToString = (hours) => {
   t.setMinutes(mins);
   return miliToReg(t.toTimeString().slice(0, 5));
 };
-
 
 /*Converts a percentage to a number of hours */
 const percToFloat = (perc, timerange) =>
@@ -77,7 +75,6 @@ function miliToReg(time) {
   } else if (h === 12) {
     return h.toString() + ":" + convertMin(m) + "PM";
   }
-  console.log("Time: ", time);
   return h.toString() + ":" + convertMin(m) + "AM";
 }
 

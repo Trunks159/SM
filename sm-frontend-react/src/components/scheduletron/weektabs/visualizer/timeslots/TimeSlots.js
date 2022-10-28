@@ -15,6 +15,13 @@ const updateTimeRange = (newVal) => ({
   payLoad: newVal,
 });
 
+const dumpTimeslots = () => ({
+  type: "DUMP_TIMESLOTS",
+});
+
+//Timeslots needs to be reset to an empty array
+//whenever day changes
+
 const getTimelineRange = ({ day, night }, theDate) => {
   theDate = moment(theDate);
   const set = [
@@ -66,13 +73,14 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, day }) => {
       setMounted(true);
     }
   }, [width]);
-  console.log("Cmon baby: ", workblocks);
+
+  useEffect(() => dispatch(dumpTimeslots()), []);
+
   return (
     <ul className="timeslots" ref={myRef}>
       {mounted &&
         workblocks.map((workblock, index) => {
-            const x = isBetween(workblock, timelineRange);
-            console.log('The Workblock is: ', workblock, 'And: ', x)
+          const x = isBetween(workblock, timelineRange);
           return (
             //if the user works outside of the time range dont render them
             isBetween(workblock, timelineRange) && (

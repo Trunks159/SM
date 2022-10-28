@@ -22,7 +22,6 @@ function Scheduletron({ notifyUser }) {
   const [screenWidth, setScreenWidth] = useState(0);
 
   function updatePredicate() {
-    console.log("dude im running");
     setScreenWidth(window.innerWidth);
   }
 
@@ -31,7 +30,6 @@ function Scheduletron({ notifyUser }) {
       .then((response) => response.json())
       .then((response) => {
         if (response) {
-          console.log('Response: ')
           dispatch(updateSelectedWeek(response));
           setRedirect(
             <Redirect to={`/scheduletron/viewer/${response.id}/${0}`} />

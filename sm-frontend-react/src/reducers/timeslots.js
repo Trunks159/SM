@@ -19,12 +19,13 @@ const timeToPix = (time, width, availableTimes) => {
 };
 
 const pixToTime = (pix, width, timerange) => {
-  console.log("Pix: ", timerange);
   timerange = timerange.map((t) => moment(t));
-  return timerange[0].add(
-    (pix / width) * timerange[1].diff(timerange[0], "hours", true),
-    "hours"
-  ).format();
+  return timerange[0]
+    .add(
+      (pix / width) * timerange[1].diff(timerange[0], "hours", true),
+      "hours"
+    )
+    .format();
 };
 
 const timeslotsReducer = (
@@ -72,7 +73,6 @@ const timeslotsReducer = (
       return { ...state, timeslots };
 
     case "UPDATE_CONTAINER_WIDTH":
-      console.log("Cont width: ", action.payLoad);
       return {
         ...state,
         containerWidth: action.payLoad,
@@ -82,6 +82,11 @@ const timeslotsReducer = (
       return {
         ...state,
         timerange: action.payLoad,
+      };
+    case "DUMP_TIMESLOTS":
+      return {
+        ...state,
+        timeslots: [],
       };
     default:
       return state;

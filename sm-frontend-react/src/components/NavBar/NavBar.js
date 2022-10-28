@@ -124,7 +124,11 @@ class NavBar extends Component {
               <img style={{ margin: 5 }} src={scheduleIcon} />
               Schedules
             </NavLink>
-            <NavLink onClick={this.handleCollapse} className="nav-link" to="/">
+            <NavLink
+              onClick={this.handleCollapse}
+              className="nav-link"
+              to="/team"
+            >
               <img src={teamIcon} />
               Team
             </NavLink>

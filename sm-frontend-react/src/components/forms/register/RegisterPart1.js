@@ -36,7 +36,6 @@ function RegisterPart1({ users, notifyUser }) {
     const user = users.find(
       (user) => firstName === user.firstName && lastName === user.lastName
     );
-    console.log("Dug users : , ", firstName);
     if (user) {
       if (user.username) {
         alertUser(

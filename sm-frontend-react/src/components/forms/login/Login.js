@@ -39,7 +39,6 @@ function Login({ users, notifyUser }) {
   const dispatch = useDispatch();
 
   function handleChange(e) {
-    console.log("Newval: ", e.target.value);
     setState({ ...state, [e.target.name]: e.target.value });
   }
 

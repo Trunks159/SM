@@ -60,34 +60,32 @@ const MainContent = ({ day, isDesktop }) => {
   return (
     allUsers && (
       <Paper
-      key={day.id}
-      elevation={1}
-      style={{
-        position: "relative",
-        flexDirection: "column",
-        flex: 1,
-        background: "#F5F5F5",
-      }}
-    >
-      <div className="tab-maincontent">
-        {redirect && <Redirect to={"/scheduletron"} />}
+        key={day.id}
+        elevation={1}
+        style={{
+          position: "relative",
+          flexDirection: "column",
+          flex: 1,
+          background: "#F5F5F5",
+        }}
+      >
+        <div className="tab-maincontent">
+          {redirect && <Redirect to={"/scheduletron"} />}
 
-        <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop}/>
-        <Functions
-          changeCurrentFunction={setCurrentFunction}
-          currentFunction={currentFunction}
-        />
-        <TheDrawer
-          date={day.date}
-          changeCurrentFunction={setCurrentFunction}
-          currentFunction={currentFunction}
-        />
-      </div>
+          <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop} />
+          <Functions
+            changeCurrentFunction={setCurrentFunction}
+            currentFunction={currentFunction}
+          />
+          <TheDrawer
+            date={day.date}
+            changeCurrentFunction={setCurrentFunction}
+            currentFunction={currentFunction}
+          />
+        </div>
       </Paper>
     )
   );
 };
-
-
 
 export default MainContent;

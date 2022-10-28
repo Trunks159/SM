@@ -7,7 +7,7 @@ import { pixToString, thirtyMin } from "../../../TimeFunctions";
 import moment from "moment";
 
 //currently the minimun width for a timeslot is 200px. It should really just be like 2 hours or something.
-//Problem is it wont be exact, what you do is first you go and look 
+//Problem is it wont be exact, what you do is first you go and look
 
 //ACTIONS
 const addTimeslot = (timeslot) => ({
@@ -30,8 +30,8 @@ const TimeSlot = ({
 }) => {
   const dispatch = useDispatch();
   const timeslots = useSelector((state) => state.timeslots);
+  console.log("Dem ts: ", timeslots);
   const timeslot = timeslots.timeslots[index];
-
 
   useEffect(() => {
     dispatch(
@@ -60,7 +60,6 @@ const TimeSlot = ({
               left: start,
               right: containerWidth - end < 0 ? 0 : containerWidth - end,
               minWidth: 200,
-
             }}
           >
             {user.firstName} {user.lastName} startTime :

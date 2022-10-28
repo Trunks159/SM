@@ -5,9 +5,9 @@ import { makeStyles } from "@material-ui/core";
 import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
-  saveBtn : {
-    '&:hover':{
-      opacity : .7
+  saveBtn: {
+    "&:hover": {
+      opacity: 0.7,
     },
   },
 });
@@ -20,7 +20,6 @@ const SavePrompt = ({ index, currentFunction }) => {
     //convert the pixels to times, send objects to python
     const ts = timeslots.timeslots.map((timeslot) => {
       const { userId, dayId } = timeslot;
-      console.log('Dayid my boi: ', dayId)
       return {
         user_id: userId,
         day_id: dayId,
@@ -37,9 +36,7 @@ const SavePrompt = ({ index, currentFunction }) => {
       body: JSON.stringify(ts),
     })
       .then((response) => response.json())
-      .then((answer) => {
-        console.log("THE ANSWER: ", answer);
-      });
+      .then((answer) => {});
   };
 
   return (
@@ -70,7 +67,7 @@ const SavePrompt = ({ index, currentFunction }) => {
           height: 36,
           borderRadius: 4,
         }}
-        className = {classes.saveBtn}
+        className={classes.saveBtn}
         onClick={handleSave}
         endIcon={<img src={saveIcon} />}
       >

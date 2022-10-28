@@ -1,14 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ShiftFilter from "./shiftfilter/ShiftFilter";
 import TimeLine from "./TimeLine";
 import TimeSlots from "./timeslots/TimeSlots";
 import "./visualizer.css";
-import { useSelector, useDispatch } from "react-redux";
 
 //Timeslot overflow feature isn't working properly rn
 //maybe use a gradient?
 
-const Visualizer = ({ isDesktop, day, hidden, workblocks }) => {
+function Visualizer({ isDesktop, day, hidden, workblocks }) {
   const [shiftFilter, setShiftFilter] = React.useState({
     day: true,
     night: true,
@@ -53,6 +52,6 @@ const Visualizer = ({ isDesktop, day, hidden, workblocks }) => {
       </div>
     </div>
   );
-};
+}
 
 export default Visualizer;

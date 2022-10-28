@@ -66,30 +66,29 @@ function UserThumb({
   const [hovering, setHovering] = useState(false);
   const style = {
     minWidth: 0,
-    transitionDuration: '1s',
+    transitionDuration: "1s",
   };
   return (
     <>
       <Button
-   
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
         onClick={() => handleAdd(index)}
       >
         <img src={addIcon} />
       </Button>
-      <Paper className={classes.paper}
-      
-      style={
-        hovering
-          ? {
-              ...style,
-              transform: "translateY(-5px)",
-              boxShadow: "0px 2px 4px 1px #33789e",
-            }
-          : style
-      }>
-  
+      <Paper
+        className={classes.paper}
+        style={
+          hovering
+            ? {
+                ...style,
+                transform: "translateY(-5px)",
+                boxShadow: "0px 2px 4px 1px #33789e",
+              }
+            : style
+        }
+      >
         <p>
           {firstName}
           <br />
@@ -104,19 +103,18 @@ function UserThumb({
   );
 }
 
-function AddPrompt({currentFunction, index, date}){
+function AddPrompt({ currentFunction, index, date }) {
   const teamMembers = useSelector((state) => state.notScheduled);
   const dayIndex = useSelector((state) => state.currentDayIndex);
   const selectedWeek = useSelector((state) => state.selectedWeek);
   const dayId = selectedWeek.week[dayIndex].id;
-  console.log('Notscheduled: ', )
   const dispatch = useDispatch();
   const classes = useStyles();
-  function handleAdd(userIndex, notScheduled = teamMembers, theDate = date){
+  function handleAdd(userIndex, notScheduled = teamMembers, theDate = date) {
     const user = notScheduled.splice(userIndex, 1)[0];
     dispatch(addToScheduled({ user, theDate, dayId }));
     dispatch(updateNotScheduled(notScheduled));
-  };
+  }
 
   return (
     <div
@@ -139,13 +137,13 @@ function AddPrompt({currentFunction, index, date}){
               position={position}
               index={i}
               classes={classes}
-              handleAdd = {handleAdd}
+              handleAdd={handleAdd}
             />
           </li>
         ))}
       </ul>
     </div>
   );
-};
+}
 
 export default AddPrompt;

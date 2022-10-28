@@ -42,7 +42,6 @@ class Home extends Component {
   render() {
     const { match, selectedWeek, setSelectedWeek, screenWidth } = this.props;
     const { weeks } = this.state;
-    console.log("The weeks: ", weeks);
     let isDesktop = screenWidth > 860;
     let isLargeDesktop = screenWidth > 1160;
     return (

@@ -14,6 +14,7 @@ import {
 import Scheduletron from "./components/scheduletron/Scheduletron";
 import Notification from "./components/Notification";
 import { useDispatch, useSelector } from "react-redux";
+import Team from "./components/team/Team";
 
 //ACTIONS
 const updateCurrentUser = (newUser) => ({
@@ -119,6 +120,16 @@ function App() {
                 <Redirect to="/" />
               ) : (
                 <Register users={users} notifyUser={notifyUser} match={match} />
+              );
+            }}
+          />
+          <Route
+            path="/team"
+            render={({ match }) => {
+              return currentUser.isAuthenticated ? (
+                <Team teamMembers={users} />
+              ) : (
+                <Redirect to="/login" />
               );
             }}
           />
