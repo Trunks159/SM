@@ -3,7 +3,8 @@ import React, { useRef, useEffect, useState } from "react";
 import { arrayOfDates } from "../../../../TimeFunctions";
 import TimeSlot from "./TimeSlot";
 import "./timeslots.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
 
 //actions
 const updateContainerWidth = (newWidth) => ({
@@ -78,7 +79,7 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, day }) => {
 
   return (
     <ul className="timeslots" ref={myRef}>
-      {mounted &&
+      {mounted ? (
         workblocks.map((workblock, index) => {
           const x = isBetween(workblock, timelineRange);
           return (
@@ -99,7 +100,10 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, day }) => {
               </li>
             )
           );
-        })}
+        })
+      ) : (
+        <CircularProgress />
+      )}
     </ul>
   );
 };

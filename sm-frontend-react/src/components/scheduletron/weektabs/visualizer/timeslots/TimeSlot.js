@@ -3,7 +3,7 @@ import Draggable from "react-draggable";
 import stretchIcon from "./assets/Stretch Icon.svg";
 import { Paper } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-import { pixToString, thirtyMin } from "../../../TimeFunctions";
+import { pixToString, pixToTime, thirtyMin } from "../../../TimeFunctions";
 import moment from "moment";
 
 //currently the minimun width for a timeslot is 200px. It should really just be like 2 hours or something.
@@ -20,6 +20,18 @@ const updateTime = (timeslot) => ({
   payLoad: timeslot,
 });
 
+//so if the time is like 9:44PM, typically in 30min
+//you'd get 10:14PM. What we need is actually 10:00PM
+//if we drag left we need to go to 9:30PM
+
+function roundIt(t) {
+  //takes time in some dt format and rounds it up
+  //to the closest 30 min
+  const time = moment(t);
+  const remainder = 30 - (time.minute() % 30);
+  return time.add(remainder, "minutes").format();
+}
+
 const TimeSlot = ({
   index,
   user,
@@ -30,7 +42,6 @@ const TimeSlot = ({
 }) => {
   const dispatch = useDispatch();
   const timeslots = useSelector((state) => state.timeslots);
-  console.log("Dem ts: ", timeslots);
   const timeslot = timeslots.timeslots[index];
 
   useEffect(() => {
@@ -91,6 +102,8 @@ const TimeSlot = ({
             bounds={{ left: start + 200, right: containerWidth }}
             position={{ x: end, y: 0 }}
             onDrag={(e, newValue) => {
+              //maybe ondrag you can round first?
+              console.log('Mommy please: ', pixToTime(newValue.x, containerWidth, availableTimes))
               return dispatch(
                 updateTime({ timeframe: "end", newVal: newValue.x, index })
               );
