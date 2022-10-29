@@ -54,8 +54,12 @@ const isBetween = (workblock, timelineRange) => {
   const startTime = moment(workblock.startTime);
   const endTime = moment(workblock.endTime);
   return (
-    startTime.isBetween(moment(timelineRange[0]), moment(timelineRange[1])) ||
-    endTime.isBetween(moment(timelineRange[0]), moment(timelineRange[1]))
+    startTime.isBetween(
+      moment(timelineRange[0]),
+      moment(timelineRange[1]),
+      "[]"
+    ) ||
+    endTime.isBetween(moment(timelineRange[0]), moment(timelineRange[1]), "[]")
   );
 };
 

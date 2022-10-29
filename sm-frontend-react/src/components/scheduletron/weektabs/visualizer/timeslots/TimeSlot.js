@@ -3,7 +3,12 @@ import Draggable from "react-draggable";
 import stretchIcon from "./assets/Stretch Icon.svg";
 import { Paper } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-import { pixToString, pixToTime, thirtyMin } from "../../../TimeFunctions";
+import {
+  pixToString,
+  pixToTime,
+  thirtyMin,
+  timeToPix,
+} from "../../../TimeFunctions";
 import moment from "moment";
 
 //currently the minimun width for a timeslot is 200px. It should really just be like 2 hours or something.
@@ -28,8 +33,24 @@ function roundIt(t) {
   //takes time in some dt format and rounds it up
   //to the closest 30 min
   const time = moment(t);
-  const remainder = 30 - (time.minute() % 30);
-  return time.add(remainder, "minutes").format();
+  const remainder = time.minute() % 30;
+  console.log("remainder: ", remainder);
+  if (remainder >= 15) {
+    return time.subtract(remainder, "minutes").format();
+  } else if (remainder < 15) {
+    return time.add(remainder, "minutes").format();
+  }
+  return t;
+}
+
+//calculate 30 min and
+
+function getThirtyMin(timerange, width) {
+  //gets thirty min in pixels
+  const [start, end] = timerange.map((t) => moment(t));
+  const duration = moment.duration(end.diff(start)).asMinutes();
+  const ratio = 30 / duration;
+  return ratio * width;
 }
 
 const TimeSlot = ({
@@ -43,6 +64,23 @@ const TimeSlot = ({
   const dispatch = useDispatch();
   const timeslots = useSelector((state) => state.timeslots);
   const timeslot = timeslots.timeslots[index];
+  const thirty = getThirtyMin(availableTimes, containerWidth);
+
+  function handleDrag(newValue, timeframe) {
+    const time = pixToTime(newValue, containerWidth, availableTimes).format();
+    const trueValue = roundIt(time);
+    const pix = trueValue
+      ? timeToPix(trueValue, containerWidth, availableTimes)
+      : newValue;
+
+    dispatch(
+      updateTime({
+        timeframe,
+        newVal: pix,
+        index,
+      })
+    );
+  }
 
   useEffect(() => {
     dispatch(
@@ -79,18 +117,12 @@ const TimeSlot = ({
           </Paper>
           <Draggable
             axis="x"
-            grid={[thirtyMin(start, containerWidth, availableTimes), 0]}
+            grid={[thirty, 0]}
+            grid2={[thirtyMin(start, containerWidth, availableTimes), 0]}
             position={{ x: start, y: 0 }}
             bounds={{ left: 0, right: end - 200 }}
-            onDrag={(e, newValue) =>
-              dispatch(
-                updateTime({
-                  timeframe: "start",
-                  newVal: newValue.x,
-                  index,
-                })
-              )
-            }
+            onDrag={(e, newValue) => handleDrag(newValue.x, "start")}
+            name={"start"}
           >
             <div className="stretch-btn">
               <img src={stretchIcon} />
@@ -98,16 +130,12 @@ const TimeSlot = ({
           </Draggable>
           <Draggable
             axis="x"
-            grid={[thirtyMin(end, containerWidth, availableTimes), 0]}
+            grid={[thirty, 0]}
+            grid2={[thirtyMin(end, containerWidth, availableTimes), 0]}
             bounds={{ left: start + 200, right: containerWidth }}
             position={{ x: end, y: 0 }}
-            onDrag={(e, newValue) => {
-              //maybe ondrag you can round first?
-              console.log('Mommy please: ', pixToTime(newValue.x, containerWidth, availableTimes))
-              return dispatch(
-                updateTime({ timeframe: "end", newVal: newValue.x, index })
-              );
-            }}
+            name="end"
+            onDrag={(e, newValue) => handleDrag(newValue.x, "end")}
           >
             <div className="stretch-btn">
               <img src={stretchIcon} />
