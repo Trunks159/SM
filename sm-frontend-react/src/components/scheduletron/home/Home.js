@@ -91,25 +91,38 @@ class Home extends Component {
 
           <div className="home-container2">
             <div className="home-list">
-              {weeks.map(({ week, timeFrame, staffing, id }) => {
-                const startDate = `${week[0].month}/${week[0].day}`;
-                const endDate = `${week[6].month}/${week[6].day}`;
-                const completion = Math.round(
-                  (staffing.actual / staffing.projected) * 100
-                );
-                return (
-                  <div key={id} className="home-schedule">
-                    <p className="timeframe">{timeFrame}</p>
-                    <ScheduleLink
-                      key={id}
-                      startDate={startDate}
-                      endDate={endDate}
-                      completion={completion}
-                      id={id}
-                    />
-                  </div>
-                );
-              })}
+              <div
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  overflowX: "auto",
+                  display: "flex",
+                }}
+              >
+                {" "}
+                {weeks.map(({ week, timeFrame, staffing, id }) => {
+                  const startDate = `${week[0].month}/${week[0].day}`;
+                  const endDate = `${week[6].month}/${week[6].day}`;
+                  const completion = Math.round(
+                    (staffing.actual / staffing.projected) * 100
+                  );
+                  return (
+                    <div key={id} className="home-schedule">
+                      <p className="timeframe">{timeFrame}</p>
+                      <ScheduleLink
+                        key={id}
+                        startDate={startDate}
+                        endDate={endDate}
+                        completion={completion}
+                        id={id}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             <Button

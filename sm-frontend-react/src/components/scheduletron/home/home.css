@@ -20,6 +20,8 @@
   flex-direction: column;
   width: min-content;
   border-radius: 7px;
+  background-color: #33789e;
+  align-self: stretch;
 }
 
 .home-list {
@@ -30,6 +32,8 @@
   border-radius: 7;
   gap: 10px;
   padding: 17px;
+  max-height: min-content;
+  position: relative;
 }
 
 .home-schedule {
