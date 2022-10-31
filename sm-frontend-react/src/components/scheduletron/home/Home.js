@@ -48,10 +48,10 @@ class Home extends Component {
       weeks && (
         <div className={"scheduletron-home"}>
           <div className={"home-container1"}>
-            <p className={"home-header"}>
+            <h1>
               Let's get started! <br />
               Select a schedule below to <b>view</b> or <b>edit</b>
-            </p>
+            </h1>
             {isDesktop && (
               <div
                 style={isLargeDesktop ? { display: "none" } : null}
@@ -68,7 +68,6 @@ class Home extends Component {
               </div>
             )}
           </div>
-
           {isLargeDesktop && (
             <div className="home-search2">
               <p>Looking for a schedule in particular?</p>
@@ -88,21 +87,18 @@ class Home extends Component {
               />
             </div>
           )}
-
           <div className="home-container2">
-            <div className="home-list">
-              <div
-                style={{
-                  position: "absolute",
-                  right: 0,
-                  left: 0,
-                  top: 0,
-                  bottom: 0,
-                  overflowX: "auto",
-                  display: "flex",
-                }}
-              >
-                {" "}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                overflowX: "auto",
+              }}
+            >
+              <ul className="home-list">
                 {weeks.map(({ week, timeFrame, staffing, id }) => {
                   const startDate = `${week[0].month}/${week[0].day}`;
                   const endDate = `${week[6].month}/${week[6].day}`;
@@ -110,7 +106,7 @@ class Home extends Component {
                     (staffing.actual / staffing.projected) * 100
                   );
                   return (
-                    <div key={id} className="home-schedule">
+                    <li key={id} className="home-schedule">
                       <p className="timeframe">{timeFrame}</p>
                       <ScheduleLink
                         key={id}
@@ -119,12 +115,11 @@ class Home extends Component {
                         completion={completion}
                         id={id}
                       />
-                    </div>
+                    </li>
                   );
                 })}
-              </div>
+              </ul>
             </div>
-
             <Button
               style={{
                 marginLeft: "auto",
