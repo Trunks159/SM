@@ -79,9 +79,8 @@
     margin: 0px;
   }
   .home-container2 {
-    align-self: start;
-    justify-self: start;
-    width: auto;
+    align-self: stretch;
+    justify-self: stretch;
   }
   .home-container2 ul {
     flex-direction: row;
@@ -100,7 +99,7 @@
   }
 
   .home-container1 {
-    margin: 20px;
+    margin: 30px;
   }
 
   .home-container1 h1 {
@@ -117,9 +116,11 @@
   align-self: stretch;
   justify-self: stretch;
   min-height: 800px;
+  margin : 0px 30px;
 }
 
   .home-container2 ul {
+    padding : 40px;
     flex-wrap: nowrap;
     align-self: center;
     justify-self: start;

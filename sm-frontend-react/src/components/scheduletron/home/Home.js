@@ -1,15 +1,37 @@
 import React, { Component } from "react";
-import scheduleIconWhite from "../../../assets/images/Schedule Icon White.svg";
-import openIconInactive from "../../../assets/images/Open Icon Not Active.svg";
-import addIcon from "../../../assets/images/Regular Add Icon.svg";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button, TextField } from "@material-ui/core";
-import ScheduleLink from "./ScheduleLink";
 import "./home.css";
+import styled from "@emotion/styled";
+import ScheduleList from "./schedulelist/ScheduleList";
+import ScheduleLink from "./schedulelist/ScheduleLink";
 
+const AddBtn = styled(Button)(() => ({
+  background: "#3E86AE",
+  width: 60,
+  height: 60,
+  borderRadius: 30,
+  minWidth: 0,
+  minHeight: 0,
+  color: "white",
+  fontSize: 50,
+  fontWeight: 400,
+  position: "fixed",
+  bottom: 0,
+  right: 0,
+  margin: 17,
+  alignItems: "center",
+  justifyContent: "center",
+  "&:hover": {
+    background: "red",
+  },
+  "& .MuiButton-label": {
+    margin: "0px 0px 3px 3px",
+  },
+}));
 class Home extends Component {
   state = {
     weeks: null,
@@ -98,41 +120,9 @@ class Home extends Component {
                 overflowX: "auto",
               }}
             >
-              <ul className="home-list">
-                {weeks.map(({ week, timeFrame, staffing, id }) => {
-                  const startDate = `${week[0].month}/${week[0].day}`;
-                  const endDate = `${week[6].month}/${week[6].day}`;
-                  const completion = Math.round(
-                    (staffing.actual / staffing.projected) * 100
-                  );
-                  return (
-                    <li key={id} className="home-schedule">
-                      <p className="timeframe">{timeFrame}</p>
-                      <ScheduleLink
-                        key={id}
-                        startDate={startDate}
-                        endDate={endDate}
-                        completion={completion}
-                        id={id}
-                      />
-                    </li>
-                  );
-                })}
-              </ul>
+              <ScheduleList weeks={weeks} />
             </div>
-            <Button
-              style={{
-                marginLeft: "auto",
-                marginRight: "auto",
-                textTransform: "none",
-                color: "white",
-                background: "#606060",
-                padding: "10px 20px",
-              }}
-              startIcon={<img alt="" style={{ width: 20 }} src={addIcon} />}
-            >
-              Add A Schedule
-            </Button>
+            <AddBtn>+</AddBtn>
           </div>
         </div>
       )

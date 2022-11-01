@@ -1,6 +1,6 @@
 import React from "react";
-import scheduleIcon from "./assets/Schedule Icon.svg";
-import "./home.css";
+import scheduleIcon from "../assets/Schedule Icon.svg";
+import "../home.css";
 import { Link } from "react-router-dom";
 
 const ScheduleLink = ({ completion, startDate, endDate, id }) => {
