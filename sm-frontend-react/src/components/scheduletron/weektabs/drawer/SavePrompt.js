@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import saveIcon from "./assets/Save Icon.svg";
 import { Button } from "@mui/material";
-import { makeStyles } from "@material-ui/core";
+import { Collapse, makeStyles } from "@material-ui/core";
 import { useSelector } from "react-redux";
+import {Alert} from "@mui/material";
+import Notification from "./Notification";
 
 const useStyles = makeStyles({
   saveBtn: {
@@ -11,10 +13,16 @@ const useStyles = makeStyles({
     },
   },
 });
+/*
+So we need to collapse and once in is set to false
+set the message to null
+
+*/
 
 const SavePrompt = ({ index, currentFunction }) => {
   const timeslots = useSelector((state) => state.timeslots);
   const classes = useStyles();
+  const [alert, setAlert] = useState(null);
 
   const handleSave = () => {
     //convert the pixels to times, send objects to python
@@ -36,14 +44,24 @@ const SavePrompt = ({ index, currentFunction }) => {
       body: JSON.stringify(ts),
     })
       .then((response) => response.json())
-      .then((answer) => {});
+      .then(({ severity, message }) => {
+        notifyUser(<Alert severity={severity}>{message}</Alert>);
+      });
   };
+
+  function notifyUser(alert) {
+    setAlert(alert);
+    setTimeout(() => {
+      setAlert(null);
+    }, 4000);
+  }
 
   return (
     <div
       className="save-prompt"
       style={{ display: currentFunction === index ? "flex" : "none" }}
     >
+      <Notification message = {alert}/>
       <h2>Completion Status</h2>
       <ul>
         <li>

@@ -87,7 +87,7 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, day }) => {
       {mounted ? (
         workblocks.map((workblock, index) => {
           const x = isBetween(workblock, timelineRange);
-          console.log('Testing')
+
           return (
             //if the user works outside of the time range dont render them
             isBetween(workblock, timelineRange) && (

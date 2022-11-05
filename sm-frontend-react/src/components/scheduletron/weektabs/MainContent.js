@@ -29,6 +29,8 @@ const updateNotScheduled = (newNotScheduled) => {
   };
 };
 
+
+
 const MainContent = ({ day, isDesktop }) => {
   const [redirect, setRedirect] = useState(null);
   const [currentFunction, setCurrentFunction] = useState(null);

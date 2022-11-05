@@ -243,7 +243,6 @@ def profile_info(user_id, day_id):
 def update_schedule():
 
     workblocks = request.get_json()
-    print('Dayid: ', workblocks[0]['day_id'])
     '''
         Delete all of the wbs currently in that day and upload a bunch of
         new ones    
@@ -259,7 +258,7 @@ def update_schedule():
 
     db.session.commit()
 
-    return jsonify(True)
+    return jsonify({'message': 'Scheduled has been succefully updated!', 'severity' : 'success'})
 
 
 @ login_required
