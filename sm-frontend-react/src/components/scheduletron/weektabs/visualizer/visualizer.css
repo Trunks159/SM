@@ -1,12 +1,13 @@
 .visualizer{
   flex :1;
-  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .timeline {
   display: flex;
-  position: absolute;
-  left : 10px;
+  position: fixed;
+  left : 95px;
   top : 10px;
   bottom : 10px;
 }
