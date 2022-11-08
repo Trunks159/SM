@@ -13,7 +13,6 @@
 }
 
 .timeline-labels{
-  order : 1;
   display : flex;
   flex-direction: column;
   justify-content: space-between;

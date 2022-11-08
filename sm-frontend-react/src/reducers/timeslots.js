@@ -28,6 +28,18 @@ const pixToTime = (pix, width, timerange) => {
     .format();
 };
 
+const convertTimeslots = (timeslots, oldWidth, newWidth, timerange) => {
+  return timeslots.map((ts) => {
+    const start = pixToTime(ts.start, oldWidth, timerange);
+    const end = pixToTime(ts.end, oldWidth, timerange);
+    return {
+      ...ts,
+      start: timeToPix(start, newWidth, timerange),
+      end: timeToPix(end, newWidth, timerange),
+    };
+  });
+};
+
 const timeslotsReducer = (
   state = {
     timeslots: [],
@@ -72,12 +84,6 @@ const timeslotsReducer = (
       timeslots[index][timeframe] = newVal;
       return { ...state, timeslots };
 
-    case "UPDATE_CONTAINER_WIDTH":
-      return {
-        ...state,
-        containerWidth: action.payLoad,
-      };
-
     case "UPDATE_TIMERANGE":
       return {
         ...state,
@@ -88,6 +94,18 @@ const timeslotsReducer = (
         ...state,
         timeslots: [],
       };
+    case "UPDATE_CONTAINER_WIDTH":
+      //whenever container width changes the timeslot changes
+      const { newWidth } = action.payLoad;
+      return {
+        ...state,
+        containerWidth: newWidth,
+        //if there are already timeslots, replace with updated timeslots
+        timeslots:
+          state.timeslots ||
+          convertTimeslots(state.timeslots, newWidth, state.timerange),
+      };
+
     default:
       return state;
   }

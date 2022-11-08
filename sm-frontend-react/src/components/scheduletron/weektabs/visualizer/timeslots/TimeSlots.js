@@ -9,7 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 //actions
 const updateContainerWidth = (newWidth) => ({
   type: "UPDATE_CONTAINER_WIDTH",
-  payLoad: newWidth,
+  payLoad: { newWidth },
 });
 const updateTimeRange = (newVal) => ({
   type: "UPDATE_TIMERANGE",
@@ -53,14 +53,25 @@ const getTimelineRange = ({ day, night }, theDate) => {
 const isBetween = (workblock, timelineRange) => {
   const startTime = moment(workblock.startTime);
   const endTime = moment(workblock.endTime);
-  console.log('StartTime: ', startTime.format(), ' Timerange1: ', moment(timelineRange[1]).format() )
+  console.log(
+    "StartTime: ",
+    startTime.format(),
+    " Timerange1: ",
+    moment(timelineRange[1]).format()
+  );
   return (
     startTime.isBetween(
       moment(timelineRange[0]),
-      moment(timelineRange[1]),null, 
+      moment(timelineRange[1]),
+      null,
       "[]"
     ) ||
-    endTime.isBetween(moment(timelineRange[0]), moment(timelineRange[1]),null,  "[]")
+    endTime.isBetween(
+      moment(timelineRange[0]),
+      moment(timelineRange[1]),
+      null,
+      "[]"
+    )
   );
 };
 
@@ -86,8 +97,6 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, day }) => {
     <ul className="timeslots" ref={myRef}>
       {mounted ? (
         workblocks.map((workblock, index) => {
-          const x = isBetween(workblock, timelineRange);
-
           return (
             //if the user works outside of the time range dont render them
             isBetween(workblock, timelineRange) && (

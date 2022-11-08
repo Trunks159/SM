@@ -1,13 +1,11 @@
 .timeslots {
   display: flex;
-  flex-direction: column;
   gap: 10px;
   position: absolute;
   top: 40px;
   bottom: 0px;
   right: 0px;
   left: 0px;
-  overflow-y: auto;
   overflow-x: auto;
   list-style-type: None;
   margin-left: 0;
@@ -52,10 +50,15 @@
   width: 15px;
 }
 
-@media screen (min-width: 600px) {
+@media (min-width: 600px) {
+
   .timeslots {
     background-color: rgba(175, 175, 175, 0.15);
     padding: 20px 0px;
     box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.16);
+    flex-direction: column;
+    top : 40px;
+    overflow-y : auto;
   }
+  
 }

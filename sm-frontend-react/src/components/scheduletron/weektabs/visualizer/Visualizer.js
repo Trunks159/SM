@@ -20,20 +20,16 @@ function Visualizer({ day, workblocks }) {
     });
 
   return (
-    <div
-      className="visualizer"
-    >
-
-        <ShiftFilter
-          handleShiftFilter={handleShiftFilter}
-          handleSwitch={handleSwitch}
-          shiftFilter={shiftFilter}
-        />
-
+    <div className="visualizer">
+      <ShiftFilter
+        handleShiftFilter={handleShiftFilter}
+        handleSwitch={handleSwitch}
+        shiftFilter={shiftFilter}
+      />
 
       <div
         style={{
-          margin: "0px 0px 0px 20px",
+          margin: "0px 0px 0px 80px",
           position: "relative",
           flex: 1,
         }}
