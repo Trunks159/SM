@@ -96,7 +96,8 @@ const timeslotsReducer = (
       };
     case "UPDATE_CONTAINER_WIDTH":
       //whenever container width changes the timeslot changes
-      const { newWidth } = action.payLoad;
+      const newWidth  = action.payLoad;
+      console.log('October')
       return {
         ...state,
         containerWidth: newWidth,

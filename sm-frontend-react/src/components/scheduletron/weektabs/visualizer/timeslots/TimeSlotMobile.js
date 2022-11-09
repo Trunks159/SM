@@ -10,7 +10,6 @@ import {
   timeToPix,
 } from "../../../TimeFunctions";
 import moment from "moment";
-import TimeslotMobile from './TimeSlotMobile'
 
 //currently the minimun width for a timeslot is 200px. It should really just be like 2 hours or something.
 //Problem is it wont be exact, what you do is first you go and look
@@ -104,11 +103,11 @@ const TimeSlot = ({
           <Paper
             className="timeslot"
             style={{
-              top: 0,
-              bottom: 0,
+              right: 0,
+              left: 0,
               margin: "6px 0px 6px 0px",
-              left: start,
-              right: containerWidth - end < 0 ? 0 : containerWidth - end,
+              top: start,
+              bottom: containerWidth - end < 0 ? 0 : containerWidth - end,
               minWidth: 200,
             }}
           >
@@ -117,7 +116,7 @@ const TimeSlot = ({
             {moment(timeslot.getEndTime()).format("h:mm a")}
           </Paper>
           <Draggable
-            axis="x"
+            axis="y"
             grid={[thirty, 0]}
             grid2={[thirtyMin(start, containerWidth, availableTimes), 0]}
             position={{ x: start, y: 0 }}
@@ -130,10 +129,10 @@ const TimeSlot = ({
             </div>
           </Draggable>
           <Draggable
-            axis="x"
+            axis="y"
             grid={[thirty, 0]}
             grid2={[thirtyMin(end, containerWidth, availableTimes), 0]}
-            bounds={{ left: start + 200, right: containerWidth }}
+            bounds={{ top: start + 200, bottom: containerWidth }}
             position={{ x: end, y: 0 }}
             name="end"
             onDrag={(e, newValue) => handleDrag(newValue.x, "end")}

@@ -2,14 +2,15 @@ import moment from "moment";
 import React, { useRef, useEffect, useState } from "react";
 import { arrayOfDates } from "../../../../TimeFunctions";
 import TimeSlot from "./TimeSlot";
+import TimeSlotMobile from './TimeSlotMobile'
 import "./timeslots.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 
 //actions
 const updateContainerWidth = (newWidth) => ({
   type: "UPDATE_CONTAINER_WIDTH",
-  payLoad: { newWidth },
+  payLoad: newWidth,
 });
 const updateTimeRange = (newVal) => ({
   type: "UPDATE_TIMERANGE",
@@ -75,18 +76,30 @@ const isBetween = (workblock, timelineRange) => {
   );
 };
 
-const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, day }) => {
+const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
   const timelineRange = getTimelineRange(shiftFilter, theDate);
   const myRef = useRef();
   const dispatch = useDispatch();
-  const width = myRef.current ? myRef.current.clientWidth : 0;
+
   const [mounted, setMounted] = useState(false);
+  const screenWidth = useSelector((state) => state.screenWidth);
+  const isMobile = screenWidth >= 600;
+  const width = ((isMobile) =>
+    //uses height if isMobile is true, else uses width
+    isMobile
+      ? myRef.current
+        ? myRef.current.clientHeight
+        : 0
+      : myRef.current
+      ? myRef.current.clientWidth
+      : 0)(isMobile);
 
   useEffect(() => {
+    console.log("The widthc: ", width);
     if (width > 0) {
+      dispatch(updateTimeRange(timelineRange));
       dispatch(updateContainerWidth(width));
       //short term solution to shiftfilter timerange stuff
-      dispatch(updateTimeRange(timelineRange));
       setMounted(true);
     }
   }, [width]);
@@ -101,7 +114,19 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, isMobile, day }) => {
             //if the user works outside of the time range dont render them
             isBetween(workblock, timelineRange) && (
               <li key={workblock.wbId}>
+                
                 <TimeSlot
+                  index={index}
+                  dates={arrayOfDates()}
+                  availableTimes={timelineRange}
+                  workblock={workblock}
+                  shiftFilter={shiftFilter}
+                  user={workblock.user}
+                  isMobile={isMobile}
+                  containerWidth={width}
+                  day={day}
+                />
+                <TimeSlotMobile
                   index={index}
                   dates={arrayOfDates()}
                   availableTimes={timelineRange}

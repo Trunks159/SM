@@ -40,6 +40,7 @@ function Visualizer({ day, workblocks }) {
           workblocks={workblocks}
           day={day}
           theDate={day.date}
+          
         />
       </div>
     </div>
