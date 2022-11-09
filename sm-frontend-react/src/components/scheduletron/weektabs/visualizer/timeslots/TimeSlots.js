@@ -2,7 +2,7 @@ import moment from "moment";
 import React, { useRef, useEffect, useState } from "react";
 import { arrayOfDates } from "../../../../TimeFunctions";
 import TimeSlot from "./TimeSlot";
-import TimeSlotMobile from './TimeSlotMobile'
+import TimeSlotMobile from "./TimeSlotMobile";
 import "./timeslots.css";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -83,7 +83,7 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
 
   const [mounted, setMounted] = useState(false);
   const screenWidth = useSelector((state) => state.screenWidth);
-  const isMobile = screenWidth >= 600;
+  const isMobile = screenWidth < 600;
   const width = ((isMobile) =>
     //uses height if isMobile is true, else uses width
     isMobile
@@ -105,7 +105,7 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
   }, [width]);
 
   useEffect(() => dispatch(dumpTimeslots()), []);
-
+  console.log("Ismobile : ", isMobile);
   return (
     <ul className="timeslots" ref={myRef}>
       {mounted ? (
@@ -114,29 +114,31 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
             //if the user works outside of the time range dont render them
             isBetween(workblock, timelineRange) && (
               <li key={workblock.wbId}>
-                
-                <TimeSlot
-                  index={index}
-                  dates={arrayOfDates()}
-                  availableTimes={timelineRange}
-                  workblock={workblock}
-                  shiftFilter={shiftFilter}
-                  user={workblock.user}
-                  isMobile={isMobile}
-                  containerWidth={width}
-                  day={day}
-                />
-                <TimeSlotMobile
-                  index={index}
-                  dates={arrayOfDates()}
-                  availableTimes={timelineRange}
-                  workblock={workblock}
-                  shiftFilter={shiftFilter}
-                  user={workblock.user}
-                  isMobile={isMobile}
-                  containerWidth={width}
-                  day={day}
-                />
+                {isMobile ? (
+                  <TimeSlotMobile
+                    index={index}
+                    dates={arrayOfDates()}
+                    availableTimes={timelineRange}
+                    workblock={workblock}
+                    shiftFilter={shiftFilter}
+                    user={workblock.user}
+                    isMobile={isMobile}
+                    containerWidth={width}
+                    day={day}
+                  />
+                ) : (
+                  <TimeSlot
+                    index={index}
+                    dates={arrayOfDates()}
+                    availableTimes={timelineRange}
+                    workblock={workblock}
+                    shiftFilter={shiftFilter}
+                    user={workblock.user}
+                    isMobile={isMobile}
+                    containerWidth={width}
+                    day={day}
+                  />
+                )}
               </li>
             )
           );

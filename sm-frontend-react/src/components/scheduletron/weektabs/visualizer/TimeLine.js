@@ -19,7 +19,7 @@ const getTimeLabels = (shiftFilter) => {
 
 const TimeLine = ({ shiftFilter }) => {
   const timeLabels = getTimeLabels(shiftFilter);
-  const screenWidth = useSelector((state)=>state.screenWidth);
+  const screenWidth = useSelector((state) => state.screenWidth);
   return (
     <div className="timeline">
       <div className="timeline-labels">
@@ -35,7 +35,11 @@ const TimeLine = ({ shiftFilter }) => {
           </p>
         ))}
       </div>
-      <Divider orientation= {screenWidth >=600 ? 'horizontal' : 'vertical'} className = {'timeline-divider'}/>
+      <Divider
+        style={{ background: "black", width: 1 }}
+        orientation={screenWidth >= 600 ? "horizontal" : "vertical"}
+        className={"timeline-divider"}
+      />
     </div>
   );
 };

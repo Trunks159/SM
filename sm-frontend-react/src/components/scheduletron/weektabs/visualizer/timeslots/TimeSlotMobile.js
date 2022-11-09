@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Draggable from "react-draggable";
 import stretchIcon from "./assets/Stretch Icon.svg";
-import { Paper } from "@material-ui/core";
+import { Button, Paper } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import {
   pixToString,
@@ -97,28 +97,34 @@ const TimeSlot = ({
 
   if (timeslot) {
     const { start, end } = timeslot;
+    const topMargin = 50;
     return (
       timeslot && (
         <div style={{ position: "relative", height: "100%" }}>
+          <Button style={{ textTransform: "capitalize", fontSize: 14 }}>
+            {user.firstName} {user.lastName}
+          </Button>
           <Paper
             className="timeslot"
             style={{
-              right: 0,
-              left: 0,
-              margin: "6px 0px 6px 0px",
-              top: start,
+              right: 10,
+              left: 10,
+              top: topMargin + start,
               bottom: containerWidth - end < 0 ? 0 : containerWidth - end,
-              minWidth: 200,
+              /*
+              top: start,
+              bottom: ,
+             */
+              minHeight: 200,
             }}
           >
-            {user.firstName} {user.lastName} startTime :
-            {moment(timeslot.getStartTime()).format("h:mm a")}, endtime:
+            {moment(timeslot.getStartTime()).format("h:mm a")} <br /> - <br />
             {moment(timeslot.getEndTime()).format("h:mm a")}
           </Paper>
+          {/*
           <Draggable
             axis="y"
-            grid={[thirty, 0]}
-            grid2={[thirtyMin(start, containerWidth, availableTimes), 0]}
+            grid={[0, thirty]}
             position={{ x: start, y: 0 }}
             bounds={{ left: 0, right: end - 200 }}
             onDrag={(e, newValue) => handleDrag(newValue.x, "start")}
@@ -130,8 +136,7 @@ const TimeSlot = ({
           </Draggable>
           <Draggable
             axis="y"
-            grid={[thirty, 0]}
-            grid2={[thirtyMin(end, containerWidth, availableTimes), 0]}
+            grid={[0, thirty]}
             bounds={{ top: start + 200, bottom: containerWidth }}
             position={{ x: end, y: 0 }}
             name="end"
@@ -140,7 +145,7 @@ const TimeSlot = ({
             <div className="stretch-btn">
               <img src={stretchIcon} />
             </div>
-          </Draggable>
+          </Draggable>*/}
         </div>
       )
     );

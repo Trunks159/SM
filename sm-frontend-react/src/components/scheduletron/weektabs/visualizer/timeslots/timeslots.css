@@ -10,22 +10,25 @@
   list-style-type: None;
   margin-left: 0;
   padding-left: 0;
-  background-color: rebeccapurple;
+  margin : 0;
 }
 
 .timeslots li {
-  height: 66px;
+  width: 150px;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .timeslot {
-  top: 0px;
-  bottom: 0px;
   background: white;
   position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 7px;
+  font-weight: 200;
+  font-style: italic;
+  font-size: 13px;
+  justify-content: center;
 }
 
 .time-slot:hover {
@@ -51,14 +54,16 @@
 }
 
 @media (min-width: 600px) {
-
   .timeslots {
     background-color: rgba(175, 175, 175, 0.15);
     padding: 20px 0px;
     box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.16);
     flex-direction: column;
-    top : 40px;
-    overflow-y : auto;
+    top: 40px;
+    overflow-y: auto;
   }
-  
+
+  .timeslots li {
+    height: 66px;
+  }
 }
