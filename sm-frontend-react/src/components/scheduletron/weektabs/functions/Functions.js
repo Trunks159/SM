@@ -8,7 +8,7 @@ import saveIcon from "./assets/Save Icon.svg";
 import { Tabs, Tab } from "@material-ui/core";
 import styled from "@emotion/styled";
 
-const StyledTabs = styled(Tabs)(({ isOpen }) => {
+const StyledTabs = styled(Tabs)(({ isOpen, hidden }) => {
   return {
     "& .MuiTabs-indicator": {
       background: "white",
@@ -25,6 +25,7 @@ const StyledTabs = styled(Tabs)(({ isOpen }) => {
     position: "absolute",
     bottom: 0,
     right: 0,
+    display : hidden ? 'none' : 'flex',
   };
 });
 
@@ -47,7 +48,7 @@ const StyledTab = styled(Tab)({
   },
 });
 
-function Functions({ currentFunction, changeCurrentFunction }) {
+function Functions({ currentFunction, changeCurrentFunction, hidden }) {
   const isOpen = Number.isInteger(currentFunction);
   return (
     <StyledTabs
@@ -55,6 +56,7 @@ function Functions({ currentFunction, changeCurrentFunction }) {
       value={currentFunction}
       orientation={"vertical"}
       isOpen={isOpen}
+      hidden = {hidden}
     >
       <StyledTab
         value={0}

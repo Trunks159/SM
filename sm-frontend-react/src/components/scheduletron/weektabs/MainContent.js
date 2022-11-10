@@ -5,7 +5,23 @@ import Functions from "./functions/Functions";
 import TheDrawer from "./drawer/TheDrawer";
 import { Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Paper } from "@material-ui/core";
+import { Paper, Button } from "@material-ui/core";
+import menuIcon from "./assets/Menu Icon.svg";
+import styled from "@emotion/styled";
+
+const HamburgerButton = styled(Button)(({ hidden }) => {
+  console.log("Is it hidden: ", hidden);
+  return {
+    display: hidden ? "none" : "flex",
+    background: "#585858",
+    position: "absolute",
+    bottom: 13,
+    right: 13,
+    '&:hover':{
+      background : 'black',
+    }
+  };
+});
 
 //ACTIONS
 const updateUsers = (newUsers) => {
@@ -28,8 +44,6 @@ const updateNotScheduled = (newNotScheduled) => {
     payLoad: newNotScheduled,
   };
 };
-
-
 
 const MainContent = ({ day, isDesktop }) => {
   const [redirect, setRedirect] = useState(null);
@@ -73,12 +87,20 @@ const MainContent = ({ day, isDesktop }) => {
       >
         <div className="tab-maincontent">
           {redirect && <Redirect to={"/scheduletron"} />}
-        
+
           <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop} />
+
           <Functions
+            hidden={!isDesktop}
             changeCurrentFunction={setCurrentFunction}
             currentFunction={currentFunction}
           />
+          <HamburgerButton
+            onClick={() => setCurrentFunction(0)}
+            hidden={typeof currentFunction !== 'number' && isDesktop }
+          >
+            <img src={menuIcon} />
+          </HamburgerButton>
           <TheDrawer
             date={day.date}
             changeCurrentFunction={setCurrentFunction}

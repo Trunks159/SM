@@ -11,6 +11,7 @@
   top : 90px;
   bottom : 0px;
   z-index: 5;
+  background-color: rgba(0, 0, 0, .06);
 }
 
 .timeline-labels{
