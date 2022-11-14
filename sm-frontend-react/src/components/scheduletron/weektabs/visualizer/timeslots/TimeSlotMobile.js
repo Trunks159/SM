@@ -121,6 +121,18 @@ const TimeSlot = ({
             {moment(timeslot.getStartTime()).format("h:mm a")} <br /> - <br />
             {moment(timeslot.getEndTime()).format("h:mm a")}
           </Paper>
+          <Draggable
+            axis="x"
+            grid={[0, thirty]}
+            position={{ x: 0, y: start }}
+            bounds={{ top: 0, bottom: end - 200 }}
+            onDrag={(e, newValue) => handleDrag(newValue.y, "start")}
+            name={"start"}
+          >
+            <div className="stretch-btn" >
+              <img style = {{rotate : '90deg'}} src={stretchIcon} />
+            </div>
+          </Draggable>
           {/*
           <Draggable
             axis="y"

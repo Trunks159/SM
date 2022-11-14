@@ -28,7 +28,7 @@ const TimeLine = ({ shiftFilter }) => {
             key={index}
             style={{
               fontSize: index % 2 !== 0 ? "10px" : "14px",
-              marginTop: index % 2 !== 0 ? "auto" : 0,
+              //marginTop: index % 2 !== 0 ? "auto" : 0,
             }}
           >
             {time}

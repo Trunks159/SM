@@ -14,8 +14,9 @@
 }
 
 .timeslots li {
-  width: 150px;
+  min-width: 150px;
   transition-duration: .3s;
+  border-radius: 7px;
 }
 
 .timeslots li:hover{
@@ -33,6 +34,7 @@
   font-style: italic;
   font-size: 13px;
   justify-content: center;
+  text-align: center;
 }
 
 .time-slot:hover {
