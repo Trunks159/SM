@@ -107,7 +107,8 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
   useEffect(() => dispatch(dumpTimeslots()), []);
   console.log("Ismobile : ", isMobile);
   return (
-    <ul className="timeslots" ref={myRef}>
+    <div style = {{flex : 1 , position : 'relative'}}>
+<ul className="timeslots" ref={myRef}>
       {mounted ? (
         workblocks.map((workblock, index) => {
           return (
@@ -147,6 +148,8 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
         <CircularProgress />
       )}
     </ul>
+    </div>
+    
   );
 };
 

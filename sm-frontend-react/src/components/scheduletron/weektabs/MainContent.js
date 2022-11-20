@@ -17,9 +17,9 @@ const HamburgerButton = styled(Button)(({ hidden }) => {
     position: "absolute",
     bottom: 13,
     right: 13,
-    '&:hover':{
-      background : 'black',
-    }
+    "&:hover": {
+      background: "black",
+    },
   };
 });
 
@@ -83,30 +83,30 @@ const MainContent = ({ day, isDesktop }) => {
           flexDirection: "column",
           flex: 1,
           background: "#F5F5F5",
+          display : 'flex'
         }}
       >
-        <div className="tab-maincontent">
-          {redirect && <Redirect to={"/scheduletron"} />}
+        {redirect && <Redirect to={"/scheduletron"} />}
+        
+        {/*Has Timeline and Timeslots */}
+        <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop} />
 
-          <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop} />
-
-          <Functions
-            hidden={!isDesktop}
-            changeCurrentFunction={setCurrentFunction}
-            currentFunction={currentFunction}
-          />
-          <HamburgerButton
-            onClick={() => setCurrentFunction(0)}
-            hidden={typeof currentFunction !== 'number' && isDesktop }
-          >
-            <img src={menuIcon} />
-          </HamburgerButton>
-          <TheDrawer
-            date={day.date}
-            changeCurrentFunction={setCurrentFunction}
-            currentFunction={currentFunction}
-          />
-        </div>
+        <Functions
+          hidden={!isDesktop}
+          changeCurrentFunction={setCurrentFunction}
+          currentFunction={currentFunction}
+        />
+        <HamburgerButton
+          onClick={() => setCurrentFunction(0)}
+          hidden={typeof currentFunction !== "number" && isDesktop}
+        >
+          <img src={menuIcon} />
+        </HamburgerButton>
+        <TheDrawer
+          date={day.date}
+          changeCurrentFunction={setCurrentFunction}
+          currentFunction={currentFunction}
+        />
       </Paper>
     )
   );

@@ -15,7 +15,7 @@ import Scheduletron from "./components/scheduletron/Scheduletron";
 import Notification from "./components/Notification";
 import { useDispatch, useSelector } from "react-redux";
 import Team from "./components/team/Team";
-
+import { createTheme, ThemeProvider } from "@mui/material";
 //ACTIONS
 const updateCurrentUser = (newUser) => ({
   type: "UPDATE_CURRENT_USER",
@@ -31,6 +31,8 @@ const updateAllUsers = (newUsers) => ({
   type: "UPDATE_ALL_USERS",
   payLoad: newUsers,
 });
+
+const theme = createTheme();
 
 function App() {
   const [message, setMessage] = useState(null);
@@ -86,109 +88,119 @@ function App() {
 
   return users ? (
     <Router>
-      <div className="App">
-        <NavBar currentUser={currentUser} handleLogout={handleLogout} />
-        <Notification message={message} />
-        <Switch>
+      <ThemeProvider theme = {theme}>
+        <div className="App">
+          <NavBar currentUser={currentUser} handleLogout={handleLogout} />
+          <Notification message={message} />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() => {
+                return currentUser.isAuthenticated ? (
+                  <Redirect to="/scheduletron" />
+                ) : (
+                  <Redirect to="/login" />
+                );
+              }}
+            />
+            <Route
+              path="/login"
+              render={() => {
+                if (currentUser.isAuthenticated) {
+                  return <Redirect to="/" />;
+                }
+                return (
+                  <Login
+                    users={users}
+                    notifyUser={notifyUser}
+                    screenWidth={0}
+                  />
+                );
+              }}
+            />
+
+            <Route
+              path="/register"
+              render={({ match }) => {
+                return currentUser.isAuthenticated ? (
+                  <Redirect to="/" />
+                ) : (
+                  <Register
+                    users={users}
+                    notifyUser={notifyUser}
+                    match={match}
+                  />
+                );
+              }}
+            />
+            <Route
+              path="/team"
+              render={({ match }) => {
+                return currentUser.isAuthenticated ? (
+                  <Team teamMembers={users} />
+                ) : (
+                  <Redirect to="/login" />
+                );
+              }}
+            />
+            <Route
+              path="/scheduletron/:weekId?/:dayId?"
+              render={({ match }) => {
+                return currentUser.isAuthenticated ? (
+                  <Scheduletron notifyUser={notifyUser} match={match} />
+                ) : (
+                  <Redirect to="/login" />
+                );
+              }}
+            />
+          </Switch>
+
           <Route
             exact
-            path="/"
-            render={() => {
-              return currentUser.isAuthenticated ? (
-                <Redirect to="/scheduletron" />
-              ) : (
-                <Redirect to="/login" />
+            path="/user/:username"
+            render={(props) => {
+              const user = users.find(
+                (user) => user.username === props.match.params.username
               );
-            }}
-          />
-          <Route
-            path="/login"
-            render={() => {
-              if (currentUser.isAuthenticated) {
+              if (user) {
+                return <User user={user} currentUser={currentUser} />;
+              } else {
+                this.notifyUser({
+                  content: "Couldn't find user...",
+                  severity: "error",
+                  title: "error",
+                });
                 return <Redirect to="/" />;
               }
-              return (
-                <Login users={users} notifyUser={notifyUser} screenWidth={0} />
-              );
-            }}
-          />
-
-          <Route
-            path="/register"
-            render={({ match }) => {
-              return currentUser.isAuthenticated ? (
-                <Redirect to="/" />
-              ) : (
-                <Register users={users} notifyUser={notifyUser} match={match} />
-              );
             }}
           />
           <Route
-            path="/team"
-            render={({ match }) => {
-              return currentUser.isAuthenticated ? (
-                <Team teamMembers={users} />
-              ) : (
-                <Redirect to="/login" />
+            path="/user/:username/availability"
+            render={(props) => {
+              const user = users.find(
+                (user) => user.username === props.match.params.username
               );
+              if (user) {
+                return (
+                  <AvailabilityForm
+                    user={user}
+                    currentUser={currentUser.isAuthenticated}
+                    notifyUser={notifyUser}
+                  />
+                );
+              } else {
+                this.notifyUser({
+                  content: "Couldn't find user...",
+                  severity: "error",
+                  title: "error",
+                });
+                return <Redirect to="/" />;
+              }
             }}
           />
-          <Route
-            path="/scheduletron/:weekId?/:dayId?"
-            render={({ match }) => {
-              return currentUser.isAuthenticated ? (
-                <Scheduletron notifyUser={notifyUser} match={match} />
-              ) : (
-                <Redirect to="/login" />
-              );
-            }}
-          />
-        </Switch>
-
-        <Route
-          exact
-          path="/user/:username"
-          render={(props) => {
-            const user = users.find(
-              (user) => user.username === props.match.params.username
-            );
-            if (user) {
-              return <User user={user} currentUser={currentUser} />;
-            } else {
-              this.notifyUser({
-                content: "Couldn't find user...",
-                severity: "error",
-                title: "error",
-              });
-              return <Redirect to="/" />;
-            }
-          }}
-        />
-        <Route
-          path="/user/:username/availability"
-          render={(props) => {
-            const user = users.find(
-              (user) => user.username === props.match.params.username
-            );
-            if (user) {
-              return (
-                <AvailabilityForm
-                  user={user}
-                  currentUser={currentUser.isAuthenticated}
-                  notifyUser={notifyUser}
-                />
-              );
-            } else {
-              this.notifyUser({
-                content: "Couldn't find user...",
-                severity: "error",
-                title: "error",
-              });
-              return <Redirect to="/" />;
-            }
-          }}
-        />
-      </div>
+        </div>
+      </ThemeProvider>
     </Router>
   ) : (
     <p>Loading Right Now...</p>

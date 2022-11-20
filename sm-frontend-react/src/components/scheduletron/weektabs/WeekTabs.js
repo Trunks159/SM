@@ -1,46 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "./weektabs.css";
 import { Redirect, Link } from "react-router-dom";
-import { Tabs, Tab, Paper } from "@material-ui/core";
-import styled from "@emotion/styled";
 import MainContent from "./MainContent";
 import { useSelector, useDispatch } from "react-redux";
-
-const StyledTabs = styled(Tabs)({
-  height: 80,
-  "& .MuiTabs-flexContainer": {
-    gap: 10,
-    height: "100%",
-  },
-  "& .MuiTabs-indicator": {
-    display: "none",
-  },
-});
-
-const StyledTab = styled(Tab)(({ currentDayIndex, value }) => {
-  const isActive = currentDayIndex === value;
-  return {
-    opacity: isActive ? 1 : 0.5,
-    textTransform: "none",
-    textDecoration: "none",
-    transition: "opacity .25s",
-    background: "#275C78",
-    margin: "0px 12.5px",
-    borderRadius: "7px 7px 0px 0px",
-    minWidth: 150,
-    padding: "0px 20px",
-    fontSize: "32px",
-    fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-    color: "white",
-    "&:hover": {
-      opacity: 1,
-    },
-    "& .weekday": {
-      display: isActive ? "inline" : "none",
-      paddingRight: "7px",
-    },
-  };
-});
+import { StyledPaper, StyledTab, StyledTabs } from "./StyledComponents";
 
 //ACTIONS
 function updateSelectedWeek(newWeek) {
@@ -99,13 +61,14 @@ const TabsContainer = ({ weekId, dayIndex, screenWidth }) => {
     return (
       redirect ||
       (days && (
-        <Paper className="tabs-container">
+        <StyledPaper>
           <StyledTabs
             variant="scrollable"
             scrollButtons
             allowScrollButtonsMobile
             value={currentDayIndex}
-            style={{ display: isDesktop ? "flex" : "none" }}
+
+          
           >
             {/*You might want to separate this and define the Tabs above but DONOT. For some reason 
     the scrollbuttons dont work or the indicator*/}
@@ -126,7 +89,7 @@ const TabsContainer = ({ weekId, dayIndex, screenWidth }) => {
           </StyledTabs>
 
           <MainContent day={currentDay} isDesktop={isDesktop} />
-        </Paper>
+        </StyledPaper>
       ))
     );
   }
