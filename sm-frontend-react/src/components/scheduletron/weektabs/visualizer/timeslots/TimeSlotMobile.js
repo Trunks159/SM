@@ -65,8 +65,8 @@ const TimeSlot = ({
   const timeslots = useSelector((state) => state.timeslots);
   const timeslot = timeslots.timeslots[index];
   const thirty = getThirtyMin(availableTimes, containerWidth);
-
   function handleDrag(newValue, timeframe) {
+    console.log("new:", newValue);
     const time = pixToTime(newValue, containerWidth, availableTimes).format();
     const trueValue = roundIt(time);
     const pix = trueValue
@@ -97,42 +97,62 @@ const TimeSlot = ({
 
   if (timeslot) {
     const { start, end } = timeslot;
-    const topMargin = 50;
     return (
       timeslot && (
-        <div style={{ position: "relative", height: "100%" }}>
-          <Button style={{ textTransform: "capitalize", fontSize: 14 }}>
+        <>
+          <Button
+            style={{
+              textTransform: "capitalize",
+              fontSize: 14,
+              borderBottom: "1px solid rgba(112, 112, 112, .14)",
+            }}
+          >
             {user.firstName} {user.lastName}
           </Button>
-          <Paper
-            className="timeslot"
-            style={{
-              right: 10,
-              left: 10,
-              top: topMargin + start,
-              bottom: containerWidth - end < 0 ? 0 : containerWidth - end,
-              /*
+          <div style={{ position: "relative" }}>
+            <Paper
+              className="timeslot"
+              style={{
+                right: 10,
+                left: 10,
+                top: start,
+                bottom: containerWidth - end < 0 ? 0 : containerWidth - end,
+                /*
               top: start,
               bottom: ,
              */
-              minHeight: 200,
-            }}
-          >
-            {moment(timeslot.getStartTime()).format("h:mm a")} <br /> - <br />
-            {moment(timeslot.getEndTime()).format("h:mm a")}
-          </Paper>
-          <Draggable
-            axis="x"
-            grid={[0, thirty]}
-            position={{ x: 0, y: start }}
-            bounds={{ top: 0, bottom: end - 200 }}
-            onDrag={(e, newValue) => handleDrag(newValue.y, "start")}
-            name={"start"}
-          >
-            <div className="stretch-btn" >
-              <img style = {{rotate : '90deg'}} src={stretchIcon} />
-            </div>
-          </Draggable>
+                minHeight: 200,
+              }}
+            >
+              {moment(timeslot.getStartTime()).format("h:mm a")} <br /> - <br />
+              {moment(timeslot.getEndTime()).format("h:mm a")}
+            </Paper>
+            <Draggable
+              axis="y"
+              //when the grid is set to [0,thirty], it doesn't work so keep this
+              grid={[thirty, thirty]}
+              position={{ x: 0, y: start }}
+              bounds={{ top: 0, bottom: end - 200 }}
+              onDrag={(e, newValue) => handleDrag(newValue.y, "start")}
+            >
+              <div className="stretch-btn">
+                <img style={{ rotate: "90deg" }} src={stretchIcon} />
+              </div>
+            </Draggable>
+            <Draggable
+              axis="y"
+              //when the grid is set to [0,thirty], it doesn't work so keep this
+              grid={[thirty, thirty]}
+              position={{ x: 0, y: end }}
+              bounds={{ top: start + 200, bottom: containerWidth }}
+              onDrag={(e, newValue) => handleDrag(newValue.y, "end")}
+            >
+              <div className="stretch-btn">
+                <img style={{ rotate: "90deg" }} src={stretchIcon} />
+              </div>
+            </Draggable>
+          </div>
+
           {/*
           <Draggable
             axis="y"
@@ -158,7 +178,7 @@ const TimeSlot = ({
               <img src={stretchIcon} />
             </div>
           </Draggable>*/}
-        </div>
+        </>
       )
     );
   }

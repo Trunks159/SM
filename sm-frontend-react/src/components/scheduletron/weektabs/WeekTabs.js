@@ -3,6 +3,7 @@ import { Redirect, Link } from "react-router-dom";
 import MainContent from "./MainContent";
 import { useSelector, useDispatch } from "react-redux";
 import { StyledPaper, StyledTab, StyledTabs } from "./StyledComponents";
+import TheTabs from "./TestTabs";
 
 //ACTIONS
 function updateSelectedWeek(newWeek) {
@@ -56,22 +57,15 @@ const TabsContainer = ({ weekId, dayIndex, screenWidth }) => {
   if (currentDayIndex !== null && selectedWeek !== null) {
     //STUFF DEPENDENT ON PROPS OR STATE
     const currentDay = selectedWeek.week[currentDayIndex];
-    const isDesktop = screenWidth > 600;
+    const isDesktop = screenWidth >= 600;
     const days = selectedWeek.week;
     return (
       redirect ||
       (days && (
         <StyledPaper>
-          <StyledTabs
-            variant="scrollable"
-            scrollButtons
-            allowScrollButtonsMobile
-            value={currentDayIndex}
-
-          
-          >
-            {/*You might want to separate this and define the Tabs above but DONOT. For some reason 
-    the scrollbuttons dont work or the indicator*/}
+          <StyledTabs variant="scrollable" value={currentDayIndex}>
+            {/*You might want to separate this and define the Tabs above 
+              but DONOT. For some reason the scrollbuttons dont work or the indicator*/}
             {days.map((d, index) => (
               <StyledTab
                 value={index}
@@ -80,7 +74,7 @@ const TabsContainer = ({ weekId, dayIndex, screenWidth }) => {
                 to={`/scheduletron/viewer/${weekId}/${index}`}
                 label={
                   <p>
-                    <span className="weekday">{d.weekday}</span>
+                    <span className="weekday">{d.weekday},</span>
                     {d.month}/{d.day}
                   </p>
                 }

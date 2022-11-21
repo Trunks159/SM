@@ -27,7 +27,7 @@ const TimeLine = ({ shiftFilter }) => {
           <p
             key={index}
             style={{
-              fontSize: index % 2 !== 0 ? "10px" : "14px",
+              fontSize: index % 2 !== 0 ? "6px" : "10px",
               //marginTop: index % 2 !== 0 ? "auto" : 0,
             }}
           >
@@ -36,7 +36,12 @@ const TimeLine = ({ shiftFilter }) => {
         ))}
       </div>
       <Divider
-        style={{ background: "black", width: 1 }}
+        style={{
+          background: "black",
+          width: 1,
+          margin: 5,
+          opacity: 0.5,
+        }}
         orientation={screenWidth >= 600 ? "horizontal" : "vertical"}
         className={"timeline-divider"}
       />

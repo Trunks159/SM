@@ -2,7 +2,7 @@
   display: flex;
   gap: 10px;
   position: absolute;
-  top: 40px;
+  top: 0px;
   bottom: 0px;
   right: 0px;
   left: 0px;
@@ -10,16 +10,19 @@
   list-style-type: None;
   margin-left: 0;
   padding-left: 0;
-  margin : 0;
+  margin: 0;
 }
 
 .timeslots li {
   min-width: 150px;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
   border-radius: 7px;
+  position: relative;
+  display: grid;
+  grid-template-rows: 45px 1fr;
 }
 
-.timeslots li:hover{
+.timeslots li:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
@@ -43,11 +46,14 @@
 
 .stretch-btn {
   position: absolute;
-  left: -15px;
   background: rgba(0, 0, 0, 0.65);
-  top: 18px;
-  height: 25px;
-  width: 35px;
+  top: -17.5px;
+  right: 0px;
+  left: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 35px;
+  width: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,6 +66,12 @@
 }
 
 @media (min-width: 600px) {
+  .stretch-btn {
+    left: -15px;
+    top: 18px;
+    height: 25px;
+    width: 35px;
+  }
   .timeslots {
     background-color: rgba(175, 175, 175, 0.15);
     padding: 20px 0px;

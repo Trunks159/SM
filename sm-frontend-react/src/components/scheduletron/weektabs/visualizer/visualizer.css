@@ -1,12 +1,12 @@
 .visualizer{
   flex :1;
   display: flex;
+  margin : 15px 0px;
 }
 
 .timeline {
   display: flex;
-  background-color: rgba(0, 0, 0, .06);
-  margin : 30px 13px;
+  margin : 45px 10px 15px 10px ;
 }
 
 .timeline-labels{
