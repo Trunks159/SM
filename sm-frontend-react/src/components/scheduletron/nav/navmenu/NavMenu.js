@@ -25,7 +25,7 @@ class NavMenu extends Component {
     const { menu, selectedWeek, changeMenu } = this.props;
     const icon = this.getIcon(menu);
     return (
-      <Collapse in={Boolean(menu)} orientation={"horizontal"} timeout={70}>
+      <Collapse in={Boolean(menu)} orientation={"horizontal"} timeout={0}>
         <Paper
           className="nav-menu"
           style={{ borderRadius: "0px 4px 4px 0px", background: "#EFF1F2" }}

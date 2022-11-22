@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import stretchIcon from "./assets/Stretch Icon.svg";
 import { Button, Paper } from "@material-ui/core";
@@ -23,6 +23,11 @@ const addTimeslot = (timeslot) => ({
 const updateTime = (timeslot) => ({
   type: "UPDATE_TIME",
   payLoad: timeslot,
+});
+
+const updateTrackWidth = (newWidth) => ({
+  type: "UPDATE_TRACK_WIDTH",
+  payLoad: newWidth,
 });
 
 //so if the time is like 9:44PM, typically in 30min
@@ -53,24 +58,26 @@ function getThirtyMin(timerange, width) {
   return ratio * width;
 }
 
-const TimeSlot = ({
-  index,
-  user,
-  availableTimes,
-  containerWidth,
-  workblock,
-  day,
-}) => {
+//So we could either have it so that the first ts initializes the trackwidth
+//and changes if the width changes
+// or we could add a placeholder and use that to update the width
+
+const TimeSlot = ({ index, user, availableTimes, workblock, day }) => {
   const dispatch = useDispatch();
+  const myRef = useRef();
+  //uses height if isMobile is true, else uses width
+  const _width = myRef.current ? myRef.current.clientHeight : 0;
+
   const timeslots = useSelector((state) => state.timeslots);
   const timeslot = timeslots.timeslots[index];
-  const thirty = getThirtyMin(availableTimes, containerWidth);
+  const thirty = getThirtyMin(availableTimes, trackWidth);
+
   function handleDrag(newValue, timeframe) {
     console.log("new:", newValue);
-    const time = pixToTime(newValue, containerWidth, availableTimes).format();
+    const time = pixToTime(newValue, trackWidth, availableTimes).format();
     const trueValue = roundIt(time);
     const pix = trueValue
-      ? timeToPix(trueValue, containerWidth, availableTimes)
+      ? timeToPix(trueValue, trackWidth, availableTimes)
       : newValue;
 
     dispatch(
@@ -88,20 +95,26 @@ const TimeSlot = ({
         startTime: workblock.startTime,
         endTime: workblock.endTime,
         dayId: day.id,
-        containerWidth,
+        trackWidth,
         availableTimes,
         user,
       })
     );
   }, []);
 
-  if (timeslot) {
+  useEffect(() => {
+    if (width > 0) {
+      dispatch(updateTrackWidth(width));
+    }
+  }, [width]);
+
+  if (timeslot && trackWidth > 0) {
     const { start, end } = timeslot;
     return (
       timeslot && (
         <>
           <Button
-          //sized by the grid its in
+            //sized by the grid its in
             style={{
               textTransform: "capitalize",
               fontSize: 14,
@@ -110,25 +123,18 @@ const TimeSlot = ({
           >
             {user.firstName} {user.lastName}
           </Button>
-          <div className = {'time-track'} style={{ position: "relative" }}>
-            {/*Each of the tracks needs to have the same padding and sizing, so each needs to
-            be sized by the container holding it so something like grid
-            So for Visualizer its
-            viz is a grid with template columns 30px and 1fr
-            Then Timeslots is a grid with template rows 30px and 1fr
-            How do you get access to the height of the bottomrow
-            <Viz>
-              <Timeslots>
-              </Timeslots>
-            </Viz>
-            */}
+          <div
+            className={"time-track"}
+            ref={myRef}
+            style={{ position: "relative" }}
+          >
             <Paper
               className="timeslot"
               style={{
                 right: 10,
                 left: 10,
                 top: start,
-                bottom: containerWidth - end < 0 ? 0 : containerWidth - end,
+                bottom: trackWidth - end < 0 ? 0 : trackWidth - end,
                 /*
               top: start,
               bottom: ,
@@ -156,7 +162,7 @@ const TimeSlot = ({
               //when the grid is set to [0,thirty], it doesn't work so keep this
               grid={[thirty, thirty]}
               position={{ x: 0, y: end }}
-              bounds={{ top: start + 200, bottom: containerWidth }}
+              bounds={{ top: start + 200, bottom: trackWidth }}
               onDrag={(e, newValue) => handleDrag(newValue.y, "end")}
             >
               <div className="stretch-btn2">
@@ -181,7 +187,7 @@ const TimeSlot = ({
           <Draggable
             axis="y"
             grid={[0, thirty]}
-            bounds={{ top: start + 200, bottom: containerWidth }}
+            bounds={{ top: start + 200, bottom: trackWidth }}
             position={{ x: end, y: 0 }}
             name="end"
             onDrag={(e, newValue) => handleDrag(newValue.x, "end")}

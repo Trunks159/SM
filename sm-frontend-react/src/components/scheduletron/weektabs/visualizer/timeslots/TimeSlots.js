@@ -6,13 +6,9 @@ import TimeSlotMobile from "./TimeSlotMobile";
 import "./timeslots.css";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Divider } from "@mui/material";
 
 //actions
-const updateContainerWidth = (newWidth) => ({
-  type: "UPDATE_CONTAINER_WIDTH",
-  payLoad: newWidth,
-});
+
 const updateTimeRange = (newVal) => ({
   type: "UPDATE_TIMERANGE",
   payLoad: newVal,
@@ -79,43 +75,22 @@ const isBetween = (workblock, timelineRange) => {
 
 const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
   const timelineRange = getTimelineRange(shiftFilter, theDate);
-  const myRef = useRef();
   const dispatch = useDispatch();
 
   const [mounted, setMounted] = useState(false);
   const screenWidth = useSelector((state) => state.screenWidth);
   const isMobile = screenWidth < 600;
-  const width = ((isMobile) =>
-    //uses height if isMobile is true, else uses width
-    isMobile
-      ? myRef.current
-        ? myRef.current.clientHeight
-        : 0
-      : myRef.current
-      ? myRef.current.clientWidth
-      : 0)(isMobile);
 
   useEffect(() => {
-    console.log("The widthc: ", width);
-    if (width > 0) {
-      dispatch(updateTimeRange(timelineRange));
-      dispatch(updateContainerWidth(width));
-      //short term solution to shiftfilter timerange stuff
-      setMounted(true);
-    }
-  }, [width]);
+    //probably will add if timelinerange changes change it if not do nothing
+    dispatch(updateTimeRange(timelineRange));
+    setMounted(true);
+  }, [timelineRange]);
   //CLEANUP
   useEffect(() => dispatch(dumpTimeslots()), []);
   return (
     <div style={{ flex: 1, position: "relative" }}>
-      <Labels>
-        <ul>
-          {t}
-        </ul>
-      </Labels>
-      <Slots></Slots>
-
-      <ul className="timeslots" ref={myRef}>
+      <ul className="timeslots">
         {mounted ? (
           workblocks.map((workblock, index) => {
             return (
@@ -131,7 +106,6 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
                       shiftFilter={shiftFilter}
                       user={workblock.user}
                       isMobile={isMobile}
-                      containerWidth={width}
                       day={day}
                     />
                   ) : (
@@ -143,7 +117,6 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
                       shiftFilter={shiftFilter}
                       user={workblock.user}
                       isMobile={isMobile}
-                      containerWidth={width}
                       day={day}
                     />
                   )}

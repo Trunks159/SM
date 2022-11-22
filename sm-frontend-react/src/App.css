@@ -1,9 +1,15 @@
 .App {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  min-height: 100vh;
-  width : 100vw;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
   display: flex;
+  position: absolute;
+  overflow: auto;
 }
+
+
 
 @media (min-width : 600px) {
   .App{

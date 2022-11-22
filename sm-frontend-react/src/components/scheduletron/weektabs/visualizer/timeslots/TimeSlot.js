@@ -10,7 +10,9 @@ import {
   timeToPix,
 } from "../../../TimeFunctions";
 import moment from "moment";
-import TimeslotMobile from './TimeSlotMobile'
+import TimeslotMobile from "./TimeSlotMobile";
+
+//containerWidth is not Trackwidth
 
 //currently the minimun width for a timeslot is 200px. It should really just be like 2 hours or something.
 //Problem is it wont be exact, what you do is first you go and look
