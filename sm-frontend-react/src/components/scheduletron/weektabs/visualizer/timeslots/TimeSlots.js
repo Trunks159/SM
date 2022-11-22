@@ -108,6 +108,13 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
   useEffect(() => dispatch(dumpTimeslots()), []);
   return (
     <div style={{ flex: 1, position: "relative" }}>
+      <Labels>
+        <ul>
+          {t}
+        </ul>
+      </Labels>
+      <Slots></Slots>
+
       <ul className="timeslots" ref={myRef}>
         {mounted ? (
           workblocks.map((workblock, index) => {

@@ -6,7 +6,7 @@
 
 .timeline {
   display: flex;
-  margin : 45px 10px 15px 10px ;
+  padding : 60px 15px 45px 15px ;
 }
 
 .timeline-labels{

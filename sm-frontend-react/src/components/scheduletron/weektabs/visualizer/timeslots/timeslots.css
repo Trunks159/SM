@@ -19,7 +19,8 @@
   border-radius: 7px;
   position: relative;
   display: grid;
-  grid-template-rows: 45px 1fr;
+  grid-template-rows: 60px 1fr;
+  padding-bottom: 37px ;
 }
 
 .timeslots li:hover {

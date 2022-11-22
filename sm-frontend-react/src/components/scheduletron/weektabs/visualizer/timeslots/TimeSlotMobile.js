@@ -101,6 +101,7 @@ const TimeSlot = ({
       timeslot && (
         <>
           <Button
+          //sized by the grid its in
             style={{
               textTransform: "capitalize",
               fontSize: 14,
@@ -109,7 +110,18 @@ const TimeSlot = ({
           >
             {user.firstName} {user.lastName}
           </Button>
-          <div style={{ position: "relative" }}>
+          <div className = {'time-track'} style={{ position: "relative" }}>
+            {/*Each of the tracks needs to have the same padding and sizing, so each needs to
+            be sized by the container holding it so something like grid
+            So for Visualizer its
+            viz is a grid with template columns 30px and 1fr
+            Then Timeslots is a grid with template rows 30px and 1fr
+            How do you get access to the height of the bottomrow
+            <Viz>
+              <Timeslots>
+              </Timeslots>
+            </Viz>
+            */}
             <Paper
               className="timeslot"
               style={{
@@ -147,7 +159,7 @@ const TimeSlot = ({
               bounds={{ top: start + 200, bottom: containerWidth }}
               onDrag={(e, newValue) => handleDrag(newValue.y, "end")}
             >
-              <div className="stretch-btn">
+              <div className="stretch-btn2">
                 <img style={{ rotate: "90deg" }} src={stretchIcon} />
               </div>
             </Draggable>
