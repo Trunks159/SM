@@ -66,7 +66,7 @@ const TimeSlot = ({
 }) => {
   const dispatch = useDispatch();
   const timeslots = useSelector((state) => state.timeslots);
-  const timeslot = timeslots.timeslots[index];
+  const timeslot = timeslots.slots[index];
   const thirty = getThirtyMin(availableTimes, containerWidth);
 
   function handleDrag(newValue, timeframe) {

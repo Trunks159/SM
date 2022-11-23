@@ -42,38 +42,31 @@ const convertTimeslots = (timeslots, oldWidth, newWidth, timerange) => {
 
 const timeslotsReducer = (
   state = {
-    timeslots: [],
+    slots: [],
     timerange: [],
     trackWidth: 0,
+    dayId: null,
   },
   action
 ) => {
-  let { timeslots } = state;
+  let { slots, trackWidth, timerange } = state;
   switch (action.type) {
     case "ADD_TIMESLOT":
-      let { startTime, endTime, trackWidth, availableTimes, user, dayId } =
-        action.payLoad;
-
-      //convert the times to pixels and add to array
+      const { startTime, endTime, user } = action.payLoad;
       return {
         ...state,
-        timeslots: [
-          ...state.timeslots,
+        slots: [
+          ...state.slots,
+          //convert the times to pixels and add to array
           {
-            start: timeToPix(startTime, trackWidth, availableTimes),
-            end: timeToPix(endTime, trackWidth, availableTimes),
+            start: timeToPix(startTime, trackWidth, timerange),
+            end: timeToPix(endTime, trackWidth, timerange),
             user: user,
-            userId: user.id,
-            dayId: dayId,
             getStartTime: function () {
-              return pixToTime(
-                this.start,
-                state.trackWidth,
-                state.timerange
-              );
+              return pixToTime(this.start, trackWidth, timerange);
             },
             getEndTime: function () {
-              return pixToTime(this.end, state.trackWidth, state.timerange);
+              return pixToTime(this.end, trackWidth, timerange);
             },
           },
         ],
@@ -81,8 +74,8 @@ const timeslotsReducer = (
 
     case "UPDATE_TIME":
       const { index, newVal, timeframe } = action.payLoad;
-      timeslots[index][timeframe] = newVal;
-      return { ...state, timeslots };
+      slots[index][timeframe] = newVal;
+      return { ...state, slots };
 
     case "UPDATE_TIMERANGE":
       return {
@@ -92,18 +85,16 @@ const timeslotsReducer = (
     case "DUMP_TIMESLOTS":
       return {
         ...state,
-        timeslots: [],
+        slots: [],
       };
     case "UPDATE_TRACK_WIDTH":
       //whenever container width changes the timeslot changes
-      const newWidth  = action.payLoad;
+      const newWidth = action.payLoad;
       return {
         ...state,
         trackWidth: newWidth,
         //if there are already timeslots, replace with updated timeslots
-        timeslots:
-          state.timeslots ||
-          convertTimeslots(state.timeslots, newWidth, state.timerange),
+        slots: state.slots || convertTimeslots(slots, newWidth, timerange),
       };
 
     default:

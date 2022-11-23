@@ -3,7 +3,7 @@ import saveIcon from "./assets/Save Icon.svg";
 import { Button } from "@mui/material";
 import { Collapse, makeStyles } from "@material-ui/core";
 import { useSelector } from "react-redux";
-import {Alert} from "@mui/material";
+import { Alert } from "@mui/material";
 import Notification from "./Notification";
 
 const useStyles = makeStyles({
@@ -26,7 +26,7 @@ const SavePrompt = ({ index, currentFunction }) => {
 
   const handleSave = () => {
     //convert the pixels to times, send objects to python
-    const ts = timeslots.timeslots.map((timeslot) => {
+    const ts = timeslots.slots.map((timeslot) => {
       const { userId, dayId } = timeslot;
       return {
         user_id: userId,
@@ -61,7 +61,7 @@ const SavePrompt = ({ index, currentFunction }) => {
       className="save-prompt"
       style={{ display: currentFunction === index ? "flex" : "none" }}
     >
-      <Notification message = {alert}/>
+      <Notification message={alert} />
       <h2>Completion Status</h2>
       <ul>
         <li>

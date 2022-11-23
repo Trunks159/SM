@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import Draggable from "react-draggable";
 import stretchIcon from "./assets/Stretch Icon.svg";
-import { Button, Paper } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import {
   pixToString,
@@ -57,17 +57,24 @@ function getThirtyMin(timerange, width) {
   const ratio = 30 / duration;
   return ratio * width;
 }
-//So the component needs to render before we update 
+//So the component needs to render before we update
 //the height of everything
 //on first render there will not be a height (itll be 0)
-//At the end of the render 
-const TimeSlot = ({ index, user, availableTimes, workblock, day }) => {
+//At the end of the render
+const TimeSlot = ({ index, user, workblock }) => {
+  //-------INIT START--------
+  const dispatch = useDispatch();
+  const timeslots = useSelector((state) => state.timeslots);
+  const { trackWidth, timerange } = timeslots;
+  const timeslot = timeslots.slots[index];
+  const thirty = getThirtyMin(timerange, trackWidth);
+  //-------INIT END ---------
+
   function handleDrag(newValue, timeframe) {
-    console.log("new:", newValue);
-    const time = pixToTime(newValue, trackWidth, availableTimes).format();
+    const time = pixToTime(newValue, trackWidth, timerange).format();
     const trueValue = roundIt(time);
     const pix = trueValue
-      ? timeToPix(trueValue, trackWidth, availableTimes)
+      ? timeToPix(trueValue, trackWidth, timerange)
       : newValue;
 
     dispatch(
@@ -79,128 +86,61 @@ const TimeSlot = ({ index, user, availableTimes, workblock, day }) => {
     );
   }
 
-  const dispatch = useDispatch();
-  const myRef = useRef();
-  //uses height if isMobile is true, else uses width
-  //i could also save the width of the containers by
-  //saving the amount of padding and how long the label
-  //for each user is
-  const _width = myRef.current ? myRef.current.clientHeight : 0;
-  const [thirty, setThirty] = useState(0);
-  const timeslots = useSelector((state) => state.timeslots);
-  const trackWidth = timeslots.trackWidth;
-  const timeslot = timeslots.timeslots[index];
-
   useEffect(() => {
     dispatch(
       addTimeslot({
         startTime: workblock.startTime,
         endTime: workblock.endTime,
-        dayId: day.id,
-        trackWidth,
-        availableTimes,
         user,
       })
     );
   }, []);
 
-  useEffect(() => {
-    setThirty(getThirtyMin(availableTimes, trackWidth));
-  }, [trackWidth]);
-
-  useEffect(() => {
-    if (_width > 0 && _width !== trackWidth) {
-      dispatch(updateTrackWidth(_width));
-    }
-  }, [_width]);
-  console.log('_width: ', myRef.current.clientHeight)
-  if (timeslot && trackWidth > 0) {
+  if (timeslot) {
     const { start, end } = timeslot;
     return (
       <>
-        <Button
-          //sized by the grid its in
+        <Paper
+          className="timeslot"
           style={{
-            textTransform: "capitalize",
-            fontSize: 14,
-            borderBottom: "1px solid rgba(112, 112, 112, .14)",
-          }}
-        >
-          {user.firstName} {user.lastName}
-        </Button>
-        <div
-          className={"time-track"}
-          ref={myRef}
-          style={{ position: "relative" }}
-        >
-          <Paper
-            className="timeslot"
-            style={{
-              right: 10,
-              left: 10,
-              top: start,
-              bottom: trackWidth - end < 0 ? 0 : trackWidth - end,
-              /*
+            right: 10,
+            left: 10,
+            top: start,
+            bottom: trackWidth - end < 0 ? 0 : trackWidth - end,
+            /*
               top: start,
               bottom: ,
              */
-              minHeight: 200,
-            }}
-          >
-            {moment(timeslot.getStartTime()).format("h:mm a")} <br /> - <br />
-            {moment(timeslot.getEndTime()).format("h:mm a")}
-          </Paper>
-          <Draggable
-            axis="y"
-            //when the grid is set to [0,thirty], it doesn't work so keep this
-            grid={[thirty, thirty]}
-            position={{ x: 0, y: start }}
-            bounds={{ top: 0, bottom: end - 200 }}
-            onDrag={(e, newValue) => handleDrag(newValue.y, "start")}
-          >
-            <div className="stretch-btn">
-              <img style={{ rotate: "90deg" }} src={stretchIcon} />
-            </div>
-          </Draggable>
-          <Draggable
-            axis="y"
-            //when the grid is set to [0,thirty], it doesn't work so keep this
-            grid={[thirty, thirty]}
-            position={{ x: 0, y: end }}
-            bounds={{ top: start + 200, bottom: trackWidth }}
-            onDrag={(e, newValue) => handleDrag(newValue.y, "end")}
-          >
-            <div className="stretch-btn2">
-              <img style={{ rotate: "90deg" }} src={stretchIcon} />
-            </div>
-          </Draggable>
-        </div>
-
-        {/*
-          <Draggable
-            axis="y"
-            grid={[0, thirty]}
-            position={{ x: start, y: 0 }}
-            bounds={{ left: 0, right: end - 200 }}
-            onDrag={(e, newValue) => handleDrag(newValue.x, "start")}
-            name={"start"}
-          >
-            <div className="stretch-btn">
-              <img src={stretchIcon} />
-            </div>
-          </Draggable>
-          <Draggable
-            axis="y"
-            grid={[0, thirty]}
-            bounds={{ top: start + 200, bottom: trackWidth }}
-            position={{ x: end, y: 0 }}
-            name="end"
-            onDrag={(e, newValue) => handleDrag(newValue.x, "end")}
-          >
-            <div className="stretch-btn">
-              <img src={stretchIcon} />
-            </div>
-          </Draggable>*/}
+            minHeight: 200,
+          }}
+        >
+          {moment(timeslot.getStartTime()).format("h:mm a")} <br /> - <br />
+          {moment(timeslot.getEndTime()).format("h:mm a")}
+        </Paper>
+        <Draggable
+          axis="y"
+          //when the grid is set to [0,thirty], it doesn't work so keep this
+          grid={[thirty, thirty]}
+          position={{ x: 0, y: start }}
+          bounds={{ top: 0, bottom: end - 200 }}
+          onDrag={(e, newValue) => handleDrag(newValue.y, "start")}
+        >
+          <div className="stretch-btn">
+            <img style={{ rotate: "90deg" }} src={stretchIcon} />
+          </div>
+        </Draggable>
+        <Draggable
+          axis="y"
+          //when the grid is set to [0,thirty], it doesn't work so keep this
+          grid={[thirty, thirty]}
+          position={{ x: 0, y: end }}
+          bounds={{ top: start + 200, bottom: trackWidth }}
+          onDrag={(e, newValue) => handleDrag(newValue.y, "end")}
+        >
+          <div className="stretch-btn2">
+            <img style={{ rotate: "90deg" }} src={stretchIcon} />
+          </div>
+        </Draggable>
       </>
     );
   }
