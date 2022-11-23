@@ -76,7 +76,7 @@ const isBetween = (workblock, timelineRange) => {
 const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
   const timelineRange = getTimelineRange(shiftFilter, theDate);
   const dispatch = useDispatch();
-
+  const containerWidth = 
   const [mounted, setMounted] = useState(false);
   const screenWidth = useSelector((state) => state.screenWidth);
   const isMobile = screenWidth < 600;

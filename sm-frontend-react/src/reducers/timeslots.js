@@ -44,14 +44,14 @@ const timeslotsReducer = (
   state = {
     timeslots: [],
     timerange: [],
-    containerWidth: 0,
+    trackWidth: 0,
   },
   action
 ) => {
   let { timeslots } = state;
   switch (action.type) {
     case "ADD_TIMESLOT":
-      let { startTime, endTime, containerWidth, availableTimes, user, dayId } =
+      let { startTime, endTime, trackWidth, availableTimes, user, dayId } =
         action.payLoad;
 
       //convert the times to pixels and add to array
@@ -60,20 +60,20 @@ const timeslotsReducer = (
         timeslots: [
           ...state.timeslots,
           {
-            start: timeToPix(startTime, containerWidth, availableTimes),
-            end: timeToPix(endTime, containerWidth, availableTimes),
+            start: timeToPix(startTime, trackWidth, availableTimes),
+            end: timeToPix(endTime, trackWidth, availableTimes),
             user: user,
             userId: user.id,
             dayId: dayId,
             getStartTime: function () {
               return pixToTime(
                 this.start,
-                state.containerWidth,
+                state.trackWidth,
                 state.timerange
               );
             },
             getEndTime: function () {
-              return pixToTime(this.end, state.containerWidth, state.timerange);
+              return pixToTime(this.end, state.trackWidth, state.timerange);
             },
           },
         ],
@@ -94,13 +94,12 @@ const timeslotsReducer = (
         ...state,
         timeslots: [],
       };
-    case "UPDATE_CONTAINER_WIDTH":
+    case "UPDATE_TRACK_WIDTH":
       //whenever container width changes the timeslot changes
       const newWidth  = action.payLoad;
-      console.log('October')
       return {
         ...state,
-        containerWidth: newWidth,
+        trackWidth: newWidth,
         //if there are already timeslots, replace with updated timeslots
         timeslots:
           state.timeslots ||

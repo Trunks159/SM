@@ -57,21 +57,11 @@ function getThirtyMin(timerange, width) {
   const ratio = 30 / duration;
   return ratio * width;
 }
-
-//So we could either have it so that the first ts initializes the trackwidth
-//and changes if the width changes
-// or we could add a placeholder and use that to update the width
-
+//So the component needs to render before we update 
+//the height of everything
+//on first render there will not be a height (itll be 0)
+//At the end of the render 
 const TimeSlot = ({ index, user, availableTimes, workblock, day }) => {
-  const dispatch = useDispatch();
-  const myRef = useRef();
-  //uses height if isMobile is true, else uses width
-  const _width = myRef.current ? myRef.current.clientHeight : 0;
-
-  const timeslots = useSelector((state) => state.timeslots);
-  const timeslot = timeslots.timeslots[index];
-  const thirty = getThirtyMin(availableTimes, trackWidth);
-
   function handleDrag(newValue, timeframe) {
     console.log("new:", newValue);
     const time = pixToTime(newValue, trackWidth, availableTimes).format();
@@ -89,6 +79,18 @@ const TimeSlot = ({ index, user, availableTimes, workblock, day }) => {
     );
   }
 
+  const dispatch = useDispatch();
+  const myRef = useRef();
+  //uses height if isMobile is true, else uses width
+  //i could also save the width of the containers by
+  //saving the amount of padding and how long the label
+  //for each user is
+  const _width = myRef.current ? myRef.current.clientHeight : 0;
+  const [thirty, setThirty] = useState(0);
+  const timeslots = useSelector((state) => state.timeslots);
+  const trackWidth = timeslots.trackWidth;
+  const timeslot = timeslots.timeslots[index];
+
   useEffect(() => {
     dispatch(
       addTimeslot({
@@ -103,75 +105,78 @@ const TimeSlot = ({ index, user, availableTimes, workblock, day }) => {
   }, []);
 
   useEffect(() => {
-    if (width > 0) {
-      dispatch(updateTrackWidth(width));
-    }
-  }, [width]);
+    setThirty(getThirtyMin(availableTimes, trackWidth));
+  }, [trackWidth]);
 
+  useEffect(() => {
+    if (_width > 0 && _width !== trackWidth) {
+      dispatch(updateTrackWidth(_width));
+    }
+  }, [_width]);
+  console.log('_width: ', myRef.current.clientHeight)
   if (timeslot && trackWidth > 0) {
     const { start, end } = timeslot;
     return (
-      timeslot && (
-        <>
-          <Button
-            //sized by the grid its in
+      <>
+        <Button
+          //sized by the grid its in
+          style={{
+            textTransform: "capitalize",
+            fontSize: 14,
+            borderBottom: "1px solid rgba(112, 112, 112, .14)",
+          }}
+        >
+          {user.firstName} {user.lastName}
+        </Button>
+        <div
+          className={"time-track"}
+          ref={myRef}
+          style={{ position: "relative" }}
+        >
+          <Paper
+            className="timeslot"
             style={{
-              textTransform: "capitalize",
-              fontSize: 14,
-              borderBottom: "1px solid rgba(112, 112, 112, .14)",
-            }}
-          >
-            {user.firstName} {user.lastName}
-          </Button>
-          <div
-            className={"time-track"}
-            ref={myRef}
-            style={{ position: "relative" }}
-          >
-            <Paper
-              className="timeslot"
-              style={{
-                right: 10,
-                left: 10,
-                top: start,
-                bottom: trackWidth - end < 0 ? 0 : trackWidth - end,
-                /*
+              right: 10,
+              left: 10,
+              top: start,
+              bottom: trackWidth - end < 0 ? 0 : trackWidth - end,
+              /*
               top: start,
               bottom: ,
              */
-                minHeight: 200,
-              }}
-            >
-              {moment(timeslot.getStartTime()).format("h:mm a")} <br /> - <br />
-              {moment(timeslot.getEndTime()).format("h:mm a")}
-            </Paper>
-            <Draggable
-              axis="y"
-              //when the grid is set to [0,thirty], it doesn't work so keep this
-              grid={[thirty, thirty]}
-              position={{ x: 0, y: start }}
-              bounds={{ top: 0, bottom: end - 200 }}
-              onDrag={(e, newValue) => handleDrag(newValue.y, "start")}
-            >
-              <div className="stretch-btn">
-                <img style={{ rotate: "90deg" }} src={stretchIcon} />
-              </div>
-            </Draggable>
-            <Draggable
-              axis="y"
-              //when the grid is set to [0,thirty], it doesn't work so keep this
-              grid={[thirty, thirty]}
-              position={{ x: 0, y: end }}
-              bounds={{ top: start + 200, bottom: trackWidth }}
-              onDrag={(e, newValue) => handleDrag(newValue.y, "end")}
-            >
-              <div className="stretch-btn2">
-                <img style={{ rotate: "90deg" }} src={stretchIcon} />
-              </div>
-            </Draggable>
-          </div>
+              minHeight: 200,
+            }}
+          >
+            {moment(timeslot.getStartTime()).format("h:mm a")} <br /> - <br />
+            {moment(timeslot.getEndTime()).format("h:mm a")}
+          </Paper>
+          <Draggable
+            axis="y"
+            //when the grid is set to [0,thirty], it doesn't work so keep this
+            grid={[thirty, thirty]}
+            position={{ x: 0, y: start }}
+            bounds={{ top: 0, bottom: end - 200 }}
+            onDrag={(e, newValue) => handleDrag(newValue.y, "start")}
+          >
+            <div className="stretch-btn">
+              <img style={{ rotate: "90deg" }} src={stretchIcon} />
+            </div>
+          </Draggable>
+          <Draggable
+            axis="y"
+            //when the grid is set to [0,thirty], it doesn't work so keep this
+            grid={[thirty, thirty]}
+            position={{ x: 0, y: end }}
+            bounds={{ top: start + 200, bottom: trackWidth }}
+            onDrag={(e, newValue) => handleDrag(newValue.y, "end")}
+          >
+            <div className="stretch-btn2">
+              <img style={{ rotate: "90deg" }} src={stretchIcon} />
+            </div>
+          </Draggable>
+        </div>
 
-          {/*
+        {/*
           <Draggable
             axis="y"
             grid={[0, thirty]}
@@ -196,8 +201,7 @@ const TimeSlot = ({ index, user, availableTimes, workblock, day }) => {
               <img src={stretchIcon} />
             </div>
           </Draggable>*/}
-        </>
-      )
+      </>
     );
   }
   return null;
