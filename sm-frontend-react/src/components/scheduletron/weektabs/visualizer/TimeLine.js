@@ -1,5 +1,5 @@
 import { Divider } from "@mui/material";
-import React from "react";
+import React, {useRef} from "react";
 import { useSelector } from "react-redux";
 
 const getTimeLabels = (shiftFilter) => {
@@ -18,6 +18,8 @@ const getTimeLabels = (shiftFilter) => {
 };
 
 const TimeLine = ({ shiftFilter }) => {
+  const myRef = useRef();
+  console.log('myref.cu: ', myRef.current && myRef.current.clientHeight )
   const timeLabels = getTimeLabels(shiftFilter);
   const screenWidth = useSelector((state) => state.screenWidth);
   return (
@@ -36,6 +38,7 @@ const TimeLine = ({ shiftFilter }) => {
         ))}
       </div>
       <Divider
+      ref = {myRef}
         style={{
           background: "black",
           width: 1,

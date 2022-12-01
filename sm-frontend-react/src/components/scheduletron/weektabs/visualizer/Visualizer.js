@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import ShiftFilter from "./shiftfilter/ShiftFilter";
 import TimeLine from "./TimeLine";
 import TimeSlots from "./timeslots/TimeSlots";
+import Table from "./timeslots/TimeSlotsTable";
 import "./visualizer.css";
 
 //Timeslot overflow feature isn't working properly rn
@@ -28,13 +29,15 @@ function Visualizer({ day, workblocks }) {
       />*/}
 
 
-        <TimeLine shiftFilter={shiftFilter} />
-        <TimeSlots
+      
+        <Table/>
+        {/*          <TimeLine shiftFilter={shiftFilter} /> <TimeSlots
           shiftFilter={shiftFilter}
           workblocks={workblocks}
           day={day}
           theDate={day.date}
-        />
+        />*/}
+
     </div>
   );
 }

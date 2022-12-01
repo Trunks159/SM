@@ -1,11 +1,10 @@
 import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TimeSlot from "./TimeSlot";
 import TimeSlotMobile from "./TimeSlotMobile";
 import "./timeslots.css";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
-import SlotLabels from "./SlotLabels";
 
 //actions
 
@@ -18,10 +17,6 @@ const dumpTimeslots = () => ({
   type: "DUMP_TIMESLOTS",
 });
 
-const updateTrackWidth = (newWidth) => ({
-  type: "UPDATE_TRACK_WIDTH",
-  payLoad: newWidth,
-});
 
 //Timeslots needs to be reset to an empty array
 //whenever day changes
@@ -74,11 +69,10 @@ const isBetween = (workblock, timelineRange) => {
 };
 
 const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
-  const myRef = useRef();
-  //controls and initializes the width and timerange for timeslots
-  const _width = myRef.current ? myRef.current.clientHeight : 0;
+
+
   const _timelineRange = getTimelineRange(shiftFilter, theDate);
-  const { timerange, trackWidth } = useSelector((state) => state.timeslots);
+  const { timerange} = useSelector((state) => state.timeslots);
 
   const dispatch = useDispatch();
   const [mounted, setMounted] = useState(false);
@@ -92,27 +86,25 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
     ) {
       dispatch(updateTimeRange(_timelineRange));
     }
-    if (_width > 0 && _width !== trackWidth) {
-      dispatch(updateTrackWidth(_width));
-    }
 
     setMounted(true);
-  }, [_width, _timelineRange]);
+  }, [ _timelineRange]);
 
   //CLEANUP
   useEffect(() => dispatch(dumpTimeslots()), []);
 
   return (
-    <div style={{ flex: 1, display: "grid", gridTemplateRows: "70px 1fr" }}>
-      <SlotLabels />
-      <div style={{ position: "relative" }}>
-        <ul ref={myRef} className="timeslots">
+    <div style={{ flex: 1, position : 'relative'}} >
+
+
+
+        <ul style = {{background : 'green'}} className="timeslots">
           {mounted ? (
             workblocks.map((workblock, index) => {
               return (
                 //if the user works outside of the time range dont render them
                 isBetween(workblock, timerange) && (
-                  <li key={workblock.wbId} style={{ background: "red" }}>
+                  <li key={workblock.wbId} >
                     {isMobile ? (
                       <TimeSlotMobile
                         index={index}
@@ -134,7 +126,6 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
             <CircularProgress />
           )}
         </ul>
-      </div>
     </div>
   );
 };

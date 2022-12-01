@@ -10,8 +10,6 @@
   list-style-type: None;
   margin-left: 0;
   padding-left: 0;
-  margin: 20px 0px;
-  padding : 20px 0px 0px 0px;
 }
 
 .timeslots li {
@@ -19,6 +17,8 @@
   transition-duration: 0.15s;
   border-radius: 7px;
   position: relative;
+  display: grid;
+  grid-template-rows: 70px 1fr;
 }
 
 .timeslots li:hover {
@@ -39,9 +39,6 @@
   text-align: center;
 }
 
-.time-slot:hover {
-  background-color: #00a7ff;
-}
 
 .stretch-btn {
   position: absolute;

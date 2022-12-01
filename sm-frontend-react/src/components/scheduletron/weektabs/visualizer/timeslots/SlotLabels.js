@@ -5,7 +5,7 @@ import { Button } from "@material-ui/core";
 function SlotLabels() {
   const { slots } = useSelector((state) => state.timeslots);
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative",background : 'orange' }}>
       <ul
         style={{
           display: "flex",
@@ -19,7 +19,7 @@ function SlotLabels() {
       >
         {slots &&
           slots.map(({ user }) => (
-            <li style={{ width: 100 }}>
+            <li style={{ minWidth: 150 }}>
               <Button
                 //sized by the grid its in
                 style={{
