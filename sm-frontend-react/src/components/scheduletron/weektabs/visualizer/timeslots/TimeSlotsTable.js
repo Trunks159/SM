@@ -25,50 +25,54 @@ function MyTable() {
         <TableRow>
           <TableCell>{"  "}</TableCell>
           {timeslots.map(({ firstName, lastName }) => (
-            <TableCell>
+            <TableCell >
               {firstName} {lastName}
             </TableCell>
           ))}
         </TableRow>
       </TableHead>
       <TableBody style={{ background: "blue" }} ref={myRef}>
-        <TableCell>
-          <TimeLine shiftFilter={{ day: true, night: true }} />
-        </TableCell>
-        {_trackWidth > 0 &&
-          timeslots.map(({ start, end }) => (
-            <TableCell
-              style={{
-                borderRight: "2px solid black",
-                position: "relative",
-              }}
-            >
-              <Paper
+        <TableRow >
+          <TableCell style={{ background : 'green', width  : 30, position : 'relative'}}>
+            <TimeLine shiftFilter={{ day: true, night: true }} />
+          </TableCell>
+          {_trackWidth > 0 &&
+            timeslots.map(({ start, end }) => (
+              <TableCell
                 style={{
-                  position: "absolute",
-                  top: start,
-                  bottom: 0,
-                  right: 10,
-                  left: 10,
+                  borderRight: "2px solid black",
+                  position: "relative",
+                  maxWidth: 130,
+                  background : 'yellow'
                 }}
               >
-                Start : {start}
-                End : {_trackWidth}
-              </Paper>
-              <Draggable axis={"y"} position={{ x: 0, y: start }} style={{}}>
-                <div
+                <Paper
                   style={{
-                    background: "yellow",
-                    width: 100,
-                    height: 100,
+                    position: "absolute",
+                    top: start,
+                    bottom: 0,
+                    right: 10,
+                    left: 10,
                   }}
-                  className="stretch-btn"
                 >
-                  1
-                </div>
-              </Draggable>
-            </TableCell>
-          ))}
+                  Start : {start}
+                  End : {_trackWidth}
+                </Paper>
+                <Draggable axis={"y"} position={{ x: 0, y: start }} style={{}}>
+                  <div
+                    style={{
+                      background: "yellow",
+                      width: 100,
+                      height: 100,
+                    }}
+                    className="stretch-btn"
+                  >
+                    1
+                  </div>
+                </Draggable>
+              </TableCell>
+            ))}
+        </TableRow>
       </TableBody>
     </Table>
   );

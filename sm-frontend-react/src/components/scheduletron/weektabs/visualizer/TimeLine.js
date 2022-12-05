@@ -1,7 +1,6 @@
-import { Divider } from "@mui/material";
-import React, {useRef} from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-
+import { Divider } from "@material-ui/core";
 const getTimeLabels = (shiftFilter) => {
   const { day, night } = shiftFilter;
   const labels = {
@@ -18,12 +17,10 @@ const getTimeLabels = (shiftFilter) => {
 };
 
 const TimeLine = ({ shiftFilter }) => {
-  const myRef = useRef();
-  console.log('myref.cu: ', myRef.current && myRef.current.clientHeight )
   const timeLabels = getTimeLabels(shiftFilter);
   const screenWidth = useSelector((state) => state.screenWidth);
   return (
-    <div className="timeline">
+    <div className="timeline" style = {{background : 'orange', position : 'sticky', top : 0, right : 0, bottom : 0, left : 0, zIndex : 2}}>
       <div className="timeline-labels">
         {timeLabels.map((time, index) => (
           <p
@@ -38,12 +35,11 @@ const TimeLine = ({ shiftFilter }) => {
         ))}
       </div>
       <Divider
-      ref = {myRef}
         style={{
           background: "black",
           width: 1,
           margin: 5,
-          opacity: 0.5,
+          opacity: .5,
         }}
         orientation={screenWidth >= 600 ? "horizontal" : "vertical"}
         className={"timeline-divider"}
