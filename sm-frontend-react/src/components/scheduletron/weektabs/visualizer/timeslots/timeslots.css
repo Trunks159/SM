@@ -62,12 +62,14 @@
 }
 
 @media (min-width: 600px) {
+  /*
   .stretch-btn {
     left: -15px;
     top: 18px;
     height: 25px;
     width: 35px;
   }
+  */
   .timeslots {
     background-color: rgba(175, 175, 175, 0.15);
     padding: 20px 0px;

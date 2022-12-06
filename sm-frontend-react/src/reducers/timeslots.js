@@ -51,6 +51,22 @@ const timeslotsReducer = (
 ) => {
   let { slots, trackWidth, timerange } = state;
   switch (action.type) {
+    case "INITIALIZE_SCHEDULE":
+      const { scheduled, trackWidth } = payLoad;
+      const ts = scheduled.map(({ user, startTime, endTime }) => ({
+        start: timeToPix(startTime, trackWidth, timerange),
+        end: timeToPix(endTime, trackWidth, timerange),
+        user,
+        getStartTime: function () {
+          return pixToTime(this.start, trackWidth, timerange);
+        },
+        getEndTime: function () {
+          return pixToTime(this.end, trackWidth, timerange);
+        },
+      }));
+      return {
+        ...state,
+      };
     case "ADD_TIMESLOT":
       const { startTime, endTime, user } = action.payLoad;
       return {

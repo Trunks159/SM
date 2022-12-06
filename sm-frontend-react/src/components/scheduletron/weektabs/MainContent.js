@@ -50,7 +50,6 @@ const MainContent = ({ day, isDesktop }) => {
   const [currentFunction, setCurrentFunction] = useState(null);
 
   const allUsers = useSelector((state) => state.allUsers);
-  const scheduled = useSelector((state) => state.scheduled);
 
   const dispatch = useDispatch();
 
@@ -83,13 +82,13 @@ const MainContent = ({ day, isDesktop }) => {
           flexDirection: "column",
           flex: 1,
           background: "#F5F5F5",
-          display : 'flex'
+          display: "flex",
         }}
       >
         {redirect && <Redirect to={"/scheduletron"} />}
-        
+
         {/*Has Timeline and Timeslots */}
-        <Vizualizer day={day} workblocks={scheduled} isDesktop={isDesktop} />
+        <Vizualizer day={day} isDesktop={isDesktop} />
 
         <Functions
           hidden={!isDesktop}

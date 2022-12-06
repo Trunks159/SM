@@ -11,27 +11,44 @@ import { Paper } from "@material-ui/core";
 import Draggable from "react-draggable";
 import TimeLine from "../TimeLine";
 import stretchIcon from "./assets/Stretch Icon.svg";
+import { useDispatch, useSelector } from "react-redux";
+import useWindowDimensions from "./WindowDimensions";
+
+//ACTIONS
+const updateTrackWidth = (newWidth) => ({
+  type: "UPDATE_TRACK_WIDTH",
+  payLoad: newWidth,
+});
+
+const initializeSchedule = (trackWidth, scheduled) => ({
+  type: "INITIALIZE_SCHEDULE",
+  payLoad: { newWidth, scheduled },
+});
+/////////////
 
 function MyTable() {
   const timeslots = [
     { firstName: "Jordan", lastName: "Bless", start: 200, end: 300 },
     { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
-    { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
-    { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
-    { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
-    { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
-    { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
-    { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
-    { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
-    { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
-    { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
-    { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
-    { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
-    { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
   ];
   const myRef = useRef(null);
+  const dispatch = useDispatch();
+  const dimensions = useWindowDimensions();
+  //program wont refresh on change to height without this
+  const viewportHeight = dimensions.height;
   //initialize width
-  const _trackWidth = myRef.current ? myRef.current.clientHeight : 0;
+  const ts = useSelector((state) => state.timeslots);
+  const scheduled = useSelector((state) => state.scheduled);
+  const { trackWidth } = ts;
+  /*
+  useEffect(() => {
+    dispatch(updateTrackWidth(myRef.current.clientHeight));
+  }, [viewportHeight]);
+*/
+
+  useEffect(() => {
+    dispatch(initializeSchedule(myRef.current.clientHeight, scheduled));
+  }, []);
 
   return (
     <TableContainer sx={{ flex: 1, minWidth: 100, width: 100 }}>
@@ -73,7 +90,7 @@ function MyTable() {
             >
               <TimeLine shiftFilter={{ day: true, night: true }} />
             </TableCell>
-            {_trackWidth > 0 &&
+            {timeslots &&
               timeslots.map(({ start, end }) => (
                 <TableCell
                   style={{
@@ -85,19 +102,20 @@ function MyTable() {
                     style={{
                       position: "absolute",
                       top: start,
-                      bottom: 0,
+                      bottom: trackWidth - end,
                       right: 10,
                       left: 10,
                     }}
                   >
                     Start : {start}
-                    End : {_trackWidth}
+                    End : {trackWidth}
                   </Paper>
-                  <Draggable
-                    axis={"y"}
-                    position={{ x: 0, y: start }}
-                    style={{}}
-                  >
+                  <Draggable axis={"y"} position={{ x: 0, y: start }}>
+                    <div className="stretch-btn">
+                      <img style={{ rotate: "90deg" }} src={stretchIcon} />
+                    </div>
+                  </Draggable>
+                  <Draggable axis={"y"} position={{ x: 0, y: end }} style={{}}>
                     <div className="stretch-btn">
                       <img style={{ rotate: "90deg" }} src={stretchIcon} />
                     </div>
