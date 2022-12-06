@@ -25,6 +25,14 @@ function Header({ children }) {
   );
 }
 
+const StyledHeader = styled('header')((props)=>({
+  margin : '30px 0px',
+  fontSize: '38px',
+  fontWeight: 'normal',
+  margin : '15px 0px',
+}))
+
+
 const StyledSolidButton = styled(Button)({
   ...buttonStyles,
   background: "rgba(7, 145, 182, 1)",
