@@ -8,6 +8,7 @@
   color: white;
   display: flex;
   flex-direction: column;
+  z-index: 2;
 }
 
 .drawer-header h1 {

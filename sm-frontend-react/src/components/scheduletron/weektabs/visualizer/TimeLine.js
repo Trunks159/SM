@@ -20,7 +20,14 @@ const TimeLine = ({ shiftFilter }) => {
   const timeLabels = getTimeLabels(shiftFilter);
   const screenWidth = useSelector((state) => state.screenWidth);
   return (
-    <div className="timeline" style = {{background : 'orange', position : 'sticky', top : 0, right : 0, bottom : 0, left : 0, zIndex : 2}}>
+    <div
+      className="timeline"
+      style={{
+        height: "100%",
+        padding: 0,
+        margin: 0,
+      }}
+    >
       <div className="timeline-labels">
         {timeLabels.map((time, index) => (
           <p
@@ -39,7 +46,7 @@ const TimeLine = ({ shiftFilter }) => {
           background: "black",
           width: 1,
           margin: 5,
-          opacity: .5,
+          opacity: 0.5,
         }}
         orientation={screenWidth >= 600 ? "horizontal" : "vertical"}
         className={"timeline-divider"}

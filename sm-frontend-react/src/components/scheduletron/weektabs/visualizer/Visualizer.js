@@ -28,16 +28,13 @@ function Visualizer({ day, workblocks }) {
         shiftFilter={shiftFilter}
       />*/}
 
-
-      
-        <Table/>
-        {/*          <TimeLine shiftFilter={shiftFilter} /> <TimeSlots
+      <Table />
+      {/*          <TimeLine shiftFilter={shiftFilter} /> <TimeSlots
           shiftFilter={shiftFilter}
           workblocks={workblocks}
           day={day}
           theDate={day.date}
         />*/}
-
     </div>
   );
 }
