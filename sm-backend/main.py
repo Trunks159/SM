@@ -165,7 +165,7 @@ def get_schedule(day_id):
         for workblock in day.workblocks:
             filter(not_scheduled, workblock.user_id)
 
-        return jsonify({'notScheduled': [i.to_json() for i in not_scheduled], 'scheduled': [workblock.to_json() for workblock in day.workblocks], 'allUsers': [user.to_json() for user in users]})
+        return jsonify({'notScheduled': [i.to_json() for i in not_scheduled], 'scheduled': [workblock.to_json() for workblock in day.workblocks]})
     else:
         return jsonify(False)
 
@@ -258,7 +258,7 @@ def update_schedule():
 
     db.session.commit()
 
-    return jsonify({'message': 'Scheduled has been succefully updated!', 'severity' : 'success'})
+    return jsonify({'message': 'Scheduled has been succefully updated!', 'severity': 'success'})
 
 
 @ login_required

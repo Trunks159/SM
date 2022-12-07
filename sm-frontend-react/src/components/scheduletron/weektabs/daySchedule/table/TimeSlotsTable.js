@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Paper } from "@material-ui/core";
 import Draggable from "react-draggable";
-import TimeLine from "../TimeLine";
+import TimeLine from "../../TimeLine";
 import stretchIcon from "./assets/Stretch Icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import useWindowDimensions from "./WindowDimensions";
@@ -20,19 +20,23 @@ const updateTrackLength = (newLength) => ({
   payLoad: newLength,
 });
 
-const initializeSchedule = ({workblocks, newDayId, newTimerange,newLength }) => ({
+const initializeSchedule = ({
+  workblocks,
+  newDayId,
+  newTimerange,
+  newLength,
+}) => ({
   type: "INITIALIZE_SCHEDULE",
-  payLoad: {workblocks, newDayId, newTimerange, newLength},
+  payLoad: { workblocks, newDayId, newTimerange, newLength },
 });
 /////////////
 
 function MyTable() {
-
   const myRef = useRef(null);
   const dispatch = useDispatch();
   const dimensions = useWindowDimensions();
   //program wont refresh on change to height without this
-  
+
   //initialize length
   const daySchedule = useSelector((state) => state.timeslots);
   const scheduled = useSelector((state) => state.scheduled);
