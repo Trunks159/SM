@@ -21,12 +21,12 @@ const DayBtn = ({
   id,
   path,
   weekId,
-  dayIndex,
+  dayId,
   changeMenu,
 }) => {
   return (
     <Link
-      to={`/scheduletron/viewer/${weekId}/${dayIndex}`}
+      to={`/scheduletron/viewer/${weekId}/${dayId}`}
       style={{
         height: 155,
         width: 155,
@@ -88,7 +88,7 @@ class WeekBar extends Component {
           alignItems: "center",
         }}
       >
-        {week.map(({ weekday, staffing, month, day, id }, index) => (
+        {week.map(({ weekday, staffing, month, day, id }) => (
           <DayBtn
             weekId={weekId}
             weekday={weekday}
@@ -98,7 +98,7 @@ class WeekBar extends Component {
             date={`${month}/${day}`}
             id={id}
             path={path}
-            dayIndex={index}
+            dayId={id}
           />
         ))}
       </div>

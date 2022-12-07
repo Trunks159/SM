@@ -3,25 +3,27 @@ import { Redirect, Link } from "react-router-dom";
 import MainContent from "./MainContent";
 import { useSelector, useDispatch } from "react-redux";
 import { StyledPaper, StyledTab, StyledTabs } from "./StyledComponents";
-import TheTabs from "./TestTabs";
+
+
 
 //ACTIONS
 function updateSelectedWeek(newWeek) {
   return { type: "UPDATE_SELECTED_WEEK", payLoad: newWeek };
 }
 
-function updateCurrentDayIndex(newIndex) {
-  return { type: "UPDATE_CURRENT_DAY_INDEX", payLoad: newIndex };
+function updateCurrentDayId(newId) {
+  return { type: "UPDATE_DAY_ID", payLoad: newId };
 }
 
-const TabsContainer = ({ weekId, dayIndex, screenWidth }) => {
-  //dayIndex is the source for all day changes
+const TabsContainer = ({ weekId, dayId, screenWidth }) => {
+  //dayId is the source for all day changes
 
   const dispatch = useDispatch();
 
   //GLOBAL STATE
   const selectedWeek = useSelector((state) => state.selectedWeek);
-  const currentDayIndex = useSelector((state) => state.currentDayIndex);
+  const currentSchedule = useSelector((state) => state.currentSchedule);
+  const currentDayId = currentSchedule.dayId;
 
   //STATE
   const [redirect, setRedirect] = useState(null);
@@ -49,12 +51,12 @@ const TabsContainer = ({ weekId, dayIndex, screenWidth }) => {
       }
     }
 
-    if (dayIndex !== currentDayIndex) {
-      dispatch(updateCurrentDayIndex(dayIndex));
+    if (dayId !== currentDayId) {
+      dispatch(updateCurrentDayId(dayId));
     }
-  }, [weekId, dayIndex]);
+  }, [weekId, currentDayId]);
 
-  if (currentDayIndex !== null && selectedWeek !== null) {
+  if (currentDayId !== null && selectedWeek !== null) {
     //STUFF DEPENDENT ON PROPS OR STATE
     const currentDay = selectedWeek.week[currentDayIndex];
     const isDesktop = screenWidth >= 600;
@@ -66,23 +68,23 @@ const TabsContainer = ({ weekId, dayIndex, screenWidth }) => {
           <StyledTabs variant="scrollable" value={currentDayIndex}>
             {/*You might want to separate this and define the Tabs above 
               but DONOT. For some reason the scrollbuttons dont work or the indicator*/}
-            {days.map((d, index) => (
+            {days.map(({id, day, month, weekday}) => (
               <StyledTab
                 value={index}
-                currentDayIndex={currentDayIndex}
+                currentDayId={currentDayId}
                 component={Link}
-                to={`/scheduletron/viewer/${weekId}/${index}`}
+                to={`/scheduletron/viewer/${weekId}/${id}`}
                 label={
                   <p>
-                    <span className="weekday">{d.weekday},</span>
-                    {d.month}/{d.day}
+                    <span className="weekday">{weekday},</span>
+                    {month}/{day}
                   </p>
                 }
               />
             ))}
           </StyledTabs>
 
-          <MainContent day={currentDay} isDesktop={isDesktop} />
+          <MainContent day={days.find(({id})=>id === currentDayId)} isDesktop={isDesktop} />
         </StyledPaper>
       ))
     );

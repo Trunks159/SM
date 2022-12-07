@@ -61,13 +61,13 @@ function Scheduletron({ notifyUser }) {
         </Route>
 
         <Route
-          path={"/scheduletron/viewer/:weekId/:dayIndex"}
+          path={"/scheduletron/viewer/:weekId/:dayId"}
           render={({ match }) => {
             return (
               <WeekTabs
                 match={match}
                 weekId={parseInt(match.params.weekId)}
-                dayIndex={parseInt(match.params.dayIndex)}
+                dayId={parseInt(match.params.dayId)}
                 weekSchedule={selectedWeek}
                 screenWidth={screenWidth}
               />

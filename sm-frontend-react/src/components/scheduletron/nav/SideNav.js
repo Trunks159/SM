@@ -25,7 +25,7 @@ function SideNav() {
             background: "#51636D",
           }}
         >
-          <Tabs1 dayIndex={0} weekId={selectedWeek && selectedWeek.id} />
+          <Tabs1  weekId={selectedWeek && selectedWeek.id} />
           <Tabs2
             changeMenu={changeMenu}
             selectedWeek={selectedWeek}

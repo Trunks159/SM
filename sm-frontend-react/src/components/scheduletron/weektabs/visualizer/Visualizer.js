@@ -28,7 +28,7 @@ function Visualizer({ day, workblocks }) {
         shiftFilter={shiftFilter}
       />*/}
 
-      <Table />
+      <Table dayId = {day.id}/>
       {/*          <TimeLine shiftFilter={shiftFilter} /> <TimeSlots
           shiftFilter={shiftFilter}
           workblocks={workblocks}

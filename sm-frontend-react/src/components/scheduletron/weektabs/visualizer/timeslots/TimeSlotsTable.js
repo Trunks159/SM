@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Table,
   TableHead,
@@ -15,34 +15,31 @@ import { useDispatch, useSelector } from "react-redux";
 import useWindowDimensions from "./WindowDimensions";
 
 //ACTIONS
-const updateTrackWidth = (newWidth) => ({
-  type: "UPDATE_TRACK_WIDTH",
-  payLoad: newWidth,
+const updateTrackLength = (newLength) => ({
+  type: "UPDATE_TRACK_LENGTH",
+  payLoad: newLength,
 });
 
-const initializeSchedule = (trackWidth, scheduled) => ({
+const initializeSchedule = ({workblocks, newDayId, newTimerange,newLength }) => ({
   type: "INITIALIZE_SCHEDULE",
-  payLoad: { newWidth, scheduled },
+  payLoad: {workblocks, newDayId, newTimerange, newLength},
 });
 /////////////
 
 function MyTable() {
-  const timeslots = [
-    { firstName: "Jordan", lastName: "Bless", start: 200, end: 300 },
-    { firstName: "Bob", lastName: "Marley", start: 0, end: 400 },
-  ];
+
   const myRef = useRef(null);
   const dispatch = useDispatch();
   const dimensions = useWindowDimensions();
   //program wont refresh on change to height without this
-  const viewportHeight = dimensions.height;
-  //initialize width
-  const ts = useSelector((state) => state.timeslots);
+  
+  //initialize length
+  const daySchedule = useSelector((state) => state.timeslots);
   const scheduled = useSelector((state) => state.scheduled);
-  const { trackWidth } = ts;
+  const { trackLength, timeslots } = daySchedule;
   /*
   useEffect(() => {
-    dispatch(updateTrackWidth(myRef.current.clientHeight));
+    dispatch(updateTrackLength(myRef.current.clientHeight));
   }, [viewportHeight]);
 */
 
@@ -102,13 +99,13 @@ function MyTable() {
                     style={{
                       position: "absolute",
                       top: start,
-                      bottom: trackWidth - end,
+                      bottom: trackLength - end,
                       right: 10,
                       left: 10,
                     }}
                   >
                     Start : {start}
-                    End : {trackWidth}
+                    End : {trackLength}
                   </Paper>
                   <Draggable axis={"y"} position={{ x: 0, y: start }}>
                     <div className="stretch-btn">
