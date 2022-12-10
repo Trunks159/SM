@@ -13,14 +13,15 @@ function updateCurrentDayId(newId) {
   return { type: "UPDATE_DAY_ID", payLoad: newId };
 }
 
-const TabsContainer = ({ weekId, dayId, screenWidth }) => {
-  //dayId is the source for all day changes
+const TabsContainer = ({ weekId, dayId }) => {
+  //This dayId is the source for all day changes
 
   const dispatch = useDispatch();
 
   //GLOBAL STATE
   const selectedWeek = useSelector((state) => state.selectedWeek);
   const currentSchedule = useSelector((state) => state.currentSchedule);
+  const screenWidth = useSelector((state) => state.screenWidth);
   const currentDayId = currentSchedule.dayId;
 
   //STATE
@@ -57,18 +58,17 @@ const TabsContainer = ({ weekId, dayId, screenWidth }) => {
   if (currentDayId !== null && selectedWeek !== null) {
     //STUFF DEPENDENT ON PROPS OR STATE
     const days = selectedWeek.week;
-    const currentDay = days.find(({ id }) => id === currentDayId);
     const isDesktop = screenWidth >= 600;
     return (
       redirect ||
       (days && (
         <StyledPaper>
-          <StyledTabs variant="scrollable" value={currentDayIndex}>
+          <StyledTabs variant="scrollable" value={currentDayId}>
             {/*You might want to separate this and define the Tabs above 
               but DONOT. For some reason the scrollbuttons dont work or the indicator*/}
             {days.map(({ id, day, month, weekday }) => (
               <StyledTab
-                value={index}
+                value={id}
                 currentDayId={currentDayId}
                 component={Link}
                 to={`/scheduletron/viewer/${weekId}/${id}`}

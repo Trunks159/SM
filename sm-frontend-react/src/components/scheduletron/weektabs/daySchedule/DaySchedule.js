@@ -3,15 +3,14 @@ import "./daySchedule.css";
 import Functions from "../functions/Functions";
 import TheDrawer from "../drawer/TheDrawer";
 import { Redirect } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Paper, Button } from "@material-ui/core";
 import menuIcon from "./assets/Menu Icon.svg";
 import styled from "@emotion/styled";
-import MyTable from "./table/timeslots/TimeSlotsTable";
+import MyTable from "./table/TimeSlotsTable";
 import moment from "moment";
 
 const HamburgerButton = styled(Button)(({ hidden }) => {
-  console.log("Is it hidden: ", hidden);
   return {
     display: hidden ? "none" : "flex",
     background: "#585858",
