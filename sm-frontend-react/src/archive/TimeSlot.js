@@ -8,7 +8,7 @@ import {
   pixToTime,
   thirtyMin,
   timeToPix,
-} from "../../../TimeFunctions";
+} from "../components/scheduletron/TimeFunctions";
 import moment from "moment";
 import TimeslotMobile from "./TimeSlotMobile";
 

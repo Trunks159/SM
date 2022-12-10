@@ -1,9 +1,3 @@
-.visualizer{
-  flex :1;
-  display: flex;
-  margin : 15px 0px;
-}
-
 .timeline {
   display: flex;
 }
@@ -16,9 +10,6 @@
 
 
 @media screen (min-width : 600px) {
-  .visualizer {
-    flex-direction : column;
-  }
   .timeline {
     position: static;
     display: flex;
@@ -38,4 +29,3 @@
   }
   
 }
-

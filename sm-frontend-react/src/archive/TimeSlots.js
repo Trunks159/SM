@@ -17,7 +17,6 @@ const dumpTimeslots = () => ({
   type: "DUMP_TIMESLOTS",
 });
 
-
 //Timeslots needs to be reset to an empty array
 //whenever day changes
 
@@ -69,10 +68,8 @@ const isBetween = (workblock, timelineRange) => {
 };
 
 const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
-
-
   const _timelineRange = getTimelineRange(shiftFilter, theDate);
-  const { timerange} = useSelector((state) => state.timeslots);
+  const { timerange } = useSelector((state) => state.timeslots);
 
   const dispatch = useDispatch();
   const [mounted, setMounted] = useState(false);
@@ -88,44 +85,41 @@ const TimeSlots = ({ workblocks, shiftFilter, theDate, day }) => {
     }
 
     setMounted(true);
-  }, [ _timelineRange]);
+  }, [_timelineRange]);
 
   //CLEANUP
   useEffect(() => dispatch(dumpTimeslots()), []);
 
   return (
-    <div style={{ flex: 1, position : 'relative'}} >
-
-
-
-        <ul style = {{background : 'green'}} className="timeslots">
-          {mounted ? (
-            workblocks.map((workblock, index) => {
-              return (
-                //if the user works outside of the time range dont render them
-                isBetween(workblock, timerange) && (
-                  <li key={workblock.wbId} >
-                    {isMobile ? (
-                      <TimeSlotMobile
-                        index={index}
-                        workblock={workblock}
-                        user={workblock.user}
-                      />
-                    ) : (
-                      <TimeSlot
-                        index={index}
-                        workblock={workblock}
-                        user={workblock.user}
-                      />
-                    )}
-                  </li>
-                )
-              );
-            })
-          ) : (
-            <CircularProgress />
-          )}
-        </ul>
+    <div style={{ flex: 1, position: "relative" }}>
+      <ul style={{ background: "green" }} className="timeslots">
+        {mounted ? (
+          workblocks.map((workblock, index) => {
+            return (
+              //if the user works outside of the time range dont render them
+              isBetween(workblock, timerange) && (
+                <li key={workblock.wbId}>
+                  {isMobile ? (
+                    <TimeSlotMobile
+                      index={index}
+                      workblock={workblock}
+                      user={workblock.user}
+                    />
+                  ) : (
+                    <TimeSlot
+                      index={index}
+                      workblock={workblock}
+                      user={workblock.user}
+                    />
+                  )}
+                </li>
+              )
+            );
+          })
+        ) : (
+          <CircularProgress />
+        )}
+      </ul>
     </div>
   );
 };

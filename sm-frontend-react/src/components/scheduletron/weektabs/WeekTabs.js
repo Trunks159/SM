@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Redirect, Link } from "react-router-dom";
-import MainContent from "./MainContent";
+import DaySchedule from "./daySchedule/DaySchedule";
 import { useSelector, useDispatch } from "react-redux";
 import { StyledPaper, StyledTab, StyledTabs } from "./StyledComponents";
-
-
 
 //ACTIONS
 function updateSelectedWeek(newWeek) {
@@ -58,9 +56,9 @@ const TabsContainer = ({ weekId, dayId, screenWidth }) => {
 
   if (currentDayId !== null && selectedWeek !== null) {
     //STUFF DEPENDENT ON PROPS OR STATE
-    const currentDay = selectedWeek.week[currentDayIndex];
-    const isDesktop = screenWidth >= 600;
     const days = selectedWeek.week;
+    const currentDay = days.find(({ id }) => id === currentDayId);
+    const isDesktop = screenWidth >= 600;
     return (
       redirect ||
       (days && (
@@ -68,7 +66,7 @@ const TabsContainer = ({ weekId, dayId, screenWidth }) => {
           <StyledTabs variant="scrollable" value={currentDayIndex}>
             {/*You might want to separate this and define the Tabs above 
               but DONOT. For some reason the scrollbuttons dont work or the indicator*/}
-            {days.map(({id, day, month, weekday}) => (
+            {days.map(({ id, day, month, weekday }) => (
               <StyledTab
                 value={index}
                 currentDayId={currentDayId}
@@ -84,7 +82,10 @@ const TabsContainer = ({ weekId, dayId, screenWidth }) => {
             ))}
           </StyledTabs>
 
-          <MainContent day={days.find(({id})=>id === currentDayId)} isDesktop={isDesktop} />
+          <DaySchedule
+            day={days.find(({ id }) => id === currentDayId)}
+            isDesktop={isDesktop}
+          />
         </StyledPaper>
       ))
     );

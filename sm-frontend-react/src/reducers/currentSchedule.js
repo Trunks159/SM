@@ -42,41 +42,24 @@ const convertTimeslots = (timeslots, oldLength, newLength, timerange) => {
 
 const currentScheduleReducer = (
   state = {
-    timeslots: [],
-    timerange: [],
-    trackLength: 0,
     dayId: null,
     scheduled: [],
     notScheduled: [],
+    timerange: [],
+    timeslots: [],
+    trackLength: 0,
   },
   action
 ) => {
   let { timeslots, trackLength, timerange } = state;
   switch (action.type) {
     case "INITIALIZE_SCHEDULE":
-      const { scheduled, newLength, newTimeRange, newDayId } = payLoad;
-      const newSlots = scheduled.map(({ user, startTime, endTime }) => ({
-        start: timeToPix(startTime, newLength, timerange),
-        end: timeToPix(endTime, newLength, timerange),
-        user,
-        getStartTime: function (
-          trackLength = trackLength,
-          timerange = timerange
-        ) {
-          return pixToTime(this.start, trackLength, timerange);
-        },
-        getEndTime: function (
-          trackLength = trackLength,
-          timerange = timerange
-        ) {
-          return pixToTime(this.end, trackLength, timerange);
-        },
-      }));
       return {
-        dayId: newDayId,
-        timerange: newTimeRange,
-        trackLength: newLength,
-        timeslots: newSlots,
+        ...state,
+        dayId: action.payLoad.dayId,
+        scheduled: action.payLoad.scheduled,
+        notScheduled: action.payLoad.notScheduled,
+        timerange: action.payLoad.timeRange,
       };
     case "ADD_TIMESLOT":
       const { startTime, endTime, user } = action.payLoad;
@@ -121,7 +104,8 @@ const currentScheduleReducer = (
         trackLength: action.payLoad.newLength,
         //if there are already timeslots, replace with updated timeslots
         timeslots:
-          state.timeslots || convertTimeslots(timeslots, newLength, timerange),
+          state.timeslots ||
+          convertTimeslots(timeslots, action.payLoad.newLength, timerange),
       };
     case "ADD_TO_SCHEDULED":
       const x = ({ theDate, dayId, user }, state) => {
@@ -135,12 +119,6 @@ const currentScheduleReducer = (
         };
       };
       return x(action.payLoad, state);
-
-    case "UPDATE_SCHEDULED":
-      return {
-        ...state,
-        scheduled: action.payLoad,
-      };
 
     default:
       return state;
