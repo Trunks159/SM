@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 import SideNav from "./nav/SideNav";
 import Home from "./home/Home";
@@ -11,19 +11,13 @@ function updateSelectedWeek(newWeek) {
   return { type: "UPDATE_SELECTED_WEEK", payLoad: newWeek };
 }
 
-function Scheduletron({ notifyUser }) {
+function Scheduletron() {
   const location = useLocation();
   const qParams = new URLSearchParams(location.search);
   const date = qParams.get("date");
   const selectedWeek = useSelector((state) => state.selectedWeek);
   const dispatch = useDispatch();
   const [redirect, setRedirect] = useState(null);
-  const [weeks, setWeeks] = useState([]);
-  const [screenWidth, setScreenWidth] = useState(0);
-
-  function updatePredicate() {
-    setScreenWidth(window.innerWidth);
-  }
 
   function fetchWeekSchedule(date) {
     fetch(`/get_week_schedule?date=${date}`)
@@ -57,7 +51,7 @@ function Scheduletron({ notifyUser }) {
 
       <Switch>
         <Route exact path={"/scheduletron"}>
-          <Home screenWidth={screenWidth} />
+          <Home />
         </Route>
 
         <Route

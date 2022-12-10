@@ -25,7 +25,7 @@ const StyledTabs = styled(Tabs)(({ theme }) => {
   };
 });
 
-const StyledTab = styled(Tab)(({ currentDayIndex, value, theme }) => {
+const StyledTab = styled(Tab)(({ currentDayId, value, theme }) => {
   const isActive = currentDayIndex === value;
   return {
     opacity: isActive ? 1 : 0.5,

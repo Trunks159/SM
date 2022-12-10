@@ -78,6 +78,7 @@ function App() {
   }
 
   useEffect(() => {
+    //componentDidMount basically
     fetchUsers();
     updatePredicate();
     window.addEventListener("resize", updatePredicate);
@@ -85,6 +86,7 @@ function App() {
       window.removeEventListener("resize", updatePredicate);
     };
   }, []);
+
 
   return users ? (
     <Router>
@@ -146,9 +148,9 @@ function App() {
             />
             <Route
               path="/scheduletron/:weekId?/:dayId?"
-              render={({ match }) => {
+              render={() => {
                 return currentUser.isAuthenticated ? (
-                  <Scheduletron notifyUser={notifyUser} match={match} />
+                  <Scheduletron  />
                 ) : (
                   <Redirect to="/login" />
                 );

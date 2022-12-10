@@ -1,7 +1,7 @@
 .scheduletron {
   display: grid;
   grid-template-columns: 70px 1fr;
-  flex-grow: 1;
+  flex: 1;
   position: relative;
   background-color: white;
 }
