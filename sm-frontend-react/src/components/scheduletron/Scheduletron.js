@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 import SideNav from "./nav/SideNav";
 import Home from "./home/Home";
@@ -16,7 +16,6 @@ function Scheduletron() {
   const qParams = new URLSearchParams(location.search);
   const date = qParams.get("date");
   const selectedWeek = useSelector((state) => state.selectedWeek);
-  const screenWidth = useSelector((state) => state.screenWidth);
   const dispatch = useDispatch();
   const [redirect, setRedirect] = useState(null);
 
@@ -35,6 +34,7 @@ function Scheduletron() {
       });
   }
 
+
   date && fetchWeekSchedule("9-13-2021");
 
   return (
@@ -52,11 +52,9 @@ function Scheduletron() {
           render={({ match }) => {
             return (
               <WeekTabs
-                match={match}
                 weekId={parseInt(match.params.weekId)}
                 dayId={parseInt(match.params.dayId)}
                 weekSchedule={selectedWeek}
-                screenWidth={screenWidth}
               />
             );
           }}

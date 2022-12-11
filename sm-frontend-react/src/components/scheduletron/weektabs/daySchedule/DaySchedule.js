@@ -34,7 +34,7 @@ const initializeSchedule = ({ dayId, scheduled, notScheduled, timeRange }) => {
 const DaySchedule = ({ day, isDesktop }) => {
   const [redirect, setRedirect] = useState(null);
   const [currentFunction, setCurrentFunction] = useState(null);
-
+  console.log('Mommy: ', day)
   //for not this is the timerange but it will be changed
   // to something more dynamic
   const timerange = [
