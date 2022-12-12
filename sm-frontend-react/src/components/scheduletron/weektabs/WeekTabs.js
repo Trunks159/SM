@@ -9,8 +9,8 @@ function updateSelectedWeek(newWeek) {
   return { type: "UPDATE_SELECTED_WEEK", payLoad: newWeek };
 }
 
-function updateCurrentDayId(newId) {
-  return { type: "UPDATE_DAY_ID", payLoad: newId };
+function updateCurrentDayId(dayId) {
+  return { type: "UPDATE_DAY_ID", payLoad: dayId };
 }
 
 const TabsContainer = ({ weekId, dayId }) => {
@@ -57,12 +57,13 @@ const TabsContainer = ({ weekId, dayId }) => {
 
   if (currentDayId !== null && selectedWeek !== null) {
     //STUFF DEPENDENT ON PROPS OR STATE
+    console.log("Duh week: ", selectedWeek.week);
     const days = selectedWeek.week;
     const isDesktop = screenWidth >= 600;
     return (
-      redirect ||
-      (days && (
+      days && (
         <StyledPaper>
+          {redirect}
           <StyledTabs variant="scrollable" value={currentDayId}>
             {/*You might want to separate this and define the Tabs above 
               but DONOT. For some reason the scrollbuttons dont work or the indicator*/}
@@ -87,7 +88,7 @@ const TabsContainer = ({ weekId, dayId }) => {
             isDesktop={isDesktop}
           />
         </StyledPaper>
-      ))
+      )
     );
   }
   return null;

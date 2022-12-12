@@ -107,6 +107,11 @@ const currentScheduleReducer = (
           state.timeslots ||
           convertTimeslots(timeslots, action.payLoad.newLength, timerange),
       };
+    case "UPDATE_DAY_ID":
+      return {
+        ...state,
+        dayId: action.payLoad,
+      };
     case "ADD_TO_SCHEDULED":
       const x = ({ theDate, dayId, user }, state) => {
         return {
