@@ -22,19 +22,19 @@ const TabsContainer = ({ weekId, dayId }) => {
   const selectedWeek = useSelector((state) => state.selectedWeek);
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const screenWidth = useSelector((state) => state.screenWidth);
-  const currentDayId = currentSchedule.dayId;
 
   //STATE
   const [redirect, setRedirect] = useState(null);
+
+  const days = selectedWeek ? selectedWeek.week : [];
+  const isDesktop = screenWidth >= 600;
 
   function fetchWeekSchedule(weekId) {
     fetch(`/get_week_schedule?week-id=${weekId}`)
       .then((response) => response.json())
       .then((response) => {
         if (response) {
-          dispatch(
-            updateSelectedWeek({ week: response.week, id: response.id })
-          );
+          dispatch(updateSelectedWeek(response));
         } else {
           setRedirect(<Redirect to="/scheduletron" />);
         }
@@ -42,56 +42,45 @@ const TabsContainer = ({ weekId, dayId }) => {
   }
 
   useEffect(() => {
-    if (Boolean(selectedWeek) === false) {
+    if (selectedWeek.id !== weekId) {
       fetchWeekSchedule(weekId);
-    } else {
-      if (selectedWeek.id !== weekId) {
-        fetchWeekSchedule(weekId);
-      }
     }
 
-    if (dayId !== currentDayId) {
+    if (dayId !== currentSchedule.dayId) {
       dispatch(updateCurrentDayId(dayId));
     }
-  }, [weekId, currentDayId]);
+  }, [weekId, currentSchedule.dayId]);
 
-  if (currentDayId !== null && selectedWeek !== null) {
-    //STUFF DEPENDENT ON PROPS OR STATE
-    console.log("Duh week: ", selectedWeek.week);
-    const days = selectedWeek.week;
-    const isDesktop = screenWidth >= 600;
-    return (
-      days && (
-        <StyledPaper>
-          {redirect}
-          <StyledTabs variant="scrollable" value={currentDayId}>
-            {/*You might want to separate this and define the Tabs above 
+  return (
+    days && (
+      <StyledPaper>
+        {redirect}
+        <StyledTabs variant="scrollable" value={currentSchedule.dayId}>
+          {/*You might want to separate this and define the Tabs above 
               but DONOT. For some reason the scrollbuttons dont work or the indicator*/}
-            {days.map(({ id, day, month, weekday }) => (
-              <StyledTab
-                value={id}
-                currentDayId={currentDayId}
-                component={Link}
-                to={`/scheduletron/viewer/${weekId}/${id}`}
-                label={
-                  <p>
-                    <span className="weekday">{weekday},</span>
-                    {month}/{day}
-                  </p>
-                }
-              />
-            ))}
-          </StyledTabs>
+          {days.map(({ id, day, month, weekday }) => (
+            <StyledTab
+              value={id}
+              currentDayId={currentSchedule.dayId}
+              component={Link}
+              to={`/scheduletron/viewer/${weekId}/${id}`}
+              label={
+                <p>
+                  <span className="weekday">{weekday},</span>
+                  {month}/{day}
+                </p>
+              }
+            />
+          ))}
+        </StyledTabs>
 
-          <DaySchedule
-            day={days.find(({ id }) => id === currentDayId)}
-            isDesktop={isDesktop}
-          />
-        </StyledPaper>
-      )
-    );
-  }
-  return null;
+        <DaySchedule
+          day={days.find(({ id }) => id === currentSchedule.dayId)}
+          isDesktop={isDesktop}
+        />
+      </StyledPaper>
+    )
+  );
 };
 
 export default TabsContainer;
