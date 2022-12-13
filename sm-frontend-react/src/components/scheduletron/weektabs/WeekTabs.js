@@ -4,6 +4,8 @@ import DaySchedule from "./daySchedule/DaySchedule";
 import { useSelector, useDispatch } from "react-redux";
 import { StyledPaper, StyledTab, StyledTabs } from "./StyledComponents";
 
+//
+
 //ACTIONS
 function updateSelectedWeek(newWeek) {
   return { type: "UPDATE_SELECTED_WEEK", payLoad: newWeek };
@@ -46,11 +48,16 @@ const TabsContainer = ({ weekId, dayId }) => {
       fetchWeekSchedule(weekId);
     }
 
-    if (dayId !== currentSchedule.dayId) {
-      dispatch(updateCurrentDayId(dayId));
+    if(dayId !== currentSchedule.dayId){
+      dispatch(updateCurrentDayId(dayId))
     }
-  }, [weekId, currentSchedule.dayId]);
 
+  }, [weekId, currentSchedule.dayId]);
+const currentDay = days.find(({id})=>id = currentSchedule.dayId);
+if(currentDay === null){
+
+  setRedirect(<Redirect to = {`/scheduletron/viewer`} />)
+}
   return (
     days && (
       <StyledPaper>
