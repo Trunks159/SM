@@ -18,6 +18,7 @@ function ScheduleList({ weeks }) {
               startDate={startDate}
               endDate={endDate}
               completion={completion}
+              mondayId={week[0].id}
               id={id}
             />
           </li>
