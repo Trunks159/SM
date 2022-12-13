@@ -71,7 +71,7 @@ class NavBar extends Component {
               <MyMenu
                 username={currentUser.username}
                 id={currentUser.id}
-                handleLogout={handleLogout}
+                logoutUser={handleLogout}
                 handleCollapse={this.handleCollapse}
               />
             ) : (
