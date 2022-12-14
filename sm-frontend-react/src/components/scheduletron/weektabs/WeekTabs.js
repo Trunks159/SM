@@ -23,15 +23,15 @@ const TabsContainer = (props) => {
   //GLOBAL STATE
   const selectedWeek = useSelector((state) => state.selectedWeek);
   const currentSchedule = useSelector((state) => state.currentSchedule);
+  const screenWidth = useSelector((state) => state.screenWidth);
 
   //STATE
-  const [redirect, setRedirect] = useState(null);
+  let [redirect, setRedirect] = useState(null);
 
   function fetchWeekSchedule(weekId) {
     fetch(`/get_week_schedule?week-id=${weekId}`)
       .then((response) => response.json())
       .then((response) => {
-            
         if (response) {
           dispatch(updateSelectedWeek(response));
         } else {
@@ -40,26 +40,69 @@ const TabsContainer = (props) => {
       });
   }
 
+  function getCurrentDay(selectedWeek, redirect, dayId) {
+    //If the dayid makes can be found in the week, all should go well
+    //if not it will redirect using the dayid of the day at index[0]
+    //in selected week
+    if (selectedWeek.week.length > 0) {
+      const currentDay = selectedWeek.week.find((d) => d.id === dayId);
+
+      if (Boolean(currentDay) === false) {
+        redirect =
+          redirect ||
+          setRedirect(
+            <Redirect
+              to={`/scheduletron/viewer/${selectedWeek.id}/${selectedWeek.week[0].id}`}
+            />
+          );
+      }
+      return currentDay;
+    }
+  }
+
   useEffect(() => {
     if (props.weekId !== selectedWeek.id) {
       fetchWeekSchedule(props.weekId);
     }
 
-    if (props.dayId && (props.dayId !== currentSchedule.dayId)) {
+    if (props.dayId && props.dayId !== currentSchedule.dayId) {
       dispatch(updateCurrentDayId(props.dayId));
     }
   });
 
+  const currentDay = getCurrentDay(
+    selectedWeek,
+    redirect,
+    currentSchedule.dayId
+  );
+
   return (
     <StyledPaper>
-      Yo{props.dayId}
-      Excepteur enim dolore sit ea non non ad mollit. Do esse incididunt
-      cupidatat cupidatat anim consectetur anim ex minim. Exercitation voluptate
-      non qui esse mollit excepteur excepteur quis ea officia sint enim
-      consectetur. Ad in in ut adipisicing mollit sit esse aute irure in dolor
-      ullamco. In ad cupidatat quis velit in velit qui Lorem. Eu est consequat
-      occaecat occaecat nostrud consequat aliquip ullamco sunt nostrud.
-      Adipisicing dolore nisi est excepteur ut elit.
+      {redirect}
+      {currentDay && (
+        <>
+          <StyledTabs variant="scrollable" value={currentSchedule.dayId}>
+            {/*You might want to separate this and define the Tabs above 
+              but DONOT. For some reason the scrollbuttons dont work or the indicator*/}
+            {selectedWeek.week.map(({ id, day, month, weekday }) => (
+              <StyledTab
+                key={id}
+                value={id}
+                currentDayId={currentSchedule.dayId}
+                component={Link}
+                to={`/scheduletron/viewer/${props.weekId}/${id}`}
+                label={
+                  <p>
+                    <span className="weekday">{weekday},</span>
+                    {month}/{day}
+                  </p>
+                }
+              />
+            ))}
+          </StyledTabs>
+          <DaySchedule currentDay={currentDay} isDesktop={screenWidth >= 600} />
+        </>
+      )}
     </StyledPaper>
   );
 };

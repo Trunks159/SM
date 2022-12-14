@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Paper } from "@material-ui/core";
 import Draggable from "react-draggable";
-import TimeLine from "../../TimeLine";
+import TimeLine from "./TimeLine";
 import stretchIcon from "./assets/Stretch Icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import useWindowDimensions from "./WindowDimensions";
@@ -71,7 +71,7 @@ function MyTable() {
               {"  "}
             </TableCell>
             {timeslots.map(({ firstName, lastName }, index) => (
-              <TableCell key = {index} style={{ width: 140, minWidth: 140 }}>
+              <TableCell key={index} style={{ width: 140, minWidth: 140 }}>
                 {firstName} {lastName}
               </TableCell>
             ))}
@@ -94,7 +94,7 @@ function MyTable() {
             {timeslots &&
               timeslots.map(({ start, end }, index) => (
                 <TableCell
-                key = {index}
+                  key={index}
                   style={{
                     borderRight: "rgba(112, 112, 112, .14)",
                     position: "relative",
@@ -114,12 +114,20 @@ function MyTable() {
                   </Paper>
                   <Draggable axis={"y"} position={{ x: 0, y: start }}>
                     <div className="stretch-btn">
-                      <img alt = 'Stretch1' style={{ rotate: "90deg" }} src={stretchIcon} />
+                      <img
+                        alt="Stretch1"
+                        style={{ rotate: "90deg" }}
+                        src={stretchIcon}
+                      />
                     </div>
                   </Draggable>
                   <Draggable axis={"y"} position={{ x: 0, y: end }} style={{}}>
                     <div className="stretch-btn">
-                      <img alt = 'Stretch2' style={{ rotate: "90deg" }} src={stretchIcon} />
+                      <img
+                        alt="Stretch2"
+                        style={{ rotate: "90deg" }}
+                        src={stretchIcon}
+                      />
                     </div>
                   </Draggable>
                 </TableCell>
