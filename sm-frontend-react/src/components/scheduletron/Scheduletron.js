@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 import SideNav from "./nav/SideNav";
 import Home from "./home/Home";

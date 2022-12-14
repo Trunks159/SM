@@ -23,7 +23,6 @@ function Notification(props) {
   const incomingMessage = props.message;
   const [message, setMessage] = useState(null);
   const [open, setOpen] = useState(false);
-    const [count, setCount] = useState(0);
 
   useEffect(() => {
     if (incomingMessage) {

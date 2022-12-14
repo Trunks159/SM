@@ -87,7 +87,7 @@ const SavePrompt = ({ index, currentFunction }) => {
         }}
         className={classes.saveBtn}
         onClick={handleSave}
-        endIcon={<img src={saveIcon} />}
+        endIcon={<img alt = 'Save' src={saveIcon} />}
       >
         Save
       </Button>

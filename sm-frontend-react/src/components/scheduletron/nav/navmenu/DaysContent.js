@@ -18,11 +18,8 @@ const DayBtn = ({
   date,
   completion,
   disabled,
-  id,
-  path,
   weekId,
   dayId,
-  changeMenu,
 }) => {
   return (
     <Link
@@ -77,7 +74,7 @@ const styles = () => ({
 
 class WeekBar extends Component {
   render() {
-    const { week, path, setDay, menu, value, weekId } = this.props;
+    const { week, path, menu, value, weekId } = this.props;
 
     return (
       <div
@@ -90,6 +87,7 @@ class WeekBar extends Component {
       >
         {week.map(({ weekday, staffing, month, day, id }) => (
           <DayBtn
+          key = {id}
             weekId={weekId}
             weekday={weekday}
             completion={Math.round(

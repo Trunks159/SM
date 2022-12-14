@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, {  useState } from "react";
 import { Menu, MenuItem, Button } from "@material-ui/core";
 import profileIcon from "../../assets/images/Profile Icon.svg";
 import { Link, Redirect } from "react-router-dom";
@@ -43,7 +43,7 @@ const MyMenu = ({ username, handleCollapse, logoutUser }) => {
           minWidth: 0,
         }}
       >
-        <img src={profileIcon} />
+        <img  alt = 'profile' src={profileIcon} />
       </Button>
       <p className="nav-link" style={{ margin: 8 }}>
         {username}

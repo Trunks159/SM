@@ -100,7 +100,7 @@ const DaySchedule = ({ day, isDesktop }) => {
         onClick={() => setCurrentFunction(0)}
         hidden={typeof currentFunction !== "number" && isDesktop}
       >
-        <img src={menuIcon} />
+        <img alt = 'Menu' src={menuIcon} />
       </HamburgerButton>
       <TheDrawer
         date={day.date}

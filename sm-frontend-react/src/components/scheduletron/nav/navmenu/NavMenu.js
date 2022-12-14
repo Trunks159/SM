@@ -31,14 +31,14 @@ class NavMenu extends Component {
           style={{ borderRadius: "0px 4px 4px 0px", background: "#EFF1F2" }}
         >
           <div className="nav-menu-header">
-            <img src={icon} />
+            <img alt = {menu}  src={icon} />
             <h1>{menu}</h1>
           </div>
           <Button
             style={{ position: "absolute", top: 0, right: 0 }}
             onClick={() => changeMenu(null)}
           >
-            <img src={closeIcon} />
+            <img alt = 'Close' src={closeIcon} />
           </Button>
           <div style={{ overflowY: "auto", height: "100%" }}>
             {selectedWeek && (

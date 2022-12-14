@@ -48,6 +48,7 @@ class NavBar extends Component {
           onClick={() => this.setState({ isOpen: !isOpen })}
         >
           <img
+          alt = 'Scheduletron'
             style={{
               position: "absolute",
               opacity: isOpen ? 0 : 1,
@@ -56,6 +57,7 @@ class NavBar extends Component {
             src={logo}
           />
           <img
+          alt = 'Scheduletron'
             style={{
               position: "absolute",
               opacity: isOpen ? 1 : 0,
@@ -113,7 +115,7 @@ class NavBar extends Component {
               }}
             />
             <NavLink onClick={this.handleCollapse} className="nav-link" to="/">
-              <img style={{ margin: 5 }} src={homeIcon} />
+              <img alt = 'Home' style={{ margin: 5 }} src={homeIcon} />
               Home
             </NavLink>
             <NavLink
@@ -121,7 +123,7 @@ class NavBar extends Component {
               className="nav-link"
               to="/scheduletron"
             >
-              <img style={{ margin: 5 }} src={scheduleIcon} />
+              <img alt = 'Schedules' style={{ margin: 5 }} src={scheduleIcon} />
               Schedules
             </NavLink>
             <NavLink
@@ -129,7 +131,7 @@ class NavBar extends Component {
               className="nav-link"
               to="/team"
             >
-              <img src={teamIcon} />
+              <img alt = 'Team' src={teamIcon} />
               Team
             </NavLink>
           </div>

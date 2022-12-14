@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import Tabs1 from "./Tabs1";
 import Tabs2 from "./Tabs2";
 import "./nav.css";

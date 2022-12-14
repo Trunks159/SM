@@ -32,7 +32,7 @@ function Tabs1({ weekId }) {
         currentMenu={value}
         label="Open"
         to="/scheduletron"
-        icon={<img src={openIcon} />}
+        icon={<img alt = 'Open' src={openIcon} />}
         value={"open"}
         style={{ minWidth: 0 }}
       />
@@ -47,7 +47,7 @@ function Tabs1({ weekId }) {
             : `/scheduletron/?date=${"9-13-2021"}`
         }
         value={"schedule"}
-        icon={<img src={scheduleIcon} />}
+        icon={<img alt = 'Schedule' src={scheduleIcon} />}
       />
     </StyledTabs>
   );

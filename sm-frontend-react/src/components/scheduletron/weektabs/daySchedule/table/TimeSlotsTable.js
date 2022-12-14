@@ -70,8 +70,8 @@ function MyTable() {
             >
               {"  "}
             </TableCell>
-            {timeslots.map(({ firstName, lastName }) => (
-              <TableCell style={{ width: 140, minWidth: 140 }}>
+            {timeslots.map(({ firstName, lastName }, index) => (
+              <TableCell key = {index} style={{ width: 140, minWidth: 140 }}>
                 {firstName} {lastName}
               </TableCell>
             ))}
@@ -92,8 +92,9 @@ function MyTable() {
               <TimeLine shiftFilter={{ day: true, night: true }} />
             </TableCell>
             {timeslots &&
-              timeslots.map(({ start, end }) => (
+              timeslots.map(({ start, end }, index) => (
                 <TableCell
+                key = {index}
                   style={{
                     borderRight: "rgba(112, 112, 112, .14)",
                     position: "relative",
@@ -113,12 +114,12 @@ function MyTable() {
                   </Paper>
                   <Draggable axis={"y"} position={{ x: 0, y: start }}>
                     <div className="stretch-btn">
-                      <img style={{ rotate: "90deg" }} src={stretchIcon} />
+                      <img alt = 'Stretch1' style={{ rotate: "90deg" }} src={stretchIcon} />
                     </div>
                   </Draggable>
                   <Draggable axis={"y"} position={{ x: 0, y: end }} style={{}}>
                     <div className="stretch-btn">
-                      <img style={{ rotate: "90deg" }} src={stretchIcon} />
+                      <img alt = 'Stretch2' style={{ rotate: "90deg" }} src={stretchIcon} />
                     </div>
                   </Draggable>
                 </TableCell>

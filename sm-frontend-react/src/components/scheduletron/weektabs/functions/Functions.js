@@ -61,17 +61,17 @@ function Functions({ currentFunction, changeCurrentFunction, hidden }) {
       <StyledTab
         value={0}
         label="Edit"
-        icon={<img src={isOpen ? editIcon : blackEditIcon} />}
+        icon={<img alt = 'Edit' src={isOpen ? editIcon : blackEditIcon} />}
       />
       <StyledTab
         value={1}
         label="Add"
-        icon={<img src={isOpen ? addIcon : blackAddIcon} />}
+        icon={<img alt = 'Add' src={isOpen ? addIcon : blackAddIcon} />}
       />
       <StyledTab
         value={2}
         label="Save"
-        icon={<img src={isOpen ? saveIcon : blackSaveIcon} />}
+        icon={<img alt = 'Save' src={isOpen ? saveIcon : blackSaveIcon} />}
       />
     </StyledTabs>
   );

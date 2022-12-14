@@ -75,7 +75,7 @@ function UserThumb({
         onMouseLeave={() => setHovering(false)}
         onClick={() => handleAdd(index)}
       >
-        <img src={addIcon} />
+        <img alt = 'Add' src={addIcon} />
       </Button>
       <Paper
         className={classes.paper}
@@ -96,7 +96,7 @@ function UserThumb({
         </p>
         <i> {position}</i>
         <Button className="details">
-          <img src={detailsIcon} />
+          <img alt = 'Details' src={detailsIcon} />
         </Button>
       </Paper>
     </>
@@ -132,6 +132,7 @@ function AddPrompt({ currentFunction, index, date }) {
         {teamMembers.map(({ firstName, lastName, position }, i) => (
           <li key={i}>
             <UserThumb
+            key = {i}
               firstName={firstName}
               lastName={lastName}
               position={position}

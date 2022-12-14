@@ -3,6 +3,7 @@ import daysIcon from "./assets/Days Icon.svg";
 import searchIcon from "./assets/Search Icon.svg";
 import settingsIcon from "./assets/Settings Icon.svg";
 import { StyledTabs, StyledTab, StyledDivider } from "./StyledTabs";
+import {Tab} from '@material-ui/core'
 
 const Tabs2 = ({ menu, changeMenu }) => (
   <StyledTabs
@@ -16,20 +17,21 @@ const Tabs2 = ({ menu, changeMenu }) => (
       label={"Days"}
       value={"days"}
       currentMenu={menu}
-      icon={<img src={daysIcon} />}
+      icon={<img alt = 'days' src={daysIcon} />}
     />
     <StyledTab
       label={"Search"}
       value={"search"}
       currentMenu={menu}
-      icon={<img src={searchIcon} />}
+      icon={<img alt = 'search' src={searchIcon} />}
     />
     <StyledTab
       currentMenu={menu}
       label={"Settings"}
       value={"settings"}
-      icon={<img src={settingsIcon} />}
+      icon={<img  alt = 'settings' src={settingsIcon} />}
     />
+    <Tab style = {{display : 'none'}} value = {null}/>
   </StyledTabs>
 );
 export default Tabs2;

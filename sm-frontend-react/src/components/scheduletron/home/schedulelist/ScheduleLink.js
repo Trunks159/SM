@@ -19,7 +19,7 @@ const ScheduleLink = ({ completion, startDate, endDate, id, mondayId }) => {
       style={completion ? style : { ...style, pointerEvents: "none" }}
     >
       <p>{startDate}</p>
-      <img style={{ width: "50%" }} src={scheduleIcon} />
+      <img alt = 'Schedule' style={{ width: "50%" }} src={scheduleIcon} />
       <p>{endDate}</p>
 
       {completion && (

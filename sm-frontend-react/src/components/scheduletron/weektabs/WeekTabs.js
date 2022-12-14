@@ -31,7 +31,7 @@ const TabsContainer = (props) => {
     fetch(`/get_week_schedule?week-id=${weekId}`)
       .then((response) => response.json())
       .then((response) => {
-        console.log("I run");
+            
         if (response) {
           dispatch(updateSelectedWeek(response));
         } else {
@@ -45,7 +45,7 @@ const TabsContainer = (props) => {
       fetchWeekSchedule(props.weekId);
     }
 
-    if (props.dayId && props.dayId !== currentSchedule.dayId) {
+    if (props.dayId && (props.dayId !== currentSchedule.dayId)) {
       dispatch(updateCurrentDayId(props.dayId));
     }
   });

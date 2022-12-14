@@ -77,6 +77,7 @@ const TabsContainer = (props) => {
               but DONOT. For some reason the scrollbuttons dont work or the indicator*/}
           {selectedWeek.week.map(({ id, day, month, weekday }) => (
             <StyledTab
+            key = {id}
               value={id}
               currentDayId={currentSchedule.dayId}
               component={Link}
