@@ -56,7 +56,6 @@ const currentScheduleReducer = (
     case "INITIALIZE_SCHEDULE":
       return {
         ...state,
-        dayId: action.payLoad.dayId,
         scheduled: action.payLoad.scheduled,
         notScheduled: action.payLoad.notScheduled,
         timerange: action.payLoad.timeRange,

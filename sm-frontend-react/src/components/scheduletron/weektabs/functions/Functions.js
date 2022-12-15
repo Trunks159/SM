@@ -14,18 +14,18 @@ const StyledTabs = styled(Tabs)(({ isOpen, hidden }) => {
       background: "white",
       left: 0,
     },
-  opacity : .7,
+    opacity: 0.7,
     "& .Mui-selected": {
       opacity: 1,
     },
     "& .MuiTabs-flexContainer": {
       justifyContent: "center",
     },
-    color : isOpen ? 'white' : 'black',
+    color: isOpen ? "white" : "black",
     position: "absolute",
     bottom: 0,
     right: 0,
-    display : hidden ? 'none' : 'flex',
+    display: hidden ? "none" : "flex",
   };
 });
 
@@ -41,8 +41,7 @@ const StyledTab = styled(Tab)({
   "& .MuiTab-iconWrapper": {
     marginBottom: 8,
   },
-  "& Mui-selected": {
-  },
+  "& Mui-selected": {},
   "&:hover": {
     opacity: 1,
   },
@@ -56,23 +55,25 @@ function Functions({ currentFunction, changeCurrentFunction, hidden }) {
       value={currentFunction}
       orientation={"vertical"}
       isOpen={isOpen}
-      hidden = {hidden}
+      hidden={hidden}
+      style = {{background : 'red'}}
     >
       <StyledTab
         value={0}
         label="Edit"
-        icon={<img alt = 'Edit' src={isOpen ? editIcon : blackEditIcon} />}
+        icon={<img alt="Edit" src={isOpen ? editIcon : blackEditIcon} />}
       />
       <StyledTab
         value={1}
         label="Add"
-        icon={<img alt = 'Add' src={isOpen ? addIcon : blackAddIcon} />}
+        icon={<img alt="Add" src={isOpen ? addIcon : blackAddIcon} />}
       />
       <StyledTab
         value={2}
         label="Save"
-        icon={<img alt = 'Save' src={isOpen ? saveIcon : blackSaveIcon} />}
+        icon={<img alt="Save" src={isOpen ? saveIcon : blackSaveIcon} />}
       />
+      <Tab value = {null} style = {{display : 'none'}}/>
     </StyledTabs>
   );
 }

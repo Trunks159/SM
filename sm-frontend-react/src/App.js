@@ -40,6 +40,7 @@ function App() {
 
   const currentUser = useSelector((state) => state.currentUser);
   const users = useSelector((state) => state.allUsers);
+  const screenWidth = useSelector((state)=>state.screenWidth);
 
   function fetchUsers() {
     fetch("/users")
@@ -57,9 +58,6 @@ function App() {
       });
   }
 
-  function updatePredicate() {
-    dispatch(updateScreenWidth(window.innerWidth));
-  }
 
   function notifyUser(message) {
     setMessage(message);
@@ -76,17 +74,27 @@ function App() {
         notifyUser();
       });
   }
+  
+  function updatePredicate(newWidth){
+    dispatch(updateScreenWidth(newWidth));
+  }
 
   useEffect(() => {
-    //componentDidMount basically
+    //componentDidUpdate
+    if(screenWidth !== window.innerWidth){
+      updatePredicate(window.innerWidth);
+    }
+   
+  }, [window.innerWidth]);
+
+  useEffect(()=>{
+    //componentDidMount
     fetchUsers();
-    updatePredicate();
     window.addEventListener("resize", updatePredicate);
     return () => {
       window.removeEventListener("resize", updatePredicate);
     };
-  }, []);
-
+  }, [])
 
   return users ? (
     <Router>

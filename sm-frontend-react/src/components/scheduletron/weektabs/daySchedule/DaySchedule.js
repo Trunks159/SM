@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "./daySchedule.css";
 import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import "./daySchedule.css";
+import { StyledPaper } from "./StyledComponents";
 import moment from "moment";
-import { StyledPaper } from "../StyledComponents";
+import Functions from "../functions/Functions";
 
 //ACTIONS
 const initializeSchedule = ({ scheduled, notScheduled, timeRange }) => {
@@ -13,8 +14,12 @@ const initializeSchedule = ({ scheduled, notScheduled, timeRange }) => {
   };
 };
 
-function DaySchedule({ currentDay }) {
+//Request scheduled and notscheduled from flask
+//change whenever the day changes
+
+function DaySchedule({ currentDay, isDesktop }) {
   const [redirect, setRedirect] = useState(null);
+  const [currentFunction, setCurrentFunction] = useState(null);
   //for now this is the timerange but it will be changed
   // to something more dynamic
   const currentSchedule = useSelector((state) => state.currentSchedule);
@@ -43,18 +48,23 @@ function DaySchedule({ currentDay }) {
             })
           );
         } else {
+          
           setRedirect(<Redirect to={"/scheduletron"} />);
         }
       });
   };
-  /*
+  
   useEffect(() => {
     setUpState(currentDay);
   }, [currentDay]);
-*/
   return (
     <StyledPaper key={currentDay.id} elevation={1}>
       {redirect}
+      <Functions
+        hidden={!isDesktop}
+        changeCurrentFunction={setCurrentFunction}
+        currentFunction={currentFunction}
+      />
     </StyledPaper>
   );
 }

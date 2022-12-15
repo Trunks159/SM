@@ -24,7 +24,6 @@ const TabsContainer = (props) => {
   const selectedWeek = useSelector((state) => state.selectedWeek);
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const screenWidth = useSelector((state) => state.screenWidth);
-
   //STATE
   let [redirect, setRedirect] = useState(null);
 

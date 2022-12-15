@@ -53,7 +53,6 @@ function roundIt(t) {
   //to the closest 30 min
   const time = moment(t);
   const remainder = time.minute() % 30;
-  console.log("remainder: ", remainder);
   if (remainder >= 15) {
     return time.subtract(remainder, "minutes").format();
   } else if (remainder < 15) {
@@ -117,9 +116,7 @@ const TimeSlot = ({ index, user, workblock }) => {
   }, []);
 
   useEffect(() => {
-    if (myRef.current) {
-      console.log("Yo baby: ", myRef.current);
-    }
+ 
     if (_trackWidth > 0 && _trackWidth !== trackWidth) {
       dispatch(updateTrackWidth(_trackWidth));
       setMounted(true);

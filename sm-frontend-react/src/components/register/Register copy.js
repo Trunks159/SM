@@ -65,7 +65,7 @@ class Register extends Component {
           exact
           path={match.path}
           render={() => (
-            <AnimatePresence style = {{overflow : 'hidden'}} exitBeforeEnter>
+            <AnimatePresence className={classes.wholeThing} exitBeforeEnter>
               <motion.div
                 initial="out"
                 animate="in"
