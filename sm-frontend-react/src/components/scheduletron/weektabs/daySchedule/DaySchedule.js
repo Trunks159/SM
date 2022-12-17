@@ -48,12 +48,11 @@ function DaySchedule({ currentDay, isDesktop }) {
             })
           );
         } else {
-          
           setRedirect(<Redirect to={"/scheduletron"} />);
         }
       });
   };
-  
+
   useEffect(() => {
     setUpState(currentDay);
   }, [currentDay]);
