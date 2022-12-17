@@ -34,7 +34,6 @@ const StyledTab = styled(Tab)({
   transitionDuration: ".25s",
   minWidth: 0,
   padding: "0px 20px",
-  minWidth: 0,
   fontSize: 12,
   fontWeight: "400",
   opacity: 0.7,

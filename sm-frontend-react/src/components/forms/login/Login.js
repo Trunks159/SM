@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Checkbox } from "@material-ui/core";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
 import "../forms.css";
 import {
@@ -25,7 +25,6 @@ function Login({ users, notifyUser }) {
     remember: false,
     usernameErrors: null,
     passwordErrors: null,
-    redirect: null,
   });
   const {
     username,
@@ -33,7 +32,6 @@ function Login({ users, notifyUser }) {
     remember,
     usernameErrors,
     passwordErrors,
-    redirect,
   } = state;
 
   const dispatch = useDispatch();

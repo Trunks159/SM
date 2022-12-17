@@ -18,15 +18,15 @@ const buttonStyles = {
 
 function Header({ children }) {
   return (
-    <header>
+    <StyledHeader>
       <h1>{children}</h1>
       <FancyDivider />
-    </header>
+    </StyledHeader>
   );
 }
 
 const StyledHeader = styled('header')((props)=>({
-  margin : '30px 0px',
+
   fontSize: '38px',
   fontWeight: 'normal',
   margin : '15px 0px',

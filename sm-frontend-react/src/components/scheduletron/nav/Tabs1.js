@@ -18,7 +18,7 @@ function Tabs1({ weekId }) {
     if (newValue !== value) {
       setValue(newValue);
     }
-  }, [location]);
+  }, [location, value, newValue]);
 
   return (
     <StyledTabs
