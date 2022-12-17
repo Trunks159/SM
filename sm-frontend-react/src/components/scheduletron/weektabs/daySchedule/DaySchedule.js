@@ -35,7 +35,11 @@ function DaySchedule({ currentDay, isDesktop }) {
     ];
   }
 
-  const setUpState = (currentDay) => {
+  useEffect(() => {
+    //do this whenever schedule changes
+    //so i guess it could be whenever dayid of
+    //schedule changes
+    console.log('I run infinitely')
     fetch(`/get_schedule/${currentDay.id}`)
       .then((response) => response.json())
       .then((response) => {
@@ -52,11 +56,7 @@ function DaySchedule({ currentDay, isDesktop }) {
           setRedirect(<Redirect to={"/scheduletron"} />);
         }
       });
-  };
-  
-  useEffect(() => {
-    setUpState(currentDay);
-  }, [currentDay]);
+  }, [currentDay, dispatch]);
   return (
     <StyledPaper key={currentDay.id} elevation={1}>
       {redirect}
