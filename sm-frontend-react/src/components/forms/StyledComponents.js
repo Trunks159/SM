@@ -25,7 +25,7 @@ function Header({ children }) {
   );
 }
 
-const StyledHeader = styled('header')((props)=>({
+const StyledHeader = styled('header')(()=>({
 
   fontSize: '38px',
   fontWeight: 'normal',

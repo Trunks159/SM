@@ -8,10 +8,8 @@ function Team({ teamMembers }) {
   return (
     <div className="team-main-container">
       <Header>Team Members</Header>
-      {teamMembers.map(({ firstName, lastName }, index) => (
-        <Button key = {index}>
-          {firstName} {lastName}
-        </Button>
+      {teamMembers.map((member, index) => (
+        <TeamMemberDogtag key = {index} {...member}/>
       ))}
       <SolidButton component={Link} to={"/team/add"}>
         Add TeamMember

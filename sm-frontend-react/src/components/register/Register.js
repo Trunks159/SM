@@ -24,9 +24,6 @@ const pageTransition = {
 
 const styles = () => ({
   header: {
-    wholeThing: {
-      overflowX: "hidden",
-    },
     fontWeight: "500",
     margin: 30,
     fontSize: 40,
