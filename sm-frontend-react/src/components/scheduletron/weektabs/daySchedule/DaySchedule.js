@@ -39,7 +39,7 @@ function DaySchedule({ currentDay, isDesktop }) {
     //do this whenever schedule changes
     //so i guess it could be whenever dayid of
     //schedule changes
-    console.log('I run infinitely')
+    console.log("I run infinitely");
     fetch(`/get_schedule/${currentDay.id}`)
       .then((response) => response.json())
       .then((response) => {
@@ -52,7 +52,6 @@ function DaySchedule({ currentDay, isDesktop }) {
             })
           );
         } else {
-          
           setRedirect(<Redirect to={"/scheduletron"} />);
         }
       });
