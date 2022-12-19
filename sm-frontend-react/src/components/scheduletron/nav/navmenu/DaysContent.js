@@ -1,6 +1,4 @@
-import { withStyles } from "@material-ui/core";
-import React, { Component } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
 import { Link } from "react-router-dom";
 
 const abreviated = {
@@ -13,14 +11,7 @@ const abreviated = {
   Sunday: "Sun.",
 };
 
-const DayBtn = ({
-  weekday,
-  date,
-  completion,
-  disabled,
-  weekId,
-  dayId,
-}) => {
+function DayBtn({ weekday, date, completion, disabled, weekId, dayId }) {
   return (
     <Link
       to={`/scheduletron/viewer/${weekId}/${dayId}`}
@@ -59,49 +50,32 @@ const DayBtn = ({
       </div>
     </Link>
   );
-};
-
-const styles = () => ({
-  main: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    background: "#E1E9EE",
-    justifyContent: "space-evenly",
-    height: "100%",
-  },
-});
-
-class WeekBar extends Component {
-  render() {
-    const { week, path, menu, value, weekId } = this.props;
-
-    return (
-      <div
-        style={{
-          display: menu === value ? "flex" : "none",
-          flexDirection: "column",
-          gap: 40,
-          alignItems: "center",
-        }}
-      >
-        {week.map(({ weekday, staffing, month, day, id }) => (
-          <DayBtn
-          key = {id}
-            weekId={weekId}
-            weekday={weekday}
-            completion={Math.round(
-              (staffing.actual / staffing.projected) * 100
-            )}
-            date={`${month}/${day}`}
-            id={id}
-            path={path}
-            dayId={id}
-          />
-        ))}
-      </div>
-    );
-  }
 }
 
-export default withStyles(styles)(WeekBar);
+function WeekBar({ week, path, menu, value, weekId }) {
+  return (
+    <div
+      style={{
+        display: menu === value ? "flex" : "none",
+        flexDirection: "column",
+        gap: 40,
+        alignItems: "center",
+      }}
+    >
+      {week.map(({ weekday, staffing, month, day, id }) => (
+        <DayBtn
+          key={id}
+          weekId={weekId}
+          weekday={weekday}
+          completion={Math.round((staffing.actual / staffing.projected) * 100)}
+          date={`${month}/${day}`}
+          id={id}
+          path={path}
+          dayId={id}
+        />
+      ))}
+    </div>
+  );
+}
+
+export default WeekBar;

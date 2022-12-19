@@ -8,7 +8,7 @@ import saveIcon from "./assets/Save Icon.svg";
 import { Tabs, Tab } from "@material-ui/core";
 import styled from "@emotion/styled";
 
-const StyledTabs = styled(Tabs)(({ isOpen, hidden }) => {
+const StyledTabs = styled(Tabs)(({ value, hidden }) => {
   return {
     "& .MuiTabs-indicator": {
       background: "white",
@@ -21,7 +21,7 @@ const StyledTabs = styled(Tabs)(({ isOpen, hidden }) => {
     "& .MuiTabs-flexContainer": {
       justifyContent: "center",
     },
-    color: isOpen ? "white" : "black",
+    color: Number.isInteger(value) ? "white" : "black",
     position: "absolute",
     bottom: 0,
     right: 0,
@@ -55,7 +55,6 @@ function Functions({ currentFunction, changeCurrentFunction, hidden }) {
       orientation={"vertical"}
       isOpen={isOpen}
       hidden={hidden}
-      style = {{background : 'red'}}
     >
       <StyledTab
         value={0}
@@ -72,7 +71,7 @@ function Functions({ currentFunction, changeCurrentFunction, hidden }) {
         label="Save"
         icon={<img alt="Save" src={isOpen ? saveIcon : blackSaveIcon} />}
       />
-      <Tab value = {null} style = {{display : 'none'}}/>
+      <Tab value={null} style={{ display: "none" }} />
     </StyledTabs>
   );
 }

@@ -25,55 +25,27 @@ const TabsContainer = (props) => {
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const screenWidth = useSelector((state) => state.screenWidth);
   //STATE
-  let [redirect, setRedirect] = useState(null);
-
-  function fetchWeekSchedule(weekId) {
-    fetch(`/get_week_schedule?week-id=${weekId}`)
-      .then((response) => response.json())
-      .then((response) => {
-        if (response) {
-          dispatch(updateSelectedWeek(response));
-        } else {
-          setRedirect(<Redirect to="/scheduletron" />);
-        }
-      });
-  }
-
-  function getCurrentDay(selectedWeek, redirect, dayId) {
-    //If the dayid makes can be found in the week, all should go well
-    //if not it will redirect using the dayid of the day at index[0]
-    //in selected week
-    if (selectedWeek.week.length > 0) {
-      const currentDay = selectedWeek.week.find((d) => d.id === dayId);
-
-      if (Boolean(currentDay) === false) {
-        redirect =
-          redirect ||
-          setRedirect(
-            <Redirect
-              to={`/scheduletron/viewer/${selectedWeek.id}/${selectedWeek.week[0].id}`}
-            />
-          );
-      }
-      return currentDay;
-    }
-  }
+  const [redirect, setRedirect] = useState(null);
+  const [currentDay, setCurrentDay] = useState(null);
 
   useEffect(() => {
-    if (props.weekId !== selectedWeek.id) {
-      fetchWeekSchedule(props.weekId);
-    }
+    const day = selectedWeek.week.find((d) => d.id === props.dayId);
 
-    if (props.dayId && props.dayId !== currentSchedule.dayId) {
-      dispatch(updateCurrentDayId(props.dayId));
+    if (!Boolean(day)) {
+      fetch(`/get_week_schedule?week-id=${props.weekId}`)
+        .then((response) => response.json())
+        .then((response) => {
+          if (response) {
+            dispatch(updateSelectedWeek(response));
+          } else {
+            setRedirect(<Redirect to="/scheduletron" />);
+          }
+        });
+    } else if (day !== currentDay) {
+      dispatch(updateCurrentDayId(day.id));
+      setCurrentDay(day);
     }
-  });
-
-  const currentDay = getCurrentDay(
-    selectedWeek,
-    redirect,
-    currentSchedule.dayId
-  );
+  }, [selectedWeek, props.weekId, props.dayId]);
 
   return (
     <StyledPaper>
@@ -87,7 +59,6 @@ const TabsContainer = (props) => {
               <StyledTab
                 key={id}
                 value={id}
-                currentDayId={currentSchedule.dayId}
                 component={Link}
                 to={`/scheduletron/viewer/${props.weekId}/${id}`}
                 label={

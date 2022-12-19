@@ -35,6 +35,7 @@ const AddBtn = styled(Button)(() => ({
 
 function Home() {
   const [weeks, setWeeks] = useState(null);
+  const [datepicker, setDatePicker] = useState(null);
   const screenWidth = useSelector((state) => state.screenWidth);
   let isDesktop = screenWidth > 860;
   let isLargeDesktop = screenWidth > 1160;
@@ -76,6 +77,7 @@ function Home() {
                   label="Enter Date"
                   value={"02/22/1998"}
                   renderInput={(params) => <TextField {...params} />}
+                  onChange={(newVal) => setDatePicker(newVal)}
                 />
               </LocalizationProvider>
             </div>
@@ -89,6 +91,7 @@ function Home() {
                 label="Enter Date"
                 value={"02/22/1998"}
                 renderInput={(params) => <TextField {...params} />}
+                onChange={(newVal) => setDatePicker(newVal)}
               />
             </LocalizationProvider>
 

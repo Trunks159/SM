@@ -25,10 +25,9 @@ const StyledTabs = styled(Tabs)(({ theme }) => {
   };
 });
 
-const StyledTab = styled(Tab)(({ currentDayId, value, theme }) => {
-  const isActive = currentDayId === value;
+const StyledTab = styled(Tab)(({ theme }) => {
   return {
-    opacity: isActive ? 1 : 0.5,
+    opacity: 0.5,
     textTransform: "none",
     textDecoration: "none",
     transition: "opacity .25s",
@@ -45,8 +44,15 @@ const StyledTab = styled(Tab)(({ currentDayId, value, theme }) => {
       opacity: 1,
     },
     "& .weekday": {
-      display: isActive ? "inline" : "none",
+      display: "none",
       paddingRight: "7px",
+    },
+    "&.Mui-selected": {
+      opacity: 1,
+      "& .weekday": {
+        display: "inline",
+        paddingRight: "7px",
+      },
     },
     [theme.breakpoints.up("md")]: {
       fontSize: 32,

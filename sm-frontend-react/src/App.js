@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
 import NavBar from "./components/navbar/NavBar";
 import User from "./components/user/User";
@@ -40,7 +40,6 @@ function App() {
 
   const currentUser = useSelector((state) => state.currentUser);
   const users = useSelector((state) => state.allUsers);
-  const screenWidth = useSelector((state)=>state.screenWidth);
 
   function fetchUsers() {
     fetch("/users")
@@ -48,7 +47,7 @@ function App() {
       .then((newData) => {
         if (
           /*if the data from the api call is different
-          than the data we have, update state*/
+    than the data we have, update state*/
           users !== newData.users ||
           currentUser !== newData.currentUser
         ) {
@@ -57,7 +56,6 @@ function App() {
         }
       });
   }
-
 
   function notifyUser(message) {
     setMessage(message);
@@ -74,31 +72,24 @@ function App() {
         notifyUser();
       });
   }
-  
-  function updatePredicate(newWidth){
-    dispatch(updateScreenWidth(newWidth));
+
+  function updatePredicate() {
+    dispatch(updateScreenWidth(window.innerWidth));
   }
 
   useEffect(() => {
-    //componentDidUpdate
-    if(screenWidth !== window.innerWidth){
-      updatePredicate(window.innerWidth);
-    }
-   
-  }, [window.innerWidth]);
-
-  useEffect(()=>{
     //componentDidMount
-    fetchUsers();
     window.addEventListener("resize", updatePredicate);
+    updatePredicate(window.innerWidth);
+    fetchUsers();
     return () => {
       window.removeEventListener("resize", updatePredicate);
     };
-  }, [])
+  }, []);
 
   return users ? (
     <Router>
-      <ThemeProvider theme = {theme}>
+      <ThemeProvider theme={theme}>
         <div className="App">
           <NavBar currentUser={currentUser} handleLogout={handleLogout} />
           <Notification message={message} />
@@ -158,7 +149,7 @@ function App() {
               path="/scheduletron/:weekId?/:dayId?"
               render={() => {
                 return currentUser.isAuthenticated ? (
-                  <Scheduletron  />
+                  <Scheduletron />
                 ) : (
                   <Redirect to="/login" />
                 );
