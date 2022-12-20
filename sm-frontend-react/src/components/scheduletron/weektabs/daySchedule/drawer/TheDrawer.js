@@ -7,7 +7,7 @@ import AddPrompt from "./AddPrompt";
 import SavePrompt from "./SavePrompt";
 import EditPrompt from "./EditPrompt";
 import "./thedrawer.css";
-import Functions from "../functions/Functions";
+import Functions from "../../functions/Functions";
 
 const useStyles = makeStyles({
   tab: {
@@ -53,6 +53,7 @@ const useStyles = makeStyles({
 function TheDrawer(props) {
   const { currentFunction, changeCurrentFunction } = props;
   let date = moment(props.date);
+  console.log('DATE: ', date)
   const isOpen = Number.isInteger(currentFunction);
   const classes = useStyles();
   return (

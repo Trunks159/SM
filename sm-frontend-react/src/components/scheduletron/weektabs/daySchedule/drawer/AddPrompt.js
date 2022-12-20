@@ -5,6 +5,8 @@ import addIcon from "./assets/Add Icon.svg";
 import { makeStyles } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 
+
+//ACTIONS
 const addToScheduled = (info) => {
   return {
     type: "ADD_TO_SCHEDULED",
@@ -104,13 +106,13 @@ function UserThumb({
 }
 
 function AddPrompt({ currentFunction, index, date }) {
-  const teamMembers = useSelector((state) => state.notScheduled);
-  const dayIndex = useSelector((state) => state.currentDayIndex);
-  const selectedWeek = useSelector((state) => state.selectedWeek);
-  const dayId = selectedWeek.week[dayIndex].id;
+  const currentSchedule = useSelector((state) => state.currentSchedule);
+  const {notScheduled ,dayId} = currentSchedule;
+
   const dispatch = useDispatch();
   const classes = useStyles();
-  function handleAdd(userIndex, notScheduled = teamMembers, theDate = date) {
+
+  function handleAdd(userIndex, notScheduled = notScheduled, theDate = date) {
     const user = notScheduled.splice(userIndex, 1)[0];
     dispatch(addToScheduled({ user, theDate, dayId }));
     dispatch(updateNotScheduled(notScheduled));
@@ -129,7 +131,7 @@ function AddPrompt({ currentFunction, index, date }) {
       </p>
 
       <ul className="add-member-list">
-        {teamMembers.map(({ firstName, lastName, position }, i) => (
+        {notScheduled.map(({ firstName, lastName, position }, i) => (
           <li key={i}>
             <UserThumb
             key = {i}

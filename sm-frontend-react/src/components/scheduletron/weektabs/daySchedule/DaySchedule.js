@@ -5,6 +5,7 @@ import "./daySchedule.css";
 import { StyledPaper } from "./StyledComponents";
 import moment from "moment";
 import Functions from "../functions/Functions";
+import TheDrawer from "./drawer/TheDrawer";
 
 //ACTIONS
 const initializeSchedule = ({ scheduled, notScheduled, timeRange }) => {
@@ -14,8 +15,6 @@ const initializeSchedule = ({ scheduled, notScheduled, timeRange }) => {
   };
 };
 
-//Request scheduled and notscheduled from flask
-//change whenever the day changes
 
 function DaySchedule({ currentDay, isDesktop }) {
   const [redirect, setRedirect] = useState(null);
@@ -55,12 +54,16 @@ function DaySchedule({ currentDay, isDesktop }) {
         }
       });
   }, [currentDay, dispatch]);
-  console.log('CurrentDay: ', currentDay)
   return (
     <StyledPaper key={currentDay.id} elevation={1}>
       {redirect}
       <Functions
         hidden={!isDesktop}
+        changeCurrentFunction={setCurrentFunction}
+        currentFunction={currentFunction}
+      />
+        <TheDrawer
+        date={currentDay.date}
         changeCurrentFunction={setCurrentFunction}
         currentFunction={currentFunction}
       />

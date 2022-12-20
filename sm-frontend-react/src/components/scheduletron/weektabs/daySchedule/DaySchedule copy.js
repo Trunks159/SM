@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./daySchedule.css";
 import Functions from "../functions/Functions";
-import TheDrawer from "../drawer/TheDrawer";
+import TheDrawer from "./drawer/TheDrawer";
 import { Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Paper, Button } from "@material-ui/core";
@@ -37,11 +37,7 @@ const DaySchedule = ({ day, isDesktop }) => {
       >
         <img alt = 'Menu' src={menuIcon} />
       </HamburgerButton>
-      <TheDrawer
-        date={day.date}
-        changeCurrentFunction={setCurrentFunction}
-        currentFunction={currentFunction}
-      />
+    
     </Paper>
   );
 };
