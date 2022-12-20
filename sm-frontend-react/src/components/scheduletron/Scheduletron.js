@@ -26,7 +26,7 @@ function Scheduletron() {
         if (response) {
           dispatch(updateSelectedWeek(response));
           setRedirect(
-            <Redirect to={`/scheduletron/viewer/${response.id}/${0}`} />
+            <Redirect to={`/scheduletron/viewer/${response.id}/${response.week[0].id}`} />
           );
         } else {
           setRedirect({ redirect: <Redirect to={"/scheduletron"} /> });

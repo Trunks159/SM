@@ -38,8 +38,7 @@ function DaySchedule({ currentDay, isDesktop }) {
   useEffect(() => {
     //do this whenever schedule changes
     //so i guess it could be whenever dayid of
-    //schedule changes
-    console.log("I run infinitely");
+    //schedule changes;
     fetch(`/get_schedule/${currentDay.id}`)
       .then((response) => response.json())
       .then((response) => {
@@ -56,6 +55,7 @@ function DaySchedule({ currentDay, isDesktop }) {
         }
       });
   }, [currentDay, dispatch]);
+  console.log('CurrentDay: ', currentDay)
   return (
     <StyledPaper key={currentDay.id} elevation={1}>
       {redirect}

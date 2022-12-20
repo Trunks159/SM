@@ -4,9 +4,8 @@ import DaySchedule from "./daySchedule/DaySchedule";
 import { useSelector, useDispatch } from "react-redux";
 import { StyledPaper, StyledTab, StyledTabs } from "./StyledComponents";
 
-//
 
-//ACTIONS
+//ACTIONS ////////////////////////
 function updateSelectedWeek(newWeek) {
   return { type: "UPDATE_SELECTED_WEEK", payLoad: newWeek };
 }
@@ -15,9 +14,12 @@ function updateCurrentDayId(dayId) {
   return { type: "UPDATE_DAY_ID", payLoad: dayId };
 }
 
-const TabsContainer = (props) => {
-  //This dayId is the source for all day changes
 
+const TabsContainer = (props) => {
+  //The url is the basis of all changes to week
+  //and day
+
+  //UTILITIES
   const dispatch = useDispatch();
 
   //GLOBAL STATE
@@ -26,31 +28,53 @@ const TabsContainer = (props) => {
   const screenWidth = useSelector((state) => state.screenWidth);
   //STATE
   const [redirect, setRedirect] = useState(null);
-  const [currentDay, setCurrentDay] = useState(null);
+  const [currentDay, setCurrentDay] = useState({ id: null });
+
+  //SIDE EFFECTS
+  function updateState() {
+    //fetches a weekSchedule and updates week and day
+    fetch(`/get_week_schedule?week-id=${props.weekId}`)
+      .then((response) => response.json())
+      .then((response) => {
+        if (response) {
+          dispatch(updateSelectedWeek(response));
+          //if day works it updates day in state
+          //otherwise it assumes monday is the correct
+          //day and it uses that id
+          validateDayId(response.week, props.dayId);
+        } else {
+          setRedirect(<Redirect to="/scheduletron" />);
+        }
+      });
+  }
+
+  function validateDayId(week, dayId) {
+    const day = week.find(({ id }) => id === dayId);
+    if (day) {
+      setCurrentDay(day);
+      dispatch(updateCurrentDayId(day.id));
+    } else {
+      setRedirect(
+        <Redirect to={`/scheduletron/viewer/${props.weekId}/${week[0].id}`} />
+      );
+    }
+  }
 
   useEffect(() => {
-    const day = selectedWeek.week.find((d) => d.id === props.dayId);
-
-    if (!Boolean(day)) {
-      fetch(`/get_week_schedule?week-id=${props.weekId}`)
-        .then((response) => response.json())
-        .then((response) => {
-          if (response) {
-            dispatch(updateSelectedWeek(response));
-          } else {
-            setRedirect(<Redirect to="/scheduletron" />);
-          }
-        });
-    } else if (day !== currentDay) {
-      dispatch(updateCurrentDayId(day.id));
-      setCurrentDay(day);
+    if (props.weekId !== selectedWeek.id) {
+      updateState(props.weekId, props.dayId);
+    } else if (props.dayId !== currentDay.id) {
+      validateDayId(selectedWeek.week, props.dayId);
     }
-  }, [selectedWeek, props.weekId, props.dayId]);
+  }, [props.weekId, props.dayId]);
 
+  ////////////////////
+
+  const currentDayExists = (id)=>Number.isInteger(id);
   return (
     <StyledPaper>
       {redirect}
-      {currentDay && (
+       {currentDayExists(currentDay.id)  && (
         <>
           <StyledTabs variant="scrollable" value={currentSchedule.dayId}>
             {/*You might want to separate this and define the Tabs above 
