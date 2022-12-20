@@ -53,7 +53,6 @@ function Functions({ currentFunction, changeCurrentFunction, hidden }) {
       onChange={(e, newVal) => changeCurrentFunction(newVal)}
       value={currentFunction}
       orientation={"vertical"}
-      isOpen={isOpen}
       hidden={hidden}
     >
       <StyledTab

@@ -63,7 +63,6 @@ const currentScheduleReducer = (
         timerange: action.payLoad.timerange,
       };
     case "INITIALIZE_TIMESLOTS":
-      console.log("TIMESLOTS: ", state.timerange);
       return {
         ...state,
         trackLength: action.payLoad.trackLength,
@@ -80,6 +79,13 @@ const currentScheduleReducer = (
               state.timerange
             ),
             user,
+            //these 2 need testing, they prob dont work yet
+            getStartTime: function () {
+              return pixToTime(this.start, state.trackLength, state.timerange);
+            },
+            getEndTime: function () {
+              return pixToTime(this.end, state.trackLength, state.timerange);
+            },
           })
         ),
       };

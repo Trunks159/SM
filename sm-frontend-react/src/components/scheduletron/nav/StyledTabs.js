@@ -15,21 +15,19 @@ const StyledTabs = styled(Tabs)({
   width: "100%",
 });
 
-const StyledTab = styled(Tab, {
-  shouldForwardProp: (prop) => prop !== "color",
-})(({ currentMenu, label }) => {
-  const isActive = currentMenu === label.toLowerCase();
-  return {
-    textTransform: "capitalize",
-    minWidth: 0,
-    fontSize: 12,
-    padding: "15px 0px",
-    color: isActive ? "white" : "transparent",
-    "&:hover": {
-      opacity: 1,
-      color: "white",
-    },
-  };
-});
+const StyledTab = styled(Tab)(() => ({
+  textTransform: "capitalize",
+  minWidth: 0,
+  fontSize: 12,
+  padding: "15px 0px",
+  color: "transparent",
+  "&:hover": {
+    opacity: 1,
+    color: "white",
+  },
+  "&.Mui-selected": {
+    color: "white",
+  },
+}));
 
 export { StyledTabs, StyledTab, StyledDivider };
