@@ -20,36 +20,39 @@ const updateTrackLength = (newLength) => ({
   payLoad: newLength,
 });
 
-const initializeSchedule = ({
-  workblocks,
-  newDayId,
-  newTimerange,
-  newLength,
-}) => ({
-  type: "INITIALIZE_SCHEDULE",
-  payLoad: { workblocks, newDayId, newTimerange, newLength },
+const initializeTimeslots = ({ trackLength, scheduled }) => ({
+  type: "INITIALIZE_TIMESLOTS",
+  payLoad: { trackLength, scheduled },
 });
-/////////////
+
+//PURE FUNCTIONS
 
 function MyTable() {
+  //UTILITIES
   const myRef = useRef(null);
   const dispatch = useDispatch();
-  const dimensions = useWindowDimensions();
   //program wont refresh on change to height without this
+  const dimensions = useWindowDimensions();
 
-  //initialize length
-  const daySchedule = useSelector((state) => state.timeslots);
-  const scheduled = useSelector((state) => state.scheduled);
-  const { trackLength, timeslots } = daySchedule;
+  //GLOBAL STATE
+  const currentSchedule = useSelector((state) => state.currentSchedule);
+  const { trackLength, timeslots, scheduled } = currentSchedule;
+
+  //SIDEEFFECTS
+  useEffect(() => {
+    dispatch(
+      initializeTimeslots({
+        trackLength: myRef.current.clientHeight,
+        scheduled: scheduled,
+      })
+    );
+  }, [scheduled]);
+
   /*
   useEffect(() => {
     dispatch(updateTrackLength(myRef.current.clientHeight));
   }, [viewportHeight]);
 */
-
-  useEffect(() => {
-    dispatch(initializeSchedule(myRef.current.clientHeight, scheduled));
-  }, []);
 
   return (
     <TableContainer sx={{ flex: 1, minWidth: 100, width: 100 }}>

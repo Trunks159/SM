@@ -53,7 +53,6 @@ const useStyles = makeStyles({
 function TheDrawer(props) {
   const { currentFunction, changeCurrentFunction } = props;
   let date = moment(props.date);
-  console.log('DATE: ', date)
   const isOpen = Number.isInteger(currentFunction);
   const classes = useStyles();
   return (

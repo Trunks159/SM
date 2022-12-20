@@ -2,38 +2,48 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./daySchedule.css";
-import { StyledPaper } from "./StyledComponents";
+import { StyledHamburgerButton, StyledPaper } from "./StyledComponents";
 import moment from "moment";
 import Functions from "../functions/Functions";
 import TheDrawer from "./drawer/TheDrawer";
+import menuIcon from "./assets/Menu Icon.svg";
+import MyTable from "./table/TimeSlotsTable";
 
 //ACTIONS
-const initializeSchedule = ({ scheduled, notScheduled, timeRange }) => {
+const initializeSchedule = ({ scheduled, notScheduled, timerange }) => {
   return {
     type: "INITIALIZE_SCHEDULE",
-    payLoad: { scheduled, notScheduled, timeRange },
+    payLoad: { scheduled, notScheduled, timerange },
   };
 };
 
+//PURE FUNCTIONS
 
-function DaySchedule({ currentDay, isDesktop }) {
-  const [redirect, setRedirect] = useState(null);
-  const [currentFunction, setCurrentFunction] = useState(null);
+function getTimerange(date) {
   //for now this is the timerange but it will be changed
   // to something more dynamic
-  const currentSchedule = useSelector((state) => state.currentSchedule);
-  const dispatch = useDispatch();
-  function getTimeRange(date) {
-    return [
-      moment(date).clone().set({ h: 0, m: 0 }).format("YYYY-MM-DD hh:mm:ss a"),
-      moment(date)
-        .clone()
-        .set({ h: 0, m: 0 })
-        .add(1, "days")
-        .format("YYYY-MM-DD hh:mm:ss a"),
-    ];
-  }
+  return [
+    moment(date).clone().set({ h: 0, m: 0 }).format("YYYY-MM-DD hh:mm:ss a"),
+    moment(date)
+      .clone()
+      .set({ h: 0, m: 0 })
+      .add(1, "days")
+      .format("YYYY-MM-DD hh:mm:ss a"),
+  ];
+}
 
+function DaySchedule({ currentDay }) {
+  //UTILITIES
+  const dispatch = useDispatch();
+
+  //GLOBAL STATE
+  const screenWidth = useSelector((state) => state.screenWidth);
+
+  //STATE
+  const [redirect, setRedirect] = useState(null);
+  const [currentFunction, setCurrentFunction] = useState(null);
+
+  //SIDE EFFECTS
   useEffect(() => {
     //do this whenever schedule changes
     //so i guess it could be whenever dayid of
@@ -46,7 +56,7 @@ function DaySchedule({ currentDay, isDesktop }) {
             initializeSchedule({
               scheduled: response.scheduled,
               notScheduled: response.notScheduled,
-              timerange: getTimeRange(currentDay.date),
+              timerange: getTimerange(currentDay.date),
             })
           );
         } else {
@@ -54,19 +64,29 @@ function DaySchedule({ currentDay, isDesktop }) {
         }
       });
   }, [currentDay, dispatch]);
+
+  //FOR RENDER
+  const isDesktop = screenWidth >= 600;
   return (
     <StyledPaper key={currentDay.id} elevation={1}>
       {redirect}
+      <MyTable />
       <Functions
         hidden={!isDesktop}
         changeCurrentFunction={setCurrentFunction}
         currentFunction={currentFunction}
       />
-        <TheDrawer
+      <TheDrawer
         date={currentDay.date}
         changeCurrentFunction={setCurrentFunction}
         currentFunction={currentFunction}
       />
+      <StyledHamburgerButton
+        onClick={() => setCurrentFunction(0)}
+        hidden={typeof currentFunction !== "number" && isDesktop}
+      >
+        <img alt="Menu" src={menuIcon} />
+      </StyledHamburgerButton>
     </StyledPaper>
   );
 }

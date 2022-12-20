@@ -1,5 +1,6 @@
 import moment from "moment";
 
+//PURE FUNCTIONS------------------------------------------//
 const timeToPix = (time, length, availableTimes) => {
   const timerange = availableTimes.map((t) => moment(t));
   //Get from moment to a percentage, then multiply that by the lentgh
@@ -39,6 +40,7 @@ const convertTimeslots = (timeslots, oldLength, newLength, timerange) => {
     };
   });
 };
+//---------------------------------------------------------------------------------------
 
 const currentScheduleReducer = (
   state = {
@@ -58,8 +60,30 @@ const currentScheduleReducer = (
         ...state,
         scheduled: action.payLoad.scheduled,
         notScheduled: action.payLoad.notScheduled,
-        timerange: action.payLoad.timeRange,
+        timerange: action.payLoad.timerange,
       };
+    case "INITIALIZE_TIMESLOTS":
+      console.log("TIMESLOTS: ", state.timerange);
+      return {
+        ...state,
+        trackLength: action.payLoad.trackLength,
+        timeslots: action.payLoad.scheduled.map(
+          ({ startTime, endTime, user }) => ({
+            start: timeToPix(
+              startTime,
+              action.payLoad.trackLength,
+              state.timerange
+            ),
+            end: timeToPix(
+              endTime,
+              action.payLoad.trackLength,
+              state.timerange
+            ),
+            user,
+          })
+        ),
+      };
+
     case "ADD_TIMESLOT":
       const { startTime, endTime, user } = action.payLoad;
       return {

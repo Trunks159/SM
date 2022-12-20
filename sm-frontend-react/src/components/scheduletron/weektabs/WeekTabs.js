@@ -4,7 +4,6 @@ import DaySchedule from "./daySchedule/DaySchedule";
 import { useSelector, useDispatch } from "react-redux";
 import { StyledPaper, StyledTab, StyledTabs } from "./StyledComponents";
 
-
 //ACTIONS ////////////////////////
 function updateSelectedWeek(newWeek) {
   return { type: "UPDATE_SELECTED_WEEK", payLoad: newWeek };
@@ -13,7 +12,6 @@ function updateSelectedWeek(newWeek) {
 function updateCurrentDayId(dayId) {
   return { type: "UPDATE_DAY_ID", payLoad: dayId };
 }
-
 
 const TabsContainer = (props) => {
   //The url is the basis of all changes to week
@@ -25,7 +23,6 @@ const TabsContainer = (props) => {
   //GLOBAL STATE
   const selectedWeek = useSelector((state) => state.selectedWeek);
   const currentSchedule = useSelector((state) => state.currentSchedule);
-  const screenWidth = useSelector((state) => state.screenWidth);
   //STATE
   const [redirect, setRedirect] = useState(null);
   const [currentDay, setCurrentDay] = useState({ id: null });
@@ -70,11 +67,11 @@ const TabsContainer = (props) => {
 
   ////////////////////
 
-  const currentDayExists = (id)=>Number.isInteger(id);
+  const currentDayExists = (id) => Number.isInteger(id);
   return (
     <StyledPaper>
       {redirect}
-       {currentDayExists(currentDay.id)  && (
+      {currentDayExists(currentDay.id) && (
         <>
           <StyledTabs variant="scrollable" value={currentSchedule.dayId}>
             {/*You might want to separate this and define the Tabs above 
@@ -94,7 +91,7 @@ const TabsContainer = (props) => {
               />
             ))}
           </StyledTabs>
-          <DaySchedule currentDay={currentDay} isDesktop={screenWidth >= 600} />
+          <DaySchedule currentDay={currentDay} />
         </>
       )}
     </StyledPaper>
