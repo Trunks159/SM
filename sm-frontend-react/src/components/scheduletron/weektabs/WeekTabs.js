@@ -68,10 +68,11 @@ const TabsContainer = (props) => {
   ////////////////////
 
   const currentDayExists = (id) => Number.isInteger(id);
+
   return (
     <StyledPaper>
       {redirect}
-      {currentDayExists(currentDay.id) && (
+      {currentDayExists(currentSchedule.dayId) ? (
         <>
           <StyledTabs variant="scrollable" value={currentSchedule.dayId}>
             {/*You might want to separate this and define the Tabs above 
@@ -91,9 +92,9 @@ const TabsContainer = (props) => {
               />
             ))}
           </StyledTabs>
-          <DaySchedule currentDay={currentDay} />
+          <DaySchedule />
         </>
-      )}
+      ) : null}
     </StyledPaper>
   );
 };

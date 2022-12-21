@@ -14,7 +14,6 @@ import stretchIcon from "./assets/Stretch Icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import useWindowDimensions from "./WindowDimensions";
 import "./timeslots.css";
-import moment from "moment";
 
 //ACTIONS
 const updateTrackLength = (newLength) => ({
@@ -49,7 +48,8 @@ function MyTable() {
       })
     );
   }, [scheduled]);
-
+  const c = myRef.current && myRef.current.clientHeight;
+  console.log("Moms: ", c);
   /*
   useEffect(() => {
     dispatch(updateTrackLength(myRef.current.clientHeight));
@@ -109,72 +109,45 @@ function MyTable() {
                   shiftFilter={{ day: true, night: true }}
                 />
               </TableCell>
-              {timeslots.length > 0 &&
-                timeslots.map((timeslot, index) => (
+              {timeslots &&
+                timeslots.map(({ start, end }, index) => (
                   <TableCell
                     key={index}
                     style={{
                       borderRight: "rgba(112, 112, 112, .14)",
-                      background: "orange",
                       position: "relative",
                     }}
                   >
-                    <div
+                    <Paper
                       style={{
                         position: "absolute",
-                        margin: 20,
-                        top: 0,
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        background: "yellow",
+                        top: start,
+                        bottom: trackLength - end,
+                        right: 10,
+                        left: 10,
                       }}
                     >
-                      <Paper
-                        style={{
-                          position: "absolute",
-                          top: timeslot.start,
-                          bottom: trackLength - timeslot.end,
-                          right: 10,
-                          left: 10,
-                        }}
-                      >
-                        Start :
-                        {moment(timeslot.getStartTime()).format("h:mm a")}
-                        End : {trackLength}
-                      </Paper>
-
-                      <Draggable
-                        axis={"y"}
-                        position={{ x: 0, y: timeslot.start }}
-                      >
-                        <div className="stretch-btn">
-                          <img
-                            alt="Stretch1"
-                            style={{ rotate: "90deg" }}
-                            src={stretchIcon}
-                          />
-                        </div>
-                      </Draggable>
-                      <Draggable
-                        axis={"y"}
-                        position={{ x: 0, y: timeslot.end }}
-                      >
-                        <div
-                          style={{
-                            background: "black",
-                            position: "absolute",
-                            top: -10,
-                          }}
-                        >
-                          <img
-                            alt="Stretch2"
-                            style={{ rotate: "90deg" }}
-                            src={stretchIcon}
-                          />
-                        </div>
-                      </Draggable>
-                    </div>
+                      Start : {start}
+                      End : {trackLength}
+                    </Paper>
+                    <Draggable axis={"y"} position={{ x: 0, y: start }}>
+                      <div className="stretch-btn">
+                        <img
+                          alt="Stretch1"
+                          style={{ rotate: "90deg" }}
+                          src={stretchIcon}
+                        />
+                      </div>
+                    </Draggable>
+                    <Draggable axis={"y"} position={{ x: 0, y: end }}>
+                      <div style={{ background: "black" }}>
+                        <img
+                          alt="Stretch2"
+                          style={{ rotate: "90deg" }}
+                          src={stretchIcon}
+                        />
+                      </div>
+                    </Draggable>
                   </TableCell>
                 ))}
             </TableRow>

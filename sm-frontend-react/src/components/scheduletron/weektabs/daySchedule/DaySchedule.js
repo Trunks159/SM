@@ -32,12 +32,17 @@ function getTimerange(date) {
   ];
 }
 
-function DaySchedule({ currentDay }) {
+function DaySchedule() {
   //UTILITIES
   const dispatch = useDispatch();
 
   //GLOBAL STATE
   const screenWidth = useSelector((state) => state.screenWidth);
+  const currentSchedule = useSelector((state) => state.currentSchedule);
+  const selectedWeek = useSelector((state) => state.selectedWeek);
+  const currentDay = selectedWeek.week.find(
+    ({ id }) => id === currentSchedule.dayId
+  );
 
   //STATE
   const [redirect, setRedirect] = useState(null);
@@ -64,30 +69,31 @@ function DaySchedule({ currentDay }) {
         }
       });
   }, [currentDay, dispatch]);
-
   //FOR RENDER
   const isDesktop = screenWidth >= 600;
   return (
-    <StyledPaper key={currentDay.id} elevation={1}>
-      {redirect}
-      <MyTable />
-      <Functions
-        hidden={!isDesktop}
-        changeCurrentFunction={setCurrentFunction}
-        currentFunction={currentFunction}
-      />
-      <TheDrawer
-        date={currentDay.date}
-        changeCurrentFunction={setCurrentFunction}
-        currentFunction={currentFunction}
-      />
-      <StyledHamburgerButton
-        onClick={() => setCurrentFunction(0)}
-        hidden={typeof currentFunction !== "number" && isDesktop}
-      >
-        <img alt="Menu" src={menuIcon} />
-      </StyledHamburgerButton>
-    </StyledPaper>
+    currentSchedule.timerange.length > 0 && (
+      <StyledPaper key={currentDay.id} elevation={1}>
+        {redirect}
+        <MyTable />
+        <Functions
+          hidden={!isDesktop}
+          changeCurrentFunction={setCurrentFunction}
+          currentFunction={currentFunction}
+        />
+        <TheDrawer
+          date={currentDay.date}
+          changeCurrentFunction={setCurrentFunction}
+          currentFunction={currentFunction}
+        />
+        <StyledHamburgerButton
+          onClick={() => setCurrentFunction(0)}
+          hidden={typeof currentFunction !== "number" && isDesktop}
+        >
+          <img alt="Menu" src={menuIcon} />
+        </StyledHamburgerButton>
+      </StyledPaper>
+    )
   );
 }
 
