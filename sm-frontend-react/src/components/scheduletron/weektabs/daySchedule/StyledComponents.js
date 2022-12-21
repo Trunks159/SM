@@ -16,7 +16,7 @@ const StyledHamburgerButton = styled(Button)(({ hidden }) => {
 
 const StyledPaper = styled(Paper)(() => ({
   position: "relative",
-  flexDirection: "column",
+  flexDirection: "row",
   flex: 1,
   background: "#F5F5F5",
   display: "flex",
