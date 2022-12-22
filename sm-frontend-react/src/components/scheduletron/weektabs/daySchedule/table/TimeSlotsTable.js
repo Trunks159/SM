@@ -141,7 +141,7 @@ function MyTable() {
                       >
                         Start :
                         {moment(timeslot.getStartTime()).format("h:mm a")}
-                        End : {trackLength}
+                        End : {moment(timeslot.getEndTime()).format("h:mm a")}
                       </Paper>
 
                       <Draggable
@@ -158,7 +158,7 @@ function MyTable() {
                       </Draggable>
                       <Draggable
                         axis={"y"}
-                        position={{ x: 0, y: timeslot.end }}
+                        position={{ x: 0, y: 20}}
                       >
                         <div
                           style={{

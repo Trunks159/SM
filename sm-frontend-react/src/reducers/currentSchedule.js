@@ -2,19 +2,24 @@ import moment from "moment";
 
 //PURE FUNCTIONS------------------------------------------//
 const timeToPix = (time, length, availableTimes) => {
+  console.log('Timetopix: ', time, availableTimes)
   const timerange = availableTimes.map((t) => moment(t));
   //Get from moment to a percentage, then multiply that by the lentgh
   time = moment(time);
   const overflowLeft = time.diff(timerange[0], "hours", true) < 0;
   const overflowRight = time.diff(timerange[1], "hours", true) > 0;
+  
   if (overflowLeft) {
+    
     return 0;
   } else if (overflowRight) {
+    
     return length;
   } else {
     const perc =
       time.diff(timerange[0], "hours", true) /
       timerange[1].diff(timerange[0], "hours", true);
+      console.log('overflow: ', perc * length)
     return perc * length;
   }
 };
@@ -56,6 +61,7 @@ const currentScheduleReducer = (
   let { timeslots, trackLength, timerange } = state;
   switch (action.type) {
     case "INITIALIZE_SCHEDULE":
+
       return {
         ...state,
         scheduled: action.payLoad.scheduled,

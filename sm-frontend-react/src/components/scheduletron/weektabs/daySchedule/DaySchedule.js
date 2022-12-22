@@ -23,7 +23,7 @@ function getTimerange(date) {
   //for now this is the timerange but it will be changed
   // to something more dynamic
   return [
-    moment(date).clone().set({ h: 0, m: 0 }).format("YYYY-MM-DD hh:mm:ss a"),
+    moment(date).clone().set({ h: 6, m: 0 }).format("YYYY-MM-DD hh:mm:ss a"),
     moment(date)
       .clone()
       .set({ h: 0, m: 0 })
