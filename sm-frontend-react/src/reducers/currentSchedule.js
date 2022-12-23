@@ -2,29 +2,28 @@ import moment from "moment";
 
 //PURE FUNCTIONS------------------------------------------//
 const timeToPix = (time, length, availableTimes) => {
-  console.log('Timetopix: ', time, availableTimes)
+  console.log("Timetopix: ", time, availableTimes);
   const timerange = availableTimes.map((t) => moment(t));
   //Get from moment to a percentage, then multiply that by the lentgh
   time = moment(time);
   const overflowLeft = time.diff(timerange[0], "hours", true) < 0;
   const overflowRight = time.diff(timerange[1], "hours", true) > 0;
-  
+
   if (overflowLeft) {
-    
     return 0;
   } else if (overflowRight) {
-    
     return length;
   } else {
     const perc =
       time.diff(timerange[0], "hours", true) /
       timerange[1].diff(timerange[0], "hours", true);
-      console.log('overflow: ', perc * length)
+    console.log("overflow: ", perc * length);
     return perc * length;
   }
 };
 
 const pixToTime = (pix, length, timerange) => {
+  console.log("APPLES: ", pix, length, timerange);
   timerange = timerange.map((t) => moment(t));
   return timerange[0]
     .add(
@@ -45,6 +44,16 @@ const convertTimeslots = (timeslots, oldLength, newLength, timerange) => {
     };
   });
 };
+
+function convertTimeslot(id, timeslots, trackLength, timerange) {
+  const timeslot = timeslots.find((ts) => ts.id === id);
+  return (
+    timeslot && {
+      startTime: pixToTime(timeslot.start, trackLength, timerange),
+      endTime: pixToTime(timeslot.end, trackLength, timerange),
+    }
+  );
+}
 //---------------------------------------------------------------------------------------
 
 const currentScheduleReducer = (
@@ -55,13 +64,21 @@ const currentScheduleReducer = (
     timerange: [],
     timeslots: [],
     trackLength: 0,
+    convertTimeslot: function (
+      id,
+      timeslots = this.timeslots,
+      trackLength = this.trackLength,
+      timerange = this.timerange
+    ) {
+      //get timeslot with time in datetime units
+      return convertTimeslot(id, timeslots, trackLength, timerange);
+    },
   },
   action
 ) => {
   let { timeslots, trackLength, timerange } = state;
   switch (action.type) {
     case "INITIALIZE_SCHEDULE":
-
       return {
         ...state,
         scheduled: action.payLoad.scheduled,
@@ -86,12 +103,6 @@ const currentScheduleReducer = (
             ),
             user,
             //these 2 need testing, they prob dont work yet
-            getStartTime: function () {
-              return pixToTime(this.start, state.trackLength, state.timerange);
-            },
-            getEndTime: function () {
-              return pixToTime(this.end, state.trackLength, state.timerange);
-            },
           })
         ),
       };
