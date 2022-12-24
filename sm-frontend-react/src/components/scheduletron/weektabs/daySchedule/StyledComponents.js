@@ -11,6 +11,7 @@ const StyledHamburgerButton = styled(Button)(({ hidden }) => {
     "&:hover": {
       background: "black",
     },
+    zIndex: 1,
   };
 });
 

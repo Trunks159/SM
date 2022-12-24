@@ -10,6 +10,7 @@ import styled from "@emotion/styled";
 
 const StyledTabs = styled(Tabs)(({ value, hidden }) => {
   return {
+    zIndex: 1,
     "& .MuiTabs-indicator": {
       background: "white",
       left: 0,
