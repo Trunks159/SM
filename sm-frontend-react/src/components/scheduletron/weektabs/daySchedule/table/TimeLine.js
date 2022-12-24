@@ -24,8 +24,6 @@ const TimeLine = ({ shiftFilter }) => {
       className="timeline"
       style={{
         height: "100%",
-        padding: 0,
-        margin: 0,
       }}
     >
       <div className="timeline-labels">
@@ -45,8 +43,8 @@ const TimeLine = ({ shiftFilter }) => {
         style={{
           background: "black",
           width: 1,
-          margin: 5,
           opacity: 0.5,
+          margin: "0px 9px",
         }}
         orientation={screenWidth >= 600 ? "horizontal" : "vertical"}
         className={"timeline-divider"}

@@ -35,6 +35,7 @@ function MyTable() {
   const dispatch = useDispatch();
   //program wont refresh on change to height without this
   const dimensions = useWindowDimensions();
+  const _track_length = myRef.current && myRef.current.clientHeight;
 
   //GLOBAL STATE
   const currentSchedule = useSelector((state) => state.currentSchedule);
@@ -50,11 +51,9 @@ function MyTable() {
     );
   }, [scheduled]);
 
-  /*
   useEffect(() => {
-    dispatch(updateTrackLength(myRef.current.clientHeight));
-  }, [viewportHeight]);
-*/
+    dispatch(updateTrackLength(_track_length));
+  }, [_track_length]);
 
   return (
     <div style={{ flex: 1, position: "relative" }}>
@@ -113,7 +112,6 @@ function MyTable() {
                 timeslots.map((timeslot, index) => {
                   const { startTime, endTime } =
                     currentSchedule.convertTimeslot(timeslot.user.id);
-                  console.log("");
                   return (
                     <TableCell
                       key={index}
@@ -152,7 +150,7 @@ function MyTable() {
                           axis={"y"}
                           position={{ x: 0, y: timeslot.start }}
                         >
-                          <div className="stretch-btn">
+                          <div className="stretch-btn" style={{}}>
                             <img
                               alt="Stretch1"
                               style={{ rotate: "90deg" }}
@@ -160,13 +158,16 @@ function MyTable() {
                             />
                           </div>
                         </Draggable>
-                        <Draggable axis={"y"} position={{ x: 0, y: 20 }}>
+                        <Draggable
+                          axis={"y"}
+                          position={{ x: 0, y: timeslot.end - 40 }}
+                        >
                           <div
                             style={{
                               background: "black",
                               position: "absolute",
-                              top: -10,
                             }}
+                            className="stretch-btn"
                           >
                             <img
                               alt="Stretch2"

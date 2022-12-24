@@ -154,11 +154,11 @@ const currentScheduleReducer = (state = initialState, action) => {
       //whenever container length changes the timeslot needs to be recreated with the new trackLength in mind
       return {
         ...state,
-        trackLength: action.payLoad.newLength,
+        trackLength: action.payLoad,
         //if there are already timeslots, replace with updated timeslots
         timeslots:
           state.timeslots ||
-          convertTimeslots(timeslots, action.payLoad.newLength, timerange),
+          convertTimeslots(timeslots, action.payLoad, timerange),
       };
 
     case "ADD_TO_SCHEDULED":
