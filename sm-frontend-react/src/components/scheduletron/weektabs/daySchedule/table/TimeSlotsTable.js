@@ -111,11 +111,9 @@ function MyTable() {
               </TableCell>
               {timeslots.length > 0 &&
                 timeslots.map((timeslot, index) => {
-                  const { startTime, endTime } = currentSchedule.convertTimeslot(
-                    timeslot.id
-                  
-                  );
-                  console.log('')
+                  const { startTime, endTime } =
+                    currentSchedule.convertTimeslot(timeslot.user.id);
+                  console.log("");
                   return (
                     <TableCell
                       key={index}
@@ -143,6 +141,7 @@ function MyTable() {
                             bottom: trackLength - timeslot.end,
                             right: 10,
                             left: 10,
+                            textTransform: "uppercase",
                           }}
                         >
                           Start :{moment(startTime).format("h:mm a")}

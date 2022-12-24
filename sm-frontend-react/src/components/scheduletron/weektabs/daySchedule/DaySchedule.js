@@ -81,17 +81,17 @@ function DaySchedule() {
           changeCurrentFunction={setCurrentFunction}
           currentFunction={currentFunction}
         />
-        <TheDrawer
-          date={currentDay.date}
-          changeCurrentFunction={setCurrentFunction}
-          currentFunction={currentFunction}
-        />
         <StyledHamburgerButton
           onClick={() => setCurrentFunction(0)}
           hidden={typeof currentFunction !== "number" && isDesktop}
         >
           <img alt="Menu" src={menuIcon} />
         </StyledHamburgerButton>
+        <TheDrawer
+          date={currentDay.date}
+          changeCurrentFunction={setCurrentFunction}
+          currentFunction={currentFunction}
+        />
       </StyledPaper>
     )
   );

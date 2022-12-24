@@ -43,7 +43,7 @@ function Tabs1({ weekId }) {
         to={
           weekId
             ? `/scheduletron/viewer/${weekId}/${0}`
-            : `/scheduletron/?date=${"9-13-2021"}`
+            : `/scheduletron/viewer`
         }
         value={"schedule"}
         icon={<img alt="Schedule" src={scheduleIcon} />}

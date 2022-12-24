@@ -6,7 +6,7 @@ import WeekTabs from "./weektabs/WeekTabs";
 import "./scheduletron.css";
 
 function Scheduletron() {
-  return(
+  return (
     <div className="scheduletron">
       <SideNav />
 
@@ -16,7 +16,7 @@ function Scheduletron() {
         </Route>
 
         <Route
-          path={"/scheduletron/viewer/:weekId/:dayId"}
+          path={"/scheduletron/viewer/:weekId?/:dayId?"}
           render={({ match }) => {
             return (
               <WeekTabs

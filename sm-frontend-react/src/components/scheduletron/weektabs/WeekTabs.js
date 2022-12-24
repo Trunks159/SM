@@ -25,12 +25,16 @@ const TabsContainer = (props) => {
   const currentSchedule = useSelector((state) => state.currentSchedule);
   //STATE
   const [redirect, setRedirect] = useState(null);
-  const [currentDay, setCurrentDay] = useState({ id: null });
 
   //SIDE EFFECTS
   function updateState() {
     //fetches a weekSchedule and updates week and day
-    fetch(`/get_week_schedule?week-id=${props.weekId}`)
+    fetch(
+      isNaN(props.weekId)
+        ? //if nothing is sent for weekid inquire about THIS week's info
+          `/get_week_schedule?date=${"9-13-2021"}`
+        : `/get_week_schedule?week-id=${props.weekId}`
+    )
       .then((response) => response.json())
       .then((response) => {
         if (response) {
@@ -38,7 +42,7 @@ const TabsContainer = (props) => {
           //if day works it updates day in state
           //otherwise it assumes monday is the correct
           //day and it uses that id
-          validateDayId(response.week, props.dayId);
+          validateDayId(response, props.dayId);
         } else {
           setRedirect(<Redirect to="/scheduletron" />);
         }
@@ -46,13 +50,12 @@ const TabsContainer = (props) => {
   }
 
   function validateDayId(week, dayId) {
-    const day = week.find(({ id }) => id === dayId);
+    const day = week.week.find(({ id }) => id === dayId);
     if (day) {
-      setCurrentDay(day);
       dispatch(updateCurrentDayId(day.id));
     } else {
       setRedirect(
-        <Redirect to={`/scheduletron/viewer/${props.weekId}/${week[0].id}`} />
+        <Redirect to={`/scheduletron/viewer/${week.id}/${week.week[0].id}`} />
       );
     }
   }
@@ -60,19 +63,20 @@ const TabsContainer = (props) => {
   useEffect(() => {
     if (props.weekId !== selectedWeek.id) {
       updateState(props.weekId, props.dayId);
-    } else if (props.dayId !== currentDay.id) {
-      validateDayId(selectedWeek.week, props.dayId);
+    } else if (props.dayId !== currentSchedule.dayId) {
+      validateDayId(selectedWeek, props.dayId);
     }
   }, [props.weekId, props.dayId]);
-
   ////////////////////
 
-  const currentDayExists = (id) => Number.isInteger(id);
+  const currentDayExists = selectedWeek.week.find(
+    (item) => item.id === currentSchedule.dayId
+  );
 
   return (
     <StyledPaper>
       {redirect}
-      {currentDayExists(currentSchedule.dayId) ? (
+      {currentDayExists && (
         <>
           <StyledTabs variant="scrollable" value={currentSchedule.dayId}>
             {/*You might want to separate this and define the Tabs above 
@@ -94,7 +98,7 @@ const TabsContainer = (props) => {
           </StyledTabs>
           <DaySchedule />
         </>
-      ) : null}
+      )}
     </StyledPaper>
   );
 };

@@ -2,7 +2,7 @@ import moment from "moment";
 
 //PURE FUNCTIONS------------------------------------------//
 const timeToPix = (time, length, availableTimes) => {
-  console.log("Timetopix: ", time, availableTimes);
+  console.log("Timetopix: ", time);
   const timerange = availableTimes.map((t) => moment(t));
   //Get from moment to a percentage, then multiply that by the lentgh
   time = moment(time);
@@ -46,7 +46,8 @@ const convertTimeslots = (timeslots, oldLength, newLength, timerange) => {
 };
 
 function convertTimeslot(id, timeslots, trackLength, timerange) {
-  const timeslot = timeslots.find((ts) => ts.id === id);
+  const timeslot = timeslots.find((ts) => ts.user.id === id);
+  console.log("In question: ", id);
   return (
     timeslot && {
       startTime: pixToTime(timeslot.start, trackLength, timerange),
@@ -56,28 +57,34 @@ function convertTimeslot(id, timeslots, trackLength, timerange) {
 }
 //---------------------------------------------------------------------------------------
 
-const currentScheduleReducer = (
-  state = {
-    dayId: null,
-    scheduled: [],
-    notScheduled: [],
-    timerange: [],
-    timeslots: [],
-    trackLength: 0,
-    convertTimeslot: function (
-      id,
-      timeslots = this.timeslots,
-      trackLength = this.trackLength,
-      timerange = this.timerange
-    ) {
-      //get timeslot with time in datetime units
-      return convertTimeslot(id, timeslots, trackLength, timerange);
-    },
+const initialState = {
+  dayId: null,
+  scheduled: [],
+  notScheduled: [],
+  timerange: [],
+  timeslots: [],
+  trackLength: 0,
+  convertTimeslot: function (
+    id,
+    timeslots = this.timeslots,
+    trackLength = this.trackLength,
+    timerange = this.timerange
+  ) {
+    //get timeslot with time in datetime units
+    console.log("Theid..: ", id);
+    return convertTimeslot(id, timeslots, trackLength, timerange);
   },
-  action
-) => {
+};
+
+const currentScheduleReducer = (state = initialState, action) => {
   let { timeslots, trackLength, timerange } = state;
   switch (action.type) {
+    case "UPDATE_DAY_ID":
+      //this is really closer to initializing the schedule
+      return {
+        ...initialState,
+        dayId: action.payLoad,
+      };
     case "INITIALIZE_SCHEDULE":
       return {
         ...state,
@@ -153,11 +160,7 @@ const currentScheduleReducer = (
           state.timeslots ||
           convertTimeslots(timeslots, action.payLoad.newLength, timerange),
       };
-    case "UPDATE_DAY_ID":
-      return {
-        ...state,
-        dayId: action.payLoad,
-      };
+
     case "ADD_TO_SCHEDULED":
       const x = ({ theDate, dayId, user }, state) => {
         return {
@@ -170,7 +173,6 @@ const currentScheduleReducer = (
         };
       };
       return x(action.payLoad, state);
-
     default:
       return state;
   }
