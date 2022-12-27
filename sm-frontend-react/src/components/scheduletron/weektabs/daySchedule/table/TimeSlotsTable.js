@@ -111,7 +111,7 @@ function MyTable() {
               {timeslots.length > 0 &&
                 timeslots.map((timeslot, index) => {
                   const { startTime, endTime } =
-                    currentSchedule.convertTimeslot(timeslot.user.id);
+                    currentSchedule.toWorkBlock(timeslot);
                   return (
                     <TableCell
                       key={index}

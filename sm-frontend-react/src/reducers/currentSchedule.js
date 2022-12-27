@@ -2,7 +2,6 @@ import moment from "moment";
 
 //PURE FUNCTIONS------------------------------------------//
 const timeToPix = (time, length, availableTimes) => {
-  console.log("Timetopix: ", time);
   const timerange = availableTimes.map((t) => moment(t));
   //Get from moment to a percentage, then multiply that by the lentgh
   time = moment(time);
@@ -23,7 +22,6 @@ const timeToPix = (time, length, availableTimes) => {
 };
 
 const pixToTime = (pix, length, timerange) => {
-  console.log("APPLES: ", pix, length, timerange);
   timerange = timerange.map((t) => moment(t));
   return timerange[0]
     .add(
@@ -33,28 +31,27 @@ const pixToTime = (pix, length, timerange) => {
     .format();
 };
 
-const convertTimeslots = (timeslots, oldLength, newLength, timerange) => {
-  return timeslots.map((ts) => {
-    const start = pixToTime(ts.start, oldLength, timerange);
-    const end = pixToTime(ts.end, oldLength, timerange);
-    return {
-      ...ts,
-      start: timeToPix(start, newLength, timerange),
-      end: timeToPix(end, newLength, timerange),
-    };
-  });
-};
+const createTimeslots = (workblocks, trackLength, timerange) => (
+  workblocks.map((wb)=>({
+    user : wb.user,
+    start : timeToPix(wb.startTime, trackLength, timerange),
+    end : timeToPix(wb.endTime, trackLength, timerange),
+  }))
+);
 
-function convertTimeslot(id, timeslots, trackLength, timerange) {
-  const timeslot = timeslots.find((ts) => ts.user.id === id);
-  console.log("In question: ", id);
-  return (
-    timeslot && {
-      startTime: pixToTime(timeslot.start, trackLength, timerange),
-      endTime: pixToTime(timeslot.end, trackLength, timerange),
-    }
-  );
+
+
+function areSame(oldTimeRange, newTimeRange) {
+  if (newTimeRange.length === oldTimeRange.length) {
+    return (
+      moment(newTimeRange[0]).isSame(oldTimeRange[0]) &&
+      moment(newTimeRange[1]).isSame(oldTimeRange[1])
+    );
+  }
+  return false;
 }
+
+
 //---------------------------------------------------------------------------------------
 
 const initialState = {
@@ -64,16 +61,28 @@ const initialState = {
   timerange: [],
   timeslots: [],
   trackLength: 0,
-  convertTimeslot: function (
-    id,
-    timeslots = this.timeslots,
+  toWorkBlock: function (
+    {start, end, user},
     trackLength = this.trackLength,
     timerange = this.timerange
   ) {
-    //get timeslot with time in datetime units
-    console.log("Theid..: ", id);
-    return convertTimeslot(id, timeslots, trackLength, timerange);
+    //converts timeslots to workblocks
+    return  {
+      user,
+      startTime: pixToTime(start, trackLength, timerange),
+      endTime: pixToTime(end, trackLength, timerange),
+    }
   },
+  toTimeSlot: function({startTime, endTime, user},
+    trackLength = this.trackLength,
+    timerange = this.timerange){
+    //converts workblocks to timeslots
+    return({
+      user,
+      start : timeToPix(startTime, trackLength, timerange),
+      end : timeToPix(endTime, trackLength, timerange),
+    })
+  }
 };
 
 const currentScheduleReducer = (state = initialState, action) => {
@@ -115,23 +124,11 @@ const currentScheduleReducer = (state = initialState, action) => {
       };
 
     case "ADD_TIMESLOT":
-      const { startTime, endTime, user } = action.payLoad;
       return {
         ...state,
         timeslots: [
+          state.toTimeSlot(action.payLoad),
           ...state.timeslots,
-          //convert the times to pixels and add to array
-          {
-            start: timeToPix(startTime, trackLength, timerange),
-            end: timeToPix(endTime, trackLength, timerange),
-            user: user,
-            getStartTime: function () {
-              return pixToTime(this.start, trackLength, timerange);
-            },
-            getEndTime: function () {
-              return pixToTime(this.end, trackLength, timerange);
-            },
-          },
         ],
       };
 
@@ -141,24 +138,42 @@ const currentScheduleReducer = (state = initialState, action) => {
       return { ...state, timeslots };
 
     case "UPDATE_TIMERANGE":
-      return {
-        ...state,
-        timerange: action.payLoad,
-      };
-    case "DUMP_TIMESLOTS":
-      return {
-        ...state,
-        timeslots: [],
-      };
+      //check and see if tracklength is True, if so update timeslots
+      if (areSame(state.timerange, action.payLoad)) {
+        return state;
+      } else {
+        return {
+          ...state,
+          timerange: action.payLoad,
+          timeslots: state.trackLength
+          ? timeslots
+          //fix this for timerange
+            ? timeslots.map((ts)=>state.toWorkBlock(ts, state.trackLength, state.timerange )).map((wb)=>state.toTimeSlot(wb, state.trackLength, action.payLoad)):
+           state.scheduled.map((tm)=> toTimeSlot(tm))
+          : state.timeslots
+        };
+      }
+
     case "UPDATE_TRACK_LENGTH":
-      //whenever container length changes the timeslot needs to be recreated with the new trackLength in mind
+      //whenever container length changes the timeslot needs to be recreated with the new trackLength
       return {
         ...state,
         trackLength: action.payLoad,
-        //if there are already timeslots, replace with updated timeslots
-        timeslots:
-          state.timeslots ||
-          convertTimeslots(timeslots, action.payLoad, timerange),
+        /*
+        A. Only update if timerange is in place
+        B. If timeslots exist update them
+        C. If not create them
+        */
+        timeslots: state.timerange
+          ? timeslots
+            ? state.timeslots.map((slot)=>({
+              ...slot, 
+              start : slot.start/state.trackLength * action.payLoad,
+              end : slot.end/state.trackLength * action.payLoad,
+            }))
+            : createTimeslots(workblocks, trackLength, timerange)
+
+          : state.timeslots,
       };
 
     case "ADD_TO_SCHEDULED":
