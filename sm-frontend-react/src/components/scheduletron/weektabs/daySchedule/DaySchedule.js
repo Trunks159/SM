@@ -10,10 +10,17 @@ import menuIcon from "./assets/Menu Icon.svg";
 import MyTable from "./table/TimeSlotsTable";
 
 //ACTIONS
-const initializeSchedule = ({ scheduled, notScheduled, timerange }) => {
+const initializeSchedule = ({ scheduled, notScheduled }) => {
   return {
     type: "INITIALIZE_SCHEDULE",
-    payLoad: { scheduled, notScheduled, timerange },
+    payLoad: { scheduled, notScheduled },
+  };
+};
+
+const updateTimeRange = (timerange) => {
+  return {
+    type: "UPDATE_TIMERANGE",
+    payLoad: timerange,
   };
 };
 
@@ -61,9 +68,10 @@ function DaySchedule() {
             initializeSchedule({
               scheduled: response.scheduled,
               notScheduled: response.notScheduled,
-              timerange: getTimerange(currentDay.date),
             })
           );
+
+          dispatch(updateTimeRange(getTimerange(currentDay.date)));
         } else {
           setRedirect(<Redirect to={"/scheduletron"} />);
         }
@@ -72,9 +80,10 @@ function DaySchedule() {
   //FOR RENDER
   const isDesktop = screenWidth >= 600;
   return (
-    currentSchedule.timerange.length > 0 && (
+    (currentSchedule.scheduled > 0 || currentSchedule.notScheduled) && (
       <StyledPaper key={currentDay.id} elevation={1}>
         {redirect}
+
         <MyTable />
         <Functions
           hidden={!isDesktop}

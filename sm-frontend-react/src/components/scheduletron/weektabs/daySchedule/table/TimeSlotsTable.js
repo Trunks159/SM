@@ -22,11 +22,6 @@ const updateTrackLength = (newLength) => ({
   payLoad: newLength,
 });
 
-const initializeTimeslots = ({ trackLength, scheduled }) => ({
-  type: "INITIALIZE_TIMESLOTS",
-  payLoad: { trackLength, scheduled },
-});
-
 //PURE FUNCTIONS
 
 function MyTable() {
@@ -39,17 +34,16 @@ function MyTable() {
 
   //GLOBAL STATE
   const currentSchedule = useSelector((state) => state.currentSchedule);
-  const { trackLength, timeslots, scheduled } = currentSchedule;
+  const { trackLength, timeslots } = currentSchedule;
 
   //SIDEEFFECTS
   useEffect(() => {
     dispatch(
-      initializeTimeslots({
-        trackLength: myRef.current.clientHeight,
-        scheduled: scheduled,
+      updateTrackLength({
+        trackLength: _track_length,
       })
     );
-  }, [scheduled]);
+  }, [_track_length]);
 
   useEffect(() => {
     dispatch(updateTrackLength(_track_length));

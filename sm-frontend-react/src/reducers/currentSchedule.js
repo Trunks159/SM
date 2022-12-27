@@ -31,16 +31,6 @@ const pixToTime = (pix, length, timerange) => {
     .format();
 };
 
-const createTimeslots = (workblocks, trackLength, timerange) => (
-  workblocks.map((wb)=>({
-    user : wb.user,
-    start : timeToPix(wb.startTime, trackLength, timerange),
-    end : timeToPix(wb.endTime, trackLength, timerange),
-  }))
-);
-
-
-
 function areSame(oldTimeRange, newTimeRange) {
   if (newTimeRange.length === oldTimeRange.length) {
     return (
@@ -51,6 +41,7 @@ function areSame(oldTimeRange, newTimeRange) {
   return false;
 }
 
+function updateTimeSlots({ state, newTimeRange, newTrackLength }) {}
 
 //---------------------------------------------------------------------------------------
 
@@ -62,27 +53,30 @@ const initialState = {
   timeslots: [],
   trackLength: 0,
   toWorkBlock: function (
-    {start, end, user},
+    { start, end, user },
     trackLength = this.trackLength,
     timerange = this.timerange
   ) {
     //converts timeslots to workblocks
-    return  {
+    return {
       user,
       startTime: pixToTime(start, trackLength, timerange),
       endTime: pixToTime(end, trackLength, timerange),
-    }
+    };
   },
-  toTimeSlot: function({startTime, endTime, user},
+  toTimeSlot: function (
+    { startTime, endTime, user },
     trackLength = this.trackLength,
-    timerange = this.timerange){
+    timerange = this.timerange
+  ) {
     //converts workblocks to timeslots
-    return({
+
+    return {
       user,
-      start : timeToPix(startTime, trackLength, timerange),
-      end : timeToPix(endTime, trackLength, timerange),
-    })
-  }
+      start: timeToPix(startTime, trackLength, timerange),
+      end: timeToPix(endTime, trackLength, timerange),
+    };
+  },
 };
 
 const currentScheduleReducer = (state = initialState, action) => {
@@ -99,37 +93,11 @@ const currentScheduleReducer = (state = initialState, action) => {
         ...state,
         scheduled: action.payLoad.scheduled,
         notScheduled: action.payLoad.notScheduled,
-        timerange: action.payLoad.timerange,
       };
-    case "INITIALIZE_TIMESLOTS":
-      return {
-        ...state,
-        trackLength: action.payLoad.trackLength,
-        timeslots: action.payLoad.scheduled.map(
-          ({ startTime, endTime, user }) => ({
-            start: timeToPix(
-              startTime,
-              action.payLoad.trackLength,
-              state.timerange
-            ),
-            end: timeToPix(
-              endTime,
-              action.payLoad.trackLength,
-              state.timerange
-            ),
-            user,
-            //these 2 need testing, they prob dont work yet
-          })
-        ),
-      };
-
     case "ADD_TIMESLOT":
       return {
         ...state,
-        timeslots: [
-          state.toTimeSlot(action.payLoad),
-          ...state.timeslots,
-        ],
+        timeslots: [state.toTimeSlot(action.payLoad), ...state.timeslots],
       };
 
     case "UPDATE_TIME":
@@ -142,15 +110,23 @@ const currentScheduleReducer = (state = initialState, action) => {
       if (areSame(state.timerange, action.payLoad)) {
         return state;
       } else {
+        console.log("Instate: ", state.timeslots);
         return {
           ...state,
           timerange: action.payLoad,
           timeslots: state.trackLength
-          ? timeslots
-          //fix this for timerange
-            ? timeslots.map((ts)=>state.toWorkBlock(ts, state.trackLength, state.timerange )).map((wb)=>state.toTimeSlot(wb, state.trackLength, action.payLoad)):
-           state.scheduled.map((tm)=> toTimeSlot(tm))
-          : state.timeslots
+            ? state.timeslots.length > 0
+              ? state.timeslots
+                  .map((ts) =>
+                    state.toWorkBlock(ts, state.trackLength, state.timerange)
+                  )
+                  .map((wb) =>
+                    state.toTimeSlot(wb, state.trackLength, action.payLoad)
+                  )
+              : state.scheduled.map((tm) =>
+                  state.toTimeSlot(tm, state.trackLength, action.payLoad)
+                )
+            : state.timeslots,
         };
       }
 
@@ -165,29 +141,29 @@ const currentScheduleReducer = (state = initialState, action) => {
         C. If not create them
         */
         timeslots: state.timerange
-          ? timeslots
-            ? state.timeslots.map((slot)=>({
-              ...slot, 
-              start : slot.start/state.trackLength * action.payLoad,
-              end : slot.end/state.trackLength * action.payLoad,
-            }))
-            : createTimeslots(workblocks, trackLength, timerange)
-
+          ? state.timeslots.length > 0
+            ? state.timeslots.map((slot) => ({
+                ...slot,
+                start: (slot.start / state.trackLength) * action.payLoad,
+                end: (slot.end / state.trackLength) * action.payLoad,
+              }))
+            : state.scheduled.map((tm) =>
+                state.toTimeSlot(tm, state.trackLength, action.payLoad)
+              )
           : state.timeslots,
       };
 
     case "ADD_TO_SCHEDULED":
-      const x = ({ theDate, dayId, user }, state) => {
-        return {
-          ...state,
-          user,
-          startTime: moment(theDate).set("hour", 8),
-          endTime: moment(theDate).set("hour", 16),
-          userId: user.id,
-          dayId,
-        };
+      const workblock = {
+        user: action.payLoad.user,
+        startTime: moment(action.payLoad.theDate).set("hour", 8),
+        endTime: moment(action.payLoad.theDate).set("hour", 16),
       };
-      return x(action.payLoad, state);
+      return {
+        ...state,
+        scheduled: [...state.scheduled, workblock],
+        timeslots: [state.toTimeSlot(workblock), ...state.timeslots],
+      };
     default:
       return state;
   }

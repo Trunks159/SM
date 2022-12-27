@@ -5,12 +5,11 @@ import addIcon from "./assets/Add Icon.svg";
 import { makeStyles } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 
-
 //ACTIONS
-const addToScheduled = (info) => {
+const addToScheduled = (user, date) => {
   return {
     type: "ADD_TO_SCHEDULED",
-    payLoad: info,
+    payLoad: { user, date },
   };
 };
 
@@ -77,7 +76,7 @@ function UserThumb({
         onMouseLeave={() => setHovering(false)}
         onClick={() => handleAdd(index)}
       >
-        <img alt = 'Add' src={addIcon} />
+        <img alt="Add" src={addIcon} />
       </Button>
       <Paper
         className={classes.paper}
@@ -98,7 +97,7 @@ function UserThumb({
         </p>
         <i> {position}</i>
         <Button className="details">
-          <img alt = 'Details' src={detailsIcon} />
+          <img alt="Details" src={detailsIcon} />
         </Button>
       </Paper>
     </>
@@ -107,14 +106,14 @@ function UserThumb({
 
 function AddPrompt({ currentFunction, index, date }) {
   const currentSchedule = useSelector((state) => state.currentSchedule);
-  const {notScheduled ,dayId} = currentSchedule;
+  const { notScheduled, dayId } = currentSchedule;
 
   const dispatch = useDispatch();
   const classes = useStyles();
 
   function handleAdd(userIndex, notScheduled = notScheduled, theDate = date) {
     const user = notScheduled.splice(userIndex, 1)[0];
-    dispatch(addToScheduled({ user, theDate, dayId }));
+    dispatch(addToScheduled(user, theDate));
     dispatch(updateNotScheduled(notScheduled));
   }
 
@@ -134,7 +133,7 @@ function AddPrompt({ currentFunction, index, date }) {
         {notScheduled.map(({ firstName, lastName, position }, i) => (
           <li key={i}>
             <UserThumb
-            key = {i}
+              key={i}
               firstName={firstName}
               lastName={lastName}
               position={position}
