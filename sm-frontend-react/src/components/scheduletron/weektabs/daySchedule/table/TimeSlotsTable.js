@@ -17,37 +17,53 @@ import "./timeslots.css";
 import moment from "moment";
 
 //ACTIONS
-const updateTrackLength = (newLength) => ({
-  type: "UPDATE_TRACK_LENGTH",
-  payLoad: newLength,
+
+const updateTime = ({newValue, timeframe, index}) => ({
+  type: "UPDATE_TIME",
+  payLoad: {newValue, timeframe, index},
 });
 
 //PURE FUNCTIONS
 
 function MyTable() {
   //UTILITIES
-  const myRef = useRef(null);
   const dispatch = useDispatch();
   //program wont refresh on change to height without this
-  const dimensions = useWindowDimensions();
-  const _track_length = myRef.current && myRef.current.clientHeight;
 
   //GLOBAL STATE
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const { trackLength, timeslots } = currentSchedule;
 
   //SIDEEFFECTS
-  useEffect(() => {
+  
+
+  
+  function handleDrag(newValue, timeframe, index) {
+    /*This is mostly because of the rounding errors
+    const time = pixToTime(newValue, trackWidth, timerange).format();
+    const trueValue = roundIt(time);
+    const pix = trueValue
+      ? timeToPix(trueValue, trackWidth, timerange)
+      : newValue;
+
     dispatch(
-      updateTrackLength({
-        trackLength: _track_length,
+      updateTime({
+        timeframe,
+        newVal: pix,
+        index,
       })
     );
-  }, [_track_length]);
+    */
 
-  useEffect(() => {
-    dispatch(updateTrackLength(_track_length));
-  }, [_track_length]);
+    //update time in redux
+    dispatch(
+      updateTime({
+        timeframe,
+        newValue: newValue,
+        index,
+      })
+    );
+  }
 
   return (
     <div style={{ flex: 1, position: "relative" }}>
@@ -85,8 +101,8 @@ function MyTable() {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody ref={myRef}>
-            <TableRow>
+          <TableBody >
+            <TableRow >
               <TableCell
                 style={{
                   position: "sticky",
@@ -98,7 +114,6 @@ function MyTable() {
                 }}
               >
                 <TimeLine
-                  ref={myRef}
                   shiftFilter={{ day: true, night: true }}
                 />
               </TableCell>
@@ -117,34 +132,38 @@ function MyTable() {
                     >
                       <div
                         style={{
-                          position: "absolute",
                           margin: 20,
-                          top: 0,
-                          bottom: 0,
-                          right: 0,
-                          left: 0,
+                          height : '100%',
+                          width : '100%',
                           background: "yellow",
+                          position : 'relative'
                         }}
                       >
+                        
                         <Paper
                           style={{
                             position: "absolute",
                             top: timeslot.start,
-                            bottom: trackLength - timeslot.end,
+                            bottom: trackLength - timeslot.end < 0 ? 0 :  trackLength - timeslot.end,
                             right: 10,
                             left: 10,
                             textTransform: "uppercase",
+                            display : 'flex',
+                            alignItems : 'center'
                           }}
                         >
                           Start :{moment(startTime).format("h:mm a")}
-                          End : {moment(endTime).format("h:mm a")}
+                          End : {trackLength}
                         </Paper>
 
                         <Draggable
                           axis={"y"}
                           position={{ x: 0, y: timeslot.start }}
+                          bounds={{ top: 0, bottom: timeslot.end - 200 }}
+                          onDrag={(e, newValue) => handleDrag(newValue.y, "start", index)}
+
                         >
-                          <div className="stretch-btn" style={{}}>
+                          <div className="stretch-btn" >
                             <img
                               alt="Stretch1"
                               style={{ rotate: "90deg" }}
@@ -154,13 +173,12 @@ function MyTable() {
                         </Draggable>
                         <Draggable
                           axis={"y"}
-                          position={{ x: 0, y: timeslot.end - 40 }}
+                          position={{ x: 0, y: timeslot.end - 40}}
+                          bounds={{ top: timeslot.start + 200, bottom: currentSchedule.trackLength }}
+                          onDrag={(e, newValue) => handleDrag(newValue.y, "end", index)}
+                          
                         >
                           <div
-                            style={{
-                              background: "black",
-                              position: "absolute",
-                            }}
                             className="stretch-btn"
                           >
                             <img
@@ -170,6 +188,7 @@ function MyTable() {
                             />
                           </div>
                         </Draggable>
+                         
                       </div>
                     </TableCell>
                   );

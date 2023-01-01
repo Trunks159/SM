@@ -79,6 +79,7 @@ function DaySchedule() {
   }, [currentDay, dispatch]);
   //FOR RENDER
   const isDesktop = screenWidth >= 600;
+
   return (
     (currentSchedule.scheduled > 0 || currentSchedule.notScheduled) && (
       <StyledPaper key={currentDay.id} elevation={1}>

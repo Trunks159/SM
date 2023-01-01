@@ -101,9 +101,17 @@ const currentScheduleReducer = (state = initialState, action) => {
       };
 
     case "UPDATE_TIME":
-      const { index, newVal, timeframe } = action.payLoad;
-      timeslots[index][timeframe] = newVal;
-      return { ...state, timeslots };
+      const withUpdatedTime = (timeslots, { index, timeframe, newValue }) => {
+        console.log('Newval: ', newValue)
+        const newTimeslots = [...timeslots];
+        newTimeslots[index][timeframe] = newValue;
+        return newTimeslots;
+      };
+
+      return {
+        ...state,
+        timeslots: withUpdatedTime(state.timeslots, action.payLoad),
+      };
 
     case "UPDATE_TIMERANGE":
       //check and see if tracklength is True, if so update timeslots
@@ -132,6 +140,7 @@ const currentScheduleReducer = (state = initialState, action) => {
 
     case "UPDATE_TRACK_LENGTH":
       //whenever container length changes the timeslot needs to be recreated with the new trackLength
+
       return {
         ...state,
         trackLength: action.payLoad,
@@ -142,11 +151,13 @@ const currentScheduleReducer = (state = initialState, action) => {
         */
         timeslots: state.timerange
           ? state.timeslots.length > 0
-            ? state.timeslots.map((slot) => ({
-                ...slot,
-                start: (slot.start / state.trackLength) * action.payLoad,
-                end: (slot.end / state.trackLength) * action.payLoad,
-              }))
+            ? state.timeslots.map((slot) => {
+                return {
+                  ...slot,
+                  start: (slot.start / state.trackLength) * action.payLoad,
+                  end: (slot.end / state.trackLength) * action.payLoad,
+                };
+              })
             : state.scheduled.map((tm) =>
                 state.toTimeSlot(tm, state.trackLength, action.payLoad)
               )

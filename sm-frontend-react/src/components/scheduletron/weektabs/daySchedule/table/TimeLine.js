@@ -1,6 +1,13 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useRef, useEffect, useCallback, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Divider } from "@material-ui/core";
+
+//ACTIONS------
+const updateTrackLength = (newLength) => ({
+  type: "UPDATE_TRACK_LENGTH",
+  payLoad: newLength,
+});
+
 const getTimeLabels = (shiftFilter) => {
   const { day, night } = shiftFilter;
   const labels = {
@@ -19,12 +26,23 @@ const getTimeLabels = (shiftFilter) => {
 const TimeLine = ({ shiftFilter }) => {
   const timeLabels = getTimeLabels(shiftFilter);
   const screenWidth = useSelector((state) => state.screenWidth);
+  const dispatch = useDispatch()
+  const [height, setHeight] = useState(0);
+
+  const myRef = useCallback(node => {
+    if (node !== null) {
+      setHeight(node.getBoundingClientRect().height);
+    }
+  }, []);
+  console.log('Track: ', height)
+
   return (
     <div
       className="timeline"
       style={{
         height: "100%",
       }}
+      
     >
       <div className="timeline-labels">
         {timeLabels.map((time, index) => (
@@ -40,6 +58,7 @@ const TimeLine = ({ shiftFilter }) => {
         ))}
       </div>
       <Divider
+      ref={myRef}
         style={{
           background: "black",
           width: 1,
