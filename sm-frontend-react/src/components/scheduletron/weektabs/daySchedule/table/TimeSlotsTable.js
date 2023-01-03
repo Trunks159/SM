@@ -173,7 +173,7 @@ function MyTable() {
                         </Draggable>
                         <Draggable
                           axis={"y"}
-                          position={{ x: 0, y: timeslot.end - 40}}
+                          position={{ x: 0, y: timeslot.end}}
                           bounds={{ top: timeslot.start + 200, bottom: currentSchedule.trackLength }}
                           onDrag={(e, newValue) => handleDrag(newValue.y, "end", index)}
                           

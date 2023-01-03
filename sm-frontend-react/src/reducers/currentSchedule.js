@@ -7,7 +7,6 @@ const timeToPix = (time, length, availableTimes) => {
   time = moment(time);
   const overflowLeft = time.diff(timerange[0], "hours", true) < 0;
   const overflowRight = time.diff(timerange[1], "hours", true) > 0;
-
   if (overflowLeft) {
     return 0;
   } else if (overflowRight) {
@@ -16,7 +15,6 @@ const timeToPix = (time, length, availableTimes) => {
     const perc =
       time.diff(timerange[0], "hours", true) /
       timerange[1].diff(timerange[0], "hours", true);
-    console.log("overflow: ", perc * length);
     return perc * length;
   }
 };
@@ -118,7 +116,6 @@ const currentScheduleReducer = (state = initialState, action) => {
       if (areSame(state.timerange, action.payLoad)) {
         return state;
       } else {
-        console.log("Instate: ", state.timeslots);
         return {
           ...state,
           timerange: action.payLoad,
@@ -151,14 +148,17 @@ const currentScheduleReducer = (state = initialState, action) => {
         */
         timeslots: state.timerange
           ? state.timeslots.length > 0
-            ? state.timeslots.map((slot) => {
+            ? state.timeslots
+                .map((ts) => state.toWorkBlock(ts))
+                .map((wb) => state.toTimeSlot(wb, action.payLoad))
+            : /*state.timeslots.map((slot) => {
                 return {
                   ...slot,
                   start: (slot.start / state.trackLength) * action.payLoad,
                   end: (slot.end / state.trackLength) * action.payLoad,
                 };
-              })
-            : state.scheduled.map((tm) =>
+              })*/
+              state.scheduled.map((tm) =>
                 state.toTimeSlot(tm, state.trackLength, action.payLoad)
               )
           : state.timeslots,
