@@ -9,10 +9,10 @@ import {
 } from "@mui/material";
 import { Paper } from "@material-ui/core";
 import Draggable from "react-draggable";
-import TimeLine from "./TimeLine";
+import TimeLine from "../components/scheduletron/weektabs/daySchedule/table/TimeLine";
 import stretchIcon from "./assets/Stretch Icon.svg";
 import { useDispatch, useSelector } from "react-redux";
-import useWindowDimensions from "./WindowDimensions";
+import useWindowDimensions from "../components/scheduletron/weektabs/daySchedule/table/WindowDimensions";
 import "./timeslots.css";
 
 //ACTIONS

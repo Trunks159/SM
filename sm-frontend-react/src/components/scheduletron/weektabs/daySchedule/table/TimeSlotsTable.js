@@ -12,15 +12,14 @@ import Draggable from "react-draggable";
 import TimeLine from "./TimeLine";
 import stretchIcon from "./assets/Stretch Icon.svg";
 import { useDispatch, useSelector } from "react-redux";
-import useWindowDimensions from "./WindowDimensions";
 import "./timeslots.css";
 import moment from "moment";
 
 //ACTIONS
 
-const updateTime = ({newValue, timeframe, index}) => ({
+const updateTime = ({ newValue, timeframe, index }) => ({
   type: "UPDATE_TIME",
-  payLoad: {newValue, timeframe, index},
+  payLoad: { newValue, timeframe, index },
 });
 
 //PURE FUNCTIONS
@@ -35,9 +34,7 @@ function MyTable() {
   const { trackLength, timeslots } = currentSchedule;
 
   //SIDEEFFECTS
-  
 
-  
   function handleDrag(newValue, timeframe, index) {
     /*This is mostly because of the rounding errors
     const time = pixToTime(newValue, trackWidth, timerange).format();
@@ -101,8 +98,8 @@ function MyTable() {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody >
-            <TableRow >
+          <TableBody>
+            <TableRow>
               <TableCell
                 style={{
                   position: "sticky",
@@ -113,9 +110,7 @@ function MyTable() {
                   padding: "0px 10px",
                 }}
               >
-                <TimeLine
-                  shiftFilter={{ day: true, night: true }}
-                />
+                <TimeLine shiftFilter={{ day: true, night: true }} />
               </TableCell>
               {timeslots.length > 0 &&
                 timeslots.map((timeslot, index) => {
@@ -127,29 +122,27 @@ function MyTable() {
                       style={{
                         borderRight: "rgba(112, 112, 112, .14)",
                         background: "orange",
-                        position: "relative",
                       }}
                     >
                       <div
+                        className="timeslot-track"
                         style={{
-                          margin: 20,
-                          height : '100%',
-                          width : '100%',
-                          background: "yellow",
-                          position : 'relative'
+                          height: trackLength,
                         }}
                       >
-                        
                         <Paper
                           style={{
                             position: "absolute",
                             top: timeslot.start,
-                            bottom: trackLength - timeslot.end < 0 ? 0 :  trackLength - timeslot.end,
+                            bottom:
+                              trackLength - timeslot.end < 0
+                                ? 0
+                                : trackLength - timeslot.end,
                             right: 10,
                             left: 10,
                             textTransform: "uppercase",
-                            display : 'flex',
-                            alignItems : 'center'
+                            display: "flex",
+                            alignItems: "center",
                           }}
                         >
                           Start :{moment(startTime).format("h:mm a")}
@@ -160,10 +153,11 @@ function MyTable() {
                           axis={"y"}
                           position={{ x: 0, y: timeslot.start }}
                           bounds={{ top: 0, bottom: timeslot.end - 200 }}
-                          onDrag={(e, newValue) => handleDrag(newValue.y, "start", index)}
-
+                          onDrag={(e, newValue) =>
+                            handleDrag(newValue.y, "start", index)
+                          }
                         >
-                          <div className="stretch-btn" >
+                          <div className="stretch-btn">
                             <img
                               alt="Stretch1"
                               style={{ rotate: "90deg" }}
@@ -173,14 +167,16 @@ function MyTable() {
                         </Draggable>
                         <Draggable
                           axis={"y"}
-                          position={{ x: 0, y: timeslot.end}}
-                          bounds={{ top: timeslot.start + 200, bottom: currentSchedule.trackLength }}
-                          onDrag={(e, newValue) => handleDrag(newValue.y, "end", index)}
-                          
+                          position={{ x: 0, y: timeslot.end }}
+                          bounds={{
+                            top: timeslot.start + 200,
+                            bottom: currentSchedule.trackLength,
+                          }}
+                          onDrag={(e, newValue) =>
+                            handleDrag(newValue.y, "end", index)
+                          }
                         >
-                          <div
-                            className="stretch-btn"
-                          >
+                          <div className="stretch-btn">
                             <img
                               alt="Stretch2"
                               style={{ rotate: "90deg" }}
@@ -188,7 +184,6 @@ function MyTable() {
                             />
                           </div>
                         </Draggable>
-                         
                       </div>
                     </TableCell>
                   );
