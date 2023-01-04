@@ -76,17 +76,21 @@ const initialState = {
     };
   },
 
-  getThirtyMin: function (minutes = 30, timerange = this.timerange, trackLength = this.trackLength, ) {
+  getThirtyMin: function (
+    minutes = 30,
+    timerange = this.timerange,
+    trackLength = this.trackLength
+  ) {
     //gets thirty min in pixels
-    console.log('mInutes: ', minutes)
+    console.log("mInutes: ", minutes);
     const [start, end] = timerange.map((t) => moment(t));
     const duration = moment.duration(end.diff(start)).asMinutes();
     const ratio = minutes / duration;
     return ratio * trackLength;
   },
-  getTwoHours: function(){
+  getTwoHours: function () {
     return this.getThirtyMin(120);
-  }
+  },
 };
 
 const currentScheduleReducer = (state = initialState, action) => {
@@ -177,15 +181,19 @@ const currentScheduleReducer = (state = initialState, action) => {
       };
 
     case "ADD_TO_SCHEDULED":
+      const notScheduledCopy = [...state.notScheduled];
+      const user = notScheduledCopy.splice(action.payLoad.index, 1)[0];
       const workblock = {
-        user: action.payLoad.user,
-        startTime: moment(action.payLoad.theDate).set("hour", 8),
-        endTime: moment(action.payLoad.theDate).set("hour", 16),
+        user: user,
+        startTime: moment(action.payLoad.date).set("hour", 8).format(),
+        endTime: moment(action.payLoad.date).set("hour", 16).format(),
       };
+
       return {
         ...state,
         scheduled: [...state.scheduled, workblock],
-        timeslots: [state.toTimeSlot(workblock), ...state.timeslots],
+        notScheduled: notScheduledCopy,
+        timeslots: [...state.timeslots, state.toTimeSlot(workblock)],
       };
     default:
       return state;

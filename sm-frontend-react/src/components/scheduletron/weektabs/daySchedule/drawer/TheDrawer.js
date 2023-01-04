@@ -75,7 +75,11 @@ function TheDrawer(props) {
 
         <div className="drawer-content">
           <EditPrompt index={0} currentFunction={currentFunction} />
-          <AddPrompt index={1} currentFunction={currentFunction} date={date} />
+          <AddPrompt
+            index={1}
+            currentFunction={currentFunction}
+            theDate={date}
+          />
           <SavePrompt index={2} currentFunction={currentFunction} />
         </div>
         <Functions

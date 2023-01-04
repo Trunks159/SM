@@ -1,120 +1,87 @@
 import { Button, Paper } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import detailsIcon from "./assets/Details Icon.svg";
 import addIcon from "./assets/Add Icon.svg";
-import { makeStyles } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
+import styled from "@emotion/styled";
 
 //ACTIONS
-const addToScheduled = (user, date) => {
+const addToScheduled = (index, date) => {
   return {
     type: "ADD_TO_SCHEDULED",
-    payLoad: { user, date },
+    payLoad: { index, date },
   };
 };
 
-const updateNotScheduled = (newNotScheduled) => {
-  return {
-    type: "UPDATE_NOT_SCHEDULED",
-    payLoad: newNotScheduled,
-  };
-};
-
-const useStyles = makeStyles({
-  paper: {
-    color: "black",
-    textTransform: "capitalize",
-    background: "#F1F1F1",
-    width: 155,
-    height: 100,
-    fontWeight: "normal",
-    position: "relative",
-    border: "1px solid #F1F1F1",
-    padding: 10,
-    borderRadius: 7,
-    "& p": {
-      margin: 10,
-      fontSize: 22,
-      textAlign: "center",
-    },
-    "& i": {
-      fontWeight: 200,
-      margin: 5,
-      fontSize: 15,
-      textAlign: "center",
-    },
-    "& .details": {
-      position: "absolute",
-      top: 0,
-      right: 0,
-      minWidth: 0,
-      padding: 15,
-    },
-
-    display: "flex",
-    flexDirection: "column",
+const StyledPaper = styled(Paper)({
+  color: "black",
+  textTransform: "capitalize",
+  background: "#F1F1F1",
+  width: 155,
+  height: 100,
+  fontWeight: "normal",
+  position: "relative",
+  border: "1px solid #F1F1F1",
+  padding: 10,
+  borderRadius: 7,
+  "& p": {
+    margin: 10,
+    fontSize: 22,
+    textAlign: "center",
   },
+  "& i": {
+    fontWeight: 200,
+    margin: 5,
+    fontSize: 15,
+    textAlign: "center",
+  },
+
+  "&:hover": {
+    transform: "translateY(-5px)",
+    boxShadow: "0px 2px 4px 1px #33789e",
+  },
+  minWidth: 0,
+  transitionDuration: "1s",
+  display: "flex",
+  flexDirection: "column",
 });
 
-function UserThumb({
-  handleAdd,
-  classes,
-  firstName,
-  lastName,
-  position,
-  index,
-}) {
-  const [hovering, setHovering] = useState(false);
-  const style = {
-    minWidth: 0,
-    transitionDuration: "1s",
-  };
+const DetailsButton = styled(Button)({
+  position: "absolute",
+  top: 0,
+  right: 0,
+  minWidth: 0,
+  padding: 15,
+});
+
+function UserThumb({ handleAdd, firstName, lastName, position, index }) {
   return (
     <>
-      <Button
-        onMouseEnter={() => setHovering(true)}
-        onMouseLeave={() => setHovering(false)}
-        onClick={() => handleAdd(index)}
-      >
+      <Button onClick={() => handleAdd(index)}>
         <img alt="Add" src={addIcon} />
       </Button>
-      <Paper
-        className={classes.paper}
-        style={
-          hovering
-            ? {
-                ...style,
-                transform: "translateY(-5px)",
-                boxShadow: "0px 2px 4px 1px #33789e",
-              }
-            : style
-        }
-      >
+      <StyledPaper>
         <p>
           {firstName}
           <br />
           {lastName}
         </p>
         <i> {position}</i>
-        <Button className="details">
+        <DetailsButton className="details">
           <img alt="Details" src={detailsIcon} />
-        </Button>
-      </Paper>
+        </DetailsButton>
+      </StyledPaper>
     </>
   );
 }
 
-function AddPrompt({ currentFunction, index, date }) {
+function AddPrompt({ currentFunction, index, theDate }) {
   const currentSchedule = useSelector((state) => state.currentSchedule);
-  const { notScheduled, dayId } = currentSchedule;
-
+  const { notScheduled } = currentSchedule;
   const dispatch = useDispatch();
-  const classes = useStyles();
 
-  function handleAdd(userIndex, notScheduled = notScheduled, theDate = date) {
-    const user = notScheduled.splice(userIndex, 1)[0];
-    dispatch(addToScheduled(user, theDate));
-    dispatch(updateNotScheduled(notScheduled));
+  function handleAdd(index, date = theDate) {
+    dispatch(addToScheduled(index, date));
   }
 
   return (
@@ -129,7 +96,7 @@ function AddPrompt({ currentFunction, index, date }) {
         Select team members you'd like to add to the schedule
       </p>
 
-      <ul className="add-member-list">
+      <ul>
         {notScheduled.map(({ firstName, lastName, position }, i) => (
           <li key={i}>
             <UserThumb
@@ -138,7 +105,6 @@ function AddPrompt({ currentFunction, index, date }) {
               lastName={lastName}
               position={position}
               index={i}
-              classes={classes}
               handleAdd={handleAdd}
             />
           </li>
