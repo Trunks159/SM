@@ -64,8 +64,11 @@
 
 .timeslot-track{
   width: 100%;
-  background: yellow;
   position: relative;
+}
+
+.timeslot-track:hover{
+  background-color: aliceblue;
 }
 
 @media (min-width: 600px) {

@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment, { min } from "moment";
 
 //PURE FUNCTIONS------------------------------------------//
 const timeToPix = (time, length, availableTimes) => {
@@ -75,6 +75,18 @@ const initialState = {
       end: timeToPix(endTime, trackLength, timerange),
     };
   },
+
+  getThirtyMin: function (minutes = 30, timerange = this.timerange, trackLength = this.trackLength, ) {
+    //gets thirty min in pixels
+    console.log('mInutes: ', minutes)
+    const [start, end] = timerange.map((t) => moment(t));
+    const duration = moment.duration(end.diff(start)).asMinutes();
+    const ratio = minutes / duration;
+    return ratio * trackLength;
+  },
+  getTwoHours: function(){
+    return this.getThirtyMin(120);
+  }
 };
 
 const currentScheduleReducer = (state = initialState, action) => {
@@ -100,7 +112,7 @@ const currentScheduleReducer = (state = initialState, action) => {
 
     case "UPDATE_TIME":
       const withUpdatedTime = (timeslots, { index, timeframe, newValue }) => {
-        console.log('Newval: ', newValue)
+        console.log("Newval: ", newValue);
         const newTimeslots = [...timeslots];
         newTimeslots[index][timeframe] = newValue;
         return newTimeslots;
