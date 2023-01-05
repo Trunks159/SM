@@ -1,18 +1,26 @@
 import React, { useState } from "react";
 import saveIcon from "./assets/Save Icon.svg";
 import { Button } from "@mui/material";
-import { Collapse, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { Alert } from "@mui/material";
 import Notification from "./Notification";
+import styled from "@emotion/styled";
 
-const useStyles = makeStyles({
-  saveBtn: {
-    "&:hover": {
-      opacity: 0.7,
-    },
+const SaveButton = styled(Button)({
+  background: "#54F2D1",
+  textTransform: "none",
+  color: "white",
+  width: 114,
+  height: 36,
+  borderRadius: 4,
+  "&:hover": {
+    opacity: 0.7,
   },
-});
+})
+
+
+
 /*
 So we need to collapse and once in is set to false
 set the message to null
@@ -20,28 +28,20 @@ set the message to null
 */
 
 const SavePrompt = ({ index, currentFunction }) => {
-  const timeslots = useSelector((state) => state.timeslots);
-  const classes = useStyles();
+  const currentSchedule = useSelector((state) => state.currentSchedule);
+  const {timeslots} = currentSchedule;
   const [alert, setAlert] = useState(null);
 
   const handleSave = () => {
-    //convert the pixels to times, send objects to python
-    const ts = timeslots.slots.map((timeslot) => {
-      const { userId, dayId } = timeslot;
-      return {
-        user_id: userId,
-        day_id: dayId,
-        start_time: timeslot.getStartTime(),
-        end_time: timeslot.getEndTime(),
-      };
-    });
     fetch("/update_schedule", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(ts),
+      body: JSON.stringify({workblocks : timeslots.map((ts)=>(
+        currentSchedule.toWorkBlock(ts)
+      )), dayId : currentSchedule.dayId}),
     })
       .then((response) => response.json())
       .then(({ severity, message }) => {
@@ -76,21 +76,12 @@ const SavePrompt = ({ index, currentFunction }) => {
           <p>Only 2 availability violations found</p>
         </li>
       </ul>
-      <Button
-        style={{
-          background: "#54F2D1",
-          textTransform: "none",
-          color: "white",
-          width: 114,
-          height: 36,
-          borderRadius: 4,
-        }}
-        className={classes.saveBtn}
+      <SaveButton
         onClick={handleSave}
         endIcon={<img alt = 'Save' src={saveIcon} />}
       >
         Save
-      </Button>
+      </SaveButton>
     </div>
   );
 };

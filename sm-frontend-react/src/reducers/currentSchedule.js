@@ -108,11 +108,6 @@ const currentScheduleReducer = (state = initialState, action) => {
         scheduled: action.payLoad.scheduled,
         notScheduled: action.payLoad.notScheduled,
       };
-    case "ADD_TIMESLOT":
-      return {
-        ...state,
-        timeslots: [state.toTimeSlot(action.payLoad), ...state.timeslots],
-      };
 
     case "UPDATE_TIME":
       const withUpdatedTime = (timeslots, { index, timeframe, newValue }) => {
@@ -191,9 +186,9 @@ const currentScheduleReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        scheduled: [...state.scheduled, workblock],
+        scheduled: [ workblock, ...state.scheduled],
         notScheduled: notScheduledCopy,
-        timeslots: [...state.timeslots, state.toTimeSlot(workblock)],
+        timeslots: [state.toTimeSlot(workblock), ...state.timeslots ],
       };
     default:
       return state;
