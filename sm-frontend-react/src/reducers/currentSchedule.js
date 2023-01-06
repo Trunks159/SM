@@ -1,4 +1,4 @@
-import moment, { min } from "moment";
+import moment from "moment";
 
 //PURE FUNCTIONS------------------------------------------//
 const timeToPix = (time, length, availableTimes) => {
@@ -191,30 +191,25 @@ const currentScheduleReducer = (state = initialState, action) => {
         timeslots: [state.toTimeSlot(workblock), ...state.timeslots],
       };
     case "REMOVE_FROM_SCHEDULED":
-      //Change newtimeslots isnt altering properly
-      const getNewState = (state, index) => {
+      //Remove workblock from scheduled and timeslots
+      //add to notscheduled
+      //made error function because of naming conflicts
+      return ((state, index) => {
         const newScheduled = [...state.scheduled];
         const user = newScheduled.splice(index, 1)[0].user;
-        let newTimeslots = [...state.timeslots];
+        const newTimeslots = [...state.timeslots];
         const i = newTimeslots.indexOf(
           newTimeslots.find((ts) => ts.user.id === user.id)
         );
-        const ts = [newTimeslots].splice(
-          newTimeslots.indexOf(
-            newTimeslots.find((ts) => ts.user.id === user.id)
-          ),
-          1
-        )[0];
-        console.log("Youtube: ", ts);
+        const x = newTimeslots.splice(i, 1)[0];
+
         return {
           ...state,
           scheduled: newScheduled,
           notScheduled: [...state.notScheduled, user],
           timeslots: newTimeslots,
         };
-      };
-
-      return getNewState(state, action.payLoad);
+      })(state, action.payLoad);
     default:
       return state;
   }
