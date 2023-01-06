@@ -186,10 +186,35 @@ const currentScheduleReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        scheduled: [ workblock, ...state.scheduled],
+        scheduled: [workblock, ...state.scheduled],
         notScheduled: notScheduledCopy,
-        timeslots: [state.toTimeSlot(workblock), ...state.timeslots ],
+        timeslots: [state.toTimeSlot(workblock), ...state.timeslots],
       };
+    case "REMOVE_FROM_SCHEDULED":
+      //Change newtimeslots isnt altering properly
+      const getNewState = (state, index) => {
+        const newScheduled = [...state.scheduled];
+        const user = newScheduled.splice(index, 1)[0].user;
+        let newTimeslots = [...state.timeslots];
+        const i = newTimeslots.indexOf(
+          newTimeslots.find((ts) => ts.user.id === user.id)
+        );
+        const ts = [newTimeslots].splice(
+          newTimeslots.indexOf(
+            newTimeslots.find((ts) => ts.user.id === user.id)
+          ),
+          1
+        )[0];
+        console.log("Youtube: ", ts);
+        return {
+          ...state,
+          scheduled: newScheduled,
+          notScheduled: [...state.notScheduled, user],
+          timeslots: newTimeslots,
+        };
+      };
+
+      return getNewState(state, action.payLoad);
     default:
       return state;
   }

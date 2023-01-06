@@ -12,20 +12,9 @@ import TimeLine from "./TimeLine";
 import { useSelector } from "react-redux";
 import "./timeslots.css";
 import TimeSlot from "./TimeSlot";
-import detailsIcon from "./assets/Details Icon.svg";
 import styled from "@emotion/styled";
+import UserMenu from './UserMenu'
 
-const StyledDetailsButtton = styled(Button)({
-  minWidth: 0,
-  "& img": {
-    opacity: 0.6,
-  },
-  "&:hover": {
-    "& img": {
-      opacity: 1,
-    },
-  },
-});
 
 function MyTable() {
   const currentSchedule = useSelector((state) => state.currentSchedule);
@@ -61,10 +50,8 @@ function MyTable() {
                     textTransform: "capitalize",
                   }}
                 >
-                  {user.firstName} {user.lastName}{" "}
-                  <StyledDetailsButtton>
-                    <img alt="actions" src={detailsIcon} />
-                  </StyledDetailsButtton>
+                  {user.firstName} {user.lastName}
+                  <UserMenu user = {user} index = {index}/>
                 </TableCell>
               ))}
             </TableRow>
