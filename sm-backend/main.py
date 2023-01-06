@@ -242,17 +242,17 @@ def profile_info(user_id, day_id):
 @app.route('/update_schedule', methods=['POST'])
 def update_schedule():
 
-    workblocks = request.get_json()
+    day_info = request.get_json()
     '''
         Delete all of the wbs currently in that day and upload a bunch of
         new ones    
     '''
-    day = Day.query.get(workblocks[0]['day_id'])
+    day = Day.query.get(day_info['day_id'])
     for item in day.workblocks:
         db.session.delete(item)
 
-    for workblock in workblocks:
-        wb = WorkBlock(user=User.query.get(workblock['user_id']), day=day, start_time=parser.parse(
+    for workblock in day_info['workblocks']:
+        wb = WorkBlock(user=User.query.get(workblock['user']['id']), day=day, start_time=parser.parse(
             workblock['start_time']), end_time=parser.parse(workblock['end_time']))
         db.session.add(wb)
 

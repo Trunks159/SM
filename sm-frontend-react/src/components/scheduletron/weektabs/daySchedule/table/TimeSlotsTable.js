@@ -6,11 +6,26 @@ import {
   TableCell,
   TableBody,
   TableContainer,
+  Button,
 } from "@mui/material";
 import TimeLine from "./TimeLine";
 import { useSelector } from "react-redux";
 import "./timeslots.css";
 import TimeSlot from "./TimeSlot";
+import detailsIcon from "./assets/Details Icon.svg";
+import styled from "@emotion/styled";
+
+const StyledDetailsButtton = styled(Button)({
+  minWidth: 0,
+  "& img": {
+    opacity: 0.6,
+  },
+  "&:hover": {
+    "& img": {
+      opacity: 1,
+    },
+  },
+});
 
 function MyTable() {
   const currentSchedule = useSelector((state) => state.currentSchedule);
@@ -46,7 +61,10 @@ function MyTable() {
                     textTransform: "capitalize",
                   }}
                 >
-                  {user.firstName} {user.lastName}
+                  {user.firstName} {user.lastName}{" "}
+                  <StyledDetailsButtton>
+                    <img alt="actions" src={detailsIcon} />
+                  </StyledDetailsButtton>
                 </TableCell>
               ))}
             </TableRow>
@@ -71,7 +89,6 @@ function MyTable() {
                     key={index}
                     style={{
                       borderRight: "rgba(112, 112, 112, .14)",
-           
                     }}
                   >
                     <TimeSlot timeslot={timeslot} index={index} />

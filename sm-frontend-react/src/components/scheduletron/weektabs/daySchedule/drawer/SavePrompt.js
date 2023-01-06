@@ -17,9 +17,7 @@ const SaveButton = styled(Button)({
   "&:hover": {
     opacity: 0.7,
   },
-})
-
-
+});
 
 /*
 So we need to collapse and once in is set to false
@@ -29,7 +27,7 @@ set the message to null
 
 const SavePrompt = ({ index, currentFunction }) => {
   const currentSchedule = useSelector((state) => state.currentSchedule);
-  const {timeslots} = currentSchedule;
+  const { timeslots } = currentSchedule;
   const [alert, setAlert] = useState(null);
 
   const handleSave = () => {
@@ -39,9 +37,17 @@ const SavePrompt = ({ index, currentFunction }) => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({workblocks : timeslots.map((ts)=>(
-        currentSchedule.toWorkBlock(ts)
-      )), dayId : currentSchedule.dayId}),
+      body: JSON.stringify({
+        workblocks: timeslots.map((ts) => {
+          const wb = currentSchedule.toWorkBlock(ts);
+          return {
+            ...wb,
+            start_time: wb.startTime,
+            end_time: wb.endTime,
+          };
+        }),
+        day_id: currentSchedule.dayId,
+      }),
     })
       .then((response) => response.json())
       .then(({ severity, message }) => {
@@ -78,7 +84,7 @@ const SavePrompt = ({ index, currentFunction }) => {
       </ul>
       <SaveButton
         onClick={handleSave}
-        endIcon={<img alt = 'Save' src={saveIcon} />}
+        endIcon={<img alt="Save" src={saveIcon} />}
       >
         Save
       </SaveButton>
