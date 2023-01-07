@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Menu, MenuItem, Button } from "@material-ui/core";
 import detailsIcon from "./assets/Details Icon.svg";
-import removeIcon from "./assets/Close Icon.svg";
+
 import styled from "@emotion/styled";
 import { useDispatch } from "react-redux";
 
@@ -17,12 +17,7 @@ const StyledDetailsButtton = styled(Button)({
   },
 });
 
-//ACTIONS
 
-const removeFromScheduled = (userId) => ({
-  type: "REMOVE_FROM_SCHEDULED",
-  payLoad: userId,
-});
 
 const MyMenu = ({ user, index }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -36,9 +31,7 @@ const MyMenu = ({ user, index }) => {
     setAnchorEl(null);
   }
 
-  function handleRemove(e){
-    dispatch(removeFromScheduled(index));
-  }
+ 
 
   const isOpen = Boolean(anchorEl);
   return (
@@ -70,12 +63,13 @@ const MyMenu = ({ user, index }) => {
         }}
       >
         <MenuItem onClick={handleClose}>
-          <Button  onClick = {handleRemove} to="/" startIcon={<img alt = 'remove team member' src = {removeIcon}/> }>
-            Remove Team Member
+         
+          <Button>
+            User Details
           </Button>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Button to="/">View Team Member Details</Button>
+        <MenuItem >
+          
         </MenuItem>
       </Menu>
     </div>

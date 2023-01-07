@@ -9,16 +9,27 @@ import {
   Button,
 } from "@mui/material";
 import TimeLine from "./TimeLine";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./timeslots.css";
 import TimeSlot from "./TimeSlot";
-import styled from "@emotion/styled";
-import UserMenu from './UserMenu'
+import UserMenu from "./UserMenu";
+import removeIcon from "./assets/Close Icon.svg";
 
+//ACTIONS
+const removeFromScheduled = (userId) => ({
+  type: "REMOVE_FROM_SCHEDULED",
+  payLoad: userId,
+});
 
 function MyTable() {
+  const dispatch = useDispatch();
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const { timeslots } = currentSchedule;
+
+
+  function handleRemove(e, index) {
+    dispatch(removeFromScheduled(index));
+  }
 
   return (
     <div style={{ flex: 1, position: "relative" }}>
@@ -51,7 +62,16 @@ function MyTable() {
                   }}
                 >
                   {user.firstName} {user.lastName}
-                  <UserMenu user = {user} index = {index}/>
+                  <Button
+                    onClick={() => handleRemove(index)}
+                    to="/"
+                    startIcon={
+                      <img alt="remove team member" src={removeIcon} />
+                    }
+                  >
+                    <img src={removeIcon} alt="removeUser" />
+                  </Button>
+                  <UserMenu user={user} index={index} />
                 </TableCell>
               ))}
             </TableRow>
