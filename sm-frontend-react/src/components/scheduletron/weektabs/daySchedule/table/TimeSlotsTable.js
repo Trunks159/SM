@@ -59,15 +59,14 @@ function MyTable() {
                     width: 140,
                     minWidth: 140,
                     textTransform: "capitalize",
+                    position : 'relative',
                   }}
                 >
-                  {user.firstName} {user.lastName}
                   <Button
                     onClick={() => handleRemove(index)}
                     to="/"
-                    startIcon={
-                      <img alt="remove team member" src={removeIcon} />
-                    }
+                    style = {{position : 'absolute', right : 0, top : 0, padding :5, minWidth : 0}}
+              
                   >
                     <img src={removeIcon} alt="removeUser" />
                   </Button>

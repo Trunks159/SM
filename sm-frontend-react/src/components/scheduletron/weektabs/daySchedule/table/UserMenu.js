@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Menu, MenuItem, Button } from "@material-ui/core";
-import detailsIcon from "./assets/Details Icon.svg";
+import { Menu, MenuItem, Button, Paper } from "@material-ui/core";
+import closeIcon from './assets/Close Icon.svg';
 
 import styled from "@emotion/styled";
 import { useDispatch } from "react-redux";
@@ -17,8 +17,6 @@ const StyledDetailsButtton = styled(Button)({
   },
 });
 
-
-
 const MyMenu = ({ user, index }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
@@ -30,8 +28,6 @@ const MyMenu = ({ user, index }) => {
   function handleClose() {
     setAnchorEl(null);
   }
-
- 
 
   const isOpen = Boolean(anchorEl);
   return (
@@ -48,10 +44,9 @@ const MyMenu = ({ user, index }) => {
         aria-haspopup="true"
         aria-expanded={isOpen ? "true" : undefined}
         onClick={handleClick}
-        style={{
-        }}
+        style={{}}
       >
-        <img alt="profile" src={detailsIcon} />
+        {user.firstName} {user.lastName}
       </StyledDetailsButtton>
       <Menu
         id="basic-menu"
@@ -62,14 +57,26 @@ const MyMenu = ({ user, index }) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>
-         
-          <Button>
-            User Details
+        <MenuItem style = {{position : 'relative'}}>
+          <Button style = {{position : 'absolute', top : 0, right : 0, padding : 5, minWidth : 0}}>
+            <img alt = 'close' src = {closeIcon}/>
           </Button>
-        </MenuItem>
-        <MenuItem >
-          
+          <h1 style = {{textTransform : 'uppercase'}}>{user.firstName.charAt(0)}</h1>
+          <h2>
+            {user.firstName} {user.lastName}
+          </h2>
+          <p>{user.position}</p>
+          <div>
+            <h3>Availability</h3>
+            <ul>The availability stuff</ul>
+          </div>
+          <div>
+            <h3>Request Offs</h3>
+            <ul>
+              {user.requestOffs &&
+                user.requestOffs.map((reqOff) => <li>Info</li>)}
+            </ul>
+          </div>
         </MenuItem>
       </Menu>
     </div>
