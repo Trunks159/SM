@@ -12,7 +12,7 @@ import TimeLine from "./TimeLine";
 import { useDispatch, useSelector } from "react-redux";
 import "./timeslots.css";
 import TimeSlot from "./TimeSlot";
-import UserMenu from "./UserMenu";
+import UserPopover from "./UserPopover";
 import removeIcon from "./assets/Close Icon.svg";
 
 //ACTIONS
@@ -25,7 +25,6 @@ function MyTable() {
   const dispatch = useDispatch();
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const { timeslots } = currentSchedule;
-
 
   function handleRemove(e, index) {
     dispatch(removeFromScheduled(index));
@@ -59,18 +58,23 @@ function MyTable() {
                     width: 140,
                     minWidth: 140,
                     textTransform: "capitalize",
-                    position : 'relative',
+                    position: "relative",
                   }}
                 >
                   <Button
                     onClick={() => handleRemove(index)}
                     to="/"
-                    style = {{position : 'absolute', right : 0, top : 0, padding :5, minWidth : 0}}
-              
+                    style={{
+                      position: "absolute",
+                      right: 0,
+                      top: 0,
+                      padding: 5,
+                      minWidth: 0,
+                    }}
                   >
                     <img src={removeIcon} alt="removeUser" />
                   </Button>
-                  <UserMenu user={user} index={index} />
+                  <UserPopover user={user} index={index} />
                 </TableCell>
               ))}
             </TableRow>
