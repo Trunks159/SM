@@ -39,8 +39,6 @@ function areSame(oldTimeRange, newTimeRange) {
   return false;
 }
 
-function updateTimeSlots({ state, newTimeRange, newTrackLength }) {}
-
 //---------------------------------------------------------------------------------------
 
 const initialState = {
@@ -82,7 +80,6 @@ const initialState = {
     trackLength = this.trackLength
   ) {
     //gets thirty min in pixels
-    console.log("mInutes: ", minutes);
     const [start, end] = timerange.map((t) => moment(t));
     const duration = moment.duration(end.diff(start)).asMinutes();
     const ratio = minutes / duration;
@@ -94,7 +91,6 @@ const initialState = {
 };
 
 const currentScheduleReducer = (state = initialState, action) => {
-  let { timeslots, trackLength, timerange } = state;
   switch (action.type) {
     case "UPDATE_DAY_ID":
       //this is really closer to initializing the schedule

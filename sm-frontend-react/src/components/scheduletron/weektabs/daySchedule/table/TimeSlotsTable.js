@@ -50,6 +50,7 @@ function MyTable() {
                 }}
               >
                 {"  "}
+                {/*Keep this empty */}
               </TableCell>
               {timeslots.map(({ user }, index) => (
                 <TableCell

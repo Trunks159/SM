@@ -44,7 +44,6 @@ const MyPopover = ({ user, index }) => {
         aria-haspopup="true"
         aria-expanded={isOpen ? "true" : undefined}
         onClick={handleClick}
-        style={{}}
       >
         {user.firstName} {user.lastName}
       </StyledDetailsButtton>
@@ -56,6 +55,7 @@ const MyPopover = ({ user, index }) => {
           vertical: "bottom",
           horizontal: "left",
         }}
+        style={{ fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif" }}
       >
         <Button
           style={{
@@ -69,13 +69,35 @@ const MyPopover = ({ user, index }) => {
         >
           <img alt="close" src={closeIcon} />
         </Button>
-        <h1 style={{ textTransform: "uppercase" }}>
-          {user.firstName.charAt(0)}
-        </h1>
-        <h2>
-          {user.firstName} {user.lastName}
-        </h2>
-        <p>{user.position}</p>
+        <div style={{ display: "flex" }}>
+          <div
+            style={{
+              width: 65,
+              height: 65,
+              borderRadius: 32.5,
+              background: "#D0D0D0",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <h1
+              style={{
+                fontWeight: "normal",
+                color: "white",
+                textTransform: "uppercase",
+              }}
+            >
+              {user.firstName.charAt(0)}
+            </h1>
+          </div>
+          <div>
+            <h2>
+              {user.firstName} {user.lastName}
+            </h2>
+            <p>{user.position}</p>
+          </div>
+        </div>
         <div>
           <h3>Availability</h3>
           <ul>The availability stuff</ul>
