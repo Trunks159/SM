@@ -57,6 +57,7 @@ const MyPopover = ({ user, index }) => {
         }}
         style={{ fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif" }}
       >
+        <div style = {{width : 257}}>
         <Button
           style={{
             position: "absolute",
@@ -69,13 +70,13 @@ const MyPopover = ({ user, index }) => {
         >
           <img alt="close" src={closeIcon} />
         </Button>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex" , background : '#3F7FA2', height : 119}}>
           <div
             style={{
               width: 65,
               height: 65,
               borderRadius: 32.5,
-              background: "#D0D0D0",
+              border : '1px solid rgba(255,255,255, .81)',
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -92,10 +93,10 @@ const MyPopover = ({ user, index }) => {
             </h1>
           </div>
           <div>
-            <h2>
+            <h2 style = {{color : 'white', opacity : .9, textTransform : 'capitalize'}}>
               {user.firstName} {user.lastName}
             </h2>
-            <p>{user.position}</p>
+            <p style = {{color : 'white', opacity : .5, fontSize : '16px'}}>{user.position}</p>
           </div>
         </div>
         <div>
@@ -109,6 +110,8 @@ const MyPopover = ({ user, index }) => {
               user.requestOffs.map((reqOff) => <li>Info</li>)}
           </ul>
         </div>
+        </div>
+        
       </Popover>
     </div>
   );
