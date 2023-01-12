@@ -1,8 +1,8 @@
 import React from "react";
 import blackAddIcon from "./assets/Black Add Icon.svg";
 import blackSaveIcon from "./assets/Black Save Icon.svg";
-import blackEditIcon from "./assets/Black Edit Icon.svg";
-import editIcon from "./assets/Edit Icon.svg";
+import blackTeamIcon from "./assets/Black Team Icon.svg";
+import teamIcon from "./assets/Team Icon.svg";
 import addIcon from "./assets/Add Icon.svg";
 import saveIcon from "./assets/Save Icon.svg";
 import { Tabs, Tab } from "@material-ui/core";
@@ -15,18 +15,21 @@ const StyledTabs = styled(Tabs)(({ value, hidden }) => {
       background: "white",
       left: 0,
     },
-    opacity: 0.7,
+   
     "& .Mui-selected": {
       opacity: 1,
     },
     "& .MuiTabs-flexContainer": {
       justifyContent: "center",
     },
+    opacity: 0.7,
     color: Number.isInteger(value) ? "white" : "black",
     position: "absolute",
     bottom: 0,
     right: 0,
     display: hidden ? "none" : "flex",
+    background : Number.isInteger(value) ? 'rgba(149, 161, 167)' : 'none',
+    borderRadius : '7px 0px 0px 0px',
   };
 });
 
@@ -58,8 +61,8 @@ function Functions({ currentFunction, changeCurrentFunction, hidden }) {
     >
       <StyledTab
         value={0}
-        label="Edit"
-        icon={<img alt="Edit" src={isOpen ? editIcon : blackEditIcon} />}
+        label="Team"
+        icon={<img alt="Team" src={isOpen ? teamIcon : blackTeamIcon} />}
       />
       <StyledTab
         value={1}

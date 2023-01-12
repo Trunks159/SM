@@ -5,7 +5,7 @@ import moment from "moment";
 import { makeStyles } from "@material-ui/core";
 import AddPrompt from "./AddPrompt";
 import SavePrompt from "./SavePrompt";
-import EditPrompt from "./EditPrompt";
+import TeamPrompt from "./TeamPrompt";
 import "./thedrawer.css";
 import Functions from "../../functions/Functions";
 
@@ -74,7 +74,7 @@ function TheDrawer(props) {
         </div>
 
         <div className="drawer-content">
-          <EditPrompt index={0} currentFunction={currentFunction} />
+          <TeamPrompt index={0} currentFunction={currentFunction} />
           <AddPrompt
             index={1}
             currentFunction={currentFunction}
