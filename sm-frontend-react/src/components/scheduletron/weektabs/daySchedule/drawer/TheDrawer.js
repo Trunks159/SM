@@ -1,6 +1,6 @@
 import { Collapse, Divider } from "@mui/material";
 import { Button } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import moment from "moment";
 import { makeStyles } from "@material-ui/core";
 import AddPrompt from "./AddPrompt";
@@ -8,6 +8,7 @@ import SavePrompt from "./SavePrompt";
 import TeamPrompt from "./TeamPrompt";
 import "./thedrawer.css";
 import Functions from "../../functions/Functions";
+import closeIcon from "./assets/Close Icon.svg";
 
 const useStyles = makeStyles({
   tab: {
@@ -40,13 +41,20 @@ const useStyles = makeStyles({
     right: 0,
   },
   closeBtn: {
+    minWidth: 0,
     color: "white",
     position: "absolute",
-    top: 10,
-    right: 10,
+    top: 0,
+    right: 0,
     "&:hover": {
-      opacity: 0.75,
+      background: "rgba(255,255,255,.25)",
     },
+    padding: 10,
+    margin: 10,
+    height: 32,
+    width: 32,
+    borderRadius: 16,
+    background: "rgba(255,255,255,.09)",
   },
 });
 
@@ -62,7 +70,7 @@ function TheDrawer(props) {
           onClick={() => changeCurrentFunction(null)}
           className={classes.closeBtn}
         >
-          Close
+          <img alt="Close" src={closeIcon} />
         </Button>
         <div className="drawer-header">
           <h1>
