@@ -7,10 +7,11 @@ import helpIcon from "./assets/Help Icon.svg";
 import teamIcon from "./assets/Team Icon.svg";
 import addIcon from "./assets/Add Icon.svg";
 import saveIcon from "./assets/Save Icon.svg";
-import { Tabs, Tab, hexToRgb } from "@material-ui/core";
+import { Tabs, Tab, SvgIcon } from "@material-ui/core";
 import styled from "@emotion/styled";
 
 const StyledTabs = styled(Tabs)(({ value, hidden }) => {
+  const isString = (item) => typeof item === "string" || item instanceof String;
   return {
     zIndex: 1,
     "& .MuiTabs-indicator": {
@@ -25,12 +26,12 @@ const StyledTabs = styled(Tabs)(({ value, hidden }) => {
       justifyContent: "center",
     },
     opacity: 0.7,
-    color: Number.isInteger(value) ? "white" : "black",
+    color: isString(value) ? "white" : "black",
     position: "absolute",
     bottom: 12,
     right: 0,
     display: hidden ? "none" : "flex",
-    background: Number.isInteger(value) ? "rgba(23, 53, 69, .92)" : "none",
+    background: isString(value) ? "rgba(23, 53, 69, .92)" : "none",
     borderRadius: "7px 0px 0px 7px",
   };
 });
@@ -64,24 +65,24 @@ function Functions({ currentFunction, changeCurrentFunction, hidden }) {
       hidden={hidden}
     >
       <StyledTab
-        value={0}
+        value={"help"}
         label="Help"
         icon={<img alt="Help" src={isOpen ? helpIcon : blackHelpIcon} />}
       />
       <StyledTab
-        value={1}
+        value={"team"}
         label="Team"
         icon={<img alt="Team" src={isOpen ? teamIcon : blackTeamIcon} />}
       />
       <StyledTab
-        value={2}
+        value={"add"}
         label="Add"
         icon={<img alt="Add" src={isOpen ? addIcon : blackAddIcon} />}
       />
       <StyledTab
-        value={3}
+        value={"save"}
         label="Save"
-        icon={<img alt="Save" src={isOpen ? saveIcon : blackSaveIcon} />}
+        icon={<SvgIcon component={saveIcon} />}
       />
       <Tab value={null} style={{ display: "none" }} />
     </StyledTabs>

@@ -75,7 +75,7 @@ function UserThumb({ handleAdd, firstName, lastName, position, index }) {
   );
 }
 
-function AddPrompt({ currentFunction, index, theDate }) {
+function AddPrompt({ currentFunction, name, theDate }) {
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const { notScheduled } = currentSchedule;
   const dispatch = useDispatch();
@@ -88,7 +88,7 @@ function AddPrompt({ currentFunction, index, theDate }) {
     <div
       className="add-prompt"
       style={{
-        display: currentFunction === index ? "flex" : "none",
+        display: currentFunction === name ? "flex" : "none",
         flexDirection: "column",
       }}
     >

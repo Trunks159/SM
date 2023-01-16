@@ -14,12 +14,27 @@ import "./timeslots.css";
 import TimeSlot from "./TimeSlot";
 import UserPopover from "./UserPopover";
 import removeIcon from "./assets/Close Icon.svg";
+import styled from "@emotion/styled";
 
 //ACTIONS
 const removeFromScheduled = (userId) => ({
   type: "REMOVE_FROM_SCHEDULED",
   payLoad: userId,
 });
+
+const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
+  width: "auto",
+  position: "absolute",
+  right: 0,
+  left: 0,
+  top: 0,
+  bottom: 0,
+  margin: "10px",
+
+  [theme.breakpoints.up("md")]: {
+    margin: "20px 80px 10px 10px",
+  },
+}));
 
 function MyTable() {
   const dispatch = useDispatch();
@@ -32,9 +47,7 @@ function MyTable() {
 
   return (
     <div style={{ flex: 1, position: "relative" }}>
-      <TableContainer
-        sx={{ position: "absolute", right: 0, left: 0, top: 0, bottom: 0 }}
-      >
+      <StyledTableContainer>
         <Table
           style={{
             height: "100%",
@@ -49,7 +62,6 @@ function MyTable() {
                   minWidth: 30,
                 }}
               >
-                {"  "}
                 {/*Keep this empty */}
               </TableCell>
               {timeslots.map(({ user }, index) => (
@@ -108,7 +120,7 @@ function MyTable() {
             </TableRow>
           </TableBody>
         </Table>
-      </TableContainer>
+      </StyledTableContainer>
     </div>
   );
 }

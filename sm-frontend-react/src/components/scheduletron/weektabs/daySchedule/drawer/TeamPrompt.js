@@ -2,10 +2,10 @@ import React, { Component } from "react";
 class TeamPrompt extends Component {
   state = {};
   render() {
-    const { currentFunction, index } = this.props;
+    const { currentFunction, name } = this.props;
     return (
-      <div style={{ display: currentFunction === index ? "flex" : "none" }}>
-       dd
+      <div style={{ display: currentFunction === name ? "flex" : "none" }}>
+        dd
       </div>
     );
   }

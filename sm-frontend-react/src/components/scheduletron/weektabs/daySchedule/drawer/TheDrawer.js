@@ -1,94 +1,74 @@
-import { Collapse, Divider } from "@mui/material";
-import { Button } from "@material-ui/core";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Collapse } from "@mui/material";
+import { Button, Breadcrumbs } from "@material-ui/core";
 import moment from "moment";
-import { makeStyles } from "@material-ui/core";
+import HelpPrompt from "./HelpPrompt";
 import AddPrompt from "./AddPrompt";
 import SavePrompt from "./SavePrompt";
 import TeamPrompt from "./TeamPrompt";
 import "./thedrawer.css";
 import Functions from "../../functions/Functions";
 import closeIcon from "./assets/Close Icon.svg";
+import styled from "@emotion/styled";
+import HeaderButton from "./HeaderButton";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { grey } from "@mui/material/colors";
 
-const useStyles = makeStyles({
-  tab: {
-    textTransform: "none",
-    transitionDuration: ".25s",
-    minWidth: 0,
-    padding: "0px 20px",
-    opacity: 0.75,
-    minWidth: 0,
-    fontSize: 12,
-    fontWeight: "400",
-    "& .MuiTab-iconWrapper": {
-      marginBottom: 8,
-    },
+const StyledCloseButton = styled(Button)({
+  minWidth: 0,
+  color: "white",
+  position: "absolute",
+  top: 0,
+  right: 0,
+  "&:hover": {
+    background: "rgba(255,255,255,.25)",
   },
-  tabs: {
-    "& .MuiTabs-indicator": {
-      background: "white",
-      left: 0,
-    },
-    "& .Mui-selected": {
-      opacity: 1,
-      color: "white",
-    },
-    "& .MuiTabs-flexContainer": {
-      justifyContent: "center",
-    },
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-  },
-  closeBtn: {
-    minWidth: 0,
-    color: "white",
-    position: "absolute",
-    top: 0,
-    right: 0,
-    "&:hover": {
-      background: "rgba(255,255,255,.25)",
-    },
-    padding: 10,
-    margin: 10,
-    height: 32,
-    width: 32,
-    borderRadius: 16,
-    background: "rgba(255,255,255,.09)",
-  },
+  padding: 10,
+  margin: 10,
+  height: 32,
+  width: 32,
+  borderRadius: 16,
+  background: "rgba(255,255,255,.09)",
 });
 
 function TheDrawer(props) {
   const { currentFunction, changeCurrentFunction } = props;
+  const isString = (item) => typeof item === "string" || item instanceof String;
   let date = moment(props.date);
-  const isOpen = Number.isInteger(currentFunction);
-  const classes = useStyles();
+  const isOpen = isString(currentFunction);
+  const [breadcrumbs, setBreadcrumbs] = useState([]);
+
+  useEffect(() => {
+    const bc = [<HeaderButton text={currentFunction} withIcon isActive />];
+    setBreadcrumbs(bc);
+  }, [currentFunction]);
   return (
     <Collapse in={isOpen}>
       <div className="drawer">
-        <Button
-          onClick={() => changeCurrentFunction(null)}
-          className={classes.closeBtn}
-        >
+        <StyledCloseButton onClick={() => changeCurrentFunction(null)}>
           <img alt="Close" src={closeIcon} />
-        </Button>
-        <div className="drawer-header">
-          <h1>
-            {date.format("dddd")} {`${date.month() + 1}/${date.date()}`}
-          </h1>
-          <Divider
-            style={{ height: 0.5, width: "100%", background: "#707070" }}
-          />
-        </div>
-
+        </StyledCloseButton>
+        <Breadcrumbs
+          separator={
+            <NavigateNextIcon style={{ color: grey[50] }} fontSize="small" />
+          }
+        >
+          {breadcrumbs}
+        </Breadcrumbs>
+        Mommy
         <div className="drawer-content">
-          <TeamPrompt index={0} currentFunction={currentFunction} />
+          <HelpPrompt name="help" currentFunction={currentFunction} />
+          <TeamPrompt
+            name="team"
+            currentFunction={currentFunction}
+            setBreadcrumbs={setBreadcrumbs}
+          />
           <AddPrompt
-            index={1}
+            name="add"
             currentFunction={currentFunction}
             theDate={date}
           />
-          <SavePrompt index={2} currentFunction={currentFunction} />
+          <SavePrompt name="save" currentFunction={currentFunction} />
         </div>
         <Functions
           changeCurrentFunction={changeCurrentFunction}

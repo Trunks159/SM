@@ -92,8 +92,13 @@ function DaySchedule() {
           currentFunction={currentFunction}
         />
         <StyledHamburgerButton
-          onClick={() => setCurrentFunction(0)}
-          hidden={typeof currentFunction !== "number" && isDesktop}
+          onClick={() => setCurrentFunction("add")}
+          hidden={
+            //needs to be in mobile AND cant be open
+            (typeof currentFunction !== "string" ||
+              !(currentFunction instanceof String)) &&
+            isDesktop
+          }
         >
           <img alt="Menu" src={menuIcon} />
         </StyledHamburgerButton>

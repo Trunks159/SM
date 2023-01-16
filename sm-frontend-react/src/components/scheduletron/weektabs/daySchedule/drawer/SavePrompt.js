@@ -25,7 +25,7 @@ set the message to null
 
 */
 
-const SavePrompt = ({ index, currentFunction }) => {
+const SavePrompt = ({ name, currentFunction }) => {
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const { timeslots } = currentSchedule;
   const [alert, setAlert] = useState(null);
@@ -65,7 +65,7 @@ const SavePrompt = ({ index, currentFunction }) => {
   return (
     <div
       className="save-prompt"
-      style={{ display: currentFunction === index ? "flex" : "none" }}
+      style={{ display: currentFunction === name ? "flex" : "none" }}
     >
       <Notification message={alert} />
       <h2>Completion Status</h2>
