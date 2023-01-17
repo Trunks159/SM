@@ -55,7 +55,8 @@ function TheDrawer(props) {
         >
           {breadcrumbs}
         </Breadcrumbs>
-        Mommy
+
+
         <div className="drawer-content">
           <HelpPrompt name="help" currentFunction={currentFunction} />
           <TeamPrompt

@@ -7,11 +7,12 @@ import helpIcon from "./assets/Help Icon.svg";
 import teamIcon from "./assets/Team Icon.svg";
 import addIcon from "./assets/Add Icon.svg";
 import saveIcon from "./assets/Save Icon.svg";
-import { Tabs, Tab, SvgIcon } from "@material-ui/core";
+import { Tabs, Tab, Paper } from "@material-ui/core";
 import styled from "@emotion/styled";
 
+const isString = (item) => typeof item === "string" || item instanceof String;
+
 const StyledTabs = styled(Tabs)(({ value, hidden }) => {
-  const isString = (item) => typeof item === "string" || item instanceof String;
   return {
     zIndex: 1,
     "& .MuiTabs-indicator": {
@@ -56,36 +57,38 @@ const StyledTab = styled(Tab)({
 });
 
 function Functions({ currentFunction, changeCurrentFunction, hidden }) {
-  const isOpen = Number.isInteger(currentFunction);
+  const isOpen = isString(currentFunction);
   return (
-    <StyledTabs
-      onChange={(e, newVal) => changeCurrentFunction(newVal)}
-      value={currentFunction}
-      orientation={"vertical"}
-      hidden={hidden}
-    >
-      <StyledTab
-        value={"help"}
-        label="Help"
-        icon={<img alt="Help" src={isOpen ? helpIcon : blackHelpIcon} />}
-      />
-      <StyledTab
-        value={"team"}
-        label="Team"
-        icon={<img alt="Team" src={isOpen ? teamIcon : blackTeamIcon} />}
-      />
-      <StyledTab
-        value={"add"}
-        label="Add"
-        icon={<img alt="Add" src={isOpen ? addIcon : blackAddIcon} />}
-      />
-      <StyledTab
-        value={"save"}
-        label="Save"
-        icon={<SvgIcon component={saveIcon} />}
-      />
-      <Tab value={null} style={{ display: "none" }} />
-    </StyledTabs>
+    <Paper elevation={0}>
+      <StyledTabs
+        onChange={(e, newVal) => changeCurrentFunction(newVal)}
+        value={currentFunction}
+        orientation={"vertical"}
+        hidden={hidden}
+      >
+        <StyledTab
+          value={"help"}
+          label="Help"
+          icon={<img alt="Help" src={isOpen ? helpIcon : blackHelpIcon} />}
+        />
+        <StyledTab
+          value={"team"}
+          label="Team"
+          icon={<img alt="Team" src={isOpen ? teamIcon : blackTeamIcon} />}
+        />
+        <StyledTab
+          value={"add"}
+          label="Add"
+          icon={<img alt="Add" src={isOpen ? addIcon : blackAddIcon} />}
+        />
+        <StyledTab
+          value={"save"}
+          label="Save"
+          icon={<img alt="Save" src={isOpen ? saveIcon : blackSaveIcon} />}
+        />
+        <Tab value={null} style={{ display: "none" }} />
+      </StyledTabs>
+    </Paper>
   );
 }
 
