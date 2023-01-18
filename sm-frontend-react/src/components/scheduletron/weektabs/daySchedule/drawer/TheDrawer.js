@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Collapse } from "@mui/material";
 import { Button, Breadcrumbs } from "@material-ui/core";
 import moment from "moment";
-import HelpPrompt from "./HelpPrompt";
+import HelpPrompt from "./HelpPrompt/HelpPrompt";
 import AddPrompt from "./AddPrompt";
 import SavePrompt from "./SavePrompt";
 import TeamPrompt from "./TeamPrompt";
@@ -52,6 +52,7 @@ function TheDrawer(props) {
           separator={
             <NavigateNextIcon style={{ color: grey[50] }} fontSize="small" />
           }
+          style = {{marginLeft : 30}}
         >
           {breadcrumbs}
         </Breadcrumbs>
