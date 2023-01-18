@@ -52,11 +52,10 @@ function TheDrawer(props) {
           separator={
             <NavigateNextIcon style={{ color: grey[50] }} fontSize="small" />
           }
-          style = {{marginLeft : 30}}
+          style={{ marginLeft: 15 }}
         >
           {breadcrumbs}
         </Breadcrumbs>
-
 
         <div className="drawer-content">
           <HelpPrompt name="help" currentFunction={currentFunction} />

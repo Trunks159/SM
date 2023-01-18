@@ -12,12 +12,11 @@ const StyledButton = styled(Button)(({ isActive }) => ({
   "& h3": {
     color: "white",
     textTransform: "capitalize",
-    fontWeight: "bold",
+    fontWeight: "normal",
   },
-  '& .MuiButton-label':{
-    gap : 10
-  }
-
+  "& .MuiButton-label": {
+    gap: 2,
+  },
 }));
 
 const getIcon = {
@@ -33,7 +32,7 @@ function HeaderButton({ text, isActive = false, withIcon = false }) {
       startIcon={<img src={withIcon && getIcon[text]} />}
       isActive={isActive}
     >
-      <h3 >{text}</h3>
+      <h3>{text}</h3>
     </StyledButton>
   );
 }

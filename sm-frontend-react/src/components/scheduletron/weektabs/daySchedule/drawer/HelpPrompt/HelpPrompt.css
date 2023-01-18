@@ -10,3 +10,11 @@
 .help-item p{
     opacity: .8;
 }
+
+.help-item .drag-icon{
+    width: 15px;
+    background: rgba(0,0,0,.56);
+    padding: 8px 12px;
+    border-radius: 3px;
+    margin-top: 50px;
+}
