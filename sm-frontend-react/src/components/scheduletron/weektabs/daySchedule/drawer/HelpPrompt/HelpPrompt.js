@@ -2,6 +2,7 @@ import React from "react";
 import editIcon from "./assets/Edit Icon.svg";
 import dragIcon from "./assets/Drag Icon.svg";
 import "./HelpPrompt.css";
+import { Typography } from "@mui/material";
 
 function HelpItem({ children }) {
   const { img, header, content } = children;
@@ -9,8 +10,8 @@ function HelpItem({ children }) {
     <div className="help-item">
       <div>{img}</div>
       <div>
-        <h3>{header}</h3>
-        <p>{content}</p>
+        <Typography variant="body1">{header}</Typography>
+        <Typography variant="caption">{content}</Typography>
       </div>
     </div>
   );
@@ -24,11 +25,11 @@ function HelpPrompt({ currentFunction, name }) {
         flexDirection: "column",
       }}
     >
-      <h2 style={{ fontWeight: "lighter" }}>Let me help you out a bit</h2>
+      <Typography variant = 'subtitle1' style = {{margin : '15px 0px'}}>Let me help you out a bit</Typography>
 
-      <p style={{ opacity: 0.6 }}>
+      <Typography variant="subtitle2" style={{  }}>
         To adjust the time each team member is scheduled for:
-      </p>
+      </Typography>
 
       <HelpItem>
         {{
