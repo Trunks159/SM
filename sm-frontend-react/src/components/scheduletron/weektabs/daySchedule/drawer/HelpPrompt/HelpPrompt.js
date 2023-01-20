@@ -10,8 +10,8 @@ function HelpItem({ children }) {
     <div className="help-item">
       <div>{img}</div>
       <div>
-        <Typography variant="body1">{header}</Typography>
-        <Typography variant="caption">{content}</Typography>
+        <h3>{header}</h3>
+        <p>{content}</p>
       </div>
     </div>
   );
@@ -24,12 +24,11 @@ function HelpPrompt({ currentFunction, name }) {
         display: currentFunction === name ? "flex" : "none",
         flexDirection: "column",
       }}
+      className="help-prompt"
     >
-      <Typography variant = 'subtitle1' style = {{margin : '15px 0px'}}>Let me help you out a bit</Typography>
+      <h1>Let me help you out a bit</h1>
 
-      <Typography variant="subtitle2" style={{  }}>
-        To adjust the time each team member is scheduled for:
-      </Typography>
+      <p>To adjust the time each team member is scheduled for:</p>
 
       <HelpItem>
         {{

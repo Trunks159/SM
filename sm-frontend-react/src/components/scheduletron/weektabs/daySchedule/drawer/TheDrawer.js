@@ -21,14 +21,13 @@ const StyledCloseButton = styled(Button)({
   top: 0,
   right: 0,
   "&:hover": {
-    background: "rgba(255,255,255,.25)",
+    background: "rgba(255,255,255,.20)",
   },
-  padding: 10,
-  margin: 10,
+  margin: "5px",
   height: 32,
   width: 32,
   borderRadius: 16,
-  background: "rgba(255,255,255,.09)",
+  background: "rgba(255,255,255,.04)",
 });
 
 function TheDrawer(props) {
@@ -52,7 +51,10 @@ function TheDrawer(props) {
           separator={
             <NavigateNextIcon style={{ color: grey[50] }} fontSize="small" />
           }
-          style={{ marginLeft: 15 }}
+          style={{
+            border: "1px solid rgba(255,255,255, .15)",
+            paddingLeft: 30,
+          }}
         >
           {breadcrumbs}
         </Breadcrumbs>
