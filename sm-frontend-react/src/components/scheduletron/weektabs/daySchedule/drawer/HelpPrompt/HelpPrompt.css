@@ -1,22 +1,33 @@
 .help-prompt{
-    padding : 33px;
+    padding : 30px;
+}
+
+.help-prompt h4{
+    line-height: 23px;
 }
 
 .help-prompt h1{
     font-size: 36px;
     line-height: 45px;
+    font-weight: 500;
 }
 
 .help-item{
-    display: flex;
-    margin : 0px 20px 15px 20px;
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    column-gap: 18px;
+    justify-items: center;
 }
 
 .help-item h3{
-    font-weight:  normal;
+    margin : 10px 0px;
+    font-weight: 500;
 }
 
 .help-item p{
+    margin: 0px;
+    opacity: .8;
+    line-height: 23px;
 }
 
 .help-item .drag-icon{
@@ -24,5 +35,6 @@
     background: rgba(0,0,0,.56);
     padding: 8px 12px;
     border-radius: 3px;
+    margin :0;
     margin-top: 50px;
 }

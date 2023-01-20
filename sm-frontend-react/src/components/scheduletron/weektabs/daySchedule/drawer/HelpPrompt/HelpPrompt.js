@@ -2,7 +2,8 @@ import React from "react";
 import editIcon from "./assets/Edit Icon.svg";
 import dragIcon from "./assets/Drag Icon.svg";
 import "./HelpPrompt.css";
-import { Typography } from "@mui/material";
+import { Divider } from "@mui/material";
+import styled from "@emotion/styled";
 
 function HelpItem({ children }) {
   const { img, header, content } = children;
@@ -17,6 +18,13 @@ function HelpItem({ children }) {
   );
 }
 
+const StyledDivider = styled(Divider)({
+  margin: "20px 0px",
+  background : 'black',
+  opacity : .12,
+  height : '1px',
+});
+
 function HelpPrompt({ currentFunction, name }) {
   return (
     <div
@@ -28,7 +36,9 @@ function HelpPrompt({ currentFunction, name }) {
     >
       <h1>Let me help you out a bit</h1>
 
-      <p>To adjust the time each team member is scheduled for:</p>
+      <h4 style={{ fontWeight: 300 }}>
+        To adjust the time each team member is scheduled for:
+      </h4>
 
       <HelpItem>
         {{
@@ -38,6 +48,7 @@ function HelpPrompt({ currentFunction, name }) {
             "Drag the spread indicators to stretch or expand each team member's work time.",
         }}
       </HelpItem>
+      <StyledDivider />
       <HelpItem>
         {{
           img: <img style={{ marginTop: 50 }} alt="Select" src={editIcon} />,
@@ -45,6 +56,7 @@ function HelpPrompt({ currentFunction, name }) {
           content: "Select a team member's time to manually enter their time.",
         }}
       </HelpItem>
+      <StyledDivider />
     </div>
   );
 }
