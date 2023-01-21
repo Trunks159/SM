@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import addIcon from "./assets/Add Icon.svg";
 import minusIcon from "./assets/Minus Icon.svg";

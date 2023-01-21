@@ -3,7 +3,6 @@ import scheduleIcon from "./assets/Schedule Icon.svg";
 import openIcon from "./assets/Open Icon.svg";
 import { Link, useLocation } from "react-router-dom";
 import { StyledTab, StyledTabs } from "./StyledTabs";
-import { Tab } from "@material-ui/core";
 
 function Tabs1({ weekId }) {
   const location = useLocation();
@@ -34,12 +33,10 @@ function Tabs1({ weekId }) {
         to="/scheduletron"
         icon={<img alt="Open" src={openIcon} />}
         value={"open"}
-        style={{ minWidth: 0 }}
       />
       <StyledTab
         component={Link}
         label="Schedule"
-        style={{ minWidth: 0 }}
         to={
           weekId
             ? `/scheduletron/viewer/${weekId}/${0}`
