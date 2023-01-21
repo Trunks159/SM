@@ -5,7 +5,6 @@ import blackSaveIcon from "./assets/Black Save Icon.svg";
 import blackTeamIcon from "./assets/Black Team Icon.svg";
 import helpIcon from "./assets/Help Icon.svg";
 import teamIcon from "./assets/Team Icon.svg";
-import addIcon from "./assets/Add Icon.svg";
 import saveIcon from "./assets/Save Icon.svg";
 import { Tabs, Tab, Paper } from "@material-ui/core";
 import styled from "@emotion/styled";
@@ -75,11 +74,6 @@ function Functions({ currentFunction, changeCurrentFunction, hidden }) {
           value={"team"}
           label="Team"
           icon={<img alt="Team" src={isOpen ? teamIcon : blackTeamIcon} />}
-        />
-        <StyledTab
-          value={"add"}
-          label="Add"
-          icon={<img alt="Add" src={isOpen ? addIcon : blackAddIcon} />}
         />
         <StyledTab
           value={"save"}

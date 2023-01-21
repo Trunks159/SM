@@ -11,31 +11,23 @@
   z-index: 2;
 }
 
+.prompt{
+  flex-direction: column;
+  padding: 18px;
+}
 
+.drawer h1{
+    font-size: 36px;
+    line-height: 45px;
+    font-weight: 500;
+}
+
+.drawer h4{
+  font-weight: 300;
+}
 
 .drawer-content {
   margin : 0px 10px;
-}
-
-.add-prompt ul{
-  padding : 0px;
-  display: flex;
-  flex-direction: column;
-  gap : 28px;
-}
-
-.add-prompt ul li{
-  list-style-type: none;
-  display: flex;
-  
-}
-
-.add-prompt ul li img:hover{
-  opacity: .75;
-}
-
-.save-prompt{
-  flex-direction: column;
 }
 
 
@@ -47,8 +39,4 @@
     left : auto;
     border-radius:7px 0px 0px 7px;
 }
-
-  .drawer-header {
-    display: none;
-  }
 }

@@ -258,7 +258,7 @@ def update_schedule():
 
     db.session.commit()
 
-    return jsonify({'message': 'Scheduled has been succefully updated!', 'severity': 'success'})
+    return jsonify({'message': 'Your schedule has been successfully updated!', 'severity': 'success'})
 
 
 @ login_required

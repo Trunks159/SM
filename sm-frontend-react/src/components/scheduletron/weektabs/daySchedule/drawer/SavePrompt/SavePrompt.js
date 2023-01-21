@@ -1,22 +1,21 @@
 import React, { useState } from "react";
 import saveIcon from "./assets/Save Icon.svg";
 import { Button } from "@mui/material";
-import { makeStyles } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { Alert } from "@mui/material";
-import Notification from "./Notification";
+import Notification from "../Notification";
 import styled from "@emotion/styled";
 
 const SaveButton = styled(Button)({
-  background: "#54F2D1",
-  textTransform: "none",
+  background: "#24E1C7",
   color: "white",
-  width: 114,
-  height: 36,
+  width: 134,
+  height: 42,
   borderRadius: 4,
   "&:hover": {
-    opacity: 0.7,
+    background: "#00FFDC ",
   },
+  alignSelf: "center",
 });
 
 /*
@@ -64,11 +63,12 @@ const SavePrompt = ({ name, currentFunction }) => {
 
   return (
     <div
-      className="save-prompt"
+      className="prompt save-prompt"
       style={{ display: currentFunction === name ? "flex" : "none" }}
     >
+      <h1>Save Your Progress</h1>
       <Notification message={alert} />
-      <h2>Completion Status</h2>
+      <h4>Completion Status</h4>
       <ul>
         <li>
           <h3>Staffing</h3>

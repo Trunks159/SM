@@ -20,9 +20,9 @@ function HelpItem({ children }) {
 
 const StyledDivider = styled(Divider)({
   margin: "20px 0px",
-  background : 'black',
-  opacity : .12,
-  height : '1px',
+  background: "black",
+  opacity: 0.12,
+  height: "1px",
 });
 
 function HelpPrompt({ currentFunction, name }) {
@@ -30,15 +30,12 @@ function HelpPrompt({ currentFunction, name }) {
     <div
       style={{
         display: currentFunction === name ? "flex" : "none",
-        flexDirection: "column",
       }}
-      className="help-prompt"
+      className="prompt help-prompt"
     >
       <h1>Let me help you out a bit</h1>
 
-      <h4 style={{ fontWeight: 300 }}>
-        To adjust the time each team member is scheduled for:
-      </h4>
+      <h4>To adjust the time each team member is scheduled for:</h4>
 
       <HelpItem>
         {{

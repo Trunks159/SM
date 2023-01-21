@@ -3,9 +3,8 @@ import { Collapse } from "@mui/material";
 import { Button, Breadcrumbs } from "@material-ui/core";
 import moment from "moment";
 import HelpPrompt from "./HelpPrompt/HelpPrompt";
-import AddPrompt from "./AddPrompt";
-import SavePrompt from "./SavePrompt";
-import TeamPrompt from "./TeamPrompt";
+import SavePrompt from "./SavePrompt/SavePrompt";
+import TeamPrompt from "./TeamPrompt/TeamPrompt";
 import "./thedrawer.css";
 import Functions from "../../functions/Functions";
 import closeIcon from "./assets/Close Icon.svg";
@@ -65,11 +64,6 @@ function TheDrawer(props) {
             name="team"
             currentFunction={currentFunction}
             setBreadcrumbs={setBreadcrumbs}
-          />
-          <AddPrompt
-            name="add"
-            currentFunction={currentFunction}
-            theDate={date}
           />
           <SavePrompt name="save" currentFunction={currentFunction} />
         </div>

@@ -6,12 +6,6 @@
     line-height: 23px;
 }
 
-.help-prompt h1{
-    font-size: 36px;
-    line-height: 45px;
-    font-weight: 500;
-}
-
 .help-item{
     display: grid;
     grid-template-columns: 30px 1fr;
