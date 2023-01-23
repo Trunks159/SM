@@ -1,42 +1,90 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import addIcon from "./assets/Add Icon.svg";
-import minusIcon from "./assets/Minus Icon.svg";
-import { Button } from "@material-ui/core";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Divider, Tabs, Tab } from "@mui/material";
 import "./TeamPrompt.css";
+import styled from "@emotion/styled";
+import Dogtag from "./Dogtag";
 
-function TeamPrompt({ currentFunction, name }) {
+const StyledTabs = styled(Tabs)({
+  "& .MuiTabs-indicator": {
+    background: "#0FABFF",
+  },
+  width: "100%",
+  margin: 0,
+});
+
+const StyledTab = styled(Tab)({
+  minWidth: 0,
+  width: "50%",
+  textTransform: "none",
+  fontSize: 13,
+  fontWeight: 500,
+  color: "white",
+  opacity: ".8",
+  "&.Mui-selected": {
+    color: "white",
+    opacity: 1,
+  },
+});
+
+const StyledDivider = styled(Divider)({
+  position: "absolute",
+  right: 0,
+  left: 0,
+  bottom: 0,
+  background: "rgba(255,255,255,.68)",
+});
+
+function TeamPrompt({ currentFunction, name, handleProfileChange }) {
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const { timeslots, notScheduled } = currentSchedule;
+  const workblocks = timeslots.map((ts) => currentSchedule.toWorkBlock(ts));
+  const [currentTab, setCurrentTab] = useState("notScheduled");
   return (
     <div
-      className="prompt team-prompt"
+      className="team-prompt"
       style={{ display: currentFunction === name ? "flex" : "none" }}
     >
-      <h1>Here's Your Squad</h1>
-      <h4>Select a team member's name to view their profile info</h4>
-      <h2>Not Scheduled</h2>
-      <ul>
-        {notScheduled.map(({ id, firstName, lastName }) => (
-          <li key={id}>
-            <Button>
-              {firstName} {lastName}
-            </Button>
-            <Button endIcon={<img alt="add" src={addIcon} />}>SCHEDULE</Button>
-          </li>
-        ))}
+      <div style={{ position: "relative" }}>
+        <StyledDivider />
+        <StyledTabs
+          value={currentTab}
+          onChange={(e, newTab) => setCurrentTab(newTab)}
+        >
+          <StyledTab label="Scheduled" value={"scheduled"} />
+          <StyledTab label="The Bench" value={"notScheduled"} />
+        </StyledTabs>
+      </div>
+
+      <ul
+        className="scheduled"
+        style={{ display: currentTab === "scheduled" ? "flex" : "none" }}
+      >
+        {workblocks.map(({ startTime, endTime, user }, index) => {
+          return (
+            <li key={index}>
+              <Dogtag
+                startTime={startTime}
+                endTime={endTime}
+                user={user}
+                handleProfileChange={handleProfileChange}
+              />
+            </li>
+          );
+        })}
       </ul>
-      <ul>
-        {timeslots.map(({ user }) => (
-          <li key={user.id}>
-            <Button>
-              {user.firstName} {user.lastName}
-            </Button>
-            <Button endIcon={<img alt="minus" src={minusIcon} />}>
-              UNSCHEDULE
-            </Button>
-          </li>
-        ))}
+
+      <ul
+        className="not-scheduled"
+        style={{ display: currentTab === "notScheduled" ? "flex" : "none" }}
+      >
+        {notScheduled.map((user, index) => {
+          return (
+            <li key={index}>
+              <Dogtag user={user} handleProfileChange={handleProfileChange} />
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

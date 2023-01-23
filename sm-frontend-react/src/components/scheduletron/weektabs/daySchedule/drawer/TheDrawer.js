@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Collapse } from "@mui/material";
-import { Button, Breadcrumbs } from "@material-ui/core";
+import { Collapse, Button } from "@mui/material";
 import moment from "moment";
 import HelpPrompt from "./HelpPrompt/HelpPrompt";
 import SavePrompt from "./SavePrompt/SavePrompt";
@@ -9,9 +8,7 @@ import "./thedrawer.css";
 import Functions from "../../functions/Functions";
 import closeIcon from "./assets/Close Icon.svg";
 import styled from "@emotion/styled";
-import HeaderButton from "./HeaderButton";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { grey } from "@mui/material/colors";
+import MyBreadcrumbs from "./MyBreadCrumbs";
 
 const StyledCloseButton = styled(Button)({
   minWidth: 0,
@@ -34,36 +31,51 @@ function TheDrawer(props) {
   const isString = (item) => typeof item === "string" || item instanceof String;
   let date = moment(props.date);
   const isOpen = isString(currentFunction);
-  const [breadcrumbs, setBreadcrumbs] = useState([]);
+  const [crumbs, setCrumbs] = useState([]);
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    const bc = [<HeaderButton text={currentFunction} withIcon isActive />];
-    setBreadcrumbs(bc);
+    if (currentFunction) {
+      setCrumbs([currentFunction]);
+    }
   }, [currentFunction]);
+
+  /*
+  const addBreadcrumb = (label) => {
+    setBreadcrumbs([
+      <HeaderButton text={currentFunction} withIcon />,
+      <HeaderButton isActive text={label} />,
+    ]);
+  };
+  */
+  function handleProfileChange(user) {
+    setProfile(user);
+    if (user) {
+      setCrumbs([...crumbs, "Profile"]);
+    } else {
+      crumbs.splice(
+        crumbs.indexOf(crumbs.find((item) => (item = "Profile"))),
+        1
+      );
+      // [...crumbs.slice(0, index - 1), ...crumbs.slice(index + 1, crumbs.length -1) ]
+      setCrumbs(crumbs);
+    }
+  }
+
   return (
     <Collapse in={isOpen}>
       <div className="drawer">
         <StyledCloseButton onClick={() => changeCurrentFunction(null)}>
           <img alt="Close" src={closeIcon} />
         </StyledCloseButton>
-        <Breadcrumbs
-          separator={
-            <NavigateNextIcon style={{ color: grey[50] }} fontSize="small" />
-          }
-          style={{
-            border: "1px solid rgba(255,255,255, .15)",
-            paddingLeft: 30,
-          }}
-        >
-          {breadcrumbs}
-        </Breadcrumbs>
+        <MyBreadcrumbs crumbs={crumbs} />
 
         <div className="drawer-content">
           <HelpPrompt name="help" currentFunction={currentFunction} />
           <TeamPrompt
             name="team"
             currentFunction={currentFunction}
-            setBreadcrumbs={setBreadcrumbs}
+            handleProfileChange={handleProfileChange}
           />
           <SavePrompt name="save" currentFunction={currentFunction} />
         </div>
