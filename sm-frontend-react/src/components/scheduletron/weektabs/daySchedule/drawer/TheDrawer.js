@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Collapse, Button } from "@mui/material";
-import moment from "moment";
+import styled from "@emotion/styled";
+import "./thedrawer.css";
 import HelpPrompt from "./HelpPrompt/HelpPrompt";
 import SavePrompt from "./SavePrompt/SavePrompt";
 import TeamPrompt from "./TeamPrompt/TeamPrompt";
-import "./thedrawer.css";
 import Functions from "../../functions/Functions";
-import closeIcon from "./assets/Close Icon.svg";
-import styled from "@emotion/styled";
 import MyBreadcrumbs from "./MyBreadCrumbs";
+import closeIcon from "./assets/Close Icon.svg";
 
 const StyledCloseButton = styled(Button)({
   minWidth: 0,
@@ -38,15 +37,15 @@ function TheDrawer(props) {
     }
   }, [currentFunction]);
 
-  /*
-  const addBreadcrumb = (label) => {
-    setBreadcrumbs([
-      <HeaderButton text={currentFunction} withIcon />,
-      <HeaderButton isActive text={label} />,
-    ]);
-  };
-  */
+  function updateCrumbs(index) {
+    //makes slice of original crumbs ending at the index
+    //only acts if the crumb index isnt the last crumb
+    const newCrumbs = index !== crumbs.length - 1 && crumbs.slice(0, index + 1);
+    newCrumbs && setCrumbs(newCrumbs);
+  }
+
   function handleProfileChange(user) {
+    //add a new crumb  basically
     if (user) {
       setCrumbs([...crumbs, { user, label: "Profile" }]);
     } else {
@@ -54,7 +53,6 @@ function TheDrawer(props) {
         crumbs.indexOf(crumbs.find((item) => item.label === "Profile")),
         1
       );
-      // [...crumbs.slice(0, index - 1), ...crumbs.slice(index + 1, crumbs.length -1) ]
       setCrumbs(crumbs);
     }
   }
@@ -65,7 +63,7 @@ function TheDrawer(props) {
         <StyledCloseButton onClick={() => changeCurrentFunction(null)}>
           <img alt="Close" src={closeIcon} />
         </StyledCloseButton>
-        <MyBreadcrumbs crumbs={crumbs} />
+        <MyBreadcrumbs updateCrumbs={updateCrumbs} crumbs={crumbs} />
 
         <div className="drawer-content">
           <HelpPrompt name="help" currentFunction={currentFunction} />

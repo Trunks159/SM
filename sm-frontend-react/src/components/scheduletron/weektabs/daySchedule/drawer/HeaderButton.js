@@ -26,11 +26,18 @@ const getIcon = {
   save: saveIcon,
 };
 
-function HeaderButton({ text, isActive = false, withIcon = false }) {
+function HeaderButton({
+  text,
+  isActive = false,
+  withIcon = false,
+  updateCrumbs,
+  index,
+}) {
   return (
     <StyledButton
       startIcon={<img src={withIcon && getIcon[text]} />}
       isActive={isActive}
+      onClick={() => updateCrumbs(index)}
     >
       <h3>{text}</h3>
     </StyledButton>

@@ -4,7 +4,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Breadcrumbs } from "@mui/material";
 import { grey } from "@mui/material/colors";
 
-function MyBreadcrumbs({ crumbs }) {
+function MyBreadcrumbs({ crumbs, updateCrumbs }) {
   //first item is always set to the basic breadcrumb and if second item it adjust styles
   const [breadcrumbs, setBreadcrumbs] = useState([]);
 
@@ -14,18 +14,20 @@ function MyBreadcrumbs({ crumbs }) {
         isActive={index === crumbs.length - 1}
         withIcon={index === 0}
         text={crumb.label}
+        updateCrumbs={updateCrumbs}
+        index={index}
       />
     ));
   };
 
   useEffect(() => {
+    console.log("Crumb change: ", crumbs);
     if (crumbs.length > 0) {
       //make new reactcomponent breadcrumbs
       setBreadcrumbs(makeBreadcrumbs(crumbs));
     }
   }, [crumbs]);
 
-    
   console.log("Crumbs: ", crumbs);
   return (
     <Breadcrumbs
