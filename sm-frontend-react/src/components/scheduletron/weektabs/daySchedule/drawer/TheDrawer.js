@@ -29,14 +29,12 @@ const StyledCloseButton = styled(Button)({
 function TheDrawer(props) {
   const { currentFunction, changeCurrentFunction } = props;
   const isString = (item) => typeof item === "string" || item instanceof String;
-  let date = moment(props.date);
   const isOpen = isString(currentFunction);
-  const [crumbs, setCrumbs] = useState([]);
-  const [profile, setProfile] = useState(null);
+  const [crumbs, setCrumbs] = useState([{ label: currentFunction }]);
 
   useEffect(() => {
-    if (currentFunction) {
-      setCrumbs([currentFunction]);
+    if (crumbs[0].label !== currentFunction) {
+      setCrumbs([{ label: currentFunction }]);
     }
   }, [currentFunction]);
 
@@ -49,12 +47,11 @@ function TheDrawer(props) {
   };
   */
   function handleProfileChange(user) {
-    setProfile(user);
     if (user) {
-      setCrumbs([...crumbs, "Profile"]);
+      setCrumbs([...crumbs, { user, label: "Profile" }]);
     } else {
       crumbs.splice(
-        crumbs.indexOf(crumbs.find((item) => (item = "Profile"))),
+        crumbs.indexOf(crumbs.find((item) => item.label === "Profile")),
         1
       );
       // [...crumbs.slice(0, index - 1), ...crumbs.slice(index + 1, crumbs.length -1) ]
@@ -73,6 +70,12 @@ function TheDrawer(props) {
         <div className="drawer-content">
           <HelpPrompt name="help" currentFunction={currentFunction} />
           <TeamPrompt
+            profile={((crumbs) => {
+              const profileCrumb = crumbs.find(
+                (crumb) => crumb.label === "Profile"
+              );
+              return profileCrumb && profileCrumb.user;
+            })(crumbs)}
             name="team"
             currentFunction={currentFunction}
             handleProfileChange={handleProfileChange}

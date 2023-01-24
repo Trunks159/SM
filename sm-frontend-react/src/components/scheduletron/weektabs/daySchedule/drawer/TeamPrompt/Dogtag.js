@@ -69,7 +69,7 @@ function Dogtag({ startTime, endTime, user, handleProfileChange }) {
         </div>
         {startTime && <SliderSection startTime={startTime} endTime={endTime} />}
       </div>
-      <StyledButton onClick={() => handleProfileChange("Profile")}>
+      <StyledButton onClick={() => handleProfileChange(user)}>
         <img src={profileIcon} />
       </StyledButton>
       <StyledButton>

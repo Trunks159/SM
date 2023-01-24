@@ -9,12 +9,11 @@ function MyBreadcrumbs({ crumbs }) {
   const [breadcrumbs, setBreadcrumbs] = useState([]);
 
   const makeBreadcrumbs = (crumbs) => {
-    console.log("Crumbs: ", crumbs);
     return crumbs.map((crumb, index) => (
       <HeaderButton
-        isActive={index === breadcrumbs.length - 1}
+        isActive={index === crumbs.length - 1}
         withIcon={index === 0}
-        text={crumb}
+        text={crumb.label}
       />
     ));
   };
@@ -26,6 +25,8 @@ function MyBreadcrumbs({ crumbs }) {
     }
   }, [crumbs]);
 
+    
+  console.log("Crumbs: ", crumbs);
   return (
     <Breadcrumbs
       separator={
