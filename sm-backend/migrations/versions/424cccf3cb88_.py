@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 9ea26b80d5e8
+Revision ID: 424cccf3cb88
 Revises: 
-Create Date: 2022-08-13 13:17:13.603701
+Create Date: 2023-01-25 11:19:18.510546
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9ea26b80d5e8'
+revision = '424cccf3cb88'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('username', sa.String(length=64), nullable=True),
     sa.Column('first_name', sa.String(length=20), nullable=True),
     sa.Column('last_name', sa.String(length=20), nullable=True),
-    sa.Column('position', sa.Integer(), nullable=True),
+    sa.Column('position', sa.String(length=20), nullable=True),
     sa.Column('password_hash', sa.String(length=128), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
@@ -52,7 +52,6 @@ def upgrade():
     op.create_table('day',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('date', sa.DateTime(), nullable=True),
-    sa.Column('state', sa.String(length=30), nullable=True),
     sa.Column('projected_sales', sa.Integer(), nullable=True),
     sa.Column('week_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['week_id'], ['week_schedule.id'], ),
@@ -61,9 +60,8 @@ def upgrade():
     op.create_table('request_off',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('date', sa.String(length=30), nullable=True),
-    sa.Column('start_time', sa.String(length=30), nullable=True),
-    sa.Column('end_time', sa.String(length=30), nullable=True),
+    sa.Column('start_time', sa.DateTime(), nullable=True),
+    sa.Column('end_time', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

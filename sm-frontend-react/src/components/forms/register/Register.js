@@ -73,6 +73,7 @@ function Register({ match, users, notifyUser }) {
                     firstName={props.match.params.firstName}
                     lastName={props.match.params.lastName}
                     notifyUser={notifyUser}
+                    users={users}
                   />
                 </motion.div>
               );

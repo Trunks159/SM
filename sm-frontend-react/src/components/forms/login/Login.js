@@ -26,13 +26,8 @@ function Login({ users, notifyUser }) {
     usernameErrors: null,
     passwordErrors: null,
   });
-  const {
-    username,
-    password,
-    remember,
-    usernameErrors,
-    passwordErrors,
-  } = state;
+  const { username, password, remember, usernameErrors, passwordErrors } =
+    state;
 
   const dispatch = useDispatch();
 
@@ -78,7 +73,7 @@ function Login({ users, notifyUser }) {
     const user = users.find((user) => user.username === username);
 
     if (user) {
-      fetch("/user_login", {
+      fetch("/login_user", {
         method: "POST",
         headers: {
           Accept: "application/json",

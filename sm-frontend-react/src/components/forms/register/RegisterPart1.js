@@ -13,7 +13,7 @@ function RegisterPart1({ users, notifyUser }) {
   const { firstName, lastName, errors, redirect } = state;
 
   function handleChange(e) {
-    setState({ ...state, [e.target.name]: e.target.value.toLowerCase() });
+    setState({ ...state, [e.target.name]: e.target.value });
   }
 
   function alertUser(message) {
@@ -58,34 +58,33 @@ function RegisterPart1({ users, notifyUser }) {
     }
   }
   return (
-    redirect || (
-      <form onSubmit={handleSubmit}>
-        <Header>Link Your Account</Header>
-        <Collapse in={errors}>{errors}</Collapse>
+    <form onSubmit={handleSubmit}>
+      {redirect}
+      <Header>Link Your Account</Header>
+      <Collapse in={errors}>{errors}</Collapse>
 
-        <MyInput
-          required
-          error={errors}
-          variant="outlined"
-          name="firstName"
-          label="Enter First Name"
-          onChange={handleChange}
-          value={"lastName"}
-        />
-        <MyInput
-          required
-          error={errors}
-          variant="outlined"
-          name="lastName"
-          label="Enter Last Name"
-          onChange={handleChange}
-          value={lastName}
-        />
-        <OutlinedButton style={{ marginLeft: "auto", marginTop: 90 }}>
-          Next
-        </OutlinedButton>
-      </form>
-    )
+      <MyInput
+        required
+        error={errors}
+        variant="outlined"
+        name="firstName"
+        label="Enter First Name"
+        onChange={handleChange}
+        value={firstName}
+      />
+      <MyInput
+        required
+        error={errors}
+        variant="outlined"
+        name="lastName"
+        label="Enter Last Name"
+        onChange={handleChange}
+        value={lastName}
+      />
+      <OutlinedButton style={{ marginLeft: "auto", marginTop: 90 }}>
+        Next
+      </OutlinedButton>
+    </form>
   );
 }
 

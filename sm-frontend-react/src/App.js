@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import NavBar from "./components/navbar/NavBar";
 import User from "./components/user/User";
-import AvailabilityForm from "./components/user/UserAvailability";
 import Login from "./components/forms/login/Login";
 import Register from "./components/forms/register/Register";
 import {
@@ -42,7 +41,7 @@ function App() {
   const users = useSelector((state) => state.allUsers);
 
   function fetchUsers() {
-    fetch("/users")
+    fetch("/get_all_users")
       .then((response) => response.json())
       .then((newData) => {
         if (
@@ -166,29 +165,6 @@ function App() {
               );
               if (user) {
                 return <User user={user} currentUser={currentUser} />;
-              } else {
-                this.notifyUser({
-                  content: "Couldn't find user...",
-                  severity: "error",
-                  title: "error",
-                });
-                return <Redirect to="/" />;
-              }
-            }}
-          />
-          <Route
-            path="/user/:username/availability"
-            render={(props) => {
-              const user = users.find(
-                (user) => user.username === props.match.params.username
-              );
-              if (user) {
-                return (
-                  <AvailabilityForm
-                    user={user}
-                    notifyUser={notifyUser}
-                  />
-                );
               } else {
                 this.notifyUser({
                   content: "Couldn't find user...",

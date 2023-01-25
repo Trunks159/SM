@@ -35,6 +35,7 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+
 class Availability(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -61,15 +62,15 @@ class Availability(db.Model):
 
     def to_json(self):
         return {
-            'monday' : self.monday,
-            'tuesday' : self.tuesday,
-            'wednesday' : self.wednesday,
-            'thursday' : self.thursday,
-            'friday' : self.friday,
-            'saturday' : self.saturday,
-            'sunday' : self.sunday,
-            'id' : self.id,
-            'userId' : self.user_id,
+            'monday': self.monday,
+            'tuesday': self.tuesday,
+            'wednesday': self.wednesday,
+            'thursday': self.thursday,
+            'friday': self.friday,
+            'saturday': self.saturday,
+            'sunday': self.sunday,
+            'id': self.id,
+            'userId': self.user_id,
         }
 
 
@@ -94,6 +95,7 @@ class Day(db.Model):
             'staffing': {'actual': 6, 'projected': 20},
             'weekId': self.week_id,
         }
+
 
 class WeekSchedule(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -139,7 +141,7 @@ class WorkBlock(db.Model):
         user = User.query.get(self.user_id)
         return {
             'wbId': self.id,
-            'user': {'id': self.user_id, 'firstName': user.first_name, 'lastName': user.last_name, 'position' : user.position},
+            'user': {'id': self.user_id, 'firstName': user.first_name, 'lastName': user.last_name, 'position': user.position},
             'dayId': self.day_id,
             'startTime': self.start_time.isoformat(' '),
             'endTime':  self.end_time.isoformat(' '),
@@ -154,8 +156,10 @@ class RequestOff(db.Model):
 
     def to_json(self):
         return {
-            'startTime' : self.start_time,
-            'endTime'
+            'startTime': self.start_time,
+            'endTime': self.end_time,
+            'id': self.id,
+            'userId': self.user_id
         }
 
 
