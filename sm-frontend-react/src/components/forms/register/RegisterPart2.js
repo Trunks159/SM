@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
+import { Alert, Collapse } from "@mui/material";
 
 import { SolidButton, MyInput, Header } from "../StyledComponents";
 
@@ -27,23 +28,24 @@ function RegisterPart2({ firstName, lastName, users }) {
   function alertUser(error, message) {
     setState({
       ...state,
-      [error]: message,
+      [error]: <Alert severity="error">{message}</Alert>,
     });
     setTimeout(() => {
       setState({ ...state, [error]: null });
     }, 4000);
   }
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
     let errors = [];
     users.find((user) => user.username === username) &&
       errors.push({
-        error: "username",
+        error: "usernameError",
         message: "This username is already in use.",
       });
     confirmPassword !== password &&
       errors.push({
-        error: "confirmPassword",
+        error: "confirmPasswordError",
         message: "Confirm password and password are not the same",
       });
 
@@ -61,7 +63,7 @@ function RegisterPart2({ firstName, lastName, users }) {
         .then((response) => response.json())
         .then(({ wasSuccessful, message }) => {
           wasSuccessful
-            ? setRedirect(<Redirect to={"/"} />)
+            ? setState({ ...state, redirect: <Redirect to={"/"} /> })
             : alertUser("username", message);
         });
     }
@@ -82,22 +84,27 @@ function RegisterPart2({ firstName, lastName, users }) {
         label="Create Username"
         onChange={handleChange}
       />
+      <Collapse in={usernameErrors}>{usernameErrors}</Collapse>
       <MyInput
         required
+        type="password"
         error={passwordErrors}
         variant="outlined"
         name="password"
         label="Create Password"
         onChange={handleChange}
       />
+      <Collapse in={passwordErrors}>{passwordErrors}</Collapse>
       <MyInput
         required
+        type="password"
         error={confirmPasswordErrors}
         variant="outlined"
         name="confirmPassword"
         label="Confirm Password"
         onChange={handleChange}
       />
+      <Collapse in={confirmPasswordErrors}>{confirmPasswordErrors}</Collapse>
       <SolidButton>Register</SolidButton>
     </form>
   );
