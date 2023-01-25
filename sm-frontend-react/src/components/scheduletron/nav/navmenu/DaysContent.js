@@ -1,15 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-const abreviated = {
-  Monday: "Mon.",
-  Tuesday: "Tues.",
-  Wednesday: "Wed.",
-  Thursday: "Thurs.",
-  Friday: "Fri.",
-  Saturday: "Sat.",
-  Sunday: "Sun.",
-};
+import moment from "moment";
 
 function DayBtn({ weekday, date, completion, disabled, weekId, dayId }) {
   return (
@@ -41,7 +32,7 @@ function DayBtn({ weekday, date, completion, disabled, weekId, dayId }) {
         <h1
           style={{ fontSize: 31, margin: 0, marginTop: "18%", fontWeight: 700 }}
         >
-          {abreviated[weekday]}
+          {weekday}
         </h1>
         <h3 style={{ fontSize: 25, margin: 0, fontWeight: 400 }}>{date}</h3>
         <small style={{ fontSize: 7, marginBottom: 0 }}>
@@ -62,18 +53,20 @@ function WeekBar({ week, path, menu, value, weekId }) {
         alignItems: "center",
       }}
     >
-      {week.map(({ weekday, staffing, month, day, id }) => (
+      {week.map(({ staffing, date, id }) => {
+        const theDate = moment(date);
+        return (
         <DayBtn
           key={id}
           weekId={weekId}
-          weekday={weekday}
+          weekday={theDate.format('ddd')}
           completion={Math.round((staffing.actual / staffing.projected) * 100)}
-          date={`${month}/${day}`}
+          date={theDate.format('MM/DD')}
           id={id}
           path={path}
           dayId={id}
         />
-      ))}
+      )})}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import NavBar from "./components/navbar/NavBar";
 import User from "./components/user/User";
@@ -98,7 +98,7 @@ function App() {
               exact
               path="/"
               render={() => {
-                return currentUser.isAuthenticated ? (
+                return currentUser.username ? (
                   <Redirect to="/scheduletron" />
                 ) : (
                   <Redirect to="/login" />
@@ -108,7 +108,7 @@ function App() {
             <Route
               path="/login"
               render={() => {
-                if (currentUser.isAuthenticated) {
+                if (currentUser.username) {
                   return <Redirect to="/" />;
                 }
                 return (
@@ -124,7 +124,7 @@ function App() {
             <Route
               path="/register"
               render={({ match }) => {
-                return currentUser.isAuthenticated ? (
+                return currentUser.username ? (
                   <Redirect to="/" />
                 ) : (
                   <Register
@@ -137,8 +137,8 @@ function App() {
             />
             <Route
               path="/team"
-              render={({ match }) => {
-                return currentUser.isAuthenticated ? (
+              render={() => {
+                return currentUser.username ? (
                   <Team teamMembers={users} />
                 ) : (
                   <Redirect to="/login" />
@@ -148,7 +148,7 @@ function App() {
             <Route
               path="/scheduletron/:weekId?/:dayId?"
               render={() => {
-                return currentUser.isAuthenticated ? (
+                return currentUser.username ? (
                   <Scheduletron />
                 ) : (
                   <Redirect to="/login" />
@@ -186,7 +186,6 @@ function App() {
                 return (
                   <AvailabilityForm
                     user={user}
-                    currentUser={currentUser.isAuthenticated}
                     notifyUser={notifyUser}
                   />
                 );

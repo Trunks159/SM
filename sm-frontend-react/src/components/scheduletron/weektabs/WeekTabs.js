@@ -3,6 +3,7 @@ import { Redirect, Link } from "react-router-dom";
 import DaySchedule from "./daySchedule/DaySchedule";
 import { useSelector, useDispatch } from "react-redux";
 import { StyledPaper, StyledTab, StyledTabs } from "./StyledComponents";
+import moment from "moment";
 
 //ACTIONS ////////////////////////
 function updateSelectedWeek(newWeek) {
@@ -81,7 +82,9 @@ const TabsContainer = (props) => {
           <StyledTabs variant="scrollable" value={currentSchedule.dayId}>
             {/*You might want to separate this and define the Tabs above 
               but DONOT. For some reason the scrollbuttons dont work or the indicator*/}
-            {selectedWeek.week.map(({ id, day, month, weekday }) => (
+            {selectedWeek.week.map(({ id, date }) => {
+              const theDate = moment(date);
+              return (
               <StyledTab
                 key={id}
                 value={id}
@@ -89,12 +92,12 @@ const TabsContainer = (props) => {
                 to={`/scheduletron/viewer/${props.weekId}/${id}`}
                 label={
                   <p>
-                    <span className="weekday">{weekday},</span>
-                    {month}/{day}
+                    <span className="weekday">{theDate.format('dddd')},</span>
+                    {theDate.format('M/D')}
                   </p>
                 }
               />
-            ))}
+            )})}
           </StyledTabs>
           <DaySchedule />
         </>

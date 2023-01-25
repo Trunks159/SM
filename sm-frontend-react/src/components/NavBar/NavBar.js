@@ -69,7 +69,7 @@ class NavBar extends Component {
 
         <Collapse in={isOpen}>
           <div className="nav-links">
-            {currentUser.isAuthenticated ? (
+            {currentUser.username ? (
               <MyMenu
                 username={currentUser.username}
                 id={currentUser.id}

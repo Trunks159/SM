@@ -1,12 +1,13 @@
 import React from "react";
 import ScheduleLink from "./ScheduleLink";
+import moment from "moment";
 
 function ScheduleList({ weeks }) {
   return (
     <ul className="home-list">
       {weeks.map(({ week, timeFrame, staffing, id }) => {
-        const startDate = `${week[0].month}/${week[0].day}`;
-        const endDate = `${week[6].month}/${week[6].day}`;
+        const startDate = moment(week[0].date).format('M/D') ;
+        const endDate = moment(week[6].date).format('M/D');
         const completion = Math.round(
           (staffing.actual / staffing.projected) * 100
         );

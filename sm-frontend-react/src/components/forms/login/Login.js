@@ -87,7 +87,7 @@ function Login({ users, notifyUser }) {
         body: JSON.stringify({ username, password, remember }),
       }).then((data) =>
         data.json().then((current_user) => {
-          if (current_user.isAuthenticated) {
+          if (current_user.username) {
             handleSuccessfulLogin(current_user);
           } else {
             handleBadPassword();

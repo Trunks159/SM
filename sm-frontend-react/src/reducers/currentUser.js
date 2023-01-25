@@ -1,4 +1,4 @@
-const currentUserReducer = (state = { isAuthenticated: false }, action) => {
+const currentUserReducer = (state = {}, action) => {
   switch (action.type) {
     case "UPDATE_CURRENT_USER":
       return action.payLoad;

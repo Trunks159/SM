@@ -1,17 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-function ProfileInfo({profile}) {
+function ProfileInfo({ profile }) {
+  const { firstName, lastName, position, id } = profile;
+  const [state, setState] = useState({ availability: [], requestOffs: [] });
+  useEffect(() => {
+    fetch(`/get_user_availability/${id}`)
+      .then((response) => response.json())
+      .then(({ availability, requestOffs, wasSuccessful }) => {
+        wasSuccessful && setState({ ...state, availability, requestOffs });
+      });
+  }, []);
   return (
     <div>
-
-    {profile.firstName}
-
-      Do cupidatat in enim ipsum eiusmod enim ad minim Lorem. Exercitation ipsum
-      nulla elit sit esse aliqua non sint. Dolore mollit in mollit sint
-      occaecat. Aliqua incididunt culpa labore enim nostrud duis. Nisi deserunt
-      aliquip dolore dolor nostrud do commodo dolore non enim consectetur
-      pariatur nulla et. Culpa aute ex magna exercitation occaecat eu
-      exercitation amet non ex aliqua incididunt.
+      <h2>Team Member Profile Info</h2>
+      <div>
+        <div>
+          <h1>{profile.firstName.charAt(0)}</h1>
+          <div>
+            <h3>
+              {profile.firstName} {profile.lastName}
+            </h3>
+            <p>{profile.position}</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2>Availability</h2>
+        <ol></ol>
+      </div>
+      <div>
+        <h2>Request Offs</h2>
+        <ol></ol>
+      </div>
     </div>
   );
 }
