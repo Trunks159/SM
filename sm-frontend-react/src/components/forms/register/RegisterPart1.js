@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { Collapse, Alert } from "@mui/material";
 import { OutlinedButton, MyInput, Header } from "../StyledComponents";
+import Notification from "./Notification";
 
 function RegisterPart1({ users, notifyUser }) {
   const [state, setState] = useState({
@@ -61,7 +62,7 @@ function RegisterPart1({ users, notifyUser }) {
     <form onSubmit={handleSubmit}>
       {redirect}
       <Header>Link Your Account</Header>
-      <Collapse in={errors}>{errors}</Collapse>
+      <Notification message = {errors}/>
 
       <MyInput
         required

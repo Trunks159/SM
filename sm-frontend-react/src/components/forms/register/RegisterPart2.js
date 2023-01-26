@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
-import { Alert, Collapse } from "@mui/material";
+import { Alert } from "@mui/material";
+import Notification from "./Notification";
 
 import { SolidButton, MyInput, Header } from "../StyledComponents";
 
@@ -25,13 +26,18 @@ function RegisterPart2({ firstName, lastName, users }) {
     redirect,
   } = state;
 
-  function alertUser(error, message) {
-    setState({
-      ...state,
-      [error]: <Alert severity="error">{message}</Alert>,
-    });
+  function alertUser(errors) {
+    let newState = {...state};
+    for (let error of errors) {
+      newState[error.error] = <Alert severity="error">{error.message}</Alert>;
+    }
+    setState(newState);
     setTimeout(() => {
-      setState({ ...state, [error]: null });
+      let newState = {...state};
+      for (let error of errors) {
+        newState[error.error] = null;
+      }
+      setState(newState);
     }, 4000);
   }
 
@@ -40,17 +46,18 @@ function RegisterPart2({ firstName, lastName, users }) {
     let errors = [];
     users.find((user) => user.username === username) &&
       errors.push({
-        error: "usernameError",
+        error: "usernameErrors",
         message: "This username is already in use.",
       });
     confirmPassword !== password &&
       errors.push({
-        error: "confirmPasswordError",
+        error: "confirmPasswordErrors",
         message: "Confirm password and password are not the same",
       });
 
+
     if (errors.length) {
-      errors.map(({ error, message }) => alertUser(error, message));
+      alertUser(errors);
     } else {
       fetch("/register", {
         method: "POST",
@@ -72,6 +79,8 @@ function RegisterPart2({ firstName, lastName, users }) {
   function handleChange(e) {
     setState({ ...state, [e.target.name]: e.target.value });
   }
+  console.log('Confirm errors: ', confirmPasswordErrors)
+
   return (
     <form onSubmit={handleSubmit}>
       {redirect}
@@ -84,7 +93,7 @@ function RegisterPart2({ firstName, lastName, users }) {
         label="Create Username"
         onChange={handleChange}
       />
-      <Collapse in={usernameErrors}>{usernameErrors}</Collapse>
+      <Notification message={usernameErrors} />
       <MyInput
         required
         type="password"
@@ -94,7 +103,7 @@ function RegisterPart2({ firstName, lastName, users }) {
         label="Create Password"
         onChange={handleChange}
       />
-      <Collapse in={passwordErrors}>{passwordErrors}</Collapse>
+      <Notification message={passwordErrors} />
       <MyInput
         required
         type="password"
@@ -104,7 +113,7 @@ function RegisterPart2({ firstName, lastName, users }) {
         label="Confirm Password"
         onChange={handleChange}
       />
-      <Collapse in={confirmPasswordErrors}>{confirmPasswordErrors}</Collapse>
+      <Notification message={confirmPasswordErrors} />
       <SolidButton>Register</SolidButton>
     </form>
   );
