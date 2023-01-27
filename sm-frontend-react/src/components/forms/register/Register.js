@@ -56,7 +56,9 @@ function Register({ match, users, notifyUser }) {
               u.firstName === props.match.params.firstName &&
               u.lastName === props.match.params.lastName
           );
+          //if th
           if (found) {
+            //if user is already registered
             if (found.username) {
               return <Redirect to={match.path} />;
             } else {
@@ -74,6 +76,7 @@ function Register({ match, users, notifyUser }) {
                     lastName={props.match.params.lastName}
                     notifyUser={notifyUser}
                     users={users}
+                    userId={found.id}
                   />
                 </motion.div>
               );

@@ -15,6 +15,7 @@ import Notification from "./components/Notification";
 import { useDispatch, useSelector } from "react-redux";
 import Team from "./components/team/Team";
 import { createTheme, ThemeProvider } from "@mui/material";
+import AddTeamMember from "./components/forms/AddTeamMember/AddTeamMember";
 //ACTIONS
 const updateCurrentUser = (newUser) => ({
   type: "UPDATE_CURRENT_USER",
@@ -138,7 +139,11 @@ function App() {
               path="/team"
               render={() => {
                 return currentUser.username ? (
-                  <Team teamMembers={users} />
+                  <Team
+                    fetchUsers={fetchUsers}
+                    teamMembers={users}
+                    notifyUser={notifyUser}
+                  />
                 ) : (
                   <Redirect to="/login" />
                 );

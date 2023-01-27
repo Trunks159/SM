@@ -27,13 +27,13 @@ function RegisterPart2({ firstName, lastName, users }) {
   } = state;
 
   function alertUser(errors) {
-    let newState = {...state};
+    let newState = { ...state };
     for (let error of errors) {
       newState[error.error] = <Alert severity="error">{error.message}</Alert>;
     }
     setState(newState);
     setTimeout(() => {
-      let newState = {...state};
+      let newState = { ...state };
       for (let error of errors) {
         newState[error.error] = null;
       }
@@ -55,17 +55,22 @@ function RegisterPart2({ firstName, lastName, users }) {
         message: "Confirm password and password are not the same",
       });
 
-
     if (errors.length) {
       alertUser(errors);
     } else {
+      console.log("Running");
       fetch("/register", {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password, firstName, lastName }),
+        body: JSON.stringify({
+          username,
+          password,
+          first_name: firstName,
+          last_name: lastName,
+        }),
       })
         .then((response) => response.json())
         .then(({ wasSuccessful, message }) => {
@@ -79,7 +84,6 @@ function RegisterPart2({ firstName, lastName, users }) {
   function handleChange(e) {
     setState({ ...state, [e.target.name]: e.target.value });
   }
-  console.log('Confirm errors: ', confirmPasswordErrors)
 
   return (
     <form onSubmit={handleSubmit}>

@@ -10,7 +10,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     first_name = db.Column(db.String(20), index=True)
     last_name = db.Column(db.String(20), index=True)
-    position = db.Column(db.String(20), index=True)
+    position = db.Column(db.Integer, index=True)
     password_hash = db.Column(db.String(128))
     workblocks = db.relationship('WorkBlock', backref='user', lazy=True)
     availability = db.relationship(
@@ -22,7 +22,7 @@ class User(UserMixin, db.Model):
             'username': self.username,
             'firstName': self.first_name,
             'lastName': self.last_name,
-            'position': self.position,
+            'position': self.position if self.position else 0,
             'id': self.id,
         }
 
