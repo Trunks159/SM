@@ -70,28 +70,23 @@ function Login({ users, notifyUser }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const user = users.find((user) => user.username === username);
-
-    if (user) {
-      fetch("/login_user", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password, remember }),
-      }).then((data) =>
-        data.json().then((current_user) => {
-          if (current_user.username) {
-            handleSuccessfulLogin(current_user);
-          } else {
-            handleBadPassword();
-          }
-        })
-      );
-    } else {
-      handleBadUsername();
-    }
+    fetch("/login_user", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password, remember }),
+    }).then((data) =>
+      data.json().then((response) => {
+        if (response.wasSuccessful) {
+          handleSuccessfulLogin(response.currentUser);
+        } else {
+          response.errorType === "password" && handleBadPassword();
+          response.errorType === "username" && handleBadUsername();
+        }
+      })
+    );
   }
 
   return (

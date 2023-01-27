@@ -48,8 +48,26 @@ def user_login():
     if user:
         if user.check_password(password):
             login_user(user=user, remember=remember)
-            return jsonify(user.to_json())
-    return jsonify({})
+            return jsonify({'wasSuccessful': True, 'currentUser': user.to_json()})
+        else:
+            return jsonify({'wasSuccessful': False, 'errorType':  'password'})
+    return jsonify({'wasSuccessful': False, 'errorType':  'username'})
+
+
+@app.route('/add_team_member', methods=['GET', 'POST'])
+def add_team_member():
+    data = request.get_json()
+    first_name = data['first_name']
+    last_name = data['last_name']
+    position = data['position']
+    # see if a user already has this name is so error of course
+    if User.query.filter_by(first_name=first_name, last_name=last_name).first():
+        return jsonify({'wasSuccessful': False, 'message': 'User already exists.'})
+    else:
+        u = User(first_name=first_name, last_name=last_name, position=position)
+        db.session.add(u)
+        db.session.commit()
+        return jsonify({'wasSuccessful': True, 'message': 'Team member was successfully added!'})
 
 
 @app.route('/get_schedule/<day_id>')
