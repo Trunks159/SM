@@ -133,20 +133,8 @@ def get_day_schedule(id):
         return jsonify(False)
 
 
-@app.route('/profile_info/<user_id>/<day_id>')
-def profile_info(user_id, day_id):
-
-    u = User.query.filter_by(id=user_id).first()
-    weekday = Day.query.filter_by(id=day_id).first().date.weekday()
-    weekday = list(calendar.day_name)[weekday]
-    user = {'firstName': u.first_name, 'lastName': u.last_name,
-            'availability': getattr(u.availability, weekday.lower()) if u.availability else 'Free', 'shifts': 'test', 'position': u.position}
-    return jsonify(user)
-
-
 @app.route('/update_schedule', methods=['POST'])
 def update_schedule():
-
     day_info = request.get_json()
     '''
         Delete all of the wbs currently in that day and upload a bunch of
@@ -164,6 +152,16 @@ def update_schedule():
     db.session.commit()
 
     return jsonify({'message': 'Your schedule has been successfully updated!', 'severity': 'success'})
+
+
+@app.route('/team_member_details/<id>')
+def team_member_details(id):
+    u = User.query.get(id)
+    if (u):
+        # this SHOULD get just the upcoming requests but rn its getting all of them
+        details =  {'availability': u.availability.to_json(), 'requestOffs': [req.to_json() for req in u.request_offs]}.update(u.to_json())
+        return jsonify({'wasSuccessful' : True, 'user': details})
+    return jsonify({'wasSuccessful': False, 'message': 'There is no user with that username'})
 
 
 @ login_required
