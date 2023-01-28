@@ -5,6 +5,7 @@ import { Header, SolidButton } from "../forms/StyledComponents";
 import "./team.css";
 import DogTag from "./TeamMemberDogtag";
 import AddTeamMember from "../forms/AddTeamMember/AddTeamMember";
+import TeamMemberDetails from "./TeamMemberDetails/TeamMemberDetails";
 
 function Team({ fetchUsers, teamMembers, notifyUser }) {
   useEffect(() => {
@@ -37,6 +38,14 @@ function Team({ fetchUsers, teamMembers, notifyUser }) {
             <AddTeamMember teamMembers={teamMembers} notifyUser={notifyUser} />
           );
         }}
+      />
+      <Route
+       path = '/team/profile/:id'
+       render = {(props)=>{
+        return(
+          <TeamMemberDetails id = {props.match.params.id}/>
+        )
+       }}
       />
     </Switch>
   );

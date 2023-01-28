@@ -174,12 +174,13 @@ def update_schedule():
 
 @app.route('/team_member_details/<id>')
 def team_member_details(id):
-    u = User.query.get(id)
-    if (u):
+    user = User.query.filter_by(id=id).first()
+    if (user):
         # this SHOULD get just the upcoming requests but rn its getting all of them
-        details =  {'availability': u.availability.to_json(), 'requestOffs': [req.to_json() for req in u.request_offs]}.update(u.to_json())
-        return jsonify({'wasSuccessful' : True, 'user': details})
-    return jsonify({'wasSuccessful': False, 'message': 'There is no user with that username'})
+        details = {'availability': user.availability.to_json(), 'requestOffs': [
+            request_off.to_json() for request_off in user.request_offs]}.update(user.to_json())
+        return jsonify({'wasSuccessful': True, 'user': details})
+    return jsonify({'wasSuccessful': False, 'message': 'There is no user with that id...'})
 
 
 @ login_required

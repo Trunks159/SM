@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from flask_login import UserMixin
 import calendar
 
+DAYS_OF_WEEK = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,31 +48,17 @@ class Availability(db.Model):
     saturday = db.Column(db.String(30))
     sunday = db.Column(db.String(30))
 
-    def __repr__(self):
-        return 'Availa {}'.format(self.to_json())
-
-    def getAvail(self, dayofWeek):
-        x = getattr(self, dayofWeek)
-        x = x.split('-')
-        times = []
-        for time in x:
-            t = datetime.strptime(time, '%H:%M')
-            times.append(t)
-
-        return times
 
     def to_json(self):
-        return {
-            'monday': self.monday,
-            'tuesday': self.tuesday,
-            'wednesday': self.wednesday,
-            'thursday': self.thursday,
-            'friday': self.friday,
-            'saturday': self.saturday,
-            'sunday': self.sunday,
-            'id': self.id,
-            'userId': self.user_id,
-        }
+        days = []
+        for day in DAYS_OF_WEEK:
+            day_availability = getattr(self, day).split('-')
+            days.append(day_availability)
+            #if its like 12AM monday to 12AM tuesday, you could just use true and false if not available
+            # so if the entire day is elapsed
+            #look at startTime and if its 12AM see if the second value is 12AM the next day
+        return days
+
 
 
 class Day(db.Model):
