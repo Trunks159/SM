@@ -18,7 +18,7 @@ function Team({ fetchUsers, teamMembers, notifyUser }) {
         <div className="team-main-container">
           <Header>Team Members</Header>
           {teamMembers.map((member, index) => (
-            <DogTag key={index} {...member} />
+            <DogTag key={index} />
           ))}
           <SolidButton component={Link} to={"/team/add_team_member"}>
             Add TeamMember
