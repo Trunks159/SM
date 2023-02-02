@@ -18,9 +18,18 @@ function Team({ fetchUsers, teamMembers, notifyUser }) {
       <Route exact path={"/team"}>
         <div className="team-main-container">
           <Header>Team Members</Header>
-          {teamMembers.map((member, index) => (
-            <DogTag key={index} />
-          ))}
+          <ul>
+            {teamMembers.map((member, index) => (
+              <li key={member.id}>
+                <DogTag
+                  firstName={member.firstName}
+                  lastName={member.lastName}
+                  id={member.id}
+                />
+              </li>
+            ))}
+          </ul>
+
           <SolidButton component={Link} to={"/team/add_team_member"}>
             Add TeamMember
           </SolidButton>
@@ -40,12 +49,10 @@ function Team({ fetchUsers, teamMembers, notifyUser }) {
         }}
       />
       <Route
-       path = '/team/profile/:id'
-       render = {(props)=>{
-        return(
-          <TeamMemberDetails id = {props.match.params.id}/>
-        )
-       }}
+        path="/team/profile/:id"
+        render={(props) => {
+          return <TeamMemberDetails id={props.match.params.id} />;
+        }}
       />
     </Switch>
   );
