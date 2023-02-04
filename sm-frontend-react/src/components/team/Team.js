@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, Switch, Route, Redirect } from "react-router-dom";
+import { Link, Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { Header, SolidButton } from "../forms/StyledComponents";
 import "./team.css";
 import DogTag from "./TeamMemberDogtag";
@@ -13,6 +13,7 @@ function Team({ fetchUsers, teamMembers, notifyUser }) {
   }, []);
 
   const currentUser = useSelector((state) => state.currentUser);
+
   return (
     <Switch>
       <Route exact path={"/team"}>

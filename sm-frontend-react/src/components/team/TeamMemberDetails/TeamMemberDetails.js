@@ -4,10 +4,30 @@ import { MyInput } from "../../forms/StyledComponents";
 import editIcon from "./assets/Edit Icon.svg";
 import addIcon from "./assets/Add Icon.svg";
 import "./TeamMemberDetails.css";
+import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function TeamMemberDetails({ id }) {
   const [breadcrumbs, setBreadCrumbs] = useState([]);
   const [teamMember, setTeamMember] = useState(null);
+  const location = useLocation();
+  const pathnames = location.pathname.split('/').filter((x) => x);
+  
+  useEffect(()=>{
+    pathnames.map((name, index)=>(
+      <Link to = { (()=>{
+          const x = pathnames.slice(0, index + 1);
+          let path = '';
+          for(let item of x){
+            path += `/${item}`
+          }
+          console.log('Here goes : ',  path)
+      })() }>
+
+      </Link>
+    ))
+  }, [pathnames]);
+
   useEffect(() => {
     fetch(`/team_member_details/${id}`)
       .then((response) => response.json())
@@ -20,11 +40,14 @@ function TeamMemberDetails({ id }) {
   function handleChange(e) {
     setTeamMember({ ...teamMember, [e.target.name]: e.target.value });
   }
+/*
+  Breadcrumbs are a set of links that have the location of
+  each thing
 
+*/
   return (
     teamMember && (
       <div className="tm-details">
-        Im making moves
         <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
         <h1>{teamMember.firstName.charAt(0)}</h1>
         <MyInput

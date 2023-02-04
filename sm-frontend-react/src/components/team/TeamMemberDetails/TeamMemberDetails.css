@@ -1,3 +1,8 @@
+.tm-details{
+    display: flex;
+    flex-direction: column;
+}
+
 .tm-details .upcoming-requests{
     border: .5px solid rgba(112,112,112,.4);
 
