@@ -177,8 +177,9 @@ def team_member_details(id):
     user = User.query.filter_by(id=id).first()
     if (user):
         # this SHOULD get just the upcoming requests but rn its getting all of them
-        details = {'availability': user.availability.to_json(), 'requestOffs': [
-            request_off.to_json() for request_off in user.request_offs]}.update(user.to_json())
+        details = {'availability': user.get_availability().to_json(), 'requestOffs': [
+            request_off.to_json() for request_off in user.request_offs]}
+        details.update(user.to_json())
         return jsonify({'wasSuccessful': True, 'user': details})
     return jsonify({'wasSuccessful': False, 'message': 'There is no user with that id...'})
 

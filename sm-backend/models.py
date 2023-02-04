@@ -36,6 +36,14 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def get_availability(self):
+        if self.availability:
+            return self.availability
+        else:
+            a = Availability(user = self)
+            db.session.commit()
+            return a
+
 
 class Availability(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -52,7 +60,7 @@ class Availability(db.Model):
     def to_json(self):
         days = []
         for day in DAYS_OF_WEEK:
-            day_availability = getattr(self, day).split('-')
+            day_availability = getattr(self, day).split('-') if getattr(self, day) else True
             days.append(day_availability)
             #if its like 12AM monday to 12AM tuesday, you could just use true and false if not available
             # so if the entire day is elapsed
