@@ -3,7 +3,44 @@
     flex-direction: column;
 }
 
+.tm-details .letter{
+    display: flex;
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    background: #C5E3D3;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.letter h1{
+    font-weight: normal;
+    margin : auto;
+    color: white;
+}
+
 .tm-details .upcoming-requests{
     border: .5px solid rgba(112,112,112,.4);
+}
 
+.breadcrumb, .breadcrumb-active{
+    text-decoration: none;
+    color: black;
+    opacity: .57;
+    text-transform: capitalize;
+}
+
+.breadcrumb-active{
+    opacity: 1;
+}
+
+.tm-details h2{
+    font-weight: 600;
+    font-size: 17px;
+    opacity: .75;
+}
+
+.tm-details p{
+    font-size: 12px;
+    color: #707070;
 }

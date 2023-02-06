@@ -6,27 +6,41 @@ import addIcon from "./assets/Add Icon.svg";
 import "./TeamMemberDetails.css";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import styled from "@emotion/styled";
+import { grey } from "@mui/material/colors";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
+const StyledBreadcrumbs = styled(Breadcrumbs)({
+  marginLeft: 90,
+});
 function TeamMemberDetails({ id }) {
   const [breadcrumbs, setBreadCrumbs] = useState([]);
   const [teamMember, setTeamMember] = useState(null);
   const location = useLocation();
-  const pathnames = location.pathname.split('/').filter((x) => x);
-  
-  useEffect(()=>{
-    pathnames.map((name, index)=>(
-      <Link to = { (()=>{
-          const x = pathnames.slice(0, index + 1);
-          let path = '';
-          for(let item of x){
-            path += `/${item}`
-          }
-          console.log('Here goes : ',  path)
-      })() }>
 
-      </Link>
-    ))
-  }, [pathnames]);
+  useEffect(() => {
+    if (teamMember) {
+      const pathnames = location.pathname.split("/").filter((x) => x);
+      setBreadCrumbs(
+        pathnames.map((name, index) => {
+          const to = (() => {
+            const pathnamesSlice = pathnames.slice(0, index + 1);
+            let to = "";
+            for (let pathname of pathnamesSlice) {
+              to += `${index === 0 ? "" : "/"}${pathname}`;
+            }
+            return to;
+          })();
+          const isActive = index === pathnames.length - 1;
+          return (
+            <Link to={to} className={`breadcrumb${isActive ? "-active" : ""}`}>
+              {isActive ? teamMember.username || teamMember.firstName : name}
+            </Link>
+          );
+        })
+      );
+    }
+  }, [location, teamMember]);
 
   useEffect(() => {
     fetch(`/team_member_details/${id}`)
@@ -40,16 +54,25 @@ function TeamMemberDetails({ id }) {
   function handleChange(e) {
     setTeamMember({ ...teamMember, [e.target.name]: e.target.value });
   }
-/*
-  Breadcrumbs are a set of links that have the location of
-  each thing
 
-*/
+  console.log("Bread: ", breadcrumbs);
   return (
     teamMember && (
       <div className="tm-details">
-        <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
-        <h1>{teamMember.firstName.charAt(0)}</h1>
+        <StyledBreadcrumbs
+          separator={
+            <NavigateNextIcon
+              style={{ color: grey[900], opacity: 0.57 }}
+              fontSize="small"
+            />
+          }
+        >
+          {breadcrumbs}
+        </StyledBreadcrumbs>
+        <div className="letter">
+          <h1>{teamMember.firstName.charAt(0)}</h1>
+        </div>
+
         <MyInput
           disabled={!Boolean(teamMember.username)}
           label="Username"
