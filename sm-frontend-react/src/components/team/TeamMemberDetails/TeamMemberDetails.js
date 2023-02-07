@@ -1,4 +1,4 @@
-import { Breadcrumbs, Button } from "@mui/material";
+import { Breadcrumbs, Button, Slider } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { MyInput } from "../../forms/StyledComponents";
 import editIcon from "./assets/Edit Icon.svg";
@@ -9,6 +9,11 @@ import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { grey } from "@mui/material/colors";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import MySlider from "./MySlider";
+
+
+const DAYS_OF_WEEK = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
 
 const StyledBreadcrumbs = styled(Breadcrumbs)({
   marginLeft: 90,
@@ -96,6 +101,14 @@ function TeamMemberDetails({ id }) {
           name="firstName"
         />
         <h2>Availability</h2>
+        <ol>
+          {teamMember.availability.map((av, index)=>(
+            <li key = {index}>
+              <h5>{DAYS_OF_WEEK[index]}</h5>
+              <MySlider av = {av}/>
+            </li>
+          ))}
+        </ol>
         <p>{"Set the time(s) you're available on each of the given days."}</p>
         <h2>Request Offs</h2>
         <p>This is where you can request off for any set of time.</p>
