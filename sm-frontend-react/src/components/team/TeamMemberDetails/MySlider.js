@@ -5,62 +5,50 @@ import moment from "moment";
 
 const BASE_DATE = "1970-01-01 00";
 
-/*
-So we need perc to time and time to perc
-if times come in convert them to perc
-if false, turn slider off and set values to 0,100
-if true , max and min are set to 0 and 100
-*/
+function timeToMoment(time) {
+  //time in hh:mm format to a Moment object
+  const splittedTime = time.split(":");
+  return moment(BASE_DATE).hours(splittedTime[0]).minute(splittedTime[1]);
+}
 
 function timeToSliderValue(time) {
-  //take time and convert to a number between 0 and 100
-  //take time that comes in and make a moment , set it to 12AM
-  //add a day to that
-  //find difference in all of that
-  //compare that to the difference between input time and such
-  return (moment(time).diff(moment(BASE_DATE), "hours", true) / 24) * 100;
+  //makes moment from basedate and sets hr and min to that time
+  //calc diff from 12AM, makes that a perctage
+  return (timeToMoment(time).diff(moment(BASE_DATE), "hours", true) / 24) * 100;
 }
 
 function sliderValueToTime(sliderValue) {
   return moment(BASE_DATE)
     .add((sliderValue / 100) * 24, "hours")
-    .format();
+    .format("hh:mm");
 }
 
 function valueLabelFormat(value) {
   //slider to valuetime
-  console.log('Yomama: ',value)
-  return moment(sliderValueToTime(value)).format("h:mm a");
+  return timeToMoment(sliderValueToTime(value)).format("h:mm a");
+}
+
+function getThirty(curVal) {
+  //make array of all the times, map over them and convert that time to
 }
 
 const StyledSlider = styled(Slider)({});
-//make a date and use it
 
-function translateNoAndAlwaysAvailable(availability) {
-  if (availability === true) {
-    //make moments and set times to
-    return [0, 100];
-  } else if (Array.isArray(availability)) {
-    return false;
-  }
-  return [0, 50];
-}
-
-function MySlider({ defaultAvailability }) {
-  const x = translateNoAndAlwaysAvailable(defaultAvailability);
-
-  const [availability, setAvailability] = useState(
-    translateNoAndAlwaysAvailable(defaultAvailability) ||
-      defaultAvailability.map((t) => timeToSliderValue(t))
+function MySlider({ availability }) {
+  const [value, setValue] = useState(
+    typeof availability == "boolean"
+      ? [0, 100]
+      : availability.split("-").map((t) => timeToSliderValue(t))
   );
 
-  console.log("Default: ", availability);
   return (
     <StyledSlider
+      disabled={availability === false}
       valueLabelDisplay="on"
-      onChange={(e, newValue) => setAvailability(newValue)}
-      defaultValue={availability}
-      valueLabelFormat = {valueLabelFormat}
+      onChange={(e, newValue) => setValue(newValue)}
+      defaultValue={value}
+      valueLabelFormat={valueLabelFormat}
+      step={getThirty(value[0])}
     />
   );
 }

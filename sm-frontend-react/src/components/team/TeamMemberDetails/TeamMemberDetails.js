@@ -11,9 +11,15 @@ import { grey } from "@mui/material/colors";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import MySlider from "./MySlider";
 
-
-const DAYS_OF_WEEK = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-
+const DAYS_OF_WEEK = [
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+  "sunday",
+];
 
 const StyledBreadcrumbs = styled(Breadcrumbs)({
   marginLeft: 90,
@@ -102,10 +108,10 @@ function TeamMemberDetails({ id }) {
         />
         <h2>Availability</h2>
         <ol>
-          {teamMember.availability.map((av, index)=>(
-            <li key = {index}>
+          {teamMember.availability.map((availability, index) => (
+            <li key={index}>
               <h5>{DAYS_OF_WEEK[index]}</h5>
-              <MySlider defaultAvailability={av}/>
+              <MySlider availability={availability} />
             </li>
           ))}
         </ol>
