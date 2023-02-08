@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import moment from "moment";
 
 const BASE_DATE = "1970-01-01 00";
+
 /*
 So we need perc to time and time to perc
 if times come in convert them to perc
@@ -17,33 +18,51 @@ function timeToSliderValue(time) {
   //add a day to that
   //find difference in all of that
   //compare that to the difference between input time and such
-  const momentTime = moment(time);
-  const start = momentTime.hour(0).minute(0);
-  const end = start.add(1, "days");
-  return (
-    (momentTime.diff(start, "hours", true) / end.diff(start, "hours", true)) *
-    100
-  );
+  return (moment(time).diff(moment(BASE_DATE), "hours", true) / 24) * 100;
 }
 
-function sliderValueToTime(sliderValue) {}
+function sliderValueToTime(sliderValue) {
+  return moment(BASE_DATE)
+    .add((sliderValue / 100) * 24, "hours")
+    .format();
+}
+
+function valueLabelFormat(value) {
+  //slider to valuetime
+  console.log('Yomama: ',value)
+  return moment(sliderValueToTime(value)).format("h:mm a");
+}
 
 const StyledSlider = styled(Slider)({});
 //make a date and use it
 
-function setDefaultSliderValues(availability) {
+function translateNoAndAlwaysAvailable(availability) {
   if (availability === true) {
     //make moments and set times to
     return [0, 100];
   } else if (Array.isArray(availability)) {
-    return availability.map((time) => timeToSliderValue(time));
+    return false;
   }
   return [0, 50];
 }
 
 function MySlider({ defaultAvailability }) {
-  const [availability, setAvailability] = useState([]);
-  return <StyledSlider />;
+  const x = translateNoAndAlwaysAvailable(defaultAvailability);
+
+  const [availability, setAvailability] = useState(
+    translateNoAndAlwaysAvailable(defaultAvailability) ||
+      defaultAvailability.map((t) => timeToSliderValue(t))
+  );
+
+  console.log("Default: ", availability);
+  return (
+    <StyledSlider
+      valueLabelDisplay="on"
+      onChange={(e, newValue) => setAvailability(newValue)}
+      defaultValue={availability}
+      valueLabelFormat = {valueLabelFormat}
+    />
+  );
 }
 
 export default MySlider;

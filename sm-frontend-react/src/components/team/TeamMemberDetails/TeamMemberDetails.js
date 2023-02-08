@@ -105,7 +105,7 @@ function TeamMemberDetails({ id }) {
           {teamMember.availability.map((av, index)=>(
             <li key = {index}>
               <h5>{DAYS_OF_WEEK[index]}</h5>
-              <MySlider av = {av}/>
+              <MySlider defaultAvailability={av}/>
             </li>
           ))}
         </ol>
