@@ -5,6 +5,21 @@ import moment from "moment";
 
 const BASE_DATE = "1970-01-01 00";
 
+//slideval to time needs to round
+//so if its
+
+function roundToNearestThirty(time) {
+  const start = timeToMoment(time).minutes(0).second(0).millisecond(0);
+  const timesToRoundTo = [
+    start,
+    start.add(30, "minutes"),
+    start.add(1, "hours"),
+  ];
+  const differences = timesToRoundTo.map((item) => item.diff(time, 'minutes', true));
+  const index = differences.indexOf(Math.min(...differences));
+  return timesToRoundTo[index].format("hh:mm");
+}
+
 function timeToMoment(time) {
   //time in hh:mm format to a Moment object
   const splittedTime = time.split(":");
@@ -25,22 +40,23 @@ function sliderValueToTime(sliderValue) {
 
 function valueLabelFormat(value) {
   //slider to valuetime
-  return timeToMoment(sliderValueToTime(value)).format("h:mm a");
-}
 
-function getThirty(curVal) {
-  //make array of all the times, map over them and convert that time to
+  return moment(roundToNearestThirty(sliderValueToTime(value))).format(
+    "h:mm a"
+  );
 }
 
 const StyledSlider = styled(Slider)({});
 
 function MySlider({ availability }) {
+  const step = (0.5 / 24) * 100;
   const [value, setValue] = useState(
     typeof availability == "boolean"
       ? [0, 100]
       : availability.split("-").map((t) => timeToSliderValue(t))
   );
 
+  console.log("Value: ", value);
   return (
     <StyledSlider
       disabled={availability === false}
@@ -48,7 +64,7 @@ function MySlider({ availability }) {
       onChange={(e, newValue) => setValue(newValue)}
       defaultValue={value}
       valueLabelFormat={valueLabelFormat}
-      step={getThirty(value[0])}
+      step={step}
     />
   );
 }
