@@ -30,6 +30,9 @@ const StyledSaveButton = styled(Button)({
   textTransform: "none",
   background: "#568692",
   color: "white",
+  '&:hover':{
+    background : '#0B7792',
+  }
 });
 
 function SaveButton(props) {
@@ -88,6 +91,10 @@ function TeamMemberDetails({ id }) {
     setTeamMember({ ...teamMember, [e.target.name]: e.target.value });
   }
 
+  function handleSave(){
+    
+  } 
+
   console.log("Bread: ", breadcrumbs);
   return (
     teamMember && (
@@ -105,7 +112,7 @@ function TeamMemberDetails({ id }) {
         <div className="letter">
           <h1>{teamMember.firstName.charAt(0)}</h1>
         </div>
-        <div>
+        <div className="">
           <MyInput
             disabled={!Boolean(teamMember.username)}
             label="Username"
@@ -122,13 +129,13 @@ function TeamMemberDetails({ id }) {
             name="firstName"
           />
           <MyInput
-            label="First Name"
+            label="Last Name"
             variant="outlined"
-            value={teamMember.firstName}
+            value={teamMember.lastName}
             onChange={handleChange}
-            name="firstName"
+            name="lastName"
           />
-          <SaveButton />
+          <SaveButton onClick = {()=>handleSave('names')}/>
         </div>
         <div>
           <h2>Availability</h2>
@@ -141,7 +148,7 @@ function TeamMemberDetails({ id }) {
               </li>
             ))}
           </ol>
-          <SaveButton />
+          <SaveButton onClick = {()=>handleSave('availability')} />
         </div>
         <div>
           <h2>Request Offs</h2>
@@ -162,7 +169,7 @@ function TeamMemberDetails({ id }) {
               <img src={addIcon} />
             </Button>
           </div>
-          <SaveButton />
+          <SaveButton onClick = {()=>handleSave('requestOffs')}/>
         </div>
       </div>
     )
