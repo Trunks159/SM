@@ -10,6 +10,7 @@ import styled from "@emotion/styled";
 import { grey } from "@mui/material/colors";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import MySlider from "./MySlider";
+import saveIcon from "./assets/Save Icon.svg";
 
 const DAYS_OF_WEEK = [
   "monday",
@@ -24,6 +25,30 @@ const DAYS_OF_WEEK = [
 const StyledBreadcrumbs = styled(Breadcrumbs)({
   marginLeft: 90,
 });
+
+const StyledSaveButton = styled(Button)({
+  textTransform: "none",
+  background: "#568692",
+  color: "white",
+  '&:hover':{
+    background : '#0B7792',
+  }
+});
+
+function SaveButton(props) {
+  const handleSave = () => {
+    console.log("Saving");
+  };
+  return (
+    <StyledSaveButton
+      endIcon={<img alt="save" src={saveIcon} />}
+      onClick={() => handleSave(props)}
+    >
+      Save Changes
+    </StyledSaveButton>
+  );
+}
+
 function TeamMemberDetails({ id }) {
   const [breadcrumbs, setBreadCrumbs] = useState([]);
   const [teamMember, setTeamMember] = useState(null);
@@ -66,6 +91,10 @@ function TeamMemberDetails({ id }) {
     setTeamMember({ ...teamMember, [e.target.name]: e.target.value });
   }
 
+  function handleSave(){
+    
+  } 
+
   console.log("Bread: ", breadcrumbs);
   return (
     teamMember && (
@@ -83,56 +112,64 @@ function TeamMemberDetails({ id }) {
         <div className="letter">
           <h1>{teamMember.firstName.charAt(0)}</h1>
         </div>
-
-        <MyInput
-          disabled={!Boolean(teamMember.username)}
-          label="Username"
-          variant="outlined"
-          value={teamMember.username || "Hasn't registered"}
-          onChange={handleChange}
-          name="firstName"
-        />
-        <MyInput
-          label="First Name"
-          variant="outlined"
-          value={teamMember.firstName}
-          onChange={handleChange}
-          name="firstName"
-        />
-        <MyInput
-          label="First Name"
-          variant="outlined"
-          value={teamMember.firstName}
-          onChange={handleChange}
-          name="firstName"
-        />
-        <h2>Availability</h2>
-        <ol>
-          {teamMember.availability.map((availability, index) => (
-            <li key={index}>
-              <h5>{DAYS_OF_WEEK[index]}</h5>
-              <MySlider availability={availability} />
-            </li>
-          ))}
-        </ol>
-        <p>{"Set the time(s) you're available on each of the given days."}</p>
-        <h2>Request Offs</h2>
-        <p>This is where you can request off for any set of time.</p>
-        <div className="upcoming-requests">
-          <Button>View All</Button>
+        <div className="">
+          <MyInput
+            disabled={!Boolean(teamMember.username)}
+            label="Username"
+            variant="outlined"
+            value={teamMember.username || "Hasn't registered"}
+            onChange={handleChange}
+            name="firstName"
+          />
+          <MyInput
+            label="First Name"
+            variant="outlined"
+            value={teamMember.firstName}
+            onChange={handleChange}
+            name="firstName"
+          />
+          <MyInput
+            label="Last Name"
+            variant="outlined"
+            value={teamMember.lastName}
+            onChange={handleChange}
+            name="lastName"
+          />
+          <SaveButton onClick = {()=>handleSave('names')}/>
+        </div>
+        <div>
+          <h2>Availability</h2>
+          <p>{"Set the time(s) you're available on each of the given days."}</p>
           <ol>
-            {teamMember.requestOffs.length ? (
-              <div>Daydate and time restriction</div>
-            ) : (
-              <h3>No upcoming request offs</h3>
-            )}
+            {teamMember.availability.map((availability, index) => (
+              <li key={index}>
+                <h5>{DAYS_OF_WEEK[index]}</h5>
+                <MySlider availability={availability} />
+              </li>
+            ))}
           </ol>
-          <Button>
-            <img src={editIcon} />
-          </Button>
-          <Button>
-            <img src={addIcon} />
-          </Button>
+          <SaveButton onClick = {()=>handleSave('availability')} />
+        </div>
+        <div>
+          <h2>Request Offs</h2>
+          <p>This is where you can request off for any set of time.</p>
+          <div className="upcoming-requests">
+            <Button>View All</Button>
+            <ol>
+              {teamMember.requestOffs.length ? (
+                <div>Daydate and time restriction</div>
+              ) : (
+                <h3>No upcoming request offs</h3>
+              )}
+            </ol>
+            <Button>
+              <img src={editIcon} />
+            </Button>
+            <Button>
+              <img src={addIcon} />
+            </Button>
+          </div>
+          <SaveButton onClick = {()=>handleSave('requestOffs')}/>
         </div>
       </div>
     )
