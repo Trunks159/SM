@@ -184,6 +184,11 @@ def team_member_details(id):
     return jsonify({'wasSuccessful': False, 'message': 'There is no user with that id...'})
 
 
+@app.route('/update_user', methods=['POST'])
+def update_user():
+    return jsonify(None)
+
+
 @ login_required
 @ app.route('/logout')
 def logout():
