@@ -9,9 +9,11 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Availability from "./Availability/Availability";
 import RequestOffs from "./RequestOffs";
 import Details from "./Details";
+import Header from "./Header";
 
 const StyledBreadcrumbs = styled(Breadcrumbs)({
   marginLeft: 90,
+  height: 80,
 });
 
 function TeamMemberDetails({ id }) {
@@ -75,7 +77,15 @@ function TeamMemberDetails({ id }) {
 
   return (
     teamMember && (
-      <div className="tm-details">
+      <div
+      
+        style={{
+          background: "blue",
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <StyledBreadcrumbs
           separator={
             <NavigateNextIcon
@@ -86,20 +96,23 @@ function TeamMemberDetails({ id }) {
         >
           {breadcrumbs}
         </StyledBreadcrumbs>
-        <div className="letter">
-          <h1>{teamMember.firstName.charAt(0)}</h1>
-          <h1>{teamMember.username || teamMember.firstName}</h1>
-          <h3>View edit your info here</h3>
-        </div>
-        <Details teamMember={teamMember} />
-        <Availability
+        <div className="main-grid">
+         <Header firstName={teamMember.firstName} lastName={teamMember.lastName} userName={teamMember.userName}/>
+         <Details teamMember={teamMember} />
+         <Availability
           availability={teamMember.availability}
           handleSave={handleSave}
+        
         />
-        <RequestOffs
+         <RequestOffs
           requestOffs={teamMember.requestOffs}
           handleSave={handleSave}
+        
         />
+        </div>
+          
+       
+
       </div>
     )
   );

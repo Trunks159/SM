@@ -6,7 +6,7 @@ import SaveButton from "./SaveButton";
 
 function RequestOffs({ requestOffs, handleSave }) {
   return (
-    <div>
+    <div className="request-offs">
       <h2>Request Offs</h2>
       <p>This is where you can request off for any set of time.</p>
       <div className="upcoming-requests">

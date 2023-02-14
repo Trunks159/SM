@@ -56,7 +56,7 @@ function Availability({ availability, handleSave, userId }) {
   }
 
   return (
-    <form onSubmit={handleSave}>
+    <form onSubmit={handleSave} className = 'content2'>
       <h2>Availability</h2>
       <p>{"Set the time(s) you're available on each of the given days."}</p>
       <ol>

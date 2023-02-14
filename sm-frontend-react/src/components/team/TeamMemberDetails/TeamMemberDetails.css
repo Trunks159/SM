@@ -50,3 +50,37 @@
     font-size: 12px;
     color: #707070;
 }
+
+.main-grid{
+    max-width : 1024px;
+    background-color : red;
+    flex  : 1;  
+    margin : 20px 50px; 
+    display : grid;
+    grid-template-areas: 
+        'head head'
+        'content1 content2';
+    grid-template-columns: 1fr minmax(420px, 530px);
+    grid-template-rows: 130px 1fr;
+    position: relative;
+}
+
+.main-grid .header{
+    grid-area: head;
+}
+
+.main-grid .content1{
+    grid-area: content1;
+    background-color: #707070;
+}
+
+.main-grid .content2{
+    grid-area: content2;
+}
+
+.main-grid .request-offs{
+    position: fixed;
+    top : 0px;
+    right : 0px;
+    margin : 20px;
+}
