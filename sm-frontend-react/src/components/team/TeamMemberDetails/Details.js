@@ -24,7 +24,7 @@ function Details({ teamMember, handleChange, handleSave }) {
   }
 
   return (
-    <div>
+    <div className="content1">
       <MyInput
         disabled={!Boolean(username)}
         label="Username"
