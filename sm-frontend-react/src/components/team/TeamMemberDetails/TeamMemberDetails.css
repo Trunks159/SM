@@ -1,72 +1,102 @@
 .tm-details{
-    display: flex;
-    flex-direction: column;
-}
-
-.tm-details .letter{
-    display: flex;
-    width: 80px;
-    height: 80px;
-    border-radius: 40px;
-    background: #C5E3D3;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.letter h1{
-    font-weight: normal;
-    margin : auto;
-    color: white;
-}
-
-.tm-details .upcoming-requests{
-    border: .5px solid rgba(112,112,112,.4);
+    display: grid;
+    grid-template-rows: 70px 1fr;
+    flex: 1;
 }
 
 .breadcrumb, .breadcrumb-active{
     text-decoration: none;
-    color: black;
+    text-transform: capitalize;
+    color: #050505;
+   
+}
+
+.breadcrumb{
     opacity: .57;
-    text-transform: capitalize;
 }
 
-.breadcrumb-active{
-    opacity: 1;
+.main-div {
+    display: flex;
+    flex-direction: column;
+    margin : 15px;
+    gap : 45px;
 }
 
-.tm-details h2{
-    font-weight: 600;
-    font-size: 17px;
-    opacity: .75;
+.info{
+    display: none;
 }
 
-.tm-details p{
-    font-size: 12px;
-    color: #707070;
+@media (min-width : 585px) {
+    .header {
+        gap: 20px;
+    }
+    .info {
+        display: flex;
+        flex-direction: column;
+
+    }
+    .info h2{
+        margin: 5px 0px;
+        font-weight: 500;
+        font-size: 32px;
+        
+    }
+
+    .info h4{
+        margin : 0;
+        opacity: .7;
+        font-size: 17px;
+    }
 }
 
-.tm-details ol h5{
-    text-transform: capitalize;
-    font-size: 12px;
-    color: #707070;
+@media (min-width : 689px) {
+    .main-div{
+        max-width : 1024px;
+        flex  : 1;  
+        margin : 20px 50px; 
+        display : grid;
+        grid-template-areas: 
+            'head head'
+            'content1 content2';
+        grid-template-columns: minmax(20%, 264px) minmax(420px, 530px);
+        grid-template-rows: 130px 1fr;
+        position: relative;
+    } 
+    .main-div .header{
+        grid-area: head;
+        gap : 10px;
+    }
+
+ 
+
+
 }
 
-.main-grid{
-    max-width : 1024px;
-    background-color : red;
-    flex  : 1;  
-    margin : 20px 50px; 
-    display : grid;
-    grid-template-areas: 
-        'head head'
-        'content1 content2';
-    grid-template-columns: 1fr minmax(420px, 530px);
-    grid-template-rows: 130px 1fr;
-    position: relative;
+
+
+
+
+.main-div .header{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.main-grid .header{
-    grid-area: head;
+
+.header .circle-background{
+    background-color: #95AA9F;
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.circle-background h1{
+    font-size: 38px;
+    font-weight: normal;
 }
 
 .main-grid .content1{
@@ -79,8 +109,5 @@
 }
 
 .main-grid .request-offs{
-    position: fixed;
-    top : 0px;
-    right : 0px;
-    margin : 20px;
+
 }

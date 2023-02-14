@@ -13,7 +13,8 @@ import Header from "./Header";
 
 const StyledBreadcrumbs = styled(Breadcrumbs)({
   marginLeft: 90,
-  height: 80,
+  marginTop: "auto",
+  marginBottom: "auto",
 });
 
 function TeamMemberDetails({ id }) {
@@ -77,15 +78,7 @@ function TeamMemberDetails({ id }) {
 
   return (
     teamMember && (
-      <div
-      
-        style={{
-          background: "blue",
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      <div className="tm-details">
         <StyledBreadcrumbs
           separator={
             <NavigateNextIcon
@@ -96,23 +89,22 @@ function TeamMemberDetails({ id }) {
         >
           {breadcrumbs}
         </StyledBreadcrumbs>
-        <div className="main-grid">
-         <Header firstName={teamMember.firstName} lastName={teamMember.lastName} userName={teamMember.userName}/>
-         <Details teamMember={teamMember} />
-         <Availability
-          availability={teamMember.availability}
-          handleSave={handleSave}
-        
-        />
-         <RequestOffs
-          requestOffs={teamMember.requestOffs}
-          handleSave={handleSave}
-        
-        />
+        <div className="main-div">
+          <Header
+            firstName={teamMember.firstName}
+            lastName={teamMember.lastName}
+            username={teamMember.username}
+          />
+          <Details teamMember={teamMember} />
+          <Availability
+            availability={teamMember.availability}
+            handleSave={handleSave}
+          />
+          <RequestOffs
+            requestOffs={teamMember.requestOffs}
+            handleSave={handleSave}
+          />
         </div>
-          
-       
-
       </div>
     )
   );
