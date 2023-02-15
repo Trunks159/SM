@@ -59,12 +59,12 @@ function RegisterPart1({ users, notifyUser }) {
     }
   }
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="login-form" onSubmit={handleSubmit}>
       {redirect}
       <Header>Link Your Account</Header>
       <Notification message = {errors}/>
-
-      <MyInput
+    <div className="inputs">
+    <MyInput
         required
         error={errors}
         variant="outlined"
@@ -82,6 +82,8 @@ function RegisterPart1({ users, notifyUser }) {
         onChange={handleChange}
         value={lastName}
       />
+    </div>
+     
       <OutlinedButton style={{ marginLeft: "auto", marginTop: 90 }}>
         Next
       </OutlinedButton>

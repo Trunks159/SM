@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import SaveButton from "./SaveButton";
-import { MyInput } from "../../forms/StyledComponents";
-
+import SaveButton from "../SaveButton";
+import { MyInput } from "../../../forms/StyledComponents";
 function Details({ teamMember, handleChange, handleSave }) {
   const { username, lastName, firstName } = teamMember;
   const [originalTeamMember, setOriginalTeamMember] = useState({
@@ -25,6 +24,11 @@ function Details({ teamMember, handleChange, handleSave }) {
 
   return (
     <div className="content1">
+      <h2>My Details</h2>
+      <p>
+        You can even change your name here (I mean I don't know why but you
+        can...)
+      </p>
       <MyInput
         disabled={!Boolean(username)}
         label="Username"
@@ -47,9 +51,11 @@ function Details({ teamMember, handleChange, handleSave }) {
         onChange={handleChange}
         name="lastName"
       />
+
       <SaveButton
         onClick={() => handleSave()}
         hasChanged={hasChanged(["firstName", "lastName", "username"])}
+        text={"Name"}
       />
     </div>
   );

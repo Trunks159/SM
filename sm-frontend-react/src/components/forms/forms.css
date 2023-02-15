@@ -37,6 +37,8 @@ form header h1{
   opacity: 1;
 }
 
+
+
 @media (min-width : 600px) {
   form{
     margin : 10px auto;

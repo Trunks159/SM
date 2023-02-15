@@ -10,16 +10,19 @@ const StyledSaveButton = styled(Button)({
   "&:hover": {
     background: "#0B7792",
   },
+  marginLeft : 'auto',
+  minWidth : 153,
+  fontSize : 11,
 });
 
-function SaveButton({ hasChanged, handleSave }) {
+function SaveButton({ hasChanged, handleSave, text }) {
   return (
     <StyledSaveButton
       disabled={!hasChanged}
       endIcon={<img alt="save" src={saveIcon} />}
       onClick={() => handleSave(hasChanged)}
     >
-      Save Changes
+      Save {text} Changes
     </StyledSaveButton>
   );
 }

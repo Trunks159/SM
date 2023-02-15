@@ -61,7 +61,6 @@ const OutlinedButton = (props) => (
 );
 
 const MyInput = styled(TextField)({
-  margin: "15px 0px",
   "& .MuiFormHelperText-root": {
     position: "absolute",
     bottom: -20,

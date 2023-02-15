@@ -11,6 +11,7 @@ import {
   Header,
 } from "../StyledComponents";
 import { useDispatch } from "react-redux";
+import './login.css';
 
 //ACTIONS
 const updateCurrentUser = (newUser) => ({
@@ -92,6 +93,7 @@ function Login({ users, notifyUser }) {
   return (
     <form className="login-form" onSubmit={handleSubmit}>
       <Header>Sign In</Header>
+      <div className="inputs">
       <MyInput
         required
         error={usernameErrors}
@@ -113,6 +115,8 @@ function Login({ users, notifyUser }) {
         helperText={passwordErrors}
         value={password}
       />
+      </div>
+      
       <Link className="forgot-password" to="/">
         Forgot Password?
       </Link>
