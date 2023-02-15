@@ -8,7 +8,7 @@ import { grey } from "@mui/material/colors";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Availability from "./Availability/Availability";
 import RequestOffs from "./RequestOffs";
-import Details from "./Details";
+import Details from "./Details/Details";
 import Header from "./Header";
 
 const StyledBreadcrumbs = styled(Breadcrumbs)({

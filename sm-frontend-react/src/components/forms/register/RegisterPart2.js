@@ -86,38 +86,42 @@ function RegisterPart2({ firstName, lastName, users }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="authentification-form" onSubmit={handleSubmit}>
       {redirect}
       <Header>Almost There!</Header>
-      <MyInput
-        required
-        error={usernameErrors}
-        variant="outlined"
-        name="username"
-        label="Create Username"
-        onChange={handleChange}
-      />
-      <Notification message={usernameErrors} />
-      <MyInput
-        required
-        type="password"
-        error={passwordErrors}
-        variant="outlined"
-        name="password"
-        label="Create Password"
-        onChange={handleChange}
-      />
-      <Notification message={passwordErrors} />
-      <MyInput
-        required
-        type="password"
-        error={confirmPasswordErrors}
-        variant="outlined"
-        name="confirmPassword"
-        label="Confirm Password"
-        onChange={handleChange}
-      />
-      <Notification message={confirmPasswordErrors} />
+      <div className="inputs">
+        <MyInput
+          required
+          error={usernameErrors}
+          variant="outlined"
+          name="username"
+          label="Create Username"
+          onChange={handleChange}
+        />
+        <Notification message={usernameErrors} />
+        <MyInput
+          required
+          type="password"
+          error={passwordErrors}
+          variant="outlined"
+          name="password"
+          label="Create Password"
+          onChange={handleChange}
+        />
+        <Notification message={passwordErrors} />
+        <MyInput
+          required
+          type="password"
+          error={confirmPasswordErrors}
+          variant="outlined"
+          name="confirmPassword"
+          label="Confirm Password"
+          onChange={handleChange}
+        />
+        <Notification message={confirmPasswordErrors} />
+      </div>
+
+      
       <SolidButton>Register</SolidButton>
     </form>
   );
