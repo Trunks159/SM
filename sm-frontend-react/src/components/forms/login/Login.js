@@ -11,7 +11,6 @@ import {
   Header,
 } from "../StyledComponents";
 import { useDispatch } from "react-redux";
-import './login.css';
 
 //ACTIONS
 const updateCurrentUser = (newUser) => ({
@@ -91,7 +90,7 @@ function Login({ users, notifyUser }) {
   }
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
+    <form className="authentification-form" onSubmit={handleSubmit}>
       <Header>Sign In</Header>
       <div className="inputs">
       <MyInput

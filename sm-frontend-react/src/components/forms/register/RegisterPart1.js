@@ -59,7 +59,7 @@ function RegisterPart1({ users, notifyUser }) {
     }
   }
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
+    <form className="authentification-form" onSubmit={handleSubmit}>
       {redirect}
       <Header>Link Your Account</Header>
       <Notification message = {errors}/>

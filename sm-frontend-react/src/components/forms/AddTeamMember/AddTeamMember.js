@@ -75,7 +75,7 @@ function AddTeamMember({ teamMembers, notifyUser }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="authentification-form" onSubmit={handleSubmit}>
       {redirect}
       <Header>Add Team Member</Header>
       <Notification message={errors} />

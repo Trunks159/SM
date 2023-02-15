@@ -86,7 +86,7 @@ function RegisterPart2({ firstName, lastName, users }) {
   }
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
+    <form className="authentification-form" onSubmit={handleSubmit}>
       {redirect}
       <Header>Almost There!</Header>
       <div className="inputs">

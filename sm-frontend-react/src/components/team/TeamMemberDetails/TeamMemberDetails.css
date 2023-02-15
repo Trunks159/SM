@@ -2,6 +2,7 @@
     display: grid;
     grid-template-rows: 70px 1fr;
     flex: 1;
+    background-color: white;
 }
 
 .breadcrumb, .breadcrumb-active{
