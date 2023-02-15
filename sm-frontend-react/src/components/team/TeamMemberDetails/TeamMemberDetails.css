@@ -8,8 +8,7 @@
 .breadcrumb, .breadcrumb-active{
     text-decoration: none;
     text-transform: capitalize;
-    color: #050505;
-   
+    color: #050505;   
 }
 
 .breadcrumb{
@@ -26,8 +25,6 @@
 .info{
     display: none;
 }
-
-
 
 .main-div .header{
     display: flex;
@@ -52,37 +49,36 @@
     font-weight: normal;
 }
 
-.main-div div h2{
+.main-div form h2{
     font-weight: 500;
     color:#050505;
     opacity: .75;
     font-size: 17px;
     margin: 0px;
-
 }   
 
-.main-div div p{
+.main-div form p{
     font-size: 12px;
     color: #707070;
     margin-bottom : 15px;
     margin-top: 0px;
+    line-height: 18px;
 }
 
-.main-div .content1{
-    grid-area: content1;
+.main-div form{
     display: flex;
     flex-direction: column;
     gap : 10px;
 }
 
-.main-grid .content2{
-    grid-area: content2;
+.main-div .details{
+    grid-area: content1;
 }
 
-.main-grid .request-offs{
+.main-grid .availability{
+    grid-area: availability;
     
 }
-
 
 @media (min-width : 585px) {
     .header {
@@ -115,7 +111,7 @@
         display : grid;
         grid-template-areas: 
             'head head'
-            'content1 content2';
+            'details availability';
         grid-template-columns: minmax(20%, 264px) minmax(420px, 530px);
         grid-template-rows: 130px 1fr;
         position: relative;

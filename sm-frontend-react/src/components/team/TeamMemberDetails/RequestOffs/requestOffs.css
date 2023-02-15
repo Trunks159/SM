@@ -1,0 +1,16 @@
+.request-offs .bordered-container{
+    border: .5px solid rgba(43, 34, 34, .4);
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+}
+
+.request-offs .bordered-container ol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bordered-container .actions{
+    margin-left: auto;
+} 

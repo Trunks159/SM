@@ -5,6 +5,10 @@ import { valueLabelFormat } from "./TimeFunctions";
 
 const StyledSlider = styled(Slider)({
   color: "#6200EE",
+  width: "80%",
+  marginLeft: "auto",
+  marginRight: "auto",
+  height: 2,
   "& .MuiSlider-valueLabel": {
     background: "none",
     color: "#707070",
@@ -12,6 +16,14 @@ const StyledSlider = styled(Slider)({
     padding: 0,
     fontWeight: "normal",
     fontSize: 9,
+    top: -5,
+  },
+  "& .MuiSlider-thumb": {
+    width: 15,
+    height: 15,
+  },
+  "& .MuiSlider-track": {
+    height: 0.5,
   },
 });
 

@@ -7,7 +7,7 @@ import styled from "@emotion/styled";
 import { grey } from "@mui/material/colors";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Availability from "./Availability/Availability";
-import RequestOffs from "./RequestOffs";
+import RequestOffs from "./RequestOffs/RequestOffs";
 import Details from "./Details/Details";
 import Header from "./Header";
 

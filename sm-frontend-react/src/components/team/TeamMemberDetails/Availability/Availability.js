@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import MySlider from "./MySlider";
 import SaveButton from "../SaveButton";
 import { sliderValueToTime, timeToSliderValue } from "./TimeFunctions";
+import "./availability.css";
 
 const DAYS_OF_WEEK = [
   "monday",
@@ -56,7 +57,7 @@ function Availability({ availability, handleSave, userId }) {
   }
 
   return (
-    <form onSubmit={handleSave} className = 'content2'>
+    <form onSubmit={handleSave} className="availability">
       <h2>Availability</h2>
       <p>{"Set the time(s) you're available on each of the given days."}</p>
       <ol>
@@ -72,7 +73,12 @@ function Availability({ availability, handleSave, userId }) {
           </li>
         ))}
       </ol>
-      <SaveButton type="submit" onClick={handleSave} hasChanged={hasChanged} />
+      <SaveButton
+        type="submit"
+        onClick={handleSave}
+        hasChanged={hasChanged}
+        text="Availability"
+      />
     </form>
   );
 }

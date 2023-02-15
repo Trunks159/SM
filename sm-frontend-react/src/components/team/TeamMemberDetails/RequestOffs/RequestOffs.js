@@ -2,15 +2,25 @@ import React from "react";
 import addIcon from "./assets/Add Icon.svg";
 import editIcon from "./assets/Edit Icon.svg";
 import { Button } from "@mui/material";
-import SaveButton from "./SaveButton";
+import SaveButton from "../SaveButton";
+import "./requestOffs.css";
+import styled from "@emotion/styled";
+
+const StyledButton = styled(Button)({
+  marginLeft: "auto",
+  textTransform: "none",
+  color: "#2B9DD9",
+  fontWeight: "normal",
+  fontSize: 11,
+});
 
 function RequestOffs({ requestOffs, handleSave }) {
   return (
-    <div className="request-offs">
+    <form className="request-offs">
       <h2>Request Offs</h2>
       <p>This is where you can request off for any set of time.</p>
-      <div className="upcoming-requests">
-        <Button>View All</Button>
+      <div className="bordered-container">
+        <StyledButton>View All</StyledButton>
         <ol>
           {requestOffs.length ? (
             <div>Daydate and time restriction</div>
@@ -18,15 +28,17 @@ function RequestOffs({ requestOffs, handleSave }) {
             <h3>No upcoming request offs</h3>
           )}
         </ol>
-        <Button>
-          <img src={editIcon} />
-        </Button>
-        <Button>
-          <img src={addIcon} />
-        </Button>
+        <div className="actions">
+          <Button>
+            <img src={editIcon} />
+          </Button>
+          <Button>
+            <img src={addIcon} />
+          </Button>
+        </div>
       </div>
       <SaveButton onClick={() => handleSave()} />
-    </div>
+    </form>
   );
 }
 

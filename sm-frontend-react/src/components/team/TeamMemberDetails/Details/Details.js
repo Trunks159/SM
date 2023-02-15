@@ -23,7 +23,7 @@ function Details({ teamMember, handleChange, handleSave }) {
   }
 
   return (
-    <div className="content1">
+    <form className="details">
       <h2>My Details</h2>
       <p>
         You can even change your name here (I mean I don't know why but you
@@ -57,7 +57,7 @@ function Details({ teamMember, handleChange, handleSave }) {
         hasChanged={hasChanged(["firstName", "lastName", "username"])}
         text={"Name"}
       />
-    </div>
+    </form>
   );
 }
 
