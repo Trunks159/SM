@@ -3,6 +3,7 @@
     border-radius: 7px;
     display: flex;
     flex-direction: column;
+    padding: 17px;
 }
 
 .request-offs .bordered-container ol{

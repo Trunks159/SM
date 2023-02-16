@@ -23,7 +23,11 @@ function RequestOffs({ requestOffs, handleSave }) {
         <StyledButton>View All</StyledButton>
         <ol>
           {requestOffs.length ? (
-            <div>Daydate and time restriction</div>
+           requestOffs.map((req, index)=>(
+            <li>
+              1
+            </li>
+           ))
           ) : (
             <h3>No upcoming request offs</h3>
           )}
