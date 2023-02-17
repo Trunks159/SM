@@ -10,6 +10,31 @@ import Availability from "./Availability/Availability";
 import RequestOffs from "./RequestOffs/RequestOffs";
 import Details from "./Details/Details";
 import Header from "./Header";
+import moment from "moment";
+
+function processRequestOffs(orderedRequestOffs){
+  //if dates are next to each other, group in an array
+
+  function test( newArray , requests, index, ){
+    //newArray has original date in it
+    //recursive function that adds items to an array as long as it 
+    //passes a certain test
+    const req = moment(testReq.date);
+    const next = moment(requests[index+1].date);
+    if (next.diff(req, 'days') === 1){
+      newArray.push(next);
+      test(newArray, requests, index + 1);
+    }
+    return newArray.length > 1 ? newArray : false;
+  }
+
+  let i = 0;
+  while(i < orderedRequestOffs.length - 2){
+    //take date and see if next item is next
+    const grouped = test([orderedRequestOffs[i]], orderedRequestOffs, i)
+    i += grouped ? grouped.length : 1;
+  }
+}
 
 const StyledBreadcrumbs = styled(Breadcrumbs)({
   marginLeft: 90,

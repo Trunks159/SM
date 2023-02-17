@@ -48,7 +48,7 @@ class User(UserMixin, db.Model):
             return a
 
     def get_request_offs(self):
-        pass
+        return [request_off.to_json() for request_off in self.request_offs.order_by(RequestOff.date)  ]
 
 
 class Availability(db.Model):
@@ -149,25 +149,22 @@ class WorkBlock(db.Model):
 
 
 class RequestOff(db.Model):
-    #   So it can be a range of days or just 1 day
-    #   Im just thinking what i
-    #
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     date = db.Column(db.DateTime)
     start_time = db.Column(db.DateTime)
     end_time = db.Column(db.DateTime)
 
+    def to_json(self):
+        return {
+            'id': self.id,
+            'userId': self.user_id,
+            'date': self.date.isoformat(''),
+            'startTime': self.start_time.isoformat(' ') if self.start_time else None,
+            'endTime':  self.end_time.isoformat(' ') if self.end_time else None,
+        }
 
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
-
-def test():
-    u = User.query.first()
-    requests = u.request_offs.order_by(RequestOff.date)
-    for index, r in enumerate(requests):
-        if index < len(requests) - 1:
-            td = requests[index + 1].date - r
-            if td == 1:
