@@ -4,7 +4,9 @@ from datetime import datetime, timedelta
 from flask_login import UserMixin
 import calendar
 
-DAYS_OF_WEEK = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+DAYS_OF_WEEK = ['monday', 'tuesday', 'wednesday',
+                'thursday', 'friday', 'saturday', 'sunday']
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -16,7 +18,8 @@ class User(UserMixin, db.Model):
     workblocks = db.relationship('WorkBlock', backref='user', lazy=True)
     availability = db.relationship(
         'Availability', uselist=False, backref='user', lazy=True)
-    request_offs = db.relationship('RequestOff', backref='user', lazy=True)
+    request_offs = db.relationship(
+        'RequestOff', backref='user', lazy='dynamic')
 
     def to_json(self):
         return {
@@ -40,9 +43,12 @@ class User(UserMixin, db.Model):
         if self.availability:
             return self.availability
         else:
-            a = Availability(user = self)
+            a = Availability(user=self)
             db.session.commit()
             return a
+
+    def get_request_offs(self):
+        pass
 
 
 class Availability(db.Model):
@@ -56,17 +62,16 @@ class Availability(db.Model):
     saturday = db.Column(db.String(30))
     sunday = db.Column(db.String(30))
 
-
     def to_json(self):
         days = []
         for day in DAYS_OF_WEEK:
-            day_availability = getattr(self, day).split('-') if getattr(self, day) else True
+            day_availability = getattr(self, day).split(
+                '-') if getattr(self, day) else True
             days.append(day_availability)
-            #if its like 12AM monday to 12AM tuesday, you could just use true and false if not available
+            # if its like 12AM monday to 12AM tuesday, you could just use true and false if not available
             # so if the entire day is elapsed
-            #look at startTime and if its 12AM see if the second value is 12AM the next day
+            # look at startTime and if its 12AM see if the second value is 12AM the next day
         return days
-
 
 
 class Day(db.Model):
@@ -144,20 +149,25 @@ class WorkBlock(db.Model):
 
 
 class RequestOff(db.Model):
+    #   So it can be a range of days or just 1 day
+    #   Im just thinking what i
+    #
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    date = db.Column(db.DateTime)
     start_time = db.Column(db.DateTime)
     end_time = db.Column(db.DateTime)
-
-    def to_json(self):
-        return {
-            'startTime': self.start_time,
-            'endTime': self.end_time,
-            'id': self.id,
-            'userId': self.user_id
-        }
 
 
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+
+def test():
+    u = User.query.first()
+    requests = u.request_offs.order_by(RequestOff.date)
+    for index, r in enumerate(requests):
+        if index < len(requests) - 1:
+            td = requests[index + 1].date - r
+            if td == 1:

@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import SaveButton from "../SaveButton";
 import "./requestOffs.css";
 import styled from "@emotion/styled";
+import RequestCard from "./RequestCard";
 
 const StyledButton = styled(Button)({
   marginLeft: "auto",
@@ -23,11 +24,11 @@ function RequestOffs({ requestOffs, handleSave }) {
         <StyledButton>View All</StyledButton>
         <ol>
           {requestOffs.length ? (
-           requestOffs.map((req, index)=>(
-            <li>
-              1
-            </li>
-           ))
+            requestOffs.map((req, index) => (
+              <li>
+                <RequestCard dateOff={req.dateOff} timeOff={req.timeOff} />
+              </li>
+            ))
           ) : (
             <h3>No upcoming request offs</h3>
           )}
