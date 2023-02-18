@@ -5,17 +5,19 @@ import React from "react";
 
 const RequestCardButton = styled(Button)({
   minWidth: 0,
-  textTransform : 'none',
+  textTransform: "none",
 });
 
-function CardContents({ start, end }) {
+function CardContents({ start, end, position }) {
   const isWholeDay =
     start.format("HH:mm") === "00:00" && end.format("HH:mm") === "00:00";
   return (
     <div className="card-contents">
-      <p>Single Day</p>
+      <p className={`type${position === "right" ? " type-hidden" : ""}`}>
+        Single Day
+      </p>
       <h2>{start.format("M/D/YY")}</h2>
-      <p>
+      <p className="time-off">
         {isWholeDay
           ? "You have the entire day off"
           : `You are off from: ${start.format("h:mm a")} to ${end.format(

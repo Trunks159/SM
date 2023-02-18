@@ -27,11 +27,36 @@
     color : white;
     background-color: #555555;
     border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    box-sizing: border-box;
+    padding : 10px;
 }
 
 .card-contents h2{
     font-size: 19px;
     font-weight: 500;
-    margin : 0;
-    
+    margin : 0px 0px 5px 0px;
+}
+
+.card-contents p{
+    margin: 0;
+    line-height: 12px;
+}
+
+.card-contents .time-off{
+    text-align: left;
+    font-weight: 300;
+    opacity: .84;
+    font-size: 9px;
+}
+
+.card-contents .type{
+    font-size: 8px;
+    font-weight: 200;
+}
+
+.type-hidden{
+    visibility: hidden;
 }
