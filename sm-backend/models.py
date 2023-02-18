@@ -47,8 +47,8 @@ class User(UserMixin, db.Model):
             db.session.commit()
             return a
 
-    def get_request_offs(self):
-        return [request_off.to_json() for request_off in self.request_offs.order_by(RequestOff.date)  ]
+    def get_request_offs_json(self):
+        return [request_off.to_json() for request_off in self.request_offs.order_by(RequestOff.date).all()]
 
 
 class Availability(db.Model):
@@ -151,20 +151,18 @@ class WorkBlock(db.Model):
 class RequestOff(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    date = db.Column(db.DateTime)
-    start_time = db.Column(db.DateTime)
-    end_time = db.Column(db.DateTime)
+    start = db.Column(db.DateTime)
+    end = db.Column(db.DateTime)
 
     def to_json(self):
         return {
             'id': self.id,
             'userId': self.user_id,
-            'date': self.date.isoformat(''),
-            'startTime': self.start_time.isoformat(' ') if self.start_time else None,
-            'endTime':  self.end_time.isoformat(' ') if self.end_time else None,
+            'start': self.start.isoformat(' '),
+            'end':  self.end.isoformat(' '),
         }
+
 
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-

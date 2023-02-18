@@ -24,9 +24,9 @@ function RequestOffs({ requestOffs, handleSave }) {
         <StyledButton>View All</StyledButton>
         <ol>
           {requestOffs.length ? (
-            requestOffs.map((req, index) => (
+            requestOffs.map(({ start, end }, index) => (
               <li>
-                <RequestCard dateOff={req.dateOff} timeOff={req.timeOff} />
+                <RequestCard start={start} end={end} />
               </li>
             ))
           ) : (
