@@ -1,12 +1,18 @@
-import { Divider } from "@mui/material";
+import styled from "@emotion/styled";
+import { Button, Divider } from "@mui/material";
 import moment from "moment";
 import React from "react";
 
-function RegularCard({ start, end }) {
+const RequestCardButton = styled(Button)({
+  minWidth: 0,
+  textTransform : 'none',
+});
+
+function CardContents({ start, end }) {
   const isWholeDay =
     start.format("HH:mm") === "00:00" && end.format("HH:mm") === "00:00";
   return (
-    <div>
+    <div className="card-contents">
       <p>Single Day</p>
       <h2>{start.format("M/D/YY")}</h2>
       <p>
@@ -20,29 +26,26 @@ function RegularCard({ start, end }) {
   );
 }
 
-function RangeCard(props) {
-  //so timeoff is an array of arrays
-  //if [[stuff], []] means only the first date has a restriction
-  //if you get [[], [stuff]], then that is the second restriction
-  //if you get [[stuff], [stuff]]
-  return (
-    <div>
-      <RegularCard {...props} position="left" />
-      <Divider orientation="vertical">To</Divider>
-      <RegularCard {...props} position="right" />
-    </div>
+function RequestCard(props) {
+  //if start and end have different dates and end.time
+  //!= 12AM, its a range
+  const { start, end } = props;
+  const isRegular = !(
+    start.format("MM/DD/YYYY") !== end.format("MM/DD/YYYY") && end.hour() !== 0
   );
-}
 
-function RequestCard({ props }) {
-  type =
-    moment(props.end).diff(moment(props.start), "days") > 1
-      ? "range"
-      : "regular";
-  return type === "regular" ? (
-    <RegularCard start={moment(start)} end={moment(end)} />
-  ) : (
-    <RangeCard start={moment(start)} end={moment(end)} />
+  return (
+    <RequestCardButton>
+      {isRegular ? (
+        <CardContents {...props} />
+      ) : (
+        <>
+          <CardContents {...props} position="left" />
+          <Divider>To</Divider>
+          <CardContents {...props} position="right" />
+        </>
+      )}
+    </RequestCardButton>
   );
 }
 

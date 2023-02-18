@@ -8,6 +8,7 @@ DAYS_OF_WEEK = ['monday', 'tuesday', 'wednesday',
                 'thursday', 'friday', 'saturday', 'sunday']
 
 
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -48,7 +49,7 @@ class User(UserMixin, db.Model):
             return a
 
     def get_request_offs_json(self):
-        return [request_off.to_json() for request_off in self.request_offs.order_by(RequestOff.date).all()]
+        return [request_off.to_json() for request_off in self.request_offs.order_by(RequestOff.start).all()]
 
 
 class Availability(db.Model):

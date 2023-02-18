@@ -58,8 +58,8 @@ function Availability({ availability, handleSave, userId }) {
 
   return (
     <form onSubmit={handleSave} className="availability">
-      <h2>Availability</h2>
-      <p>{"Set the time(s) you're available on each of the given days."}</p>
+      <h2 className="header">Availability</h2>
+      <p className="help-text">{"Set the time(s) you're available on each of the given days."}</p>
       <ol>
         {sliders.map((value, index) => (
           <li key={index}>

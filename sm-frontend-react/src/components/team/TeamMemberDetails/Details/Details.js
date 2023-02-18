@@ -24,8 +24,8 @@ function Details({ teamMember, handleChange, handleSave }) {
 
   return (
     <form className="details">
-      <h2>My Details</h2>
-      <p>
+      <h2 className="header">My Details</h2>
+      <p className="help-text">
         You can even change your name here (I mean I don't know why but you
         can...)
       </p>

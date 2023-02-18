@@ -49,7 +49,7 @@
     font-weight: normal;
 }
 
-.main-div form h2{
+.main-div form .header{
     font-weight: 500;
     color:#050505;
     opacity: .75;
@@ -57,7 +57,7 @@
     margin: 0px;
 }   
 
-.main-div form p{
+.main-div form .help-text{
     font-size: 12px;
     color: #707070;
     margin-bottom : 15px;
