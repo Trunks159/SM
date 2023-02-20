@@ -1,4 +1,4 @@
-import { Breadcrumbs } from "@mui/material";
+import { Breadcrumbs, Divider } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import "./TeamMemberDetails.css";
 import { useLocation } from "react-router-dom";
@@ -70,7 +70,7 @@ function TeamMemberDetails({ id }) {
         //this is where i should handle there being no user
         //but im lazy
         setTeamMember(user);
-        console.log('Requests: ', user.requestOffs)
+        console.log("Requests: ", user.requestOffs);
       });
   }, []);
   function handleChange(e) {

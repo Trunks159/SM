@@ -4,9 +4,9 @@ from datetime import datetime, timedelta
 from flask_login import UserMixin
 import calendar
 
+
 DAYS_OF_WEEK = ['monday', 'tuesday', 'wednesday',
                 'thursday', 'friday', 'saturday', 'sunday']
-
 
 
 class User(UserMixin, db.Model):
@@ -50,6 +50,28 @@ class User(UserMixin, db.Model):
 
     def get_request_offs_json(self):
         return [request_off.to_json() for request_off in self.request_offs.order_by(RequestOff.start).all()]
+
+    def add_request_off(self, start, end):
+        # sees if dates inputted conflict with some that already exist
+        # if the date we're trying to add is adjacent to another requestOff's date,
+        # alter the time of the request off we found
+        will_add_request = True
+        my_requests = self.request_offs.all()
+        for request in my_requests:
+            if request.is_between(start, end):
+                will_add_request = False
+                # priotitize extreme values
+                start_changed = start < request.start or False
+                end_changed = end > request.end or False
+                if start_changed or end_changed:
+                    request.start = start
+                    request.end = end
+
+        if will_add_request:
+            db.session.add(RequestOff(user=self, start=start, end=end))
+
+        db.session.commit()
+        return 'Request was added' if will_add_request else 'A request was possibly altered'
 
 
 class Availability(db.Model):
@@ -163,7 +185,20 @@ class RequestOff(db.Model):
             'end':  self.end.isoformat(' '),
         }
 
+    def is_between(self, new_start, new_end):
+        # sees if 1 range of dates is between in any way another
+        start_is_between = (new_start >= self.start) & (new_start <= self.end)
+        end_is_between = (new_end >= self.start) & (new_end <= self.end)
+        return start_is_between or end_is_between
+
 
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+
+def test():
+    u = User.query.first()
+    start = datetime(2022, 10, 17, 4)
+    end = datetime(2022, 10, 18)
+    return u.add_request_off(start, end)
