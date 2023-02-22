@@ -1,0 +1,15 @@
+<svg id="Scheduler_Icon" data-name="Scheduler Icon" xmlns="http://www.w3.org/2000/svg" width="30.533" height="30.533" viewBox="0 0 30.533 30.533">
+  <g id="Rectangle_461" data-name="Rectangle 461" fill="none" stroke="#fff" stroke-width="2">
+    <rect width="30.533" height="30.533" rx="4" stroke="none"/>
+    <rect x="1" y="1" width="28.533" height="28.533" rx="3" fill="none"/>
+  </g>
+  <circle id="Ellipse_131" data-name="Ellipse 131" cx="2.036" cy="2.036" r="2.036" transform="translate(3.562 3.562)" fill="#fff"/>
+  <circle id="Ellipse_132" data-name="Ellipse 132" cx="2.036" cy="2.036" r="2.036" transform="translate(12.722 3.562)" fill="#fff"/>
+  <circle id="Ellipse_131-2" data-name="Ellipse 131" cx="2.036" cy="2.036" r="2.036" transform="translate(9.16 13.231)" fill="#fff"/>
+  <circle id="Ellipse_131-3" data-name="Ellipse 131" cx="2.036" cy="2.036" r="2.036" transform="translate(14.758 22.391)" fill="#fff"/>
+  <circle id="Ellipse_132-2" data-name="Ellipse 132" cx="2.036" cy="2.036" r="2.036" transform="translate(23.409 22.391)" fill="#fff"/>
+  <circle id="Ellipse_132-3" data-name="Ellipse 132" cx="2.036" cy="2.036" r="2.036" transform="translate(17.302 13.231)" fill="#fff"/>
+  <line id="Line_223" data-name="Line 223" x2="5.519" transform="translate(7.382 5.595)" fill="none" stroke="#fff" stroke-width="1"/>
+  <line id="Line_224" data-name="Line 224" x2="5.519" transform="translate(12.722 15.266)" fill="none" stroke="#fff" stroke-width="1"/>
+  <line id="Line_225" data-name="Line 225" x2="5.519" transform="translate(18.613 24.426)" fill="none" stroke="#fff" stroke-width="1"/>
+</svg>

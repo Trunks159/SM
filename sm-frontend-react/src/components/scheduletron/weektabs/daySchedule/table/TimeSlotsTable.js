@@ -1,0 +1,128 @@
+import React from "react";
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TableContainer,
+  Button,
+} from "@mui/material";
+import TimeLine from "./TimeLine";
+import { useDispatch, useSelector } from "react-redux";
+import "./timeslots.css";
+import TimeSlot from "./TimeSlot";
+import UserPopover from "./UserPopover";
+import removeIcon from "./assets/Close Icon.svg";
+import styled from "@emotion/styled";
+
+//ACTIONS
+const removeFromScheduled = (userId) => ({
+  type: "REMOVE_FROM_SCHEDULED",
+  payLoad: userId,
+});
+
+const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
+  width: "auto",
+  position: "absolute",
+  right: 0,
+  left: 0,
+  top: 0,
+  bottom: 0,
+  margin: "10px",
+
+  [theme.breakpoints.up("md")]: {
+    margin: "20px 80px 10px 10px",
+  },
+}));
+
+function MyTable() {
+  const dispatch = useDispatch();
+  const currentSchedule = useSelector((state) => state.currentSchedule);
+  const { timeslots } = currentSchedule;
+
+  function handleRemove(e, index) {
+    dispatch(removeFromScheduled(index));
+  }
+
+  return (
+    <div style={{ flex: 1, position: "relative" }}>
+      <StyledTableContainer>
+        <Table
+          style={{
+            height: "100%",
+          }}
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell
+                style={{
+                  position: "sticky",
+                  zIndex: 1,
+                  minWidth: 30,
+                }}
+              >
+                {/*Keep this empty */}
+              </TableCell>
+              {timeslots.map(({ user }, index) => (
+                <TableCell
+                  key={index}
+                  style={{
+                    width: 140,
+                    minWidth: 140,
+                    textTransform: "capitalize",
+                    position: "relative",
+                  }}
+                >
+                  <Button
+                    onClick={() => handleRemove(index)}
+                    to="/"
+                    style={{
+                      position: "absolute",
+                      right: 0,
+                      top: 0,
+                      padding: 5,
+                      minWidth: 0,
+                    }}
+                  >
+                    <img src={removeIcon} alt="removeUser" />
+                  </Button>
+                  <UserPopover user={user} index={index} />
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell
+                style={{
+                  position: "sticky",
+                  left: 0,
+                  background: "rgba(245, 245, 245, .5)",
+                  borderRadius: "0px 7px 7px 0px",
+                  zIndex: 1,
+                  padding: "0px 10px",
+                }}
+              >
+                <TimeLine shiftFilter={{ day: true, night: true }} />
+              </TableCell>
+              {timeslots.length > 0 &&
+                timeslots.map((timeslot, index) => (
+                  <TableCell
+                    key={index}
+                    style={{
+                      borderRight: "rgba(112, 112, 112, .14)",
+                    }}
+                  >
+                    <TimeSlot timeslot={timeslot} index={index} />
+                  </TableCell>
+                ))}
+            </TableRow>
+          </TableBody>
+        </Table>
+      </StyledTableContainer>
+    </div>
+  );
+}
+
+export default MyTable;

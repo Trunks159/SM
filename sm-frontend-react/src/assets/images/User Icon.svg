@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="42" viewBox="0 0 44 42">
+  <g id="User_Icon" data-name="User Icon" transform="translate(-22 -113)">
+    <g id="Rectangle_495" data-name="Rectangle 495" transform="translate(22 113)" fill="none" stroke="#1897e6" stroke-width="2">
+      <rect width="44" height="42" rx="6" stroke="none"/>
+      <rect x="1" y="1" width="42" height="40" rx="5" fill="none"/>
+    </g>
+    <path id="Union_19" data-name="Union 19" d="M0,21V18.375c0-2.888,4.725-5.251,10.5-5.251S21,15.487,21,18.375V21ZM5.249,5.251A5.25,5.25,0,1,1,10.5,10.5,5.25,5.25,0,0,1,5.249,5.251Z" transform="translate(34 124)" fill="#2680eb"/>
+  </g>
+</svg>

@@ -1,0 +1,31 @@
+.timeline {
+  display: flex;
+}
+
+.timeline-labels{
+  display : flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+@media screen (min-width : 600px) {
+  .timeline {
+    position: static;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .timeline-labels {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .timeline-labels p {
+    text-transform: uppercase;
+    opacity: .63;
+    font-weight: 250;
+    font-style: italic;
+  }
+  
+}

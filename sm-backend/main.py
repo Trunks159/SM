@@ -1,147 +1,202 @@
-from flask import render_template, flash, redirect, url_for, request, jsonify
+import calendar
+from flask import request, jsonify
 from config import app, db
-from werkzeug.urls import url_parse
-from forms import RegistrationForm, LoginForm, AddUserForm
-from models import User
+from models import User, Day, Availability, WeekSchedule, WorkBlock
 from flask_login import current_user, login_user, login_required, logout_user
-from calendar import month_name, day_name
-from datetime import date
-
-app.jinja_env.globals.update(month_name=month_name, day_name=day_name)
-
-
-class Date(date):
-    def string_date(self):
-        return str(self.year) + '#' + str(self.month) + '#'+str(self.day)
-
-    def to_json(self):
-        return {
-            'month': self.month,
-            'day': self.day,
-            'year': self.year
-        }
+from datetime import datetime
+from dates import complete_schedule_set
+from dateutil import parser
 
 
-@app.route('/')
-@app.route('/home')
-def home():
-    users = User.query.all()
-    #json_users = [user.to_json() for user in users]
-    # return jsonify({'users': json_users})
-    return render_template('home.html', users=users)
-
-
-@app.route('/add_schedule')
-def add_schedule():
-    week = []
-    for i in range(1, 8):
-        week.append(Date(2020, 3, i))
-    return render_template('add_schedule.html', week=week)
-
-
-@app.route('/schedule/<string_date>')
-def schedule(string_date):
-    d = string_date.split('#')
-    day = Date(int(d[0]), int(d[1]), int(d[2]))
-    current_day = jsonify(day.to_json())
-    return redirect(url_for('schedule_data'))
-
-
-@login_required
-@app.route('/add_user', methods=['GET', 'POST'])
-def add_user():
-
-    # Only managers can access, and it makes a user. Redirects to home,
-    # uses same html file as register
-
-    if current_user.position < 1:
-        flash('Only managers can access this page')
-        return redirect(url_for('home'))
-    form = AddUserForm()
-    if form.validate_on_submit():
-        u = User(first_name=form.first_name.data.lower(),
-                 last_name=form.last_name.data.lower())
-        u.set_position(form.position.data)
-        u.username = (
-            form.first_name.data[0].lower() + form.last_name.data.lower())
-        db.session.add(u)
-        db.session.commit()
-        return redirect(url_for('home'))
-    return render_template('add_user.html', form=form)
-
-
-'''
-@app.route('/users/<int:id>', methods=['GET', 'POST'])
-def edit_user(id):
-    user = User.query.get_or_404(id)
-    data = request.get_json() or {}
-    if 'username' in data and data['username'] != user.username and \
-            User.query.filter_by(username=data['username']).first():
-        return bad_request('please use a different username')
-
-    return render_template('edit_user.html', user)
-'''
+@app.route('/get_all_users')
+def users():
+    users = [user.to_json() for user in User.query.all()]
+    user = current_user.to_json() if current_user.is_authenticated else {}
+    return jsonify({'users': users, 'currentUser': user})
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
 
-    # Renders the add_worker template
-    # You can't be logged in to access, and when the form submits
-    # the user gets made and you're redirected
-
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = RegistrationForm()
-    print(form.errors)
-    if form.validate_on_submit():
-        u = User(username=form.username.data, first_name=form.first_name.data.lower(),
-                 last_name=form.last_name.data.lower())
-        u.position = 0 if form.position.data.lower() == 'crew' else 1
-        u.set_password(form.password.data)
-        db.session.add(u)
-        db.session.commit()
-        flash('Congrats your registration was successful')
-        return redirect(url_for('login'))
-    return render_template('add_user.html', form=form)
+    data = request.get_json()
+    user = User.query.filter_by(first_name=data['first_name']).filter_by(
+        last_name=data['last_name']).first()
+    if user:
+        if User.query.filter_by(username=data['username']).first():
+            return jsonify({'wasSuccessful': False, 'message': 'Username Already In Use'})
+        else:
+            user.username = data['username']
+            user.set_password(data['password'])
+            db.session.commit()
+            return jsonify({'wasSuccessful': True})
+    else:
+        return jsonify({'wasSuccessful': False,  'message': 'User Not Found'})
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    # Can't be logged in to access, the program searches for
-    # the user with the username and question and if it can't find one
+@app.route('/login_user', methods=['GET', 'POST'])
+def user_login():
+    # the program searches for
+    # the user with the username in question and if it can't find one
     # it just redirects and shows an error message
 
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
-            return redirect(url_for('login'))
-        login_user(user, remember=form.remember_me.data)
-        # if the user was redirected from some page to login, flask sends them to that page
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('home')
-        return redirect(next_page)
-    return render_template('login.html', form=form)
+    data = request.get_json()
+    username = data['username']
+    password = data['password']
+    remember = data['remember']
+    user = User.query.filter_by(username=username).first()
+
+    if user:
+        if user.check_password(password):
+            login_user(user=user, remember=remember)
+            return jsonify({'wasSuccessful': True, 'currentUser': user.to_json()})
+        else:
+            return jsonify({'wasSuccessful': False, 'errorType':  'password'})
+    return jsonify({'wasSuccessful': False, 'errorType':  'username'})
 
 
-@app.route('/logout')
+@app.route('/add_team_member', methods=['GET', 'POST'])
+def add_team_member():
+    data = request.get_json()
+    first_name = data['first_name']
+    last_name = data['last_name']
+    position = data['position']
+    # see if a user already has this name is so error of course
+    if User.query.filter_by(first_name=first_name, last_name=last_name).first():
+        return jsonify({'wasSuccessful': False, 'message': 'User already exists.'})
+    else:
+        u = User(first_name=first_name, last_name=last_name, position=position)
+        db.session.add(u)
+        db.session.commit()
+        return jsonify({'wasSuccessful': True, 'message': 'Team member was successfully added!'})
+
+
+@app.route('/get_schedule/<day_id>')
+def get_schedule(day_id):
+    day = Day.query.filter_by(id=day_id).first()
+    if day:
+
+        def filter(the_list, id):
+            for item in the_list:
+                if item.id == id:
+                    the_list.remove(item)
+                    break
+            return the_list
+
+        users = User.query.all()
+        not_scheduled = users[:]
+
+        for workblock in day.workblocks:
+            filter(not_scheduled, workblock.user_id)
+
+        return jsonify({'notScheduled': [i.to_json() for i in not_scheduled], 'scheduled': [workblock.to_json() for workblock in day.workblocks]})
+    else:
+        return jsonify(False)
+
+
+@app.route('/get_week_schedules/<todays_date>')
+# takes a date and creates or finds a set of schedules
+# surrounding that date
+def get_week_schedules(todays_date):
+    date = [int(string) for string in todays_date.split('-')]
+    '''So we get the date and with that we first get the schedule set that has that day'''
+    dt = datetime(date[2], date[0], date[1])
+    day = Day.query.filter(Day.date == dt).first()
+
+    '''If day is found , take that day's weekschedule and create a scheduleset
+    if not create a week for that day and return schedule set'''
+    if day:
+        week = day.week_schedule if day.week_schedule else WeekSchedule().initialize(dt)
+    else:
+        week = WeekSchedule().initialize(dt)
+    schedule_set = complete_schedule_set(week)
+    for item in schedule_set:
+        item['schedule'] = item['schedule'].to_json()
+    return jsonify(schedule_set)
+
+
+@app.route('/get_week_schedule')
+def get_week_schedule():
+
+    def find_week_schedule(date):
+        # take a date and get the weekschedule associated with
+        # that date
+        wss = WeekSchedule.query.all()
+        for ws in wss:
+            if ws.has_date(date):
+                return ws
+                break
+        return False
+
+    week_id = request.args.get('week-id')
+    date = request.args.get('date')
+    if week_id:
+        week = WeekSchedule.query.filter_by(id=week_id).first()
+    elif date:
+        date = [int(i) for i in date.split('-')]
+        date = datetime(date[2], date[0], date[1])
+        week = find_week_schedule(date)
+
+    if week:
+        return jsonify(week.to_json())
+    else:
+        return (jsonify(None))
+
+
+@app.route('/get_day_schedule/<id>')
+def get_day_schedule(id):
+    ds = Day.query.filter_by(id=id).first()
+    if ds:
+        return jsonify(ds.to_json())
+    else:
+        return jsonify(False)
+
+
+@app.route('/update_schedule', methods=['POST'])
+def update_schedule():
+    day_info = request.get_json()
+    '''
+        Delete all of the wbs currently in that day and upload a bunch of
+        new ones    
+    '''
+    day = Day.query.get(day_info['day_id'])
+    for item in day.workblocks:
+        db.session.delete(item)
+
+    for workblock in day_info['workblocks']:
+        wb = WorkBlock(user=User.query.get(workblock['user']['id']), day=day, start_time=parser.parse(
+            workblock['start_time']), end_time=parser.parse(workblock['end_time']))
+        db.session.add(wb)
+
+    db.session.commit()
+
+    return jsonify({'message': 'Your schedule has been successfully updated!', 'severity': 'success'})
+
+
+@app.route('/team_member_details/<id>')
+def team_member_details(id):
+    user = User.query.filter_by(id=id).first()
+    if (user):
+        # this SHOULD get just the upcoming requests but rn its getting all of them
+        details = {'availability': user.get_availability(
+        ).to_json(), 'requestOffs': user.get_request_offs_json()}
+        details.update(user.to_json())
+        return jsonify({'wasSuccessful': True, 'user': details})
+    return jsonify({'wasSuccessful': False, 'message': 'There is no user with that id...'})
+
+
+@app.route('/update_user', methods=['POST'])
+def update_user():
+    return jsonify(None)
+
+
+@ login_required
+@ app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('home'))
-
-
-@app.route('/user/<username>')
-@login_required
-def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
-    return render_template('user.html', user=user)
+    user = {'isAuthenticated': current_user.is_authenticated}
+    return jsonify({'currentUser': user})
 
 
 if "__name__" == "__main__":
     app.debug = True
-    app.run()
+    app.run(host='192.168.1.227')

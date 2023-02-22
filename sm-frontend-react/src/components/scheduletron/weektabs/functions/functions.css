@@ -1,0 +1,25 @@
+.functions-drawer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    bottom: 0px;
+    top : 0px;
+    left : 0px;
+    z-index: 1;
+  }
+
+.functions-drawer .functions-button {
+    background-color: #54f2d1;
+    border-radius: 7px 7px 0px 0px;
+    width: 59px;
+    height: 37px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.functions-button:hover {
+    background-color: #00ffca;
+    border: none;
+  }

@@ -15,8 +15,12 @@ class AddUserForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
     position = StringField('Position', validators=[
-                           DataRequired(), AnyOf(['crew', 'manager'], message='Must be one of these options: crew, manager')])
+                           DataRequired()])
     submit = SubmitField('Register')
+
+    def validate_position(self, position):
+        if position.data.lower() not in ['crew', 'manager']:
+            raise ValidationError("Position must be manager or crew")
 
 
 class RegistrationForm(AddUserForm):

@@ -1,87 +1,39 @@
 .App {
-  text-align: center;
-}
-
-.scrollmenu {
-  min-width: 100%;
-  min-height: 200px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
   display: flex;
+  position: absolute;
   overflow: auto;
-  white-space: nowrap;
 }
 
-.scrollmenu li {
-  color: white;
-  min-width: 200px;
-  margin: 5px;
-  display: inline-block;
-  text-align: center;
+
+
+@media (min-width : 600px) {
+  .App{
+    background-color: #F6F6F6;
+  }
+
 }
 
-.thumbnail h3 {
-  color: black;
-}
-.thumbnail h1 {
-  font-size: 200px;
-  text-align: center;
+body { 
+  margin: 0;
 }
 
-line {
-  stroke: rgb(255, 0, 0);
-  stroke-width: 2;
+main {
+  justify-content: center;
+  display: flex;
 }
 
-svg {
-  border: 2px solid blue;
-}
-
-.main {
-  display: inline;
-}
-#di {
-  display: inline-block;
-  margin: 20px;
-}
-
-.MuiSlider-valueLabel {
-  color: red;
-}
-
-.MuiSlider-thumb {
-  color: black;
-}
-.MuiSlider-rail {
-  color: rgb(160, 154, 154);
-}
-.MuiSlider-track {
-  color: red;
-}
-.MuiSlider-mark {
-  color: black;
-}
-
-.float-container {
-  float: left;
-  width: 100%;
-}
-.float-child1 {
-  float: left;
-  width: 15%;
-  padding: 20px;
-  margin-top: 10px;
-}
-.float-child2 {
-  float: left;
-  width: 85%;
-  padding: 20px;
-}
-
-.list {
-  list-style-type: none;
+/* Track */
+::-webkit-scrollbar {
+  width: 5px;
   padding: 10px;
-  margin: 10px;
+  height: 5px;
 }
-
-.item {
-  margin: 7px;
+::-webkit-scrollbar-thumb {
+  background: #cecece;
+  border-radius: 20px;
 }

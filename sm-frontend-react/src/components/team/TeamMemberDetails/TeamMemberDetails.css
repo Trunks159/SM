@@ -1,0 +1,123 @@
+.tm-details{
+    display: grid;
+    grid-template-rows: 70px 1fr;
+    flex: 1;
+    background-color: white;
+}
+
+.breadcrumb, .breadcrumb-active{
+    text-decoration: none;
+    text-transform: capitalize;
+    color: #050505;   
+}
+
+.breadcrumb{
+    opacity: .57;
+}
+
+.main-div {
+    display: flex;
+    flex-direction: column;
+    margin : 15px;
+    gap : 45px;
+}
+
+.info{
+    display: none;
+}
+
+.main-div .header{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.header .circle-background{
+    background-color: #95AA9F;
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.circle-background h1{
+    font-size: 38px;
+    font-weight: normal;
+}
+
+.main-div form .header{
+    font-weight: 500;
+    color:#050505;
+    opacity: .75;
+    font-size: 17px;
+    margin: 0px;
+}   
+
+.main-div form .help-text{
+    font-size: 12px;
+    color: #707070;
+    margin-bottom : 15px;
+    margin-top: 0px;
+    line-height: 18px;
+}
+
+.main-div form{
+    display: flex;
+    flex-direction: column;
+    gap : 10px;
+}
+
+.main-div .details{
+    grid-area: content1;
+}
+
+.main-grid .availability{
+    grid-area: availability;
+    
+}
+
+@media (min-width : 585px) {
+    .header {
+        gap: 20px;
+    }
+    .info {
+        display: flex;
+        flex-direction: column;
+
+    }
+    .info h2{
+        margin: 5px 0px;
+        font-weight: 500;
+        font-size: 32px;
+        
+    }
+
+    .info h4{
+        margin : 0;
+        opacity: .7;
+        font-size: 17px;
+    }
+}
+
+@media (min-width : 689px) {
+    .main-div{
+        max-width : 1024px;
+        flex  : 1;  
+        margin : 20px 50px; 
+        display : grid;
+        grid-template-areas: 
+            'head head'
+            'details availability';
+        grid-template-columns: minmax(20%, 264px) minmax(420px, 530px);
+        grid-template-rows: 130px 1fr;
+        position: relative;
+    } 
+    .main-div .header{
+        grid-area: head;
+        gap : 10px;
+    }
+}

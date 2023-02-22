@@ -1,0 +1,95 @@
+.timeslots {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  overflow-x: auto;
+  list-style-type: None;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.timeslots li {
+  min-width: 150px;
+  transition-duration: 0.15s;
+  border-radius: 7px;
+  position: relative;
+  display: grid;
+  grid-template-rows: 70px 1fr;
+}
+
+.timeslots li:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.timeslot {
+  background: white;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 7px;
+  font-weight: 200;
+  font-style: italic;
+  font-size: 13px;
+  justify-content: center;
+  text-align: center;
+}
+
+
+.stretch-btn {
+  background: rgba(0, 0, 0, 0.65);
+  margin-left: auto;
+  margin-right: auto;
+  right: 0;
+  left: 0;
+  height: 35px;
+  width: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  position: absolute;
+  top : -17.5px;
+
+}
+
+.stretch-btn img {
+  pointer-events: none;
+  width: 15px;
+}
+
+.timeslot-track{
+  width: 100%;
+  position: relative;
+}
+
+.timeslot-track:hover{
+  background-color: aliceblue;
+}
+
+@media (min-width: 600px) {
+  /*
+  .stretch-btn {
+    left: -15px;
+    top: 18px;
+    height: 25px;
+    width: 35px;
+  }
+  */
+  .timeslots {
+    background-color: rgba(175, 175, 175, 0.15);
+    padding: 20px 0px;
+    box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.16);
+    flex-direction: column;
+    top: 40px;
+    overflow-y: auto;
+  }
+
+  .timeslots li {
+    height: 66px;
+  }
+}

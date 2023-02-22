@@ -1,129 +1,191 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import NavBar from "./components/NavBar";
-//import Users from "./components/Users";
-//import Registration from "./components/Registration";
-//import MyBarChart from "./components/MyBarChart2";
-//import Test from "./components/Test";
+import NavBar from "./components/navbar/NavBar";
+import User from "./components/user/User";
+import Login from "./components/forms/login/Login";
+import Register from "./components/forms/register/Register";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
+import Scheduletron from "./components/scheduletron/Scheduletron";
+import Notification from "./components/Notification";
+import { useDispatch, useSelector } from "react-redux";
+import Team from "./components/team/Team";
+import { createTheme, ThemeProvider } from "@mui/material";
+import AddTeamMember from "./components/forms/AddTeamMember/AddTeamMember";
+//ACTIONS
+const updateCurrentUser = (newUser) => ({
+  type: "UPDATE_CURRENT_USER",
+  payLoad: newUser,
+});
 
-import VerticleSlider from "./components/VerticleSlider";
-//import data from "./range-data.json";
+const updateScreenWidth = (newWidth) => ({
+  type: "UPDATE_SCREEN_WIDTH",
+  payLoad: newWidth,
+});
 
-class App extends Component {
-  state = {
-    users: [
-      {
-        first_name: "jordan",
-        last_name: "giles",
-        username: "Trunks159",
-        position: "manager",
-        color: "#00FFFF",
-        anonymous: false,
-        id: 1,
-      },
-      {
-        first_name: "eric",
-        last_name: "brown",
-        username: "ebrown",
-        position: "",
-        color: "#FFA500",
-        anonymous: false,
-        id: 2,
-      },
-      {
-        first_name: "william",
-        last_name: "mcaden",
-        username: "wmcaden",
-        color: "#FF6347",
-        position: "",
-        anonymous: false,
-        id: 3,
-      },
-      {
-        first_name: "abeil",
-        last_name: "adilo",
-        username: "aadilo",
-        color: "#FF6347",
-        position: "",
-        anonymous: false,
-        id: 4,
-      },
-      {
-        first_name: "josh",
-        last_name: "cress",
-        username: "jcress",
-        color: "#FF6347",
-        position: "",
-        anonymous: false,
-        id: 5,
-      },
-    ],
-    current_user: {
-      first_name: "jordan",
-      last_name: "giles",
-      username: "Trunks159",
-      position: "manager",
-      anonymous: false,
-    },
-  };
-  componentDidMount() {
-    fetch("/schedule").then((response) =>
-      response.json().then((data) => {
-        this.setState({ users: data.users });
-      })
-    );
+const updateAllUsers = (newUsers) => ({
+  type: "UPDATE_ALL_USERS",
+  payLoad: newUsers,
+});
+
+const theme = createTheme();
+
+function App() {
+  const [message, setMessage] = useState(null);
+  const dispatch = useDispatch();
+
+  const currentUser = useSelector((state) => state.currentUser);
+  const users = useSelector((state) => state.allUsers);
+
+  function fetchUsers() {
+    fetch("/get_all_users")
+      .then((response) => response.json())
+      .then((newData) => {
+        if (
+          /*if the data from the api call is different
+    than the data we have, update state*/
+          users !== newData.users ||
+          currentUser !== newData.currentUser
+        ) {
+          dispatch(updateCurrentUser(newData.currentUser));
+          dispatch(updateAllUsers(newData.users));
+        }
+      });
   }
-  render() {
-    return (
-      <div className="App">
-        <NavBar current_user={this.state.current_user} />
-        <div className="float-container">
-          <div className="float-child1">
-            <ul className="list">
-              {[
-                "7:00AM",
-                "8:00AM",
-                "9:00AM",
-                "10:00AM",
-                "11:00AM",
-                "12:00PM",
-                "1:00PM",
-                "2:00PM",
-                "3:00PM",
-                "4:00PM",
-                "5:00PM",
-                "6:00PM",
-                "7:00PM",
-                "8:00PM",
-                "9:00PM",
-                "10:00PM",
-                "11:00PM",
-              ]
-                .slice(0)
-                .reverse()
-                .map((x) => (
-                  <li className="item">{x}</li>
-                ))}
-            </ul>
-          </div>
-          <div float="left" className="float-child2">
-            <VerticleSlider name="Jordan" />
-            <VerticleSlider name="Nova" />
-            <VerticleSlider name="Elsa" />
-            <VerticleSlider name="Jeff" />
-            <VerticleSlider name="Joe" />
-            <VerticleSlider name="Ryan" />
-            <VerticleSlider name="Sarah" />
-            <VerticleSlider name="Alphonso" />
-            <VerticleSlider name="Bob" />
-          </div>
+
+  function notifyUser(message) {
+    setMessage(message);
+    setTimeout(() => {
+      setMessage(null);
+    }, 4000);
+  }
+
+  function handleLogout() {
+    fetch("/logout")
+      .then((response) => response.json())
+      .then(() => {
+        fetchUsers();
+        notifyUser();
+      });
+  }
+
+  function updatePredicate() {
+    dispatch(updateScreenWidth(window.innerWidth));
+  }
+
+  useEffect(() => {
+    //componentDidMount
+    window.addEventListener("resize", updatePredicate);
+    updatePredicate(window.innerWidth);
+    fetchUsers();
+    return () => {
+      window.removeEventListener("resize", updatePredicate);
+    };
+  }, []);
+
+  return users ? (
+    <Router>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <NavBar currentUser={currentUser} handleLogout={handleLogout} />
+          <Notification message={message} />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() => {
+                return currentUser.username ? (
+                  <Redirect to="/scheduletron" />
+                ) : (
+                  <Redirect to="/login" />
+                );
+              }}
+            />
+            <Route
+              path="/login"
+              render={() => {
+                if (currentUser.username) {
+                  return <Redirect to="/" />;
+                }
+                return (
+                  <Login
+                    users={users}
+                    notifyUser={notifyUser}
+                    screenWidth={0}
+                  />
+                );
+              }}
+            />
+
+            <Route
+              path="/register"
+              render={({ match }) => {
+                return currentUser.username ? (
+                  <Redirect to="/" />
+                ) : (
+                  <Register
+                    users={users}
+                    notifyUser={notifyUser}
+                    match={match}
+                  />
+                );
+              }}
+            />
+            <Route
+              path="/team"
+              render={() => {
+                return currentUser.username ? (
+                  <Team
+                    fetchUsers={fetchUsers}
+                    teamMembers={users}
+                    notifyUser={notifyUser}
+                  />
+                ) : (
+                  <Redirect to="/login" />
+                );
+              }}
+            />
+            <Route
+              path="/scheduletron/:weekId?/:dayId?"
+              render={() => {
+                return currentUser.username ? (
+                  <Scheduletron />
+                ) : (
+                  <Redirect to="/login" />
+                );
+              }}
+            />
+          </Switch>
+
+          <Route
+            exact
+            path="/user/:username"
+            render={(props) => {
+              const user = users.find(
+                (user) => user.username === props.match.params.username
+              );
+              if (user) {
+                return <User user={user} currentUser={currentUser} />;
+              } else {
+                this.notifyUser({
+                  content: "Couldn't find user...",
+                  severity: "error",
+                  title: "error",
+                });
+                return <Redirect to="/" />;
+              }
+            }}
+          />
         </div>
-        {/*<Test users={this.state.users} />*/}
-        {/*<MyBarChart data={data} />*/}
-        {/*<Registration />*/}
-      </div>
-    );
-  }
+      </ThemeProvider>
+    </Router>
+  ) : (
+    <p>Loading Right Now...</p>
+  );
 }
 
 export default App;

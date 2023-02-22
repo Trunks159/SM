@@ -1,0 +1,6 @@
+<svg id="Schedule_Icon_Grey" data-name="Schedule Icon Grey" xmlns="http://www.w3.org/2000/svg" width="31.285" height="31.285" viewBox="0 0 31.285 31.285">
+  <g id="Week_View_Icon" data-name="Week View Icon">
+    <path id="Path_94" data-name="Path 94" d="M0,0H31.285V31.285H0Z" fill="none"/>
+    <path id="Path_95" data-name="Path 95" d="M7.569,12.861H9.853v2.413H7.569Zm15.99-6.034V23.721a2.358,2.358,0,0,1-2.284,2.413H5.284A2.351,2.351,0,0,1,3,23.721L3.011,6.827A2.342,2.342,0,0,1,5.284,4.413H6.427V2H8.711V4.413h9.137V2h2.284V4.413h1.142A2.358,2.358,0,0,1,23.559,6.827ZM5.284,9.24h15.99V6.827H5.284Zm15.99,14.481V11.654H5.284V23.721Zm-4.569-8.447H18.99V12.861H16.706Zm-4.569,0h2.284V12.861H12.137Z" transform="translate(2.363 1.575)" fill="#4d4d4d"/>
+  </g>
+</svg>

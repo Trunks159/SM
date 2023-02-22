@@ -1,0 +1,15 @@
+<svg id="Shift_View_Icon_Active" data-name="Shift View Icon Active" xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42">
+  <circle id="Ellipse_131" data-name="Ellipse 131" cx="3" cy="3" r="3" transform="translate(6 5)" fill="#328f83"/>
+  <g id="Rectangle_461" data-name="Rectangle 461" fill="none" stroke="#328f83" stroke-width="2">
+    <rect width="42" height="42" rx="7" stroke="none"/>
+    <rect x="1" y="1" width="40" height="40" rx="6" fill="none"/>
+  </g>
+  <path id="Path_90" data-name="Path 90" d="M0,0H8.99" transform="translate(11.069 7.973)" fill="none" stroke="#328f83" stroke-width="1"/>
+  <circle id="Ellipse_132" data-name="Ellipse 132" cx="3" cy="3" r="3" transform="translate(19 5)" fill="#328f83"/>
+  <path id="Path_91" data-name="Path 91" d="M0,0H8.99" transform="translate(17.069 20.973)" fill="none" stroke="#328f83" stroke-width="1"/>
+  <circle id="Ellipse_131-2" data-name="Ellipse 131" cx="3" cy="3" r="3" transform="translate(12 18)" fill="#328f83"/>
+  <circle id="Ellipse_132-2" data-name="Ellipse 132" cx="3" cy="3" r="3" transform="translate(25 18)" fill="#328f83"/>
+  <path id="Path_90-2" data-name="Path 90" d="M0,0H8.99" transform="translate(22.069 33.973)" fill="none" stroke="#328f83" stroke-width="1"/>
+  <circle id="Ellipse_131-3" data-name="Ellipse 131" cx="3" cy="3" r="3" transform="translate(17 31)" fill="#328f83"/>
+  <circle id="Ellipse_132-3" data-name="Ellipse 132" cx="3" cy="3" r="3" transform="translate(30 31)" fill="#328f83"/>
+</svg>
