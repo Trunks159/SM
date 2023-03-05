@@ -18,6 +18,11 @@ const updateCurrentUser = (newUser) => ({
   payLoad: newUser,
 });
 
+const updateAlert = (newAlert) => ({
+  type: "UPDATE_ALERT",
+  payLoad: newAlert,
+});
+
 function Login({ users, notifyUser }) {
   const [state, setState] = useState({
     username: "",
@@ -40,11 +45,13 @@ function Login({ users, notifyUser }) {
   }
 
   function handleSuccessfulLogin(newUser) {
-    notifyUser({
-      content: username + " is now logged in!",
-      title: "Login Successful",
-      severity: "success",
-    });
+    dispatch(
+      updateAlert({
+        content: username + " is now logged in!",
+        title: "Login Successful",
+        severity: "success",
+      })
+    );
     dispatch(updateCurrentUser(newUser));
   }
 

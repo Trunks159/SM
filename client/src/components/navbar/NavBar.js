@@ -11,6 +11,7 @@ import scheduleIcon from "./assets/Schedule Icon.svg";
 import teamIcon from "./assets/Team Icon.svg";
 import "./navbar.css";
 import styled from "@emotion/styled";
+import Notification from "../Notification";
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   width: "max-content",

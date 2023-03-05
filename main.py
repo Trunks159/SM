@@ -49,8 +49,8 @@ def user_login():
     # it just redirects and shows an error message
 
     data = request.get_json()
-    username = data['username']
-    password = data['password']
+    username = data['username'].strip()
+    password = data['password'].strip()
     remember = data['remember']
     user = User.query.filter_by(username=username).first()
 

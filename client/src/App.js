@@ -8,13 +8,14 @@ import {
   Route,
   Redirect,
   Switch,
+  useLocation,
 } from "react-router-dom";
 import Scheduletron from "./components/scheduletron/Scheduletron";
 import Notification from "./components/Notification";
 import { useDispatch, useSelector } from "react-redux";
 import Team from "./components/team/Team";
 import { createTheme, ThemeProvider } from "@mui/material";
-import AddTeamMember from "./components/forms/AddTeamMember/AddTeamMember";
+
 //ACTIONS
 const updateCurrentUser = (newUser) => ({
   type: "UPDATE_CURRENT_USER",
@@ -31,16 +32,12 @@ const updateAllUsers = (newUsers) => ({
   payLoad: newUsers,
 });
 
-const theme = createTheme();
+const updateAlert = (newAlert) => ({
+  type: "UPDATE_ALERT",
+  payLoad: newAlert,
+});
 
-function Logout({ handleLogout }) {
-  const [goHome, setGoHome] = useState(false);
-  useEffect(() => {
-    handleLogout();
-    setGoHome(true);
-  }, []);
-  return goHome && <Redirect to="/login" />;
-}
+const theme = createTheme();
 
 function App() {
   const [message, setMessage] = useState(null);
@@ -48,14 +45,16 @@ function App() {
 
   const currentUser = useSelector((state) => state.currentUser);
   const users = useSelector((state) => state.allUsers);
+  const alert = useSelector((state) => state.alert);
 
+  //API CALLS//////////////////////
   function fetchUsers() {
     fetch("/api/get_all_users")
       .then((response) => response.json())
       .then((newData) => {
         if (
           /*if the data from the api call is different
-    than the data we have, update state*/
+            than the data we have, update state*/
           users !== newData.users ||
           currentUser !== newData.currentUser
         ) {
@@ -65,28 +64,28 @@ function App() {
       });
   }
 
-  function notifyUser(message) {
-    setMessage(message);
-    setTimeout(() => {
-      setMessage(null);
-    }, 4000);
-  }
-
   function handleLogout() {
     fetch("/api/logout")
       .then((response) => response.json())
       .then(() => {
         fetchUsers();
-        notifyUser();
+        dispatch(
+          updateAlert({
+            content: "Logout Successful",
+            severity: "success",
+            title: "Success!",
+          })
+        );
       });
   }
+  ////////////////////
 
   function updatePredicate() {
     dispatch(updateScreenWidth(window.innerWidth));
   }
 
   useEffect(() => {
-    //componentDidMount
+    //Initializes screenwidth in redux and adds an event listener
     window.addEventListener("resize", updatePredicate);
     updatePredicate(window.innerWidth);
     fetchUsers();
@@ -95,89 +94,76 @@ function App() {
     };
   }, []);
 
+  //COMPONENTS/////////////////////////////////////
+
+  function RouteWithAuthenticator(props) {
+    const { reverseAuthenticator, render } = props;
+    const location = useLocation();
+    const redirect = (() => {
+      //if user is logged in, they cant sign in or register
+      //if user isnt logged in, they cant do anything other then logging in
+      //this redirects if neccessary
+      if (props.reverseAuthenticator && currentUser.username) {
+        return () => <Redirect to="/scheduletron" />;
+      } else if (
+        //reverseauth is false
+        //user isnt authenticated
+        !Boolean(reverseAuthenticator) &&
+        !Boolean(currentUser.username)
+      ) {
+        return () => <Redirect to="/login" />;
+      }
+    })();
+
+    return <Route {...props} render={redirect || render} />;
+  }
+
+  function Logout() {
+    const [redirect, setRedirect] = useState(false);
+    useEffect(() => {
+      handleLogout();
+      setRedirect(true);
+    }, []);
+    return redirect && <Redirect to="/login" />;
+  }
+  //////////////////
+  console.log("Current: ", currentUser.username);
   return users ? (
     <Router>
       <ThemeProvider theme={theme}>
         <div className="app">
           <main>
             <NavBar currentUser={currentUser} />
-
-            <Notification message={message} />
+            <Notification />
             <Switch>
-              <Route
-                path="/logout"
-                render={() => {
-                  return currentUser.username ? (
-                    <Logout handleLogout={handleLogout} />
-                  ) : (
-                    <Redirect to="/login" />
-                  );
-                }}
-              />
-              <Route
+              <RouteWithAuthenticator
                 exact
                 path="/"
-                render={() => {
-                  return currentUser.username ? (
-                    <Redirect to="/scheduletron" />
-                  ) : (
-                    <Redirect to="/login" />
-                  );
-                }}
-              />
-              <Route
-                path="/login"
-                render={() => {
-                  if (currentUser.username) {
-                    return <Redirect to="/" />;
-                  }
-                  return (
-                    <Login
-                      users={users}
-                      notifyUser={notifyUser}
-                      screenWidth={0}
-                    />
-                  );
-                }}
+                render={() => <Redirect to="/scheduletron" />}
               />
 
-              <Route
-                path="/register"
-                render={({ match }) => {
-                  return currentUser.username ? (
-                    <Redirect to="/" />
-                  ) : (
-                    <Register
-                      users={users}
-                      notifyUser={notifyUser}
-                      match={match}
-                    />
-                  );
-                }}
+              <RouteWithAuthenticator
+                path="/team"
+                render={() => <Team teamMembers={users} />}
               />
-              <Route
-                path="/team/:endpoint?"
-                render={({ match }) => {
-                  return currentUser.username ? (
-                    <Team
-                      fetchUsers={fetchUsers}
-                      teamMembers={users}
-                      notifyUser={notifyUser}
-                      endpoint={match.params.endpoint}
-                    />
-                  ) : (
-                    <Redirect to="/login" />
-                  );
-                }}
-              />
-              <Route
+              <RouteWithAuthenticator
                 path="/scheduletron/:weekId?/:dayId?"
-                render={() => {
-                  return currentUser.username ? (
-                    <Scheduletron />
-                  ) : (
-                    <Redirect to="/login" />
-                  );
+                render={() => <Scheduletron />}
+              />
+              <RouteWithAuthenticator
+                path="/register"
+                reverseAuthenticator
+                render={({ match }) => <Register users={users} match={match} />}
+              />
+              <RouteWithAuthenticator
+                path="/logout"
+                render={() => <Logout />}
+              />
+              <RouteWithAuthenticator
+                path="/login"
+                reverseAuthenticator
+                render={(props) => {
+                  return <Login users={users} />;
                 }}
               />
             </Switch>

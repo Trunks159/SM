@@ -30,7 +30,7 @@ import {
   StyledAdvancedButton,
 } from "./StyledComponents";
 
-function Team({ teamMembers, notifyUser }) {
+function Team({ teamMembers }) {
   const [breadcrumbs, setBreadCrumbs] = useState([]);
   const [removing, setRemoving] = useState(false);
   const location = useLocation();
@@ -67,6 +67,7 @@ function Team({ teamMembers, notifyUser }) {
       })
     );
   }, [location]);
+  console.log("Hello: ");
   return (
     <div className="team">
       <StyledBreadcrumbs
