@@ -31,7 +31,9 @@ function HelpPrompt({ currentFunction, name }) {
       style={{
         display: currentFunction === name ? "flex" : "none",
       }}
-      className="prompt help-prompt"
+      className={`help-prompt prompt${
+        currentFunction === name ? "" : "-hidden"
+      }`}
     >
       <h1>Let me help you out a bit</h1>
 

@@ -26,21 +26,24 @@ function Notification(props) {
 
   useEffect(() => {
     if (incomingMessage) {
-      setMessage(incomingMessage );
+      setMessage(incomingMessage);
       setOpen(true);
     } else {
       setOpen(false);
     }
   }, [incomingMessage]);
 
-  
   useEffect(() => {
-    if (open === false){
-     setMessage(null);
+    if (open === false) {
+      setMessage(null);
     }
   }, [open]);
 
-  return <Collapse in={open}>{message}</Collapse>;
+  return (
+    <Collapse style={props.styles || {}} in={open}>
+      {message}
+    </Collapse>
+  );
 }
 
 export default Notification;

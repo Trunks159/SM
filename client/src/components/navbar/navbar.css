@@ -1,43 +1,53 @@
-.main-nav {
-  box-shadow: 0px 2px 4px 1px rgba(0,0,0,0.28);
-  width: 70px;
+.appbar{
+  background-color: #2E3A40;
+  display: flex;
+  align-items: center;
+  padding: 5px 0px;
+  position: sticky;
+  top : 0;
+  z-index: 1;
   transition-duration: .25s;
-  display: grid;
-  grid-template-rows: 70px 1fr;
-  position: fixed;
 }
 
-.main-button{
-  margin-top: 7px;
+.appbar-open{
+    background-color: #E0E1E2;
 }
 
-.main-button :hover{
-  opacity: .8;
+.navlink{
+    text-decoration: none;
+    color:  white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: .7;
+    transition-duration: .2s;
+}
+.navlink img{
+    width: 40px;
+    margin: 10px
 }
 
-.nav-links {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.navlink-active{
+    opacity: 1;
 }
 
-
-.nav-link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
-  width: 100%;
-  position: relative;
-  font-size: 9px;
-  font-weight: bold;
-  text-decoration: none;
-  margin : 20px 0px;
-
+.navlink:hover{
+    opacity: 1;
 }
 
+.logo{
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 20px;
+}
 
-.nav-link p{
-  margin: 0px;
+.profile-menu-link{
+    color: #2B9DD9;
+    text-decoration: none;
+}
+
+@media (min-width : 600px) {
+    .appbar{
+        display: none;
+    }
 }

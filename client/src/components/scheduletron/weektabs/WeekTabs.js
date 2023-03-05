@@ -3,7 +3,8 @@ import { Redirect, Link } from "react-router-dom";
 import DaySchedule from "./daySchedule/DaySchedule";
 import { useSelector, useDispatch } from "react-redux";
 import { StyledPaper, StyledTab, StyledTabs } from "./StyledComponents";
-import moment from "moment";
+import dayjs from "dayjs";
+import { Paper } from "@mui/material";
 
 //ACTIONS ////////////////////////
 function updateSelectedWeek(newWeek) {
@@ -15,8 +16,7 @@ function updateCurrentDayId(dayId) {
 }
 
 const TabsContainer = (props) => {
-  //The url is the basis of all changes to week
-  //and day
+  //The url is the basis of all changes to week and day
 
   //UTILITIES
   const dispatch = useDispatch();
@@ -24,18 +24,20 @@ const TabsContainer = (props) => {
   //GLOBAL STATE
   const selectedWeek = useSelector((state) => state.selectedWeek);
   const currentSchedule = useSelector((state) => state.currentSchedule);
-  //STATE
+  //LOCAL STATE
   const [redirect, setRedirect] = useState(null);
 
   //SIDE EFFECTS
   function updateState() {
     //fetches a weekSchedule and updates week and day
-    fetch(
-      isNaN(props.weekId)
+
+    const url =
+      "/api/get_week_schedule" +
+      (isNaN(props.weekId)
         ? //if nothing is sent for weekid inquire about THIS week's info
-          `/get_week_schedule?date=${"9-13-2021"}`
-        : `/get_week_schedule?week-id=${props.weekId}`
-    )
+          ""
+        : `?week-id=${props.weekId}`);
+    fetch(url)
       .then((response) => response.json())
       .then((response) => {
         if (response) {
@@ -83,22 +85,24 @@ const TabsContainer = (props) => {
             {/*You might want to separate this and define the Tabs above 
               but DONOT. For some reason the scrollbuttons dont work or the indicator*/}
             {selectedWeek.week.map(({ id, date }) => {
-              const theDate = moment(date);
+              const theDate = dayjs(date);
               return (
-              <StyledTab
-                key={id}
-                value={id}
-                component={Link}
-                to={`/scheduletron/viewer/${props.weekId}/${id}`}
-                label={
-                  <p>
-                    <span className="weekday">{theDate.format('dddd')},</span>
-                    {theDate.format('M/D')}
-                  </p>
-                }
-              />
-            )})}
+                <StyledTab
+                  key={id}
+                  value={id}
+                  component={Link}
+                  to={`/scheduletron/viewer/${props.weekId}/${id}`}
+                  label={
+                    <p>
+                      <span className="weekday">{theDate.format("dddd")},</span>
+                      {theDate.format("M/D")}
+                    </p>
+                  }
+                />
+              );
+            })}
           </StyledTabs>
+
           <DaySchedule />
         </>
       )}

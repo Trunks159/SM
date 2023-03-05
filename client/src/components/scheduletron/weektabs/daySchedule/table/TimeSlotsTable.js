@@ -7,6 +7,7 @@ import {
   TableBody,
   TableContainer,
   Button,
+  Box,
 } from "@mui/material";
 import TimeLine from "./TimeLine";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,17 +37,37 @@ const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
   },
 }));
 
-function MyTable() {
+const StyledBox = styled(Box)(() => ({
+  flex: 1,
+  position: "relative",
+  "& h3": {
+    color: "white",
+    fontWeight: "500",
+    background: "#546E7D",
+    padding: "5px 10px",
+    width: "max-content",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    margin: 5,
+    opacity: 0.8,
+  },
+  //watch out for this padding
+}));
+
+function MyTable({ date }) {
   const dispatch = useDispatch();
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const { timeslots } = currentSchedule;
+  const isReadOnly = currentSchedule.isReadOnly(date);
 
   function handleRemove(e, index) {
     dispatch(removeFromScheduled(index));
   }
 
   return (
-    <div style={{ flex: 1, position: "relative" }}>
+    <StyledBox>
+      {isReadOnly && <h3>Read Only</h3>}
       <StyledTableContainer>
         <Table
           style={{
@@ -75,6 +96,7 @@ function MyTable() {
                   }}
                 >
                   <Button
+                    disabled={isReadOnly}
                     onClick={() => handleRemove(index)}
                     to="/"
                     style={{
@@ -114,14 +136,18 @@ function MyTable() {
                       borderRight: "rgba(112, 112, 112, .14)",
                     }}
                   >
-                    <TimeSlot timeslot={timeslot} index={index} />
+                    <TimeSlot
+                      timeslot={timeslot}
+                      index={index}
+                      isReadOnly={isReadOnly}
+                    />
                   </TableCell>
                 ))}
             </TableRow>
           </TableBody>
         </Table>
       </StyledTableContainer>
-    </div>
+    </StyledBox>
   );
 }
 

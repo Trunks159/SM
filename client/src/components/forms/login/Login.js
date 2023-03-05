@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Checkbox } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { Checkbox } from "@mui/material";
 import LockIcon from "@material-ui/icons/Lock";
-import "../forms.css";
 import {
   SolidButton,
   OutlinedButton,
@@ -10,7 +10,7 @@ import {
   RememberMe,
   Header,
 } from "../StyledComponents";
-import { useDispatch } from "react-redux";
+import "../forms.css";
 
 //ACTIONS
 const updateCurrentUser = (newUser) => ({
@@ -70,7 +70,7 @@ function Login({ users, notifyUser }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("/login_user", {
+    fetch("/api/login_user", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -93,29 +93,29 @@ function Login({ users, notifyUser }) {
     <form className="authentification-form" onSubmit={handleSubmit}>
       <Header>Sign In</Header>
       <div className="inputs">
-      <MyInput
-        required
-        error={usernameErrors}
-        variant="outlined"
-        name="username"
-        label="Enter Username"
-        onChange={handleChange}
-        value={username}
-        helperText={usernameErrors}
-      />
-      <MyInput
-        error={passwordErrors}
-        required
-        variant="outlined"
-        name="password"
-        label="Enter Password"
-        onChange={handleChange}
-        type="password"
-        helperText={passwordErrors}
-        value={password}
-      />
+        <MyInput
+          required
+          error={usernameErrors}
+          variant="outlined"
+          name="username"
+          label="Enter Username"
+          onChange={handleChange}
+          value={username}
+          helperText={usernameErrors}
+        />
+        <MyInput
+          error={passwordErrors}
+          required
+          variant="outlined"
+          name="password"
+          label="Enter Password"
+          onChange={handleChange}
+          type="password"
+          helperText={passwordErrors}
+          value={password}
+        />
       </div>
-      
+
       <Link className="forgot-password" to="/">
         Forgot Password?
       </Link>

@@ -1,10 +1,29 @@
 .drawer {
+  background: rgba(53, 60, 63, .9);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  width : 300px;
+  position: relative;
+  background-color: aliceblue;
+  flex: 1;
+}
+
+.prompt{
+  overflow-y: auto;
+}
+
+.prompt-hidden{
+  display: none;
+}
+/*
+.drawer {
   position: fixed;
   top: 0px;
   bottom: 0px;
   right: 0px;
   left: 70px;
-  background: rgba(70, 78, 82, .99);
+  background: rgba(53, 60, 63, .9);
   color: white;
   display: flex;
   flex-direction: column;
@@ -13,10 +32,12 @@
 
 .prompt{
   flex-direction: column;
-  padding: 18px;
+  padding: 20px;
 }
 
-.drawer h1{
+
+
+.prompt h1{
     font-size: 36px;
     line-height: 45px;
     font-weight: 500;
@@ -40,3 +61,4 @@
     border-radius:7px 0px 0px 7px;
 }
 }
+**/

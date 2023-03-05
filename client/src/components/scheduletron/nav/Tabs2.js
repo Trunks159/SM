@@ -3,7 +3,7 @@ import daysIcon from "./assets/Days Icon.svg";
 import searchIcon from "./assets/Search Icon.svg";
 import settingsIcon from "./assets/Settings Icon.svg";
 import { StyledTabs, StyledTab, StyledDivider } from "./StyledTabs";
-import { Tab } from "@material-ui/core";
+import { Tab } from "@mui/material";
 
 const Tabs2 = ({ menu, changeMenu }) => (
   <StyledTabs

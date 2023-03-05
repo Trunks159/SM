@@ -21,14 +21,12 @@ function MyBreadcrumbs({ crumbs, updateCrumbs }) {
   };
 
   useEffect(() => {
-    console.log("Crumb change: ", crumbs);
     if (crumbs.length > 0) {
       //make new reactcomponent breadcrumbs
       setBreadcrumbs(makeBreadcrumbs(crumbs));
     }
   }, [crumbs]);
 
-  console.log("Crumbs: ", crumbs);
   return (
     <Breadcrumbs
       separator={

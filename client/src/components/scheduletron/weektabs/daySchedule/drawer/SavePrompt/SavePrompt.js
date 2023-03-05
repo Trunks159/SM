@@ -1,36 +1,34 @@
 import React, { useState } from "react";
 import saveIcon from "./assets/Save Icon.svg";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Alert } from "@mui/material";
 import Notification from "../Notification";
 import styled from "@emotion/styled";
+import "./SavePrompt.css";
 
 const SaveButton = styled(Button)({
-  background: "#24E1C7",
+  background: "#007363",
   color: "white",
-  width: 134,
-  height: 42,
   borderRadius: 4,
   "&:hover": {
-    background: "#00FFDC ",
+    background: "#11B79F",
   },
-  alignSelf: "center",
+  fontWeight: "bold",
+  fontSize: 20,
+
+  width: 150,
+  justifyContent: "center",
+  marginTop: 20,
 });
 
-/*
-So we need to collapse and once in is set to false
-set the message to null
-
-*/
-
-const SavePrompt = ({ name, currentFunction }) => {
+const SavePrompt = ({ name, currentFunction, isReadOnly, readOnlyWarning }) => {
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const { timeslots } = currentSchedule;
   const [alert, setAlert] = useState(null);
 
   const handleSave = () => {
-    fetch("/update_schedule", {
+    fetch("/api/update_schedule", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -63,8 +61,9 @@ const SavePrompt = ({ name, currentFunction }) => {
 
   return (
     <div
-      className="prompt save-prompt"
-      style={{ display: currentFunction === name ? "flex" : "none" }}
+      className={`save-prompt prompt${
+        currentFunction === name ? "" : "-hidden"
+      }`}
     >
       <h1>Save Your Progress</h1>
       <Notification message={alert} />
@@ -83,7 +82,7 @@ const SavePrompt = ({ name, currentFunction }) => {
         </li>
       </ul>
       <SaveButton
-        onClick={handleSave}
+        onClick={() => (isReadOnly ? readOnlyWarning() : handleSave())}
         endIcon={<img alt="Save" src={saveIcon} />}
       >
         Save

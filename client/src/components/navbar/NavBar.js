@@ -1,144 +1,128 @@
-import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
-import logo from "../../assets/images/ScheduleTron Icon.svg";
-import logoActive from "../../assets/images/ScheduleTron Icon Active.svg";
-import teamIcon from "../../assets/images/Team Icon.svg";
-import scheduleIcon from "../../assets/images/Schedule Icon.svg";
-import homeIcon from "../../assets/images/Home Icon.svg";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { Box, Drawer, Button, Divider } from "@mui/material";
 import MyMenu from "./MyMenu";
+import menuIcon from "./assets/Menu Icon.svg";
+import smallLogo from "./assets/Small Logo.svg";
+import logo from "./assets/Logo.svg";
+import homeIcon from "./assets/Home Icon.svg";
+import scheduleIcon from "./assets/Schedule Icon.svg";
+import teamIcon from "./assets/Team Icon.svg";
 import "./navbar.css";
-import { Divider, Collapse } from "@material-ui/core";
+import styled from "@emotion/styled";
 
-class NavBar extends Component {
-  state = {
-    isOpen: false,
+const StyledDrawer = styled(Drawer)(({ theme }) => ({
+  width: "max-content",
+  flexShrink: 0,
+  "& .MuiDrawer-paper": {
+    padding: "25px",
+    boxSizing: "border-box",
+    background: "#2E3A40",
+    color: "white",
+    position: "sticky",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    [theme.breakpoints.up("sm")]: {
+      position: "sticky",
+      height: "100vh",
+    },
+    fontFamily: "  Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+    gap: "30px",
+  },
+}));
+
+function TheActualDrawer({ isOpen, setIsOpen }) {
+  const screenWidth = useSelector((state) => state.screenWidth);
+  const isMobile = screenWidth < 600;
+  const location = useLocation();
+  const currentUser = useSelector((state) => state.currentUser);
+  const DrawerLink = (props) => {
+    const isActive = props.exact
+      ? props.to.split("/").slice(-1)[0] ===
+        location.pathname.split("/").slice(-1)[0]
+      : location.pathname.includes(props.to);
+    return (
+      <Link
+        {...props}
+        onClick={() => setIsOpen(false)}
+        className={`navlink ${isActive ? "navlink-active" : ""}`}
+      >
+        {props.children}
+      </Link>
+    );
   };
 
-  handleCollapse = () => this.setState({ isOpen: false });
-  handleMouseEnter = () => this.setState({ isOpen: true });
-  handleMouseLeave = () => this.setState({ isOpen: false });
-
-  render() {
-    const { currentUser, handleLogout } = this.props;
-    const style = {
-      transition: "transform .1s",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      border: "none",
-      background: "none",
-      height: 60,
-    };
-    const { isOpen } = this.state;
-
-    return (
-      <nav
-        className="main-nav"
-        style={{
-          zIndex: isOpen ? 2 : 1,
-          background: isOpen ? "#004F78" : "rgba(123, 136, 144, .4)",
-          height: isOpen ? "100vh" : 70,
-        }}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
+  return (
+    <Box sx={{ display: "flex" }}>
+      <StyledDrawer
+        anchor="left"
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        variant={isMobile ? "temporary" : "permanent"}
       >
-        <button
-          className="main-button"
-          style={isOpen ? { ...style, transform: "rotate(90deg)" } : style}
-          onClick={() => this.setState({ isOpen: !isOpen })}
-        >
-          <img
-          alt = 'Scheduletron'
-            style={{
-              position: "absolute",
-              opacity: isOpen ? 0 : 1,
-              transition: "opacity .2s",
-            }}
-            src={logo}
-          />
-          <img
-          alt = 'Scheduletron'
-            style={{
-              position: "absolute",
-              opacity: isOpen ? 1 : 0,
-              transition: "opacity .2s",
-            }}
-            src={logoActive}
-          />
-        </button>
-
-        <Collapse in={isOpen}>
-          <div className="nav-links">
-            {currentUser.username ? (
-              <MyMenu
-                username={currentUser.username}
-                id={currentUser.id}
-                logoutUser={handleLogout}
-                handleCollapse={this.handleCollapse}
-              />
-            ) : (
-              <>
-                <NavLink
-                  style={{
-                    fontSize: 13,
-                    fontWeight: "normal",
-                    textDecoration: "none",
-                    color: "white",
-                    margin: "10px 0px",
-                  }}
-                  to={"/login"}
-                >
-                  Sign In
-                </NavLink>
-
-                <NavLink
-                  style={{
-                    fontSize: 13,
-                    fontWeight: "normal",
-                    textDecoration: "none",
-                    color: "white",
-                    margin: "20px 10px",
-                  }}
-                  to={"/register"}
-                >
-                  Register
-                </NavLink>
-              </>
-            )}
-
-            <Divider
-              style={{
-                margin: "10px 0px",
-                background: "white",
-                width: "90%",
-                opacity: 0.3,
-              }}
+        {currentUser.username ? (
+          <>
+            <MyMenu
+              collapseDrawer={() => setIsOpen(false)}
+              id={currentUser.id}
+              username={currentUser.username}
             />
-            <NavLink onClick={this.handleCollapse} className="nav-link" to="/">
-              <img alt = 'Home' style={{ margin: 5 }} src={homeIcon} />
-              Home
-            </NavLink>
-            <NavLink
-              onClick={this.handleCollapse}
-              className="nav-link"
-              to="/scheduletron"
-            >
-              <img alt = 'Schedules' style={{ margin: 5 }} src={scheduleIcon} />
-              Schedules
-            </NavLink>
-            <NavLink
-              onClick={this.handleCollapse}
-              className="nav-link"
-              to="/team"
-            >
-              <img alt = 'Team' src={teamIcon} />
-              Team
-            </NavLink>
-          </div>
-        </Collapse>
+            <Divider />
+            {[
+              {
+                label: "Home",
+                icon: homeIcon,
+                url: "/scheduletron",
+                exact: true,
+              },
+              {
+                label: "Schedule",
+                icon: scheduleIcon,
+                url: "/scheduletron/viewer",
+              },
+              { label: "Team", icon: teamIcon, url: "/team" },
+            ].map(({ label, icon, url, exact }) => {
+              return (
+                <DrawerLink to={url} exact={exact}>
+                  <img src={icon} />
+                  {label}
+                </DrawerLink>
+              );
+            })}
+          </>
+        ) : (
+          <>
+            <DrawerLink to="/login">Sign In</DrawerLink>
+            <DrawerLink to="/register">Register</DrawerLink>
+          </>
+        )}
+
+        <Link to="/scheduletron" className="logo">
+          <img src={logo} />
+        </Link>
+      </StyledDrawer>
+    </Box>
+  );
+}
+
+function NavBar() {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <nav className={`appbar ${isOpen ? "appbar-open" : ""}`}>
+        <Button onClick={() => setIsOpen(true)}>
+          <img src={menuIcon} />
+        </Button>
+        <Link to="/scheduletron">
+          <img src={smallLogo} />
+        </Link>
       </nav>
-    );
-  }
+
+      <TheActualDrawer isOpen={isOpen} setIsOpen={setIsOpen} />
+    </>
+  );
 }
 
 export default NavBar;

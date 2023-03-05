@@ -28,17 +28,20 @@ class NavMenu extends Component {
       <Collapse in={Boolean(menu)} orientation={"horizontal"} timeout={0}>
         <Paper
           className="nav-menu"
-          style={{ borderRadius: "0px 4px 4px 0px", background: "#EFF1F2" }}
+          style={{
+            borderRadius: "0px 4px 4px 0px",
+            background: "#EFF1F2",
+          }}
         >
           <div className="nav-menu-header">
-            <img alt = {menu}  src={icon} />
+            <img alt={menu} src={icon} />
             <h1>{menu}</h1>
           </div>
           <Button
             style={{ position: "absolute", top: 0, right: 0 }}
             onClick={() => changeMenu(null)}
           >
-            <img alt = 'Close' src={closeIcon} />
+            <img alt="Close" src={closeIcon} />
           </Button>
           <div style={{ overflowY: "auto", height: "100%" }}>
             {selectedWeek && (

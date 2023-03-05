@@ -1,7 +1,8 @@
-import { styled, Button, FormControlLabel, TextField } from "@material-ui/core";
 import React from "react";
 import FancyDivider from "./FancyDivider";
+import { Button, FormControlLabel, TextField } from "@mui/material";
 
+import styled from "@emotion/styled";
 const buttonStyles = {
   borderRadius: 4,
   transitionDuration: ".2s",
@@ -25,13 +26,11 @@ function Header({ children }) {
   );
 }
 
-const StyledHeader = styled('header')(()=>({
-
-  fontSize: '38px',
-  fontWeight: 'normal',
-  margin : '15px 0px',
-}))
-
+const StyledHeader = styled("header")(() => ({
+  fontSize: "38px",
+  fontWeight: "normal",
+  margin: "15px 0px",
+}));
 
 const StyledSolidButton = styled(Button)({
   ...buttonStyles,

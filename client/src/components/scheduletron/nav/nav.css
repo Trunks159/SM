@@ -2,9 +2,8 @@
   box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.28);
   transition: background 0.25s;
   display: flex;
-  position: absolute;
+  position: fixed;
   z-index: 1;
-  right: 0px;
   top: 70px;
   bottom:0px;
   left: 0px;
@@ -31,6 +30,7 @@
   margin: 0px;
 }
 
+/*
 .active {
   opacity: 1;
 }
@@ -42,5 +42,5 @@
 .nav-link :hover {
   opacity: 1;
 }
-
+*/
 

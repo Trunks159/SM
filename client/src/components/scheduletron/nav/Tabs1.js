@@ -6,19 +6,23 @@ import { StyledTab, StyledTabs } from "./StyledTabs";
 
 function Tabs1({ weekId }) {
   const location = useLocation();
-
   const [value, setValue] = useState(
-    location.pathname === "/scheduletron" ? "open" : "schedule"
+    location.pathname.split("/").join("") === "scheduletron"
+      ? "open"
+      : "schedule"
   );
-  const newValue = location.pathname === "/scheduletron" ? "open" : "schedule";
 
   const handleChange = (e, newVal) => setValue(newVal);
 
   useEffect(() => {
+    const newValue =
+      location.pathname.split("/").join("") === "scheduletron"
+        ? "open"
+        : "schedule";
     if (newValue !== value) {
       setValue(newValue);
     }
-  }, [location, value, newValue]);
+  }, [location, value]);
 
   return (
     <StyledTabs

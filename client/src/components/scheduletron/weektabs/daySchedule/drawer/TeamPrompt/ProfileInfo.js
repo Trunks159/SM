@@ -4,7 +4,7 @@ function ProfileInfo({ profile }) {
   const { firstName, lastName, position, id } = profile;
   const [state, setState] = useState({ availability: [], requestOffs: [] });
   useEffect(() => {
-    fetch(`/get_user_availability/${id}`)
+    fetch(`/api/get_user_availability/${id}`)
       .then((response) => response.json())
       .then(({ availability, requestOffs, wasSuccessful }) => {
         wasSuccessful && setState({ ...state, availability, requestOffs });

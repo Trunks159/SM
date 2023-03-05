@@ -1,41 +1,42 @@
 import React from "react";
 import openIcon from "./assets/Open Icon.svg";
-import {Button, StepButton} from '@mui/material'
-import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-
-const StyledButton = styled(Button)({
-  '& img':{
-    position : 'absolute',
-    top : 10,
-    right : 10
-  },
-
-})
-
-function DogTag({ firstName, lastName, position , id}) {
+import { Button } from "@mui/material";
+import deleteIcon from "./assets/Delete Icon.svg";
+function DogTag({ firstName, lastName, position, id, removing }) {
   return (
-    <Link to = {`/team/profile/${id}`} className = 'team-dogtag'>
-      <div
-        style={{
-          width: 45,
-          height: 45,
-          borderRadius: 22.5,
-          background: "#0792B6",
-          display : 'flex'
-          
-        }}
-      >
-        <h2 style={{ fontSize: 23, margin : 'auto' , color : 'white', fontWeight : 400}}>{firstName.charAt(0)}</h2>
-      </div>
+    <div style={{ position: "relative" }}>
+      {removing && (
+        <Button
+          style={{
+            position: "absolute",
+            right: 5,
+            left: 5,
+            top: 0,
+            bottom: 0,
+            background: "rgba(255, 0,0,.1)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1,
+          }}
+        >
+          <img style={{ marginLeft: "auto" }} src={deleteIcon} />
+        </Button>
+      )}
 
-      <p>{firstName}</p>
-      <p>{lastName}</p>
-      <caption>{position}</caption>
-      <img src={openIcon} alt="Open" />
+      <Link to={`/team/profile/${id}`} className="team-dogtag">
+        <div className="icon">
+          <h2>{firstName.charAt(0)}</h2>
+        </div>
 
- 
-    </Link>
+        <p>
+          {firstName} {lastName}
+        </p>
+        <caption>{position}</caption>
+        <img src={openIcon} alt="Open" />
+      </Link>
+    </div>
   );
 }
 

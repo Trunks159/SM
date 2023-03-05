@@ -1,41 +1,168 @@
-.team-main-container {
+.team{
   display: flex;
   flex-direction: column;
-  background-color: white;
+  padding: 20px;
   flex: 1;
-  max-width: 560px;
-  box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.28);
-  border-radius: 7px;
-  padding: 40px;
-  margin-left: auto;
-  margin-right: auto;
 }
-
-.team-main-container header {
-  margin: 30px 0px;
-}
-
-.team-main-container header h1 {
-  font-size: 38px;
-  font-weight: normal;
-  margin: 15px 0px;
-}
-
-
-.team-dogtag{
-  position : relative;
-  background-color: #F5F5F5;
-  border-radius: 4px;
-  display: grid;
-  grid-template-columns: min-content 1fr;
-  grid-template-rows: max-content 1fr;
-  max-width: 200px;
-  color : black;
+.breadcrumb{
+  display: flex;
+  align-items: center;
+  color: black;
   text-decoration: none;
+  text-transform: capitalize;
+  gap : 10px;
+  opacity: .57;
+}
+
+.breadcrumb-active{
+  opacity: 1;
+}
+
+.team-header{
+  font-size: 24px;
+  font-weight: normal;
+}
+
+
+
+.team-content{
+  border: 1px solid #DBDBDB;
+  border-radius: 7px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+
+}
+
+.team-content-removing{
+  border-color: red;
+}
+
+
+.team-content .list-actions-advanced{
+  display: none;
+}
+
+.team-content .list-actions{
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.team-content ul{
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 15px;
+}
+
+
+
+
+.search-label{
+  display: flex;
+  align-items: center;
+  gap : 8px;
+  margin-left : 10px
+}
+
+.search-label img {
+  width: 18px;
+  opacity: .8;
+}
+
+/*////////////////////DogTag/////////////////   */
+.team-dogtag{
+  display: grid;
+  grid-template-columns: 33% 1fr;
+  grid-template-areas: 
+      'icon name'
+      'icon position'
+  ;
+  row-gap: 5px;
+  justify-items: start;
+  width: 220px;
+  min-height: 80px;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  background-color: #F1F1F1;
+  border-radius: 7px;
+  position: relative;
+  margin:0px 10px;
+}
+
+.team-dogtag .icon{
+  justify-self: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #0792B6;
+  display: flex;
+  grid-area: icon;
+}
+
+.team-dogtag .icon h2{
+  font-size: 23px;
+  margin: auto;
+  color: white;
+  font-weight: normal;
+}
+
+.team-dogtag p{
+  grid-area: name;
+  margin : 0;
+  font-size: 18px;
+  font-weight: 500;
+  align-self: end;
+  text-overflow: ellipsis;
+  justify-self: start;
+  overflow: hidden;
+  width :80%;
+}
+
+.team-dogtag caption{
+  grid-area: position;
+  font-size: 12px;
+  color: #666666;
+  text-transform: capitalize;
+  align-self: start;
+  margin : 0;
 }
 
 .team-dogtag img{
   position: absolute;
-  top: 10px;
-  right : 10px;
+  bottom:  0;
+  right: 0;
+  margin: 10px;
+}
+
+
+
+/*/DogTag////////////////////////////////////   */
+
+
+@media (min-width : 860px) {
+
+  .team-content .list-actions-advanced{
+    display: flex;
+  }
+  
+}
+
+
+/* ADD FORM CRAP///////////////// */
+.add-tm-form{
+  padding: 15px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.add-tm-form .header{
+  display: flex;
+  justify-content: space-between;
 }

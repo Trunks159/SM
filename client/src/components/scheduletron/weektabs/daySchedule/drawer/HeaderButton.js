@@ -4,7 +4,7 @@ import teamIcon from "./assets/Team Icon.svg";
 import addIcon from "./assets/Add Icon.svg";
 import saveIcon from "./assets/Save Icon.svg";
 import styled from "@emotion/styled";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
 const StyledButton = styled(Button)(({ isActive }) => ({
   opacity: isActive ? 1 : 0.57,

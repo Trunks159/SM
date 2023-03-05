@@ -8,7 +8,6 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { Redirect } from "react-router-dom";
 
 function AddTeamMember({ teamMembers, notifyUser }) {
   const [state, setState] = useState({
@@ -48,7 +47,7 @@ function AddTeamMember({ teamMembers, notifyUser }) {
     ) {
       alertUser("This team member is actually already in our system");
     } else {
-      fetch("/add_team_member", {
+      fetch("/api/add_team_member", {
         method: "POST",
         headers: {
           Accept: "application/json",

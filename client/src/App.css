@@ -1,34 +1,42 @@
-.App {
+html{
+  overflow-y: overlay;
+}
+
+
+body{
+  margin: 0;
+}
+
+.app{
+  background: #E1E4E5;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+main {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
+  background: white;
   display: flex;
-  position: absolute;
-  overflow: auto;
+  flex-direction: column;
+  width: 100vw;
+  max-width: 1600px;
+  flex: 1;
 }
 
 
 
 @media (min-width : 600px) {
-  .App{
-    background-color: #F6F6F6;
+  main{
+    flex-direction: row;
+    background-color: white;
   }
-
 }
-
-body { 
-  margin: 0;
-}
-
-main {
-  justify-content: center;
-  display: flex;
-}
-
+ 
 /* Track */
 ::-webkit-scrollbar {
+  overflow-y: scroll;
   width: 5px;
   padding: 10px;
   height: 5px;

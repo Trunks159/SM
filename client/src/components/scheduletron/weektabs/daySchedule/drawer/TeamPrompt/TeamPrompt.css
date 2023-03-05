@@ -7,6 +7,8 @@
     display: flex;
     flex-direction: column;
     gap: 20px; 
+    align-items: center;
+    padding: 0;
 }
 
 .team-prompt ul li .tm-dogtag{

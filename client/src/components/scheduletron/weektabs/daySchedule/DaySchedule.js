@@ -3,11 +3,11 @@ import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./daySchedule.css";
 import { StyledHamburgerButton, StyledPaper } from "./StyledComponents";
-import moment from "moment";
 import Functions from "../functions/Functions";
 import TheDrawer from "./drawer/TheDrawer";
 import menuIcon from "./assets/Menu Icon.svg";
 import MyTable from "./table/TimeSlotsTable";
+import dayjs from "dayjs";
 
 //ACTIONS
 const initializeSchedule = ({ scheduled, notScheduled }) => {
@@ -23,21 +23,6 @@ const updateTimeRange = (timerange) => {
     payLoad: timerange,
   };
 };
-
-//PURE FUNCTIONS
-
-function getTimerange(date) {
-  //for now this is the timerange but it will be changed
-  // to something more dynamic
-  return [
-    moment(date).clone().set({ h: 6, m: 0 }).format("YYYY-MM-DD hh:mm:ss a"),
-    moment(date)
-      .clone()
-      .set({ h: 0, m: 0 })
-      .add(1, "days")
-      .format("YYYY-MM-DD hh:mm:ss a"),
-  ];
-}
 
 function DaySchedule() {
   //UTILITIES
@@ -60,7 +45,7 @@ function DaySchedule() {
     //do this whenever schedule changes
     //so i guess it could be whenever dayid of
     //schedule changes;
-    fetch(`/get_schedule/${currentDay.id}`)
+    fetch(`/api/get_schedule/${currentDay.id}`)
       .then((response) => response.json())
       .then((response) => {
         if (response) {
@@ -71,7 +56,12 @@ function DaySchedule() {
             })
           );
 
-          dispatch(updateTimeRange(getTimerange(currentDay.date)));
+          dispatch(
+            updateTimeRange([
+              dayjs(currentDay.date).startOf("day").format(),
+              dayjs(currentDay.date).startOf("day").add(1, "days").format(),
+            ])
+          );
         } else {
           setRedirect(<Redirect to={"/scheduletron"} />);
         }
@@ -82,31 +72,36 @@ function DaySchedule() {
 
   return (
     (currentSchedule.scheduled > 0 || currentSchedule.notScheduled) && (
-      <StyledPaper key={currentDay.id} elevation={1}>
+      <StyledPaper key={currentDay.id}>
         {redirect}
-
-        <MyTable />
+        {/**  <MyTable date={currentDay.date} />*/}
+        <p>
+          Et laborum velit dolore officia incididunt voluptate duis adipisicing
+        </p>
         <Functions
+          isReadOnly={currentSchedule.isReadOnly(currentDay.date)}
+          date={currentDay.date}
           hidden={!isDesktop}
           changeCurrentFunction={setCurrentFunction}
           currentFunction={currentFunction}
         />
-        <StyledHamburgerButton
-          onClick={() => setCurrentFunction("add")}
-          hidden={
-            //needs to be in mobile AND cant be open
-            (typeof currentFunction !== "string" ||
-              !(currentFunction instanceof String)) &&
-            isDesktop
-          }
-        >
-          <img alt="Menu" src={menuIcon} />
-        </StyledHamburgerButton>
-        <TheDrawer
-          date={currentDay.date}
-          changeCurrentFunction={setCurrentFunction}
-          currentFunction={currentFunction}
-        />
+        {/**   <StyledHamburgerButton
+        onClick={() => setCurrentFunction("team")}
+        hidden={
+          //needs to be in mobile AND cant be open
+          (typeof currentFunction !== "string" ||
+            !(currentFunction instanceof String)) &&
+          isDesktop
+        }
+      >
+        <img alt="Menu" src={menuIcon} />
+      </StyledHamburgerButton>
+      <TheDrawer
+        isReadOnly={currentSchedule.isReadOnly(currentDay.date)}
+        date={currentDay.date}
+        changeCurrentFunction={setCurrentFunction}
+        currentFunction={currentFunction}
+      />*/}
       </StyledPaper>
     )
   );

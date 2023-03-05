@@ -1,9 +1,10 @@
-import React, {  useState } from "react";
-import { Menu, MenuItem, Button } from "@material-ui/core";
-import profileIcon from "../../assets/images/Profile Icon.svg";
-import { Link, Redirect } from "react-router-dom";
+import React, { useState } from "react";
+import { Button, Divider, Menu, MenuItem } from "@mui/material";
+import profileIcon from "./assets/Profile Icon.svg";
+import { Link } from "react-router-dom";
+import { grey } from "@mui/material/colors";
 
-const MyMenu = ({ username, handleCollapse, logoutUser }) => {
+const MyMenu = ({ username, collapseDrawer, id }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [redirect, setRedirect] = useState(null);
 
@@ -15,63 +16,68 @@ const MyMenu = ({ username, handleCollapse, logoutUser }) => {
     setAnchorEl(null);
   }
 
-  function handleLogout() {
-    handleCollapse();
-    logoutUser();
-    setRedirect(<Redirect to={"/login"} />);
+  function closeEverything() {
+    handleClose();
+    collapseDrawer();
   }
+
+  const MyMenuItem = (props) => (
+    <MenuItem onClick={closeEverything} {...props}>
+      {props.children}
+    </MenuItem>
+  );
+
   const isOpen = Boolean(anchorEl);
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <div style={{ display: "flex", flexDirection: "column" }}>
       {redirect}
       <Button
-        id="basic-button"
-        aria-controls={isOpen ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={isOpen ? "true" : undefined}
-        onClick={handleClick}
-        style={{
+        sx={{
+          flexDirection: "column",
+          alignItems: "center",
+          color: "white",
           textTransform: "none",
-          padding: 0,
-          margin: 0,
-          minWidth: 0,
+          fontWeight: "normal",
+          gap: "5px",
+          fontSize: 16,
         }}
+        onClick={handleClick}
       >
-        <img  alt = 'profile' src={profileIcon} />
-      </Button>
-      <p className="nav-link" style={{ margin: 8 }}>
+        <div
+          style={{
+            width: 95,
+            height: 95,
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "#FFFFFF",
+          }}
+        >
+          <img src={profileIcon} />
+        </div>
         {username}
-      </p>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={isOpen}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem onClick={handleClose}>
-          <Link onClick={handleCollapse} to="/">
-            <p>My Profile</p>
+      </Button>
+      <Divider sx={{ background: grey[50], width: "100%" }} />
+      <Menu anchorEl={anchorEl} open={isOpen} onClose={handleClose}>
+        <MyMenuItem>
+          <Link className="profile-menu-link" to={`/team/profile/${id}`}>
+            My Profile
           </Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link onClick={handleCollapse} to="/">
-            <p>My Availability</p>
+        </MyMenuItem>
+        <MyMenuItem>
+          <Link
+            className="profile-menu-link"
+            to={`/team/profile/${id}/availability`}
+          >
+            My Availability
           </Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Button onClick={handleLogout}>
-            <p>Logout</p>
-          </Button>
-        </MenuItem>
+        </MyMenuItem>
+        <MyMenuItem>
+          <Link className="profile-menu-link" to="/logout">
+            Logout
+          </Link>
+        </MyMenuItem>
       </Menu>
     </div>
   );

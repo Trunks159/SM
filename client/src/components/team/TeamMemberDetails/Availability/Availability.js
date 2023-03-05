@@ -45,7 +45,7 @@ function Availability({ availability, handleSave, userId, isHidden }) {
     //convert values to times
     e.preventDefault();
     if (hasChanged) {
-      fetch("/update_user", {
+      fetch("/api/update_user", {
         method: "POST",
         headers: {
           Accept: "application/json",

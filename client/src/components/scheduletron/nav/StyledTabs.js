@@ -1,4 +1,4 @@
-import { Tabs, Tab, Divider } from "@material-ui/core";
+import { Tabs, Tab, Divider } from "@mui/material";
 import styled from "@emotion/styled";
 
 const StyledDivider = styled(Divider)({

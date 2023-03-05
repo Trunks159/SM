@@ -1,11 +1,10 @@
 import React from "react";
-import styled from "@emotion/styled";
-import { Paper } from "@material-ui/core";
-import Draggable from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
+import Draggable from "react-draggable";
+import dayjs from "dayjs";
+import { Paper } from "@mui/material";
+import styled from "@emotion/styled";
 import stretchIcon from "./assets/Stretch Icon.svg";
-
 
 //ACTIONS
 
@@ -13,7 +12,6 @@ const updateTime = ({ newValue, timeframe, index }) => ({
   type: "UPDATE_TIME",
   payLoad: { newValue, timeframe, index },
 });
-
 
 const StyledPaper = styled(Paper)(({ trackLength, timeslot }) => ({
   position: "absolute",
@@ -26,8 +24,7 @@ const StyledPaper = styled(Paper)(({ trackLength, timeslot }) => ({
   alignItems: "center",
 }));
 
-function TimeSlot({ timeslot, index }) {
-  
+function TimeSlot({ timeslot, index, isReadOnly }) {
   const dispatch = useDispatch();
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const { trackLength } = currentSchedule;
@@ -68,24 +65,25 @@ function TimeSlot({ timeslot, index }) {
         height: trackLength,
       }}
     >
-      <StyledPaper trackLength = {trackLength} timeslot = {timeslot}>
-        Start :{moment(startTime).format("h:mm a")} <br/>
-        End : {moment(endTime).format("h:mm a")}
+      <StyledPaper trackLength={trackLength} timeslot={timeslot}>
+        Start :{dayjs(startTime).format("h:mm a")} <br />
+        End : {dayjs(endTime).format("h:mm a")}
       </StyledPaper>
 
       <Draggable
-       grid={[thirtyMin, thirtyMin]}
+        grid={[thirtyMin, thirtyMin]}
         axis={"y"}
         position={{ x: 0, y: timeslot.start }}
         bounds={{ top: 0, bottom: timeslot.end - twoHours }}
         onDrag={(e, newValue) => handleDrag(newValue.y, "start", index)}
+        disabled={isReadOnly}
       >
         <div className="stretch-btn">
           <img alt="Stretch1" style={{ rotate: "90deg" }} src={stretchIcon} />
         </div>
       </Draggable>
       <Draggable
-       grid={[thirtyMin, thirtyMin]}
+        grid={[thirtyMin, thirtyMin]}
         axis={"y"}
         position={{ x: 0, y: timeslot.end }}
         bounds={{
@@ -93,6 +91,7 @@ function TimeSlot({ timeslot, index }) {
           bottom: trackLength,
         }}
         onDrag={(e, newValue) => handleDrag(newValue.y, "end", index)}
+        disabled={isReadOnly}
       >
         <div className="stretch-btn">
           <img alt="Stretch2" style={{ rotate: "90deg" }} src={stretchIcon} />

@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import SideNav from "./nav/SideNav";
 import Home from "./home/Home";
 import WeekTabs from "./weektabs/WeekTabs";
 import "./scheduletron.css";
@@ -8,8 +7,6 @@ import "./scheduletron.css";
 function Scheduletron() {
   return (
     <div className="scheduletron">
-      <SideNav />
-
       <Switch>
         <Route exact path={"/scheduletron"}>
           <Home />

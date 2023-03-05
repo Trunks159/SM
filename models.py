@@ -27,7 +27,7 @@ class User(UserMixin, db.Model):
             'username': self.username,
             'firstName': self.first_name,
             'lastName': self.last_name,
-            'position': self.position if self.position else 0,
+            'position': self.position,
             'id': self.id,
         }
 
@@ -151,6 +151,20 @@ class WeekSchedule(db.Model):
 
     def initialize(self, date):
         return self.create_week(date)
+
+    def complete_schedule_set(self):
+        # makes a set of week objects
+        # 2 weeks before and infinitely far after this week
+        next_weeks = WeekSchedule.query.filter(
+            WeekSchedule.monday_date >= self.monday_date).order_by(WeekSchedule.monday_date.asc()).all()
+        # add weeks until two next weeks requirement is  filled
+        while len(next_weeks) < 3:
+            new_week = next_weeks[len(next_weeks) -
+                                  1].monday_date + timedelta(days=7)
+            next_weeks.append(WeekSchedule().initialize(new_week))
+        two_prior_weeks = WeekSchedule.query.filter(WeekSchedule.monday_date < self.monday_date).order_by(
+            WeekSchedule.monday_date.asc()).limit(2).all()
+        return two_prior_weeks + next_weeks
 
 
 class WorkBlock(db.Model):

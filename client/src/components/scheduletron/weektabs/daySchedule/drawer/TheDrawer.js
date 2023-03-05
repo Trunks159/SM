@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Collapse, Button } from "@mui/material";
+import { Button, Alert } from "@mui/material";
 import styled from "@emotion/styled";
 import "./thedrawer.css";
 import HelpPrompt from "./HelpPrompt/HelpPrompt";
 import SavePrompt from "./SavePrompt/SavePrompt";
 import TeamPrompt from "./TeamPrompt/TeamPrompt";
-import Functions from "../../functions/Functions";
 import MyBreadcrumbs from "./MyBreadCrumbs";
 import closeIcon from "./assets/Close Icon.svg";
+import Notification from "./Notification";
 
 const StyledCloseButton = styled(Button)({
   minWidth: 0,
@@ -26,10 +26,11 @@ const StyledCloseButton = styled(Button)({
 });
 
 function TheDrawer(props) {
-  const { currentFunction, changeCurrentFunction } = props;
+  const { currentFunction, changeCurrentFunction, isReadOnly } = props;
   const isString = (item) => typeof item === "string" || item instanceof String;
   const isOpen = isString(currentFunction);
   const [crumbs, setCrumbs] = useState([{ label: currentFunction }]);
+  const [alert, setAlert] = useState(null);
 
   useEffect(() => {
     if (crumbs[0].label !== currentFunction) {
@@ -57,35 +58,67 @@ function TheDrawer(props) {
     }
   }
 
-  return (
-    <Collapse in={isOpen}>
-      <div className="drawer">
-        <StyledCloseButton onClick={() => changeCurrentFunction(null)}>
-          <img alt="Close" src={closeIcon} />
-        </StyledCloseButton>
-        <MyBreadcrumbs updateCrumbs={updateCrumbs} crumbs={crumbs} />
+  function readOnlyWarning(alert) {
+    setAlert(
+      <Alert severity="error">
+        Because this is an older schedule you cannot edit this schedule
+      </Alert>
+    );
+    setTimeout(() => {
+      setAlert(null);
+    }, 4000);
+  }
 
-        <div className="drawer-content">
-          <HelpPrompt name="help" currentFunction={currentFunction} />
-          <TeamPrompt
-            profile={((crumbs) => {
-              const profileCrumb = crumbs.find(
-                (crumb) => crumb.label === "Profile"
-              );
-              return profileCrumb && profileCrumb.user;
-            })(crumbs)}
-            name="team"
-            currentFunction={currentFunction}
-            handleProfileChange={handleProfileChange}
-          />
-          <SavePrompt name="save" currentFunction={currentFunction} />
-        </div>
-        <Functions
-          changeCurrentFunction={changeCurrentFunction}
-          currentFunction={currentFunction}
-        />
+  return (
+    <div className="drawer">
+      <div
+        style={{
+          position: "absolute",
+          right: 0,
+          top: 0,
+          left: 0,
+          bottom: 0,
+          background: "blue",
+        }}
+      >
+        Consequat occaecat irure pariatur occaecat sint reprehenderit excepteur
+        sint. Dolor duis mollit incididunt adipisicing duis laboris incididunt
+        ut labore do deserunt. Minim voluptate nulla cupidatat consectetur
+        cillum labore incididunt ad excepteur tempor aute in. Aute amet magna
+        Lorem dolor officia aliquip nisi. Veniam incididunt velit velit in
+        ullamco magna elit enim et incididunt irure. Lorem irure culpa dolor in
+        commodo nulla.
       </div>
-    </Collapse>
+      {/**    <StyledCloseButton onClick={() => changeCurrentFunction(null)}>
+        <img alt="Close" src={closeIcon} />
+      </StyledCloseButton>
+      <Notification message={alert} />
+      <div className="drawer-content">
+        <HelpPrompt name="help" currentFunction={currentFunction} />
+        <TeamPrompt
+          profile={((crumbs) => {
+            const profileCrumb = crumbs.find(
+              (crumb) => crumb.label === "Profile"
+            );
+            return profileCrumb && profileCrumb.user;
+          })(crumbs)}
+          name="team"
+          currentFunction={currentFunction}
+          handleProfileChange={handleProfileChange}
+          readOnlyWarning={readOnlyWarning}
+          isReadOnly={isReadOnly}
+        />
+        <SavePrompt
+          name="save"
+          currentFunction={currentFunction}
+          isReadOnly={isReadOnly}
+          readOnlyWarning={readOnlyWarning}
+        />
+      </div>*/}
+      {/**
+         <MyBreadcrumbs updateCrumbs={updateCrumbs} crumbs={crumbs} />
+ */}
+    </div>
   );
 }
 

@@ -1,7 +1,7 @@
-import React, { useRef, useEffect, useCallback, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Divider } from "@material-ui/core";
 import { useResizeDetector } from "react-resize-detector";
+import { Divider } from "@mui/material";
 
 //ACTIONS------
 const updateTrackLength = (newLength) => ({
@@ -29,8 +29,8 @@ const TimeLine = ({ shiftFilter }) => {
   const screenWidth = useSelector((state) => state.screenWidth);
   const dispatch = useDispatch();
   const { height, ref } = useResizeDetector();
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     const _track_length = height || 0;
     dispatch(updateTrackLength(_track_length));
   }, [height]);
@@ -61,8 +61,8 @@ const TimeLine = ({ shiftFilter }) => {
           background: "black",
           width: 1,
           opacity: 0.5,
-          height  : '90%',
-          margin  : 'auto 0',
+          height: "90%",
+          margin: "auto 0",
         }}
         orientation={screenWidth >= 600 ? "horizontal" : "vertical"}
         className={"timeline-divider"}

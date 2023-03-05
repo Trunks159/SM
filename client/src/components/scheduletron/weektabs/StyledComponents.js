@@ -1,26 +1,16 @@
 import styled from "@emotion/styled";
-import { Paper, Tabs, Tab } from "@material-ui/core";
+import { Paper, Tabs, Tab } from "@mui/material";
 
 const StyledTabs = styled(Tabs)(({ theme }) => {
   return {
-    position: "relative",
-    height: 30,
-    overflowX: "auto",
+    background: "#FFFFFF",
+    position: "sticky",
+    top: 0,
     "& .MuiTabs-flexContainer": {
       gap: 10,
-      height: "100%",
-      flex: 1,
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-      position: "absolute",
     },
     "& .MuiTabs-indicator": {
       display: "none",
-    },
-    [theme.breakpoints.up("md")]: {
-      height: 80,
     },
   };
 });
@@ -61,17 +51,11 @@ const StyledTab = styled(Tab)(({ theme }) => {
 });
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  position: "relative",
-  margin: 0,
+  display: "grid",
+  gridTemplateRows: "90px 1fr",
+  margin: 10,
   maxWidth: 1600,
-  backgroundColor: "white",
-  minHeight: "100%",
-
-  [theme.breakpoints.up("md")]: {
-    margin: "0px 10px 0px 10px",
-  },
+  [theme.breakpoints.up("md")]: {},
 }));
 
 export { StyledTab, StyledTabs, StyledPaper };

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Slider, Button, Divider } from "@mui/material";
+import { Slider, Button, Divider, Alert } from "@mui/material";
 import removeIcon from "./assets/Remove Icon.svg";
 import profileIcon from "./assets/Profile Icon.svg";
 import moment from "moment";
@@ -57,7 +57,15 @@ function SliderSection({ startTime, endTime }) {
   );
 }
 
-function Dogtag({ startTime, endTime, user, handleProfileChange }) {
+function Dogtag({
+  startTime,
+  endTime,
+  user,
+  handleProfileChange,
+  isReadOnly,
+  readOnlyWarning,
+}) {
+  console.log("Isreadonly: ", isReadOnly);
   return (
     <>
       <div className="tm-dogtag">
@@ -72,7 +80,13 @@ function Dogtag({ startTime, endTime, user, handleProfileChange }) {
       <StyledButton onClick={() => handleProfileChange(user)}>
         <img src={profileIcon} />
       </StyledButton>
-      <StyledButton>
+      <StyledButton
+        onClick={() => {
+          if (isReadOnly) {
+            return readOnlyWarning();
+          }
+        }}
+      >
         <img
           style={{ transform: startTime ? "none" : "rotate(45deg)" }}
           src={removeIcon}

@@ -1,4 +1,5 @@
 import moment from "moment";
+import dayjs from "dayjs";
 
 //PURE FUNCTIONS------------------------------------------//
 const timeToPix = (time, length, availableTimes) => {
@@ -87,6 +88,12 @@ const initialState = {
   },
   getTwoHours: function () {
     return this.getThirtyMin(120);
+  },
+  isReadOnly: function (
+    date,
+    tommorrow = dayjs().add(1, "days").startOf("day")
+  ) {
+    return dayjs(date).isBefore(tommorrow);
   },
 };
 

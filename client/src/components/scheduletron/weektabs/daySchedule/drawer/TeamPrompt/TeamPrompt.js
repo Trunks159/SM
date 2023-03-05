@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Divider, Tabs, Tab } from "@mui/material";
+import { Divider, Tabs, Tab, Alert } from "@mui/material";
 import "./TeamPrompt.css";
 import styled from "@emotion/styled";
 import Dogtag from "./Dogtag";
 import ProfileInfo from "./ProfileInfo";
+import Notification from "../Notification";
 
 const StyledTabs = styled(Tabs)({
   "& .MuiTabs-indicator": {
@@ -36,18 +37,26 @@ const StyledDivider = styled(Divider)({
   background: "rgba(255,255,255,.68)",
 });
 
-function TeamPrompt({ currentFunction, name, handleProfileChange, profile }) {
+function TeamPrompt({
+  currentFunction,
+  name,
+  handleProfileChange,
+  profile,
+  isReadOnly,
+  readOnlyWarning,
+}) {
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const { timeslots, notScheduled } = currentSchedule;
   const workblocks = timeslots.map((ts) => currentSchedule.toWorkBlock(ts));
   const [currentTab, setCurrentTab] = useState("notScheduled");
+
   return (
     <div
-      className="team-prompt"
+      className="team-prompt hidden"
       style={{ display: currentFunction === name ? "flex" : "none" }}
     >
       {profile ? (
-        <ProfileInfo  profile = {profile}/>
+        <ProfileInfo profile={profile} />
       ) : (
         <>
           <div style={{ position: "relative" }}>
@@ -87,6 +96,8 @@ function TeamPrompt({ currentFunction, name, handleProfileChange, profile }) {
               return (
                 <li key={index}>
                   <Dogtag
+                    isReadOnly={isReadOnly}
+                    readOnlyWarning={readOnlyWarning}
                     user={user}
                     handleProfileChange={handleProfileChange}
                   />

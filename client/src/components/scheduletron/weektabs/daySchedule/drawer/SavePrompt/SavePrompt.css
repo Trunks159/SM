@@ -1,0 +1,38 @@
+.save-prompt h4{
+  font-size: 18px;
+  font-weight: 500;  
+}
+
+.save-prompt ul{
+    list-style-type: none;
+    padding-left: 10px;
+    gap: 25px;
+    display: flex;
+    flex-direction: column;
+    margin: 40px 0px;
+}
+
+.save-prompt li{
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    grid-template-rows: min-content 1fr;
+    align-items: center;
+}
+
+.save-prompt h3{
+    font-size: 20px;
+    font-weight: normal;
+    margin: 10px 0px;
+}
+
+.save-prompt caption{
+    font-size: 14px;
+    opacity: .6;
+    margin: 0;
+}
+
+.save-prompt p{
+    font-size: 16px;
+    opacity: .6;
+    margin: 0;
+}

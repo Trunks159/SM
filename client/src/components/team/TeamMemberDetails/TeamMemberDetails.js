@@ -45,7 +45,7 @@ function TeamMemberDetails({ id }) {
 
   function handleSave(changedProps) {
     if (changedProps) {
-      fetch("/update_user", {
+      fetch("/api/update_user", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -89,7 +89,7 @@ function TeamMemberDetails({ id }) {
   }, [location, teamMember]);
 
   useEffect(() => {
-    fetch(`/team_member_details/${id}`)
+    fetch(`/api/team_member_details/${id}`)
       .then((response) => response.json())
       .then(({ user }) => {
         //this is where i should handle there being no user

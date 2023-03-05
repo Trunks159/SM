@@ -6,21 +6,6 @@
 
 }
 
-.breadcrumb, .breadcrumb-active{
-    text-decoration: none;
-    text-transform: capitalize;
-    color: #050505;   
-
-}
-
-.breadcrumb{
-    opacity: .57;
-}
-
-.breadcrumb img{
-    margin-right: 6px;
-    transform: translateY(2px);
-}
 
 .main-div {
     display: flex;

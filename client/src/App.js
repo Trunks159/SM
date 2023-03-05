@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import NavBar from "./components/navbar/NavBar";
-import User from "./components/user/User";
 import Login from "./components/forms/login/Login";
 import Register from "./components/forms/register/Register";
 import {
@@ -34,6 +33,15 @@ const updateAllUsers = (newUsers) => ({
 
 const theme = createTheme();
 
+function Logout({ handleLogout }) {
+  const [goHome, setGoHome] = useState(false);
+  useEffect(() => {
+    handleLogout();
+    setGoHome(true);
+  }, []);
+  return goHome && <Redirect to="/login" />;
+}
+
 function App() {
   const [message, setMessage] = useState(null);
   const dispatch = useDispatch();
@@ -42,7 +50,7 @@ function App() {
   const users = useSelector((state) => state.allUsers);
 
   function fetchUsers() {
-    fetch("/get_all_users")
+    fetch("/api/get_all_users")
       .then((response) => response.json())
       .then((newData) => {
         if (
@@ -65,7 +73,7 @@ function App() {
   }
 
   function handleLogout() {
-    fetch("/logout")
+    fetch("/api/logout")
       .then((response) => response.json())
       .then(() => {
         fetchUsers();
@@ -90,96 +98,90 @@ function App() {
   return users ? (
     <Router>
       <ThemeProvider theme={theme}>
-        <div className="App">
-          <NavBar currentUser={currentUser} handleLogout={handleLogout} />
-          <Notification message={message} />
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={() => {
-                return currentUser.username ? (
-                  <Redirect to="/scheduletron" />
-                ) : (
-                  <Redirect to="/login" />
-                );
-              }}
-            />
-            <Route
-              path="/login"
-              render={() => {
-                if (currentUser.username) {
-                  return <Redirect to="/" />;
-                }
-                return (
-                  <Login
-                    users={users}
-                    notifyUser={notifyUser}
-                    screenWidth={0}
-                  />
-                );
-              }}
-            />
+        <div className="app">
+          <main>
+            <NavBar currentUser={currentUser} />
 
-            <Route
-              path="/register"
-              render={({ match }) => {
-                return currentUser.username ? (
-                  <Redirect to="/" />
-                ) : (
-                  <Register
-                    users={users}
-                    notifyUser={notifyUser}
-                    match={match}
-                  />
-                );
-              }}
-            />
-            <Route
-              path="/team"
-              render={() => {
-                return currentUser.username ? (
-                  <Team
-                    fetchUsers={fetchUsers}
-                    teamMembers={users}
-                    notifyUser={notifyUser}
-                  />
-                ) : (
-                  <Redirect to="/login" />
-                );
-              }}
-            />
-            <Route
-              path="/scheduletron/:weekId?/:dayId?"
-              render={() => {
-                return currentUser.username ? (
-                  <Scheduletron />
-                ) : (
-                  <Redirect to="/login" />
-                );
-              }}
-            />
-          </Switch>
+            <Notification message={message} />
+            <Switch>
+              <Route
+                path="/logout"
+                render={() => {
+                  return currentUser.username ? (
+                    <Logout handleLogout={handleLogout} />
+                  ) : (
+                    <Redirect to="/login" />
+                  );
+                }}
+              />
+              <Route
+                exact
+                path="/"
+                render={() => {
+                  return currentUser.username ? (
+                    <Redirect to="/scheduletron" />
+                  ) : (
+                    <Redirect to="/login" />
+                  );
+                }}
+              />
+              <Route
+                path="/login"
+                render={() => {
+                  if (currentUser.username) {
+                    return <Redirect to="/" />;
+                  }
+                  return (
+                    <Login
+                      users={users}
+                      notifyUser={notifyUser}
+                      screenWidth={0}
+                    />
+                  );
+                }}
+              />
 
-          <Route
-            exact
-            path="/user/:username"
-            render={(props) => {
-              const user = users.find(
-                (user) => user.username === props.match.params.username
-              );
-              if (user) {
-                return <User user={user} currentUser={currentUser} />;
-              } else {
-                this.notifyUser({
-                  content: "Couldn't find user...",
-                  severity: "error",
-                  title: "error",
-                });
-                return <Redirect to="/" />;
-              }
-            }}
-          />
+              <Route
+                path="/register"
+                render={({ match }) => {
+                  return currentUser.username ? (
+                    <Redirect to="/" />
+                  ) : (
+                    <Register
+                      users={users}
+                      notifyUser={notifyUser}
+                      match={match}
+                    />
+                  );
+                }}
+              />
+              <Route
+                path="/team/:endpoint?"
+                render={({ match }) => {
+                  return currentUser.username ? (
+                    <Team
+                      fetchUsers={fetchUsers}
+                      teamMembers={users}
+                      notifyUser={notifyUser}
+                      endpoint={match.params.endpoint}
+                    />
+                  ) : (
+                    <Redirect to="/login" />
+                  );
+                }}
+              />
+              <Route
+                path="/scheduletron/:weekId?/:dayId?"
+                render={() => {
+                  return currentUser.username ? (
+                    <Scheduletron />
+                  ) : (
+                    <Redirect to="/login" />
+                  );
+                }}
+              />
+            </Switch>
+          </main>
         </div>
       </ThemeProvider>
     </Router>
