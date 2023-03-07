@@ -163,23 +163,11 @@ def get_week_schedule():
     week_id = request.args.get('week-id')
     date = request.args.get('date')
     if week_id:
-        print('Weekid: ', week_id)
         week = WeekSchedule.query.filter_by(id=week_id).first()
     elif date:
         day = Day.query.filter_by(date=parser.parse(date)).first()
         week = day.week_schedule if day else None
         # could probably write a more complex sql query to be more efficient
-    else:
-        from datetime import date as the_date
-        dt = datetime.combine(the_date.today(), datetime.min.time())
-
-        # if the day isnt monday, make it monda. dt.weekday() returns 0
-        # if its a monday which is falsy
-        this_monday = (dt - timedelta(days=dt.weekday())
-                       ) if dt.weekday() else dt
-
-        week = WeekSchedule.query.filter(
-            WeekSchedule.monday_date == this_monday).first()
 
     if week:
         return jsonify(week.to_json())

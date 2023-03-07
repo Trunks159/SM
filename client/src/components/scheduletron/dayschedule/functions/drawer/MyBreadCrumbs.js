@@ -33,7 +33,7 @@ function MyBreadcrumbs({ crumbs, updateCrumbs }) {
         <NavigateNextIcon style={{ color: grey[50] }} fontSize="small" />
       }
       style={{
-        border: "1px solid rgba(255,255,255, .15)",
+        borderBottom: "1px solid rgba(255,255,255, .15)",
         paddingLeft: 30,
       }}
     >

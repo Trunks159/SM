@@ -33,23 +33,6 @@ function TimeSlot({ timeslot, index, isReadOnly }) {
   const { startTime, endTime } = currentSchedule.toWorkBlock(timeslot);
 
   function handleDrag(newValue, timeframe, index) {
-    /*This is mostly because of the rounding errors
-        const time = pixToTime(newValue, trackWidth, timerange).format();
-        const trueValue = roundIt(time);
-        const pix = trueValue
-          ? timeToPix(trueValue, trackWidth, timerange)
-          : newValue;
-    
-        dispatch(
-          updateTime({
-            timeframe,
-            newVal: pix,
-            index,
-          })
-        );
-        */
-
-    //update time in redux
     dispatch(
       updateTime({
         timeframe,

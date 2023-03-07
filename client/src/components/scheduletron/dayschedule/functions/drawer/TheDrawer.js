@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Alert } from "@mui/material";
+import { Button, Alert, Collapse } from "@mui/material";
 import styled from "@emotion/styled";
 import "./thedrawer.css";
 import HelpPrompt from "./HelpPrompt/HelpPrompt";
@@ -26,7 +26,8 @@ const StyledCloseButton = styled(Button)({
 });
 
 function TheDrawer(props) {
-  const { currentFunction, changeCurrentFunction, isReadOnly } = props;
+  const { currentFunction, changeCurrentFunction, isReadOnly, isDesktop } =
+    props;
   const isString = (item) => typeof item === "string" || item instanceof String;
   const isOpen = isString(currentFunction);
   const [crumbs, setCrumbs] = useState([{ label: currentFunction }]);
@@ -70,54 +71,54 @@ function TheDrawer(props) {
   }
 
   return (
-    <div className="drawer">
-      <div
-        style={{
-          position: "absolute",
-          right: 0,
-          top: 0,
-          left: 0,
-          bottom: 0,
-          background: "blue",
-        }}
+    <div
+      //if on mobile and tabs are on show, if on mobile and
+      //tabs are off dont , if desktop always show
+      //collapse renders for some reason when not in position absolute
+      className={"drawer-container"}
+    >
+      <Collapse
+        style={{}}
+        in={currentFunction}
+        orientation={isDesktop ? "horizontal" : "vertical"}
       >
-        Consequat occaecat irure pariatur occaecat sint reprehenderit excepteur
-        sint. Dolor duis mollit incididunt adipisicing duis laboris incididunt
-        ut labore do deserunt. Minim voluptate nulla cupidatat consectetur
-        cillum labore incididunt ad excepteur tempor aute in. Aute amet magna
-        Lorem dolor officia aliquip nisi. Veniam incididunt velit velit in
-        ullamco magna elit enim et incididunt irure. Lorem irure culpa dolor in
-        commodo nulla.
-      </div>
-      {/**    <StyledCloseButton onClick={() => changeCurrentFunction(null)}>
-        <img alt="Close" src={closeIcon} />
-      </StyledCloseButton>
+        <div className="drawer">
+          <StyledCloseButton onClick={() => changeCurrentFunction(null)}>
+            <img src={closeIcon} />
+          </StyledCloseButton>
+          <MyBreadcrumbs updateCrumbs={updateCrumbs} crumbs={crumbs} />
+          <HelpPrompt name="help" currentFunction={currentFunction} />
+          <TeamPrompt
+            profile={((crumbs) => {
+              const profileCrumb = crumbs.find(
+                (crumb) => crumb.label === "Profile"
+              );
+              return profileCrumb && profileCrumb.user;
+            })(crumbs)}
+            name="team"
+            currentFunction={currentFunction}
+            handleProfileChange={handleProfileChange}
+            readOnlyWarning={readOnlyWarning}
+            isReadOnly={isReadOnly}
+          />
+          <SavePrompt
+            name="save"
+            currentFunction={currentFunction}
+            isReadOnly={isReadOnly}
+            readOnlyWarning={readOnlyWarning}
+          />
+        </div>
+
+        {/**   
       <Notification message={alert} />
       <div className="drawer-content">
-        <HelpPrompt name="help" currentFunction={currentFunction} />
-        <TeamPrompt
-          profile={((crumbs) => {
-            const profileCrumb = crumbs.find(
-              (crumb) => crumb.label === "Profile"
-            );
-            return profileCrumb && profileCrumb.user;
-          })(crumbs)}
-          name="team"
-          currentFunction={currentFunction}
-          handleProfileChange={handleProfileChange}
-          readOnlyWarning={readOnlyWarning}
-          isReadOnly={isReadOnly}
-        />
-        <SavePrompt
-          name="save"
-          currentFunction={currentFunction}
-          isReadOnly={isReadOnly}
-          readOnlyWarning={readOnlyWarning}
-        />
+        
       </div>*/}
-      {/**
-         <MyBreadcrumbs updateCrumbs={updateCrumbs} crumbs={crumbs} />
+        {/**
+
+        
  */}
+      </Collapse>
     </div>
   );
 }

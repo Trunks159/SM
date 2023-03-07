@@ -47,7 +47,7 @@ function MyDatePicker() {
             <p style={{ textAlign: "center" }}>
               Found It! Open the week of <br />
               <Link
-                to={`/scheduletron/viewer/${foundWeek.id}/${foundWeek.week[0].id}`}
+                to={`/scheduletron/${foundWeek.id}/${foundWeek.week[0].id}`}
               >
                 {dayjs(foundWeek.week[0].date).format("M/DD/YYYY")}
               </Link>

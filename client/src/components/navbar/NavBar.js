@@ -75,13 +75,13 @@ function TheActualDrawer({ isOpen, setIsOpen }) {
               {
                 label: "Home",
                 icon: homeIcon,
-                url: "/scheduletron",
+                url: "/",
                 exact: true,
               },
               {
                 label: "Schedule",
                 icon: scheduleIcon,
-                url: "/scheduletron/viewer",
+                url: "/scheduletron",
               },
               { label: "Team", icon: teamIcon, url: "/team" },
             ].map(({ label, icon, url, exact }) => {
@@ -100,7 +100,7 @@ function TheActualDrawer({ isOpen, setIsOpen }) {
           </>
         )}
 
-        <Link to="/scheduletron" className="logo">
+        <Link to="/" className="logo">
           <img src={logo} />
         </Link>
       </StyledDrawer>
@@ -116,7 +116,7 @@ function NavBar() {
         <Button onClick={() => setIsOpen(true)}>
           <img src={menuIcon} />
         </Button>
-        <Link to="/scheduletron">
+        <Link to="/">
           <img src={smallLogo} />
         </Link>
       </nav>

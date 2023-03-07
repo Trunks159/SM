@@ -34,18 +34,14 @@ function Tabs1({ weekId }) {
       <StyledTab
         component={Link}
         label="Open"
-        to="/scheduletron"
+        to="/"
         icon={<img alt="Open" src={openIcon} />}
         value={"open"}
       />
       <StyledTab
         component={Link}
         label="Schedule"
-        to={
-          weekId
-            ? `/scheduletron/viewer/${weekId}/${0}`
-            : `/scheduletron/viewer`
-        }
+        to={weekId ? `/scheduletron/${weekId}/${0}` : `/scheduletron`}
         value={"schedule"}
         icon={<img alt="Schedule" src={scheduleIcon} />}
       />

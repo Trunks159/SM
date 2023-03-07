@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import "./daySchedule.css";
-import { StyledHamburgerButton, StyledPaper } from "./StyledComponents";
-import Functions from "../functions/Functions";
-import TheDrawer from "./drawer/TheDrawer";
+import dayjs from "dayjs";
+import { Paper } from "@mui/material";
+import { StyledHamburgerButton } from "../StyledComponents";
+import Functions from "./functions/Functions";
 import menuIcon from "./assets/Menu Icon.svg";
 import MyTable from "./table/TimeSlotsTable";
-import dayjs from "dayjs";
+
+import "./daySchedule.css";
 
 //ACTIONS
 const initializeSchedule = ({ scheduled, notScheduled }) => {
@@ -24,7 +25,14 @@ const updateTimeRange = (timerange) => {
   };
 };
 
-function DaySchedule() {
+const updateAlert = (newAlert) => {
+  return {
+    type: "UPDATE_ALERT",
+    payLoad: newAlert,
+  };
+};
+
+function DaySchedule({ currentDay }) {
   //UTILITIES
   const dispatch = useDispatch();
 
@@ -32,9 +40,6 @@ function DaySchedule() {
   const screenWidth = useSelector((state) => state.screenWidth);
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const selectedWeek = useSelector((state) => state.selectedWeek);
-  const currentDay = selectedWeek.week.find(
-    ({ id }) => id === currentSchedule.dayId
-  );
 
   //STATE
   const [redirect, setRedirect] = useState(null);
@@ -63,7 +68,14 @@ function DaySchedule() {
             ])
           );
         } else {
-          setRedirect(<Redirect to={"/scheduletron"} />);
+          dispatch(
+            updateAlert({
+              content: "Couldnt find the day in question",
+              severity: "error",
+              title: "Error",
+            })
+          );
+          setRedirect(<Redirect to={"/"} />);
         }
       });
   }, [currentDay, dispatch]);
@@ -72,12 +84,25 @@ function DaySchedule() {
 
   return (
     (currentSchedule.scheduled > 0 || currentSchedule.notScheduled) && (
-      <StyledPaper key={currentDay.id}>
+      <Paper style={{ display: "flex", flex: 1 }} key={currentDay.id}>
         {redirect}
         {/**  <MyTable date={currentDay.date} />*/}
         <p>
-          Et laborum velit dolore officia incididunt voluptate duis adipisicing
+          Ea dolore elit duis enim proident culpa do. Occaecat do fugiat esse
+          laborum dolore cillum do ex esse elit. Aliquip adipisicing consectetur
+          incididunt eu elit sunt elit id do excepteur consectetur nisi. Veniam
+          qui consequat id esse incididunt anim cupidatat cillum mollit nostrud
+          Lorem sit dolor Lorem. Dolore exercitation ullamco sint ullamco
+          occaecat aliqua amet in sint velit labore amet.Sunt voluptate aliqua
+          labore eiusmod aute exercitation tempor consequat qui cupidatat
+          reprehenderit dolor ad. Sit nisi sint nisi esse reprehenderit do
+          labore aute enim occaecat mollit sint aliquip culpa. Irure qui ea enim
+          Lorem ex do ex commodo tempor aliquip veniam. Aliqua do laborum
+          consectetur id do exercitation dolor dolor laborum deserunt incididunt
+          sit non cupidatat. Deserunt cillum aute ex eiusmod ad dolore est sit
+          dolor cupidatat.
         </p>
+
         <Functions
           isReadOnly={currentSchedule.isReadOnly(currentDay.date)}
           date={currentDay.date}
@@ -102,7 +127,7 @@ function DaySchedule() {
         changeCurrentFunction={setCurrentFunction}
         currentFunction={currentFunction}
       />*/}
-      </StyledPaper>
+      </Paper>
     )
   );
 }

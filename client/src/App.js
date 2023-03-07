@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
-import NavBar from "./components/navbar/NavBar";
-import Login from "./components/forms/login/Login";
-import Register from "./components/forms/register/Register";
 import {
   BrowserRouter as Router,
   Route,
@@ -10,11 +6,16 @@ import {
   Switch,
   useLocation,
 } from "react-router-dom";
-import Scheduletron from "./components/scheduletron/Scheduletron";
-import Notification from "./components/Notification";
 import { useDispatch, useSelector } from "react-redux";
-import Team from "./components/team/Team";
 import { createTheme, ThemeProvider } from "@mui/material";
+import Team from "./components/team/Team";
+import Notification from "./components/Notification";
+import NavBar from "./components/navbar/NavBar";
+import Login from "./components/forms/login/Login";
+import Register from "./components/forms/register/Register";
+import Home from "./components/home/Home";
+import Scheduletron from "./components/scheduletron/Scheduletron";
+import "./App.css";
 
 //ACTIONS
 const updateCurrentUser = (newUser) => ({
@@ -40,14 +41,16 @@ const updateAlert = (newAlert) => ({
 const theme = createTheme();
 
 function App() {
-  const [message, setMessage] = useState(null);
+  ////UTILITIES/////////////////
   const dispatch = useDispatch();
+
+  ////GLOBAL STATE///////////////////////////////
 
   const currentUser = useSelector((state) => state.currentUser);
   const users = useSelector((state) => state.allUsers);
   const alert = useSelector((state) => state.alert);
 
-  //API CALLS//////////////////////
+  ////SIDE EFFECTS////////////////////////////////
   function fetchUsers() {
     fetch("/api/get_all_users")
       .then((response) => response.json())
@@ -78,14 +81,13 @@ function App() {
         );
       });
   }
-  ////////////////////
-
   function updatePredicate() {
     dispatch(updateScreenWidth(window.innerWidth));
   }
 
   useEffect(() => {
     //Initializes screenwidth in redux and adds an event listener
+    //fetches users too
     window.addEventListener("resize", updatePredicate);
     updatePredicate(window.innerWidth);
     fetchUsers();
@@ -104,7 +106,7 @@ function App() {
       //if user isnt logged in, they cant do anything other then logging in
       //this redirects if neccessary
       if (props.reverseAuthenticator && currentUser.username) {
-        return () => <Redirect to="/scheduletron" />;
+        return () => <Redirect to="/" />;
       } else if (
         //reverseauth is false
         //user isnt authenticated
@@ -127,7 +129,6 @@ function App() {
     return redirect && <Redirect to="/login" />;
   }
   //////////////////
-  console.log("Current: ", currentUser.username);
   return users ? (
     <Router>
       <ThemeProvider theme={theme}>
@@ -136,11 +137,7 @@ function App() {
             <NavBar currentUser={currentUser} />
             <Notification />
             <Switch>
-              <RouteWithAuthenticator
-                exact
-                path="/"
-                render={() => <Redirect to="/scheduletron" />}
-              />
+              <RouteWithAuthenticator exact path="/" render={() => <Home />} />
 
               <RouteWithAuthenticator
                 path="/team"
@@ -148,7 +145,14 @@ function App() {
               />
               <RouteWithAuthenticator
                 path="/scheduletron/:weekId?/:dayId?"
-                render={() => <Scheduletron />}
+                render={({ match }) => {
+                  return (
+                    <Scheduletron
+                      weekId={parseInt(match.params.weekId)}
+                      dayId={parseInt(match.params.dayId)}
+                    />
+                  );
+                }}
               />
               <RouteWithAuthenticator
                 path="/register"
@@ -162,9 +166,7 @@ function App() {
               <RouteWithAuthenticator
                 path="/login"
                 reverseAuthenticator
-                render={(props) => {
-                  return <Login users={users} />;
-                }}
+                render={(props) => <Login users={users} />}
               />
             </Switch>
           </main>

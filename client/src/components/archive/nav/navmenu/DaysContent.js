@@ -5,7 +5,7 @@ import moment from "moment";
 function DayBtn({ weekday, date, completion, disabled, weekId, dayId }) {
   return (
     <Link
-      to={`/scheduletron/viewer/${weekId}/${dayId}`}
+      to={`/scheduletron/${weekId}/${dayId}`}
       style={{
         height: 155,
         width: 155,
@@ -56,17 +56,20 @@ function WeekBar({ week, path, menu, value, weekId }) {
       {week.map(({ staffing, date, id }) => {
         const theDate = moment(date);
         return (
-        <DayBtn
-          key={id}
-          weekId={weekId}
-          weekday={theDate.format('ddd')}
-          completion={Math.round((staffing.actual / staffing.projected) * 100)}
-          date={theDate.format('MM/DD')}
-          id={id}
-          path={path}
-          dayId={id}
-        />
-      )})}
+          <DayBtn
+            key={id}
+            weekId={weekId}
+            weekday={theDate.format("ddd")}
+            completion={Math.round(
+              (staffing.actual / staffing.projected) * 100
+            )}
+            date={theDate.format("MM/DD")}
+            id={id}
+            path={path}
+            dayId={id}
+          />
+        );
+      })}
     </div>
   );
 }

@@ -76,7 +76,7 @@ const ScheduleLink = ({
   return (
     <StyledBox timeframe={timeframe} id={id}>
       <h4>{timeframe}</h4>
-      <Link to={`/scheduletron/viewer/${id}/${mondayId}`}>
+      <Link to={`/scheduletron/${id}/${mondayId}`}>
         <StyledPaper completion={completion}>
           <h2>{startDate}</h2>
           <img alt="Schedule" src={scheduleIcon} />

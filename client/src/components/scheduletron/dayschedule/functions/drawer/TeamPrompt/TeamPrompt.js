@@ -11,7 +11,6 @@ const StyledTabs = styled(Tabs)({
   "& .MuiTabs-indicator": {
     background: "#0FABFF",
   },
-  width: "100%",
   margin: 0,
 });
 
@@ -31,6 +30,7 @@ const StyledTab = styled(Tab)({
 
 const StyledDivider = styled(Divider)({
   position: "absolute",
+  margin: 0,
   right: 0,
   left: 0,
   bottom: 0,
@@ -60,13 +60,13 @@ function TeamPrompt({
       ) : (
         <>
           <div style={{ position: "relative" }}>
-            <StyledDivider />
             <StyledTabs
               value={currentTab}
               onChange={(e, newTab) => setCurrentTab(newTab)}
             >
               <StyledTab label="Scheduled" value={"scheduled"} />
               <StyledTab label="The Bench" value={"notScheduled"} />
+              <StyledDivider />
             </StyledTabs>
           </div>
 
