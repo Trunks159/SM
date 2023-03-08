@@ -13,6 +13,13 @@ function addToSchedule({ date, index }) {
   };
 }
 
+function removeFromSchedule(index) {
+  return {
+    type: "REMOVE_FROM_SCHEDULED",
+    payLoad: index,
+  };
+}
+
 const StyledTabs = styled(Tabs)({
   "& .MuiTabs-indicator": {
     background: "#0FABFF",
@@ -66,6 +73,9 @@ function TeamPrompt({
   function handleAddToSchedule(index) {
     dispatch(addToSchedule({ date, index }));
   }
+  function handleRemoveFromSchedule(index) {
+    dispatch(addToSchedule({ date, index }));
+  }
 
   return (
     <div className="team-prompt">
@@ -97,6 +107,7 @@ function TeamPrompt({
                     endTime={endTime}
                     user={user}
                     handleProfileChange={handleProfileChange}
+                    handleRemoveFromSchedule={handleRemoveFromSchedule}
                   />
                 </li>
               );

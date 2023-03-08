@@ -78,7 +78,11 @@ function Scheduletron(props) {
     //SIDEEFFECT FOR REDUX and Local state
 
     const day = verifiedWeek.week.find(({ id }) => id === newId);
-    const verifiedDay = !props.dayId || !day ? verifiedWeek.week[0] : day;
+    const verifiedDay =
+      !props.dayId || !day
+        ? verifiedWeek.week[dayjs().day() === 0 ? 6 : dayjs().day() - 1]
+        : day;
+    console.log("Youve been forwarded to todays schedule");
     if (verifiedDay.id !== oldId) {
       dispatch(updateCurrentDayId(verifiedDay.id));
     }
@@ -92,6 +96,7 @@ function Scheduletron(props) {
     //fetchweekschedule also verifies dayid
 
     if (!props.weekId) {
+      console.log("Ran", !props.weekId);
       fetchWeekSchedule({ date: dayjs().startOf("day").format() });
     } else if (!selectedWeek.id || props.weekId !== selectedWeek.id) {
       fetchWeekSchedule({ weekId: props.weekId });

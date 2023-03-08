@@ -75,6 +75,7 @@ function Dogtag({
   isReadOnly,
   readOnlyWarning,
   handleAddToSchedule,
+  handleRemoveFromSchedule,
   index,
 }) {
   return (
@@ -93,7 +94,11 @@ function Dogtag({
       </StyledButton>
       <StyledButton
         onClick={() =>
-          isReadOnly ? readOnlyWarning() : handleAddToSchedule(index)
+          isReadOnly
+            ? readOnlyWarning()
+            : startTime
+            ? handleRemoveFromSchedule(index)
+            : handleAddToSchedule(index)
         }
         isAddButton={!Boolean(startTime)}
       >
