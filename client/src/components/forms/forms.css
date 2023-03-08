@@ -9,6 +9,7 @@
   padding: 40px;
   margin-left: auto;
   margin-right: auto;
+  position: relative;
 }
 
 .authentification-form .inputs{

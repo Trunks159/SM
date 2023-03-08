@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useResizeDetector } from "react-resize-detector";
 import { Divider } from "@mui/material";
+import dayjs from "dayjs";
 
 //ACTIONS------
 const updateTrackLength = (newLength) => ({
@@ -9,24 +10,24 @@ const updateTrackLength = (newLength) => ({
   payLoad: newLength,
 });
 
-const getTimeLabels = (shiftFilter) => {
-  const { day, night } = shiftFilter;
-  const labels = {
-    both: ["6am", "10:30am", "3pm", "7:30pm", "12am"],
-    day: ["6am", "10:30am", "3pm"],
-    night: ["3pm", "7:30pm", "12am"],
-  };
-  if (day && night) {
-    return labels.both;
-  } else if (day) {
-    return labels.day;
+const getTimeLabels = (timerange) => {
+  let labels = [];
+  const [start, end] = [dayjs(timerange[0]), dayjs(timerange[1])];
+  const segment = end.diff(start, "hour", true) / 4;
+  let time = start;
+  while (time.isBefore(end)) {
+    labels.push(time.format("h:mm a"));
+    time = time.add(segment, "hours");
   }
-  return labels.night;
+  labels.push(end.format("h:mm a"));
+
+  return labels;
 };
 
-const TimeLine = ({ shiftFilter }) => {
-  const timeLabels = getTimeLabels(shiftFilter);
+const TimeLine = () => {
   const screenWidth = useSelector((state) => state.screenWidth);
+  const currentSchedule = useSelector((state) => state.currentSchedule);
+  const timeLabels = getTimeLabels(currentSchedule.timerange);
   const dispatch = useDispatch();
   const { height, ref } = useResizeDetector();
 
@@ -47,7 +48,7 @@ const TimeLine = ({ shiftFilter }) => {
           <p
             key={index}
             style={{
-              fontSize: index % 2 !== 0 ? "6px" : "10px",
+              fontSize: index % 2 !== 0 ? "9px" : "12px",
               //marginTop: index % 2 !== 0 ? "auto" : 0,
             }}
           >
@@ -62,7 +63,7 @@ const TimeLine = ({ shiftFilter }) => {
           width: 1,
           opacity: 0.5,
           height: "90%",
-          margin: "auto 0",
+          margin: "auto 10px",
         }}
         orientation={screenWidth >= 600 ? "horizontal" : "vertical"}
         className={"timeline-divider"}

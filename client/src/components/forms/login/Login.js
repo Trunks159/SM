@@ -104,7 +104,7 @@ function Login({ users, notifyUser }) {
           setState({ ...state, username: "admin", password: "password" });
         }}
         variant="contained"
-        sx={{ position: "absolute", textTransform: "none" }}
+        sx={{ position: "absolute", textTransform: "none", top: 0 }}
       >
         Hit this button to login as: username : 'admin', password: 'password'
       </Button>
