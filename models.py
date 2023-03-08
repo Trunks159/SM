@@ -91,9 +91,6 @@ class Availability(db.Model):
             day_availability = getattr(self, day).split(
                 '-') if getattr(self, day) else True
             days.append(day_availability)
-            # if its like 12AM monday to 12AM tuesday, you could just use true and false if not available
-            # so if the entire day is elapsed
-            # look at startTime and if its 12AM see if the second value is 12AM the next day
         return days
 
 
@@ -155,12 +152,14 @@ class WeekSchedule(db.Model):
     def complete_schedule_set(self):
         # makes a set of week objects
         # 2 weeks before and infinitely far after this week
+
         next_weeks = WeekSchedule.query.filter(
             WeekSchedule.monday_date >= self.monday_date).order_by(WeekSchedule.monday_date.asc()).all()
         # add weeks until two next weeks requirement is  filled
         while len(next_weeks) < 3:
             new_week = next_weeks[len(next_weeks) -
                                   1].monday_date + timedelta(days=7)
+
             next_weeks.append(WeekSchedule().initialize(new_week))
         two_prior_weeks = WeekSchedule.query.filter(WeekSchedule.monday_date < self.monday_date).order_by(
             WeekSchedule.monday_date.asc()).limit(2).all()

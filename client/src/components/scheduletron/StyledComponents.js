@@ -47,22 +47,25 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   display: "grid",
   gridTemplateRows: "max-content 1fr",
   gridTemplateColumns: "1fr",
-  margin: 10,
   flex: 1,
+  margin: 5,
+  [theme.breakpoints.up("sm")]: {
+    margin: 10,
+  },
 }));
 
-const StyledHamburgerButton = styled(Button)(({ hidden }) => {
-  return {
-    display: hidden ? "none" : "flex",
-    background: "#585858",
-    position: "absolute",
-    bottom: 13,
-    right: 13,
-    "&:hover": {
-      background: "black",
-    },
-    zIndex: 1,
-  };
-});
+const StyledHamburgerButton = styled(Button)(({ theme }) => ({
+  background: "#585858",
+  position: "fixed",
+  bottom: 13,
+  right: 13,
+  "&:hover": {
+    background: "black",
+  },
+  zIndex: 1,
+  [theme.breakpoints.up("sm")]: {
+    display: "none",
+  },
+}));
 
 export { StyledTab, StyledTabs, StyledPaper, StyledHamburgerButton };

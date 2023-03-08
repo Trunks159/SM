@@ -1,7 +1,6 @@
 import React from "react";
 import editIcon from "./assets/Edit Icon.svg";
 import dragIcon from "./assets/Drag Icon.svg";
-import "./HelpPrompt.css";
 import { Divider } from "@mui/material";
 import styled from "@emotion/styled";
 
@@ -25,16 +24,9 @@ const StyledDivider = styled(Divider)({
   height: "1px",
 });
 
-function HelpPrompt({ currentFunction, name }) {
+function HelpPrompt() {
   return (
-    <div
-      style={{
-        display: currentFunction === name ? "flex" : "none",
-      }}
-      className={`help-prompt prompt${
-        currentFunction === name ? "" : "-hidden"
-      }`}
-    >
+    <div className="help-prompt">
       <h1>Let me help you out a bit</h1>
 
       <h4>To adjust the time each team member is scheduled for:</h4>

@@ -129,7 +129,7 @@ function App() {
     return redirect && <Redirect to="/login" />;
   }
   //////////////////
-  return users ? (
+  return users.length > 0 ? (
     <Router>
       <ThemeProvider theme={theme}>
         <div className="app">

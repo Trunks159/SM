@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Divider, Tabs, Tab, Alert } from "@mui/material";
-import "./TeamPrompt.css";
+import { useDispatch, useSelector } from "react-redux";
+import { Divider, Tabs, Tab } from "@mui/material";
 import styled from "@emotion/styled";
 import Dogtag from "./Dogtag";
 import ProfileInfo from "./ProfileInfo";
-import Notification from "../Notification";
+import Notification from "../../Notification";
+
+function addToSchedule({ date, index }) {
+  return {
+    type: "ADD_TO_SCHEDULED",
+    payLoad: { date, index },
+  };
+}
 
 const StyledTabs = styled(Tabs)({
   "& .MuiTabs-indicator": {
@@ -38,23 +44,31 @@ const StyledDivider = styled(Divider)({
 });
 
 function TeamPrompt({
-  currentFunction,
-  name,
   handleProfileChange,
   profile,
   isReadOnly,
   readOnlyWarning,
 }) {
+  const dispatch = useDispatch();
+
   const currentSchedule = useSelector((state) => state.currentSchedule);
-  const { timeslots, notScheduled } = currentSchedule;
-  const workblocks = timeslots.map((ts) => currentSchedule.toWorkBlock(ts));
+  const selectedWeek = useSelector((state) => state.selectedWeek);
+
   const [currentTab, setCurrentTab] = useState("notScheduled");
 
+  const { timeslots, notScheduled, dayId } = currentSchedule;
+  const workblocks = timeslots.map((ts) => currentSchedule.toWorkBlock(ts));
+
+  const date = selectedWeek.week.find(
+    ({ id }) => id === currentSchedule.dayId
+  ).date;
+
+  function handleAddToSchedule(index) {
+    dispatch(addToSchedule({ date, index }));
+  }
+
   return (
-    <div
-      className="team-prompt hidden"
-      style={{ display: currentFunction === name ? "flex" : "none" }}
-    >
+    <div className="team-prompt">
       {profile ? (
         <ProfileInfo profile={profile} />
       ) : (
@@ -78,6 +92,7 @@ function TeamPrompt({
               return (
                 <li key={index}>
                   <Dogtag
+                    index={index}
                     startTime={startTime}
                     endTime={endTime}
                     user={user}
@@ -96,10 +111,12 @@ function TeamPrompt({
               return (
                 <li key={index}>
                   <Dogtag
+                    index={index}
                     isReadOnly={isReadOnly}
                     readOnlyWarning={readOnlyWarning}
                     user={user}
                     handleProfileChange={handleProfileChange}
+                    handleAddToSchedule={handleAddToSchedule}
                   />
                 </li>
               );

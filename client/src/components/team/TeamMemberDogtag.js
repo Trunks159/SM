@@ -3,7 +3,7 @@ import openIcon from "./assets/Open Icon.svg";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import deleteIcon from "./assets/Delete Icon.svg";
-function DogTag({ firstName, lastName, position, id, removing }) {
+function DogTag({ firstName, lastName, position, id, removing, setRemoving }) {
   return (
     <div style={{ position: "relative" }}>
       {removing && (
@@ -20,6 +20,12 @@ function DogTag({ firstName, lastName, position, id, removing }) {
             justifyContent: "center",
             zIndex: 1,
           }}
+          onClick={() =>
+            setRemoving({
+              teamMember: { firstName, lastName, position, id },
+              on: true,
+            })
+          }
         >
           <img style={{ marginLeft: "auto" }} src={deleteIcon} />
         </Button>

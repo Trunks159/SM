@@ -76,7 +76,7 @@ def add_team_member():
         u = User(first_name=first_name, last_name=last_name, position=position)
         db.session.add(u)
         db.session.commit()
-        return jsonify({'wasSuccessful': True, 'message': 'Team member was successfully added!'})
+        return jsonify({'wasSuccessful': True, 'message': 'Team member was successfully added!', 'newUser': u.to_json()})
 
 
 @app.route('/api/get_schedule/<day_id>')
@@ -106,14 +106,11 @@ def get_schedule(day_id):
 # takes a date and creates or finds a set of schedules
 # surrounding that date
 def get_week_schedules():
+
     from datetime import date
     the_date = request.args.get('date')
-    if the_date:
-        the_date = [int(string) for string in the_date.split('-')]
-        dt = datetime(the_date[2], the_date[0], the_date[1])
-    else:
-        # use today's date
-        dt = datetime.combine(date.today(), datetime.min.time())
+    dt = parser.parse(the_date) if the_date else datetime.combine(
+        date.today(), datetime.min.time())
 
     '''So we get the date and with that we first get the schedule set that has that day'''
     day = Day.query.filter(Day.date == dt).first()
@@ -121,7 +118,9 @@ def get_week_schedules():
     '''If day is found , take that day's weekschedule and create a scheduleset
     if not create a week for that day and return schedule set'''
     if day:
+
         week = day.week_schedule if day.week_schedule else WeekSchedule().initialize(dt)
+
     else:
         week = WeekSchedule().initialize(dt)
     schedule_set = week.complete_schedule_set()
@@ -236,6 +235,18 @@ def get_minmax():
     min = db.session.query(func.min(WeekSchedule.monday_date)).first()[0]
 
     return jsonify([min.isoformat(' '), max.isoformat(' ')])
+
+
+@app.route('/api/remove_team_member', methods=["PUT"])
+def delete_team_member():
+    id = int(request.args.get('user-id'))
+    if id:
+        u = User.query.get(id)
+        if u:
+            db.session.delete(u)
+            db.session.commit()
+            return jsonify({'wasSuccessful': True})
+    return jsonify({'wasSuccessful': True, 'message': "Couldn't find the user you're trying to delete..."})
 
 
 if __name__ == "__main__":

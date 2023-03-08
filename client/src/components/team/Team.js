@@ -1,29 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import styled from "@emotion/styled";
 import teamIcon from "./assets/Team Icon.svg";
-import removeIcon from "./assets/Remove Person Icon.svg";
 import searchIcon from "./assets/Search Icon.svg";
 import sortIcon from "./assets/Sort Icon.svg";
 import filterIcon from "./assets/Filter Icon.svg";
-
-import {
-  Breadcrumbs,
-  Menu,
-  Button,
-  Divider,
-  MenuItem,
-  ListItemIcon,
-  ListItemText,
-  TextField,
-  IconButton,
-} from "@mui/material";
+import { Divider, TextField } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { grey } from "@mui/material/colors";
 import "./team.css";
 import DogTag from "./TeamMemberDogtag";
 import AddTeamMemberModal from "./AddTeamMemberModal";
+import DeleteTeamMemberModal from "./DeleteTeamMemberModal";
+import removeIcon from "./assets/Remove Person Icon.svg";
+import closeIcon from "./assets/Close Icon.svg";
 import {
   StyledListButton,
   StyledBreadcrumbs,
@@ -32,10 +22,14 @@ import {
 
 function Team({ teamMembers }) {
   const [breadcrumbs, setBreadCrumbs] = useState([]);
-  const [removing, setRemoving] = useState(false);
+  const [removing, setRemoving] = useState({ on: false, teamMember: null });
   const location = useLocation();
   const currentUser = useSelector((state) => state.currentUser);
   const isManager = currentUser.position > 0;
+
+  function cancelRemoving() {
+    setRemoving({ on: false, teamMember: null });
+  }
   useEffect(() => {
     const pathnames = location.pathname.split("/").filter((x) => x);
     setBreadCrumbs(
@@ -67,7 +61,6 @@ function Team({ teamMembers }) {
       })
     );
   }, [location]);
-  console.log("Hello: ");
   return (
     <div className="team">
       <StyledBreadcrumbs
@@ -83,7 +76,7 @@ function Team({ teamMembers }) {
       <h1 className="team-header">Team Members</h1>
 
       <div
-        className={`team-content${removing ? " team-content-removing" : ""}`}
+        className={`team-content${removing.on ? " team-content-removing" : ""}`}
       >
         <div className="list-actions">
           <div>
@@ -109,14 +102,27 @@ function Team({ teamMembers }) {
           </div>
           {isManager && (
             <>
-              <AddTeamMemberModal>Add Team Member</AddTeamMemberModal>
-
+              <AddTeamMemberModal teamMembers={teamMembers}>
+                Add Team Member
+              </AddTeamMemberModal>
               <StyledListButton
-                startIcon={<img src={removeIcon} />}
-                onClick={() => setRemoving(true)}
+                startIcon={<img src={removing.on ? closeIcon : removeIcon} />}
+                onClick={() =>
+                  removing.on
+                    ? cancelRemoving()
+                    : setRemoving({ on: true, teamMember: null })
+                }
+                removing={removing.on}
               >
-                <span className="button-text">Remove Team Member</span>
+                <span className="button-text">
+                  {removing.on ? "Cancel Deletion" : "Remove Team Member"}
+                </span>
               </StyledListButton>
+
+              <DeleteTeamMemberModal
+                cancelRemoving={cancelRemoving}
+                teamMember={removing.teamMember}
+              />
             </>
           )}
         </div>
@@ -131,7 +137,8 @@ function Team({ teamMembers }) {
                   parseInt(position) === 1 ? "Team Leader" : "Team Member"
                 }
                 id={id}
-                removing={removing}
+                removing={removing.on}
+                setRemoving={setRemoving}
               />
               <Divider sx={{ background: "#F5F5F5", margin: "10px 0px" }} />
             </li>

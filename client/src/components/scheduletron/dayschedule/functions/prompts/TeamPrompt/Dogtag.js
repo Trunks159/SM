@@ -3,23 +3,32 @@ import styled from "@emotion/styled";
 import { Slider, Button, Divider, Alert } from "@mui/material";
 import removeIcon from "./assets/Remove Icon.svg";
 import profileIcon from "./assets/Profile Icon.svg";
-import moment from "moment";
+import dayjs from "dayjs";
 
 function toSliderValues(startTime, endTime) {
-  const start = moment(startTime);
-  const end = moment(endTime);
+  const start = dayjs(startTime);
+  const end = dayjs(endTime);
   return {
     //from 6am - 12am
-    start: ((start.hours() + start.minutes() / 60) / 18) * 100,
-    end: ((end.hours() + end.minutes() / 60) / 24) * 100,
+    start: ((start.hour() + start.minute() / 60) / 18) * 100,
+    end: ((end.hour() + end.minute() / 60) / 24) * 100,
   };
 }
 
-const StyledButton = styled(Button)({
+const StyledButton = styled(Button)(({ isAddButton }) => ({
   minWidth: 0,
-  width: 33,
   height: 33,
-});
+  color: isAddButton ? "#11FF00" : "#FF0000",
+  gap: 10,
+  textTransform: "none",
+  marginLeft: 10,
+  "& img": {
+    transform: isAddButton ? "rotate(45deg)" : "none",
+    filter: isAddButton
+      ? "invert(48%) sepia(50%) saturate(2255%) hue-rotate(80deg) brightness(132%) contrast(112%)"
+      : "none",
+  },
+}));
 
 const StyledSlider = styled(Slider)({
   pointerEvents: "none",
@@ -42,16 +51,17 @@ const StyledSlider = styled(Slider)({
 
 function SliderSection({ startTime, endTime }) {
   const sliderValues = toSliderValues(startTime, endTime);
+
   return (
     <div className="slider-container-outer">
       <Divider orientation="vertical" />
       <div className="slider-container-inner">
-        <p>{moment(startTime).format("h:mm a")}</p>
+        <p>{dayjs(startTime).format("h:mm a")}</p>
         <StyledSlider
           orientation="vertical"
           value={[sliderValues.start, sliderValues.end]}
         />
-        <p>{moment(endTime).format("h:mm a")}</p>
+        <p>{dayjs(endTime).format("h:mm a")}</p>
       </div>
     </div>
   );
@@ -64,8 +74,9 @@ function Dogtag({
   handleProfileChange,
   isReadOnly,
   readOnlyWarning,
+  handleAddToSchedule,
+  index,
 }) {
-  console.log("Isreadonly: ", isReadOnly);
   return (
     <>
       <div className="tm-dogtag">
@@ -81,16 +92,16 @@ function Dogtag({
         <img src={profileIcon} />
       </StyledButton>
       <StyledButton
-        onClick={() => {
-          if (isReadOnly) {
-            return readOnlyWarning();
-          }
-        }}
+        onClick={() =>
+          isReadOnly ? readOnlyWarning() : handleAddToSchedule(index)
+        }
+        isAddButton={!Boolean(startTime)}
       >
         <img
           style={{ transform: startTime ? "none" : "rotate(45deg)" }}
           src={removeIcon}
         />
+        {startTime ? "Remove" : "Add"} TM
       </StyledButton>
     </>
   );

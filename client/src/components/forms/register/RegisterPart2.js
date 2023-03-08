@@ -58,7 +58,6 @@ function RegisterPart2({ firstName, lastName, users }) {
     if (errors.length) {
       alertUser(errors);
     } else {
-      console.log("Running");
       fetch("/api/register", {
         method: "POST",
         headers: {
@@ -121,7 +120,7 @@ function RegisterPart2({ firstName, lastName, users }) {
         <Notification message={confirmPasswordErrors} />
       </div>
 
-      <SolidButton>Register</SolidButton>
+      <SolidButton type="submit">Register</SolidButton>
     </form>
   );
 }

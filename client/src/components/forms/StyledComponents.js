@@ -1,21 +1,7 @@
 import React from "react";
 import FancyDivider from "./FancyDivider";
 import { Button, FormControlLabel, TextField } from "@mui/material";
-
 import styled from "@emotion/styled";
-const buttonStyles = {
-  borderRadius: 4,
-  transitionDuration: ".2s",
-  opacity: 1,
-  width: 145,
-  height: 45,
-  "& .MuiButton-label": {
-    textTransform: "none",
-    fontWeight: 700,
-    fontSize: 20,
-    color: "white",
-  },
-};
 
 function Header({ children }) {
   return (
@@ -32,27 +18,28 @@ const StyledHeader = styled("header")(() => ({
   margin: "15px 0px",
 }));
 
-const StyledSolidButton = styled(Button)({
-  ...buttonStyles,
-  background: "rgba(7, 145, 182, 1)",
+const SolidButton = styled(Button)({
+  background: "#0792B6",
+  color: "white",
+  textTransform: "none",
+  width: 160,
+  height: 50,
   margin: "20px 0px 20px auto",
   "&:hover": {
-    opacity: 0.8,
-    background: "rgba(0, 203, 255, 1)",
+    background: "#15CFFF",
   },
+  fontSize: 20,
 });
 
-const SolidButton = (props) => <StyledSolidButton type={"submit"} {...props} />;
-
 const StyledOutlinedButton = styled(Button)({
-  ...buttonStyles,
   textTransform: "none",
-  borderColor: "rgba(7, 145, 182, 1)",
+  borderColor: "#0792B6",
   borderWidth: 1.5,
-  "& .MuiButton-label": {
-    fontWeight: "normal",
-    color: "rgba(7, 145, 182, 1)",
-  },
+  fontWeight: "normal",
+  color: "#0792B6",
+  width: 160,
+  height: 50,
+  fontSize: 20,
 });
 
 const OutlinedButton = (props) => (

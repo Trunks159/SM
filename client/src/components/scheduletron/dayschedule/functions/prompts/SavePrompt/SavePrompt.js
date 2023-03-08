@@ -3,9 +3,8 @@ import saveIcon from "./assets/Save Icon.svg";
 import { Button, Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Alert } from "@mui/material";
-import Notification from "../Notification";
+import Notification from "../../Notification";
 import styled from "@emotion/styled";
-import "./SavePrompt.css";
 
 const SaveButton = styled(Button)({
   background: "#007363",
@@ -17,12 +16,12 @@ const SaveButton = styled(Button)({
   fontWeight: "bold",
   fontSize: 20,
 
-  width: 150,
+  width: "100%",
   justifyContent: "center",
   marginTop: 20,
 });
 
-const SavePrompt = ({ name, currentFunction, isReadOnly, readOnlyWarning }) => {
+const SavePrompt = ({ isReadOnly, readOnlyWarning }) => {
   const currentSchedule = useSelector((state) => state.currentSchedule);
   const { timeslots } = currentSchedule;
   const [alert, setAlert] = useState(null);
@@ -60,11 +59,7 @@ const SavePrompt = ({ name, currentFunction, isReadOnly, readOnlyWarning }) => {
   }
 
   return (
-    <div
-      className={`save-prompt prompt${
-        currentFunction === name ? "" : "-hidden"
-      }`}
-    >
+    <div className="save-prompt">
       <h1>Save Your Progress</h1>
       <Notification message={alert} />
       <h4>Completion Status</h4>

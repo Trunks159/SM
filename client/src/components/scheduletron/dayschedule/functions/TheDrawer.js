@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Button, Alert, Collapse } from "@mui/material";
 import styled from "@emotion/styled";
-import "./thedrawer.css";
-import HelpPrompt from "./HelpPrompt/HelpPrompt";
-import SavePrompt from "./SavePrompt/SavePrompt";
-import TeamPrompt from "./TeamPrompt/TeamPrompt";
-import MyBreadcrumbs from "./MyBreadCrumbs";
 import closeIcon from "./assets/Close Icon.svg";
+import Prompt from "./prompts/Prompt";
+import MyBreadcrumbs from "./MyBreadCrumbs";
 import Notification from "./Notification";
 
 const StyledCloseButton = styled(Button)({
@@ -18,11 +15,12 @@ const StyledCloseButton = styled(Button)({
   "&:hover": {
     background: "rgba(255,255,255,.20)",
   },
-  margin: "5px",
+  padding: 15,
+  margin: 20,
   height: 32,
   width: 32,
   borderRadius: 16,
-  background: "rgba(255,255,255,.04)",
+  background: "rgba(255,255,255,.1)",
 });
 
 function TheDrawer(props) {
@@ -78,46 +76,30 @@ function TheDrawer(props) {
       className={"drawer-container"}
     >
       <Collapse
-        style={{}}
         in={currentFunction}
         orientation={isDesktop ? "horizontal" : "vertical"}
       >
         <div className="drawer">
-          <StyledCloseButton onClick={() => changeCurrentFunction(null)}>
-            <img src={closeIcon} />
-          </StyledCloseButton>
-          <MyBreadcrumbs updateCrumbs={updateCrumbs} crumbs={crumbs} />
-          <HelpPrompt name="help" currentFunction={currentFunction} />
-          <TeamPrompt
+          <div>
+            <MyBreadcrumbs updateCrumbs={updateCrumbs} crumbs={crumbs} />
+            <StyledCloseButton onClick={() => changeCurrentFunction(null)}>
+              <img src={closeIcon} />
+            </StyledCloseButton>
+          </div>
+          <Notification message={alert} />
+          <Prompt
             profile={((crumbs) => {
               const profileCrumb = crumbs.find(
                 (crumb) => crumb.label === "Profile"
               );
               return profileCrumb && profileCrumb.user;
             })(crumbs)}
-            name="team"
             currentFunction={currentFunction}
             handleProfileChange={handleProfileChange}
             readOnlyWarning={readOnlyWarning}
             isReadOnly={isReadOnly}
           />
-          <SavePrompt
-            name="save"
-            currentFunction={currentFunction}
-            isReadOnly={isReadOnly}
-            readOnlyWarning={readOnlyWarning}
-          />
         </div>
-
-        {/**   
-      <Notification message={alert} />
-      <div className="drawer-content">
-        
-      </div>*/}
-        {/**
-
-        
- */}
       </Collapse>
     </div>
   );

@@ -37,7 +37,6 @@ function Availability({ availability, handleSave, userId, isHidden }) {
     } else {
       slidersCopy[index].value = newValue;
     }
-    console.log("Newval: ", slidersCopy);
     setSliders(slidersCopy);
   }
 

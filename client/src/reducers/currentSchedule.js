@@ -114,7 +114,6 @@ const currentScheduleReducer = (state = initialState, action) => {
 
     case "UPDATE_TIME":
       const withUpdatedTime = (timeslots, { index, timeframe, newValue }) => {
-        console.log("Newval: ", newValue);
         const newTimeslots = [...timeslots];
         newTimeslots[index][timeframe] = newValue;
         return newTimeslots;

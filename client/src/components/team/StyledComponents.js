@@ -8,8 +8,9 @@ const StyledSubmitButton = styled(Button)({
   textTransform: "none",
 });
 
-const StyledListButton = styled(Button)(({ theme }) => ({
-  color: "black",
+const StyledListButton = styled(Button)(({ theme, removing }) => ({
+  color: removing ? "white" : "black",
+  background: removing ? "#FF4B4B" : "none",
   fontSize: 14,
   fontWeight: "normal",
   textTransform: "none",
@@ -21,6 +22,9 @@ const StyledListButton = styled(Button)(({ theme }) => ({
   },
   "& img": {
     width: 25,
+    filter: removing
+      ? "invert(100%) sepia(100%) saturate(1%) hue-rotate(295deg) brightness(103%) contrast(102%)"
+      : "none",
   },
 }));
 

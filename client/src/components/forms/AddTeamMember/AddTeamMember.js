@@ -21,7 +21,6 @@ function AddTeamMember({ teamMembers, notifyUser }) {
   const { firstName, lastName, position, errors, redirect } = state;
 
   function handleChange(e) {
-    console.log("Name: ", e.target);
     setState({ ...state, [e.target.name]: e.target.value });
   }
 
@@ -114,7 +113,7 @@ function AddTeamMember({ teamMembers, notifyUser }) {
           </Select>
         </FormControl>
       </div>
-      <SolidButton>Add Em'</SolidButton>
+      <SolidButton type="submit">Add Em'</SolidButton>
     </form>
   );
 }

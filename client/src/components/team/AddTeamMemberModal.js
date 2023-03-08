@@ -15,13 +15,23 @@ import Notification from "../Notification";
 import addIcon from "./assets/Add Person Icon.svg";
 import { Redirect } from "react-router-dom";
 import closeIcon from "./assets/Close Icon.svg";
+import { useDispatch } from "react-redux";
 
-function AddTeamMemberModal({
-  children,
-  addTeamMember,
-  teamMembers,
-  notifyUser,
-}) {
+function updateAlert(newAlert) {
+  return {
+    type: "UPDATE_ALERT",
+    payLoad: newAlert,
+  };
+}
+
+function createUser(newUser) {
+  return {
+    type: "CREATE_USER",
+    payLoad: newUser,
+  };
+}
+
+function AddTeamMemberModal({ children, addTeamMember, teamMembers }) {
   const [state, setState] = useState({
     open: false,
     firstName: "",
@@ -31,6 +41,7 @@ function AddTeamMemberModal({
     position: "team member",
   });
   const { firstName, lastName, errors, redirect, position, open } = state;
+  const dispatch = useDispatch();
   function alertUser(message) {
     setState({
       ...state,
@@ -70,14 +81,25 @@ function AddTeamMemberModal({
         }),
       })
         .then((response) => response.json())
-        .then(({ wasSuccessful, message }) => {
+        .then(({ wasSuccessful, message, newUser }) => {
           if (wasSuccessful) {
             setState({ ...state, redirect: <Redirect to={"/team"} /> });
-            notifyUser({
-              content: `${firstName} ${lastName} has been successfully added!`,
-              title: "Addition Successful",
-              severity: "success",
-            });
+            dispatch(
+              updateAlert({
+                content: `${firstName} ${lastName} has been successfully added!`,
+                title: "Addition Successful",
+                severity: "success",
+              })
+            );
+            dispatch(createUser(newUser));
+          } else {
+            dispatch(
+              updateAlert({
+                content: message,
+                title: "Addition Unsuccessful",
+                severity: "error",
+              })
+            );
           }
         });
     }
@@ -145,7 +167,7 @@ function AddTeamMemberModal({
             <TextField
               required
               error={errors}
-              name="firstName"
+              name="lastName"
               label="Enter Last Name"
               onChange={handleChange}
               value={lastName}

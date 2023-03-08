@@ -44,7 +44,6 @@ const StyledPaper = styled(Paper)(({ completion }) => {
 });
 
 const StyledBox = styled(Box)(({ timeframe, id }) => {
-  console.log("Timeframe: ", timeframe);
   const isThisWeek = timeframe === "This Week";
   return {
     display: "flex",

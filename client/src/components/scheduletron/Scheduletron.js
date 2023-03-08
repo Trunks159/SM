@@ -76,7 +76,8 @@ function Scheduletron(props) {
     //takes dayId, searches the week we have, if found return
     //the found day else return monday
     //SIDEEFFECT FOR REDUX and Local state
-    const day = selectedWeek.week.find(({ id }) => id === newId);
+
+    const day = verifiedWeek.week.find(({ id }) => id === newId);
     const verifiedDay = !props.dayId || !day ? verifiedWeek.week[0] : day;
     if (verifiedDay.id !== oldId) {
       dispatch(updateCurrentDayId(verifiedDay.id));
@@ -92,7 +93,7 @@ function Scheduletron(props) {
 
     if (!props.weekId) {
       fetchWeekSchedule({ date: dayjs().startOf("day").format() });
-    } else if (!selectedWeek || props.weekId !== selectedWeek.id) {
+    } else if (!selectedWeek.id || props.weekId !== selectedWeek.id) {
       fetchWeekSchedule({ weekId: props.weekId });
     } else {
       updateVerifiedDay();

@@ -1,0 +1,141 @@
+
+.prompt{
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+.prompt h3{
+    font-weight: 600;
+    font-size: 18px;
+    margin : 10px 0px;
+}
+
+.prompt p{
+    font-size: 16px;
+    opacity: .7;
+    line-height: 23px;
+    margin : 0;
+}
+
+/*////////HELP PROMPT//////////////*/
+.help-prompt{
+    padding : 20px;
+}
+
+.help-prompt h4{
+    font-weight: 300;
+    line-height: 23px;
+    font-size: 16px;
+}
+
+.help-item{
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    column-gap: 18px;
+    justify-items: center;
+}
+
+.help-item .drag-icon{
+    width: 15px;
+    background: rgba(0,0,0,.56);
+    padding: 8px 12px;
+    border-radius: 3px;
+    margin :0;
+    margin-top: 50px;
+}
+/**/
+
+/*////////SAVE PROMPT//////////////*/
+.save-prompt {
+    padding: 20px;
+}
+.save-prompt h4{
+  margin: 0;
+}
+
+.save-prompt ul{
+    list-style-type: none;
+    padding-left: 10px;
+    gap: 25px;
+    display: flex;
+    flex-direction: column;
+    margin: 40px 0px;
+}
+
+.save-prompt li{
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    grid-template-rows: min-content 1fr;
+    align-items: center;
+    row-gap: 10px;
+}
+
+.save-prompt caption{
+    font-size: 14px;
+    opacity: .6;
+    margin: 0;
+}
+
+
+/**/
+
+/*TEAM PROMPT/////////////*/
+.team-prompt {
+    flex-direction: column;
+}
+
+.team-prompt ul{
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+    align-items: center;
+    padding: 0;
+}
+
+.team-prompt ul li .tm-dogtag{
+    background-color: #F5F5F5;
+    display: flex;
+    width: 218px;
+    height: 85px;
+    text-align: center;
+    border-radius: 7px;
+    text-transform: capitalize;
+}
+
+.tm-dogtag .text-container{
+    flex : 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.tm-dogtag h2{
+    color: black;
+    font-weight: 500;
+    font-size: 23px;
+    margin : 3px;
+    margin-top: 22px;
+}
+
+.tm-dogtag p{
+    margin: 0;
+    font-size: 10px;
+    color: #626262;
+}
+
+.tm-dogtag .slider-container-outer{
+    display: flex;
+    width: 30%;
+}
+
+.tm-dogtag .slider-container-inner{
+    margin: auto;
+}
+
+.tm-dogtag .slider-container-inner p{
+    margin: 2px;
+    text-transform: uppercase;
+}
+/*//////////////*/

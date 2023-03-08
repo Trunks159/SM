@@ -9,10 +9,11 @@ import { Button } from "@mui/material";
 const StyledButton = styled(Button)(({ isActive }) => ({
   opacity: isActive ? 1 : 0.57,
   textTransform: "none",
+  padding: "0px 10px",
   "& h3": {
     color: "white",
     textTransform: "capitalize",
-    fontWeight: "normal",
+    fontWeight: "500",
   },
   "& .MuiButton-label": {
     gap: 2,

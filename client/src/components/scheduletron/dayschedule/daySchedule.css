@@ -1,5 +1,8 @@
 .timeline {
   display: flex;
+  background-color: rgba(245, 245, 245, .5);
+  width: max-content;
+  padding: 0px 20px;
 }
 
 .timeline-labels{

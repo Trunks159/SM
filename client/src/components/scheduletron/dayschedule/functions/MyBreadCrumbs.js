@@ -34,7 +34,6 @@ function MyBreadcrumbs({ crumbs, updateCrumbs }) {
       }
       style={{
         borderBottom: "1px solid rgba(255,255,255, .15)",
-        paddingLeft: 30,
       }}
     >
       {breadcrumbs}

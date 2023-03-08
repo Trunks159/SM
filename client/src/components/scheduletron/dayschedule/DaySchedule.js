@@ -86,22 +86,7 @@ function DaySchedule({ currentDay }) {
     (currentSchedule.scheduled > 0 || currentSchedule.notScheduled) && (
       <Paper style={{ display: "flex", flex: 1 }} key={currentDay.id}>
         {redirect}
-        {/**  <MyTable date={currentDay.date} />*/}
-        <p>
-          Ea dolore elit duis enim proident culpa do. Occaecat do fugiat esse
-          laborum dolore cillum do ex esse elit. Aliquip adipisicing consectetur
-          incididunt eu elit sunt elit id do excepteur consectetur nisi. Veniam
-          qui consequat id esse incididunt anim cupidatat cillum mollit nostrud
-          Lorem sit dolor Lorem. Dolore exercitation ullamco sint ullamco
-          occaecat aliqua amet in sint velit labore amet.Sunt voluptate aliqua
-          labore eiusmod aute exercitation tempor consequat qui cupidatat
-          reprehenderit dolor ad. Sit nisi sint nisi esse reprehenderit do
-          labore aute enim occaecat mollit sint aliquip culpa. Irure qui ea enim
-          Lorem ex do ex commodo tempor aliquip veniam. Aliqua do laborum
-          consectetur id do exercitation dolor dolor laborum deserunt incididunt
-          sit non cupidatat. Deserunt cillum aute ex eiusmod ad dolore est sit
-          dolor cupidatat.
-        </p>
+        <MyTable date={currentDay.date} />
 
         <Functions
           isReadOnly={currentSchedule.isReadOnly(currentDay.date)}
@@ -110,23 +95,6 @@ function DaySchedule({ currentDay }) {
           changeCurrentFunction={setCurrentFunction}
           currentFunction={currentFunction}
         />
-        {/**   <StyledHamburgerButton
-        onClick={() => setCurrentFunction("team")}
-        hidden={
-          //needs to be in mobile AND cant be open
-          (typeof currentFunction !== "string" ||
-            !(currentFunction instanceof String)) &&
-          isDesktop
-        }
-      >
-        <img alt="Menu" src={menuIcon} />
-      </StyledHamburgerButton>
-      <TheDrawer
-        isReadOnly={currentSchedule.isReadOnly(currentDay.date)}
-        date={currentDay.date}
-        changeCurrentFunction={setCurrentFunction}
-        currentFunction={currentFunction}
-      />*/}
       </Paper>
     )
   );

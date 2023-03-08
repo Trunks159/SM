@@ -69,7 +69,6 @@ function AddRequestOff({ setCurrent }) {
 
 function RequestOffs({ requestOffs, handleSave, isHidden }) {
   const [current, setCurrent] = useState("list");
-  console.log("Hidden: ", isHidden);
   return (
     <form
       className="request-offs"

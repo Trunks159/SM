@@ -72,6 +72,7 @@ function MyTable({ date }) {
         <Table
           style={{
             height: "100%",
+            width: "min-content",
           }}
         >
           <TableHead>
@@ -81,6 +82,7 @@ function MyTable({ date }) {
                   position: "sticky",
                   zIndex: 1,
                   minWidth: 30,
+                  minHeight: 30,
                 }}
               >
                 {/*Keep this empty */}
@@ -120,7 +122,6 @@ function MyTable({ date }) {
                 style={{
                   position: "sticky",
                   left: 0,
-                  background: "rgba(245, 245, 245, .5)",
                   borderRadius: "0px 7px 7px 0px",
                   zIndex: 1,
                   padding: "0px 10px",

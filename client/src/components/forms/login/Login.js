@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { Checkbox } from "@mui/material";
+import { Checkbox, Button } from "@mui/material";
 import LockIcon from "@material-ui/icons/Lock";
 import {
   SolidButton,
@@ -99,6 +99,15 @@ function Login({ users, notifyUser }) {
   return (
     <form className="authentification-form" onSubmit={handleSubmit}>
       <Header>Sign In</Header>
+      <Button
+        onClick={() => {
+          setState({ ...state, username: "admin", password: "password" });
+        }}
+        variant="contained"
+        sx={{ position: "absolute", textTransform: "none" }}
+      >
+        Hit this button to login as: username : 'admin', password: 'password'
+      </Button>
       <div className="inputs">
         <MyInput
           required
@@ -137,7 +146,9 @@ function Login({ users, notifyUser }) {
         }
         label="Remember Me"
       />
-      <SolidButton endIcon={<LockIcon />}>Sign In</SolidButton>
+      <SolidButton type="submit" endIcon={<LockIcon />}>
+        Sign In
+      </SolidButton>
       <p style={{ fontWeight: 300, fontSize: 13, marginTop: 40 }}>
         Haven't made an account yet?
       </p>
