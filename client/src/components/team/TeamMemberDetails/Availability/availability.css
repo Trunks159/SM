@@ -2,6 +2,7 @@
     color: #4C4C4C;
     font-weight: normal;
     font-size: 20px;
+    margin: 20px 0px 50px 0px;
 }
 
 .availability ol{
@@ -10,7 +11,7 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap : 5px;
+    gap : 20px;
     
 }
 

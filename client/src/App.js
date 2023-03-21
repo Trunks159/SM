@@ -52,7 +52,7 @@ function App() {
 
   ////SIDE EFFECTS////////////////////////////////
   function fetchUsers() {
-    fetch("/api/get_all_users")
+    fetch("/api/users")
       .then((response) => response.json())
       .then((newData) => {
         if (
@@ -100,7 +100,6 @@ function App() {
 
   function RouteWithAuthenticator(props) {
     const { reverseAuthenticator, render } = props;
-    const location = useLocation();
     const redirect = (() => {
       //if user is logged in, they cant sign in or register
       //if user isnt logged in, they cant do anything other then logging in
@@ -137,6 +136,21 @@ function App() {
             <NavBar currentUser={currentUser} />
             <Notification />
             <Switch>
+              <RouteWithAuthenticator
+                path="/register"
+                reverseAuthenticator
+                render={({ match }) => <Register users={users} match={match} />}
+              />
+              <RouteWithAuthenticator
+                path="/login"
+                reverseAuthenticator
+                render={() => <Login users={users} />}
+              />
+              <RouteWithAuthenticator
+                path="/logout"
+                render={() => <Logout />}
+              />
+
               <RouteWithAuthenticator exact path="/" render={() => <Home />} />
 
               <RouteWithAuthenticator
@@ -145,28 +159,12 @@ function App() {
               />
               <RouteWithAuthenticator
                 path="/scheduletron/:weekId?/:dayId?"
-                render={({ match }) => {
-                  return (
-                    <Scheduletron
-                      weekId={parseInt(match.params.weekId)}
-                      dayId={parseInt(match.params.dayId)}
-                    />
-                  );
-                }}
-              />
-              <RouteWithAuthenticator
-                path="/register"
-                reverseAuthenticator
-                render={({ match }) => <Register users={users} match={match} />}
-              />
-              <RouteWithAuthenticator
-                path="/logout"
-                render={() => <Logout />}
-              />
-              <RouteWithAuthenticator
-                path="/login"
-                reverseAuthenticator
-                render={(props) => <Login users={users} />}
+                render={({ match }) => (
+                  <Scheduletron
+                    weekId={parseInt(match.params.weekId)}
+                    dayId={parseInt(match.params.dayId)}
+                  />
+                )}
               />
             </Switch>
           </main>

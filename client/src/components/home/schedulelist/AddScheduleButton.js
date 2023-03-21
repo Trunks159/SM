@@ -14,7 +14,7 @@ const StyledMainBox = styled(Box)(({ isOpen, theme }) => ({
   bottom: 0,
   right: 0,
   margin: "0px auto",
-  left: 70,
+  left: 0,
   background: isOpen ? "#275C78" : "#606060",
   borderRadius: "15px 15px 0px 0px",
   maxWidth: 300,

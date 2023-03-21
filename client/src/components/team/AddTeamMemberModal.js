@@ -68,7 +68,7 @@ function AddTeamMemberModal({ children, addTeamMember, teamMembers }) {
         </Alert>
       );
     } else {
-      fetch("/api/add_team_member", {
+      fetch("/api/users", {
         method: "POST",
         headers: {
           Accept: "application/json",

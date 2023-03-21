@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import SaveButton from "../SaveButton";
-import { MyInput } from "../../../forms/StyledComponents";
-function Details({ teamMember, handleChange, handleSave, isHidden }) {
-  const { username, lastName, firstName } = teamMember;
-  const [originalTeamMember, setOriginalTeamMember] = useState({
+import { useSelector } from "react-redux";
+import { TextField } from "@mui/material";
+function Details({ user, handleChange, handleSave, isHidden }) {
+  const { username, lastName, firstName } = user;
+  const currentUser = useSelector((state) => state.currentUser);
+  const [originalUser, setOriginalUser] = useState({
     username,
     firstName,
     lastName,
   });
   function hasChanged(props) {
     //returns an object if has changed otherwise false
-    if (teamMember && originalTeamMember) {
+    if (user && originalUser) {
       let thingsThatHaveChanged = {};
       for (let prop of props) {
-        if (teamMember[prop] !== originalTeamMember[prop]) {
-          thingsThatHaveChanged[prop] = teamMember[prop];
+        if (user[prop] !== originalUser[prop]) {
+          thingsThatHaveChanged[prop] = user[prop];
         }
       }
 
@@ -24,33 +26,38 @@ function Details({ teamMember, handleChange, handleSave, isHidden }) {
 
   return (
     <form className="details" style={{ display: isHidden ? "none" : "flex" }}>
-      <h2 className="header">My Details</h2>
+      <h2 className="header">
+        {currentUser.id === user.id ? "My" : `${user.firstName}'s`} Details
+      </h2>
       <p className="help-text">
         You can even change your name here (I mean I don't know why but you
         can...)
       </p>
-      <MyInput
-        disabled={!Boolean(username)}
-        label="Username"
-        variant="outlined"
-        value={username || "Hasn't registered"}
-        onChange={handleChange}
-        name="firstName"
-      />
-      <MyInput
-        label="First Name"
-        variant="outlined"
-        value={firstName}
-        onChange={handleChange}
-        name="firstName"
-      />
-      <MyInput
-        label="Last Name"
-        variant="outlined"
-        value={lastName}
-        onChange={handleChange}
-        name="lastName"
-      />
+      <ul>
+        <TextField
+          disabled={!Boolean(username)}
+          label="Username"
+          variant="outlined"
+          value={username || "Hasn't registered yet"}
+          onChange={handleChange}
+          name="firstName"
+        />
+        <TextField
+          label="First Name"
+          variant="outlined"
+          value={firstName}
+          onChange={handleChange}
+          name="firstName"
+        />
+        <TextField
+          label="Last Name"
+          variant="outlined"
+          value={lastName}
+          onChange={handleChange}
+          name="lastName"
+        />
+      </ul>
+
       <SaveButton
         onClick={() => handleSave()}
         hasChanged={hasChanged(["firstName", "lastName", "username"])}

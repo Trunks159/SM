@@ -3,8 +3,8 @@ import MySlider from "./MySlider";
 import SaveButton from "../SaveButton";
 import { sliderValueToTime, timeToSliderValue } from "./TimeFunctions";
 import "./availability.css";
-import { Switch } from "@mui/material";
 import SlideSwitch from "./SlideSwitch";
+import { Divider } from "@mui/material";
 
 const DAYS_OF_WEEK = [
   "monday",
@@ -18,13 +18,18 @@ const DAYS_OF_WEEK = [
 
 function Availability({ availability, handleSave, userId, isHidden }) {
   const [sliders, setSliders] = useState(
-    availability.map((av) => ({
-      isAvailable: Boolean(av),
-      value:
-        typeof av == "boolean"
-          ? [0, 100]
-          : av.split("-").map((t) => timeToSliderValue(t)),
-    }))
+    availability
+      ? availability.map((av) => ({
+          isAvailable: Boolean(av),
+          value:
+            typeof av == "boolean"
+              ? [0, 100]
+              : av.split("-").map((t) => timeToSliderValue(t)),
+        }))
+      : DAYS_OF_WEEK.map((d) => ({
+          isAvailable: true,
+          value: [0, 100],
+        }))
   );
   const [hasChanged, setHasChanged] = useState(false);
 
@@ -86,6 +91,7 @@ function Availability({ availability, handleSave, userId, isHidden }) {
               handleSlideSwitch={handleSlideSwitch}
               index={index}
             />
+            <Divider sx={{ margin: "30px 0px 20px 0px" }} />
           </li>
         ))}
       </ol>

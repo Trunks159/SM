@@ -74,7 +74,7 @@ function TeamPrompt({
     dispatch(addToSchedule({ date, index }));
   }
   function handleRemoveFromSchedule(index) {
-    dispatch(addToSchedule({ date, index }));
+    dispatch(removeFromSchedule(index));
   }
 
   return (

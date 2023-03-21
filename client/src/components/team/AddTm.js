@@ -56,7 +56,7 @@ function AddTm({ teamMembers, notifyUser }) {
         </Alert>
       );
     } else {
-      fetch("/api/add_team_member", {
+      fetch("/api/users/add", {
         method: "POST",
         headers: {
           Accept: "application/json",

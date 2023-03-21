@@ -11,13 +11,12 @@ const StyledSaveButton = styled(Button)({
     background: "#0B7792",
   },
   marginLeft: "auto",
-  minWidth: 153,
-  fontSize: 11,
   "&.Mui-disabled": {
     color: "white",
     opacity: 0.8,
     background: "#D6D6D6",
   },
+  padding: "10px 15px",
 });
 
 function SaveButton({ hasChanged, handleSave, text }) {

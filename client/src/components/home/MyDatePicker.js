@@ -21,13 +21,13 @@ function MyDatePicker() {
   const isLargeDesktop = screenWidth >= 1160;
 
   function handleDatePicker(date) {
-    fetch(`/api/get_week_schedule?date=${date}`)
+    fetch(`/api/weeks/?date=${date}`)
       .then((res) => res.json())
       .then((week) => setState({ ...state, foundWeek: week ? week : false }));
   }
 
   useEffect(() => {
-    fetch("/api/get_minmax_of_all_weeks")
+    fetch("/api/weeks/minmax")
       .then((res) => res.json())
       .then((minMaxDates) => {
         if (minMaxDates[0] !== state.minDate || minMaxDates[1] !== maxDate) {

@@ -77,7 +77,7 @@ function Login({ users, notifyUser }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("/api/login_user", {
+    fetch("/api/login", {
       method: "POST",
       headers: {
         Accept: "application/json",

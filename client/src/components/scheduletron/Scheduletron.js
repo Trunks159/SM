@@ -40,8 +40,7 @@ function Scheduletron(props) {
   function fetchWeekSchedule({ date, weekId }) {
     //fetches a weekSchedule and updates week and day
     const url =
-      "/api/get_week_schedule" +
-      `?${date ? "date" : "week-id"}=${date ? date : weekId}`;
+      "/api/weeks" + `?${date ? "date" : "week-id"}=${date ? date : weekId}`;
 
     fetch(url)
       .then((response) => response.json())
@@ -76,13 +75,12 @@ function Scheduletron(props) {
     //takes dayId, searches the week we have, if found return
     //the found day else return monday
     //SIDEEFFECT FOR REDUX and Local state
-
+    console.log("Week: ", verifiedWeek);
     const day = verifiedWeek.week.find(({ id }) => id === newId);
     const verifiedDay =
       !props.dayId || !day
         ? verifiedWeek.week[dayjs().day() === 0 ? 6 : dayjs().day() - 1]
         : day;
-    console.log("Youve been forwarded to todays schedule");
     if (verifiedDay.id !== oldId) {
       dispatch(updateCurrentDayId(verifiedDay.id));
     }
@@ -96,7 +94,6 @@ function Scheduletron(props) {
     //fetchweekschedule also verifies dayid
 
     if (!props.weekId) {
-      console.log("Ran", !props.weekId);
       fetchWeekSchedule({ date: dayjs().startOf("day").format() });
     } else if (!selectedWeek.id || props.weekId !== selectedWeek.id) {
       fetchWeekSchedule({ weekId: props.weekId });

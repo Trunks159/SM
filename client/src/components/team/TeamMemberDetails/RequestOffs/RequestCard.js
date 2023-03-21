@@ -8,6 +8,7 @@ const RequestCardButton = styled(Button)(({ isClickable }) => ({
   textTransform: "none",
   pointerEvents: isClickable ? "auto" : "none",
   background: "#555555",
+  flexShrink: 0,
 }));
 
 function CardContents({ start, end, position }) {

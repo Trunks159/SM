@@ -3,6 +3,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime, timedelta
 from flask_login import UserMixin
 import calendar
+from dateutil import parser
 
 
 DAYS_OF_WEEK = ['monday', 'tuesday', 'wednesday',
@@ -29,10 +30,12 @@ class User(UserMixin, db.Model):
             'lastName': self.last_name,
             'position': self.position,
             'id': self.id,
+            'requestOffs': [request.to_json() for request in self.request_offs.all()],
+            'availability': self.availability.to_json() if self.availability else []
         }
 
     def __repr__(self):
-        return 'User {}'.format(self.username)
+        return f'User {self.username}'
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -40,38 +43,31 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def get_availability(self):
-        if self.availability:
-            return self.availability
-        else:
-            a = Availability(user=self)
-            db.session.commit()
-            return a
-
-    def get_request_offs_json(self):
-        return [request_off.to_json() for request_off in self.request_offs.order_by(RequestOff.start).all()]
-
     def add_request_off(self, start, end):
+        # side effect
         # sees if dates inputted conflict with some that already exist
         # if the date we're trying to add is adjacent to another requestOff's date,
         # alter the time of the request off we found
+
+        start = parser.parse(start)
+        end = parser.parse(end)
         will_add_request = True
         my_requests = self.request_offs.all()
         for request in my_requests:
             if request.is_between(start, end):
                 will_add_request = False
                 # priotitize extreme values
-                start_changed = start < request.start or False
-                end_changed = end > request.end or False
+                start_changed = start < parser.parse(request.start) or False
+                end_changed = end > parser.parse(request.end) or False
                 if start_changed or end_changed:
-                    request.start = start
-                    request.end = end
+                    request.start = start.isoformat()
+                    request.end = end.isoformat()
 
         if will_add_request:
             db.session.add(RequestOff(user=self, start=start, end=end))
-
-        db.session.commit()
-        return 'Request was added' if will_add_request else 'A request was possibly altered'
+            db.session.commit()
+            return {'wasSuccessful': True}
+        return {'wasSuccessful': False}
 
 
 class Availability(db.Model):
@@ -137,7 +133,24 @@ class WeekSchedule(db.Model):
             'staffing': {'actual': 6, 'projected': 7},
         })
 
-    def create_week(self, date):
+    def complete_schedule_set(self):
+        # makes a set of week objects
+        # 2 weeks before and infinitely far after this week
+
+        next_weeks = WeekSchedule.query.filter(
+            WeekSchedule.monday_date >= self.monday_date).order_by(WeekSchedule.monday_date).all()
+        # add weeks until two next weeks requirement is  filled
+        while len(next_weeks) < 3:
+            new_week = next_weeks[len(next_weeks) -
+                                  1].monday_date + timedelta(days=7)
+
+            next_weeks.append(WeekSchedule().create_week(new_week))
+        two_prior_weeks = WeekSchedule.query.filter(
+            WeekSchedule.monday_date < self.monday_date).order_by(WeekSchedule.monday_date).limit(2).all()
+        return two_prior_weeks + next_weeks
+
+    def fill_week(self, date):
+        # side effect
         monday = date - timedelta(date.weekday())
         self.monday_date = monday
         for i in range(7):
@@ -145,25 +158,6 @@ class WeekSchedule(db.Model):
             db.session.add(day)
         db.session.commit()
         return self
-
-    def initialize(self, date):
-        return self.create_week(date)
-
-    def complete_schedule_set(self):
-        # makes a set of week objects
-        # 2 weeks before and infinitely far after this week
-
-        next_weeks = WeekSchedule.query.filter(
-            WeekSchedule.monday_date >= self.monday_date).order_by(WeekSchedule.monday_date.asc()).all()
-        # add weeks until two next weeks requirement is  filled
-        while len(next_weeks) < 3:
-            new_week = next_weeks[len(next_weeks) -
-                                  1].monday_date + timedelta(days=7)
-
-            next_weeks.append(WeekSchedule().initialize(new_week))
-        two_prior_weeks = WeekSchedule.query.filter(WeekSchedule.monday_date < self.monday_date).order_by(
-            WeekSchedule.monday_date.asc()).limit(2).all()
-        return two_prior_weeks + next_weeks
 
 
 class WorkBlock(db.Model):
@@ -187,21 +181,24 @@ class WorkBlock(db.Model):
 class RequestOff(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    start = db.Column(db.DateTime)
-    end = db.Column(db.DateTime)
+    start = db.Column(db.String(40))
+    end = db.Column(db.String(40))
 
     def to_json(self):
         return {
             'id': self.id,
             'userId': self.user_id,
-            'start': self.start.isoformat(' '),
-            'end':  self.end.isoformat(' '),
+            'start': parser.parse(self.start).isoformat(),
+            'end':  parser.parse(self.end).isoformat(),
         }
 
     def is_between(self, new_start, new_end):
+        # they are dt objects
         # sees if 1 range of dates is between in any way another
-        start_is_between = (new_start >= self.start) & (new_start <= self.end)
-        end_is_between = (new_end >= self.start) & (new_end <= self.end)
+        start = parser.parse(self.start)
+        end = parser.parse(self.end)
+        start_is_between = (new_start >= start) & (new_start <= end)
+        end_is_between = (new_end >= start) & (new_end <= end)
         return start_is_between or end_is_between
 
 

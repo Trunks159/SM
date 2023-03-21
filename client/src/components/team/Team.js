@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, Switch, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import teamIcon from "./assets/Team Icon.svg";
 import searchIcon from "./assets/Search Icon.svg";
@@ -19,6 +19,7 @@ import {
   StyledBreadcrumbs,
   StyledAdvancedButton,
 } from "./StyledComponents";
+import Profile from "./TeamMemberDetails/Profile";
 
 function Team({ teamMembers }) {
   const [breadcrumbs, setBreadCrumbs] = useState([]);
@@ -31,18 +32,17 @@ function Team({ teamMembers }) {
     setRemoving({ on: false, teamMember: null });
   }
   useEffect(() => {
-    const pathnames = location.pathname.split("/").filter((x) => x);
+    const pathnames = location.pathname
+      .split("/")
+      .filter((x) => x !== "profile" && x !== "");
     setBreadCrumbs(
       pathnames.map((name, index) => {
-        const to = (() => {
-          const pathnamesSlice = pathnames.slice(0, index + 1);
-          let to = "";
-          for (let pathname of pathnamesSlice) {
-            to += `${index === 0 ? "" : "/"}${pathname}`;
-          }
-          return to;
-        })();
+        //to = one before + current
+        const splitted = location.pathname.split("/");
+        const i = splitted.indexOf(name);
+        const to = splitted.slice(0, i + 1).join("/");
         const isActive = index === pathnames.length - 1;
+
         return (
           <Link
             to={to}
@@ -52,10 +52,16 @@ function Team({ teamMembers }) {
             {name === "team" && (
               <img alt="team" className="main-icon" src={teamIcon} />
             )}
-            {name}
-            {/*Number.isInteger(parseInt(name))
-                ? teamMember.username || teamMember.firstName
-          : name*/}
+
+            {((name) => {
+              const possibleId = Number.isInteger(parseInt(name));
+
+              if (possibleId) {
+                const t = teamMembers.find(({ id }) => id === parseInt(name));
+                return t.username ? t.username : t.firstName;
+              }
+              return name;
+            })(name)}
           </Link>
         );
       })
@@ -73,78 +79,105 @@ function Team({ teamMembers }) {
       >
         {breadcrumbs}
       </StyledBreadcrumbs>
-      <h1 className="team-header">Team Members</h1>
 
-      <div
-        className={`team-content${removing.on ? " team-content-removing" : ""}`}
-      >
-        <div className="list-actions">
-          <div>
-            <TextField
-              sx={{ marginBottom: 1, width: "150px" }}
-              label={
-                <div className="search-label">
-                  <img src={searchIcon} />
-                  Search
+      <Switch>
+        <Route
+          exact
+          path="/team"
+          render={() => (
+            <div
+              className={`team-content${
+                removing.on ? " team-content-removing" : ""
+              }`}
+            >
+              <h1 className="team-header">Team Members</h1>
+              <div className="list-actions">
+                <div>
+                  <TextField
+                    sx={{ marginBottom: 1, width: "150px" }}
+                    label={
+                      <div className="search-label">
+                        <img src={searchIcon} />
+                        Search
+                      </div>
+                    }
+                    type="search"
+                    variant="filled"
+                  />
                 </div>
-              }
-              type="search"
-              variant="filled"
-            />
-          </div>
-          <div className="list-actions-advanced">
-            <StyledAdvancedButton endIcon={<img src={sortIcon} />}>
-              Sort
-            </StyledAdvancedButton>
-            <StyledAdvancedButton endIcon={<img src={filterIcon} />}>
-              Filter
-            </StyledAdvancedButton>
-          </div>
-          {isManager && (
-            <>
-              <AddTeamMemberModal teamMembers={teamMembers}>
-                Add Team Member
-              </AddTeamMemberModal>
-              <StyledListButton
-                startIcon={<img src={removing.on ? closeIcon : removeIcon} />}
-                onClick={() =>
-                  removing.on
-                    ? cancelRemoving()
-                    : setRemoving({ on: true, teamMember: null })
-                }
-                removing={removing.on}
-              >
-                <span className="button-text">
-                  {removing.on ? "Cancel Deletion" : "Remove Team Member"}
-                </span>
-              </StyledListButton>
+                <div className="list-actions-advanced">
+                  <StyledAdvancedButton endIcon={<img src={sortIcon} />}>
+                    Sort
+                  </StyledAdvancedButton>
+                  <StyledAdvancedButton endIcon={<img src={filterIcon} />}>
+                    Filter
+                  </StyledAdvancedButton>
+                </div>
+                {isManager && (
+                  <>
+                    <AddTeamMemberModal teamMembers={teamMembers}>
+                      Add Team Member
+                    </AddTeamMemberModal>
+                    <StyledListButton
+                      startIcon={
+                        <img src={removing.on ? closeIcon : removeIcon} />
+                      }
+                      onClick={() =>
+                        removing.on
+                          ? cancelRemoving()
+                          : setRemoving({ on: true, teamMember: null })
+                      }
+                      removing={removing.on}
+                    >
+                      <span className="button-text">
+                        {removing.on ? "Cancel Deletion" : "Remove Team Member"}
+                      </span>
+                    </StyledListButton>
 
-              <DeleteTeamMemberModal
-                cancelRemoving={cancelRemoving}
-                teamMember={removing.teamMember}
-              />
-            </>
+                    <DeleteTeamMemberModal
+                      cancelRemoving={cancelRemoving}
+                      teamMember={removing.teamMember}
+                    />
+                  </>
+                )}
+              </div>
+              <Divider sx={{ background: "#E4E4E4" }} />
+              <ul>
+                {teamMembers.map(({ firstName, lastName, position, id }) => (
+                  <li>
+                    <DogTag
+                      firstName={firstName}
+                      lastName={lastName}
+                      position={
+                        parseInt(position) === 1 ? "Team Leader" : "Team Member"
+                      }
+                      id={id}
+                      removing={removing.on}
+                      setRemoving={setRemoving}
+                    />
+                    <Divider
+                      sx={{ background: "#F5F5F5", margin: "10px 0px" }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
-        </div>
-        <Divider sx={{ background: "#E4E4E4" }} />
-        <ul>
-          {teamMembers.map(({ firstName, lastName, position, id }) => (
-            <li>
-              <DogTag
-                firstName={firstName}
-                lastName={lastName}
-                position={
-                  parseInt(position) === 1 ? "Team Leader" : "Team Member"
-                }
-                id={id}
-                removing={removing.on}
-                setRemoving={setRemoving}
+        />
+
+        <Route
+          path="/team/profile/:userId"
+          render={({ match }) => {
+            return (
+              <Profile
+                user={teamMembers.find(
+                  ({ id }) => id === parseInt(match.params.userId)
+                )}
               />
-              <Divider sx={{ background: "#F5F5F5", margin: "10px 0px" }} />
-            </li>
-          ))}
-        </ul>
-      </div>
+            );
+          }}
+        />
+      </Switch>
     </div>
   );
 }

@@ -3,11 +3,8 @@ import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { Paper } from "@mui/material";
-import { StyledHamburgerButton } from "../StyledComponents";
 import Functions from "./functions/Functions";
-import menuIcon from "./assets/Menu Icon.svg";
 import MyTable from "./table/TimeSlotsTable";
-
 import "./daySchedule.css";
 
 //ACTIONS
@@ -50,7 +47,7 @@ function DaySchedule({ currentDay }) {
     //do this whenever schedule changes
     //so i guess it could be whenever dayid of
     //schedule changes;
-    fetch(`/api/get_schedule/${currentDay.id}`)
+    fetch(`/api/day/${currentDay.id}`)
       .then((response) => response.json())
       .then((response) => {
         if (response) {

@@ -4,7 +4,6 @@ import React from "react";
 import { valueLabelFormat } from "./TimeFunctions";
 
 const StyledSlider = styled(Slider)({
-  background: "yellow",
   color: "#6200EE",
   width: "80%",
   marginLeft: "auto",

@@ -27,23 +27,22 @@ const SavePrompt = ({ isReadOnly, readOnlyWarning }) => {
   const [alert, setAlert] = useState(null);
 
   const handleSave = () => {
-    fetch("/api/update_schedule", {
-      method: "POST",
+    fetch(`/api/day/${currentSchedule.dayId}`, {
+      method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        workblocks: timeslots.map((ts) => {
+      body: JSON.stringify(
+        timeslots.map((ts) => {
           const wb = currentSchedule.toWorkBlock(ts);
           return {
             ...wb,
             start_time: wb.startTime,
             end_time: wb.endTime,
           };
-        }),
-        day_id: currentSchedule.dayId,
-      }),
+        })
+      ),
     })
       .then((response) => response.json())
       .then(({ severity, message }) => {

@@ -26,7 +26,7 @@ function Home() {
   }, []);
 
   function fetchWeekSchedules() {
-    fetch("/api/get_week_schedules")
+    fetch("/api/weeks")
       .then((response) => response.json())
       .then((weeks) => {
         setWeeks(weeks);
@@ -35,7 +35,7 @@ function Home() {
 
   function postNewWeek(date) {
     //take the date, add it to db, add that to list of weeks
-    fetch("/api/create_week_schedule", {
+    fetch("/api/weeks", {
       method: "POST",
       headers: {
         Accept: "application/json",

@@ -25,8 +25,8 @@ function DeleteTeamMemberModal({ teamMember, children, cancelRemoving }) {
     e.preventDefault();
     //take that user and send it to backend, if successful, delete user in redux
     const { firstName, lastName, id, position } = teamMember;
-    fetch(`/api/remove_team_member?user-id=${id}`, {
-      method: "PUT",
+    fetch(`/api/users?user-id=${id}`, {
+      method: "DELETE",
     })
       .then((response) => response.json())
       .then(({ wasSuccessful, message }) => {
