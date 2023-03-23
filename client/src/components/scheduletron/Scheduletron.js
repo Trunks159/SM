@@ -44,13 +44,18 @@ function Scheduletron(props) {
   const [redirect, setRedirect] = useState(null);
   const [currentDay, setCurrentDay] = useState(null);
 
+  //PURE FUNCTIONS
+  function findDay(days, date) {
+    return days.find(({ date }) => dayjs(date).format() === props.date);
+  }
+
   //SIDE EFFECTS
   function fetchWeek(date) {
     const url = `/api/weeks?date=${dayjs(date).format()}`;
     fetch(url).then((response) =>
       response.json().then((data) => {
         if (response.ok) {
-          const day = data.days.find(({ date }) => date === props.date);
+          const day = findDay(data.days, props.date);
           setCurrentDay(day);
           return dispatch(newWeek(data, day.id));
         }
@@ -70,7 +75,7 @@ function Scheduletron(props) {
     if (!week) {
       fetchWeek(props.date);
     } else {
-      const day = week.days.find(({ date }) => date === props.date);
+      const day = findDay(week.days, props.date);
       if (!day) {
         fetchWeek(props.date);
       } else {

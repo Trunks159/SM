@@ -91,7 +91,7 @@ def handle_day(day_id):
 @app.route('/api/weeks', methods=['GET', 'POST'])
 # takes a date and creates or finds a set of schedules
 # surrounding that date
-def handle_weeks():
+def handl_weeks():
     date = request.args.get('date')
     min_date = request.args.get('min-date')
     if request.method == 'POST':

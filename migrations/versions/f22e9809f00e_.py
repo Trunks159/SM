@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 20b2924dcc31
+Revision ID: f22e9809f00e
 Revises: 
-Create Date: 2023-03-23 00:47:42.113104
+Create Date: 2023-03-23 02:23:09.257540
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '20b2924dcc31'
+revision = 'f22e9809f00e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -35,7 +35,7 @@ def upgrade():
 
     op.create_table('week',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('monday_date', sa.DateTime(), nullable=False),
+    sa.Column('monday_date', sa.DateTime(timezone=True), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     with op.batch_alter_table('week', schema=None) as batch_op:
@@ -44,8 +44,8 @@ def upgrade():
     op.create_table('availability',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('start', sa.DateTime(), nullable=True),
-    sa.Column('end', sa.DateTime(), nullable=True),
+    sa.Column('start', sa.DateTime(timezone=True), nullable=True),
+    sa.Column('end', sa.DateTime(timezone=True), nullable=True),
     sa.Column('available', sa.Boolean(), nullable=True),
     sa.Column('weekday', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
@@ -56,7 +56,7 @@ def upgrade():
 
     op.create_table('day',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('date', sa.DateTime(), nullable=False),
+    sa.Column('date', sa.DateTime(timezone=True), nullable=False),
     sa.Column('projected_sales', sa.Integer(), nullable=True),
     sa.Column('week_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['week_id'], ['week.id'], ),
@@ -68,8 +68,8 @@ def upgrade():
     op.create_table('request_off',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('start', sa.DateTime(), nullable=False),
-    sa.Column('end', sa.DateTime(), nullable=True),
+    sa.Column('start', sa.DateTime(timezone=True), nullable=False),
+    sa.Column('end', sa.DateTime(timezone=True), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -81,8 +81,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('day_id', sa.Integer(), nullable=False),
-    sa.Column('start_time', sa.DateTime(), nullable=False),
-    sa.Column('end_time', sa.DateTime(), nullable=False),
+    sa.Column('start_time', sa.DateTime(timezone=True), nullable=False),
+    sa.Column('end_time', sa.DateTime(timezone=True), nullable=False),
     sa.ForeignKeyConstraint(['day_id'], ['day.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),

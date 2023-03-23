@@ -99,15 +99,15 @@ class User(UserMixin, db.Model):
 class Availability(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    start = db.Column(db.DateTime)
-    end = db.Column(db.DateTime)
+    start = db.Column(db.DateTime(timezone=True))
+    end = db.Column(db.DateTime(timezone=True))
     available = db.Column(db.Boolean, default=True)
     weekday = db.Column(db.Integer, nullable=False, index=True)
 
     def to_json(self):
         return {
-            'start': tz_aware(self.start).isoformat(),
-            'end': tz_aware(self.end).isoformat(),
+            'start': self.start.isoformat(),
+            'end': self.end.isoformat(),
             'weekday': self.start.weekday(),
             'available': self.available,
         }
@@ -115,7 +115,8 @@ class Availability(db.Model):
 
 class Day(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime, unique=True, nullable=False, index=True)
+    date = db.Column(db.DateTime(timezone=True),
+                     unique=True, nullable=False, index=True)
     workblocks = db.relationship('WorkBlock', backref='day', lazy=True)
     projected_sales = db.Column(db.Integer, default=4000)
     week_id = db.Column(db.Integer, db.ForeignKey('week.id'), nullable=False)
@@ -128,7 +129,7 @@ class Day(db.Model):
             'id': self.id,
             'weekday': list(calendar.day_name)[self.date.weekday()],
             'index': self.date.weekday(),
-            'date': tz_aware(self.date).isoformat(),
+            'date': self.date.isoformat(),
             'projectedSales': self.projected_sales,
             'workblocks': [workblock.to_json() for workblock in self.workblocks],
             'staffing': {'actual': 6, 'projected': 20},
@@ -144,7 +145,7 @@ class Day(db.Model):
 
 class Week(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    monday_date = db.Column(db.DateTime, nullable=False,
+    monday_date = db.Column(db.DateTime(timezone=True), nullable=False,
                             unique=True, index=True)
     days = db.relationship('Day', backref='week', lazy=True)
 
@@ -161,7 +162,7 @@ class Week(db.Model):
             'id': self.id,
             'days': [day.to_json() for day in week],
             'staffing': {'actual': 6, 'projected': 7},
-            'mondayDate': tz_aware(self.monday_date).isoformat()
+            'mondayDate': self.monday_date.isoformat()
         })
 
 
@@ -170,8 +171,8 @@ class WorkBlock(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(
         'user.id'), unique=True, nullable=False)
     day_id = db.Column(db.Integer, db.ForeignKey('day.id'), nullable=False)
-    start_time = db.Column(db.DateTime, nullable=False)
-    end_time = db.Column(db.DateTime, nullable=False)
+    start_time = db.Column(db.DateTime(timezone=True), nullable=False)
+    end_time = db.Column(db.DateTime(timezone=True), nullable=False)
 
     def to_json(self):
         user = User.query.get(self.user_id)
@@ -179,8 +180,8 @@ class WorkBlock(db.Model):
             'wbId': self.id,
             'user': {'id': self.user_id, 'firstName': user.first_name, 'lastName': user.last_name, 'position': user.position},
             'dayId': self.day_id,
-            'startTime': tz_aware(self.start_time).isoformat(),
-            'endTime':  tz_aware(self.end_time).isoformat(),
+            'startTime': self.start_time.isoformat(),
+            'endTime':  self.end_time.isoformat(),
         }
 
 
@@ -188,15 +189,15 @@ class RequestOff(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     # needs to be datetime
-    start = db.Column(db.DateTime, index=True, nullable=False)
-    end = db.Column(db.DateTime, index=True)
+    start = db.Column(db.DateTime(timezone=True), index=True, nullable=False)
+    end = db.Column(db.DateTime(timezone=True), index=True)
 
     def to_json(self):
         return {
             'id': self.id,
             'userId': self.user_id,
-            'start': self.start.isoformat() + '-04:00',
-            'end': self.end.isoformat() + '-04:00',
+            'start': self.start.isoformat(),
+            'end': self.end.isoformat(),
         }
 
     def is_between(self, new_start, new_end):

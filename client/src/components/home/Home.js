@@ -37,9 +37,9 @@ function Home() {
         if (response.ok) {
           //make sure it has today in it, if so, set weeks
           //program automatically makes this week if not found
-          console.log("This monday: ", thisMonday, " Weeks :", data);
+
           const thisWeek = data.find(
-            (data) => dayjs(data.mondayDate).format() === thisMonday
+            ({ mondayDate }) => dayjs(mondayDate).format() === thisMonday
           );
 
           if (thisWeek) {

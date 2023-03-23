@@ -86,28 +86,45 @@ const getAllDates = (weeks) => {
   let dates = [];
   for (let week of weeks) {
     for (let day of week.days) {
-      dates.push(day.date);
+      dates.push(dayjs(day.date).format());
     }
   }
   return dates;
 };
 
-function AddScheduleButton({ defaultDate, postNewWeek, weeks }) {
+function getDefaultDate(weeks) {
+  //start at this week and add weeks till you get a free week
+  let next = dayjs().startOf("day").startOf("week").add(1, "days");
+  while (true) {
+    if (
+      !weeks.find(
+        ({ mondayDate }) => dayjs(mondayDate).format() === next.format()
+      )
+    ) {
+      return next;
+    }
+    next = next.add(1, "weeks");
+  }
+}
+function AddScheduleButton({ postNewWeek, weeks }) {
+  const defaultDate = getDefaultDate(weeks);
   const [isOpen, setIsOpen] = useState(false);
-  const [date, setDate] = useState(dayjs(defaultDate));
+  const [date, setDate] = useState(defaultDate);
   const screenWidth = useSelector((state) => state.screenWidth);
   const isDesktop = screenWidth >= 860;
 
   useEffect(() => {
     setDate(dayjs(defaultDate));
-  }, [defaultDate]);
+  }, [weeks]);
   const allDates = getAllDates(weeks);
 
   function handleSubmit() {
     postNewWeek(date.format());
+    //update value
     setIsOpen(false);
   }
-
+  const minmax = [dayjs(defaultDate), dayjs(defaultDate).add(3, "months")];
+  console.log("Date: ", date.format());
   return (
     <StyledMainBox>
       <div style={{ display: "flex" }}>
@@ -129,10 +146,16 @@ function AddScheduleButton({ defaultDate, postNewWeek, weeks }) {
               {(() => {
                 const props = {
                   label: "Enter Date",
-                  minDate: dayjs(defaultDate),
-                  maxDate: dayjs(defaultDate).add(3, "months"),
+                  minDate: minmax[0],
+                  maxDate: minmax[1],
                   value: date,
-                  onChange: setDate,
+                  defaultValue: defaultDate,
+                  onChange: (newval) => {
+                    if (allDates.includes(dayjs(newval).format())) {
+                      return;
+                    }
+                    return setDate(newval);
+                  },
                   renderInput: (params) => <TextField {...params} />,
                   shouldDisableDate: (date) =>
                     allDates.includes(dayjs(date).format()),

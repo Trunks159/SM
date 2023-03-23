@@ -5,18 +5,6 @@ import AddScheduleButton from "./AddScheduleButton";
 import dayjs from "dayjs";
 
 function ScheduleList({ weeks, postNewWeek }) {
-  function getDefaultDate(weeks) {
-    //start at this week and add weeks till you get a free week
-    const thisMonday = dayjs().startOf("day").startOf("week").add(1, "days");
-    let next = thisMonday;
-    while (true) {
-      if (!weeks.find(({ mondayDate }) => mondayDate === next.format())) {
-        return next.format();
-      }
-      next = next.add(1, "weeks");
-    }
-  }
-
   function getTimeFrame(datetime) {
     //takes datetime and compares it to today
     //returns string like 'This Week' or whatever
@@ -63,7 +51,6 @@ function ScheduleList({ weeks, postNewWeek }) {
       </ul>
       <AddScheduleButton
         //1 week after the last week we have made already
-        defaultDate={getDefaultDate(weeks)}
         postNewWeek={postNewWeek}
         weeks={weeks}
       />
