@@ -86,7 +86,7 @@ function TheActualDrawer({ isOpen, setIsOpen }) {
               { label: "Team", icon: teamIcon, url: "/team" },
             ].map(({ label, icon, url, exact }) => {
               return (
-                <DrawerLink to={url} exact={exact}>
+                <DrawerLink key={label} to={url} exact={exact}>
                   <img src={icon} />
                   {label}
                 </DrawerLink>

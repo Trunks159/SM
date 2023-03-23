@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Slider } from "@mui/material";
 import React from "react";
-import { valueLabelFormat } from "./TimeFunctions";
+import { valueLabelFormat } from "./TimeConversions";
 
 const StyledSlider = styled(Slider)({
   color: "#6200EE",
@@ -27,7 +27,7 @@ function MySlider({ value, disabled, handleSlideSwitch, index }) {
       disabled={disabled}
       valueLabelDisplay="on"
       onChange={(e, newValue) => handleSlideSwitch(index, newValue)}
-      defaultValue={value}
+      value={value}
       valueLabelFormat={valueLabelFormat}
       step={(0.5 / 24) * 100}
     />

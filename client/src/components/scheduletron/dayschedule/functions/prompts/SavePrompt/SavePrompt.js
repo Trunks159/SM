@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import saveIcon from "./assets/Save Icon.svg";
-import { Button, Box } from "@mui/material";
+import { Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Alert } from "@mui/material";
 import Notification from "../../Notification";

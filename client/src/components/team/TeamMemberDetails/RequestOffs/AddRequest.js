@@ -1,3 +1,6 @@
+import React, { useState } from "react";
+import { useLocation, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   Divider,
   ToggleButton,
@@ -6,12 +9,12 @@ import {
   Collapse,
   Alert,
 } from "@mui/material";
-import React, { useState } from "react";
+import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import styled from "@emotion/styled";
 import MyDatePicker from "./MyDatePicker";
-import { useDispatch } from "react-redux";
+import backIcon from "./assets/Back Icon.svg";
+
 dayjs.extend(isSameOrAfter);
 
 function updateAlert(newAlert) {
@@ -37,7 +40,7 @@ const StyledToggleButton = styled(ToggleButton)({
   textTransform: "none",
 });
 
-function AddRequest({ user }) {
+function AddRequest({ user, allRequests }) {
   const [state, setState] = useState({
     start: { date: dayjs().add(2, "weeks").startOf("day"), useingTime: false },
     end: { date: null, useingTime: false },
@@ -46,6 +49,7 @@ function AddRequest({ user }) {
   });
 
   const dispatch = useDispatch();
+  const location = useLocation();
   const { start, end, toggle, warning } = state;
 
   function handleSubmit(e) {
@@ -72,7 +76,7 @@ function AddRequest({ user }) {
       body: JSON.stringify(request),
     })
       .then((response) => response.json())
-      .then(({ wasSuccessful, message }) => {
+      .then((wasSuccessful) => {
         if (wasSuccessful) {
           dispatch(
             updateAlert({
@@ -132,11 +136,22 @@ function AddRequest({ user }) {
   function getEndMinMax() {
     //end must be at all times 1 day after start at least
     //max never changes
+    return;
   }
+
+  function getBackLocation(location) {
+    const splitted = location.pathname.split("/");
+    return splitted.slice(0, splitted.length - 1).join("/");
+  }
+
+  const cantRequest = allRequests.map(({ start }) => dayjs(start).format());
 
   const minmax = [dayjs().add(2, "weeks"), dayjs().add(1, "years")];
   return (
     <form className="add-request" onSubmit={handleSubmit}>
+      <Link className="back" to={getBackLocation(location)}>
+        <img src={backIcon} alt={"Back"} />
+      </Link>
       <h4>Request Off Form</h4>
       <h3>How Many Days are you requesting off for?</h3>
       <ToggleButtonGroup exclusive value={toggle} onChange={handleToggle}>
@@ -156,6 +171,7 @@ function AddRequest({ user }) {
       <div>
         <h3>{`${end.date ? "Start " : ""}Date`}</h3>
         <MyDatePicker
+          cantRequest={cantRequest}
           minDate={minmax[0]}
           maxDate={minmax[1]}
           handleDatePicker={handleDatePicker}
@@ -170,6 +186,7 @@ function AddRequest({ user }) {
         <div>
           <h3>End Date</h3>
           <MyDatePicker
+            cantRequest={cantRequest}
             minDate={start.date.add(1, "days").startOf("day")}
             maxDate={minmax[1].add(1, "days").startOf("day")}
             handleDatePicker={handleDatePicker}

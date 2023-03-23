@@ -1,10 +1,22 @@
 import React, { useState } from "react";
-import MySlider from "./MySlider";
 import SaveButton from "../SaveButton";
-import { sliderValueToTime, timeToSliderValue } from "./TimeFunctions";
+import {
+  sliderToTime,
+  timeToSlider,
+  valueLabelFormat,
+} from "./TimeConversions";
 import "./availability.css";
 import SlideSwitch from "./SlideSwitch";
 import { Divider } from "@mui/material";
+import dayjs from "dayjs";
+import { useDispatch } from "react-redux";
+
+function updateAlert(alert) {
+  return {
+    type: "UPDATE_ALERT",
+    payLoad: alert,
+  };
+}
 
 const DAYS_OF_WEEK = [
   "monday",
@@ -17,57 +29,58 @@ const DAYS_OF_WEEK = [
 ];
 
 function Availability({ availability, handleSave, userId, isHidden }) {
-  const [sliders, setSliders] = useState(
-    availability
-      ? availability.map((av) => ({
-          isAvailable: Boolean(av),
-          value:
-            typeof av == "boolean"
-              ? [0, 100]
-              : av.split("-").map((t) => timeToSliderValue(t)),
-        }))
-      : DAYS_OF_WEEK.map((d) => ({
-          isAvailable: true,
-          value: [0, 100],
-        }))
-  );
-  const [hasChanged, setHasChanged] = useState(false);
-
+  const [state, setState] = useState({
+    sliders: availability.map(({ available, start, end }) => ({
+      available,
+      value: [timeToSlider(start), timeToSlider(end)],
+    })),
+    hasChanged: false,
+  });
+  const dispatch = useDispatch();
+  const { sliders, hasChanged } = state;
+  console.log("Sloders: ", sliders);
   function handleSlideSwitch(index, newValue) {
-    !hasChanged && setHasChanged(true);
-    let slidersCopy = [...sliders];
-
     if (typeof newValue === "boolean") {
-      slidersCopy[index].isAvailable = newValue;
+      sliders[index].available = newValue;
     } else {
-      slidersCopy[index].value = newValue;
+      sliders[index].value = newValue;
     }
-    setSliders(slidersCopy);
+    setState({ hasChanged: true, sliders });
   }
 
   function handleSave(e) {
     //convert values to times
     e.preventDefault();
-    if (hasChanged) {
-      fetch("/api/update_user", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: userId,
-          availability: sliders.map((slider) => [
-            sliderValueToTime(slider[0]),
-            sliderValueToTime(slider[1]),
-          ]),
-        }),
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          console.log("Maybe It saved");
-        });
+    if (!hasChanged) {
+      return;
     }
+
+    fetch(`/api/users/?user-id=${userId}`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(
+        sliders.map((slider) => [
+          sliderToTime(slider[0]),
+          sliderToTime(slider[1]),
+        ])
+      ),
+    }).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(
+            updateAlert({
+              content: "Changes saved",
+              severity: "success",
+              title: "Success",
+            })
+          );
+        }
+        throw new Error(data);
+      })
+    );
   }
 
   return (
@@ -76,18 +89,14 @@ function Availability({ availability, handleSave, userId, isHidden }) {
       className="availability"
       style={{ display: isHidden ? "none" : "flex" }}
     >
-      {/*     <h2 className="header">Availability</h2>
-      <p className="help-text">
-        {"Set the time(s) you're available on each of the given days."}
-      </p>*/}
       <h3>When are you available?</h3>
       <ol>
-        {sliders.map(({ value, isAvailable }, index) => (
+        {sliders.map(({ value, available }, index) => (
           <li key={index}>
             <SlideSwitch
               weekday={DAYS_OF_WEEK[index]}
               value={value}
-              isAvailable={isAvailable}
+              available={available}
               handleSlideSwitch={handleSlideSwitch}
               index={index}
             />
@@ -95,12 +104,9 @@ function Availability({ availability, handleSave, userId, isHidden }) {
           </li>
         ))}
       </ol>
-      <SaveButton
-        type="submit"
-        onClick={handleSave}
-        hasChanged={hasChanged}
-        text="Availability"
-      />
+      <SaveButton type="submit" onClick={handleSave} hasChanged={hasChanged}>
+        Availability
+      </SaveButton>
     </form>
   );
 }

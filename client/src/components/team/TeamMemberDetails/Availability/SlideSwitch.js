@@ -17,13 +17,7 @@ const StyledSwitch = styled(FormControlLabel)({
   },
 });
 
-function SlideSwitch({
-  weekday,
-  index,
-  isAvailable,
-  value,
-  handleSlideSwitch,
-}) {
+function SlideSwitch({ weekday, index, available, value, handleSlideSwitch }) {
   //when checked on,
   return (
     <>
@@ -32,17 +26,17 @@ function SlideSwitch({
         <StyledSwitch
           control={
             <Switch
-              checked={isAvailable}
+              checked={available}
               onChange={(e) => handleSlideSwitch(index, e.target.checked)}
             />
           }
-          label={isAvailable ? "I am available" : "Not available"}
+          label={available ? "I am available" : "Not available"}
         />
       </div>
 
       <MySlider
         index={index}
-        disabled={!isAvailable}
+        disabled={!available}
         value={value}
         handleSlideSwitch={handleSlideSwitch}
       />

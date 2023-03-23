@@ -3,9 +3,11 @@ import styled from "@emotion/styled";
 
 const StyledSubmitButton = styled(Button)({
   background: "#0792B6",
-  color: "white",
-  fontWeight: "bold",
   textTransform: "none",
+  "&:hover": {
+    background: "#077E9C",
+  },
+  marginLeft: "auto",
 });
 
 const StyledListButton = styled(Button)(({ theme, removing }) => ({
@@ -28,25 +30,4 @@ const StyledListButton = styled(Button)(({ theme, removing }) => ({
   },
 }));
 
-const StyledBreadcrumbs = styled(Breadcrumbs)({
-  "& ol": {
-    rowGap: 5,
-  },
-  gridArea: "breadcrumbs",
-});
-
-const StyledAdvancedButton = styled(Button)({
-  color: "black",
-  opacity: ".8",
-  textTransform: "none",
-  fontWeight: "normal",
-  fontSize: 14,
-  gap: 5,
-});
-
-export {
-  StyledListButton,
-  StyledAdvancedButton,
-  StyledBreadcrumbs,
-  StyledSubmitButton,
-};
+export { StyledListButton, StyledSubmitButton };

@@ -47,7 +47,7 @@ class NavMenu extends Component {
             {selectedWeek && (
               <DaysContent
                 menu={menu}
-                week={selectedWeek.week}
+                week={selectedWeek.days}
                 weekId={selectedWeek.id}
                 value="days"
               />

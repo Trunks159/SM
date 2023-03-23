@@ -1,7 +1,7 @@
-const selectedWeekReducer = (state = { week: [], id: null }, action) => {
+const selectedWeekReducer = (state = null, action) => {
   switch (action.type) {
-    case "UPDATE_SELECTED_WEEK":
-      return action.payLoad;
+    case "NEW_WEEK":
+      return action.payLoad.week;
     default:
       return state;
   }

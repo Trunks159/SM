@@ -4,7 +4,6 @@ import {
   Route,
   Redirect,
   Switch,
-  useLocation,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createTheme, ThemeProvider } from "@mui/material";
@@ -16,6 +15,7 @@ import Register from "./components/forms/register/Register";
 import Home from "./components/home/Home";
 import Scheduletron from "./components/scheduletron/Scheduletron";
 import "./App.css";
+import dayjs from "dayjs";
 
 //ACTIONS
 const updateCurrentUser = (newUser) => ({
@@ -158,13 +158,17 @@ function App() {
                 render={() => <Team teamMembers={users} />}
               />
               <RouteWithAuthenticator
-                path="/scheduletron/:weekId?/:dayId?"
-                render={({ match }) => (
-                  <Scheduletron
-                    weekId={parseInt(match.params.weekId)}
-                    dayId={parseInt(match.params.dayId)}
-                  />
-                )}
+                path="/scheduletron/:date?"
+                render={({ match }) => {
+                  let date = match.params.date;
+                  return date ? (
+                    <Scheduletron date={dayjs(match.params.date).format()} />
+                  ) : (
+                    <Redirect
+                      to={`/scheduletron/${dayjs().format("YYYY-MM-DD")}`}
+                    />
+                  );
+                }}
               />
             </Switch>
           </main>

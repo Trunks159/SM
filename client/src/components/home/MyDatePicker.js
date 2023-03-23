@@ -47,9 +47,9 @@ function MyDatePicker() {
             <p style={{ textAlign: "center" }}>
               Found It! Open the week of <br />
               <Link
-                to={`/scheduletron/${foundWeek.id}/${foundWeek.week[0].id}`}
+                to={`/scheduletron/${foundWeek.id}/${foundWeek.days[0].id}`}
               >
-                {dayjs(foundWeek.week[0].date).format("M/DD/YYYY")}
+                {dayjs(foundWeek.days[0].date).format("M/DD/YYYY")}
               </Link>
             </p>
           ) : (
@@ -68,20 +68,7 @@ function MyDatePicker() {
           </LocalizationProvider>
           {isLargeDesktop && (
             <div className="found-date">
-              {foundWeek ? (
-                <ScheduleLink
-                  startDate={dayjs(foundWeek.week[0].date).format("M/D")}
-                  endDate={dayjs(foundWeek.week[6].date).format("M/D")}
-                  completion={Math.round(
-                    (foundWeek.staffing.actual / foundWeek.staffing.projected) *
-                      100
-                  )}
-                  mondayId={foundWeek.week[0].id}
-                  id={foundWeek.id}
-                />
-              ) : (
-                <ScheduleLink startDate={"?"} endDate={"?"} />
-              )}
+              {foundWeek ? <ScheduleLink week={foundWeek} /> : <ScheduleLink />}
             </div>
           )}
         </div>

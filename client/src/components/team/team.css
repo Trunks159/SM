@@ -11,6 +11,7 @@
   text-transform: capitalize;
   gap : 10px;
   opacity: .57;
+  font-size: 12px;
 }
 
 .breadcrumb-active{
@@ -38,10 +39,6 @@
 }
 
 
-.team-content .list-actions-advanced{
-  display: none;
-}
-
 .team-content .list-actions{
   display: flex;
   align-items: center;
@@ -54,6 +51,7 @@
   display: flex;
   flex-wrap: wrap;
   padding: 15px;
+
 }
 
 
@@ -90,6 +88,7 @@
   border-radius: 7px;
   position: relative;
   margin:0px 10px;
+  text-transform: capitalize;
 }
 
 .team-dogtag .icon{
@@ -142,13 +141,6 @@
 /*/DogTag////////////////////////////////////   */
 
 
-@media (min-width : 860px) {
-
-  .team-content .list-actions-advanced{
-    display: flex;
-  }
-  
-}
 
 
 /* ADD FORM CRAP///////////////// */

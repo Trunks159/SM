@@ -3,6 +3,24 @@
     flex: 1;
     position: relative;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.request-offs .back {
+    width: min-content;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top : 0;
+    margin:  0;
+    left : 0
+}
+
+.request-offs .back img{
+    width: 1.5rem;
 }
 
 .collapse-container{

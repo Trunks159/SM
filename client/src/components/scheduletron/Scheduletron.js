@@ -5,21 +5,29 @@ import { StyledPaper, StyledTab, StyledTabs } from "./StyledComponents";
 import dayjs from "dayjs";
 import DaySchedule from "./dayschedule/DaySchedule";
 import { Collapse } from "@mui/material";
-//the logic for this took so long please dont try to refractor this im just done with this
-//url is the source of all changes, child components are free to use the redux values
-//autopilots to today if no weekid or dayid is used
 
 //ACTIONS ////////////////////////
-function updateSelectedWeek(newWeek) {
-  return { type: "UPDATE_SELECTED_WEEK", payLoad: newWeek };
-}
-
-function updateCurrentDayId(dayId) {
-  return { type: "UPDATE_DAY_ID", payLoad: dayId };
-}
 
 function updateAlert(newAlert) {
   return { type: "UPDATE_ALERT", payLoad: newAlert };
+}
+
+//change week, change day, alert
+function newWeek(week, dayId) {
+  return {
+    type: "NEW_WEEK",
+    payLoad: {
+      week,
+      dayId,
+    },
+  };
+}
+
+function newDay(dayId) {
+  return {
+    type: "NEW_DAY",
+    payLoad: dayId,
+  };
 }
 
 function Scheduletron(props) {
@@ -29,7 +37,7 @@ function Scheduletron(props) {
   const dispatch = useDispatch();
 
   //GLOBAL STATE
-  const selectedWeek = useSelector((state) => state.selectedWeek);
+  const week = useSelector((state) => state.selectedWeek);
   const currentSchedule = useSelector((state) => state.currentSchedule);
 
   //LOCAL STATE
@@ -37,24 +45,14 @@ function Scheduletron(props) {
   const [currentDay, setCurrentDay] = useState(null);
 
   //SIDE EFFECTS
-  function fetchWeekSchedule({ date, weekId }) {
-    //fetches a weekSchedule and updates week and day
-    const url =
-      "/api/weeks" + `?${date ? "date" : "week-id"}=${date ? date : weekId}`;
-
-    fetch(url)
-      .then((response) => response.json())
-      .then((verifiedWeek) => {
-        if (verifiedWeek) {
-          dispatch(updateSelectedWeek(verifiedWeek));
-
-          return setRedirect(
-            <Redirect
-              to={`/scheduletron/${verifiedWeek.id}/${
-                updateVerifiedDay(verifiedWeek).id
-              }`}
-            />
-          );
+  function fetchWeek(date) {
+    const url = `/api/weeks?date=${dayjs(date).format()}`;
+    fetch(url).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          const day = data.days.find(({ date }) => date === props.date);
+          setCurrentDay(day);
+          return dispatch(newWeek(data, day.id));
         }
         dispatch(
           updateAlert({
@@ -64,43 +62,23 @@ function Scheduletron(props) {
           })
         );
         setRedirect(<Redirect to="/" />);
-      });
-  }
-
-  function updateVerifiedDay(
-    verifiedWeek = selectedWeek,
-    newId = props.dayId,
-    oldId = currentSchedule.dayId
-  ) {
-    //takes dayId, searches the week we have, if found return
-    //the found day else return monday
-    //SIDEEFFECT FOR REDUX and Local state
-    console.log("Week: ", verifiedWeek);
-    const day = verifiedWeek.week.find(({ id }) => id === newId);
-    const verifiedDay =
-      !props.dayId || !day
-        ? verifiedWeek.week[dayjs().day() === 0 ? 6 : dayjs().day() - 1]
-        : day;
-    if (verifiedDay.id !== oldId) {
-      dispatch(updateCurrentDayId(verifiedDay.id));
-    }
-    if (!currentDay || verifiedDay.id !== currentDay.id) {
-      setCurrentDay(verifiedDay);
-    }
-    return verifiedDay;
+      })
+    );
   }
 
   useEffect(() => {
-    //fetchweekschedule also verifies dayid
-
-    if (!props.weekId) {
-      fetchWeekSchedule({ date: dayjs().startOf("day").format() });
-    } else if (!selectedWeek.id || props.weekId !== selectedWeek.id) {
-      fetchWeekSchedule({ weekId: props.weekId });
+    if (!week) {
+      fetchWeek(props.date);
     } else {
-      updateVerifiedDay();
+      const day = week.days.find(({ date }) => date === props.date);
+      if (!day) {
+        fetchWeek(props.date);
+      } else {
+        dispatch(newDay(day.id));
+        setCurrentDay(day);
+      }
     }
-  }, [props.weekId, props.dayId]);
+  }, [props.date]);
 
   useEffect(() => {
     if (redirect && currentDay.id) {
@@ -110,18 +88,19 @@ function Scheduletron(props) {
 
   ////////////////////
   return (
-    redirect ||
-    (currentDay && (
+    week &&
+    currentDay && (
       <StyledPaper>
+        {redirect}
         <StyledTabs variant="scrollable" value={currentSchedule.dayId}>
-          {selectedWeek.week.map(({ id, date }) => {
+          {week.days.map(({ id, date }) => {
             const theDate = dayjs(date);
             return (
               <StyledTab
                 key={id}
                 value={id}
                 component={Link}
-                to={`/scheduletron/${selectedWeek.id}/${id}`}
+                to={`/scheduletron/${theDate.format("YYYY-MM-DD")}`}
                 label={
                   <span className="tab-label">
                     <Collapse
@@ -139,7 +118,7 @@ function Scheduletron(props) {
         </StyledTabs>
         <DaySchedule currentDay={currentDay} />
       </StyledPaper>
-    ))
+    )
   );
 }
 

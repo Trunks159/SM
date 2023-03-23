@@ -1,10 +1,11 @@
 from flask import request, jsonify
 from config import app, db
-from models import User, WeekSchedule
-from flask_login import current_user, login_user, login_required, logout_user
+from models import User, Week, RequestOff, tz_aware
+from flask_login import login_user, login_required, logout_user
 from sqlalchemy import func
-from route_functions import update_day, get_day, get_week, get_all_weeks, add_week
-from user_routes import add_user, get_user, delete_user
+from route_functions import update_day, get_day, get_week, get_weeks, add_week
+from user_routes import add_user, get_user, delete_user, get_all_users
+from dateutil import parser
 
 
 @app.errorhandler(404)
@@ -26,27 +27,29 @@ def users():
         return delete_user(id)
     if id:
         return get_user(id)
-    users = [user.to_json() for user in User.query.all()]
-    user = current_user.to_json() if current_user.is_authenticated else {}
-    return jsonify({'users': users, 'currentUser': user})
+    return get_all_users()
 
 
-@app.route('/api/register', methods=['GET', 'POST'])
+@app.route('/api/register', methods=['PUT'])
 def register():
 
     data = request.get_json()
-    user = User.query.filter_by(first_name=data['first_name']).filter_by(
-        last_name=data['last_name']).first()
-    if user:
-        if User.query.filter_by(username=data['username']).first():
-            return jsonify({'wasSuccessful': False, 'message': 'Username Already In Use'})
-        else:
-            user.username = data['username']
-            user.set_password(data['password'])
-            db.session.commit()
-            return jsonify({'wasSuccessful': True})
-    else:
-        return jsonify({'wasSuccessful': False,  'message': 'User Not Found'})
+    print(data)
+    first_name = data['first_name']
+    last_name = data['last_name']
+
+    user = User.query.filter_by(first_name=first_name).filter_by(
+        last_name=last_name).first()
+    if not user:
+        return jsonify('User not found'), 404
+
+    if User.query.filter_by(username=data['username']).first():
+        return jsonify('Username already in use.'), 409
+
+    user.username = data['username']
+    user.set_password(data['password'])
+    db.session.commit()
+    return jsonify(user.to_json())
 
 
 @app.route('/api/login', methods=['POST'])
@@ -56,26 +59,26 @@ def login():
     # it just redirects and shows an error message
 
     data = request.get_json()
-    username = data['username'].strip()
-    password = data['password'].strip()
+    username = data['username']
+    password = data['password']
     remember = data['remember']
     user = User.query.filter_by(username=username).first()
 
-    if user:
-        if user.check_password(password):
-            login_user(user=user, remember=remember)
-            return jsonify({'wasSuccessful': True, 'currentUser': user.to_json()})
-        else:
-            return jsonify({'wasSuccessful': False, 'errorType':  'password'})
-    return jsonify({'wasSuccessful': False, 'errorType':  'username'})
+    if not user:
+        return jsonify('username'), 404
+
+    if user.check_password(password):
+        login_user(user=user, remember=remember)
+        return jsonify(user.to_json())
+
+    return jsonify('password'), 404
 
 
-@ login_required
-@ app.route('/api/logout')
+@login_required
+@app.route('/api/logout')
 def logout():
     logout_user()
-    user = {'isAuthenticated': current_user.is_authenticated}
-    return jsonify({'currentUser': user})
+    return jsonify('Logout Successful')
 
 
 @app.route('/api/day/<day_id>', methods=['PUT', 'GET'])
@@ -89,28 +92,50 @@ def handle_day(day_id):
 # takes a date and creates or finds a set of schedules
 # surrounding that date
 def handle_weeks():
-    d = request.args.get('date')
-    id = request.args.get('week-id')
+    date = request.args.get('date')
+    min_date = request.args.get('min-date')
     if request.method == 'POST':
         return add_week(request.get_json())
-    if d or id:
-        return get_week(d, id)
-    return get_all_weeks()
+    if date:
+        return get_week(date)
+    print('Ran')
+    return get_weeks(min_date)
 
 
 @app.route('/api/weeks/minmax')
 def get_minmax():
-    max = db.session.query(func.max(WeekSchedule.monday_date)).first()[0]
-    min = db.session.query(func.min(WeekSchedule.monday_date)).first()[0]
-    return jsonify([min.isoformat(' '), max.isoformat(' ')])
+    max = db.session.query(func.max(Week.monday_date)).first()[0]
+    min = db.session.query(func.min(Week.monday_date)).first()[0]
+    return jsonify([min.isoformat(), max.isoformat()])
 
 
 @app.route('/api/requestoffs', methods=['POST'])
 def request_offs():
-    request_off = request.get_json()
-    u = db.session.get(User, request_off['user_id'])
-    message = u.add_request_off(request_off['start'], request_off['end'])
-    return jsonify(message)
+
+    def logic(request_off):
+        user = db.session.get(User, request_off['user_id'])
+        start = parser.parse(request_off['start'])
+        end = parser.parse(request_off['end'])
+        will_add_request = True
+        my_requests = user.request_offs.all()
+        for request in my_requests:
+            if request.is_between(start, end):
+                will_add_request = False
+                # priotitize extreme values
+                start_changed = start < parser.parse(
+                    tz_aware(request.start)) or False
+                end_changed = end > parser.parse(
+                    tz_aware(request.end)) or False
+                if start_changed or end_changed:
+                    request.start = start
+                    request.end = end
+
+        if will_add_request:
+            db.session.add(RequestOff(user=user, start=start, end=end))
+            db.session.commit()
+            return jsonify('Request successfully added!')
+        return jsonify('Date conflict with other request'), 400
+    return logic(request.get_json())
 
 
 if __name__ == "__main__":

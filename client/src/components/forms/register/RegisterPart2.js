@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { Alert } from "@mui/material";
 import Notification from "./Notification";
-
 import { SolidButton, MyInput, Header } from "../StyledComponents";
+import { useDispatch } from "react-redux";
 
-function RegisterPart2({ firstName, lastName, users }) {
+function userRegistered(user) {
+  return { type: "USER_REGISTERED", payLoad: user };
+}
+
+function RegisterPart2({ user, users }) {
   const [state, setState] = useState({
     username: "",
     password: "",
@@ -25,6 +29,7 @@ function RegisterPart2({ firstName, lastName, users }) {
     confirmPasswordErrors,
     redirect,
   } = state;
+  const dispatch = useDispatch();
 
   function alertUser(errors) {
     let newState = { ...state };
@@ -44,11 +49,19 @@ function RegisterPart2({ firstName, lastName, users }) {
   function handleSubmit(e) {
     e.preventDefault();
     let errors = [];
-    users.find((user) => user.username === username) &&
+    users.find((user) => user.username === username.trim()) &&
       errors.push({
         error: "usernameErrors",
         message: "This username is already in use.",
       });
+
+    if (username.trim().length < 5) {
+      errors.push({
+        error: "usernameErrors",
+        message: "Username must be at least 5 characters long",
+      });
+    }
+
     confirmPassword !== password &&
       errors.push({
         error: "confirmPasswordErrors",
@@ -56,28 +69,29 @@ function RegisterPart2({ firstName, lastName, users }) {
       });
 
     if (errors.length) {
-      alertUser(errors);
-    } else {
-      fetch("/api/register", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password,
-          first_name: firstName,
-          last_name: lastName,
-        }),
-      })
-        .then((response) => response.json())
-        .then(({ wasSuccessful, message }) => {
-          wasSuccessful
-            ? setState({ ...state, redirect: <Redirect to={"/"} /> })
-            : alertUser("username", message);
-        });
+      return alertUser(errors);
     }
+    fetch("/api/register", {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username.trim(),
+        password: password.trim(),
+        first_name: user.firstName.trim(),
+        last_name: user.lastName.trim(),
+      }),
+    }).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          setState({ ...state, redirect: <Redirect to={"/"} /> });
+          return dispatch(userRegistered(data));
+        }
+        throw new Error(data);
+      })
+    );
   }
 
   function handleChange(e) {

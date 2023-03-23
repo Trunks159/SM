@@ -7,7 +7,15 @@ import Availability from "./Availability/Availability";
 import RequestOffs from "./RequestOffs/RequestOffs";
 import Details from "./Details/Details";
 import Header from "./Header";
-import { Tabs, Tab } from "@mui/material";
+import { Tabs, Tab, Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+
+function updateAlert(alert) {
+  return {
+    type: "UPDATE_ALERT",
+    payLoad: alert,
+  };
+}
 
 const StyledTab = styled(Tab)({
   textTransform: "capitalize",
@@ -24,46 +32,56 @@ const StyledTabs = styled(Tabs)({
 });
 
 function Profile({ user }) {
-  console.log(`CHange: `, user);
   const location = useLocation();
+  const screenWidth = useSelector((state) => state.screenWidth);
+  const isDesktop = screenWidth >= 600;
   const [state, setState] = useState({
     firstName: user.firstName,
     lastName: user.lastName,
     position: user.position,
     username: user.username,
-    currentTab: location.pathname.split("/").find((x) => x === "requestoffs")
-      ? 2
-      : 0,
+    currentTab: location.pathname.includes("requestoffs") ? 2 : 0,
   });
-
   const { firstName, lastName, position, username, currentTab } = state;
-
+  const dispatch = useDispatch();
   function handleSave(changedProps) {
     if (changedProps) {
-      fetch("/api/update_user", {
+      fetch(`/api/users?user-id=${user.id}`, {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(changedProps),
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          console.log("Maybe It saved");
-        });
+      }).then((response) =>
+        response.json().then((data) => {
+          if (response.ok) {
+            return dispatch(
+              updateAlert({
+                content: "Changes Saved",
+                severity: "success",
+                title: "Success",
+              })
+            );
+          }
+          throw new Error(data);
+        })
+      );
     }
   }
 
-  function handleChange(e) {
-    setState({ ...state, [e.target.name]: e.target.value });
-  }
-
   useEffect(() => {
+    //if request off in, use it otherwise ignore
     if (location.pathname.includes("requestoffs")) {
       setState({ ...state, currentTab: 2 });
     }
   }, [location]);
+
+  const tabs = [
+    { label: "details", to: `/team/profile/${user.id}` },
+    { label: "availablity", to: `/team/profile/${user.id}` },
+    { label: "request offs", to: `/team/profile/${user.id}/requestoffs` },
+  ];
 
   return (
     user && (
@@ -74,18 +92,8 @@ function Profile({ user }) {
             setState({ ...state, currentTab: newValue })
           }
         >
-          {["details", "availability", "request offs"].map((tab, index) => (
-            <StyledTab
-              key={index}
-              component={Link}
-              to={
-                index === 2
-                  ? `/team/profile/${user.id}/requestoffs`
-                  : `/team/profile/${user.id}`
-              }
-              value={index}
-              label={<p>{tab}</p>}
-            />
+          {tabs.map((tab, index) => (
+            <StyledTab key={index} component={Link} value={index} {...tab} />
           ))}
         </StyledTabs>
         <div className="main-div">
@@ -95,32 +103,34 @@ function Profile({ user }) {
             username={username}
             isHidden={currentTab !== 0}
           />
-          <Switch>
-            <Route
-              exact
-              path="/team/profile/:userId"
-              render={() => (
-                <>
-                  <Details user={user} isHidden={currentTab !== 0} />
-                  <Availability
-                    availability={user.availability}
-                    handleSave={handleSave}
-                    isHidden={currentTab !== 1}
-                  />
-                </>
-              )}
-            />
-            <Route
-              path="/team/profile/:userId/requestoffs"
-              render={() => (
-                <RequestOffs
-                  requestOffs={user.requestOffs}
-                  handleSave={handleSave}
+          <Route
+            exact
+            path="/team/profile/:userId"
+            render={() => (
+              <>
+                <Details
                   user={user}
+                  isHidden={!isDesktop && currentTab !== 0}
                 />
-              )}
-            />
-          </Switch>
+                <Availability
+                  availability={user.availability}
+                  handleSave={handleSave}
+                  isHidden={!isDesktop && currentTab !== 1}
+                />
+              </>
+            )}
+          />
+
+          <Route
+            path="/team/profile/:userId/requestoffs"
+            render={() => (
+              <RequestOffs
+                requestOffs={user.requestOffs}
+                handleSave={handleSave}
+                user={user}
+              />
+            )}
+          />
         </div>
       </div>
     )

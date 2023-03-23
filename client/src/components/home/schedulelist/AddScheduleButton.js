@@ -82,7 +82,17 @@ const StyledSubmitButton = styled(Button)({
   marginLeft: "auto",
 });
 
-function AddScheduleButton({ defaultDate, postNewWeek }) {
+const getAllDates = (weeks) => {
+  let dates = [];
+  for (let week of weeks) {
+    for (let day of week.days) {
+      dates.push(day.date);
+    }
+  }
+  return dates;
+};
+
+function AddScheduleButton({ defaultDate, postNewWeek, weeks }) {
   const [isOpen, setIsOpen] = useState(false);
   const [date, setDate] = useState(dayjs(defaultDate));
   const screenWidth = useSelector((state) => state.screenWidth);
@@ -91,6 +101,12 @@ function AddScheduleButton({ defaultDate, postNewWeek }) {
   useEffect(() => {
     setDate(dayjs(defaultDate));
   }, [defaultDate]);
+  const allDates = getAllDates(weeks);
+
+  function handleSubmit() {
+    postNewWeek(date.format());
+    setIsOpen(false);
+  }
 
   return (
     <StyledMainBox>
@@ -118,6 +134,8 @@ function AddScheduleButton({ defaultDate, postNewWeek }) {
                   value: date,
                   onChange: setDate,
                   renderInput: (params) => <TextField {...params} />,
+                  shouldDisableDate: (date) =>
+                    allDates.includes(dayjs(date).format()),
                 };
                 return isDesktop ? (
                   <DesktopDatePicker {...props} />
@@ -128,9 +146,7 @@ function AddScheduleButton({ defaultDate, postNewWeek }) {
             </LocalizationProvider>
           </DatePickerContainer>
 
-          <StyledSubmitButton onClick={() => postNewWeek(date.format())}>
-            Submit
-          </StyledSubmitButton>
+          <StyledSubmitButton onClick={handleSubmit}>Submit</StyledSubmitButton>
         </StyledCollapseBox>
       </Collapse>
     </StyledMainBox>

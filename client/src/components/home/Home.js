@@ -16,25 +16,44 @@ const StyledBox = styled(Box)({
 
 function Home() {
   const [weeks, setWeeks] = useState(null);
-
   useEffect(() => {
     /*This would request for today but not yet
       it initializes the schedule set which is an array of
       5 or so weekSchedules
     */
-    fetchWeekSchedules();
+
+    fetchWeeks();
   }, []);
 
-  function fetchWeekSchedules() {
-    fetch("/api/weeks")
-      .then((response) => response.json())
-      .then((weeks) => {
-        setWeeks(weeks);
-      });
+  function fetchWeeks() {
+    const thisMonday = dayjs()
+      .startOf("week")
+      .add(1, "days")
+      .startOf("day")
+      .format();
+    const minDate = dayjs(thisMonday).subtract(2, "weeks").format();
+    fetch(`/api/weeks?min-date=${minDate}`).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          //make sure it has today in it, if so, set weeks
+          //program automatically makes this week if not found
+
+          const thisWeek = data.find(
+            (data) => dayjs(data.mondayDate).format() === thisMonday
+          );
+
+          if (thisWeek) {
+            return setWeeks(data);
+          }
+        }
+        postNewWeek(thisMonday);
+      })
+    );
   }
 
   function postNewWeek(date) {
     //take the date, add it to db, add that to list of weeks
+
     fetch("/api/weeks", {
       method: "POST",
       headers: {
@@ -42,9 +61,14 @@ function Home() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(date),
-    })
-      .then((response) => response.json())
-      .then((newWeek) => fetchWeekSchedules());
+    }).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          return fetchWeeks();
+        }
+        throw new Error(data);
+      })
+    );
   }
 
   return (

@@ -14,12 +14,17 @@ function MyDatePicker({
   name,
   useingTime,
   handleUsingTime,
+  cantRequest,
 }) {
   return (
     <Paper sx={{ padding: "25px", display: "flex", flexDirection: "column" }}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         {(() => {
           const params = {
+            shouldDisableDate: (date) => {
+              console.log("Test L : ", cantRequest, date.format());
+              return cantRequest.includes(dayjs(date).format());
+            },
             value,
             minDate,
             maxDate,

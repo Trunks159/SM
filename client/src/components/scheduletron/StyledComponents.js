@@ -34,11 +34,15 @@ const StyledTab = styled(Tab)(({ theme }) => {
       gap: 8,
       color: "white",
     },
+    marginTop: "auto",
+    height: "30px",
     "&.Mui-selected": {
+      height: "max-content",
       opacity: 1,
+      fontSize: 30,
     },
     [theme.breakpoints.up("md")]: {
-      fontSize: 32,
+      fontSize: 20,
     },
   };
 });

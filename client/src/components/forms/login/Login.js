@@ -13,17 +13,15 @@ import {
 import "../forms.css";
 
 //ACTIONS
-const updateCurrentUser = (newUser) => ({
-  type: "UPDATE_CURRENT_USER",
-  payLoad: newUser,
-});
 
-const updateAlert = (newAlert) => ({
-  type: "UPDATE_ALERT",
-  payLoad: newAlert,
-});
+function userLoggedIn(user) {
+  return {
+    type: "USER_LOGGED_IN",
+    payLoad: user,
+  };
+}
 
-function Login({ users, notifyUser }) {
+function Login({ users }) {
   const [state, setState] = useState({
     username: "",
     password: "",
@@ -44,54 +42,46 @@ function Login({ users, notifyUser }) {
     setState({ ...state, remember: e.target.checked });
   }
 
-  function handleSuccessfulLogin(newUser) {
-    dispatch(
-      updateAlert({
-        content: username + " is now logged in!",
-        title: "Login Successful",
-        severity: "success",
-      })
-    );
-    dispatch(updateCurrentUser(newUser));
-  }
-
-  function handleBadPassword() {
+  function displayError({ name, message }) {
     setState({
       ...state,
-      passwordErrors: "Incorrect password...",
+      [name]: message,
     });
     setTimeout(() => {
-      setState({ ...state, passwordErrors: null });
-    }, 4000);
-  }
-
-  function handleBadUsername() {
-    setState({
-      ...state,
-      usernameErrors: "Incorrect username...",
-    });
-    setTimeout(() => {
-      setState({ ...state, usernameErrors: null });
+      setState({ ...state, name: null });
     }, 4000);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
+    const user = users.find((user) => username.trim() === user.username);
+
+    if (!user) {
+      return displayError({
+        message: "Bad username...",
+        name: "usernameErrors",
+      });
+    }
     fetch("/api/login", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password, remember }),
-    }).then((data) =>
-      data.json().then((response) => {
-        if (response.wasSuccessful) {
-          handleSuccessfulLogin(response.currentUser);
-        } else {
-          response.errorType === "password" && handleBadPassword();
-          response.errorType === "username" && handleBadUsername();
+      body: JSON.stringify({
+        username: username.trim(),
+        password: password.trim(),
+        remember,
+      }),
+    }).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          return dispatch(userLoggedIn(data));
         }
+        data === "password" &&
+          displayError({ message: "Bad password...", name: "passwordErrors" });
+        data === "username" &&
+          displayError({ message: "Bad username...", name: "usernameErrors" });
       })
     );
   }

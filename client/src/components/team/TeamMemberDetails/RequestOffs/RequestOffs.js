@@ -5,6 +5,7 @@ import RequestCard from "./RequestCard";
 import dayjs from "dayjs";
 import { Route, Switch } from "react-router-dom";
 import AddRequest from "./AddRequest";
+import { Collapse } from "@mui/material";
 
 function RequestOffs(props) {
   const { handleSave } = props;
@@ -61,7 +62,9 @@ function RequestOffs(props) {
         />
         <Route
           path={"/team/profile/:userId/requestoffs/add"}
-          render={() => <AddRequest user={props.user} />}
+          render={() => (
+            <AddRequest allRequests={props.requestOffs} user={props.user} />
+          )}
         />
       </Switch>
     </div>

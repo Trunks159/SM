@@ -61,8 +61,9 @@ function Details({ user, handleChange, handleSave, isHidden }) {
       <SaveButton
         onClick={() => handleSave()}
         hasChanged={hasChanged(["firstName", "lastName", "username"])}
-        text={"Name"}
-      />
+      >
+        Name
+      </SaveButton>
     </form>
   );
 }

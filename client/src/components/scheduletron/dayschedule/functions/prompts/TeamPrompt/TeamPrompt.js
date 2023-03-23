@@ -66,7 +66,7 @@ function TeamPrompt({
   const { timeslots, notScheduled, dayId } = currentSchedule;
   const workblocks = timeslots.map((ts) => currentSchedule.toWorkBlock(ts));
 
-  const date = selectedWeek.week.find(
+  const date = selectedWeek.days.find(
     ({ id }) => id === currentSchedule.dayId
   ).date;
 

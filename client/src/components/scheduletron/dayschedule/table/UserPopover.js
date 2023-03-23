@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { Button, Popover } from "@mui/material";
 import styled from "@emotion/styled";
 import closeIcon from "./assets/Close Icon.svg";
@@ -14,11 +13,12 @@ const StyledDetailsButtton = styled(Button)({
       opacity: 1,
     },
   },
+  color: "black",
+  textTransform: "capitalize",
 });
 
 const MyPopover = ({ user, index }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const dispatch = useDispatch();
 
   function handleClick(e) {
     setAnchorEl(e.target);

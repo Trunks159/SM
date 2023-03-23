@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Redirect, Switch, Route } from "react-router-dom";
 import "../forms.css";
 import { AnimatePresence, motion } from "framer-motion";
@@ -26,7 +26,8 @@ const pageTransition = {
   transition: "linear",
 };
 
-function Register({ match, users, notifyUser }) {
+function Register({ match, users }) {
+  const [user, setUser] = useState(null);
   return (
     <Switch>
       <Route
@@ -42,7 +43,7 @@ function Register({ match, users, notifyUser }) {
               transition={pageTransition}
               style={{ flex: 1, display: "flex" }}
             >
-              <RegisterPart1 users={users} notifyUser={notifyUser} />
+              <RegisterPart1 users={users} setUser={setUser} />
             </motion.div>
           </AnimatePresence>
         )}
@@ -50,41 +51,22 @@ function Register({ match, users, notifyUser }) {
 
       <Route
         path={`/register/:firstName/:lastName`}
-        render={(props) => {
-          const found = users.find(
-            (u) =>
-              u.firstName === props.match.params.firstName &&
-              u.lastName === props.match.params.lastName
-          );
-          //if th
-          if (found) {
-            //if user is already registered
-            if (found.username) {
-              return <Redirect to={match.path} />;
-            } else {
-              return (
-                <motion.div
-                  initial="out"
-                  animate="in"
-                  exit="out"
-                  variants={pageVariant}
-                  transition={pageTransition}
-                  style={{ flex: 1, display: "flex" }}
-                >
-                  <RegisterPart2
-                    firstName={props.match.params.firstName}
-                    lastName={props.match.params.lastName}
-                    notifyUser={notifyUser}
-                    users={users}
-                    userId={found.id}
-                  />
-                </motion.div>
-              );
-            }
-          } else {
-            return <Redirect to={"/register"} />;
-          }
-        }}
+        render={({ match }) =>
+          user ? (
+            <motion.div
+              initial="out"
+              animate="in"
+              exit="out"
+              variants={pageVariant}
+              transition={pageTransition}
+              style={{ flex: 1, display: "flex" }}
+            >
+              <RegisterPart2 user={user} users={users} />
+            </motion.div>
+          ) : (
+            <Redirect to="/register" />
+          )
+        }
       />
     </Switch>
   );

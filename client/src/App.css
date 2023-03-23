@@ -17,7 +17,7 @@ body{
 
 main {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: #88969A;
+  background: white;
   display: flex;
   flex-direction: column;
   width: 100vw;
@@ -43,7 +43,8 @@ main {
     flex-direction: row;
   }
   .main-alert{
-    top : 0
+    top : 0;
+    left : 300px;
   }
 }
  

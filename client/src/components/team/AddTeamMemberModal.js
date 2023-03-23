@@ -8,6 +8,7 @@ import {
   FormControl,
   Alert,
   Button,
+  Collapse,
 } from "@mui/material";
 import React, { useState } from "react";
 import { StyledListButton, StyledSubmitButton } from "./StyledComponents";
@@ -24,9 +25,9 @@ function updateAlert(newAlert) {
   };
 }
 
-function createUser(newUser) {
+function newUser(newUser) {
   return {
-    type: "CREATE_USER",
+    type: "NEW_USER",
     payLoad: newUser,
   };
 }
@@ -58,17 +59,16 @@ function AddTeamMemberModal({ children, addTeamMember, teamMembers }) {
     if (
       teamMembers.find(
         (tm) =>
-          tm.firstName.toLowerCase() === firstName.toLowerCase() &&
-          tm.lastName.toLowerCase() === lastName.toLowerCase()
+          tm.firstName === firstName.toLowerCase().trim() &&
+          tm.lastName === lastName.toLowerCase().trim()
       )
     ) {
-      alertUser(
-        <Alert severity="error">
-          This team member is actually already in our system
-        </Alert>
-      );
+      alertUser({
+        content: "This team member is actually already in our system",
+        severity: "error",
+      });
     } else {
-      fetch("/api/users", {
+      const response = fetch("/api/users", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -79,29 +79,22 @@ function AddTeamMemberModal({ children, addTeamMember, teamMembers }) {
           last_name: lastName,
           position,
         }),
-      })
-        .then((response) => response.json())
-        .then(({ wasSuccessful, message, newUser }) => {
-          if (wasSuccessful) {
+      }).then((response) =>
+        response.json().then((data) => {
+          if (response.ok) {
             setState({ ...state, redirect: <Redirect to={"/team"} /> });
-            dispatch(
-              updateAlert({
-                content: `${firstName} ${lastName} has been successfully added!`,
-                title: "Addition Successful",
-                severity: "success",
-              })
-            );
-            dispatch(createUser(newUser));
+            dispatch(newUser(data));
           } else {
             dispatch(
               updateAlert({
-                content: message,
+                content: data,
                 title: "Addition Unsuccessful",
                 severity: "error",
               })
             );
           }
-        });
+        })
+      );
     }
   }
 
@@ -150,8 +143,10 @@ function AddTeamMemberModal({ children, addTeamMember, teamMembers }) {
             >
               <img src={closeIcon} />
             </Button>
+            <Collapse in={errors}>
+              <Alert severity={"error"}>{errors && errors.content}</Alert>
+            </Collapse>
 
-            <Notification message={errors} />
             <p>
               Simply add a first and last name so the team member can make an
               account later
@@ -181,12 +176,14 @@ function AddTeamMemberModal({ children, addTeamMember, teamMembers }) {
                   onChange={handleChange}
                   name="position"
                 >
-                  <MenuItem value={0}>Team Member</MenuItem>
-                  <MenuItem value={1}>Team Leader</MenuItem>
+                  <MenuItem value={"team member"}>Team Member</MenuItem>
+                  <MenuItem value={"team leader"}>Team Leader</MenuItem>
                 </Select>
               </FormControl>
             </div>
-            <StyledSubmitButton type="submit">Add Em'</StyledSubmitButton>
+            <StyledSubmitButton size="large" variant="contained" type="submit">
+              Add Em'
+            </StyledSubmitButton>
           </form>
         </Paper>
       </Modal>

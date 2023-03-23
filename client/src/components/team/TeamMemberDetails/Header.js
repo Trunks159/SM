@@ -1,6 +1,6 @@
 import React from "react";
 
-function Header({ firstName, lastName, username, isHidden }) {
+function Header({ firstName, username, isHidden }) {
   return (
     <div className="header" style={{ display: isHidden ? "none" : "flex" }}>
       <div className="circle-background">

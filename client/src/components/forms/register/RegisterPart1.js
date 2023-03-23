@@ -4,7 +4,7 @@ import { Collapse, Alert } from "@mui/material";
 import { OutlinedButton, MyInput, Header } from "../StyledComponents";
 import Notification from "./Notification";
 
-function RegisterPart1({ users, notifyUser }) {
+function RegisterPart1({ users, setUser }) {
   const [state, setState] = useState({
     firstName: "",
     lastName: "",
@@ -33,57 +33,58 @@ function RegisterPart1({ users, notifyUser }) {
     // if so notify user that they are already in the system
     //if no username then redirect i guess to 'register/bob-marley'
     //This will go to form 2 basically
+
     e.preventDefault();
     const user = users.find(
-      (user) => firstName === user.firstName && lastName === user.lastName
+      (user) =>
+        firstName.toLowerCase() === user.firstName &&
+        lastName.toLowerCase() === user.lastName
     );
-    if (user) {
-      if (user.username) {
-        alertUser(
-          <Alert severity="error">
-            It seems you've already been registered
-          </Alert>
-        );
-      } else {
-        return setState({
-          ...state,
-          redirect: <Redirect to={`/register/${firstName}/${lastName}`} />,
-        });
-      }
-    } else {
-      alertUser(
+    if (!user) {
+      return alertUser(
         <Alert severity="error">
           Sorry your manager(s) haven't added you to our system yet
         </Alert>
       );
     }
+
+    if (user.username) {
+      return alertUser(
+        <Alert severity="error">It seems you've already been registered</Alert>
+      );
+    }
+    setUser(user);
+    setState({
+      ...state,
+      redirect: <Redirect to={`/register/${firstName}/${lastName}`} />,
+    });
   }
   return (
     <form className="authentification-form" onSubmit={handleSubmit}>
       {redirect}
       <Header>Link Your Account</Header>
-      <Notification message = {errors}/>
-    <div className="inputs">
-    <MyInput
-        required
-        error={errors}
-        variant="outlined"
-        name="firstName"
-        label="Enter First Name"
-        onChange={handleChange}
-        value={firstName}
-      />
-      <MyInput
-        required
-        error={errors}
-        variant="outlined"
-        name="lastName"
-        label="Enter Last Name"
-        onChange={handleChange}
-        value={lastName}
-      />
-    </div>
-     
+      <Notification message={errors} />
+      <div className="inputs">
+        <MyInput
+          required
+          error={errors}
+          variant="outlined"
+          name="firstName"
+          label="Enter First Name"
+          onChange={handleChange}
+          value={firstName}
+        />
+        <MyInput
+          required
+          error={errors}
+          variant="outlined"
+          name="lastName"
+          label="Enter Last Name"
+          onChange={handleChange}
+          value={lastName}
+        />
+      </div>
+
       <OutlinedButton style={{ marginLeft: "auto", marginTop: 90 }}>
         Next
       </OutlinedButton>

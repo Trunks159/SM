@@ -99,11 +99,18 @@ const initialState = {
 
 const currentScheduleReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "UPDATE_DAY_ID":
+    case "NEW_DAY":
       //this is really closer to initializing the schedule
       return {
         ...initialState,
         dayId: action.payLoad,
+      };
+
+    case "NEW_WEEK":
+      //this is really closer to initializing the schedule
+      return {
+        ...initialState,
+        dayId: action.payLoad.dayId,
       };
     case "INITIALIZE_SCHEDULE":
       return {

@@ -1,9 +1,17 @@
 import React from "react";
 import scheduleIcon from "../assets/Schedule Icon.svg";
-import "../home.css";
 import { Link } from "react-router-dom";
 import { Paper, Box } from "@mui/material";
 import styled from "@emotion/styled";
+import dayjs from "dayjs";
+import { useDispatch } from "react-redux";
+
+function newWeek({ week, dayId }) {
+  return {
+    type: "NEW_WEEK",
+    payLoad: { week, dayId },
+  };
+}
 
 const StyledPaper = styled(Paper)(({ completion }) => {
   return {
@@ -61,21 +69,29 @@ const StyledBox = styled(Box)(({ timeframe, id }) => {
     },
     minWidth: 0,
     flexShrink: 0,
+    marginBottom: 5,
   };
 });
 
 const ScheduleLink = ({
+  timeframe,
   completion,
   startDate,
   endDate,
+  days,
   id,
-  mondayId,
-  timeframe,
+  monday,
 }) => {
-  return (
+  const dispatch = useDispatch();
+  return id ? (
     <StyledBox timeframe={timeframe} id={id}>
       <h4>{timeframe}</h4>
-      <Link to={`/scheduletron/${id}/${mondayId}`}>
+      <Link
+        to={`/scheduletron/${dayjs(monday.date).format("YYYY-MM-DD")}`}
+        onClick={() =>
+          dispatch(newWeek({ week: { days, id }, dayId: days[0].id }))
+        }
+      >
         <StyledPaper completion={completion}>
           <h2>{startDate}</h2>
           <img alt="Schedule" src={scheduleIcon} />
@@ -83,6 +99,14 @@ const ScheduleLink = ({
           <p>{completion}% Complete</p>
         </StyledPaper>
       </Link>
+    </StyledBox>
+  ) : (
+    <StyledBox>
+      <StyledPaper completion={completion}>
+        <h2>?</h2>
+        <img alt="Schedule" src={scheduleIcon} />
+        <h2>?</h2>
+      </StyledPaper>
     </StyledBox>
   );
 };
