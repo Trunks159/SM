@@ -29,11 +29,11 @@ def update_day(day_id, workblocks):
         new ones    
     '''
     try:
-
-        day = db.session.get(Day, day_id)
+        day = db.session.get(Day, int(day_id))
+        print('Day: ', day)
         for item in day.workblocks:
             db.session.delete(item)
-
+        print('Work: ', workblocks)
         for workblock in workblocks:
             wb = WorkBlock(user=User.query.get(workblock['user']['id']), day=day, start_time=parser.parse(
                 workblock['start_time']), end_time=parser.parse(workblock['end_time']))
@@ -43,8 +43,9 @@ def update_day(day_id, workblocks):
 
         return jsonify('Your schedule has been successfully updated!')
 
-    except:
-        return jsonify('Couldnt find day im guessing'), 400
+    except Exception as inst:
+        print('Error: ',  inst)
+        return jsonify('Couldnt find day im guessing : '), 400
 
 
 def get_week(date):

@@ -43,11 +43,16 @@ const SavePrompt = ({ isReadOnly, readOnlyWarning }) => {
           };
         })
       ),
-    })
-      .then((response) => response.json())
-      .then(({ severity, message }) => {
-        notifyUser(<Alert severity={severity}>{message}</Alert>);
-      });
+    }).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          return notifyUser(
+            <Alert severity={"success"}>Schedule Successfully Saved</Alert>
+          );
+        }
+        throw new Error(data);
+      })
+    );
   };
 
   function notifyUser(alert) {

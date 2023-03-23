@@ -132,7 +132,7 @@ class Day(db.Model):
             'date': self.date.isoformat(),
             'projectedSales': self.projected_sales,
             'workblocks': [workblock.to_json() for workblock in self.workblocks],
-            'staffing': {'actual': 6, 'projected': 20},
+            'completion': self.get_completion(),
             'weekId': self.week_id,
         }
 
@@ -141,6 +141,23 @@ class Day(db.Model):
         assert date.hour == 0 and date.minute == 0 and date.second == 0 \
             & date.microsecond == 0, 'Time must be set to 0'
         return date
+
+    def get_completion(self):
+        # 2 team members per every $1000 of sales
+        # average completion for each day
+        # 2/1000 = x / 4000
+        # need hours
+        # for $1000 you need 10 hours
+        # 3600sec for $100
+        # 36 sec per $1
+        # 36=x/4000
+        # 36 times sales = recomended seconds
+        total = 0
+        for wb in self.workblocks:
+            total += (wb.end_time - wb.start_time).seconds
+        recommended_seconds = self.projected_sales * 36
+        completion = total/recommended_seconds * 100
+        return completion if completion < 100 else 100
 
 
 class Week(db.Model):
@@ -161,15 +178,20 @@ class Week(db.Model):
         return ({
             'id': self.id,
             'days': [day.to_json() for day in week],
-            'staffing': {'actual': 6, 'projected': 7},
+            'completion': self.get_completion(),
             'mondayDate': self.monday_date.isoformat()
         })
+
+    def get_completion(self):
+        # 2 team members per every $1000 of sales
+        # average completion for each day
+        return sum([day.get_completion() for day in self.days])/len(self.days)
 
 
 class WorkBlock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(
-        'user.id'), unique=True, nullable=False)
+        'user.id'),  nullable=False)
     day_id = db.Column(db.Integer, db.ForeignKey('day.id'), nullable=False)
     start_time = db.Column(db.DateTime(timezone=True), nullable=False)
     end_time = db.Column(db.DateTime(timezone=True), nullable=False)

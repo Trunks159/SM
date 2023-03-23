@@ -15,7 +15,6 @@ function newWeek({ week, dayId }) {
 
 const StyledPaper = styled(Paper)(({ completion }) => {
   return {
-    opacity: completion ? 1 : 0.7,
     width: 210,
     height: 300,
     display: "flex",
@@ -24,9 +23,7 @@ const StyledPaper = styled(Paper)(({ completion }) => {
     flexDirection: "column",
     alignItems: "center",
     position: "relative",
-    background: `linear-gradient(90deg, rgba(240,240,240,1) ${
-      completion || 0
-    }%, rgba(218,218,218,1) 50%)`,
+    background: `linear-gradient(90deg, rgba(240,240,240,1) ${completion}%, rgba(218,218,218,1) 0%)`,
     "&:hover": {
       transform: " translateY(-5px)",
       boxShadow: "0px 2px 4px 1px #33789e",
@@ -42,7 +39,6 @@ const StyledPaper = styled(Paper)(({ completion }) => {
       margin: "auto 0px",
     },
     "& p": {
-      visibility: completion ? "visible" : "hidden",
       position: "absolute",
       bottom: 0,
       textAlign: "center",
@@ -83,7 +79,7 @@ const ScheduleLink = ({
   monday,
 }) => {
   const dispatch = useDispatch();
-  return id ? (
+  return monday ? (
     <StyledBox timeframe={timeframe} id={id}>
       <h4>{timeframe}</h4>
       <Link
@@ -96,7 +92,7 @@ const ScheduleLink = ({
           <h2>{startDate}</h2>
           <img alt="Schedule" src={scheduleIcon} />
           <h2>{endDate}</h2>
-          <p>{completion}% Complete</p>
+          <p>{Math.round(completion * 10) / 10}% Complete</p>
         </StyledPaper>
       </Link>
     </StyledBox>

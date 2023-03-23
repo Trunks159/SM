@@ -27,12 +27,9 @@ function ScheduleList({ weeks, postNewWeek }) {
         View All
       </Link>
       <ul className="home-list">
-        {weeks.map(({ days, staffing, id }) => {
+        {weeks.map(({ days, completion, id }) => {
           const startDate = dayjs(days[0].date).format("M/D");
           const endDate = dayjs(days[6].date).format("M/D");
-          const completion = Math.round(
-            (staffing.actual / staffing.projected) * 100
-          );
           const timeframe = getTimeFrame(days[0].date);
 
           return (
