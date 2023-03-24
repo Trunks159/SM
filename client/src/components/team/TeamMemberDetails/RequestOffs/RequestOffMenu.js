@@ -79,6 +79,7 @@ function RequestOffMenu() {
               ].map(({ icon, label, to }) => (
                 <ListItem>
                   <ListItemButton
+                    key={label}
                     component={to ? Link : Button}
                     sx={{
                       minWidth: 0,

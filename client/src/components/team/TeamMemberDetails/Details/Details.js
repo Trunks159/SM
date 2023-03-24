@@ -27,7 +27,14 @@ function Details({ user, handleChange, handleSave, isHidden }) {
   return (
     <form className="details" style={{ display: isHidden ? "none" : "flex" }}>
       <h2 className="header">
-        {currentUser.id === user.id ? "My" : `${user.firstName}'s`} Details
+        {currentUser.id === user.id ? (
+          "My"
+        ) : user.username ? (
+          user.username
+        ) : (
+          <span className="name">{user.firstName}</span>
+        )}
+        's Details
       </h2>
       <p className="help-text">
         You can even change your name here (I mean I don't know why but you

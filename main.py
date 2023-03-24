@@ -4,7 +4,7 @@ from models import User, Week, RequestOff, tz_aware
 from flask_login import login_user, login_required, logout_user
 from sqlalchemy import func
 from route_functions import update_day, get_day, get_week, get_weeks, add_week
-from user_routes import add_user, get_user, delete_user, get_all_users
+from user_routes import add_user, get_user, delete_user, get_all_users, update_user
 from dateutil import parser
 
 
@@ -18,15 +18,22 @@ def serve():
     return app.send_static_file('index.html')
 
 
-@app.route('/api/users', methods=['GET', 'POST', 'DELETE'])
+@app.route('/api/users', methods=['GET', 'POST', 'DELETE', 'PUT'])
 def users():
+
     if request.method == 'POST':
         return add_user(request.get_json())
-    id = request.args.get('id')
-    if request.method == 'DELETE':
-        return delete_user(id)
-    if id:
-        return get_user(id)
+    id = request.args.get('id', None, int)
+    if isinstance(id, int):
+        user = db.session.get(id)
+        if not user:
+            return jsonify('There is no user with that id...'), 404
+        if request.method == 'GET':
+            return get_user(user)
+        if request.method == 'PUT':
+            return update_user(user, request.get_json())
+        if request.method == 'DELETE':
+            return delete_user(user)
     return get_all_users()
 
 
@@ -91,7 +98,7 @@ def handle_day(day_id):
 @app.route('/api/weeks', methods=['GET', 'POST'])
 # takes a date and creates or finds a set of schedules
 # surrounding that date
-def handl_weeks():
+def handle_weeks():
     date = request.args.get('date')
     min_date = request.args.get('min-date')
     if request.method == 'POST':

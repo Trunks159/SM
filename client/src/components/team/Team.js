@@ -42,7 +42,7 @@ function Team({ teamMembers }) {
   }
 
   function setRemoving(newValue) {
-    setState({ ...state, newValue });
+    setState({ ...state, removing: newValue });
   }
 
   return (

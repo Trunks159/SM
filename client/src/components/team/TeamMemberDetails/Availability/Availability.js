@@ -28,7 +28,7 @@ const DAYS_OF_WEEK = [
   "sunday",
 ];
 
-function Availability({ availability, handleSave, userId, isHidden }) {
+function Availability({ availability, handleSave, isHidden, user }) {
   const [state, setState] = useState({
     sliders: availability.map(({ available, start, end }) => ({
       available,
@@ -38,7 +38,6 @@ function Availability({ availability, handleSave, userId, isHidden }) {
   });
   const dispatch = useDispatch();
   const { sliders, hasChanged } = state;
-  console.log("Sloders: ", sliders);
   function handleSlideSwitch(index, newValue) {
     if (typeof newValue === "boolean") {
       sliders[index].available = newValue;
@@ -54,23 +53,24 @@ function Availability({ availability, handleSave, userId, isHidden }) {
     if (!hasChanged) {
       return;
     }
+    console.log("Haschanged: ", hasChanged);
 
-    fetch(`/api/users/?user-id=${userId}`, {
+    fetch(`/api/users?user-id=${user.id}`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(
-        sliders.map((slider) => [
-          sliderToTime(slider[0]),
-          sliderToTime(slider[1]),
-        ])
-      ),
+      body: JSON.stringify({
+        availability: sliders.map((slider) => ({
+          start_time: sliderToTime(slider[0]),
+          end_time: sliderToTime(slider[1]),
+        })),
+      }),
     }).then((response) =>
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(
+          return dispatch(
             updateAlert({
               content: "Changes saved",
               severity: "success",
@@ -104,9 +104,7 @@ function Availability({ availability, handleSave, userId, isHidden }) {
           </li>
         ))}
       </ol>
-      <SaveButton type="submit" onClick={handleSave} hasChanged={hasChanged}>
-        Availability
-      </SaveButton>
+      <SaveButton hasChanged={hasChanged}>Availability</SaveButton>
     </form>
   );
 }

@@ -2,12 +2,11 @@ import React from "react";
 import { Button } from "@mui/material";
 import saveIcon from "./assets/Save Icon.svg";
 
-function SaveButton({ hasChanged, handleSave, children }) {
+function SaveButton({ hasChanged, children }) {
   return (
     <Button
       disabled={!hasChanged}
       endIcon={<img alt="save" src={saveIcon} />}
-      onClick={() => handleSave(hasChanged)}
       sx={{
         textTransform: "none",
         background: "#0792B6",
@@ -23,6 +22,7 @@ function SaveButton({ hasChanged, handleSave, children }) {
         },
         padding: "10px 15px",
       }}
+      type={"submit"}
     >
       Save {children} Changes
     </Button>

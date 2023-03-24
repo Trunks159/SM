@@ -116,6 +116,7 @@ function Profile({ user }) {
                   availability={user.availability}
                   handleSave={handleSave}
                   isHidden={!isDesktop && currentTab !== 1}
+                  user={user}
                 />
               </>
             )}

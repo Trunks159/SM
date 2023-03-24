@@ -20,11 +20,7 @@ def add_user(data):
     return jsonify(u.to_json())
 
 
-def get_user(id):
-
-    user = db.session.get(User, id)
-    if not user:
-        jsonify('There is no user with that id...'), 404
+def get_user(user):
 
     print('This SHOULD get just the upcoming requests \
           but rn its getting all of them in get user')
@@ -47,11 +43,18 @@ def get_all_users():
     return jsonify({'users': users, 'currentUser': user})
 
 
-def delete_user(id):
-    if id:
-        u = User.query.get(id)
-        if u:
-            db.session.delete(u)
-            db.session.commit()
-            return jsonify('Successfully deleted')
-    return jsonify("Couldn't find the user you're trying to delete..."), 404
+def delete_user(user):
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify('Successfully deleted')
+
+
+def update_user(user, prop):
+    print('Update: ', user)
+    if list(prop.keys()) == 'availability':
+        user_ava = user.availability.order_by(Availability.weekday).all()
+        for i, a in enumerate(user_ava):
+            a.start_time = prop['availability'][i]['start_time']
+            a.end_time = prop['availability'][i]['end_time']
+        db.session.commit()
+        return jsonify(user.to_json())
