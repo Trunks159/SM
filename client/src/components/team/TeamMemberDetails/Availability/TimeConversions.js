@@ -3,11 +3,11 @@ import dayjs from "dayjs";
 const BASE_DATE = "1970-01-01T00:00:00";
 
 function timeToSlider(time) {
-  return (dayjs(time).diff(dayjs(BASE_DATE), "hours", true) / 24) * 1000;
+  return (dayjs(time).diff(dayjs(BASE_DATE), "hour", true) / 24) * 100;
 }
-function sliderToTime(sliderInt) {
+function sliderToTime(sliderFloat) {
   return dayjs(BASE_DATE)
-    .add((sliderInt / 100) * 24, "hours")
+    .add((sliderFloat / 100) * 24, "hours")
     .format();
 }
 function roundToNearestThirty(time) {

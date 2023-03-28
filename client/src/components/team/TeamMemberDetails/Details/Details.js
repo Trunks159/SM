@@ -26,20 +26,23 @@ function Details({ user, handleChange, handleSave, isHidden }) {
 
   return (
     <form className="details" style={{ display: isHidden ? "none" : "flex" }}>
-      <h2 className="header">
-        {currentUser.id === user.id ? (
-          "My"
-        ) : user.username ? (
-          user.username
-        ) : (
-          <span className="name">{user.firstName}</span>
-        )}
-        's Details
-      </h2>
-      <p className="help-text">
-        You can even change your name here (I mean I don't know why but you
-        can...)
-      </p>
+      <div className="details-header">
+        <h2 className="title">
+          {currentUser.id === user.id ? (
+            "My"
+          ) : user.username ? (
+            user.username
+          ) : (
+            <span className="name">{user.firstName}</span>
+          )}
+          's Details
+        </h2>
+        <p className="help-text">
+          You can even change your name here (I mean I don't know why but you
+          can...)
+        </p>
+      </div>
+
       <ul>
         <TextField
           disabled={!Boolean(username)}

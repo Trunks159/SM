@@ -1,4 +1,11 @@
 .request-offs{
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.requestoff-lists{
     background-color: #F5F5F5;
     flex: 1;
     position: relative;
@@ -35,7 +42,6 @@
 
 .request-off-menu{
     color: white;
-    background-color: wheat;
     margin-left: auto;
     flex: 1;
 }

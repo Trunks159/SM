@@ -5,7 +5,6 @@ import dayjs from "dayjs";
 import { Paper } from "@mui/material";
 import Functions from "./functions/Functions";
 import MyTable from "./table/TimeSlotsTable";
-import "./daySchedule.css";
 
 //ACTIONS
 const initializeSchedule = ({ scheduled, notScheduled }) => {

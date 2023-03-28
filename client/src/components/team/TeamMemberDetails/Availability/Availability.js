@@ -1,22 +1,14 @@
 import React, { useState } from "react";
 import SaveButton from "../SaveButton";
 import {
+  roundToNearestThirty,
   sliderToTime,
   timeToSlider,
-  valueLabelFormat,
 } from "./TimeConversions";
-import "./availability.css";
 import SlideSwitch from "./SlideSwitch";
-import { Divider } from "@mui/material";
-import dayjs from "dayjs";
+import { Alert, Collapse, Divider } from "@mui/material";
 import { useDispatch } from "react-redux";
-
-function updateAlert(alert) {
-  return {
-    type: "UPDATE_ALERT",
-    payLoad: alert,
-  };
-}
+import dayjs from "dayjs";
 
 const DAYS_OF_WEEK = [
   "monday",
@@ -29,15 +21,23 @@ const DAYS_OF_WEEK = [
 ];
 
 function Availability({ availability, handleSave, isHidden, user }) {
+  console.log(
+    "Test: ",
+    dayjs(dayjs(availability[0].end)).diff(
+      "1970-01-01T00:00:00",
+      "hour",
+      true
+    ) / 24
+  );
   const [state, setState] = useState({
     sliders: availability.map(({ available, start, end }) => ({
       available,
       value: [timeToSlider(start), timeToSlider(end)],
     })),
     hasChanged: false,
+    alert: false,
   });
-  const dispatch = useDispatch();
-  const { sliders, hasChanged } = state;
+  const { sliders, hasChanged, alert } = state;
   function handleSlideSwitch(index, newValue) {
     if (typeof newValue === "boolean") {
       sliders[index].available = newValue;
@@ -53,9 +53,8 @@ function Availability({ availability, handleSave, isHidden, user }) {
     if (!hasChanged) {
       return;
     }
-    console.log("Haschanged: ", hasChanged);
 
-    fetch(`/api/users?user-id=${user.id}`, {
+    fetch(`/api/users?id=${user.id}`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -63,24 +62,26 @@ function Availability({ availability, handleSave, isHidden, user }) {
       },
       body: JSON.stringify({
         availability: sliders.map((slider) => ({
-          start_time: sliderToTime(slider[0]),
-          end_time: sliderToTime(slider[1]),
+          available: slider.available,
+          start_time: roundToNearestThirty(sliderToTime(slider.value[0])),
+          end_time: roundToNearestThirty(sliderToTime(slider.value[1])),
         })),
       }),
     }).then((response) =>
       response.json().then((data) => {
         if (response.ok) {
-          return dispatch(
-            updateAlert({
-              content: "Changes saved",
-              severity: "success",
-              title: "Success",
-            })
-          );
+          return alertUser();
         }
         throw new Error(data);
       })
     );
+  }
+
+  function alertUser() {
+    setState({ ...state, alert: true });
+    setTimeout(() => {
+      setState({ ...state, alert: false });
+    }, 4000);
   }
 
   return (
@@ -89,7 +90,13 @@ function Availability({ availability, handleSave, isHidden, user }) {
       className="availability"
       style={{ display: isHidden ? "none" : "flex" }}
     >
-      <h3>When are you available?</h3>
+      <h2 className="title">When are you available?</h2>
+      <div style={{ position: "fixed", top: 80 }}>
+        <Collapse in={alert}>
+          <Alert>Changes Saved</Alert>
+        </Collapse>
+      </div>
+
       <ol>
         {sliders.map(({ value, available }, index) => (
           <li key={index}>

@@ -8,14 +8,9 @@ function ScheduleList({ weeks, postNewWeek }) {
   function getTimeFrame(datetime) {
     //takes datetime and compares it to today
     //returns string like 'This Week' or whatever
-    const thisWeeksMonday = dayjs().day(1);
+    const thisMonday = dayjs().startOf("week").add(1, "days");
     const uniqueNames = { 0: "This Week", "-1": "Next Week", 1: "Last Week" };
-    const difference = thisWeeksMonday
-      .hour(0)
-      .minute(0)
-      .second(0)
-      .millisecond(0)
-      .diff(dayjs(datetime), "weeks");
+    const difference = thisMonday.diff(dayjs(datetime), "weeks");
     return (
       uniqueNames[difference.toString()] ||
       `${Math.abs(difference)} weeks ${difference < 0 ? "From Now" : "Ago"}`

@@ -1,19 +1,18 @@
 import React, { useState } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
-import searchIcon from "./assets/Search Icon.svg";
-import { Divider, TextField } from "@mui/material";
-import "./team.css";
-import DogTag from "./TeamMemberDogtag";
+import { Divider, TextField, Box } from "@mui/material";
 import AddTeamMemberModal from "./AddTeamMemberModal";
 import DeleteTeamMemberModal from "./DeleteTeamMemberModal";
-import removeIcon from "./assets/Remove Person Icon.svg";
-import closeIcon from "./assets/Close Icon.svg";
 import { StyledListButton } from "./StyledComponents";
 import Profile from "./TeamMemberDetails/Profile";
 import TeamBreadCrumbs from "./TeamBreadCrumbs";
 import AlphaButton from "./AlphaButton";
 import TeamList from "./TeamList";
+import searchIcon from "./assets/Search Icon.svg";
+import removeIcon from "./assets/Remove Person Icon.svg";
+import closeIcon from "./assets/Close Icon.svg";
+import "./team.css";
 
 function Team({ teamMembers }) {
   const [state, setState] = useState({
@@ -61,20 +60,29 @@ function Team({ teamMembers }) {
             >
               <h1 className="team-header">Team Members</h1>
               <div className="list-actions">
-                <div>
-                  <TextField
-                    sx={{ marginBottom: 1, width: "150px" }}
-                    label={
-                      <div className="search-label">
-                        <img src={searchIcon} />
-                        Search
-                      </div>
-                    }
-                    onChange={handleSearch}
-                    type="search"
-                    variant="filled"
-                  />
-                </div>
+                <TextField
+                  sx={{ marginBottom: 1, width: "150px" }}
+                  label={
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        marginLeft: "10px",
+                        "& img": {
+                          width: "18px",
+                          opacity: 0.8,
+                        },
+                      }}
+                    >
+                      <img src={searchIcon} />
+                      <span> Search</span>
+                    </Box>
+                  }
+                  onChange={handleSearch}
+                  type="search"
+                  variant="filled"
+                />
                 <AlphaButton active={sort} handleSort={handleSort} />
 
                 {isManager && (

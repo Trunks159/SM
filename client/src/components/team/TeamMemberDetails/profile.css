@@ -1,128 +1,202 @@
-.tm-details{
+/*
+1.Header
+2. Details 
+3. Availability
+4. Requests [Absolute Position]
+*/
+
+
+.profile{
     display: flex;
     flex-direction: column;
     flex: 1;
 }
-
-
-.main-div {
-    display: flex;
-    flex-direction: column;
-    gap : 45px;
-    flex : 1;
-}
-
-.info{
-    display: none;
-}
-
-.main-div .header{
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-.header .circle-background{
-    background-color: #0792B6;
-    width: 80px;
-    height: 80px;
-    border-radius: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-}
-
-.circle-background h1{
-    font-size: 38px;
-    font-weight: normal;
-    margin: 0;
-    text-transform: capitalize;
-}
-
-.main-div form .header{
-    font-weight: 500;
-    color:#050505;
-    opacity: .75;
-    font-size: 17px;
-    margin: 0px;
-}   
-
-.main-div form .header .name{
-    text-transform: capitalize;
-}
-
-.main-div form .help-text{
-    font-size: 12px;
-    color: #707070;
-    margin-bottom : 15px;
-    margin-top: 0px;
-    line-height: 18px;
-}
-
-.main-div form{
-    display: flex;
-    flex-direction: column;
-    gap : 10px;
-}
-
-.main-div .details{
-    grid-area: content1;
-    padding: 20px;
-}
-
-.main-div .details ul{
-    display: flex;
-    flex-direction: column;
-    gap : 25px;
-    padding: 0;
-
-}
-
-.main-grid .availability{
-    grid-area: availability;
     
-}
-
-@media (min-width : 585px) {
-    .header {
-        gap: 20px;
-    }
-    .info {
-        display: flex;
-        flex-direction: column;
-
-    }
-    .info h2{
-        margin: 5px 0px;
+    .profile .title{
         font-weight: 500;
-        font-size: 32px;
-        
-    }
-
-    .info h4{
-        margin : 0;
-        opacity: .7;
+        color:#050505;
+        opacity: .75;
         font-size: 17px;
+        margin: 0px;
     }
-}
+    .profile .name{
+        text-transform: capitalize;
+    }
 
-@media (min-width : 689px) {
-    .main-div{
-        max-width : 1024px;
-        flex  : 1;  
-        margin : 20px 50px; 
-        display : grid;
-        grid-template-areas: 
-            'head head'
-            'details availability';
-        grid-template-columns: minmax(20%, 264px) minmax(420px, 530px);
-        grid-template-rows: 130px 1fr;
-        position: relative;
-    } 
-    .main-div .header{
-        grid-area: head;
-        gap : 10px;
+        .profile .header{
+            margin : 0px auto;
+        }
+
+            .profile .header .info{
+                display: none;
+            }
+
+        .profile .header .circle-background{
+            background-color: #0792B6;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+            .profile .header .circle-background h1{
+                font-size: 38px;
+                font-weight: normal;
+                margin: 0;
+                text-transform: capitalize;
+            }
+
+        .requestoffs-mini{
+            display: none;
+        }
+
+        .profile .details{
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap : 10px;
+            max-width: 600px;
+            margin: 0px auto;
+        }
+
+
+            .profile .details-header{
+
+            }
+
+                    .profile .details .help-text{
+                        font-size: 12px;
+                        color: #707070;
+                        margin-bottom : 15px;
+                        margin-top: 0px;
+                        line-height: 18px;
+                    }
+
+            .profile .details ul{
+                display: flex;
+                flex-direction: column;
+                gap : 25px;
+                padding: 0;
+            }
+
+
+        .availability{
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+            
+            .availability ol{
+                list-style-type: none;
+                padding: 0px;
+                display: flex;
+                flex-direction: column;
+                gap : 20px;
+                margin: 20px 0px;
+                
+            }
+                .availability ol li{
+                    display: flex;
+                    flex-direction: column;
+                    gap : 0px;
+                }
+                    .availability ol li h5{
+                        font-size: 16px;
+                        font-weight: 500;
+                        color: black;
+                        text-transform: capitalize;
+                        margin:0px;
+                    }
+
+
+@media (min-width : 943px) {
+    .profile{
+
     }
+
+        .profile .header{
+            margin: 30px;
+            display : flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+            .profile .header .circle-background{
+                width: 90px;
+                height: 90px;
+            }
+                .profile .header .circle-background h1{
+                    font-size: 3.25em;
+
+                }
+
+            .profile .header .info{
+                display: flex;
+                flex-direction: column; 
+            }
+                .profile .header .info h2{
+                    font-weight: 500;
+                    font-size: 2.5em;                    
+                    text-transform: capitalize;
+                    margin: 5px 0px;
+                }
+                .profile .header .info h4{
+                    margin : 0;
+                    opacity: .7;
+                    font-size: 1em;
+                }
+        
+        .requestoffs-mini{
+            display: grid;
+            position: absolute;
+            top : 0;
+            right: 0;
+            margin: 10px;
+            width: 300px;
+            grid-template-areas: 
+                'header link'
+                'list list'
+            ;
+            grid-template-rows: min-content 1fr;
+            align-items: center;
+        }
+
+            .requestoffs-mini ul{
+                overflow-x: auto;
+                border: .5px solid #C6C6C6;
+                padding: 10px;
+                border-radius: 4px;
+                grid-area: list;
+                height: 100px;
+            }
+            .requestoffs-mini h3{
+                grid-area: header;
+                margin : 0
+            }
+            .requestoffs-mini a{
+                grid-area: link;
+                margin : 0;
+                color : #1897E6;
+                text-decoration: none;
+                justify-self: flex-end;
+                font-size: small;
+            }
+        
+        .detailability{
+            display: flex;
+            padding: 0px 30px;
+        }
+
+        .profile .details{
+            flex : .3;
+        }
+          
+        
+        .profile .availability{
+            flex :.7
+        }
 }

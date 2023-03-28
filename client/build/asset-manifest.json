@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.aa425f36.chunk.css",
-    "main.js": "/static/js/main.094742fc.chunk.js",
-    "main.js.map": "/static/js/main.094742fc.chunk.js.map",
+    "main.css": "/static/css/main.05283292.chunk.css",
+    "main.js": "/static/js/main.a6d94c04.chunk.js",
+    "main.js.map": "/static/js/main.a6d94c04.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.81534a39.js",
     "runtime-main.js.map": "/static/js/runtime-main.81534a39.js.map",
-    "static/js/2.754ac72d.chunk.js": "/static/js/2.754ac72d.chunk.js",
-    "static/js/2.754ac72d.chunk.js.map": "/static/js/2.754ac72d.chunk.js.map",
+    "static/js/2.80c9b8c3.chunk.js": "/static/js/2.80c9b8c3.chunk.js",
+    "static/js/2.80c9b8c3.chunk.js.map": "/static/js/2.80c9b8c3.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.3b0bc18958f74133934f25e9ff56ac16.js": "/precache-manifest.3b0bc18958f74133934f25e9ff56ac16.js",
+    "precache-manifest.dd764aed41e4273be9e9de4fa0bb1e86.js": "/precache-manifest.dd764aed41e4273be9e9de4fa0bb1e86.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.aa425f36.chunk.css.map": "/static/css/main.aa425f36.chunk.css.map",
-    "static/js/2.754ac72d.chunk.js.LICENSE.txt": "/static/js/2.754ac72d.chunk.js.LICENSE.txt",
+    "static/css/main.05283292.chunk.css.map": "/static/css/main.05283292.chunk.css.map",
+    "static/js/2.80c9b8c3.chunk.js.LICENSE.txt": "/static/js/2.80c9b8c3.chunk.js.LICENSE.txt",
     "static/media/Add Icon.svg": "/static/media/Add Icon.8b4a55b3.svg",
     "static/media/Add Person Icon.svg": "/static/media/Add Person Icon.f0f5b62b.svg",
     "static/media/Alphabetical Icon.svg": "/static/media/Alphabetical Icon.99d726c9.svg",
@@ -24,6 +24,7 @@
     "static/media/Drag Icon.svg": "/static/media/Drag Icon.0f7f4e25.svg",
     "static/media/Edit Icon.svg": "/static/media/Edit Icon.bdee423a.svg",
     "static/media/File Icon.svg": "/static/media/File Icon.5cf014bf.svg",
+    "static/media/Forward Icon.svg": "/static/media/Forward Icon.b8d0a794.svg",
     "static/media/Help Icon.svg": "/static/media/Help Icon.b5f4f787.svg",
     "static/media/Home Icon.svg": "/static/media/Home Icon.6f3162de.svg",
     "static/media/Logo.svg": "/static/media/Logo.2c10de45.svg",
@@ -41,8 +42,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.81534a39.js",
-    "static/js/2.754ac72d.chunk.js",
-    "static/css/main.aa425f36.chunk.css",
-    "static/js/main.094742fc.chunk.js"
+    "static/js/2.80c9b8c3.chunk.js",
+    "static/css/main.05283292.chunk.css",
+    "static/js/main.a6d94c04.chunk.js"
   ]
 }

@@ -61,8 +61,8 @@ function MyTable({ date }) {
   const { timeslots } = currentSchedule;
   const isReadOnly = currentSchedule.isReadOnly(date);
 
-  function handleRemove(e, index) {
-    dispatch(removeFromScheduled(index));
+  function handleRemove(userId) {
+    dispatch(removeFromScheduled(userId));
   }
 
   return (
@@ -99,7 +99,7 @@ function MyTable({ date }) {
                 >
                   <Button
                     disabled={isReadOnly}
-                    onClick={() => handleRemove(index)}
+                    onClick={() => handleRemove(user.id)}
                     to="/"
                     style={{
                       position: "absolute",
@@ -111,7 +111,11 @@ function MyTable({ date }) {
                   >
                     <img src={removeIcon} alt="removeUser" />
                   </Button>
-                  <UserPopover user={user} index={index} />
+                  <UserPopover
+                    firstName={user.firstName}
+                    lastName={user.lastName}
+                    id={user.id}
+                  />
                 </TableCell>
               ))}
             </TableRow>
@@ -122,28 +126,28 @@ function MyTable({ date }) {
                 style={{
                   position: "sticky",
                   left: 0,
-                  borderRadius: "0px 7px 7px 0px",
                   zIndex: 1,
-                  padding: "0px 10px",
+                  backgroundColor: "rgb(251, 251, 251, .8)",
                 }}
               >
-                <TimeLine shiftFilter={{ day: true, night: true }} />
+                <TimeLine />
               </TableCell>
-              {timeslots.length > 0 &&
-                timeslots.map((timeslot, index) => (
-                  <TableCell
-                    key={index}
-                    style={{
-                      borderRight: "rgba(112, 112, 112, .14)",
-                    }}
-                  >
-                    <TimeSlot
-                      timeslot={timeslot}
-                      index={index}
-                      isReadOnly={isReadOnly}
-                    />
-                  </TableCell>
-                ))}
+              {timeslots.length > 0
+                ? timeslots.map((timeslot, index) => (
+                    <TableCell
+                      key={index}
+                      style={{
+                        borderRight: "rgba(112, 112, 112, .14)",
+                      }}
+                    >
+                      <TimeSlot
+                        timeslot={timeslot}
+                        index={index}
+                        isReadOnly={isReadOnly}
+                      />
+                    </TableCell>
+                  ))
+                : null}
             </TableRow>
           </TableBody>
         </Table>

@@ -76,7 +76,6 @@ function Dogtag({
   readOnlyWarning,
   handleAddToSchedule,
   handleRemoveFromSchedule,
-  index,
 }) {
   return (
     <>
@@ -97,8 +96,8 @@ function Dogtag({
           isReadOnly
             ? readOnlyWarning()
             : startTime
-            ? handleRemoveFromSchedule(index)
-            : handleAddToSchedule(index)
+            ? handleRemoveFromSchedule(user.id)
+            : handleAddToSchedule(user.id)
         }
         isAddButton={!Boolean(startTime)}
       >

@@ -1,73 +1,75 @@
+/*
+1. TEAM
+  a. Breadcrumb
+  b. Header
+  c. Content
+  d. Dogtags
+    i. All the dogtag stuff
+  e. Add TM form
+
+*/
+
+
 .team{
   display: flex;
   flex-direction: column;
   flex: 1;
-}
-.breadcrumb{
-  display: flex;
-  align-items: center;
-  color: black;
-  text-decoration: none;
-  text-transform: capitalize;
-  gap : 10px;
-  opacity: .57;
-  font-size: 12px;
-}
-
-.breadcrumb-active{
-  opacity: 1;
-}
-
-.team-header{
-  font-size: 24px;
-  font-weight: normal;
+  position: relative;
 }
 
 
+    .breadcrumb{
+      display: flex;
+      align-items: center;
+      color: black;
+      text-decoration: none;
+      text-transform: capitalize;
+      gap : 10px;
+      opacity: .57;
+      font-size: 12px;
+    }
 
-.team-content{
-  border: 1px solid #DBDBDB;
-  border-radius: 7px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-
-}
-
-.team-content-removing{
-  border-color: red;
-}
-
-
-.team-content .list-actions{
-  display: flex;
-  align-items: center;
-  margin: 0;
-}
-
-.team-content ul{
-  list-style-type: none;
-  padding-left: 0;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 15px;
-
-}
+        .breadcrumb-active{
+          opacity: 1;
+        }
 
 
+    .team-header{
+      font-size: 24px;
+      font-weight: normal;
+    }
 
 
-.search-label{
-  display: flex;
-  align-items: center;
-  gap : 8px;
-  margin-left : 10px
-}
+    .team-content{
+      border: 1px solid #DBDBDB;
+      border-radius: 7px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
 
-.search-label img {
-  width: 18px;
-  opacity: .8;
-}
+    }
+
+        .team-content-removing{
+          border-color: red;
+        }
+
+
+        .team-content .list-actions{
+          display: flex;
+          align-items: center;
+          margin: 0;
+        }
+
+        .team-content ul{
+          list-style-type: none;
+          padding-left: 0;
+          display: flex;
+          flex-wrap: wrap;
+          padding: 15px;
+
+        }
+
+
 
 /*////////////////////DogTag/////////////////   */
 .team-dogtag{
@@ -91,62 +93,57 @@
   text-transform: capitalize;
 }
 
-.team-dogtag .icon{
-  justify-self: center;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background: #0792B6;
-  display: flex;
-  grid-area: icon;
-}
+    .team-dogtag .icon{
+      justify-self: center;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: #0792B6;
+      display: flex;
+      grid-area: icon;
+    }
 
-.team-dogtag .icon h2{
-  font-size: 23px;
-  margin: auto;
-  color: white;
-  font-weight: normal;
-}
+      .team-dogtag .icon h2{
+        font-size: 23px;
+        margin: auto;
+        color: white;
+        font-weight: normal;
+      }
 
-.team-dogtag p{
-  grid-area: name;
-  margin : 0;
-  font-size: 18px;
-  font-weight: 500;
-  align-self: end;
-  text-overflow: ellipsis;
-  justify-self: start;
-  overflow: hidden;
-  width :80%;
-}
+    .team-dogtag p{
+      grid-area: name;
+      margin : 0;
+      font-size: 18px;
+      font-weight: 500;
+      align-self: end;
+      text-overflow: ellipsis;
+      justify-self: start;
+      overflow: hidden;
+      width :80%;
+    }
 
-.team-dogtag caption{
-  grid-area: position;
-  font-size: 12px;
-  color: #666666;
-  text-transform: capitalize;
-  align-self: start;
-  margin : 0;
-}
+    .team-dogtag caption{
+      grid-area: position;
+      font-size: 12px;
+      color: #666666;
+      text-transform: capitalize;
+      align-self: start;
+      margin : 0;
+    }
 
-.team-dogtag img{
-  position: absolute;
-  bottom:  0;
-  right: 0;
-  margin: 10px;
-}
-
-
-
+    .team-dogtag img{
+      position: absolute;
+      bottom:  0;
+      right: 0;
+      margin: 10px;
+    }
 /*/DogTag////////////////////////////////////   */
-
-
 
 
 /* ADD FORM CRAP///////////////// */
 .add-tm-form{
   padding: 15px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI';
   display: flex;
   flex-direction: column;
   position: relative;

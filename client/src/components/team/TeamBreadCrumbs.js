@@ -52,6 +52,7 @@ function TeamBreadCrumbs({ teamMembers }) {
           rowGap: 5,
         },
         gridArea: "breadcrumbs",
+        margin: "10px",
       }}
       separator={
         <NavigateNextIcon

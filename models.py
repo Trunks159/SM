@@ -7,7 +7,7 @@ from sqlalchemy.orm import validates
 from datetime import timedelta
 from tzlocal import get_localzone
 
-BASE_DATE = "1970-01-01T00:00:00-04:00"
+BASE_DATE = "1970-01-01T00:00:00"
 
 DAYS_OF_WEEK = ['monday', 'tuesday', 'wednesday',
                 'thursday', 'friday', 'saturday', 'sunday']
@@ -111,6 +111,16 @@ class Availability(db.Model):
             'weekday': self.start.weekday(),
             'available': self.available,
         }
+
+    @validates('start')
+    @validates('end')
+    def validate_date(self, key, date):
+        base = parser.parse(BASE_DATE)
+        assert date.day == base.day or date == base + timedelta(days=1), \
+            f'Availability dates must be on {BASE_DATE} or the next day at 12AM \
+                you tryed to input: {date.isoformat()}'
+        # must be same day or 12AM next day
+        return date
 
 
 class Day(db.Model):
@@ -225,10 +235,11 @@ class RequestOff(db.Model):
     def is_between(self, new_start, new_end):
         # they are dt objects
         # sees if 1 range of dates is between in any way another
-        start = tz_aware(self.start)
-        end = tz_aware(self.end)
-        start_is_between = (new_start >= start) & (new_start <= end)
-        end_is_between = (new_end >= start) & (new_end <= end)
+        # if end is AT 12AM its not considered to be between
+        start_is_between = (new_start >= self.start) and (
+            new_start < self.end)
+
+        end_is_between = (new_end > self.start) and (new_end <= self.end)
         return start_is_between or end_is_between
 
 

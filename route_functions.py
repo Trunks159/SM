@@ -30,10 +30,8 @@ def update_day(day_id, workblocks):
     '''
     try:
         day = db.session.get(Day, int(day_id))
-        print('Day: ', day)
         for item in day.workblocks:
             db.session.delete(item)
-        print('Work: ', workblocks)
         for workblock in workblocks:
             wb = WorkBlock(user=User.query.get(workblock['user']['id']), day=day, start_time=parser.parse(
                 workblock['start_time']), end_time=parser.parse(workblock['end_time']))

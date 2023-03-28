@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./profile.css";
-import { Switch, useLocation, Route } from "react-router-dom";
+import { useLocation, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import Availability from "./Availability/Availability";
 import RequestOffs from "./RequestOffs/RequestOffs";
 import Details from "./Details/Details";
 import Header from "./Header";
-import { Tabs, Tab, Button } from "@mui/material";
+import { Tabs, Tab, Divider } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import RequestOffsMini from "./RequestOffs/RequestOffsMini";
 
 function updateAlert(alert) {
   return {
@@ -26,23 +27,19 @@ const StyledTab = styled(Tab)({
   },
 });
 
-const StyledTabs = styled(Tabs)({
+const StyledTabs = styled(Tabs)(({ theme }) => ({
   margin: "10px auto 0px auto",
   height: "min-content",
-});
+  "@media (min-width : 943px)": {
+    display: "none",
+  },
+}));
 
 function Profile({ user }) {
   const location = useLocation();
   const screenWidth = useSelector((state) => state.screenWidth);
-  const isDesktop = screenWidth >= 600;
-  const [state, setState] = useState({
-    firstName: user.firstName,
-    lastName: user.lastName,
-    position: user.position,
-    username: user.username,
-    currentTab: location.pathname.includes("requestoffs") ? 2 : 0,
-  });
-  const { firstName, lastName, position, username, currentTab } = state;
+  const isDesktop = screenWidth >= 943;
+  const [currentTab, setCurrentTab] = useState(0);
   const dispatch = useDispatch();
   function handleSave(changedProps) {
     if (changedProps) {
@@ -73,7 +70,7 @@ function Profile({ user }) {
   useEffect(() => {
     //if request off in, use it otherwise ignore
     if (location.pathname.includes("requestoffs")) {
-      setState({ ...state, currentTab: 2 });
+      setCurrentTab(2);
     }
   }, [location]);
 
@@ -83,58 +80,56 @@ function Profile({ user }) {
     { label: "request offs", to: `/team/profile/${user.id}/requestoffs` },
   ];
 
-  return (
-    user && (
-      <div className="tm-details">
-        <StyledTabs
-          value={currentTab}
-          onChange={(e, newValue) =>
-            setState({ ...state, currentTab: newValue })
-          }
-        >
-          {tabs.map((tab, index) => (
-            <StyledTab key={index} component={Link} value={index} {...tab} />
-          ))}
-        </StyledTabs>
-        <div className="main-div">
-          <Header
-            firstName={firstName}
-            lastName={lastName}
-            username={username}
-            isHidden={currentTab !== 0}
-          />
-          <Route
-            exact
-            path="/team/profile/:userId"
-            render={() => (
-              <>
-                <Details
-                  user={user}
-                  isHidden={!isDesktop && currentTab !== 0}
-                />
-                <Availability
-                  availability={user.availability}
-                  handleSave={handleSave}
-                  isHidden={!isDesktop && currentTab !== 1}
-                  user={user}
-                />
-              </>
-            )}
-          />
+  const { firstName, username } = user;
 
-          <Route
-            path="/team/profile/:userId/requestoffs"
-            render={() => (
-              <RequestOffs
-                requestOffs={user.requestOffs}
+  return (
+    <div className="profile">
+      <StyledTabs
+        value={currentTab}
+        onChange={(e, newValue) => setCurrentTab(newValue)}
+      >
+        {tabs.map((tab, index) => (
+          <StyledTab key={index} component={Link} value={index} {...tab} />
+        ))}
+      </StyledTabs>
+
+      <Route
+        exact
+        path="/team/profile/:userId"
+        render={() => (
+          <>
+            <Header
+              firstName={firstName}
+              isHidden={!isDesktop && currentTab !== 0}
+              text1={username || firstName}
+              text2="View and edit your information here"
+            />
+            <div className="detailability">
+              <RequestOffsMini user={user} />
+              <Details user={user} isHidden={!isDesktop && currentTab !== 0} />
+              <Divider orientation="vertical" sx={{ margin: "0px 30px" }} />
+              <Availability
+                availability={user.availability}
                 handleSave={handleSave}
+                isHidden={!isDesktop && currentTab !== 1}
                 user={user}
               />
-            )}
+            </div>
+          </>
+        )}
+      />
+
+      <Route
+        path="/team/profile/:userId/requestoffs"
+        render={() => (
+          <RequestOffs
+            handleSave={handleSave}
+            user={user}
+            isDesktop={isDesktop}
           />
-        </div>
-      </div>
-    )
+        )}
+      />
+    </div>
   );
 }
 

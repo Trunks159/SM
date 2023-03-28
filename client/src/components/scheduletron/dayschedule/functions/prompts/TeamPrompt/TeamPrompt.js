@@ -6,17 +6,17 @@ import Dogtag from "./Dogtag";
 import ProfileInfo from "./ProfileInfo";
 import Notification from "../../Notification";
 
-function addToSchedule({ date, index }) {
+function addToSchedule({ date, userId }) {
   return {
     type: "ADD_TO_SCHEDULED",
-    payLoad: { date, index },
+    payLoad: { date, userId },
   };
 }
 
-function removeFromSchedule(index) {
+function removeFromSchedule(userId) {
   return {
     type: "REMOVE_FROM_SCHEDULED",
-    payLoad: index,
+    payLoad: userId,
   };
 }
 
@@ -70,11 +70,11 @@ function TeamPrompt({
     ({ id }) => id === currentSchedule.dayId
   ).date;
 
-  function handleAddToSchedule(index) {
-    dispatch(addToSchedule({ date, index }));
+  function handleAddToSchedule(userId) {
+    dispatch(addToSchedule({ date, userId }));
   }
-  function handleRemoveFromSchedule(index) {
-    dispatch(removeFromSchedule(index));
+  function handleRemoveFromSchedule(userId) {
+    dispatch(removeFromSchedule(userId));
   }
 
   return (
@@ -98,11 +98,10 @@ function TeamPrompt({
             className="scheduled"
             style={{ display: currentTab === "scheduled" ? "flex" : "none" }}
           >
-            {workblocks.map(({ startTime, endTime, user }, index) => {
+            {workblocks.map(({ startTime, endTime, user }) => {
               return (
-                <li key={index}>
+                <li key={user.id}>
                   <Dogtag
-                    index={index}
                     startTime={startTime}
                     endTime={endTime}
                     user={user}
@@ -118,11 +117,10 @@ function TeamPrompt({
             className="not-scheduled"
             style={{ display: currentTab === "notScheduled" ? "flex" : "none" }}
           >
-            {notScheduled.map((user, index) => {
+            {notScheduled.map((user) => {
               return (
-                <li key={index}>
+                <li key={user.id}>
                   <Dogtag
-                    index={index}
                     isReadOnly={isReadOnly}
                     readOnlyWarning={readOnlyWarning}
                     user={user}

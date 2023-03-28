@@ -1,3 +1,31 @@
+.timeline {
+  display: flex;
+  
+  width: max-content;
+  padding: 0px 10px;
+  position: relative;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timeline-labels{
+  position: absolute;
+  display : flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  top : 0;
+  bottom: 0;
+}
+
+.timeline-labels p{
+  background-color: rgb(251, 251, 251);
+  padding: 4px 0px;
+}
+
+
 .timeslots {
   display: flex;
   gap: 10px;
@@ -59,9 +87,13 @@
   position: absolute;
   background-color: rgba(0, 0, 0, .42);
   border-radius: 4px;
-  transform: translateY(-40%);
   z-index: -1;
+  bottom: 17px;
 }
+
+
+
+
 .stretch-btn .stretch-time p{
   background-color: white;
   border : 1px solid black;
@@ -70,11 +102,12 @@
   text-align: center;
   line-height: 30px;
   margin: 7px;
-  font-size: 14px;
-  font-family: OCR A;
+  font-size: 12px;
   font-weight: 600;
   border-radius: 4px;
 }
+
+
 
 
 
@@ -111,4 +144,5 @@
   .timeslots li {
     height: 66px;
   }
+
 }

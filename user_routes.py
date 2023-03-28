@@ -1,6 +1,7 @@
 from models import db, User, Availability, RequestOff
 from flask import jsonify
 from flask_login import current_user
+from dateutil import parser
 
 
 def add_user(data):
@@ -21,10 +22,6 @@ def add_user(data):
 
 
 def get_user(user):
-
-    print('This SHOULD get just the upcoming requests \
-          but rn its getting all of them in get user')
-
     availability = user.availability
     if not availability:
         availability = Availability(user=user)
@@ -32,6 +29,7 @@ def get_user(user):
         db.session.commit()
     request_offs = user.request_offs.order_by(RequestOff.start).all()
     request_offs = [req.to_json() for req in request_offs]
+    availability = [av.to_json() for av in availability]
     details = {'availability': availability, 'requestOffs': request_offs}
     details.update(user.to_json())
     return jsonify(details)
@@ -50,11 +48,12 @@ def delete_user(user):
 
 
 def update_user(user, prop):
-    print('Update: ', user)
-    if list(prop.keys()) == 'availability':
+
+    if list(prop.keys())[0] == 'availability':
         user_ava = user.availability.order_by(Availability.weekday).all()
         for i, a in enumerate(user_ava):
-            a.start_time = prop['availability'][i]['start_time']
-            a.end_time = prop['availability'][i]['end_time']
+            a.start = parser.parse(prop['availability'][i]['start_time'])
+            a.end = parser.parse(prop['availability'][i]['end_time'])
+            a.available = prop['availability'][i]['available']
         db.session.commit()
         return jsonify(user.to_json())

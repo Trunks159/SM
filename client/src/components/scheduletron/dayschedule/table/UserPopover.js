@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import { Button, Popover } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Button, Popover, CircularProgress } from "@mui/material";
 import styled from "@emotion/styled";
 import closeIcon from "./assets/Close Icon.svg";
+import RequestCard from "../../../team/TeamMemberDetails/RequestOffs/RequestCard";
+import dayjs from "dayjs";
 
 const StyledDetailsButtton = styled(Button)({
   minWidth: 0,
@@ -17,9 +19,9 @@ const StyledDetailsButtton = styled(Button)({
   textTransform: "capitalize",
 });
 
-const MyPopover = ({ user, index }) => {
+const MyPopover = ({ firstName, lastName, id }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const [user, setUser] = useState(null);
   function handleClick(e) {
     setAnchorEl(e.target);
   }
@@ -28,7 +30,25 @@ const MyPopover = ({ user, index }) => {
     setAnchorEl(null);
   }
 
+  function fetchUser(id) {
+    fetch(`/api/users?id=${id}`).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          return setUser(data);
+        }
+        console.log("Error of some sort");
+      })
+    );
+  }
+
   const isOpen = Boolean(anchorEl);
+
+  useEffect(() => {
+    if (isOpen && !user) {
+      fetchUser(id);
+    }
+  }, [isOpen]);
+
   return (
     <div
       style={{
@@ -44,8 +64,9 @@ const MyPopover = ({ user, index }) => {
         aria-expanded={isOpen ? "true" : undefined}
         onClick={handleClick}
       >
-        {user.firstName} {user.lastName}
+        {firstName} {lastName}
       </StyledDetailsButtton>
+
       <Popover
         anchorEl={anchorEl}
         open={isOpen}
@@ -54,70 +75,82 @@ const MyPopover = ({ user, index }) => {
           vertical: "bottom",
           horizontal: "left",
         }}
-        style={{ fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif" }}
+        style={{}}
+        sx={{
+          fontFamily: "Segoe UI",
+        }}
       >
-        <div style={{ width: 257 }}>
-          <Button
-            style={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              padding: 5,
-              minWidth: 0,
-            }}
-            onClick={handleClose}
-          >
-            <img alt="close" src={closeIcon} />
-          </Button>
-          <div style={{ display: "flex", background: "#3F7FA2", height: 119 }}>
-            <div
+        {user ? (
+          <div style={{ width: 257, maxHeight: 400, overflowY: "auto" }}>
+            <Button
               style={{
-                width: 65,
-                height: 65,
-                borderRadius: 32.5,
-                border: "1px solid rgba(255,255,255, .81)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                position: "absolute",
+                top: 0,
+                right: 0,
+                padding: 5,
+                minWidth: 0,
               }}
+              onClick={handleClose}
             >
-              <h1
+              <img alt="close" src={closeIcon} />
+            </Button>
+            <div
+              style={{ display: "flex", background: "#3F7FA2", height: 119 }}
+            >
+              <div
                 style={{
-                  fontWeight: "normal",
-                  color: "white",
-                  textTransform: "uppercase",
+                  width: 65,
+                  height: 65,
+                  borderRadius: "50%",
+                  border: "1px solid rgba(255,255,255, .81)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                {user.firstName.charAt(0)}
-              </h1>
+                <h1
+                  style={{
+                    fontWeight: "normal",
+                    color: "white",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {user.firstName.charAt(0)}
+                </h1>
+              </div>
+              <div>
+                <h2
+                  style={{
+                    color: "white",
+                    opacity: 0.9,
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {user.firstName} {user.lastName}
+                </h2>
+                <p style={{ color: "white", opacity: 0.5, fontSize: "16px" }}>
+                  {user.position}
+                </p>
+              </div>
             </div>
             <div>
-              <h2
-                style={{
-                  color: "white",
-                  opacity: 0.9,
-                  textTransform: "capitalize",
-                }}
-              >
-                {user.firstName} {user.lastName}
-              </h2>
-              <p style={{ color: "white", opacity: 0.5, fontSize: "16px" }}>
-                {user.position}
-              </p>
+              <h3>Availability</h3>
+              <ul>The availability stuff</ul>
             </div>
+            {user.requestOffs.length && (
+              <div>
+                <h3>Request Offs</h3>
+                <ul>
+                  {user.requestOffs.map(({ start, end }) => (
+                    <RequestCard start={dayjs(start)} end={dayjs(end)} />
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
-          <div>
-            <h3>Availability</h3>
-            <ul>The availability stuff</ul>
-          </div>
-          <div>
-            <h3>Request Offs</h3>
-            <ul>
-              {user.requestOffs &&
-                user.requestOffs.map((reqOff) => <li>Info</li>)}
-            </ul>
-          </div>
-        </div>
+        ) : (
+          <CircularProgress />
+        )}
       </Popover>
     </div>
   );

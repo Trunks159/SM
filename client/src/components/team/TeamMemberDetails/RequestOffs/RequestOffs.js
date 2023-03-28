@@ -1,37 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./requestoffs.css";
 import RequestOffMenu from "./RequestOffMenu";
 import RequestCard from "./RequestCard";
 import dayjs from "dayjs";
 import { Route, Switch } from "react-router-dom";
 import AddRequest from "./AddRequest";
-import { Collapse } from "@mui/material";
+import Header from "../Header";
 
 function RequestOffs(props) {
-  const { handleSave } = props;
-  const [state, setState] = useState({
-    requests: props.requestOffs || [],
-    pastRequests:
-      props.requestOffs &&
-      props.requestOffs.filter(({ end }) =>
-        //need requests with end date before today
-        dayjs(end).isBefore(dayjs())
-      ),
-    upcomingRequests:
-      props.requestOffs &&
-      props.requestOffs.filter(({ start }) => dayjs(start).isAfter(dayjs())),
-  });
-  const { pastRequests, upcomingRequests } = state;
+  const { user, isDesktop } = props;
+  const [requestOffs, setRequestOffs] = useState(props.user.requestOffs);
+
+  function updateRequests(newValue) {
+    setRequestOffs(newValue);
+  }
+
+  const upcomingRequests = requestOffs.filter(({ start }) =>
+    dayjs(start).isAfter(dayjs())
+  );
+  const pastRequests = requestOffs.filter(({ end }) =>
+    //need requests with end date before today
+    dayjs(end).isBefore(dayjs())
+  );
+
   return (
     <div className="request-offs">
-      <RequestOffMenu />
+      {isDesktop && (
+        <Header
+          text1="Request Offs"
+          text2="Edit, view, add, search for,  and save your request offs here"
+          firstName={user.firstName}
+        />
+      )}
+
       <Switch>
         <Route
           exact
           path="/team/profile/:userId/requestoffs"
           render={() => {
             return (
-              <>
+              <div className="requestoff-lists">
+                <RequestOffMenu />
                 <div className="requests upcoming-requests">
                   <h3>Your Upcoming Requests</h3>
                   {!upcomingRequests || upcomingRequests.length === 0 ? (
@@ -56,14 +65,18 @@ function RequestOffs(props) {
                     </ul>
                   )}
                 </div>
-              </>
+              </div>
             );
           }}
         />
         <Route
           path={"/team/profile/:userId/requestoffs/add"}
           render={() => (
-            <AddRequest allRequests={props.requestOffs} user={props.user} />
+            <AddRequest
+              allRequests={requestOffs}
+              user={user}
+              updateRequests={updateRequests}
+            />
           )}
         />
       </Switch>

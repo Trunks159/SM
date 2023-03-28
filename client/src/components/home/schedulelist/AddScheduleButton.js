@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { Box, Button, Collapse, Divider, TextField } from "@mui/material";
+import { Box, Button, Collapse, Divider } from "@mui/material";
 import addIcon from "./assets/Add Icon.svg";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import { useSelector } from "react-redux";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { MyDatePicker } from "./MyDatePicker";
 
 const StyledMainBox = styled(Box)(({ isOpen, theme }) => ({
   position: "fixed",
@@ -82,49 +78,16 @@ const StyledSubmitButton = styled(Button)({
   marginLeft: "auto",
 });
 
-const getAllDates = (weeks) => {
-  let dates = [];
-  for (let week of weeks) {
-    for (let day of week.days) {
-      dates.push(dayjs(day.date).format());
-    }
-  }
-  return dates;
-};
-
-function getDefaultDate(weeks) {
-  //start at this week and add weeks till you get a free week
-  let next = dayjs().startOf("day").startOf("week").add(1, "days");
-  while (true) {
-    if (
-      !weeks.find(
-        ({ mondayDate }) => dayjs(mondayDate).format() === next.format()
-      )
-    ) {
-      return next;
-    }
-    next = next.add(1, "weeks");
-  }
-}
 function AddScheduleButton({ postNewWeek, weeks }) {
-  const defaultDate = getDefaultDate(weeks);
   const [isOpen, setIsOpen] = useState(false);
-  const [date, setDate] = useState(defaultDate);
-  const screenWidth = useSelector((state) => state.screenWidth);
-  const isDesktop = screenWidth >= 860;
-
-  useEffect(() => {
-    setDate(dayjs(defaultDate));
-  }, [weeks]);
-  const allDates = getAllDates(weeks);
+  const [date, setDate] = useState(null);
 
   function handleSubmit() {
     postNewWeek(date.format());
     //update value
     setIsOpen(false);
   }
-  const minmax = [dayjs(defaultDate), dayjs(defaultDate).add(3, "months")];
-  console.log("Date: ", date.format());
+
   return (
     <StyledMainBox>
       <div style={{ display: "flex" }}>
@@ -142,31 +105,14 @@ function AddScheduleButton({ postNewWeek, weeks }) {
           <h3>What week are you trying to add?</h3>
           <StyledDivider />
           <DatePickerContainer>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              {(() => {
-                const props = {
-                  label: "Enter Date",
-                  minDate: minmax[0],
-                  maxDate: minmax[1],
-                  value: date,
-                  defaultValue: defaultDate,
-                  onChange: (newval) => {
-                    if (allDates.includes(dayjs(newval).format())) {
-                      return;
-                    }
-                    return setDate(newval);
-                  },
-                  renderInput: (params) => <TextField {...params} />,
-                  shouldDisableDate: (date) =>
-                    allDates.includes(dayjs(date).format()),
-                };
-                return isDesktop ? (
-                  <DesktopDatePicker {...props} />
-                ) : (
-                  <MobileDatePicker {...props} />
-                );
-              })()}
-            </LocalizationProvider>
+            <MyDatePicker
+              offLimits={weeks.map(({ mondayDate }) => [
+                dayjs(mondayDate),
+                dayjs(mondayDate).add(1, "weeks"),
+              ])}
+              date={date}
+              handle={setDate}
+            />
           </DatePickerContainer>
 
           <StyledSubmitButton onClick={handleSubmit}>Submit</StyledSubmitButton>

@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from config import app, db
-from models import User, Week, RequestOff, tz_aware
+from models import User, Week, RequestOff
 from flask_login import login_user, login_required, logout_user
 from sqlalchemy import func
 from route_functions import update_day, get_day, get_week, get_weeks, add_week
@@ -20,15 +20,16 @@ def serve():
 
 @app.route('/api/users', methods=['GET', 'POST', 'DELETE', 'PUT'])
 def users():
-
     if request.method == 'POST':
         return add_user(request.get_json())
     id = request.args.get('id', None, int)
     if isinstance(id, int):
-        user = db.session.get(id)
+
+        user = db.session.get(User, id)
         if not user:
             return jsonify('There is no user with that id...'), 404
         if request.method == 'GET':
+
             return get_user(user)
         if request.method == 'PUT':
             return update_user(user, request.get_json())
@@ -41,7 +42,6 @@ def users():
 def register():
 
     data = request.get_json()
-    print(data)
     first_name = data['first_name']
     last_name = data['last_name']
 
@@ -105,7 +105,6 @@ def handle_weeks():
         return add_week(request.get_json())
     if date:
         return get_week(date)
-    print('Ran')
     return get_weeks(min_date)
 
 
@@ -118,21 +117,18 @@ def get_minmax():
 
 @app.route('/api/requestoffs', methods=['POST'])
 def request_offs():
-
     def logic(request_off):
         user = db.session.get(User, request_off['user_id'])
-        start = parser.parse(request_off['start'])
-        end = parser.parse(request_off['end'])
+        start = parser.parse(request_off['start']).replace(tzinfo=None)
+        end = parser.parse(request_off['end']).replace(tzinfo=None)
         will_add_request = True
         my_requests = user.request_offs.all()
         for request in my_requests:
             if request.is_between(start, end):
                 will_add_request = False
                 # priotitize extreme values
-                start_changed = start < parser.parse(
-                    tz_aware(request.start)) or False
-                end_changed = end > parser.parse(
-                    tz_aware(request.end)) or False
+                start_changed = start < request.start
+                end_changed = end > request.end
                 if start_changed or end_changed:
                     request.start = start
                     request.end = end
@@ -140,7 +136,9 @@ def request_offs():
         if will_add_request:
             db.session.add(RequestOff(user=user, start=start, end=end))
             db.session.commit()
-            return jsonify('Request successfully added!')
+            request_offs = user.request_offs.order_by(RequestOff.start).all()
+            request_offs = [req.to_json() for req in request_offs]
+            return jsonify(request_offs)
         return jsonify('Date conflict with other request'), 400
     return logic(request.get_json())
 

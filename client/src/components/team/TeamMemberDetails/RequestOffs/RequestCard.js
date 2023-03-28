@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
-import { Button, Divider } from "@mui/material";
-import moment from "moment";
 import React from "react";
+import dayjs from "dayjs";
+import { Button, Divider } from "@mui/material";
+import styled from "@emotion/styled";
 
 const RequestCardButton = styled(Button)(({ isClickable }) => ({
   minWidth: 0,
@@ -56,13 +56,9 @@ function RequestCard(props) {
   //if start and end have different dates and end.time
   //!= 12AM, its a range
   const { start, end } = props;
-  let startCopy = moment(start);
-  const isRegular = !(
-    (
-      start.format("MM/DD/YYYY") !== end.format("MM/DD/YYYY") &&
-      startCopy.hour(0).minute(0).add(1, "days").format !== end.format()
-    ) //end isnt start's next day at 12:00am
-  );
+  const isRegular =
+    start.format("MM/DD/YYYY") !== end.format("MM/DD/YYYY") &&
+    start.startOf("day").add(1, "days").format !== end.format(); //end isnt start's next day at 12:00am
 
   return (
     <RequestCardButton>
@@ -86,18 +82,3 @@ function RequestCard(props) {
 }
 
 export default RequestCard;
-
-/*
-Two types of cards, single day and date range
-It could also have the time included but it doesnt need it
-
-so maybe dateOff = '7/16/22'
-        dateOff = ['7/16/22', '7/24/22']
-if it sees a list it makes the range one
-if not regular
-
-so for regular,
-if no time is inputed, they are off all day
-if 1 time is inputed use that time
-2 times can only be inputted if its a date range
-*/

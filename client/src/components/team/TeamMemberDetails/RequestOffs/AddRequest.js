@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
@@ -14,6 +14,30 @@ import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import MyDatePicker from "./MyDatePicker";
 import backIcon from "./assets/Back Icon.svg";
+
+function roundEnd(lastRequestEnd) {
+  //if requestoff end is like 6PM, convert that to next day 12am
+  //if its already 12am use that
+  if (lastRequestEnd === lastRequestEnd.startOf("day")) {
+    return lastRequestEnd;
+  }
+  return lastRequestEnd.add(1, "days").startOf("day");
+}
+
+function getDefaultDate(requestOffs) {
+  let next = dayjs().add(2, "weeks").startOf("day");
+  if (requestOffs.length < 1) {
+    return next;
+  }
+  for (let request of requestOffs) {
+    if (request[0].diff(next, "days", true) >= 1) {
+      return next;
+    }
+    next = roundEnd(request[1]);
+  }
+
+  return roundEnd(requestOffs[requestOffs.length - 1][1]);
+}
 
 dayjs.extend(isSameOrAfter);
 
@@ -40,17 +64,25 @@ const StyledToggleButton = styled(ToggleButton)({
   textTransform: "none",
 });
 
-function AddRequest({ user, allRequests }) {
+function AddRequest({ user, allRequests, updateRequests }) {
+  const cantRequest = allRequests.map(({ start, end }) => [
+    dayjs(start),
+    dayjs(end),
+  ]);
+  const defaultDate = getDefaultDate(cantRequest);
+
+  const minmax = [defaultDate, defaultDate.add(1, "years")];
   const [state, setState] = useState({
-    start: { date: dayjs().add(2, "weeks").startOf("day"), useingTime: false },
+    start: { date: defaultDate, useingTime: false },
     end: { date: null, useingTime: false },
     toggle: 0,
     warning: true,
+    success: false,
   });
 
   const dispatch = useDispatch();
   const location = useLocation();
-  const { start, end, toggle, warning } = state;
+  const { start, end, toggle, warning, success } = state;
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -74,28 +106,25 @@ function AddRequest({ user, allRequests }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(request),
-    })
-      .then((response) => response.json())
-      .then((wasSuccessful) => {
-        if (wasSuccessful) {
-          dispatch(
-            updateAlert({
-              content: "Your request has been saved!",
-              severity: "success",
-              title: "Success",
-            })
-          );
-        } else {
-          dispatch(
-            updateAlert({
-              content:
-                "Your request off likely conflicted with another request off of yours.",
-              severity: "error",
-              title: "Unsuccessful",
-            })
-          );
+    }).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          updateRequests([...data]);
+          setState({ ...state, success: true });
+          return setTimeout(() => {
+            setState({ ...state, success: false });
+          }, 4000);
         }
-      });
+        dispatch(
+          updateAlert({
+            content:
+              "Your request off likely conflicted with another request off of yours.",
+            severity: "error",
+            title: "Unsuccessful",
+          })
+        );
+      })
+    );
   }
   function handleDatePicker(name, newValue) {
     //when start changes, end changes if its below new start
@@ -133,20 +162,16 @@ function AddRequest({ user, allRequests }) {
     setState({ ...state, [name]: { ...state[name], useingTime: newVal } });
   }
 
-  function getEndMinMax() {
-    //end must be at all times 1 day after start at least
-    //max never changes
-    return;
-  }
-
   function getBackLocation(location) {
     const splitted = location.pathname.split("/");
     return splitted.slice(0, splitted.length - 1).join("/");
   }
+  //each request has a start and end
 
-  const cantRequest = allRequests.map(({ start }) => dayjs(start).format());
+  useEffect(() => {
+    setState({ ...state, start: { ...state.start, date: defaultDate } });
+  }, [allRequests]);
 
-  const minmax = [dayjs().add(2, "weeks"), dayjs().add(1, "years")];
   return (
     <form className="add-request" onSubmit={handleSubmit}>
       <Link className="back" to={getBackLocation(location)}>
@@ -167,6 +192,14 @@ function AddRequest({ user, allRequests }) {
           You can only request days off 2 weeks in advance
         </Alert>
       </Collapse>
+      <Collapse in={success}>
+        <Alert
+          onClose={() => setState({ ...state, warning: false })}
+          severity="success"
+        >
+          You're request was accepted
+        </Alert>
+      </Collapse>
 
       <div>
         <h3>{`${end.date ? "Start " : ""}Date`}</h3>
@@ -185,6 +218,7 @@ function AddRequest({ user, allRequests }) {
       <Collapse in={Boolean(end.date)}>
         <div>
           <h3>End Date</h3>
+          {/*Same as datepicker but minmmax dependent on other one */}
           <MyDatePicker
             cantRequest={cantRequest}
             minDate={start.date.add(1, "days").startOf("day")}

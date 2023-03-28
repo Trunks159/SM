@@ -33,8 +33,8 @@ const pixToTime = (pix, length, timerange) => {
 function areSame(oldTimeRange, newTimeRange) {
   if (newTimeRange.length === oldTimeRange.length) {
     return (
-      moment(newTimeRange[0]).isSame(oldTimeRange[0]) &&
-      moment(newTimeRange[1]).isSame(oldTimeRange[1])
+      dayjs(newTimeRange[0]).isSame(oldTimeRange[0]) &&
+      dayjs(newTimeRange[1]).isSame(oldTimeRange[1])
     );
   }
   return false;
@@ -133,6 +133,7 @@ const currentScheduleReducer = (state = initialState, action) => {
 
     case "UPDATE_TIMERANGE":
       //check and see if tracklength is True, if so update timeslots
+
       if (areSame(state.timerange, action.payLoad)) {
         return state;
       } else {
@@ -185,40 +186,45 @@ const currentScheduleReducer = (state = initialState, action) => {
       };
 
     case "ADD_TO_SCHEDULED":
-      const notScheduledCopy = [...state.notScheduled];
-      const user = notScheduledCopy.splice(action.payLoad.index, 1)[0];
-      const workblock = {
-        user: user,
-        startTime: moment(action.payLoad.date).set("hour", 8).format(),
-        endTime: moment(action.payLoad.date).set("hour", 16).format(),
-      };
+      //find in not scheduled, push in scheduled
+      return (({ userId, date }) => {
+        const notScheduled = [...state.notScheduled];
+        const user = notScheduled.find(({ id }) => id === userId);
+        const workblock = {
+          user,
+          startTime: dayjs(date).hour(8).format(),
+          endTime: dayjs(date).hour(16).format(),
+        };
+        const index = notScheduled.indexOf(user);
+        notScheduled.splice(index, 1);
+        const scheduled = [...state.scheduled, workblock];
+        return {
+          ...state,
+          scheduled,
+          notScheduled,
+          timeslots: [state.toTimeSlot(workblock), ...state.timeslots],
+        };
+      })(action.payLoad);
 
-      return {
-        ...state,
-        scheduled: [workblock, ...state.scheduled],
-        notScheduled: notScheduledCopy,
-        timeslots: [state.toTimeSlot(workblock), ...state.timeslots],
-      };
     case "REMOVE_FROM_SCHEDULED":
       //Remove workblock from scheduled and timeslots
       //add to notscheduled
       //made error function because of naming conflicts
-      return ((state, index) => {
-        const newScheduled = [...state.scheduled];
-        const user = newScheduled.splice(index, 1)[0].user;
-        const newTimeslots = [...state.timeslots];
-        const i = newTimeslots.indexOf(
-          newTimeslots.find((ts) => ts.user.id === user.id)
-        );
-        const x = newTimeslots.splice(i, 1)[0];
+      return ((userId) => {
+        const scheduled = [...state.scheduled];
+        const workblock = scheduled.find(({ user }) => user.id === userId);
+        const index = scheduled.indexOf(workblock);
+        scheduled.splice(index, 1);
 
-        return {
-          ...state,
-          scheduled: newScheduled,
-          notScheduled: [...state.notScheduled, user],
-          timeslots: newTimeslots,
-        };
-      })(state, action.payLoad);
+        const timeslots = [...state.timeslots];
+        const i = timeslots.indexOf(
+          timeslots.find((ts) => ts.user.id === workblock.user.id)
+        );
+        timeslots.splice(i, 1);
+        const notScheduled = [...state.notScheduled, workblock.user];
+
+        return { ...state, scheduled, notScheduled, timeslots };
+      })(action.payLoad);
     default:
       return state;
   }

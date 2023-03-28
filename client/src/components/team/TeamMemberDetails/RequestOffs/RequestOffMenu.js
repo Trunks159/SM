@@ -18,7 +18,6 @@ import saveIcon from "./assets/Save Icon.svg";
 import addIcon from "./assets/Add Icon.svg";
 import menuIcon from "./assets/Menu Icon.svg";
 import { useSelector } from "react-redux";
-import styled from "@emotion/styled";
 import { useLocation, Link } from "react-router-dom";
 
 function RequestOffMenu() {

@@ -35,7 +35,8 @@ const TimeLine = () => {
     const _track_length = height || 0;
     dispatch(updateTrackLength(_track_length));
   }, [height]);
-
+  //line and lables
+  //labels are abso
   return (
     <div
       className="timeline"
@@ -43,6 +44,18 @@ const TimeLine = () => {
         height: "100%",
       }}
     >
+      <Divider
+        ref={ref}
+        style={{
+          background: "black",
+          width: 1,
+          opacity: 0.5,
+          height: "90%",
+          margin: "0px auto",
+        }}
+        orientation={screenWidth >= 600 ? "horizontal" : "vertical"}
+        className={"timeline-divider"}
+      />
       <div className="timeline-labels">
         {timeLabels.map((time, index) => (
           <p
@@ -56,18 +69,6 @@ const TimeLine = () => {
           </p>
         ))}
       </div>
-      <Divider
-        ref={ref}
-        style={{
-          background: "black",
-          width: 1,
-          opacity: 0.5,
-          height: "90%",
-          margin: "auto 10px",
-        }}
-        orientation={screenWidth >= 600 ? "horizontal" : "vertical"}
-        className={"timeline-divider"}
-      />
     </div>
   );
 };

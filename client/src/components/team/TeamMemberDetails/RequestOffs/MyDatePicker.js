@@ -5,6 +5,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
+import { isValidDate } from "../../../home/schedulelist/MyDatePicker";
 
 function MyDatePicker({
   minDate,
@@ -22,8 +23,7 @@ function MyDatePicker({
         {(() => {
           const params = {
             shouldDisableDate: (date) => {
-              console.log("Test L : ", cantRequest, date.format());
-              return cantRequest.includes(dayjs(date).format());
+              return !isValidDate(date, cantRequest);
             },
             value,
             minDate,

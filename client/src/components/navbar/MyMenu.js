@@ -68,9 +68,9 @@ const MyMenu = ({ username, collapseDrawer, id }) => {
         <MyMenuItem>
           <Link
             className="profile-menu-link"
-            to={`/team/profile/${id}/availability`}
+            to={`/team/profile/${id}/requestoffs`}
           >
-            My Availability
+            My Request Offs
           </Link>
         </MyMenuItem>
         <MyMenuItem>
