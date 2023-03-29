@@ -17,7 +17,7 @@
         color:#050505;
         opacity: .75;
         font-size: 17px;
-        margin: 0px;
+        
     }
     .profile .name{
         text-transform: capitalize;
@@ -156,12 +156,12 @@
             top : 0;
             right: 0;
             margin: 10px;
-            width: 300px;
+            width: 330px;
             grid-template-areas: 
                 'header link'
                 'list list'
             ;
-            grid-template-rows: min-content 1fr;
+            grid-template-rows: max-content 1fr;
             align-items: center;
         }
 
@@ -172,6 +172,8 @@
                 border-radius: 4px;
                 grid-area: list;
                 height: 100px;
+                display: flex;
+                gap : 10px;
             }
             .requestoffs-mini h3{
                 grid-area: header;

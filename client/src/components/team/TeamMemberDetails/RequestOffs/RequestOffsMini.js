@@ -10,7 +10,7 @@ function RequestOffsMini({ user }) {
   );
   return (
     <div className="requestoffs-mini">
-      <h3>Upcoming Request Offs</h3>
+      <h3 className="title">Upcoming Request Offs</h3>
       <Link to={`/team/profile/${user.id}/requestoffs`}>
         For More <img src={forwardIcon} />
       </Link>

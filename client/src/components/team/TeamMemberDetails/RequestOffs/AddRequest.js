@@ -183,7 +183,7 @@ function AddRequest({ user, allRequests, updateRequests }) {
         <StyledToggleButton value={0}>One Day</StyledToggleButton>
         <StyledToggleButton value={1}>Several Days</StyledToggleButton>
       </ToggleButtonGroup>
-      <Divider />
+      <Divider sx={{ margin: "10px 0px" }} />
       <Collapse in={warning}>
         <Alert
           onClose={() => setState({ ...state, warning: false })}

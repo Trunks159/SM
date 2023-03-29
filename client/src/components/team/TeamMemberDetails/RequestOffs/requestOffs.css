@@ -52,11 +52,16 @@
 
 .requests ul{
     padding: 0;
-    display: flex;
+    display: inline-flex;
     overflow-x: auto;
     padding: 10px;
     gap: 20px;
+    min-width: 0;
+    width: 100%;
+}
 
+.requests ul li{
+    overflow: hidden;
 }
 
 .requests h3{
@@ -66,6 +71,8 @@
 .add-request{
     display: flex;
     flex-direction: column;
+    padding: 10px;
+    background-color: #FAFAFA;
 }
 .add-request h4{
     display: inline-block;

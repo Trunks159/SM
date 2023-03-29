@@ -40,7 +40,9 @@ main {
 
 @media (min-width : 600px) {
   main{
-    flex-direction: row;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: min-content minmax(0, 1fr);
   }
   .main-alert{
     top : 0;

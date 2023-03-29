@@ -91,7 +91,7 @@ function Availability({ availability, handleSave, isHidden, user }) {
       style={{ display: isHidden ? "none" : "flex" }}
     >
       <h2 className="title">When are you available?</h2>
-      <div style={{ position: "fixed", top: 80 }}>
+      <div style={{ position: "fixed", top: 80, zIndex: 1 }}>
         <Collapse in={alert}>
           <Alert>Changes Saved</Alert>
         </Collapse>

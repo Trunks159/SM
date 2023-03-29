@@ -28,7 +28,7 @@ const StyledTab = styled(Tab)({
 });
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
-  margin: "10px auto 0px auto",
+  margin: "10px auto",
   height: "min-content",
   "@media (min-width : 943px)": {
     display: "none",
@@ -107,7 +107,13 @@ function Profile({ user }) {
             <div className="detailability">
               <RequestOffsMini user={user} />
               <Details user={user} isHidden={!isDesktop && currentTab !== 0} />
-              <Divider orientation="vertical" sx={{ margin: "0px 30px" }} />
+              <Divider
+                orientation="vertical"
+                sx={{
+                  margin: "0px 30px",
+                  display: isDesktop ? "block" : "none",
+                }}
+              />
               <Availability
                 availability={user.availability}
                 handleSave={handleSave}

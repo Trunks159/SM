@@ -18,40 +18,50 @@ function MyDatePicker({
   cantRequest,
 }) {
   return (
-    <Paper sx={{ padding: "25px", display: "flex", flexDirection: "column" }}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        {(() => {
-          const params = {
-            shouldDisableDate: (date) => {
-              return !isValidDate(date, cantRequest);
-            },
-            value,
-            minDate,
-            maxDate,
-            renderInput: (params) => (
-              <TextField {...params} variant="standard" />
-            ),
-            onChange: (newVal) => handleDatePicker(name, newVal),
-          };
-          return useingTime ? (
-            <DesktopDateTimePicker {...params} />
-          ) : (
-            <DesktopDatePicker {...params} />
-          );
-        })()}
-      </LocalizationProvider>
-
-      <Button
+    <div style={{ padding: "0px 20px", width: "max-content" }}>
+      <Paper
         sx={{
-          textTransform: "none",
-          color: "#707070",
-          marginLeft: "auto",
+          padding: "25px",
+          display: "flex",
+          flexDirection: "column",
+          maxWidth: "300px",
+          alignSelf: "center",
         }}
-        onClick={() => handleUsingTime(!useingTime, name)}
       >
-        {useingTime ? "ignore" : "add"} time
-      </Button>
-    </Paper>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          {(() => {
+            const params = {
+              shouldDisableDate: (date) => {
+                return !isValidDate(date, cantRequest);
+              },
+              value,
+              minDate,
+              maxDate,
+              renderInput: (params) => (
+                <TextField {...params} variant="standard" />
+              ),
+              onChange: (newVal) => handleDatePicker(name, newVal),
+            };
+            return useingTime ? (
+              <DesktopDateTimePicker {...params} />
+            ) : (
+              <DesktopDatePicker {...params} />
+            );
+          })()}
+        </LocalizationProvider>
+
+        <Button
+          sx={{
+            textTransform: "none",
+            color: "#707070",
+            marginLeft: "auto",
+          }}
+          onClick={() => handleUsingTime(!useingTime, name)}
+        >
+          {useingTime ? "ignore" : "add"} time
+        </Button>
+      </Paper>
+    </div>
   );
 }
 
